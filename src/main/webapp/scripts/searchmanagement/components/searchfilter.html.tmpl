@@ -1,13 +1,12 @@
 <md-card class="fdz-package-filter">
   <md-card-content>
-    <md-radio-group layout="row" ng-model="$ctrl.dataPackageSearchFilter" ng-change="$ctrl.changePackageFilter()" aria-labelledby="Choose between data package and analysis package">
-      <md-radio-button value="data_packages" class="md-primary">Data Package ({{ $ctrl.totalHits.data_packages ? $ctrl.totalHits.data_packages : 0 }})</md-radio-button>
-      <md-radio-button value="analysis_packages" class="md-primary">Analysis Package ({{ $ctrl.totalHits.analysis_packages ? $ctrl.totalHits.analysis_packages : 0 }})</md-radio-button>
+    <label for="searchPackageSwitch">{{'search-management.packages.label' | translate}}</label>
+    <md-radio-group layout="column" id="searchPackageSwitch" ng-model="$ctrl.dataPackageSearchFilter" ng-change="$ctrl.changePackageFilter()" aria-labelledby="{{'search-management.packages.label' | translate}}">
+      <md-radio-button value="data_packages" class="md-primary">{{'search-management.packages.data-packages' | translate}} ({{ $ctrl.totalHits.data_packages ? $ctrl.totalHits.data_packages : 0 }})</md-radio-button>
+      <md-radio-button value="analysis_packages" class="md-primary">{{'search-management.packages.analysis-packages' | translate}} ({{ $ctrl.totalHits.analysis_packages ? $ctrl.totalHits.analysis_packages : 0 }})</md-radio-button>
     </md-radio-group>
   </md-card-content>
 </md-card>
-
-
 <md-card class="fdz-search-filter">
   <md-card-header>
     <md-card-header-text>

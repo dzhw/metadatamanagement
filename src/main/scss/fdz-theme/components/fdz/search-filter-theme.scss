@@ -2,10 +2,15 @@
   box-shadow: none;
   padding: 0 8px;
   md-card-content {
-    padding: 16px 8px 8px 8px;
+    padding: 16px 16px 8px 16px;
+    label {
+      padding-bottom: 8px;
+      font-weight: 500;
+    }
     md-radio-group {
-      display: flex;
-      justify-content: space-around;
+      md-radio-button:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }

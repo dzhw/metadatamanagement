@@ -6,6 +6,10 @@
     var filterValueObject = {
       analysis_packages: [
         {
+          name: 'global.filter.tags',
+          property: 'tags', collapsed: false
+        },
+        {
           name: 'global.filter.sponsors',
           property: 'sponsors', collapsed: false
         },

@@ -55,6 +55,11 @@ angular.module('metadatamanagementApp').factory(
           attribute: 'institutions',
           i18n: true,
           min_doc_count: 1
+        },
+        'tags': {
+          attribute: 'tags',
+          i18n: true,
+          min_doc_count: 1
         }
       }
     };
@@ -107,6 +112,11 @@ angular.module('metadatamanagementApp').factory(
           attribute: 'institutions',
           i18n: true,
           concatMultipleWithOr: false
+        },
+        'tags': {
+          attribute: 'tags',
+          i18n: true,
+          min_doc_count: 1
         }
       }
     };

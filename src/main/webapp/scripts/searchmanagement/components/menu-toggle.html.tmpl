@@ -25,5 +25,5 @@
       {{ $ctrl.property === "access-ways" ? (item.key | displayAccessWay) : item.key }} ({{ item.doc_count }})
     </md-checkbox>
   </li>
-  <li ng-if="$ctrl.options.length === 0">Not available</li>
+  <li ng-if="$ctrl.options.length === 0">{{'search-management.filter.no-record' | translate}}</li>
 </ul>

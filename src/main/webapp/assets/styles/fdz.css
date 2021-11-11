@@ -2362,10 +2362,12 @@ tr:focus {
   box-shadow: none;
   padding: 0 8px; }
   .fdz-theme .fdz-package-filter md-card-content {
-    padding: 16px 8px 8px 8px; }
-    .fdz-theme .fdz-package-filter md-card-content md-radio-group {
-      display: flex;
-      justify-content: space-around; }
+    padding: 16px 16px 8px 16px; }
+    .fdz-theme .fdz-package-filter md-card-content label {
+      padding-bottom: 8px;
+      font-weight: 500; }
+    .fdz-theme .fdz-package-filter md-card-content md-radio-group md-radio-button:last-child {
+      margin-bottom: 0; }
 
 .fdz-theme .fdz-search-filter {
   box-shadow: none;

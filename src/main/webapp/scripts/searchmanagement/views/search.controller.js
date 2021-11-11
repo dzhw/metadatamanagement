@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         'concepts'
       ],
       analysis_packages: [
+        'tags',
         'sponsors',
         'institutions'
       ]
@@ -343,6 +344,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     function createAnalysisPackageFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
       var dataPackageFilter = {
+        'tags': createDataPackageFilterContent(data,
+          'tags'),
         'sponsors': createDataPackageFilterContent(data,
           'sponsors'),
         'institutions': createDataPackageFilterContent(data,
@@ -369,8 +372,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function() {
+      var aggregation = null;
       if (!Principal.isAuthenticated()) {
         $scope.searchFilterMapping = $scope.searchParams.filter;
+        aggregation = searchFilterAggregations[$scope.searchParams.type];
       }
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
@@ -379,14 +384,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (Principal.isAuthenticated()) {
         $scope.setCurrentSearchParams(projectId);
       }
-
       SearchDao.search($scope.searchParams.query,
         $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
         $scope.options.pageObject.size,
         null,
         // Aggregations Usage: ['study-series', ...]
-        searchFilterAggregations[$scope.searchParams.type],
+        aggregation,
         // Usage:
         // {
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],

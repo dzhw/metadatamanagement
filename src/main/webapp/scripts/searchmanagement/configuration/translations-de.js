@@ -5,6 +5,11 @@ angular.module('metadatamanagementApp').config(
     var searchTranslations = {
       //jscs:disable
       'search-management': {
+        'packages': {
+          'label': 'Wonach suchen Sie?',
+          'data-packages': 'Datenpakete (SUFs, CUFs)',
+          'analysis-packages': 'Analysepakete (Skripte)'
+        },
         'delete-messages': {
           'delete-variables-title': 'Alle Variablen ersetzen?',
           'delete-variables': 'Sind Sie sicher, dass Sie alle Variablen innerhalb des Datenaufbereitungsprojekts "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
@@ -81,7 +86,7 @@ angular.module('metadatamanagementApp').config(
           'open-filter-panel': 'Klicken, um die Suchfilter anzuzeigen'
         },
         'input-label': {
-          'all': 'Suchen Sie Datenpakete, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',
+          'all': 'Suchen Sie Datenpakete, Analysepakete, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',
           'variables': 'Suchen Sie nach Variablen...',
           'questions': 'Suchen Sie nach Fragen...',
           'surveys': 'Suchen Sie nach Erhebungen...',
@@ -147,6 +152,7 @@ angular.module('metadatamanagementApp').config(
           'publication-tooltip': 'Klicken, um die Publikation "{{id}}" anzuzeigen'
         },
         'filter': {
+          'no-record': 'Keine Daten erfasst.',
           'data-package': 'Datenpaket',
           'analysis-package': 'Analysepaket',
           'concept': 'Konzept',
