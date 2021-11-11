@@ -403,7 +403,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Datenpaket des Projekts "{{ id }}" löschen?',
             'content': 'Wollen Sie wirklich das Datenpaket des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
-          'confirm-delete-all-data-analysis': {
+          'confirm-delete-all-analysis-packages': {
             'title': 'Analysepaket des Projekts "{{ id }}" löschen?',
             'content': 'Wollen Sie wirklich das Analysepaket des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
