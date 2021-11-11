@@ -562,6 +562,20 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }
 
     $scope.onSelectedTabChanged = function() {
+      switch ($scope.searchParams.selectedTabIndex) {
+        case 1:
+          $scope.tabs[2].disabled = true;
+          break;
+        case 2:
+          $scope.tabs[1].disabled = true;
+          $scope.tabs[9].disabled = true;
+          $scope.tabs[2].disabled = false;
+          break;
+        default:
+          $scope.tabs[1].disabled = false;
+          $scope.tabs[9].disabled = false;
+          $scope.tabs[2].disabled = false;
+      }
       $scope.options.sortObject.options = $scope.tabs[
         $scope.searchParams.selectedTabIndex].sortOptions;
       $scope.options.sortObject.selected = 'relevance';
