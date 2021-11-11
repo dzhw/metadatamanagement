@@ -154,7 +154,8 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
    */
   @Valid
   private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "analysis-package-management.error.analysis-package.institution.i18n-string-size") @I18nStringEntireNotEmpty(
+      message = "analysis-package-management.error.analysis-package.institution.i18n-string-size")
+      @I18nStringEntireNotEmpty(
           message = "analysis-package-management.error.analysis-package.institution"
               + ".i18n-string-entire-not-empty") I18nString> institutions;
 
@@ -167,7 +168,8 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
    */
   @Valid
   private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "analysis-package-management.error.analysis-package.sponsor.i18n-string-size") @I18nStringEntireNotEmpty(
+      message = "analysis-package-management.error.analysis-package.sponsor.i18n-string-size") 
+      @I18nStringEntireNotEmpty(
           message = "analysis-package-management.error.sponsor.institution"
               + ".i18n-string-entire-not-empty") I18nString> sponsors;
 
