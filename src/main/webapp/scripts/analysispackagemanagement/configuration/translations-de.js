@@ -35,10 +35,10 @@ angular.module('metadatamanagementApp').config(
               'available-access-ways': 'Verfügbare Zugangswege'
             },
             'attachments': {
-              'title': 'Title',
-              'description': 'Description',
-              'language': 'Document Language',
-              'file': 'File'
+              'title': 'Titel',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
             },
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
