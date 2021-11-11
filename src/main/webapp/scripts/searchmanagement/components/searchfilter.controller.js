@@ -50,6 +50,8 @@
     };
     var $ctrl = this;
     $ctrl.onDataPackageFilterChange = MessageBus;
+    $ctrl.onTotalHitsChange = MessageBus;
+    $ctrl.totalHits = {};
     $ctrl.dataPackageFilter = {};
     $ctrl.searchFilterMapping = {};
     $ctrl.searchParams = {};
@@ -192,6 +194,9 @@
         return $ctrl.onDataPackageFilterChange;
       },
       function() {
+        if($ctrl.onTotalHitsChange.get('onTotalHitsChange')) {
+          $ctrl.totalHits = $ctrl.onTotalHitsChange.get('onTotalHitsChange', true);
+        }
         if ($ctrl.onDataPackageFilterChange.get('onDataPackageFilterChange')) {
           $ctrl.dataPackageFilter = $ctrl.onDataPackageFilterChange
             .get('onDataPackageFilterChange', true);

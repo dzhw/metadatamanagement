@@ -348,6 +348,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
+
+    function createTotalHitsObject(data) {
+      var totalHits = {};
+      totalHits[$scope.searchParams.type] = data;
+      MessageBus.set('onTotalHitsChange', totalHits);
+    }
+
     $scope.setCurrentSearchParams = function(projectId) {
       if (!projectId) {
         projectId = _.get($scope, 'currentProject.id');
@@ -397,6 +404,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           }
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
+          createTotalHitsObject(data.hits.total.value);
           $analytics.trackSiteSearch(
             $scope.searchParams.query ? $scope.searchParams.query : '<null>',
             $scope.tabs[$scope.searchParams.selectedTabIndex]

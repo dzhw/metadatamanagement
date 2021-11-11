@@ -1,8 +1,8 @@
 <md-card class="fdz-package-filter">
   <md-card-content>
     <md-radio-group layout="row" ng-model="$ctrl.dataPackageSearchFilter" ng-change="$ctrl.changePackageFilter()" aria-labelledby="Choose between data package and analysis package">
-      <md-radio-button value="data_packages" class="md-primary">Data Package</md-radio-button>
-      <md-radio-button value="analysis_packages" class="md-primary">Analysis Package</md-radio-button>
+      <md-radio-button value="data_packages" class="md-primary">Data Package ({{ $ctrl.totalHits.data_packages ? $ctrl.totalHits.data_packages : 0 }})</md-radio-button>
+      <md-radio-button value="analysis_packages" class="md-primary">Analysis Package ({{ $ctrl.totalHits.analysis_packages ? $ctrl.totalHits.analysis_packages : 0 }})</md-radio-button>
     </md-radio-group>
   </md-card-content>
 </md-card>
