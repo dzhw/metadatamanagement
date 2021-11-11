@@ -343,11 +343,9 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
     
-    //save the analysis package without the script
-    analysisPackage.setScripts(null);
     analysisPackageRepository.save(analysisPackage);
     
-    //upload the orphaned attachment
+    //upload the attachment
     mockMvc
     .perform(
         MockMvcRequestBuilders
@@ -355,6 +353,10 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
                 + scriptAttachmentMetadata.getAnalysisPackageId() + "/scripts/attachments")
             .file(attachment).file(metadata))
     .andExpect(status().isCreated());
+    
+    //change script uuid to make attachment orphaned
+    analysisPackage.getScripts().get(0).setUuid("etataetataetaettaeet");
+    analysisPackageRepository.save(analysisPackage);
     
     // check that the script attachment is available
     mockMvc
