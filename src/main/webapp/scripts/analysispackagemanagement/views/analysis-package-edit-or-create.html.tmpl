@@ -34,7 +34,8 @@
                                 md-is-error="!analysisPackageForm.annotationsDe.$valid && (analysisPackageForm.annotationsDe.$dirty || analysisPackageForm.annotationsDe.$touched)"
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 class="ms-flex">
-              <label>{{'analysis-package-management.detail.label.annotations' | translate}} ({{'global.in-german' | translate}})
+              <label>{{'analysis-package-management.detail.label.annotations' | translate}}
+                ({{'global.in-german' | translate}})
                 <md-icon
                   md-svg-src="assets/images/icons/markdown.svg"></md-icon>
               </label>
@@ -55,7 +56,8 @@
             <md-input-container flex="50"
                                 md-is-error="!analysisPackageForm.annotationsEn.$valid && (analysisPackageForm.annotationsEn.$dirty || analysisPackageForm.annotationsEn.$touched)"
                                 class="ms-flex">
-              <label>{{'analysis-package-management.detail.label.annotations' | translate}} ({{'global.in-english' | translate}})
+              <label>{{'analysis-package-management.detail.label.annotations' | translate}}
+                ({{'global.in-english' | translate}})
                 <md-icon
                   md-svg-src="assets/images/icons/markdown.svg"></md-icon>
               </label>
@@ -76,20 +78,27 @@
           </div>
         </md-card-content>
       </md-card>
-      <list-data-package-component
-        current-form="analysisPackageForm"
-        packages="ctrl.analysisPackage.analysisDataPackages"></list-data-package-component>
-      <edit-script-section-component
-        scripts="ctrl.analysisPackage.scripts"
-        create-mode="ctrl.createMode"
-        package-id="ctrl.analysisPackage.id"
-        master-id="ctrl.analysisPackage.masterId"
-        project-id="ctrl.analysisPackage.dataAcquisitionProjectId"
-        current-form="analysisPackageForm"></edit-script-section-component>
+      <edit-text-section-component bilingual="true"
+                                   not-null="true"
+                                   current-form="analysisPackageForm"
+                                   translation-key-package="analysis-package"
+                                   translation-key-name="description"
+                                   max-length="2048"
+                                   content="ctrl.analysisPackage.description"></edit-text-section-component>
+      <edit-people-component people="ctrl.analysisPackage.authors"
+                             people-id="'authors'"
+                             translation-keys="ctrl.translationKeysAuthors"
+                             current-form="analysisPackageForm"></edit-people-component>
+      <edit-people-component people="ctrl.analysisPackage.dataCurators"
+                             people-id="'dataCurators'"
+                             translation-keys="ctrl.translationKeysDataCurators"
+                             current-form="analysisPackageForm"></edit-people-component>
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">{{'analysis-package-management.detail.label.institutions' | translate }}</h2>
+            <h2 class="md-title">
+              {{'analysis-package-management.detail.label.institutions' | translate
+              }}</h2>
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
@@ -225,7 +234,8 @@
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">{{'analysis-package-management.detail.label.sponsors' | translate}}</h2>
+            <h2 class="md-title">
+              {{'analysis-package-management.detail.label.sponsors' | translate}}</h2>
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
@@ -358,22 +368,21 @@
           </md-button>
         </md-card-actions>
       </md-card>
-      <edit-text-section-component
-        bilingual="true"
-        not-null="true"
-        current-form="analysisPackageForm"
-        translation-key-package="analysis-package"
-        translation-key-name="description"
-        max-length="2048"
-        content="ctrl.analysisPackage.description"></edit-text-section-component>
-      <edit-people-component people="ctrl.analysisPackage.authors"
-                             people-id="'authors'"
-                             translation-keys="ctrl.translationKeysAuthors"
-                             current-form="analysisPackageForm"></edit-people-component>
-      <edit-people-component people="ctrl.analysisPackage.dataCurators"
-                             people-id="'dataCurators'"
-                             translation-keys="ctrl.translationKeysDataCurators"
-                             current-form="analysisPackageForm"></edit-people-component>
+      <edit-text-section-component bilingual="false"
+                                   name="link"
+                                   current-form="analysisPackageForm"
+                                   translation-key-package="analysis-package"
+                                   translation-key-name="license"
+                                   max-length="1048576"
+                                   content="ctrl.analysisPackage.license"></edit-text-section-component>
+      <edit-script-section-component scripts="ctrl.analysisPackage.scripts"
+                                     create-mode="ctrl.createMode"
+                                     package-id="ctrl.analysisPackage.id"
+                                     master-id="ctrl.analysisPackage.masterId"
+                                     project-id="ctrl.analysisPackage.dataAcquisitionProjectId"
+                                     current-form="analysisPackageForm"></edit-script-section-component>
+      <list-data-package-component current-form="analysisPackageForm"
+                                   packages="ctrl.analysisPackage.analysisDataPackages"></list-data-package-component>
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
@@ -388,17 +397,10 @@
                       tags="ctrl.analysisPackage.tags"></tag-editor>
         </md-card-content>
       </md-card>
-      <edit-text-section-component
-        bilingual="false"
-        name="link"
-        current-form="analysisPackageForm"
-        translation-key-package="analysis-package"
-        translation-key-name="license"
-        max-length="1048576"
-        content="ctrl.analysisPackage.license"></edit-text-section-component>
+
       <url-component
         current-form="analysisPackageForm"
-        content="ctrl.analysisPackage.additionalLinks" ,
+        content="ctrl.analysisPackage.additionalLinks"
         template-url="scripts/common/url/additional-links.html.tmpl"></url-component>
     </div>
   </form>
@@ -487,7 +489,8 @@
                                 target="_blank">{{row.fileName}}
             <md-tooltip md-autohide="true"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
+              {{'global.tooltips.files.download' | translate: {filename: row.fileName}
+              }}
             </md-tooltip>
           </a>&nbsp;
           </td>
