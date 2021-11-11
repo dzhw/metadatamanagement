@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').config(
             'type-of-data': 'Type of Data',
             'annotations': 'Annotations',
             'authors': 'Authors',
-            'data-curators': 'Datenkuratierung',
+            'data-curators': 'Data Curation',
             'description': 'Analysis Package Description',
             'doi': 'DOI',
             'institution': 'Institution',
@@ -201,7 +201,7 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Please enter the title of this script in English.'
               },
               'used-language': 'Please indicate the language you used for the comments in the script.',
-              'software-package': 'Please choose the software package(es) the script is written for.',
+              'software-package': 'Please choose the software package the script is written for.',
               'software-package-version': 'Version of Software Package'
             },
             'script-attachment-metadata': {

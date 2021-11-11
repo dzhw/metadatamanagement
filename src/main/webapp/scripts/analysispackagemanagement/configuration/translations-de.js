@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').config(
             'type-of-data': 'Art der Daten',
             'annotations': 'Anmerkungen',
             'authors': 'Autor:innen',
-            'data-curators': 'Data Curation',
+            'data-curators': 'Datenkuratierung',
             'description': 'Analysepaketbeschreibung',
             'doi': 'DOI',
             'institution': 'Institution',
@@ -203,7 +203,7 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Geben Sie den Titel des Skripts auf Englisch ein.'
               },
               'used-language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Skript verwendet haben.',
-              'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
+              'software-package': 'Bitte wählen Sie das/die Softwarepaket ein, für die dieses Skript geschrieben wurde.',
               'software-package-version': 'Version des Softwarepakets'
 
             },
