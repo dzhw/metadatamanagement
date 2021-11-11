@@ -194,8 +194,9 @@
         return $ctrl.onDataPackageFilterChange;
       },
       function() {
-        if($ctrl.onTotalHitsChange.get('onTotalHitsChange')) {
-          $ctrl.totalHits = $ctrl.onTotalHitsChange.get('onTotalHitsChange', true);
+        if ($ctrl.onTotalHitsChange.get('onTotalHitsChange')) {
+          $ctrl.totalHits = $ctrl.onTotalHitsChange
+            .get('onTotalHitsChange', true);
         }
         if ($ctrl.onDataPackageFilterChange.get('onDataPackageFilterChange')) {
           $ctrl.dataPackageFilter = $ctrl.onDataPackageFilterChange

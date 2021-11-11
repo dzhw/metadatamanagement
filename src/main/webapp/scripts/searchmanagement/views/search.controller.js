@@ -22,19 +22,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
 
-    var searchFilterAggregations = [
-      'study-series',
-      'survey-data-types',
-      'tags',
-      'sponsors',
-      'institutions',
-      'access-ways',
-      'concepts'
-    ];
-    var searchFilterAnalysisPackageAggregations = [
-      'sponsors',
-      'institutions'
-    ];
+    var searchFilterAggregations = {
+      data_packages: [
+        'study-series',
+        'survey-data-types',
+        'tags',
+        'sponsors',
+        'institutions',
+        'access-ways',
+        'concepts'
+      ],
+      analysis_packages: [
+        'sponsors',
+        'institutions'
+      ]
+    };
     var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
         .elasticSearchType;
@@ -377,19 +379,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (Principal.isAuthenticated()) {
         $scope.setCurrentSearchParams(projectId);
       }
-      var aggregation;
-      if ($scope.searchParams.type === 'data_packages') {
-        aggregation = searchFilterAggregations;
-      } else {
-        aggregation = searchFilterAnalysisPackageAggregations;
-      }
+
       SearchDao.search($scope.searchParams.query,
         $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
         $scope.options.pageObject.size,
         null,
         // Aggregations Usage: ['study-series', ...]
-        aggregation,
+        searchFilterAggregations[$scope.searchParams.type],
         // Usage:
         // {
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
