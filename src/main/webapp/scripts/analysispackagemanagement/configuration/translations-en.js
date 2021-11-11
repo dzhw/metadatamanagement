@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').config(
         'detail': {
           'label': {
             'analyzed-data-package': {
-              'data-package': 'Analyzed Data Package',
+              'data-package': 'FDZ-DZHW Datapackage',
               'access-way': 'Access way',
               'available-access-ways': 'Available Access Ways',
               'version': 'Version',
@@ -263,7 +263,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'analyzed-data-package': {
-              'data-package': 'Please enter the title of the analyzed data package.',
+              'data-package': 'Please enter the title of the FDZ-DZHW Datapackage.',
               'version': 'Please choose a version.',
               'access-way': {
                 'choose': 'Please choose an access way.'
@@ -396,8 +396,9 @@ angular.module('metadatamanagementApp').config(
           },
           'analyzed-data-package': {
             'data-package-master-id': {
-              'not-empty': 'An analyzed data package must be selected.',
-              'not-found': 'No valid data package found.'
+              'not-empty': 'An FDZ-DZHW Datapackage must be selected.',
+              'not-found': 'No valid FDZ-DZHW Datapackage found.',
+              'not-valid': 'Please select one of the provided FDZ-DZHW Datapackages.'
             },
             'version': {
               'not-empty': 'The version of the data package must not be empty!'
