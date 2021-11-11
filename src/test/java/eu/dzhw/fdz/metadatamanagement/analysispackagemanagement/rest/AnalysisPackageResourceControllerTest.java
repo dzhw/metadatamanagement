@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -440,6 +439,6 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
 
     // read the analysis package under the new url
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId()))
-        .andExpect(status().isOk()).andDo(print());
+        .andExpect(status().isOk());
   }
 }
