@@ -42,7 +42,7 @@
           </div>
         </div>
       </md-input-container>
-      <md-input-container class="md-block">
+      <md-input-container ng-if="!project.configuration.requirements.analysisPackagesRequired" class="md-block">
         <md-checkbox name="pinToStartPage" ng-model="release.pinToStartPage"
                      style="margin: 0 18px 0 0">
           {{'data-acquisition-project-management.release.pin-to-start-page' | translate }}
