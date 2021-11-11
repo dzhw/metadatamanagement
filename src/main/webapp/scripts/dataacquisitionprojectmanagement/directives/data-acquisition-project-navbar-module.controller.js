@@ -152,8 +152,9 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.postValidateProject = function() {
+        // fake a full release for extended checks
         DataAcquisitionProjectPostValidationService
-          .postValidate(ctrl.selectedProject.id);
+          .postValidate(ctrl.selectedProject.id, '1.0.0');
       };
 
       ctrl.toggleReleaseProject = function() {
