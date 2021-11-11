@@ -37,7 +37,8 @@ angular.module('metadatamanagementApp').config(
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
             'analysisPackages': 'Analysepakete',
-            'data-packages': 'Datenpakete',
+            'analysis-data': 'Analysedaten',
+            'type-of-data': 'Art der Daten',
             'annotations': 'Anmerkungen',
             'authors': 'Autor:innen',
             'data-curators': 'Data Curation',
@@ -88,6 +89,7 @@ angular.module('metadatamanagementApp').config(
           'publications-for-data-package': 'Publikationen zu diesem Analysepaket'
         },
         'edit': {
+          'add-analysis-data-tooltip': 'Klicken, um weitere Analyse Daten zu diesem Analysepaket hinzuzufügen.',
           'all-analysis-packages-deleted-toast': 'Das Analysepaket des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.',
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Analysepakets wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Analysepaket zu speichern.',

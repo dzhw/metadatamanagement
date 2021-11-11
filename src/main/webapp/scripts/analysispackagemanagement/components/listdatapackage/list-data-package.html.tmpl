@@ -2,7 +2,7 @@
   <md-card-header>
     <md-card-header-text>
       <h2 class="md-title">
-        {{ 'analysis-package-management.detail.label.data-packages' | translate}}</h2>
+        {{ 'analysis-package-management.detail.label.analysis-data' | translate}}</h2>
     </md-card-header-text>
   </md-card-header>
   <md-divider></md-divider>
@@ -26,11 +26,11 @@
         </md-button>
         <md-input-container
           md-is-error="!$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$touched)">
-          <label>{{ 'analysis-package-management.detail.label.data-packages' | translate}}</label>
+          <label>{{ 'analysis-package-management.detail.label.type-of-data' | translate}}</label>
           <md-select ng-model="package.type"
                      name="analysisDataPackagesType_{{$index}}" required>
             <md-optgroup
-              label="{{'analysis-package-management.detail.label.available-data-packages' | translate}}">
+              label="{{'analysis-package-management.detail.label.type-of-data' | translate}}">
               <md-option ng-repeat="item in $ctrl.dataPackageList"
                          ng-value="item.type">
                 {{ item[$ctrl.currentLanguage] }}
@@ -76,7 +76,7 @@
       <md-tooltip md-autohide="true"
                   md-direction="bottom"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.edit.add-script-tooltip' | translate}}
+        {{'analysis-package-management.edit.add-analysis-data-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">add</md-icon>
     </md-button>
