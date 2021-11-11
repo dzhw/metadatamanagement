@@ -7,6 +7,7 @@
       index: '<',
       name: '@',
       bilingual: '<',
+      singleLine: '<',
       notNull: '<',
       currentForm: '<',
       translationKeyManagement: '@',
@@ -20,7 +21,11 @@
         false: 'scripts/common/text/text.html.tmpl',
         true: 'scripts/common/text/text-bilingual.html.tmpl'
       };
-      return tmpl[$attrs.bilingual];
+      if ($attrs.singleLine) {
+        return 'scripts/common/text/text-single-line-bilingual.html.tmpl';
+      } else {
+        return tmpl[$attrs.bilingual];
+      }
     }]
   };
 

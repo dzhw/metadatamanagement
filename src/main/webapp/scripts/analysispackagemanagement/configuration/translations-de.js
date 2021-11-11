@@ -272,7 +272,7 @@ angular.module('metadatamanagementApp').config(
             },
             'analyzed-data-package': {
               'data-package': 'Geben Sie den Titel des FDZ-DZHW Datenpakets ein.',
-              'version': 'Bitte wählen Sie ein Version.',
+              'version': 'Bitte wählen Sie eine Version.',
               'access-way': {
                 'choose': 'Bitte wählen Sie einen Zugangsweg.'
               }

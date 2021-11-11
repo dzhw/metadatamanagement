@@ -237,21 +237,26 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         'icon': translationStringsMap.analysisPackageDetail.icon
       };
       if (item.analysisPackageIsPresent) {
-        var stateParams = {id: stripVersionSuffixAndDollar(item.analysisPackageId)};
+        var stateParams = {
+          id: stripVersionSuffixAndDollar(item.analysisPackageId)
+        };
         if (item.version) {
           stateParams.version = item.version;
         }
         analysisPackageItem.state = 'analysisPackageDetail(' +
           JSON.stringify(stateParams) + ')';
         if (isAuthenticated()) {
-          analysisPackageItem.tooltip = translationStringsMap.analysisPackageDetail
-            .translateString;
+          analysisPackageItem.tooltip = translationStringsMap
+            .analysisPackageDetail.translateString;
         } else {
           analysisPackageItem.tooltip = translationStringsMap
             .dataPackageDetail.translateString;
-          analysisPackageItem.type = translationStringsMap.dataPackageDetail.type;
+          analysisPackageItem.type = translationStringsMap
+            .dataPackageDetail.type;
         }
-        analysisPackageItem.projectId = stripVersionSuffixAndDollar(item.projectId);
+        analysisPackageItem.projectId = stripVersionSuffixAndDollar(
+          item.projectId
+        );
         analysisPackageItem.enableLastItem = item.enableLastItem;
       } else {
         analysisPackageItem.notFound = '?';
@@ -409,13 +414,16 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem);
           break;
         case 'analysisPackageDetail':
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), analysisPackageItem);
+          $rootScope.toolbarHeaderItems
+            .push(searchItem.get(), analysisPackageItem);
           break;
         case 'analysisPackageEdit':
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), analysisPackageItem);
+          $rootScope.toolbarHeaderItems
+            .push(searchItem.get(), analysisPackageItem);
           break;
         case 'analysisPackageCreate':
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), analysisPackageItem);
+          $rootScope.toolbarHeaderItems
+            .push(searchItem.get(), analysisPackageItem);
           break;
         case 'questionDetail':
           questionItem = {
