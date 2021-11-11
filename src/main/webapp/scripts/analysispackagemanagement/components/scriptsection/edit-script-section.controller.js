@@ -38,8 +38,10 @@
             function(isoLanguage) {
               return isoLanguage.code === value.usedLanguage;
             });
-          $ctrl['selectedLanguage_' + index] = result[0]
-            .displayLanguage[$ctrl.currentLanguage];
+          if (result.length > 0) {
+            $ctrl['selectedLanguage_' + index] = result[0]
+              .displayLanguage[$ctrl.currentLanguage];
+          }
         });
 
       };
@@ -68,7 +70,21 @@
       };
 
       $ctrl.$onInit = function() {
-        $ctrl.scripts = $ctrl.scripts || [];
+        if ($ctrl.scripts && $ctrl.scripts.length === 0) {
+          $ctrl.scripts = [{
+            uuid: uuid.v4(),
+            title: {
+              de: '',
+              en: ''
+            },
+            softwarePackage: '',
+            softwarePackageVersion: '',
+            usedLanguage: '',
+            scriptAttachmentMetadata: {
+              fileName: ''
+            }
+          }];
+        }
         $ctrl.attachments = $ctrl.attachments || [];
         $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
         initSelectedLanguages();
@@ -78,7 +94,7 @@
       };
 
       $ctrl.deleteScript = function(index, uuid) {
-        if ($ctrl.scriptAttachments.length > 0) {
+        if ($ctrl.scriptAttachments && $ctrl.scriptAttachments.length > 0) {
           var scriptAttachment = _.filter($ctrl.scriptAttachments,
             function(attachment) {
               if (attachment.scriptUuid === uuid) {
