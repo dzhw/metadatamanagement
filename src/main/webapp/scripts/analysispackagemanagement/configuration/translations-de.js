@@ -186,8 +186,8 @@ angular.module('metadatamanagementApp').config(
             'license': 'Wenn kein Vertrag unterzeichnet wird, benötigen wir eine Lizenz wie cc-by-sa',
             'script': {
               'title': {
-                'de': 'Geben Sie den deutschen Titel des Skripts auf Deutsch ein.',
-                'en': 'Geben Sie den englischen Titel des Skripts auf Englisch ein.'
+                'de': 'Geben Sie den Titel des Skripts auf Deutsch ein.',
+                'en': 'Geben Sie den Titel des Skripts auf Englisch ein.'
               },
               'used-language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Skript verwendet haben.',
               'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
@@ -202,13 +202,13 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Analysepaket ein.'
             },
             'title': {
-              'de': 'Geben Sie den deutschen Titel des Analysepakets auf Deutsch ein.',
-              'en': 'Geben Sie den englischen Titel des Analysepakets auf Englisch ein.'
+              'de': 'Geben Sie den Titel des Analysepakets auf Deutsch ein.',
+              'en': 'Geben Sie den Titel des Analysepakets auf Englisch ein.'
             },
             'external-data-package': {
               'title': {
-                'de': 'Geben Sie den deutschen Titel des externen Datenpakets auf Deutsch ein.',
-                'en': 'Geben Sie den englischen Titel des externen Datenpakets auf Englisch ein.'
+                'de': 'Geben Sie den Titel des externen Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie den Titel des externen Datenpakets auf Englisch ein.'
               },
               'description': {
                 'de': 'Geben Sie eine Beschreibung des externen Datenpakets auf Deutsch ein.',
@@ -237,8 +237,8 @@ angular.module('metadatamanagementApp').config(
                 'choose': 'Bitte wählen Sie ein Zugangsweg.'
               },
               'title': {
-                'de': 'Geben Sie den deutschen Titel des benutzerdefinierten Datenpakets auf Deutsch ein.',
-                'en': 'Geben Sie den englischen Titel des benutzerdefinierten Datenpakets auf Englisch ein.'
+                'de': 'Geben Sie den Titel des benutzerdefinierten Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie den Titel des benutzerdefinierten Datenpakets auf Englisch ein.'
               },
               'description': {
                 'de': 'Geben Sie eine Beschreibung des benutzerdefinierten Datenpakets auf Deutsch ein.',
