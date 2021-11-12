@@ -251,6 +251,7 @@ try {
         blockUIConfig.requestFilter = function(config) {
           // If the request contains '/api/search' ...
           if (config.url.indexOf('_search') !== -1 ||
+              config.url.indexOf('_msearch') !== -1 ||
              (config.url.indexOf('/api/data-acquisition-projects/') !== -1 &&
                 config.method === 'GET' &&
                 config.url.indexOf('/shadows') === -1 &&

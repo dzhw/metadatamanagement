@@ -380,18 +380,71 @@ angular.module('metadatamanagementApp').service('SearchDao',
       return strippedFilter;
     };
 
+    var createAdditionalSearchQueryForPublicUsers = function(queryterm,
+      elasticsearchType) {
+      var query = {};
+      query.index = elasticsearchType;
+      query.body = {};
+      query.body.track_total_hits = true;
+      query.body._source = ['id'];
+      query.body.from = 0;
+      //define size
+      query.body.size = 0;
+      //a query term
+      if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
+        query.body.query = {
+          'bool': {
+            'must': [
+              {
+                'constant_score': {
+                  'filter': {
+                    'match': {
+                      'all': {
+                        'query': queryterm,
+                        'operator': 'AND',
+                        'minimum_should_match': '100%',
+                        'zero_terms_query': 'NONE',
+                        'boost': 1 //constant base score of 1 for matches
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        };
+        //no query term
+      } else {
+        query.body.query = {
+          'bool': {
+            'must': [{
+              'match_all': {}
+            }]
+          }
+        };
+      }
+      query.body.query.bool.filter = [];
+      query.body.query.bool.filter.push({
+        'exists': {
+          'field': 'release'
+        }
+      });
+      applyFetchLatestShadowCopyFilter(query, elasticsearchType);
+
+      return query;
+    };
+
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
                        aggregations, newFilters, sortCriteria,
-                       enforceReleased) {
+                       enforceReleased, additionalSearchIndex) {
         var query = {};
         query.preference = clientId;
         var dataPackageId;
         var analysisPackageId;
 
         query.index = elasticsearchType;
-        query.track_total_hits = true;
         if (!elasticsearchType) {
           //search in all indices
           query.index = ['data_packages', 'analysis_packages', 'variables',
@@ -400,6 +453,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           ];
         }
         query.body = {};
+        query.body.track_total_hits = true;
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'sourceReference', 'authors',
@@ -564,7 +618,23 @@ angular.module('metadatamanagementApp').service('SearchDao',
           applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
             filterToUse);
-          return ElasticSearchClient.search(query);
+          if (additionalSearchIndex) {
+            var query2 = createAdditionalSearchQueryForPublicUsers(
+              queryterm, additionalSearchIndex);
+            var header1 = {
+              index: query.index,
+              preference: query.preference
+            };
+            var header2 = {
+              index: query2.index,
+              preference: query2.preference
+            };
+            return ElasticSearchClient.msearch({
+              body: [header1, query.body, header2, query2.body]
+            });
+          } else {
+            return ElasticSearchClient.search(query);
+          }
         }
       }
     };
