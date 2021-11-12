@@ -211,7 +211,8 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
         ctrl.attachmentMetadata = dialogConfig
             .createAttachmentResource(attachmentWrapper);
         initSelectedLanguage();
-        if (ctrl.attachmentMetadata.type.en === 'Method Report') {
+        if (ctrl.attachmentMetadata.type &&
+          ctrl.attachmentMetadata.type.en === 'Method Report') {
           ctrl.attachmentMetadata.citationDetails =
             ctrl.attachmentMetadata.citationDetails || {};
           ctrl.attachmentMetadata.citationDetails.authors =
