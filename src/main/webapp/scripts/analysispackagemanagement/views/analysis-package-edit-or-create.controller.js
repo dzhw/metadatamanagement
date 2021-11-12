@@ -581,6 +581,11 @@ angular.module('metadatamanagementApp')
               ctrl.currentSponsors = [];
               ctrl.analysisPackage.sponsors = [];
             }
+
+            $timeout(function() {
+              $scope.$broadcast('LoadScriptEvent');
+            }, 1000);
+
             if (wrapper.isCurrentVersion) {
               $scope.analysisPackageForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(

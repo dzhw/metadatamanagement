@@ -3,6 +3,7 @@
     'use strict';
 
     function Controller(
+      $scope,
       uuid,
       isoLanguages,
       LanguageService,
@@ -69,6 +70,10 @@
         });
       };
 
+      $scope.$on('LoadScriptEvent', function() {
+        $ctrl.$onInit();
+      });
+
       $ctrl.$onInit = function() {
         if ($ctrl.scripts && $ctrl.scripts.length === 0) {
           $ctrl.scripts = [{
@@ -87,10 +92,10 @@
         }
         $ctrl.attachments = $ctrl.attachments || [];
         $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
+        $ctrl.loadScriptAttachments();
         initSelectedLanguages();
         getSoftwarePackages();
         initSelectedSoftwarePackages();
-        $ctrl.loadScriptAttachments();
       };
 
       $ctrl.deleteScript = function(index, uuid) {

@@ -57,7 +57,7 @@ angular.module('metadatamanagementApp').config(
             'sponsors': 'Sponsored by',
             'tags': 'Tags',
             'title': 'Title',
-            'file': 'Add File'
+            'file': 'File'
           },
           'script-attachment-metadata': {
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
