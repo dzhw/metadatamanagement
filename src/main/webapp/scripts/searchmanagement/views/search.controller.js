@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageMetadataService, BreadcrumbService, SearchHelperService,
            SearchResultNavigatorService, DataPackageResource,
-           DataPackageIdBuilderService,
+           AnalysisPackageResource, DataPackageIdBuilderService,
+           AnalysisPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
            SimpleMessageToastService, $mdSidenav, $analytics) {
 
@@ -175,6 +176,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       readSearchParamsFromLocation();
       writeSearchParamsToLocation();
       $scope.loadDataPackageForProject();
+      $scope.loadAnalysisPackageForProject();
       $scope.search();
     };
 
@@ -547,6 +549,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.search();
           }
           $scope.loadDataPackageForProject();
+          $scope.loadAnalysisPackageForProject();
           currentProjectChangeIsBeingHandled = false;
         });
       });
@@ -598,6 +601,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
               $scope.search();
             }
             $scope.loadDataPackageForProject();
+            $scope.loadAnalysisPackageForProject();
             selectedTabChangeIsBeingHandled = false;
           } else {
             tabChangedOnInitFlag = false;
@@ -651,6 +655,25 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.currentDataPackage = undefined;
       }
     };
+    $scope.loadAnalysisPackageForProject = function() {
+      if ($scope.currentProject && !$scope.currentProject.release &&
+        $scope.tabs[$scope.searchParams.selectedTabIndex]
+          .elasticSearchType === 'analysis_packages') {
+        $rootScope.$broadcast('start-ignoring-404');
+        AnalysisPackageResource.get({
+          id: AnalysisPackageIdBuilderService.buildAnalysisPackageId(
+            $scope.currentProject.id)
+        }).$promise.then(function(analysisPackage) {
+          $scope.currentAnalysisPackage = analysisPackage;
+        }).catch(function() {
+          $scope.currentAnalysisPackage = undefined;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        $scope.currentAnalysisPackage = undefined;
+      }
+    };
 
     $scope.setDropZoneDisabled = function() {
       if (!$scope.tabs[$scope.searchParams.selectedTabIndex].uploadFunction) {
@@ -696,6 +719,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.deleteAllDataPackages = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject,
         'data_packages');
+    };
+    $scope.deleteAllAnalysisPackages = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject,
+        'analysis_packages');
     };
     $scope.deleteAllQuestions = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
