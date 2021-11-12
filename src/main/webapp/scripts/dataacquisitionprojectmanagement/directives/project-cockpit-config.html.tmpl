@@ -26,7 +26,7 @@
 				<md-list class="w-50">
 					<md-list-item>
 						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataPackagesRequired" ng-change="ctrl.isDataPackageChecked()" name="dataPackage" class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataPackagesRequired" ng-change="ctrl.isDataPackageChecked()" ng-disabled="ctrl.isProjectRequirementsDisabled()" name="dataPackage" class="mb0">
 								{{'data-acquisition-project-management.project-cockpit.requirements.dataPackages' | translate}}
 							</md-checkbox>
 						</md-input-container>
@@ -84,7 +84,7 @@
         <md-list class="w-50">
           <md-list-item>
             <md-input-container class="mb0">
-              <md-checkbox ng-model="ctrl.project.configuration.requirements.analysisPackagesRequired" ng-change="ctrl.isAnalysisPackageChecked()" name="analysisPackage" class="mb0">
+              <md-checkbox ng-model="ctrl.project.configuration.requirements.analysisPackagesRequired" ng-change="ctrl.isAnalysisPackageChecked()"  ng-disabled="ctrl.isProjectRequirementsDisabled()" name="analysisPackage" class="mb0">
                 {{'data-acquisition-project-management.project-cockpit.requirements.analysisPackages' | translate}}
               </md-checkbox>
             </md-input-container>
