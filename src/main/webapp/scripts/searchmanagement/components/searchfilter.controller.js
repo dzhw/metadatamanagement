@@ -81,9 +81,6 @@
     }
 
     function setFilterValues(prop) {
-      $ctrl.searchParams.page = 1;
-      $ctrl.searchParams.filter = {};
-      $ctrl.searchFilterMapping = {};
       $ctrl.filterValues.length = 0;
       $ctrl.filterValues = _.clone(filterValueObject[prop]);
     }
@@ -196,6 +193,11 @@
         'type', 'query', 'sort-by'
       ]);
     }
+      $scope.$watch('$ctrl.searchParams.type', function(newValue, oldValue){
+        if (newValue !== oldValue) {
+          clearFilter();
+        }
+      });
 
     $scope.$watch(function() {
         return $ctrl.onDataPackageFilterChange;
@@ -218,6 +220,7 @@
         return $location.search();
       },
       function() {
+      console.log('$location.search');
         $ctrl.searchParams.filter = _.omit($location.search(), ['page', 'size',
           'type', 'query', 'sort-by'
         ]);
