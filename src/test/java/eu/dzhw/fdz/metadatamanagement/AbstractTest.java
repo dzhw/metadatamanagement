@@ -4,11 +4,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -89,8 +91,11 @@ public abstract class AbstractTest {
   @Autowired
   private TaskRepository taskRepository;
 
+  @Autowired
+  private AuditorStore auditorStore;
+
   protected static GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP.withPort(4025));
-  
+
   static {
     greenMail.start();
   }
@@ -113,5 +118,17 @@ public abstract class AbstractTest {
     assertEquals(0, this.shadowCopyQueueItemRepository.count());
     assertEquals(0, this.dataAcquisitionProjectRepository.count());
     assertEquals(0, greenMail.getReceivedMessages().length);
+
+    auditorStore.clear();
+
+    var authentication = SecurityContextHolder.getContext().getAuthentication();
+    var auditor = authentication != null ?
+        authentication.getName() :
+        null;
+
+    assertEquals(
+        auditorStore.getAuditor(),
+        auditor
+    );
   }
 }
