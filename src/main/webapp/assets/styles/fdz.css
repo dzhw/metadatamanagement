@@ -2367,8 +2367,10 @@ tr:focus {
     .fdz-theme .fdz-package-filter md-card-content label {
       padding-bottom: 8px;
       font-weight: 500; }
-    .fdz-theme .fdz-package-filter md-card-content md-radio-group md-radio-button:last-child {
-      margin-bottom: 0; }
+    .fdz-theme .fdz-package-filter md-card-content md-radio-group {
+      color: #000; }
+      .fdz-theme .fdz-package-filter md-card-content md-radio-group md-radio-button:last-child {
+        margin-bottom: 0; }
 
 .fdz-theme .fdz-search-filter {
   box-shadow: none;
