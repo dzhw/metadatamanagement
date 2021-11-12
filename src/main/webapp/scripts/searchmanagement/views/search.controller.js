@@ -358,9 +358,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
 
-    function createTotalHitsObject(data) {
+    function createTotalHitsObject(totalHitsInCurrentIndex,
+      totalHitsInAdditionalIndex) {
       var totalHits = {};
-      totalHits[$scope.searchParams.type] = data;
+      totalHits[$scope.searchParams.type] = totalHitsInCurrentIndex;
+      totalHits[$scope.searchParams.additionalSearchIndex] =
+        totalHitsInAdditionalIndex;
       MessageBus.set('onTotalHitsChange', totalHits);
     }
 
@@ -377,9 +380,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
     //Search function
     $scope.search = function() {
       var aggregation = null;
+      $scope.searchParams.additionalSearchIndex = null;
       if (!Principal.isAuthenticated()) {
         $scope.searchFilterMapping = $scope.searchParams.filter;
         aggregation = searchFilterAggregations[$scope.searchParams.type];
+        if ($scope.searchParams.type === 'data_packages') {
+          $scope.searchParams.additionalSearchIndex = 'analysis_packages';
+        }
+        if ($scope.searchParams.type === 'analysis_packages') {
+          $scope.searchParams.additionalSearchIndex = 'data_packages';
+        }
       }
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
@@ -400,8 +410,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
         //   'sponsors': ['Bundesministerium für Bildung und Forschung (BMBF)']
         // })
-        $scope.searchFilterMapping, $scope.options.sortObject.selected)
+        $scope.searchFilterMapping, $scope.options.sortObject.selected, false,
+        $scope.searchParams.additionalSearchIndex)
         .then(function(data) {
+          var totalHitsInAdditionalIndex = 0;
+          if ($scope.searchParams.additionalSearchIndex) {
+            totalHitsInAdditionalIndex = data.responses[1].hits.total.value;
+            data = data.responses[0];
+          }
           if ($scope.searchParams.type === 'data_packages') {
             createDataPackageFilterObject(data.aggregations);
           } else {
@@ -409,7 +425,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           }
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
-          createTotalHitsObject(data.hits.total.value);
+          createTotalHitsObject(data.hits.total.value,
+            totalHitsInAdditionalIndex);
           $analytics.trackSiteSearch(
             $scope.searchParams.query ? $scope.searchParams.query : '<null>',
             $scope.tabs[$scope.searchParams.selectedTabIndex]
