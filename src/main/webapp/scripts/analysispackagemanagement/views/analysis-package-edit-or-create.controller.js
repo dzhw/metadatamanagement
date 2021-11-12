@@ -682,7 +682,7 @@ angular.module('metadatamanagementApp')
         var createAnalysisPackageAttachmentResource =
           function(attachmentWrapper) {
             return new AnalysisPackageAttachmentResource(
-              attachmentWrapper.analysisPackageAttachment);
+              attachmentWrapper.dataPackageAttachment);
           };
 
         var dialogConfig = {

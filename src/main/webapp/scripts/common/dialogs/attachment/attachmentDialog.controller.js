@@ -219,7 +219,7 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
           if (ctrl.attachmentMetadata.citationDetails.authors.length === 0) {
             ctrl.attachmentMetadata.citationDetails.authors.push({
               firstName: '',
-              lastName: '',
+              lastName: ''
             });
           }
         }
