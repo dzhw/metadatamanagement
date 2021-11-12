@@ -193,11 +193,12 @@
         'type', 'query', 'sort-by'
       ]);
     }
-      $scope.$watch('$ctrl.searchParams.type', function(newValue, oldValue){
-        if (newValue !== oldValue) {
-          clearFilter();
-        }
-      });
+
+    $scope.$watch('$ctrl.searchParams.type', function(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        clearFilter();
+      }
+    });
 
     $scope.$watch(function() {
         return $ctrl.onDataPackageFilterChange;
@@ -220,7 +221,6 @@
         return $location.search();
       },
       function() {
-      console.log('$location.search');
         $ctrl.searchParams.filter = _.omit($location.search(), ['page', 'size',
           'type', 'query', 'sort-by'
         ]);
