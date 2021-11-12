@@ -186,8 +186,6 @@ angular.module('metadatamanagementApp')
                     scripts: [],
                     analysisDataPackages: []
                   });
-                  ctrl.currentInstitutions = new Array(1);
-                  ctrl.currentSponsors = new Array(1);
                   updateToolbarHeaderAndPageTitle();
                   $scope.registerConfirmOnDirtyHook();
                 });
@@ -214,7 +212,7 @@ angular.module('metadatamanagementApp')
         ctrl.analysisPackage.institutions.splice(index, 1);
         ctrl.currentInstitutions.splice(index, 1);
         if (ctrl.analysisPackage.institutions.length === 0) {
-          ctrl.currentInstitutions = new Array(1);
+          ctrl.currentInstitutions = [];
           $scope.analysisPackageForm.$setUntouched();
         }
         $scope.analysisPackageForm.$setDirty();
@@ -298,13 +296,19 @@ angular.module('metadatamanagementApp')
         ctrl.analysisPackage.sponsors.splice(index, 1);
         ctrl.currentSponsors.splice(index, 1);
         if (ctrl.analysisPackage.sponsors.length === 0) {
-          ctrl.currentSponsors = new Array(1);
+          ctrl.currentSponsors = [];
           $scope.analysisPackageForm.$setUntouched();
         }
         $scope.analysisPackageForm.$setDirty();
       };
 
       ctrl.addSponsor = function() {
+        if (!ctrl.analysisPackage.sponsors) {
+          ctrl.analysisPackage.sponsors = [];
+        }
+        if (!ctrl.currentSponsors) {
+          ctrl.currentSponsors = [];
+        }
         ctrl.currentSponsors.push(null);
         $timeout(function() {
           $document.find('input[name="sponsorDe_' +
@@ -574,11 +578,8 @@ angular.module('metadatamanagementApp')
               ctrl.currentSponsors = angular.copy(
                 ctrl.analysisPackage.sponsors);
             } else {
-              ctrl.currentSponsors = new Array(1);
-              ctrl.analysisPackage.sponsors = [{
-                de: '',
-                en: ''
-              }];
+              ctrl.currentSponsors = [];
+              ctrl.analysisPackage.sponsors = [];
             }
             if (wrapper.isCurrentVersion) {
               $scope.analysisPackageForm.$setPristine();
