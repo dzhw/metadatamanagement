@@ -81,8 +81,11 @@
     }
 
     function setFilterValues(prop) {
+      $ctrl.searchParams.page = 1;
+      $ctrl.searchParams.filter = {};
+      $ctrl.searchFilterMapping = {};
       $ctrl.filterValues.length = 0;
-      $ctrl.filterValues =  _.clone(filterValueObject[prop]);
+      $ctrl.filterValues = _.clone(filterValueObject[prop]);
     }
 
     function changePackageFilter() {
@@ -216,15 +219,15 @@
       },
       function() {
         $ctrl.searchParams.filter = _.omit($location.search(), ['page', 'size',
-        'type', 'query', 'sort-by'
+          'type', 'query', 'sort-by'
         ]);
         init();
       });
 
     $scope.$on('current-language-changed', function() {
-        // we need to wait for the state change being completed
-        $timeout($ctrl.clearFilter, 200);
-      });
+      // we need to wait for the state change being completed
+      $timeout($ctrl.clearFilter, 200);
+    });
   }
 
   angular
