@@ -321,6 +321,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       return data.all.filtered[prop].buckets;
     }
+
     function createDataPackageFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
       var dataPackageFilter = {
@@ -341,6 +342,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
+
     function createAnalysisPackageFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
       var dataPackageFilter = {
@@ -410,8 +412,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.searchParams.query ? $scope.searchParams.query : '<null>',
             $scope.tabs[$scope.searchParams.selectedTabIndex]
               .elasticSearchType ?
-            $scope.tabs[$scope.searchParams.selectedTabIndex]
-              .elasticSearchType : 'all',
+              $scope.tabs[$scope.searchParams.selectedTabIndex]
+                .elasticSearchType : 'all',
             $scope.options.pageObject.totalHits);
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {
@@ -515,6 +517,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
         // type changes are already handled by $scope.onSelectedTabChanged
         // if (newValue.type === oldValue.type) {
         if (!Principal.isAuthenticated()) {
+          $scope.options.sortObject.options = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].sortOptions;
+          $scope.options.sortObject.selected = 'relevance';
           $scope.search();
         }
       } else {
@@ -700,7 +705,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
     $scope.deleteAllInstruments = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject,
-         'instruments');
+        'instruments');
     };
     $scope.deleteAllSurveys = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');
