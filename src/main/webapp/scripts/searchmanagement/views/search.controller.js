@@ -460,6 +460,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
       if (project) {
         var inactiveStates = [];
+        if (!project.configuration.requirements.dataPackagesRequired) {
+          inactiveStates.push('dataPackages');
+        }
+        if (!project.configuration.requirements.analysisPackagesRequired) {
+          inactiveStates.push('analysisPackages');
+        }
+        if (!project.configuration.requirements.conceptsRequired) {
+          inactiveStates.push('concepts');
+        }
         if (!project.configuration.requirements.surveysRequired) {
           inactiveStates.push('surveys');
         }
@@ -505,8 +514,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
         // if (newValue.type === oldValue.type) {
-        $scope.search();
-        // }
+        if (!Principal.isAuthenticated()) {
+          $scope.search();
+        }
       } else {
         locationChanged = false;
       }
@@ -562,20 +572,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }
 
     $scope.onSelectedTabChanged = function() {
-      switch ($scope.searchParams.selectedTabIndex) {
-        case 1:
-          $scope.tabs[2].disabled = true;
-          break;
-        case 2:
-          $scope.tabs[1].disabled = true;
-          $scope.tabs[9].disabled = true;
-          $scope.tabs[2].disabled = false;
-          break;
-        default:
-          $scope.tabs[1].disabled = false;
-          $scope.tabs[9].disabled = false;
-          $scope.tabs[2].disabled = false;
-      }
+      $scope.tabs = filterActiveTabs(tabs);
       $scope.options.sortObject.options = $scope.tabs[
         $scope.searchParams.selectedTabIndex].sortOptions;
       $scope.options.sortObject.selected = 'relevance';
