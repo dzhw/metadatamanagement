@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -65,7 +66,7 @@ public class UserApiService {
           "%s/jsonapi/user/user?filter[roles.id]={roleId}",
           authServerEndpoint
         ),
-        role
+        AuthoritiesConstants.toSearchValue(role)
     );
   }
 
