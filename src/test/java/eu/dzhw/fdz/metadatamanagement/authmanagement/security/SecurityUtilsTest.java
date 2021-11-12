@@ -17,8 +17,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
-
 /**
  * Test class for the SecurityUtils utility class.
  *
@@ -29,7 +27,7 @@ public class SecurityUtilsTest {
 
   @AfterEach
   public void logout() {
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
   }
 
   @Test

@@ -113,7 +113,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
   }
 
   @Test
-  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  @WithMockUser(username = "test", authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateInstrumentWithPost() throws Exception {
 
     // Arrange

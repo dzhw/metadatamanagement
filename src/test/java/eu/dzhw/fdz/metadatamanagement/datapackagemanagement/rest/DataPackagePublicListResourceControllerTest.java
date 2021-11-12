@@ -8,12 +8,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,7 +32,6 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.LegacyUrlsFilter;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -86,6 +91,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
     greenMail.purgeEmailFromAllMailboxes();
+    SecurityContextHolder.clearContext();
   }
 
   @Test
@@ -117,7 +123,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     // ensure list contains no items cause not yet released
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     mockMvc.perform(get(API_DATAPACKAGE_URI)).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(0)));
     // ensure that there are still no pinned data packages
@@ -145,7 +151,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
 
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     // ensure that there are still no pinned data packages
     mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(0)));
@@ -176,14 +182,15 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
 
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     // ensure that there is one pinned data package
     mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(1)))
         .andExpect(jsonPath("$.content[0].masterId", is(dataPackage.getId())));
 
     // now release a second data package and pin it
-    UnitTestUserManagementUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.generateJwt("admin", AuthoritiesConstants.DATA_PROVIDER);
+
     project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject("testproject2");
     dataAcquisitionProjectRepository.save(project);
 
@@ -202,7 +209,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
 
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     // ensure that there are two pinned data packages and the first one is the newest
     mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true&size=2")).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(2)))

@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem.Action;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAllowedException;
@@ -151,7 +151,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
 
     // speed up hiding
     shadowCopyQueueItemService.executeShadowCopyActions();
-    UnitTestUserManagementUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.generateJwt("admin", AuthoritiesConstants.DATA_PROVIDER);
 
     // ensure that dara gets updated
     verify(daraService).registerOrUpdateProjectToDara(projectId + "-1.0.0");
@@ -174,7 +174,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
 
     // speed up unhiding
     shadowCopyQueueItemService.executeShadowCopyActions();
-    UnitTestUserManagementUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.generateJwt("admin", AuthoritiesConstants.DATA_PROVIDER);
 
     // ensure that dara gets updated a second time
     verify(daraService, times(2)).registerOrUpdateProjectToDara(projectId + "-1.0.0");
@@ -199,7 +199,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
     // shadow copy thread authenticates itself therefore we need to login again
-    UnitTestUserManagementUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.generateJwt("admin", AuthoritiesConstants.PUBLISHER);
   }
 
   private void unreleaseProject(String projectId) throws Exception {
@@ -210,6 +210,6 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
     // shadow copy thread authenticates itself therefore we need to login again
-    UnitTestUserManagementUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.generateJwt("admin", AuthoritiesConstants.PUBLISHER);
   }
 }
