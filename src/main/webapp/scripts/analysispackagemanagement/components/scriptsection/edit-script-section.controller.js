@@ -18,11 +18,15 @@
       var isInitialisingSelectedLanguage = false;
       var isInitialisingSelectedSoftwarePackage = false;
       var softwarePackages = [];
+      var formElements = ['INPUT', 'SELECT', 'TEXTAREA'];
 
       $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
       $ctrl.selectedFile = '';
       $ctrl.scriptAttachmentMetadata = [];
-      $ctrl.currentScriptIndex = '';
+      $ctrl.currentScriptIndex = null;
+      $ctrl.currentFocusElement = null;
+      $ctrl.focus = false;
+      $ctrl.scriptElement = document.getElementById('scripts');
 
       var isoLanguagesArray = Object.keys(isoLanguages)
         .map(function(key) {
@@ -144,6 +148,23 @@
             fileName: ''
           }
         });
+      };
+
+      $ctrl.moveScript = function(dir) {
+        var move = {
+          up: -1,
+          down: +1
+        };
+        $ctrl.scripts
+          .splice($ctrl.currentScriptIndex + parseInt(move[dir]), 0,
+            $ctrl.scripts.splice($ctrl.currentScriptIndex, 1)[0]);
+        $ctrl.currentScriptIndex = $ctrl.currentScriptIndex + parseInt(
+          move[dir]
+        );
+        document.getElementsByName(
+          $ctrl.currentFocusElement.name.split('_')[0] +
+          '_' + $ctrl.currentScriptIndex)[0].focus();
+        $ctrl.currentForm.$setDirty();
       };
 
       $ctrl.searchLanguages = function(searchText) {
@@ -292,6 +313,19 @@
           $ctrl.loadScriptAttachments();
         }
       };
+
+      $scope.$watch(function() {
+        return document.activeElement;
+      }, function(value) {
+        if ($ctrl.scriptElement.contains(value) && formElements
+          .indexOf(value.tagName) > -1) {
+          $ctrl.focus = true;
+          $ctrl.currentFocusElement = value;
+          $ctrl.currentScriptIndex = parseInt(value.name.slice(-1));
+        } else {
+          $ctrl.focus = false;
+        }
+      });
     }
 
     angular

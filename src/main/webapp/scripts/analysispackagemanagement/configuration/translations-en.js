@@ -96,6 +96,8 @@ angular.module('metadatamanagementApp').config(
         },
         'edit': {
           'add-analysis-data-tooltip': 'Click to add analysis data to this analysis package.',
+          'move-analysis-data-up-tooltip': 'Click to move the selected analysis data up.',
+          'move-analysis-data-down-tooltip': 'Click to move the selected analysis data down.',
           'all-analysis-packages-deleted-toast': 'The analysis package of Data Acquisition Project "{{id}}" has been deleted.',
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this analysis package.',
           'save-tooltip': 'Click to save this analysis package.',

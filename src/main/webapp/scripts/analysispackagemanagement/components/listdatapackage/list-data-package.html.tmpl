@@ -1,4 +1,4 @@
-<md-card class="mb8">
+<md-card class="mb8" id="packages">
   <md-card-header>
     <md-card-header-text>
       <h2 class="md-title">
@@ -79,6 +79,25 @@
         {{'analysis-package-management.edit.add-analysis-data-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">add</md-icon>
+    </md-button>
+    <md-button class="md-primary md-raised md-icon-button"
+               ng-click="$ctrl.move('up')"
+               ng-disabled="$ctrl.currentPackageIndex == null || $ctrl.currentPackageIndex === 0 && $ctrl.focus">
+      <md-tooltip md-autohide="true" md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'analysis-package-management.edit.move-analysis-data-up-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+    </md-button>
+    <md-button
+      class="md-primary md-raised md-icon-button"
+      ng-click="$ctrl.move('down')"
+      ng-disabled="$ctrl.currentPackageIndex == null || $ctrl.currentPackageIndex === $ctrl.packages.length - 1 && $ctrl.focus">
+      <md-tooltip md-autohide="true" md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'analysis-package-management.edit.move-analysis-data-down-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
     </md-button>
   </md-card-actions>
 </md-card>
