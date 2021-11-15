@@ -25,7 +25,7 @@
           <md-icon md-font-set="material-icons">delete_forever</md-icon>
         </md-button>
         <md-input-container
-          md-is-error="!$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$touched)">
+          md-is-error="!$ctrl.currentForm['analysisDataPackagesType_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesType_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesType_' + $index].$touched)">
           <label>{{ 'analysis-package-management.detail.label.type-of-data' | translate}}</label>
           <md-select ng-model="package.type"
                      name="analysisDataPackagesType_{{$index}}" required>
@@ -38,11 +38,11 @@
             </md-optgroup>
           </md-select>
           <div class="fdz-input-hint"
-               ng-if="!$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$touched">
+               ng-if="!$ctrl.currentForm['analysisDataPackagesType_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesType_' + $index].$touched">
             {{'analysis-package-management.edit.hints.data-package' | translate}}
           </div>
           <div multiple
-               ng-messages="$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$error">
+               ng-messages="$ctrl.currentForm['analysisDataPackagesType_' + $index].$error">
             <div ng-message="required">
               {{'analysis-package-management.error.analysis-package.analysis-data-packages.package-type.i18n-not-null' |
             translate}}
@@ -82,20 +82,21 @@
     </md-button>
     <md-button class="md-primary md-raised md-icon-button"
                ng-click="$ctrl.move('up')"
-               ng-disabled="$ctrl.currentPackageIndex == null || $ctrl.currentPackageIndex === 0 && $ctrl.focus">
+               ng-disabled="($ctrl.currentPackageIndex == null || $ctrl.currentPackageIndex === 0) && $ctrl.focus">
       <md-tooltip md-autohide="true" md-direction="bottom"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.edit.move-analysis-data-up-tooltip' | translate}}
+        {{'analysis-package-management.edit.move-analysis-data-up-tooltip' | translate}}  {{$ctrl.focus}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
     </md-button>
     <md-button
       class="md-primary md-raised md-icon-button"
       ng-click="$ctrl.move('down')"
-      ng-disabled="$ctrl.currentPackageIndex == null || $ctrl.currentPackageIndex === $ctrl.packages.length - 1 && $ctrl.focus">
+      ng-disabled="($ctrl.currentPackageIndex == null || $ctrl.currentPackageIndex === $ctrl.packages.length - 1) && $ctrl.focus">
       <md-tooltip md-autohide="true" md-direction="bottom"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'analysis-package-management.edit.move-analysis-data-down-tooltip' | translate}}
+        {{$ctrl.focus}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
     </md-button>
