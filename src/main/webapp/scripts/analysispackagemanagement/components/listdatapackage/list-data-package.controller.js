@@ -8,7 +8,7 @@
       LanguageService
     ) {
       var $ctrl = this;
-      var formElements = ['INPUT', 'SELECT', 'TEXTAREA', 'MD-SELECT'];
+      var formElements = ['INPUT', 'SELECT', 'TEXTAREA'];
       $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
       $ctrl.currentPackageIndex = null;
       $ctrl.currentFocusElement = null;
@@ -37,6 +37,7 @@
       };
 
       $ctrl.addPackage = function() {
+        $ctrl.packages = $ctrl.packages || [];
         $ctrl.packages.push({
           type: ''
         });
@@ -73,6 +74,7 @@
       }, function(value) {
         if ($ctrl.packageElement.contains(value) && formElements
           .indexOf(value.tagName) > -1) {
+          console.log('package: ' + value.tagName);
           var dataSources = document.getElementById('dataSources');
           if (!dataSources.contains(value)) {
             $ctrl.focus = true;
