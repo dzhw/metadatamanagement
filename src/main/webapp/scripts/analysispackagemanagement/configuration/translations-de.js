@@ -69,6 +69,14 @@ angular.module('metadatamanagementApp').config(
             'delete-attachment-tooltip': 'Klicken, um die Datei aus diesem Skript zu löschen!',
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Skript hinzuzufügen.'
           },
+          'scripts': {
+            'table-title': 'Skripte zu diesem Analysepaket',
+            'title': 'Titel',
+            'software-package': 'Softwarepaket',
+            'language': 'Skriptsprache',
+            'version': 'Version des Softwarepakets',
+            'file': 'File'
+          },
           'attachments': {
             'table-title': 'Materialien zu diesem Analysepaket',
             'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
@@ -103,7 +111,7 @@ angular.module('metadatamanagementApp').config(
           'publications-for-data-package': 'Publikationen zu diesem Analysepaket'
         },
         'edit': {
-          'add-analysis-data-tooltip': 'Klicken, um weitere Analyse Daten zu diesem Analysepaket hinzuzufügen.',
+          'add-analysis-data-tooltip': 'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.',
           'move-analysis-data-up-tooltip': 'Klicken, um die ausgewählten Analyse Daten nach oben zu verschieben.',
           'move-analysis-data-down-tooltip': 'Klicken, um die ausgewählten Analyse Daten nach unten zu verschieben.',
           'all-analysis-packages-deleted-toast': 'Das Analysepaket des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.',
@@ -116,7 +124,7 @@ angular.module('metadatamanagementApp').config(
           'move-script-up-tooltip': 'Klicken, um das ausgewählte Skript nach oben zu verschieben.',
           'move-script-down-tooltip': 'Klicken, um das ausgewählte Skript nach unten zu verschieben.',
           'add-script-tooltip': 'Klicken, um ein weiteres Skript diesem Analysepaket hinzuzufügen.',
-          'delete-script-tooltip': 'Klicken, um das Skript aus diesem Analysepaket zu entfernen.',
+          'delete-script-tooltip': 'Klicken, um dieses Skript aus diesem Analysepaket zu entfernen.',
           'move-institution-up-tooltip': 'Klicken, um die ausgewählte Institution nach oben zu verschieben.',
           'move-institution-down-tooltip': 'Klicken, um die ausgewählte Institution nach unten zu verschieben.',
           'add-institution-tooltip': 'Klicken, um eine weitere Institution diesem Analysepaket hinzuzufügen.',
@@ -167,7 +175,7 @@ angular.module('metadatamanagementApp').config(
             'script': {
               'used-language': 'Skriptsprache',
               'software-package': 'Softwarepaket',
-              'version': 'Version des Softwarepakets'
+              'software-package-version': 'Version des Softwarepakets'
             },
             'location': 'Ort',
             'additional-links': {
@@ -176,7 +184,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'hints': {
-            'data-package': 'Bitte wählen Sie ein Datenpaket.',
+            'data-package': 'Bitte wählen die Herkunftsart der Analysedaten aus.',
             'additional-links': {
               'url': 'Bitte tragen Sie die URL wie in dem folgenden Beispiel ein: https://www.dzhw.eu',
               'display-text': {
@@ -203,8 +211,8 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie eine Beschreibung des Analysepakets auf Englisch ein.'
             },
             'institution': {
-              'de': 'Geben Sie den deutschen Namen der Institution ein, die an dem Analysepaket beteiligt waren.',
-              'en': 'Geben Sie den englischen Namen der Institution ein, die an dem Analysepaket beteiligt waren.'
+              'de': 'Geben Sie den deutschen Namen der Institution ein, die an dem Analysepaket beteiligt war.',
+              'en': 'Geben Sie den englischen Namen der Institution ein, die an dem Analysepaket beteiligt war.'
             },
             'license': 'Wenn kein Vertrag unterzeichnet wird, benötigen wir eine Lizenz wie cc-by-sa',
             'script': {
@@ -213,7 +221,7 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Geben Sie den Titel des Skripts auf Englisch ein.'
               },
               'used-language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Skript verwendet haben.',
-              'software-package': 'Bitte wählen Sie das/die Softwarepaket ein, für die dieses Skript geschrieben wurde.',
+              'software-package': 'Bitte wählen Sie das Softwarepaket aus, für das dieses Skript geschrieben wurde.',
               'software-package-version': 'Version des Softwarepakets'
 
             },
@@ -247,7 +255,7 @@ angular.module('metadatamanagementApp').config(
               },
               'data-source-url': 'Bitte tragen Sie die URL wie in dem folgenden Beispiel ein: https://www.dzhw.eu',
               'availability-type': {
-                'choose': 'Bitte wählen Sie ein Zugangsstatus.',
+                'choose': 'Bitte wählen Sie einen Zugangsstatus.',
                 'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
                 'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
                 'none': 'nicht zugänglich.',
@@ -277,7 +285,7 @@ angular.module('metadatamanagementApp').config(
               },
               'data-source-url': 'Geben Sie den Link zur Datenquelle ein.',
               'availability-type': {
-                'choose': 'Bitte wählen Sie ein Zugangsstatus.',
+                'choose': 'Bitte wählen Sie einen Zugangsstatus.',
                 'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
                 'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
                 'none': 'nicht zugänglich.',

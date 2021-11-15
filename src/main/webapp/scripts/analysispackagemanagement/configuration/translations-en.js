@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').config(
               'language': 'Document Language',
               'file': 'File'
             },
-            'additional-links': 'Additional Links',
+             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
             'analysisPackages': 'Analysis Packages',
             'analysis-data': 'Analysis Data',
@@ -68,6 +68,14 @@ angular.module('metadatamanagementApp').config(
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
             'delete-attachment-tooltip': 'Click to delete this document from this script!',
             'add-attachment-tooltip': 'Click to add a new document to this script.'
+          },
+          'scripts': {
+            'table-title': 'Scripts related to this Analysis Package',
+            'title': 'Title',
+            'software-package': 'Software Package',
+            'language': 'Script Language',
+            'version': 'Version of Software Package',
+            'file': 'File'
           },
           'attachments': {
             'table-title': 'Documents related to this Analysis Package',
@@ -174,7 +182,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'hints': {
-            'data-package': 'Please choose a data package.',
+            'data-package': 'Please select the origin type of the analysis data.',
             'additional-links': {
               'url': 'Please enter the URL as in the following example: https://www.dzhw.eu',
               'display-text': {
