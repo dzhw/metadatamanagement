@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
              BreadcrumbService, Principal, SimpleMessageToastService,
              // SearchResultNavigatorService,
              // $stateParams,
-             DataAcquisitionProjectAttachmentsResource,
+             AnalysisPackageAttachmentResource,
              $rootScope, DataAcquisitionProjectResource,
              ProjectUpdateAccessService, $scope,
              $timeout, $document, AnalysisPackageOverviewResource,
@@ -37,25 +37,18 @@ angular.module('metadatamanagementApp')
       ctrl.projectIsCurrentlyReleased = true;
       // ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
-        // surveysCount: 0,
-        // instrumentsCount: 0,
-        // questionsCount: 0,
-        // dataSetsCount: 0,
-        publicationsCount: 0,
-        // conceptsCount: 0
+        publicationsCount: 0
       };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
-        DataAcquisitionProjectAttachmentsResource.get({
-          id: ctrl.analysisPackage.dataAcquisitionProjectId
+        AnalysisPackageAttachmentResource.findByAnalysisPackageId({
+          analysisPackageId: ctrl.analysisPackage.id
         }).$promise.then(
           function(attachments) {
-            if (attachments) {
-              ctrl.attachments = attachments;
-            }
+            ctrl.attachments = attachments;
           });
       };
 
@@ -111,7 +104,8 @@ angular.module('metadatamanagementApp')
           description: result.description[LanguageService.getCurrentInstantly()]
         });
         PageMetadataService.setDublinCoreMetadata(result);
-        PageMetadataService.setSchemaOrgMetadata(result);
+        // sponsors create an error
+        // PageMetadataService.setSchemaOrgMetadata(result);
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
@@ -139,7 +133,8 @@ angular.module('metadatamanagementApp')
 
         ctrl.analysisPackageTags = getTags(result);
 
-      }, $log.error).finally(blockUI.stop);
+      }, $log.error)
+        .finally(blockUI.stop);
 
       ctrl.scroll = function() {
         var element = $document[0].getElementById('related-objects');
@@ -151,8 +146,8 @@ angular.module('metadatamanagementApp')
       };
       ctrl.analysisPackageEdit = function() {
         if (ProjectUpdateAccessService
-          .isUpdateAllowed(activeProject, 'dataPackages', true)) {
-          $state.go('analysisPackagePackageEdit', {id: ctrl.dataPackage.id});
+          .isUpdateAllowed(activeProject, 'analysisPackages', true)) {
+          $state.go('analysisPackageEdit', {id: ctrl.analysisPackage.id});
         }
       };
 
@@ -164,7 +159,7 @@ angular.module('metadatamanagementApp')
         $mdDialog.show({
           controller: 'CreateOverviewDialogController',
           controllerAs: 'ctrl',
-          templateUrl: 'scripts/analysisPackagepackagemanagement/' +
+          templateUrl: 'scripts/analysispackagemanagement/' +
             'views/create-overview-dialog.html.tmpl',
           clickOutsideToClose: false,
           fullscreen: true,

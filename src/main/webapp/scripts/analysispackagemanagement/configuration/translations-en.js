@@ -55,6 +55,11 @@ angular.module('metadatamanagementApp').config(
             'license': 'License',
             'scripts': 'Scripts',
             'sponsors': 'Sponsored by',
+            'version': 'Version',
+            'published-at': 'published at',
+            'published': 'Published at',
+            'generate-analysis-package-overview-tooltip': 'Click to generate an overview of this analysis package as a PDF.',
+            'overview-generation-started-toast': 'The analysis package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
             'tags': 'Tags',
             'title': 'Title',
             'file': 'File'

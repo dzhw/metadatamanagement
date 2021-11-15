@@ -44,7 +44,13 @@
           template-url="scripts/analysispackagemanagement/templates/description.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
-          ng-if="ctrl.attachments.analysisPackage.length > 0 || ctrl.attachments.instruments.length > 0 || ctrl.attachments.surveys.length > 0 || ctrl.attachments.analysisSets.length > 0"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.analysisPackage.license"
+          template-url="scripts/analysispackagemanagement/templates/license.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          ng-if="ctrl.attachments.length > 0 "
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"
@@ -65,15 +71,15 @@
     <md-button class="md-accent md-fab" analysis-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
                ng-click="ctrl.generateDataPackageOverview($event)" ng-if="!ctrl.projectIsCurrentlyReleased">
       <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.detail.generate-analysispackage-overview-tooltip' | translate}}
+        {{'analysis-package-management.detail.generate-analysis-package-overview-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">picture_as_pdf</md-icon>
     </md-button>
     <md-button class="md-fab md-raised md-accent" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
-               ng-click="ctrl.dataPackageEdit()" ng-if="!ctrl.projectIsCurrentlyReleased">
+               ng-click="ctrl.analysisPackageEdit()" ng-if="!ctrl.projectIsCurrentlyReleased">
       <md-tooltip md-autohide="true" md-direction="left"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'search-management.buttons.edit-data-package-tooltip' | translate}}
+        {{'search-management.buttons.edit-analysis-package-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">mode_edit</md-icon>
     </md-button>
@@ -81,7 +87,7 @@
                ng-click="ctrl.toggleSidenav()">
       <md-tooltip md-autohide="true" md-direction="left"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'shopping-cart.buttons.choose-data-package-options' | translate}}
+        {{'shopping-cart.buttons.choose-analysis-package-options' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
     </md-button>

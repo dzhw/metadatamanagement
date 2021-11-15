@@ -13,26 +13,11 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
       <md-list>
-        <md-list-item ng-if="$ctrl.options.analysisPackage.studySeries">
-          <h5>{{'analysis-package-management.detail.label.studySeries' | translate }}:</h5>
-          <a
-            ng-if="$ctrl.options.isAuthenticated()"
-            class="md-secondary"
-            ui-sref="search({'type': 'analysis_packages', 'study-series-{{$ctrl.lang}}': $ctrl.options.analysisPackage.studySeries.{{$ctrl.lang}}})">
-            <span display-i18n-string="$ctrl.options.analysisPackage.studySeries" ></span>
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'analysis-package-management.detail.tooltips.analysis-packages.study-series' | translate}}
-            </md-tooltip>
-          </a>
-          <a
-            ng-if="!$ctrl.options.isAuthenticated()"
-            class="md-secondary"
-            ui-sref="search({'type': 'analysis_packages', 'study-series': $ctrl.options.analysisPackage.studySeries.{{$ctrl.lang}}})">
-            <span display-i18n-string="$ctrl.options.analysisPackage.studySeries" ></span>
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'analysis-package-management.detail.tooltips.analysis-packages.study-series' | translate}}
-            </md-tooltip>
-          </a>
+        <md-list-item ng-if="$ctrl.options.analysisPackage.authors">
+          <h5>{{'analysis-package-management.detail.label.authors' | translate }}:</h5>
+          <div
+            class="md-secondary" style="white-space: pre-wrap;"
+            ng-repeat="author in $ctrl.options.analysisPackage.authors"><span>{{author.lastName}}, {{author.firstName}}{{author.middleName !== undefined?' '+author.middleName:''}}</span><a ng-if="author.orcid" href="https://orcid.org/{{author.orcid}}" target="_blank"> <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/></a>{{!$last?'; ':''}}</div>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.analysisPackage.institutions">
           <h5>{{'analysis-package-management.detail.label.institutions' | translate }}:</h5>
@@ -51,25 +36,6 @@
           <div
             class="md-secondary pre"
             ng-repeat="person in $ctrl.options.analysisPackage.projectContributors"><span>{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}</span><a ng-if="person.orcid" href="https://orcid.org/{{person.orcid}}" target="_blank"> <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/></a>{{!$last?'; ':''}}</div>
-        </md-list-item>
-        <md-list-item ng-if="$ctrl.options.analysisPackage.surveyDesign">
-          <h5>{{'analysis-package-management.detail.label.surveyDesign' | translate }}:</h5>
-          <span
-            class="md-secondary"
-            display-i18n-string="$ctrl.options.analysisPackage.surveyDesign" ></span>
-        </md-list-item>
-        <md-list-item
-          ng-if="$ctrl.options.analysisPackage.surveyDesign.en==='Panel' && $ctrl.options.analysisPackage.numberOfWaves > 0">
-          <h5>{{'analysis-package-management.detail.label.wave' | translate }}:</h5>
-          <span
-            class="md-secondary">{{$ctrl.options.analysisPackage.numberOfWaves}}</span>
-        </md-list-item>
-        <md-list-item
-          ng-if="$ctrl.options.analysisPackage.surveyDataTypes && $ctrl.options.analysisPackage.surveyDataTypes.length > 0">
-          <h5>{{'analysis-package-management.detail.label.survey-analysis-type' | translate }}:</h5>
-          <span
-            class="md-secondary pre"
-            ng-repeat="analysisType in $ctrl.options.analysisPackage.surveyDataTypes">{{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.analysisPackage.dataLanguages && $ctrl.options.analysisPackage.dataLanguages.length > 0">
           <h5>{{'analysis-package-management.detail.label.dataLanguages' | translate }}:</h5>
