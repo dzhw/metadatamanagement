@@ -607,8 +607,13 @@ module.exports = function(grunt) {
             VERSION: parseVersionFromPomXml(),
             // jscs: disable
             ElasticSearchProperties: getElasticSearchProperties().LocalProperties
-              .metadatamanagement['elasticsearch-angular-client']
+              .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
+            AuthProperties: {
+              clientId: process.env.CLIENT_ID_LOCAL || null,
+              clientSecret: process.env.CLIENT_SECRET_LOCAL || null,
+              issuer: process.env.ISSUER_LOCAL || null
+            }
           }
         },
         dev: {
@@ -620,8 +625,13 @@ module.exports = function(grunt) {
             VERSION: parseVersionFromPomXml(),
             // jscs: disable
             ElasticSearchProperties: getElasticSearchProperties().DevProperties
-              .metadatamanagement['elasticsearch-angular-client']
+              .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
+            AuthProperties: {
+              clientId: process.env.CLIENT_ID_DEV || null,
+              clientSecret: process.env.CLIENT_SECRET_DEV || null,
+              issuer: process.env.ISSUER_DEV || null
+            }
           }
         },
         test: {
@@ -633,8 +643,13 @@ module.exports = function(grunt) {
             VERSION: parseVersionFromPomXml(),
             // jscs: disable
             ElasticSearchProperties: getElasticSearchProperties().TestProperties
-              .metadatamanagement['elasticsearch-angular-client']
+              .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
+            AuthProperties: {
+              clientId: process.env.CLIENT_ID_TEST || null,
+              clientSecret: process.env.CLIENT_SECRET_TEST || null,
+              issuer: process.env.ISSUER_TEST || null
+            }
           }
         },
         prod: {
@@ -646,8 +661,13 @@ module.exports = function(grunt) {
             VERSION: parseVersionFromPomXml(),
             // jscs: disable
             ElasticSearchProperties: getElasticSearchProperties().ProdProperties
-              .metadatamanagement['elasticsearch-angular-client']
+              .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
+            AuthProperties: {
+              clientId: process.env.CLIENT_ID || null,
+              clientSecret: process.env.CLIENT_SECRET || null,
+              issuer: process.env.ISSUER || null
+            }
           }
         }
       },

@@ -1,20 +1,32 @@
 'use strict';
 angular.module('metadatamanagementApp').factory('authInterceptor', function(
-  localStorageService) {
+  localStorageService, $injector) {
   return {
     // Add authorization token to headers to all API requests
     request: function(config) {
       config.headers = config.headers || {};
-      var token = localStorageService.get('token');
       //jscs:disable
-      if (token && (config.url.indexOf('/api/') === 0 ||
+      if (localStorageService.get('tokens') && (config.url.indexOf('/api/') === 0 ||
         config.url.indexOf('api/') === 0 ||
         config.url.indexOf('/management/') === 0 ||
         config.url.indexOf('management/') === 0)) {
-        config.headers.Authorization = 'Bearer ' + token.access_token;
+
+        var AuthServiceProvider = $injector.get('AuthServiceProvider');
+        // check expire timestamp if token is valid for more than one minute
+        if (AuthServiceProvider.accessTokenInfo().exp < new Date(Date.now() - 60000) / 1000) {
+          return AuthServiceProvider.refreshToken().then(function (){
+            config.headers.Authorization = 'Bearer ' + localStorageService.get('tokens').access_token;
+            return config;
+          });
+        } else {
+          config.headers.Authorization = 'Bearer ' + localStorageService.get('tokens').access_token;
+          return config;
+        }
+
+      } else {
+        return config;
       }
       //jscs:enable
-      return config;
     }
   };
 });

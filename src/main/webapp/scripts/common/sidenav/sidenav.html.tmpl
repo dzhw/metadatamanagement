@@ -35,14 +35,6 @@
                 </md-button>
               </li>
               <li ng-switch-when="true">
-                <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                  <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'global.toolbar.buttons.password-tooltip' | translate}}
-                  </md-tooltip>
-                  <span data-translate="global.menu.account.password">Password</span>
-                </md-button>
-              </li>
-              <li ng-switch-when="true">
                 <md-button ng-click="logout()" class="fdz-navbar-button">
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
@@ -89,12 +81,13 @@
                   <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
+                    <!-- @todo remove -->
                     <li>
                         <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                           <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                               {{'global.toolbar.buttons.user-management-tooltip' | translate}}
                           </md-tooltip>
-                          <span data-translate="global.menu.admin.user-management">User management</span>
+                          <span>DEBUG - User management</span>
                         </md-button>
                     </li>
                     <li>
