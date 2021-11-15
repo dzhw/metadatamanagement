@@ -1,3 +1,4 @@
+/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -6,14 +7,14 @@ angular.module('metadatamanagementApp')
              MessageBus,
              PageMetadataService,
              LanguageService,
-             $state, $location, $mdDialog,
+             $state, $location,
              BreadcrumbService, Principal, SimpleMessageToastService,
              // SearchResultNavigatorService,
              // $stateParams,
              AnalysisPackageAttachmentResource,
              $rootScope, DataAcquisitionProjectResource,
-             ProjectUpdateAccessService, $scope,
-             $timeout, $document, AnalysisPackageOverviewResource,
+             ProjectUpdateAccessService, $scope, ScriptAttachmentResource,
+             $timeout, $document,
              OutdatedVersionNotifier, AnalysisPackageSearchService, $log,
              blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
@@ -21,6 +22,17 @@ angular.module('metadatamanagementApp')
       //   .setSearchIndex($stateParams['search-result-index']);
       //
       // SearchResultNavigatorService.registerCurrentSearchResult();
+      var getScriptAttachmentMetadata = function() {
+        console.log(ctrl.analysisPackage.scripts);
+        console.log(ctrl.scriptAttachments);
+        _.forEach(ctrl.analysisPackage.scripts, function(value, index) {
+          _.filter(ctrl.scriptAttachments, function(item) {
+            if (item.scriptUuid === value.uuid) {
+              ctrl.analysisPackage.scripts[index].attachment = item;
+            }
+          });
+        });
+      };
 
       var getTags = function(analysisPackage) {
         if (analysisPackage.tags) {
@@ -32,6 +44,7 @@ angular.module('metadatamanagementApp')
       };
       var ctrl = this;
       var activeProject;
+      ctrl.scriptAttachments = [];
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
@@ -60,6 +73,17 @@ angular.module('metadatamanagementApp')
         return false;
       };
 
+      ctrl.loadScriptAttachments = function() {
+        ScriptAttachmentResource.findByAnalysisPackageId({
+          analysisPackageId: ctrl.analysisPackage.id
+        }).$promise.then(
+          function(attachments) {
+            if (attachments.length > 0) {
+              ctrl.scriptAttachments = attachments;
+              getScriptAttachmentMetadata();
+            }
+          });
+      };
       $scope.$on('deletion-completed', function() {
         //wait for 2 seconds until refresh
         //in order to wait for elasticsearch reindex
@@ -97,12 +121,14 @@ angular.module('metadatamanagementApp')
 
         PageMetadataService.setPageTitle(
           'analysis-package-management.detail.title', {
-          title: result.title[LanguageService.getCurrentInstantly()]
-        });
+            title: result.title[LanguageService.getCurrentInstantly()]
+          });
         PageMetadataService.setPageDescription(
           'analysis-package-management.detail.page-description', {
-          description: result.description[LanguageService.getCurrentInstantly()]
-        });
+            description: result.description[
+              LanguageService.getCurrentInstantly()
+              ]
+          });
         PageMetadataService.setDublinCoreMetadata(result);
         // sponsors create an error
         // PageMetadataService.setSchemaOrgMetadata(result);
@@ -116,6 +142,7 @@ angular.module('metadatamanagementApp')
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.analysisPackage = result;
           ctrl.loadAttachments();
+          ctrl.loadScriptAttachments();
 
           $timeout(function() {
             if ($location.search().query ||
@@ -153,26 +180,5 @@ angular.module('metadatamanagementApp')
 
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
-      };
-
-      ctrl.generateAnalysisPackageOverview = function(event) {
-        $mdDialog.show({
-          controller: 'CreateOverviewDialogController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/analysispackagemanagement/' +
-            'views/create-overview-dialog.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          targetEvent: event
-        }).then(function(result) {
-          AnalysisPackageOverviewResource.startGeneration({
-            analysisPackageId: ctrl.analysisPackage.id,
-            version: result.version,
-            languages: result.languages}).$promise.then(function() {
-              SimpleMessageToastService.openSimpleMessageToast(
-                'data-package-management.detail.' +
-                  'overview-generation-started-toast');
-            });
-        });
       };
     });
