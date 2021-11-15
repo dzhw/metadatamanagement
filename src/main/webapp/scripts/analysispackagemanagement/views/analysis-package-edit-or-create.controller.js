@@ -219,6 +219,12 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addInstitution = function() {
+        if (!ctrl.analysisPackage.institutions) {
+          ctrl.analysisPackage.institutions = [];
+        }
+        if (!ctrl.currentInstitutions) {
+          ctrl.currentInstitutions = [];
+        }
         ctrl.currentInstitutions.push(null);
         $timeout(function() {
           $document.find('input[name="institutionDe_' +
