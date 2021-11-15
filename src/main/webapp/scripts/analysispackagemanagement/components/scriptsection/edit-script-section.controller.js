@@ -165,6 +165,7 @@
           $ctrl.currentFocusElement.name.split('_')[0] +
           '_' + $ctrl.currentScriptIndex)[0].focus();
         $ctrl.currentForm.$setDirty();
+        $ctrl.$onInit();
       };
 
       $ctrl.searchLanguages = function(searchText) {
