@@ -87,6 +87,9 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Choose a file which you want to attach to the analysis package.'
             }
           },
+          'doi-tooltip': 'Click to open the DOI in a new tab',
+          'link-tooltip': 'Click to open the link in a new tab.',
+          'tag-tooltip': 'Click to search for analysis packages with this tag',
           'not-found': 'The {{id}} references to an unknown Analysis Package.',
           'not-found-references': 'The id {{id}} has no References to Analysis Packages.',
           'not-yet-released': 'Currently not released',

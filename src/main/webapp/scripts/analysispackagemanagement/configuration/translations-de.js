@@ -87,6 +87,9 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Wählen Sie eine Datei aus, die Sie des Analysepakets hinzufügen wollen.'
             }
           },
+          'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen.',
+          'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
+          'tag-tooltip': 'Klicken, um Analysepakete mit diesem Tag zu suchen.',
           'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Analysepakete.',
           'not-yet-released': 'Aktuell nicht freigegeben',
