@@ -285,7 +285,8 @@
             {
               filename: $ctrl.selectedFile.name
             });
-          delete $ctrl.scripts[$ctrl.currentScriptIndex].scriptAttachmentMetadata;
+          delete $ctrl.scripts[$ctrl.currentScriptIndex]
+            .scriptAttachmentMetadata;
           $ctrl.currentForm['filename_' + $ctrl.currentScriptIndex]
             .$setValidity('valid', true);
         }
