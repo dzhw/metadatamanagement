@@ -1,6 +1,7 @@
 <div layout="row"
+     flex="100"
      layout-gt-sm="row"
-     class="ms-flex ml28">
+     class="ms-flex">
   <md-autocomplete flex="100"
                    required="true"
                    md-floating-label="{{'analysis-package-management.detail.label.analyzed-data-package.data-package' | translate}}"
@@ -43,7 +44,7 @@
 </div>
 <div layout="row"
      layout-gt-sm="row"
-     class="ms-flex ml28">
+     class="ms-flex">
   <md-input-container flex="50"
                       class="mr8 ms-flex"
                       md-is-error="!$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$touched)">
