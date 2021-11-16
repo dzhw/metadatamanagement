@@ -87,6 +87,7 @@
 
     function changePackageFilter() {
       $ctrl.searchParams.type = $ctrl.dataPackageSearchFilter;
+      $ctrl.searchParams.filter = {};
       setFilterValues($ctrl.dataPackageSearchFilter);
       writeSearchParamsToLocation();
     }
