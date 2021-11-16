@@ -1,1 +1,1 @@
-javasphinx==0.9.15
+docutils==0.17.1

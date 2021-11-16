@@ -6,6 +6,7 @@ Resource          ../../resources/check_url_resource.robot
 
 *** Test Cases ***
 Check for Dataproviders Welcome Banner Appears
+   Wait For Angular  10s
    Data Provider Logout   # explicit logout to sync with suite setup
    Login as dataprovidertest
    Assert Welcome Text After Login
