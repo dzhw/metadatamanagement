@@ -5,7 +5,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQue
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-public class DataAcquisitionProjectVersionsServiceTest extends AbstractTest {
+public class DataAcquisitionProjectVersionsServiceTest extends AbstractUserApiTests {
   @Autowired
   private DataAcquisitionProjectVersionsService versionsService;
 
@@ -46,6 +48,9 @@ public class DataAcquisitionProjectVersionsServiceTest extends AbstractTest {
 
   @Test
   public void testMultipleReleases() {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.populatedFindAllByLoginIn(2, Set.of());
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project = projectManagementService.save(project);
 

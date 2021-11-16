@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,8 +42,10 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
+import java.util.Set;
+
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
+public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   @Autowired
@@ -88,6 +92,8 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testGetShadowsNotFound() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+
     String projectId = createProject();
     this.mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + projectId + "/shadows"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.content.length()", is(0)));
@@ -110,8 +116,18 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testOneReleasedShadowFound() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.populatedFindOneByLogin("user");
+    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+
     String projectId = createProject();
     releaseProject(projectId, "1.0.0");
+
+    /*buildMockServer(
+      UserApiService.FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
+      true,
+      "release_manager"
+    );*/
 
     this.mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + projectId + "/shadows"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.content.length()", is(1)));
@@ -120,6 +136,10 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testHideSingleReleasedShadowIsForbidden() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.populatedFindOneByLogin("user");
+    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+
     String projectId = createProject();
     releaseProject(projectId, "1.0.0");
 
@@ -133,6 +153,11 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testHideAndUnhideReleasedShadow() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.populatedFindOneByLogin(4, "user");
+    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+    this.populatedFindAllByLoginIn(Set.of());
+
     String projectId = createProject();
     releaseProject(projectId, "1.0.0");
     unreleaseProject(projectId);

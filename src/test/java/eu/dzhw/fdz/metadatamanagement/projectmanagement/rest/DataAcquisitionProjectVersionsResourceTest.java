@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,10 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
+import java.util.Set;
+
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
+public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   @Autowired
@@ -76,6 +79,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateProjectAndReadVersions() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the dataPackage with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -98,6 +103,9 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testEditProjectAndReadVersions() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.populatedFindAllByLoginIn(Set.of());
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the dataPackage with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -138,6 +146,9 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleaseCompare() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.populatedFindAllByLoginIn(Set.of());
+
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // Act

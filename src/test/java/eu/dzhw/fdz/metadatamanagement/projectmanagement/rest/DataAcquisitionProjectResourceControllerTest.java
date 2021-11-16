@@ -14,7 +14,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Set;
 
+import com.icegreen.greenmail.store.FolderException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import org.hamcrest.core.AnyOf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +48,7 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstan
  * @author Daniel Katzberg
  */
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
+public class DataAcquisitionProjectResourceControllerTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   private static final String DATA_PROVIDER_USERNAME = "dataProvider";
@@ -75,16 +78,19 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   }
 
   @AfterEach
-  public void cleanUp() {
+  public void cleanUp() throws FolderException {
     rdcProjectRepository.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
+    greenMail.purgeEmailFromAllMailboxes();
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateDataAcquisitionProject() throws IOException, Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -123,6 +129,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void shouldCreateProjectsForAnalysisPackages()
       throws IOException, Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
     project.getConfiguration().getRequirements().setDataPackagesRequired(false);
@@ -171,6 +179,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteDataAcquisitionProject() throws IOException, Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // delete not created project
     mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -192,6 +202,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   @Test
   public void testCompleteProjectionContainsId() throws IOException, Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -208,7 +220,10 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testUpdateProject() throws IOException, Exception {
+  public void testUpdateProject() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.populatedFindAllByLoginIn(Set.of());
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
 
     // create the project with the given id
@@ -235,6 +250,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws IOException, Exception {
+    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setHasBeenReleasedBefore(true);
 
@@ -413,6 +430,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdateRequiredObjectTypes() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of());
+
     Configuration configuration =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
             Collections.singletonList(PUBLISHER_USERNAME), Collections.emptyList());
@@ -449,6 +468,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
   public void testUpdatDataAcquisitionProject_valid_assignee_group() throws Exception {
+    this.populatedFindAllByLoginIn(Set.of());
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
     project.setLastAssigneeGroupMessage("test");
@@ -463,6 +484,9 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdatDataAcquisitionProject_override_as_publisher() throws Exception {
+    this.populatedFindAllByLoginIn(2, Set.of());
+    this.populatedFindOneByLogin("publisher");
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);

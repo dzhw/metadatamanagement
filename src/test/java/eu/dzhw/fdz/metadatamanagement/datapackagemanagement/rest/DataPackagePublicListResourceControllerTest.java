@@ -8,18 +8,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
-import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -27,7 +24,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.icegreen.greenmail.store.FolderException;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.LegacyUrlsFilter;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -42,7 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
-public class DataPackagePublicListResourceControllerTest extends AbstractTest {
+public class DataPackagePublicListResourceControllerTest extends AbstractUserApiTests {
   private static final String API_DATAPACKAGE_URI = "/api/data-packages";
 
   private static final String API_LEGACY_URI = "/api/studies";
@@ -134,6 +130,9 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleasedDataPackageIsPubliclyVisible() throws IOException, Exception {
+    this.populatedFindOneByLogin("user");
+    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
@@ -164,6 +163,9 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleasedDataPackageIsPinned() throws IOException, Exception {
+    this.populatedFindOneByLogin(2, "user");
+    this.populatedFindAllByAuthoritiesContainingRequest(2, AuthoritiesConstants.RELEASE_MANAGER);
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
@@ -180,6 +182,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
     mockMvc.perform(put("/api/data-acquisition-projects" + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
+
     shadowCopyQueueItemService.executeShadowCopyActions();
 
     SecurityContextHolder.clearContext();
