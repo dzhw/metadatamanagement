@@ -29,7 +29,6 @@ import lombok.RequiredArgsConstructor;
  * REST controller for uploading an data sets attachment.
  */
 @Controller
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataSetAttachmentResource {
 
@@ -44,7 +43,7 @@ public class DataSetAttachmentResource {
    * @throws URISyntaxException if a URI is syntactically wrong
    * @throws IOException If the attachment cannot be read
    */
-  @RequestMapping(path = "/data-sets/attachments", method = RequestMethod.POST)
+  @RequestMapping(path = "/api/data-sets/attachments", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("dataSetAttachmentMetadata") 
@@ -63,7 +62,7 @@ public class DataSetAttachmentResource {
    * @param dataSetId The id of an dataSet.
    * @return A list of metadata objects.
    */
-  @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.GET,
+  @RequestMapping(path = "/api/data-sets/{dataSetId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findByDataSetId(@PathVariable("dataSetId") String dataSetId) {
     List<DataSetAttachmentMetadata> metadata = dataSetAttachmentService.findAllByDataSet(dataSetId);
@@ -75,7 +74,7 @@ public class DataSetAttachmentResource {
    * 
    * @param dataSetId The id of the dataSet.
    */
-  @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
+  @RequestMapping(path = "/api/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByDataSetId(@PathVariable("dataSetId") String dataSetId) {
     dataSetAttachmentService.deleteAllByDataSetId(dataSetId);
@@ -88,7 +87,7 @@ public class DataSetAttachmentResource {
    * @param dataSetId The id of the dataSet.
    * 
    */
-  @RequestMapping(path = "/data-sets/{dataSetId}/attachments/{filename:.+}",
+  @RequestMapping(path = "/api/data-sets/{dataSetId}/attachments/{filename:.+}",
       method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("dataSetId") String dataSetId,
@@ -100,7 +99,7 @@ public class DataSetAttachmentResource {
   /**
    * Update the metadata of the given attachment of the given dataSet.
    */
-  @RequestMapping(path = "/data-sets/{dataSetId}/attachments/{filename:.+}",
+  @RequestMapping(path = "/api/data-sets/{dataSetId}/attachments/{filename:.+}",
       method = RequestMethod.PUT)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> update(

@@ -17,6 +17,7 @@ Editing survey attachement and check versioning
     Page Should Contain    vor ein paar Sekunden
     Revise to second latest version
     Click Attachment Save Button
+    Close Attachment Dialog
     [Teardown]    Get back to german home page
 
 *** Keywords ***
@@ -31,3 +32,6 @@ Revise to second latest version
 
 Click Attachment Restore Dialogue
     Click Element Through Tooltips    xpath=//form//button[md-icon[text()='history']]
+
+Close Attachment Dialog
+    Click Element Through Tooltips    xpath=//button[md-icon[text()='clear']]

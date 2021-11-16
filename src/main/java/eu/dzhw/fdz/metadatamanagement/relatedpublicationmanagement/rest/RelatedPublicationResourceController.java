@@ -2,15 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,10 +25,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * 
  * @author René Reitmann
  */
-@RepositoryRestController
+@Controller
 @Tag(name = "Publication Resource",
     description = "Endpoints used by the MDM to manage publications.")
-@RequestMapping("/api")
 public class RelatedPublicationResourceController extends
     GenericDomainObjectResourceController<RelatedPublication, CrudService<RelatedPublication>> {
 
@@ -40,7 +38,7 @@ public class RelatedPublicationResourceController extends
 
   @Override
   @Operation(summary = "Get the publication.")
-  @GetMapping(value = "/related-publications/{id:.+}")
+  @GetMapping(value = "/api/related-publications/{id:.+}")
   @ResponseBody
   public ResponseEntity<RelatedPublication> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
@@ -48,19 +46,19 @@ public class RelatedPublicationResourceController extends
 
 
   @Override
-  @PostMapping(value = "/related-publications")
+  @PostMapping(value = "/api/related-publications")
   public ResponseEntity<?> postDomainObject(@RequestBody RelatedPublication relatedPublication) {
     return super.postDomainObject(relatedPublication);
   }
 
   @Override
-  @PutMapping(value = "/related-publications/{id:.+}")
+  @PutMapping(value = "/api/related-publications/{id:.+}")
   public ResponseEntity<?> putDomainObject(@RequestBody RelatedPublication relatedPublication) {
     return super.putDomainObject(relatedPublication);
   }
 
   @Override
-  @DeleteMapping("/related-publications/{id:.+}")
+  @DeleteMapping("/api/related-publications/{id:.+}")
   public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }

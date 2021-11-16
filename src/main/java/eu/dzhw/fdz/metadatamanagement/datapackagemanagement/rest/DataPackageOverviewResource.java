@@ -15,7 +15,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +37,6 @@ import lombok.RequiredArgsConstructor;
  * creating data package overview.
  */
 @Controller
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataPackageOverviewResource {
   private final MailService mailService;
@@ -65,7 +63,7 @@ public class DataPackageOverviewResource {
    * @return ok if the generation has been started successfully.
    * @throws IOException If the external task cannot be started.
    */
-  @PostMapping(value = "/data-packages/{dataPackageId}/overview/generate/{version:.+}")
+  @PostMapping(value = "/api/data-packages/{dataPackageId}/overview/generate/{version:.+}")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> startOverviewGeneration(
       @PathVariable("dataPackageId") String dataPackageId, @PathVariable("version") String version,
@@ -86,7 +84,7 @@ public class DataPackageOverviewResource {
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
-  @PostMapping(value = "/data-packages/{dataPackageId}/overview/fill-template")
+  @PostMapping(value = "/api/data-packages/{dataPackageId}/overview/fill-template")
   @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<Task> fillTemplate(@RequestParam("file") MultipartFile templateZip,
       @PathVariable("dataPackageId") String dataPackageId, @RequestParam("version") String version)
@@ -121,7 +119,7 @@ public class DataPackageOverviewResource {
    * @return 200 if attaching succeeded.
    * @throws IOException Thrown if the multipart file cannot be read.
    */
-  @PostMapping(value = "/data-packages/{dataPackageId}/overview/{language}")
+  @PostMapping(value = "/api/data-packages/{dataPackageId}/overview/{language}")
   @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<?> uploadOverview(@RequestParam("file") MultipartFile overviewFile,
       @PathVariable("dataPackageId") String dataPackageId,

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from robot.libraries.BuiltIn import BuiltIn
-from six.moves.http_client import HTTPConnection
+from six.moves.http_client import HTTPSConnection
 
 import base64
 import os
@@ -42,7 +42,7 @@ class SauceLabs:
                            'passed': status == 'PASS',
                            'tags': tags})
 
-        connection = HTTPConnection('saucelabs.com')
+        connection = HTTPSConnection('saucelabs.com')
         connection.request('PUT', '/rest/v1/%s/jobs/%s' % (
             username, job_id), body,
             headers={'Authorization': 'Basic %s' % token}

@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,7 +26,6 @@ import lombok.RequiredArgsConstructor;
  *
  */
 @Controller
-@RequestMapping("/api")
 @Validated
 @Tag(name = "DataPackage List Resource",
     description = "Endpoint for retrieving released dataPackages.")
@@ -45,7 +43,7 @@ public class DataPackagePublicListResource {
    *         the paging.
    * @throws IOException if search failed
    */
-  @GetMapping(value = "/data-packages")
+  @GetMapping(value = "/api/data-packages")
   @Operation(summary = "Get the paged list of currently released data packages.")
   @ResponseBody
   public ResponseEntity<Page<DataPackageSearchDocument>> listDataPackages(
@@ -67,7 +65,7 @@ public class DataPackagePublicListResource {
    *         the paging.
    * @throws IOException if search failed
    */
-  @GetMapping(value = "/data-packages", params = "pinned=true")
+  @GetMapping(value = "/api/data-packages", params = "pinned=true")
   @Operation(summary = "Get a list of data packages, which shall be pinned to the start page")
   @ResponseBody
   public ResponseEntity<Page<DataPackageSearchDocument>> listPinnedDataPackages(

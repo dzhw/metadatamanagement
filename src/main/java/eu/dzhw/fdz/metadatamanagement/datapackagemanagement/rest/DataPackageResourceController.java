@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Tag(name = "DataPackage Resource",
     description = "Endpoints used by the MDM to manage dataPackages.")
-@RequestMapping("/api")
 @Slf4j
 public class DataPackageResourceController
     extends GenericDomainObjectResourceController<DataPackage, CrudService<DataPackage>> {
@@ -72,7 +70,7 @@ public class DataPackageResourceController
           + " default MDM json. Public users will get the latest version "
           + "of the dataPackage. If the id is postfixed with the version number it will return"
           + " exactly the requested version, if available.")
-  @GetMapping(value = "/data-packages/{id:.+}")
+  @GetMapping(value = "/api/data-packages/{id:.+}")
   public ResponseEntity<?> getDataPackage(@PathVariable String id,
       @RequestParam(required = false) MetadataExportFormat format) {
     ResponseEntity<DataPackage> dataPackageEntity = super.getDomainObject(id);
@@ -115,19 +113,19 @@ public class DataPackageResourceController
   }
 
   @Override
-  @PostMapping(value = "/data-packages")
+  @PostMapping(value = "/api/data-packages")
   public ResponseEntity<?> postDomainObject(@RequestBody DataPackage dataPackage) {
     return super.postDomainObject(dataPackage);
   }
 
   @Override
-  @PutMapping(value = "/data-packages/{id:.+}")
+  @PutMapping(value = "/api/data-packages/{id:.+}")
   public ResponseEntity<?> putDomainObject(@RequestBody DataPackage dataPackage) {
     return super.putDomainObject(dataPackage);
   }
 
   @Override
-  @DeleteMapping("/data-packages/{id:.+}")
+  @DeleteMapping("/api/data-packages/{id:.+}")
   public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }

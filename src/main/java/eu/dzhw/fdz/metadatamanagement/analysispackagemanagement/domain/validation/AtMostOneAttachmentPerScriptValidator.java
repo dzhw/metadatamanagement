@@ -14,8 +14,8 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAtt
 /**
  * Validate that there is at most one {@link ScriptAttachmentMetadata} per {@link Script}.
  */
-public class UniqueScriptIdValidator
-    implements ConstraintValidator<UniqueScriptId, ScriptAttachmentMetadata> {
+public class AtMostOneAttachmentPerScriptValidator
+    implements ConstraintValidator<AtMostOneAttachmentPerScript, ScriptAttachmentMetadata> {
   @Autowired
   private GridFsOperations operations;
 
@@ -25,7 +25,7 @@ public class UniqueScriptIdValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(UniqueScriptId constraintAnnotation) {}
+  public void initialize(AtMostOneAttachmentPerScript constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
