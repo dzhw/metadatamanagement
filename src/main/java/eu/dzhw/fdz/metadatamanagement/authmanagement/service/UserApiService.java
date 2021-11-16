@@ -5,14 +5,14 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
-import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -23,32 +23,77 @@ import java.util.Set;
 @Service
 public class UserApiService {
 
-  @Value("${metadatamanagement.authmanagement.server.endpoint}")
-  private String authServerEndpoint;
+  static final String FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT =
+      "/jsonapi/user/user?filter[roles.id]={roleId}";
 
-  private final RestTemplate restTemplate;
+  static final String FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT =
+      "/jsonapi/user/user"
+      // Create an OR group
+      + "?filter[or-group][group][conjunction]=OR"
+      // Add a name CONTAINS filter
+      + "&filter[name-filter][condition][path]=name"
+      + "&filter[name-filter][condition][operator]=CONTAINS"
+      + "&filter[name-filter][condition][value]={name}"
+      + "&filter[name-filter][condition][memberOf]=or-group"
+      // Add an email CONTAINS filter
+      + "&filter[email-filter][condition][path]=mail"
+      + "&filter[email-filter][condition][operator]=CONTAINS"
+      + "&filter[email-filter][condition][value]={email}"
+      + "&filter[email-filter][condition][memberOf]=or-group";
+
+  static final String FIND_ALL_BY_LOGIN_IN_ENDPOINT =
+      "/jsonapi/user/user"
+      + "?filter[name-filter][condition][path]=name"
+      + "&filter[name-filter][condition][operator]=IN";
+
+  static final String FIND_ALL_BY_LOGIN_IN_PARAMETER_TEMPLATE =
+      "&filter[name-filter][condition][value][%d]={login}";
+
+  static final String FIND_ONE_BY_LOGIN_OR_EMAIL_ENDPOINT =
+      "/jsonapi/user/user"
+      // Create an OR group
+      + "?filter[or-group][group][conjunction]=OR"
+      // Add a name equals filter
+      + "&filter[name-filter][condition][path]=name"
+      // The HTMLTemplate will handle the encoding of =
+      + "&filter[name-filter][condition][operator]=="
+      + "&filter[name-filter][condition][value]={name}"
+      + "&filter[name-filter][condition][memberOf]=or-group"
+      // Add an email equals filter
+      + "&filter[email-filter][condition][path]=mail"
+      // The HTMLTemplate will handle the encoding of =
+      + "&filter[email-filter][condition][operator]=="
+      + "&filter[email-filter][condition][value]={email}"
+      + "&filter[email-filter][condition][memberOf]=or-group";
+
+  static final String FIND_ONE_BY_LOGIN_ENDPOINT = "/jsonapi/user/user?filter[name]={name}";
+
+  final RestTemplate restTemplate;
 
   /**
    * A constructor for building and authenticated the {@link RestTemplate} which
    * will be used to make the requests to the AUth Server's User API.
    *
+   * @param authServerEndpoint the base of the URL to which each User API request will be sent
    * @param authServerUsername the username which will be used for the BASIC Auth
    * @param authServerPassword the password which will be used for the BASIC Auth
    */
   public UserApiService(
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
       @Value("${metadatamanagement.authmanagement.server.username}")
       final String authServerUsername,
       @Value("${metadatamanagement.authmanagement.server.password}")
       final String authServerPassword
   ) {
-    restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
-    restTemplate.getInterceptors().add(
-        new BasicAuthenticationInterceptor(authServerUsername, authServerPassword)
-    );
-    restTemplate.getMessageConverters().add(
-        0,
-        new StringHttpMessageConverter(StandardCharsets.UTF_8)
-    );
+    restTemplate = new RestTemplateBuilder()
+        .rootUri(authServerEndpoint)
+        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+        .interceptors(new BasicAuthenticationInterceptor(authServerUsername, authServerPassword))
+        .messageConverters(
+            new MappingJackson2HttpMessageConverter()
+        )
+        .build();
   }
 
   /**
@@ -62,11 +107,8 @@ public class UserApiService {
       final String role
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
-        String.format(
-          "%s/jsonapi/user/user?filter[roles.id]={roleId}",
-          authServerEndpoint
-        ),
-        AuthoritiesConstants.toSearchValue(role)
+      FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
+      AuthoritiesConstants.toSearchValue(role)
     );
   }
 
@@ -85,22 +127,7 @@ public class UserApiService {
       final String email
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
-        String.format(
-          "%s/jsonapi/user/user"
-            // Create an OR group
-            + "?filter[or-group][group][conjunction]=OR"
-            // Add a name CONTAINS filter
-            + "&filter[name-filter][condition][path]=name"
-            + "&filter[name-filter][condition][operator]=CONTAINS"
-            + "&filter[name-filter][condition][value]={name}"
-            + "&filter[name-filter][condition][memberOf]=or-group"
-            // Add an email CONTAINS filter
-            + "&filter[email-filter][condition][path]=mail"
-            + "&filter[email-filter][condition][operator]=CONTAINS"
-            + "&filter[email-filter][condition][value]={email}"
-            + "&filter[email-filter][condition][memberOf]=or-group",
-          authServerEndpoint
-        ),
+        FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT,
         login,
         email
     );
@@ -117,28 +144,14 @@ public class UserApiService {
   public List<UserDto> findAllByLoginIn(final Set<String> logins)
       throws InvalidResponseException {
 
-    StringBuilder sb = new StringBuilder(
-        this.authServerEndpoint
-    )
-        .append(
-            "/jsonapi/user/user"
-              + "?filter[name-filter][condition][path]=name"
-              + "&filter[name-filter][condition][operator]=IN"
-        );
-
-    if (logins != null) {
-      var index = 0;
-      for (var login : logins) {
-        sb.append("&filter[name-filter][condition][value][")
-            .append(index)
-            .append("]=")
-            .append(login);
-
-        index++;
-      }
+    StringBuilder sb = new StringBuilder(FIND_ALL_BY_LOGIN_IN_ENDPOINT);
+    for (var i = 0; i < logins.size(); i++) {
+      sb.append(
+          String.format(FIND_ALL_BY_LOGIN_IN_PARAMETER_TEMPLATE, i)
+      );
     }
 
-    return doFindAllApiCall(sb.toString());
+    return doFindAllApiCall(sb.toString(), logins);
   }
 
   /**
@@ -154,24 +167,7 @@ public class UserApiService {
       final String email
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
-        String.format(
-            "%s/jsonapi/user/user"
-              // Create an OR group
-              + "?filter[or-group][group][conjunction]=OR"
-              // Add a name equals filter
-              + "&filter[name-filter][condition][path]=name"
-              // The HTMLTemplate will handle the encoding of =
-              + "&filter[name-filter][condition][operator]=="
-              + "&filter[name-filter][condition][value]={name}"
-              + "&filter[name-filter][condition][memberOf]=or-group"
-              // Add an email equals filter
-              + "&filter[email-filter][condition][path]=mail"
-              // The HTMLTemplate will handle the encoding of =
-              + "&filter[email-filter][condition][operator]=="
-              + "&filter[email-filter][condition][value]={email}"
-              + "&filter[email-filter][condition][memberOf]=or-group",
-            authServerEndpoint
-        ),
+        FIND_ONE_BY_LOGIN_OR_EMAIL_ENDPOINT,
         login,
         email
     )
@@ -191,10 +187,7 @@ public class UserApiService {
       final String login
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
-        String.format(
-            "%s/jsonapi/user/user?filter[name]={name}",
-            authServerEndpoint
-        ),
+        FIND_ONE_BY_LOGIN_ENDPOINT,
         login
       )
       // There should only be one or none response.
