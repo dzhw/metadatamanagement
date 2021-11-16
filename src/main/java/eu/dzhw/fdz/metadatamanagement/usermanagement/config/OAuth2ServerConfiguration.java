@@ -53,8 +53,9 @@ public class OAuth2ServerConfiguration {
           .antMatchers("/api/authenticate").permitAll().antMatchers("/api/register").permitAll()
           .antMatchers("/api/orders/**", "/public/files/**", "/api/variables/**", "/api/surveys/**",
               "/api/i18n/**", "/api/instruments/**", "/api/data-sets/**", "/api/questions/**",
-              "/api/data-packages/**", "/api/concepts/**", "/api/study-serieses/**",
-              "/api/related-publications/**", "/api/data-acquisition-projects/**/releases",
+              "/api/data-packages/**", "/api/analysis-packages/**", "/api/concepts/**",
+              "/api/study-serieses/**", "/api/related-publications/**",
+              "/api/data-acquisition-projects/**/releases",
               "/api/data-acquisition-projects/**/attachments", "/api/swagger-ui/**",
               "/api/swagger-ui.html", "/api/api-docs/**")
           .permitAll()

@@ -39,7 +39,7 @@ public class Script implements Serializable {
    * Client side generated id of the script. Used to reference script attachments. Not unique in the
    * DB cause shadow copies of {@link AnalysisPackage}s do not changes this id.
    * 
-   * Must not be empty.
+   * Must not be empty and must be unique within the {@link AnalysisPackage}.
    */
   @NotEmpty(message = "analysis-package-management.error.script.uuid.not-empty")
   private String uuid;
