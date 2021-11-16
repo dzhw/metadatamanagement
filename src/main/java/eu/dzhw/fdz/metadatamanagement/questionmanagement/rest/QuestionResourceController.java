@@ -2,15 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,9 +25,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * 
  * @author René Reitmann
  */
-@RepositoryRestController
+@Controller
 @Tag(name = "Question Resource", description = "Endpoints used by the MDM to manage questions.")
-@RequestMapping("/api")
 public class QuestionResourceController
     extends GenericDomainObjectResourceController<Question, CrudService<Question>> {
 
@@ -41,7 +39,7 @@ public class QuestionResourceController
   @Operation(summary = "Get the question. Public users will get the latest version of the question."
       + " If the id is postfixed with the version number it will return exactly the "
       + "requested version, if available.")
-  @GetMapping(value = "/questions/{id:.+}")
+  @GetMapping(value = "/api/questions/{id:.+}")
   @ResponseBody
   public ResponseEntity<Question> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
@@ -49,19 +47,19 @@ public class QuestionResourceController
 
 
   @Override
-  @PostMapping(value = "/questions")
+  @PostMapping(value = "/api/questions")
   public ResponseEntity<?> postDomainObject(@RequestBody Question question) {
     return super.postDomainObject(question);
   }
 
   @Override
-  @PutMapping(value = "/questions/{id:.+}")
+  @PutMapping(value = "/api/questions/{id:.+}")
   public ResponseEntity<?> putDomainObject(@RequestBody Question question) {
     return super.putDomainObject(question);
   }
 
   @Override
-  @DeleteMapping("/questions/{id:.+}")
+  @DeleteMapping("/api/questions/{id:.+}")
   public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }

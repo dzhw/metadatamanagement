@@ -29,6 +29,7 @@ Click on Instrument Edit Button
 
 Assign Concept to an Instrument
    Click Element  xpath=//md-chips[@name="concepts"]//input[@placeholder="Konzepte suchen..."]
+   Input Text  xpath=//md-chips[@name="concepts"]//input[@placeholder="Konzepte suchen..."]  Test Konzept ${BROWSER}
    Run Keyword If    '${BROWSER}' == 'firefox'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-i8h7b1a0e4e4i8f5b1$")]
    Run Keyword If    '${BROWSER}' == 'chrome'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-d3i8h7i8g6g6i8f5b1$")]
    Run Keyword If    '${BROWSER}' == 'safari'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-e2j9h7i8g6g6i9g6c2$")]

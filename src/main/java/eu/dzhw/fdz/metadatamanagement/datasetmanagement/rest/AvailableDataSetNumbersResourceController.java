@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
  * @author René Reitmann
  */
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AvailableDataSetNumbersResourceController {
 
@@ -31,7 +30,7 @@ public class AvailableDataSetNumbersResourceController {
    * @return the list of dataSet numbers
    */
   @RequestMapping(method = RequestMethod.GET,
-      value = "/data-acquisition-projects/{id:.+}/available-data-set-numbers")
+      value = "/api/data-acquisition-projects/{id:.+}/available-data-set-numbers")
   public ResponseEntity<List<Integer>> findAvailableDataSetNumbers(@PathVariable String id) {
     List<Integer> dataSetNumbers = dataSetService.getFreeDataSetNumbers(id);
     return ResponseEntity.ok()

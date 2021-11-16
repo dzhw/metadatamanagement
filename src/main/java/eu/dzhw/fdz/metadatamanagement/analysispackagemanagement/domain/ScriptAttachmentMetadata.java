@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.data.annotation.Id;
 
-import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.UniqueScriptId;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.AtMostOneAttachmentPerScript;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidScriptUuid;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -31,8 +31,9 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-@UniqueScriptId(message = "analysis-package-management.error.script-attachment-metadata"
-    + ".script-uuid.not-unique")
+@AtMostOneAttachmentPerScript(
+    message = "analysis-package-management.error.script-attachment-metadata"
+        + ".script-uuid.not-unique")
 @ValidScriptUuid(message = "analysis-package-management.error.script-attachment-metadata"
     + ".script-uuid.not-exists")
 public class ScriptAttachmentMetadata extends AbstractShadowableRdcDomainObject {

@@ -6,7 +6,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
  * @author René Reitmann
  */
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataPackageAttachmentVersionsResource {
 
@@ -37,7 +35,7 @@ public class DataPackageAttachmentVersionsResource {
    * 
    * @return A list of previous dataPackage versions
    */
-  @GetMapping("/data-packages/{dataPackageId}/attachments/{filename:.+}/versions")
+  @GetMapping("/api/data-packages/{dataPackageId}/attachments/{filename:.+}/versions")
   public ResponseEntity<?> findPreviousDataPackageAttachmentVersions(
       @PathVariable String dataPackageId, @PathVariable String filename,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
