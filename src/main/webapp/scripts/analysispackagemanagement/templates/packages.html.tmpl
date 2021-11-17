@@ -27,7 +27,9 @@
         </md-list-item>
         <md-list-item ng-if="item.dataPackageMasterId">
           <h5>{{'analysis-package-management.detail.label.analyzed-data-package.data-package' | translate}}</h5>
-          <span class="md-secondary pre">{{item.dataPackageMasterId}}</span>
+          <span class="md-secondary">
+            <a ui-sref="dataPackageDetail({id: item.dataPackageMasterId.replace('$',''), version: item.version})">
+            {{item.dataPackageMasterId}}</a></span>
         </md-list-item>
         <md-list-item ng-if="item.version">
           <h5>{{ 'analysis-package-management.detail.label.analyzed-data-package.version' | translate}}</h5>
@@ -35,7 +37,7 @@
         </md-list-item>
         <md-list-item ng-if="item.accessWay">
           <h5>{{ 'analysis-package-management.detail.label.analyzed-data-package.access-way' | translate}}</h5>
-          <span class="md-secondary pre">{{item.accessWay}}</span>
+          <span class="md-secondary pre">{{item.accessWay | displayAccessWay}}</span>
         </md-list-item>
         <md-list-item ng-if="item.title">
           <h5>{{ 'analysis-package-management.detail.label.title' | translate}}</h5>
