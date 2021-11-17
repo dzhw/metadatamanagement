@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
@@ -72,6 +73,10 @@ public class UserApiService {
 
   static final String FIND_ONE_BY_LOGIN_ENDPOINT = "/jsonapi/user/user?filter[name]={name}";
 
+  static final String FIND_ONE_WITH_AUTHORITIES_BY_LOGIN_ENDPOINT =
+      FIND_ONE_BY_LOGIN_ENDPOINT
+      + "&include=roles";
+
   final RestTemplate restTemplate;
 
   /**
@@ -112,6 +117,7 @@ public class UserApiService {
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
       FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
+      UserApiResponseDto.Users.class,
       AuthoritiesConstants.toSearchValue(role)
     );
   }
@@ -132,6 +138,7 @@ public class UserApiService {
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
         FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT,
+        UserApiResponseDto.Users.class,
         login,
         email
     );
@@ -156,6 +163,7 @@ public class UserApiService {
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
         FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT,
+        UserApiResponseDto.Users.class,
         login,
         email,
         role
@@ -180,7 +188,11 @@ public class UserApiService {
       );
     }
 
-    return doFindAllApiCall(sb.toString(), logins);
+    return doFindAllApiCall(
+        sb.toString(),
+        UserApiResponseDto.Users.class,
+        logins
+    );
   }
 
   /**
@@ -197,6 +209,7 @@ public class UserApiService {
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
         FIND_ONE_BY_LOGIN_OR_EMAIL_ENDPOINT,
+        UserApiResponseDto.Users.class,
         login,
         email
     )
@@ -217,6 +230,20 @@ public class UserApiService {
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
         FIND_ONE_BY_LOGIN_ENDPOINT,
+        UserApiResponseDto.Users.class,
+        login
+    )
+      // There should only be one or none response.
+      .stream()
+      .findFirst();
+  }
+
+  public Optional<UserWithRolesDto> findUserWithAuthoritiesByLogin(
+      final String login
+  ) throws InvalidResponseException {
+    return this.doFindAllApiCall(
+        FIND_ONE_WITH_AUTHORITIES_BY_LOGIN_ENDPOINT,
+        UserApiResponseDto.UsersWithRoles.class,
         login
       )
       // There should only be one or none response.
@@ -224,13 +251,14 @@ public class UserApiService {
       .findFirst();
   }
 
-  private List<UserDto> doFindAllApiCall(
+  private <T extends UserDto> List<T> doFindAllApiCall(
       final String apiUri,
+      final Class<? extends UserApiResponseDto<T>> responseClazz,
       final Object... uriVariables
   ) throws InvalidResponseException {
     var results = restTemplate.getForEntity(
         apiUri,
-        UserApiResponseDto.class,
+        responseClazz,
         uriVariables
     );
 
