@@ -29,7 +29,7 @@
           <h5>{{'analysis-package-management.detail.label.analyzed-data-package.data-package' | translate}}</h5>
           <span class="md-secondary">
             <a ui-sref="dataPackageDetail({id: item.dataPackageMasterId.replace('$',''), version: item.version})">
-            {{item.dataPackageMasterId}}</a></span>
+            {{item.dataPackageTitle[$ctrl.lang]}}</a></span>
         </md-list-item>
         <md-list-item ng-if="item.version">
           <h5>{{ 'analysis-package-management.detail.label.analyzed-data-package.version' | translate}}</h5>

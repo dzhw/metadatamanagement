@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function(entity,
              MessageBus,
              PageMetadataService,
-             LanguageService,
+             LanguageService, DataPackageSearchService,
              $state, $location,
              BreadcrumbService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService,
@@ -77,6 +77,23 @@ angular.module('metadatamanagementApp')
           function(attachments) {
             ctrl.attachments = attachments;
           });
+      };
+
+      ctrl.loadDataPackages = function(packages) {
+        var excludes = ['nested*', 'variables', 'questions',
+          'surveys', 'instruments', 'relatedPublications',
+          'concepts'];
+
+        _.forEach(packages, function(item, index) {
+          if (item.type === 'dataPackage') {
+            DataPackageSearchService
+              .findOneById(item.dataPackageMasterId, ['title'], excludes)
+              .promise
+              .then(function(data) {
+                packages[index].dataPackageTitle = data.title;
+              });
+          }
+        });
       };
 
       ctrl.isBetaRelease = function(analysisPackage) {
@@ -155,6 +172,7 @@ angular.module('metadatamanagementApp')
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.analysisPackage = result;
+          ctrl.loadDataPackages(result.analysisDataPackages);
           ctrl.loadAttachments();
           ctrl.loadScriptAttachments();
 
