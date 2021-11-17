@@ -238,6 +238,13 @@ public class UserApiService {
       .findFirst();
   }
 
+  /**
+   * Attempt to find a specific user based on the user's login, including the users roles.
+   *
+   * @param login a search parameter which will be used to match a user's login
+   * @return info on the user whose login matches the {@code login} search parameter
+   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   */
   public Optional<UserWithRolesDto> findUserWithAuthoritiesByLogin(
       final String login
   ) throws InvalidResponseException {

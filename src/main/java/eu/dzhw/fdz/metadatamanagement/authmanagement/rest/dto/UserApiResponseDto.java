@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * A DTO which acts as a wrapper for the "data" field in the User API response.
+ *
+ * @param <T> the class Jackson JSON will use to try to create interpret the data
  */
 @Getter
 @Setter

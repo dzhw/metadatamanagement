@@ -22,20 +22,20 @@ public class UserWithRolesDto extends UserDto {
    * @param name the name value (i.e. "login") of the user
    * @param mail the mail value (i.e. "email") of the user
    * @param langcode the langcode value (i.e. langKey) of the user
-   * @param welcome_dialog_deactivated the welcome_dialog_deactivated flag (i.e.
+   * @param welcomeDialogDeactivated the welcome_dialog_deactivated flag (i.e.
    *                                   welcomeDialogDeactivated) of the user
    * @param roles the roles object array (i.e. an object array that includes the role name which
    *              will be used by this class) of the user
    */
   @JsonCreator
   public UserWithRolesDto(
-    @JsonProperty("name") final String name,
-    @JsonProperty("mail") final String mail,
-    @JsonProperty("langcode") final String langcode,
-    @JsonProperty("welcome_dialog_deactivated") final boolean welcome_dialog_deactivated,
-    @JsonProperty("roles") final List<RoleDto> roles
+      @JsonProperty("name") final String name,
+      @JsonProperty("mail") final String mail,
+      @JsonProperty("langcode") final String langcode,
+      @JsonProperty("welcome_dialog_deactivated") final boolean welcomeDialogDeactivated,
+      @JsonProperty("roles") final List<RoleDto> roles
   ) {
-    super(name, mail, langcode, welcome_dialog_deactivated);
+    super(name, mail, langcode, welcomeDialogDeactivated);
 
     this.roles = roles.stream().map(r -> r.name).collect(Collectors.toList());
   }
@@ -47,8 +47,8 @@ public class UserWithRolesDto extends UserDto {
   public static class RoleDto {
     private final String name;
 
-    public RoleDto(@JsonProperty("drupal_internal__id") final String drupal_internal__id) {
-      this.name = drupal_internal__id;
+    public RoleDto(@JsonProperty("drupal_internal__id") final String drupalInternalId) {
+      this.name = drupalInternalId;
     }
   }
 }
