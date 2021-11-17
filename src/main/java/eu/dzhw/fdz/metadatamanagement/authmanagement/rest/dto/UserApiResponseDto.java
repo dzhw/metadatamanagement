@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 

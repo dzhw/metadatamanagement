@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;

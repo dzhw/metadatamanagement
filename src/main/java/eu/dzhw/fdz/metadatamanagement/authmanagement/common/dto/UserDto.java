@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto;
+package eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
