@@ -41,6 +41,10 @@ public class UserApiService {
       + "&filter[email-filter][condition][value]={email}"
       + "&filter[email-filter][condition][memberOf]=or-group";
 
+  static final String FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT =
+      FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT
+      + "&filter[roles.id]={roleId}";
+
   static final String FIND_ALL_BY_LOGIN_IN_ENDPOINT =
       "/jsonapi/user/user"
       + "?filter[name-filter][condition][path]=name"
@@ -130,6 +134,31 @@ public class UserApiService {
         FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT,
         login,
         email
+    );
+  }
+
+  /**
+   * Find all the users whose login is like the provided {@code login} parameter or whose email is
+   * like the provided {@code email} paramater AND the users' have the role with a name matching
+   * the {@code role} parameter.
+   *
+   * @param login a "CONTAINS" search parameter for the user's login
+   * @param email a "CONTAINS" search parameter for the user's email
+   * @param role a "EQUALS" search parameter for the name of a role a user is has
+   * @return a group of users whose login contains {@code login} or the email contains {@code}
+   *         email and has the role with the name {@code role}.
+   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   */
+  public List<UserDto> findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+      final String login,
+      final String email,
+      final String role
+  ) throws InvalidResponseException {
+    return this.doFindAllApiCall(
+        FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT,
+        login,
+        email,
+        role
     );
   }
 
