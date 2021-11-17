@@ -9,8 +9,8 @@ angular.module('metadatamanagementApp')
              LanguageService,
              $state, $location,
              BreadcrumbService, Principal, SimpleMessageToastService,
-             // SearchResultNavigatorService,
-             // $stateParams,
+             SearchResultNavigatorService,
+             $stateParams,
              AnalysisPackageAttachmentResource,
              $rootScope, DataAcquisitionProjectResource,
              ProjectUpdateAccessService, $scope, ScriptAttachmentResource,
@@ -18,13 +18,11 @@ angular.module('metadatamanagementApp')
              OutdatedVersionNotifier, AnalysisPackageSearchService, $log,
              blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
-      // SearchResultNavigatorService
-      //   .setSearchIndex($stateParams['search-result-index']);
-      //
-      // SearchResultNavigatorService.registerCurrentSearchResult();
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+      SearchResultNavigatorService.registerCurrentSearchResult();
+
       var getScriptAttachmentMetadata = function() {
-        console.log(ctrl.analysisPackage.scripts);
-        console.log(ctrl.scriptAttachments);
         _.forEach(ctrl.analysisPackage.scripts, function(value, index) {
           _.filter(ctrl.scriptAttachments, function(item) {
             if (item.scriptUuid === value.uuid) {
@@ -44,17 +42,33 @@ angular.module('metadatamanagementApp')
       };
       var ctrl = this;
       var activeProject;
+      var bowser = $rootScope.bowser;
+
+      ctrl.dataPackageList = {
+        dataPackage: {
+          en: 'FDZ-DZHW Datapackage',
+          de: 'FDZ-DZHW Datenpaket'
+        },
+        externalData: {
+          en: 'External Data Package',
+          de: 'Externes Datenpaket'
+        },
+        customDataPackage: {
+          en: 'Custom Data Package',
+          de: 'Benutzerdefiniertes Datenpaket'
+        }
+      };
+      ctrl.dataPackage = null;
       ctrl.scriptAttachments = [];
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
-      // ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         publicationsCount: 0
       };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
-      var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
         AnalysisPackageAttachmentResource.findByAnalysisPackageId({

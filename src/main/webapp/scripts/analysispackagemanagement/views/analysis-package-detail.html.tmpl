@@ -1,6 +1,6 @@
 <div ng-if="ctrl.analysisPackage.id">
-<!--  <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>-->
-<!--  <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>-->
+  <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
+  <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
   <div class="fdz-cc">
     <div>
       <div class="fdz-detail">
@@ -55,6 +55,13 @@
           lang="currentLanguage"
           options="ctrl.analysisPackage.scripts"
           template-url="scripts/analysispackagemanagement/templates/scripts.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          ng-if="ctrl.attachments.length > 0 "
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/analysispackagemanagement/templates/packages.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           ng-if="ctrl.attachments.length > 0 "
