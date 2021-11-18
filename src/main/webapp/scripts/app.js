@@ -19,21 +19,24 @@ try {
       ])
 
     .run(
-      function ($rootScope, $location, $state, LanguageService, Auth, Principal,
-                ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-                WebSocketService, $urlRouter, $translate, MigrationService, $browser, AuthServiceProvider) {
+      function($rootScope, $location, $state, LanguageService, Auth,
+               Principal, ENV, VERSION, $mdMedia, $transitions, $timeout,
+               $window, WebSocketService, $urlRouter, $translate,
+               MigrationService, $browser) {
         // sometimes urlRouter does not load the state automatically on startup
 
-        var init = function () {
+        var init = function() {
           $urlRouter.sync();
           WebSocketService.connect();
           $rootScope.bowser = bowser;
           // set baseUrl in case someone needs absolute urls
           if (ENV === 'local') {
-            $rootScope.baseUrl = $location.protocol() + '://' + $location.host() +
+            $rootScope.baseUrl = $location.protocol() + '://' +
+              $location.host() +
               ':' + $location.port();
           } else {
-            $rootScope.baseUrl = $location.protocol() + '://' + $location.host();
+            $rootScope.baseUrl = $location.protocol() + '://' +
+              $location.host();
           }
           $rootScope.ENV = ENV;
           $rootScope.VERSION = VERSION;
@@ -48,16 +51,16 @@ try {
             'configurator': false
           };
           //prevent default browser actions for drag and drop
-          $window.addEventListener('dragover', function (e) {
+          $window.addEventListener('dragover', function(e) {
             e = e || event;
             e.preventDefault();
           }, false);
-          $window.addEventListener('drop', function (e) {
+          $window.addEventListener('drop', function(e) {
             e = e || event;
             e.preventDefault();
           }, false);
           if (typeof String.prototype.endsWith !== 'function') {
-            String.prototype.endsWith = function (suffix) {
+            String.prototype.endsWith = function(suffix) {
               return this.indexOf(suffix, this.length - suffix.length) !== -1;
             };
           }
@@ -70,7 +73,7 @@ try {
             LanguageService.setCurrent($translate.preferredLanguage());
           }
 
-          $transitions.onStart({}, function (trans) {
+          $transitions.onStart({}, function(trans) {
             $rootScope.toState = trans.$to();
             $rootScope.toStateParams = trans.params();
             if (Principal.isIdentityResolved()) {
@@ -94,7 +97,7 @@ try {
             if ($rootScope.toState.data.authorities &&
               $rootScope.toState.data.authorities.length > 0) {
               // wait for initialization of Principal Service
-              $timeout(function () {
+              $timeout(function() {
                 if ($rootScope.toState.data.authorities &&
                   $rootScope.toState.data.authorities.length > 0 &&
                   (!Principal.hasAnyAuthority(
@@ -106,7 +109,7 @@ try {
             }
           });
 
-          $transitions.onSuccess({}, function (trans) {
+          $transitions.onSuccess({}, function(trans) {
             $rootScope.toStateName = trans.$to().name;
             $rootScope.sidebarContent = {
               'search': false,
@@ -155,7 +158,7 @@ try {
             }
           });
 
-          $rootScope.back = function () {
+          $rootScope.back = function() {
             // If previous state is 'activate' or do not exist go to 'search'
             if ($rootScope.previousStateName === 'activate' ||
               $state.get($rootScope.previousStateName) === null) {
@@ -170,7 +173,7 @@ try {
 
           // ignore ui-routers transition superseded errors
           var standardDefaultErrorHandler = $state.defaultErrorHandler();
-          $state.defaultErrorHandler(function (error) {
+          $state.defaultErrorHandler(function(error) {
             // transition superseded
             if (error.type === 2) {
               return;
@@ -181,8 +184,8 @@ try {
           MigrationService.migrate();
 
           // let seo4ajax know that we are ready to be captured
-          $timeout(function () {
-            $browser.notifyWhenNoOutstandingRequests(function () {
+          $timeout(function() {
+            $browser.notifyWhenNoOutstandingRequests(function() {
               if (window.onCaptureReady) {
                 window.onCaptureReady();
               }
@@ -192,33 +195,28 @@ try {
 
         var code = $location.search().code;
         if (code) {
-          AuthServiceProvider.authorize(code).then(function () {
+          Auth.authorize(code).then(function() {
             init();
-            $state.go('start',{
+            $state.go('search', {
+              lang: LanguageService.getCurrentInstantly()
+            });
+          }, function($scope) {
+            $scope.authenticationError = true;
+            init();
+            $state.go('login', {
               lang: LanguageService.getCurrentInstantly()
             });
           });
         } else {
-          AuthServiceProvider.isLoggedIn().then(
-            function (res) {
-              if (res === 'sso') {
-                AuthServiceProvider.login();
-              } else {
-                init();
-              }
-            },
-            function () {
-              init();
-            }
-          );
+          init();
         }
       })
     .config(
-      function ($stateProvider, $urlRouterProvider,
-                $httpProvider, $locationProvider, $translateProvider,
-                tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
-                localStorageServiceProvider, $qProvider, $provide, $showdownProvider,
-                $analyticsProvider, ENV) {
+      function($stateProvider, $urlRouterProvider,
+               $httpProvider, $locationProvider, $translateProvider,
+               tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
+               localStorageServiceProvider, $qProvider, $provide,
+               $showdownProvider, $analyticsProvider, ENV) {
         localStorageServiceProvider
           .setPrefix('metadatamanagementApp')
           .setStorageType('localStorage')
@@ -230,8 +228,8 @@ try {
           'abstract': true,
           url: '/{lang:(?:de|en)}',
           resolve: {
-            authorize: ['Auth', function (Auth) {
-              return Auth.authorize();
+            init: ['Auth', function(Auth) {
+              return Auth.init();
             }]
           }
         });
@@ -274,7 +272,7 @@ try {
         blockUIConfig.blockBrowserNavigation = true;
         blockUIConfig.delay = 50;
         // Tell the blockUI service to ignore certain requests
-        blockUIConfig.requestFilter = function (config) {
+        blockUIConfig.requestFilter = function(config) {
           // If the request contains '/api/search' ...
           if (config.url.indexOf('_search') !== -1 ||
             (config.url.indexOf('/api/data-acquisition-projects/') !== -1 &&
@@ -298,8 +296,8 @@ try {
         $showdownProvider.setOption('headerLevelStart', 6);
         $showdownProvider.setOption('requireSpaceBeforeHeadingText', true);
 
-        $provide.decorator('$state', function ($delegate, $stateParams) {
-          $delegate.forceReload = function () {
+        $provide.decorator('$state', function($delegate, $stateParams) {
+          $delegate.forceReload = function() {
             return $delegate.go($delegate.current, $stateParams, {
               reload: true,
               inherit: false,

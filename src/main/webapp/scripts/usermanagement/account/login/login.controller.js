@@ -1,18 +1,19 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LoginController',
-  function ($scope, $state, $timeout, Auth, PageMetadataService,
-            BreadcrumbService) {
+  function($scope, $state, $timeout, Auth, PageMetadataService,
+           BreadcrumbService) {
     PageMetadataService.setPageTitle('user-management.login.title');
     $scope.user = {};
     $scope.errors = {};
     $scope.rememberMe = true;
-    $timeout(function () {
+    $timeout(function() {
       angular.element('[ng-model="username"]').focus();
     });
-    $scope.login = function () {
+    $scope.login = function() {
       Auth.login();
     };
-    BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
-    name});
+    BreadcrumbService.updateToolbarHeader({
+      'stateName': $state.current.name
+    });
   });
