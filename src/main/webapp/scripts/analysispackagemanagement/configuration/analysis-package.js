@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp')
             LocationSimplifier, $state) {
             return LocationSimplifier.removeDollarSign($state, $stateParams,
               stateName).then(function() {
-                var excludedAttributes = ['nested*','variables','questions',
+                var excludedAttributes = ['nested*', 'variables','questions',
                 'instruments', 'dataSets', 'relatedPublications',
                 'concepts'];
                 var id = LocationSimplifier.ensureDollarSign($stateParams.id);
