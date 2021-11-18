@@ -250,9 +250,9 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
             .analysisPackageDetail.translateString;
         } else {
           analysisPackageItem.tooltip = translationStringsMap
-            .dataPackageDetail.translateString;
+            .analysisPackageDetail.translateString;
           analysisPackageItem.type = translationStringsMap
-            .dataPackageDetail.type;
+            .analysisPackageDetail.type;
         }
         analysisPackageItem.projectId = stripVersionSuffixAndDollar(
           item.projectId

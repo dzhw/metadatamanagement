@@ -113,6 +113,7 @@ angular.module('metadatamanagementApp').config(
             'question': 'Klicken, um die Frage {{param}} anzuzeigen',
             'variable': 'Klicken, um die Variable {{param}} anzuzeigen',
             'data-package': 'Klicken, um das Datenpaket {{param}} anzuzeigen',
+            'analysis-package': 'Klicken, um das Analysepaket {{param}} anzuzeigen',
             'instrument': 'Klicken, um das Instrument {{param}} anzuzeigen',
             'publication': 'Klicken, um die Publikation {{param}} anzuzeigen',
             'concept': 'Klicken, um das Konzept {{param}} anzuzeigen'
