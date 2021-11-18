@@ -139,9 +139,7 @@ angular.module('metadatamanagementApp')
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
           .check(result);
-        // if (!ctrl.onlyQualitativeData) {
-        //   ctrl.counts.variablesCount = 0;
-        // }
+
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onAnalysisPackageChange',
             {

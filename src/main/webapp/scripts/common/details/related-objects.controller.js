@@ -306,7 +306,6 @@
       }
       var filter = getCurrentObjectFilter();
       _.assign($ctrl.searchParams.filter, filter);
-      console.log($ctrl.searchParams);
       SearchDao.search($ctrl.searchParams.query,
         $ctrl.options.pageObject.page, null, $ctrl.searchParams.filter,
         getSelectedMetadataType(),
