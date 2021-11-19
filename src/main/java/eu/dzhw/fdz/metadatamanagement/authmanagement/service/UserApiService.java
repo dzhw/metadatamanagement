@@ -166,7 +166,7 @@ public class UserApiService {
         UserApiResponseDto.Users.class,
         login,
         email,
-        role
+        AuthoritiesConstants.toSearchValue(role)
     );
   }
 
