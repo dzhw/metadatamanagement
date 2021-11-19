@@ -72,17 +72,17 @@ public class UserResourceTests extends AbstractUserApiTests {
     this.addFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
         USER_LOGIN,
         USER_LOGIN,
-        AuthoritiesConstants.toSearchValue(USER_ROLE)
+        USER_ROLE
     );
     this.addFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
         ADMIN_EMAIL,
         ADMIN_EMAIL,
-      AuthoritiesConstants.toSearchValue(ADMIN_ROLE)
+        ADMIN_ROLE
     );
     this.addFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
         USER_LOGIN,
         USER_LOGIN,
-      AuthoritiesConstants.toSearchValue(ADMIN_ROLE)
+        ADMIN_ROLE
     );
 
     // search with login;
