@@ -107,7 +107,6 @@
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
             <md-button class="md-primary md-icon-button"
                        ng-click="ctrl.deleteInstitution($index)"
-                       ng-if="ctrl.analysisPackage.institutions[0].de != '' || ctrl.analysisPackage.institutions[0].en != ''"
                        style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
               <md-tooltip md-autohide="true" md-direction="bottom"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -244,7 +243,6 @@
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
             <md-button class="md-primary md-icon-button"
                        ng-click="ctrl.deleteSponsor($index)"
-                       ng-if="ctrl.analysisPackage.sponsors[0].de != '' || ctrl.analysisPackage.sponsors[0].en != ''"
                        style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
               <md-tooltip md-autohide="true" md-direction="bottom"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
