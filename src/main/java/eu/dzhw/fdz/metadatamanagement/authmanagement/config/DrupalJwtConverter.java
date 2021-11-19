@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.config;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +39,7 @@ public final class DrupalJwtConverter extends JwtAuthenticationConverter {
     private static final String CLAIM_NAME = "scope";
 
     @Override
-    public Collection<GrantedAuthority> convert(Jwt jwt) {
+    public Collection<GrantedAuthority> convert(@NotNull Jwt jwt) {
       return getAuthorities(jwt)
           .stream()
           .map(
