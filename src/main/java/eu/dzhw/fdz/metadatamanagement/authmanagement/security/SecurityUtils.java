@@ -37,9 +37,6 @@ public final class SecurityUtils {
    */
   public static boolean isUserAnonymous() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-      return true;
-    }
-    return false;
+    return authentication == null || authentication instanceof AnonymousAuthenticationToken;
   }
 }
