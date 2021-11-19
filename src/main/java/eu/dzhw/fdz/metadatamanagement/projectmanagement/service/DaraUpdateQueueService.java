@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
@@ -207,7 +207,7 @@ public class DaraUpdateQueueService {
           userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
       mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
       this.unlock(lockedItem);
-    } catch (InvalidResponseException e) {
+    } catch (InvalidUserApiResponseException e) {
       log.error("Could not handle Dara Communication error: {}", e.getMessage());
     }
   }

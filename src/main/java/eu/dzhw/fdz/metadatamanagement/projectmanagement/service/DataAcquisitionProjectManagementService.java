@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -113,7 +113,7 @@ public class DataAcquisitionProjectManagementService
         List<UserDto> users;
         try {
           users = userApiService.findAllByLoginIn(new HashSet<>(dataProviders));
-        } catch (InvalidResponseException e) {
+        } catch (InvalidUserApiResponseException e) {
           log.error(
               "Could not find Data Providers for sending assignee group changed mails: {}",
               e.getMessage()
@@ -125,7 +125,7 @@ public class DataAcquisitionProjectManagementService
         try {
           currentUser =
             userApiService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
-        } catch (InvalidResponseException e) {
+        } catch (InvalidUserApiResponseException e) {
           log.error(
               "Could not find current user for sending assignee group changed mails: {}",
               e.getMessage()
@@ -156,7 +156,7 @@ public class DataAcquisitionProjectManagementService
           List<UserDto> users;
           try {
             users = userApiService.findAllByLoginIn(userNames);
-          } catch (InvalidResponseException e) {
+          } catch (InvalidUserApiResponseException e) {
             log.error(
                 "Could not find Assignee Group for sending assignee group changed mails: {}",
                 e.getMessage()
@@ -168,7 +168,7 @@ public class DataAcquisitionProjectManagementService
           try {
             currentUser =
               userApiService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
-          } catch (InvalidResponseException e) {
+          } catch (InvalidUserApiResponseException e) {
             log.error(
                 "Could not find current assignee for sending assignee group changed mails: {}",
                 e.getMessage()
@@ -207,7 +207,7 @@ public class DataAcquisitionProjectManagementService
     try {
       users = fetchUsersForUserNames(addedPublishers, removedPublishers,
           addedDataProviders, removedDataProviders);
-    } catch (InvalidResponseException e) {
+    } catch (InvalidUserApiResponseException e) {
       log.error(
           "Could not fetch Users to send Data Providers changed mails: {}",
           e.getMessage()
@@ -229,7 +229,7 @@ public class DataAcquisitionProjectManagementService
       List<String> removedPublishers,
       List<String> addedDataProviders,
       List<String> removedDataProviders
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     Set<String> userLoginNames = new HashSet<>(addedPublishers);
     userLoginNames.addAll(removedPublishers);
     userLoginNames.addAll(addedDataProviders);
@@ -377,7 +377,7 @@ public class DataAcquisitionProjectManagementService
           try {
             releaseManagers = userApiService
                 .findAllByAuthoritiesContaining(AuthoritiesConstants.RELEASE_MANAGER);
-          } catch (InvalidResponseException e) {
+          } catch (InvalidUserApiResponseException e) {
             log.error(
                 "Could not find release managers for ending the shadow copying: {}",
                 e.getMessage()

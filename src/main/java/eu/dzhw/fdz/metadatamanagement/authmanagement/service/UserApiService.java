@@ -4,7 +4,7 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
@@ -110,11 +110,11 @@ public class UserApiService {
    *
    * @param role the filtering role
    * @return a group of users that have the provided role
-   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public List<UserDto> findAllByAuthoritiesContaining(
       final String role
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     return this.doFindAllApiCall(
       FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
       UserApiResponseDto.Users.class,
@@ -130,12 +130,12 @@ public class UserApiService {
    * @param email a "CONTAINS" search parameter for the user's email
    * @return a group of users whose login contains the {@code login} parameter or whose email
    *         contains the {@code email} parameter
-   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public List<UserDto> findAllByLoginLikeOrEmailLike(
       final String login,
       final String email
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     return this.doFindAllApiCall(
         FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT,
         UserApiResponseDto.Users.class,
@@ -154,13 +154,13 @@ public class UserApiService {
    * @param role a "EQUALS" search parameter for the name of a role a user is has
    * @return a group of users whose login contains {@code login} or the email contains {@code}
    *         email and has the role with the name {@code role}.
-   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public List<UserDto> findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
       final String login,
       final String email,
       final String role
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     return this.doFindAllApiCall(
         FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT,
         UserApiResponseDto.Users.class,
@@ -176,10 +176,10 @@ public class UserApiService {
    * @param logins a group of search parameters that will be used to try to find users whose
    *               logins are included in the group
    * @return a group of users whose login field is included in the {@code logins} search parameter
-   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public List<UserDto> findAllByLoginIn(final Set<String> logins)
-      throws InvalidResponseException {
+      throws InvalidUserApiResponseException {
 
     StringBuilder sb = new StringBuilder(FIND_ALL_BY_LOGIN_IN_ENDPOINT);
     for (var i = 0; i < logins.size(); i++) {
@@ -201,12 +201,12 @@ public class UserApiService {
    * @param login a search parameter which should match a user's login
    * @param email a search parameter which should match a user's email
    * @return a user with either the provided login, email, or both
-   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public Optional<UserDto> findOneByLoginOrEmail(
       final String login,
       final String email
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     return this.doFindAllApiCall(
         FIND_ONE_BY_LOGIN_OR_EMAIL_ENDPOINT,
         UserApiResponseDto.Users.class,
@@ -223,11 +223,11 @@ public class UserApiService {
    *
    * @param login a search parameter which will be used to match a user's login
    * @return info on the user whose login matches the {@code login} search parameter
-   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public Optional<UserDto> findOneByLogin(
       final String login
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     return this.doFindAllApiCall(
         FIND_ONE_BY_LOGIN_ENDPOINT,
         UserApiResponseDto.Users.class,
@@ -243,11 +243,11 @@ public class UserApiService {
    *
    * @param login a search parameter which will be used to match a user's login
    * @return info on the user whose login matches the {@code login} search parameter
-   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public Optional<UserWithRolesDto> findOneWithAuthoritiesByLogin(
       final String login
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     return this.doFindAllApiCall(
         FIND_ONE_WITH_AUTHORITIES_BY_LOGIN_ENDPOINT,
         UserApiResponseDto.UsersWithRoles.class,
@@ -262,7 +262,7 @@ public class UserApiService {
       final String apiUri,
       final Class<? extends UserApiResponseDto<T>> responseClazz,
       final Object... uriVariables
-  ) throws InvalidResponseException {
+  ) throws InvalidUserApiResponseException {
     var results = restTemplate.getForEntity(
         apiUri,
         responseClazz,
@@ -270,7 +270,7 @@ public class UserApiService {
     );
 
     if (results.getStatusCode() != HttpStatus.OK) {
-      throw new InvalidResponseException(
+      throw new InvalidUserApiResponseException(
         String.format(
           "Invalid Server status code received. Response Status: %s",
           results.getStatusCode()

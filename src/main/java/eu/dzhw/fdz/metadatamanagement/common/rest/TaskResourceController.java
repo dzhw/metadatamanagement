@@ -5,7 +5,7 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
@@ -90,7 +90,7 @@ public class TaskResourceController
           return ResponseEntity.badRequest()
             .body("User with name '" + errorNotification.getOnBehalfOf() + "' does not exist!");
         }
-      } catch (InvalidResponseException e) {
+      } catch (InvalidUserApiResponseException e) {
         return ResponseEntity.badRequest()
           .body(
               "Could not check if user with name '"

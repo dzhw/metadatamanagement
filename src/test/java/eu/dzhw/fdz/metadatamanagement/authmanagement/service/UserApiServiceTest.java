@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findAllByAuthoritiesContaining_WithResults() throws InvalidResponseException {
+  public void findAllByAuthoritiesContaining_WithResults() throws InvalidUserApiResponseException {
     final var ROLE = AuthoritiesConstants.ADMIN;
 
     this.addFindAllByAuthoritiesContainingRequest(ROLE);
@@ -39,7 +39,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findAllByAuthoritiesContaining_NoResults() throws InvalidResponseException {
+  public void findAllByAuthoritiesContaining_NoResults() throws InvalidUserApiResponseException {
     final var ROLE = "INVALID_ROLE";
 
     this.addFindAllByAuthoritiesContainingRequest(ROLE);
@@ -50,7 +50,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findAllByLoginLikeOrEmailLike_WithResults_ByEmail() throws InvalidResponseException {
+  public void findAllByLoginLikeOrEmailLike_WithResults_ByEmail() throws InvalidUserApiResponseException {
     final var LOGIN = "NON_LOGIN";
     final var EMAIL_PREFIX = "resource";
     final var EMAIL_MIDDLE = "server@example";
@@ -93,7 +93,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findAllByLoginLikeOrEmailLike_WithResults_ByLogin() throws InvalidResponseException {
+  public void findAllByLoginLikeOrEmailLike_WithResults_ByLogin() throws InvalidUserApiResponseException {
     final var INVALID_EMAIL = "NON_EMAIL";
     final var LOGIN_PREFIX = "resource";
     final var LOGIN_MIDDLE = "ce_se";
@@ -135,7 +135,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findAllByLoginLikeOrEmailLike_NoResults() throws InvalidResponseException {
+  public void findAllByLoginLikeOrEmailLike_NoResults() throws InvalidUserApiResponseException {
     var LOGIN = "NOT_LOGIN";
     var EMAIL = "NOT_EMAIL";
 
@@ -147,7 +147,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findAllByLoginIn_WithResults() throws InvalidResponseException {
+  public void findAllByLoginIn_WithResults() throws InvalidUserApiResponseException {
     final var LOGINS = Set.of("resource_server");
 
     this.addFindAllByLoginInRequest(LOGINS);
@@ -166,7 +166,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findAllByLoginIn_NoResults() throws InvalidResponseException {
+  public void findAllByLoginIn_NoResults() throws InvalidUserApiResponseException {
     Set<String> EMPTY_LOGINS = Set.of();
     Set<String> INVALID_LOGINS = Set.of("invalid_login");
 
@@ -183,7 +183,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findOneByLoginOrEmail_WithResult_ByLogin() throws InvalidResponseException {
+  public void findOneByLoginOrEmail_WithResult_ByLogin() throws InvalidUserApiResponseException {
     final var LOGIN = "resource_server";
     final var EMAIL = "NON_EMAIL";
 
@@ -195,7 +195,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findOneByLoginOrEmail_WithResult_ByEmail() throws InvalidResponseException {
+  public void findOneByLoginOrEmail_WithResult_ByEmail() throws InvalidUserApiResponseException {
     final var LOGIN = "NON_LOGIN";
     final var EMAIL = "resource_server@example.com";
 
@@ -207,7 +207,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findOneByLoginOrEmail_NoResult() throws InvalidResponseException {
+  public void findOneByLoginOrEmail_NoResult() throws InvalidUserApiResponseException {
     final var LOGIN = "NON_LOGIN";
     final var EMAIL = "NON_EMAIL";
 
@@ -218,7 +218,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findOneByLogin_WithResult() throws InvalidResponseException {
+  public void findOneByLogin_WithResult() throws InvalidUserApiResponseException {
     final var LOGIN = "resource_server";
 
     this.addFindOneByLoginRequest(LOGIN);
@@ -229,7 +229,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
-  public void findOneByLogin_NoResult() throws InvalidResponseException {
+  public void findOneByLogin_NoResult() throws InvalidUserApiResponseException {
     final var LOGIN = "NON_LOGIN";
 
     this.addFindOneByLoginRequest(LOGIN);

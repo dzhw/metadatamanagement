@@ -6,7 +6,7 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,7 +48,7 @@ public class UserResource {
           .body(
               userDto
           )).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    } catch (InvalidResponseException e) {
+    } catch (InvalidUserApiResponseException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -73,7 +73,7 @@ public class UserResource {
                   role
               )
           );
-    } catch (InvalidResponseException e) {
+    } catch (InvalidUserApiResponseException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

@@ -3,9 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception;
 import java.io.Serial;
 
 /**
- * An Exception thrown when a Server response is invalid (e.g. the Status is not 200).
+ * An Exception thrown when a User API Server response is invalid (e.g. the Status is not 200).
  */
-public class InvalidResponseException extends Exception {
+public class InvalidUserApiResponseException extends Exception {
   @Serial
   private static final long serialVersionUID = -8022390017962579206L;
 
@@ -14,7 +14,7 @@ public class InvalidResponseException extends Exception {
    *
    * @param message the explanation for the cause of this Exception
    */
-  public InvalidResponseException(String message) {
+  public InvalidUserApiResponseException(String message) {
     super(message);
   }
 }

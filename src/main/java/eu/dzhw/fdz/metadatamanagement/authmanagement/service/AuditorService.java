@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 import javax.validation.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.springframework.stereotype.Service;
@@ -69,7 +69,7 @@ public class AuditorService {
       }
 
       throw new IllegalArgumentException("User not found: " + login);
-    } catch (InvalidResponseException e) {
+    } catch (InvalidUserApiResponseException e) {
       throw new IllegalArgumentException("Could not find user " + login);
     }
   }
