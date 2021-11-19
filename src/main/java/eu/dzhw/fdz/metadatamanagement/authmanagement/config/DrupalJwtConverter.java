@@ -19,14 +19,11 @@ import java.util.stream.Collectors;
 @Component
 public final class DrupalJwtConverter extends JwtAuthenticationConverter {
 
-  private Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter =
-      new DrupalJwtGrantedAuthoritiesConverter();
-
   /**
    * Construct the Converter and set the {@link GrantedAuthority} Converter to a custom converter.
    */
   public DrupalJwtConverter() {
-    super.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+    super.setJwtGrantedAuthoritiesConverter(new DrupalJwtGrantedAuthoritiesConverter());
   }
 
   /**
