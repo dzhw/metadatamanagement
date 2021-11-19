@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,6 +76,31 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
   @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+
+    this.mockServer.users(
+        new User(
+            "user",
+            "user@local",
+            "de",
+            false,
+            "user"
+        ),
+        new User(
+            "defaultPublisher",
+            "defaultPublisher@local",
+            "de",
+            false,
+            "publisher"
+        ),
+        new User(
+            "release_manager",
+            "release_manager@local",
+            "de",
+            false,
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER),
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.RELEASE_MANAGER)
+        )
+    );
   }
 
   @AfterEach
@@ -120,12 +146,6 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
 
     String projectId = createProject();
     releaseProject(projectId, "1.0.0");
-
-    /*buildMockServer(
-      UserApiService.FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
-      true,
-      "release_manager"
-    );*/
 
     this.mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + projectId + "/shadows"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.content.length()", is(1)));

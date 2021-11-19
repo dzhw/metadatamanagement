@@ -1,6 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -10,9 +13,23 @@ import static org.hamcrest.Matchers.*;
 
 public class UserApiServiceTest extends AbstractUserApiTests {
 
+  @BeforeEach
+  public void initUsersToMockServer() {
+    this.mockServer.users(
+        new User(
+            "resource_server",
+            "resource_server@example.com",
+            "de",
+            false,
+            "user",
+            "admin"
+        )
+    );
+  }
+
   @Test
   public void findAllByAuthoritiesContaining_WithResults() throws InvalidResponseException {
-    final var ROLE = "ROLE_ADMIN";
+    final var ROLE = AuthoritiesConstants.ADMIN;
 
     this.addFindAllByAuthoritiesContainingRequest(ROLE);
 

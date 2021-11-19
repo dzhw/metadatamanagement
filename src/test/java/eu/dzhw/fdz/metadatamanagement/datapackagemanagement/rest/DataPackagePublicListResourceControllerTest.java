@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,6 +77,24 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilters(legacyUrlsFilter).build();
     elasticsearchAdminService.recreateAllIndices();
+
+    this.mockServer.users(
+        new User(
+            "user",
+            "user@local",
+            "de",
+            false,
+          AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
+        ),
+        new User(
+            "release_manager",
+            "release_manager@local",
+            "de",
+            false,
+          AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER),
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.RELEASE_MANAGER)
+        )
+    );
   }
 
   @AfterEach
