@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -89,7 +88,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateDataAcquisitionProject() throws IOException, Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
@@ -129,7 +128,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void shouldCreateProjectsForAnalysisPackages()
       throws IOException, Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
@@ -179,7 +178,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteDataAcquisitionProject() throws IOException, Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // delete not created project
@@ -202,7 +201,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   @Test
   public void testCompleteProjectionContainsId() throws IOException, Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
@@ -221,8 +220,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateProject() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
-    this.populatedFindAllByLoginIn(Set.of());
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
 
@@ -250,7 +249,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws IOException, Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setHasBeenReleasedBefore(true);
@@ -430,7 +429,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdateRequiredObjectTypes() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of());
+    this.addFindAllByLoginInRequest(Set.of());
 
     Configuration configuration =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
@@ -468,7 +467,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
   public void testUpdatDataAcquisitionProject_valid_assignee_group() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of());
+    this.addFindAllByLoginInRequest(Set.of());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
@@ -484,8 +483,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdatDataAcquisitionProject_override_as_publisher() throws Exception {
-    this.populatedFindAllByLoginIn(2, Set.of());
-    this.populatedFindOneByLogin("publisher");
+    this.addFindAllByLoginInRequest(2, Set.of());
+    this.addFindOneByLoginRequest("publisher");
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));

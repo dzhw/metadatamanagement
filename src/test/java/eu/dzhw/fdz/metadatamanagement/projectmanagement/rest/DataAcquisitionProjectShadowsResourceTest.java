@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +26,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.icegreen.greenmail.store.FolderException;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -92,7 +90,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testGetShadowsNotFound() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     String projectId = createProject();
     this.mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + projectId + "/shadows"))
@@ -116,9 +114,9 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testOneReleasedShadowFound() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
-    this.populatedFindOneByLogin("user");
-    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindOneByLoginRequest("user");
+    this.addFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
 
     String projectId = createProject();
     releaseProject(projectId, "1.0.0");
@@ -136,9 +134,9 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testHideSingleReleasedShadowIsForbidden() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
-    this.populatedFindOneByLogin("user");
-    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindOneByLoginRequest("user");
+    this.addFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
 
     String projectId = createProject();
     releaseProject(projectId, "1.0.0");
@@ -153,10 +151,10 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testHideAndUnhideReleasedShadow() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
-    this.populatedFindOneByLogin(4, "user");
-    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
-    this.populatedFindAllByLoginIn(Set.of());
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindOneByLoginRequest(4, "user");
+    this.addFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+    this.addFindAllByLoginInRequest(Set.of());
 
     String projectId = createProject();
     releaseProject(projectId, "1.0.0");

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -48,8 +47,8 @@ public class DataAcquisitionProjectVersionsServiceTest extends AbstractUserApiTe
 
   @Test
   public void testMultipleReleases() {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
-    this.populatedFindAllByLoginIn(2, Set.of());
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(2, Set.of());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project = projectManagementService.save(project);

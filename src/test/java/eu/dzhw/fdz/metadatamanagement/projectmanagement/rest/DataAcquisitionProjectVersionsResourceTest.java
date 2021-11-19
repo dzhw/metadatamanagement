@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -79,7 +78,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateProjectAndReadVersions() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the dataPackage with the given id
@@ -103,8 +102,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testEditProjectAndReadVersions() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
-    this.populatedFindAllByLoginIn(Set.of());
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the dataPackage with the given id
@@ -146,8 +145,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleaseCompare() throws Exception {
-    this.populatedFindAllByLoginIn(Set.of("defaultPublisher"));
-    this.populatedFindAllByLoginIn(Set.of());
+    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of());
 
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();

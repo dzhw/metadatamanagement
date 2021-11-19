@@ -14,7 +14,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   public void findAllByAuthoritiesContaining_WithResults() throws InvalidResponseException {
     final var ROLE = "ROLE_ADMIN";
 
-    this.populatedFindAllByAuthoritiesContainingRequest(ROLE);
+    this.addFindAllByAuthoritiesContainingRequest(ROLE);
 
     var results = userApiService.findAllByAuthoritiesContaining(ROLE);
 
@@ -25,7 +25,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   public void findAllByAuthoritiesContaining_NoResults() throws InvalidResponseException {
     final var ROLE = "INVALID_ROLE";
 
-    this.emptyFindAllByAuthoritiesContainingRequest(ROLE);
+    this.addFindAllByAuthoritiesContainingRequest(ROLE);
 
     var results = userApiService.findAllByAuthoritiesContaining(ROLE);
 
@@ -41,10 +41,10 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     final var EMAIL = "resource_server@example.com";
 
     // Add mock server expectations
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN, EMAIL_PREFIX);
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN, EMAIL_MIDDLE);
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN, EMAIL_SUFFIX);
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL_PREFIX);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL_MIDDLE);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL_SUFFIX);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL);
 
     // stats with test
     var results = userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL_PREFIX);
@@ -83,10 +83,10 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     final var LOGIN_SUFFIX = "_server";
     final var LOGIN = "resource_server";
 
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN_PREFIX, INVALID_EMAIL);
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN_MIDDLE, INVALID_EMAIL);
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN_SUFFIX, INVALID_EMAIL);
-    this.populatedFindAllByLoginLikeOrEmailLike(LOGIN, INVALID_EMAIL);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN_PREFIX, INVALID_EMAIL);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN_MIDDLE, INVALID_EMAIL);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN_SUFFIX, INVALID_EMAIL);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN, INVALID_EMAIL);
 
     // starts with test
     var results = userApiService.findAllByLoginLikeOrEmailLike(LOGIN_PREFIX, INVALID_EMAIL);
@@ -122,7 +122,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     var LOGIN = "NOT_LOGIN";
     var EMAIL = "NOT_EMAIL";
 
-    this.emptyFindAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
+    this.addFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL);
 
     var results = userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
 
@@ -133,7 +133,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   public void findAllByLoginIn_WithResults() throws InvalidResponseException {
     final var LOGINS = Set.of("resource_server");
 
-    this.populatedFindAllByLoginIn(LOGINS);
+    this.addFindAllByLoginInRequest(LOGINS);
 
     var results = userApiService.findAllByLoginIn(LOGINS);
     assertThat(results.size(), greaterThan(0));
@@ -153,8 +153,8 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     Set<String> EMPTY_LOGINS = Set.of();
     Set<String> INVALID_LOGINS = Set.of("invalid_login");
 
-    this.emptyFindAllByLoginIn(EMPTY_LOGINS);
-    this.emptyFindAllByLoginIn(INVALID_LOGINS);
+    this.addFindAllByLoginInRequest(EMPTY_LOGINS);
+    this.addFindAllByLoginInRequest(INVALID_LOGINS);
 
     // No logins test
     var results = userApiService.findAllByLoginIn(EMPTY_LOGINS);
@@ -170,7 +170,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     final var LOGIN = "resource_server";
     final var EMAIL = "NON_EMAIL";
 
-    this.populatedFindOneByLoginOrEmail(LOGIN, EMAIL);
+    this.addFindOneByLoginOrEmailRequest(LOGIN, EMAIL);
 
     var result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
     assertThat(result.isPresent(), is(true));
@@ -182,7 +182,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     final var LOGIN = "NON_LOGIN";
     final var EMAIL = "resource_server@example.com";
 
-    this.populatedFindOneByLoginOrEmail(LOGIN, EMAIL);
+    this.addFindOneByLoginOrEmailRequest(LOGIN, EMAIL);
 
     var result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
     assertThat(result.isPresent(), is(true));
@@ -194,7 +194,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     final var LOGIN = "NON_LOGIN";
     final var EMAIL = "NON_EMAIL";
 
-    this.emptyFindOneByLoginOrEmail(LOGIN, EMAIL);
+    this.addFindOneByLoginOrEmailRequest(LOGIN, EMAIL);
 
     var result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
     assertThat(result.isPresent(), is(false));
@@ -204,7 +204,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   public void findOneByLogin_WithResult() throws InvalidResponseException {
     final var LOGIN = "resource_server";
 
-    this.populatedFindOneByLogin(LOGIN);
+    this.addFindOneByLoginRequest(LOGIN);
 
     var result = userApiService.findOneByLogin(LOGIN);
     assertThat(result.isPresent(), is(true));
@@ -215,7 +215,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   public void findOneByLogin_NoResult() throws InvalidResponseException {
     final var LOGIN = "NON_LOGIN";
 
-    this.emptyFindOneByLogin(LOGIN);
+    this.addFindOneByLoginRequest(LOGIN);
 
     var result = userApiService.findOneByLogin(LOGIN);
 

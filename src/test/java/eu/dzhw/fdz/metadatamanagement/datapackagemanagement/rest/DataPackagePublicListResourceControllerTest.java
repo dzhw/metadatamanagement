@@ -130,8 +130,8 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleasedDataPackageIsPubliclyVisible() throws IOException, Exception {
-    this.populatedFindOneByLogin("user");
-    this.populatedFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+    this.addFindOneByLoginRequest("user");
+    this.addFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
@@ -163,8 +163,8 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleasedDataPackageIsPinned() throws IOException, Exception {
-    this.populatedFindOneByLogin(2, "user");
-    this.populatedFindAllByAuthoritiesContainingRequest(2, AuthoritiesConstants.RELEASE_MANAGER);
+    this.addFindOneByLoginRequest(2, "user");
+    this.addFindAllByAuthoritiesContainingRequest(2, AuthoritiesConstants.RELEASE_MANAGER);
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
