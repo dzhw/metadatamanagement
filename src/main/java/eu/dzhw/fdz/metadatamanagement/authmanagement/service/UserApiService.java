@@ -110,7 +110,8 @@ public class UserApiService {
    *
    * @param role the filtering role
    * @return a group of users that have the provided role
-   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK
+   *                                         (i.e. code 200)
    */
   public List<UserDto> findAllByAuthoritiesContaining(
       final String role
@@ -130,7 +131,8 @@ public class UserApiService {
    * @param email a "CONTAINS" search parameter for the user's email
    * @return a group of users whose login contains the {@code login} parameter or whose email
    *         contains the {@code email} parameter
-   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK
+   *                                         (i.e. code 200)
    */
   public List<UserDto> findAllByLoginLikeOrEmailLike(
       final String login,
@@ -154,7 +156,8 @@ public class UserApiService {
    * @param role a "EQUALS" search parameter for the name of a role a user is has
    * @return a group of users whose login contains {@code login} or the email contains {@code}
    *         email and has the role with the name {@code role}.
-   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK
+   *                                         (i.e. code 200)
    */
   public List<UserDto> findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
       final String login,
@@ -176,7 +179,8 @@ public class UserApiService {
    * @param logins a group of search parameters that will be used to try to find users whose
    *               logins are included in the group
    * @return a group of users whose login field is included in the {@code logins} search parameter
-   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK
+   *                                         (i.e. code 200)
    */
   public List<UserDto> findAllByLoginIn(final Set<String> logins)
       throws InvalidUserApiResponseException {
@@ -201,7 +205,8 @@ public class UserApiService {
    * @param login a search parameter which should match a user's login
    * @param email a search parameter which should match a user's email
    * @return a user with either the provided login, email, or both
-   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK
+   *                                         (i.e. code 200)
    */
   public Optional<UserDto> findOneByLoginOrEmail(
       final String login,
@@ -223,7 +228,8 @@ public class UserApiService {
    *
    * @param login a search parameter which will be used to match a user's login
    * @return info on the user whose login matches the {@code login} search parameter
-   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK
+   *                                         (i.e. code 200)
    */
   public Optional<UserDto> findOneByLogin(
       final String login
@@ -243,7 +249,8 @@ public class UserApiService {
    *
    * @param login a search parameter which will be used to match a user's login
    * @return info on the user whose login matches the {@code login} search parameter
-   * @throws InvalidUserApiResponseException when the Server's status response is not OK (i.e. code 200)
+   * @throws InvalidUserApiResponseException when the Server's status response is not OK
+   *                                         (i.e. code 200)
    */
   public Optional<UserWithRolesDto> findOneWithAuthoritiesByLogin(
       final String login
