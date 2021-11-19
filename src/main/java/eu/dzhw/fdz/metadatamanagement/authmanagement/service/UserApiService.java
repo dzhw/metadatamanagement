@@ -245,7 +245,7 @@ public class UserApiService {
    * @return info on the user whose login matches the {@code login} search parameter
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
-  public Optional<UserWithRolesDto> findUserWithAuthoritiesByLogin(
+  public Optional<UserWithRolesDto> findOneWithAuthoritiesByLogin(
       final String login
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
