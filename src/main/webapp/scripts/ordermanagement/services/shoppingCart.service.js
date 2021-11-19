@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var ORDER_ID_KEY = 'shoppingCart.orderId';
     var VERSION_KEY = 'shoppingCart.version';
 
+    var isProductDataPackage = true;
     var products = localStorageService.get(SHOPPING_CART_KEY) || [];
     var orderId = localStorageService.get(ORDER_ID_KEY);
     var version = localStorageService.get(VERSION_KEY);
@@ -34,17 +35,30 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     };
 
     var _displayProductAlreadyInShoppingCart = function(product) {
-      SimpleMessageToastService.openSimpleMessageToast(
-        'shopping-cart.toasts.data-package-already-in-cart',
-        {id: product.dataPackage.id}
-      );
+      if (isProductDataPackage) {
+        SimpleMessageToastService.openSimpleMessageToast(
+          'shopping-cart.toasts.data-package-already-in-cart',
+          {id: product.dataPackage.id}
+        );
+      } else {
+        SimpleMessageToastService.openSimpleMessageToast(
+          'shopping-cart.toasts.analysis-package-already-in-cart',
+          {id: product.analysisPackage.id}
+        );
+      }
     };
 
     var _isProductInShoppingCart = function(products, product) {
       return _.findIndex(products, function(item) {
-        return item.dataPackage.id === product.dataPackage.id &&
-          item.version === product.version &&
-          item.accessWay === product.accessWay;
+        if (isProductDataPackage) {
+          return item.dataPackage.id === product.dataPackage.id &&
+            item.version === product.version &&
+            item.accessWay === product.accessWay;
+        } else {
+          return item.hasOwnProperty('analysisPackage') &&
+            item.analysisPackage.id === product.analysisPackage.id &&
+            item.version === product.version;
+        }
       }) !== -1;
     };
 
@@ -54,9 +68,15 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       } else {
         products.push(product);
         localStorageService.set(SHOPPING_CART_KEY, products);
-        SimpleMessageToastService.openSimpleMessageToast(
-          'shopping-cart.toasts.data-package-added',
-          {id: product.dataPackage.id});
+        if (isProductDataPackage) {
+          SimpleMessageToastService.openSimpleMessageToast(
+            'shopping-cart.toasts.data-package-added',
+            {id: product.dataPackage.id});
+        } else {
+          SimpleMessageToastService.openSimpleMessageToast(
+            'shopping-cart.toasts.analysis-package-added',
+            {id: product.analysisPackage.id});
+        }
         _broadcastShoppingCartChanged();
       }
     };
@@ -77,14 +97,19 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var _stripVersionSuffix = function(product) {
       var normalizedProduct = _.cloneDeep(product);
-
+      isProductDataPackage = product.hasOwnProperty('dataPackage');
       normalizedProduct.dataAcquisitionProjectId = ProjectReleaseService
         .stripVersionSuffix(normalizedProduct.dataAcquisitionProjectId);
 
-      normalizedProduct.study.id = ProjectReleaseService
-        .stripVersionSuffix(normalizedProduct.study.id);
-      normalizedProduct.dataPackage.id = ProjectReleaseService
-        .stripVersionSuffix(normalizedProduct.dataPackage.id);
+      if (isProductDataPackage) {
+        normalizedProduct.study.id = ProjectReleaseService
+          .stripVersionSuffix(normalizedProduct.study.id);
+        normalizedProduct.dataPackage.id = ProjectReleaseService
+          .stripVersionSuffix(normalizedProduct.dataPackage.id);
+      } else {
+        normalizedProduct.analysisPackage.id = ProjectReleaseService
+          .stripVersionSuffix(normalizedProduct.analysisPackage.id);
+      }
       return normalizedProduct;
     };
 

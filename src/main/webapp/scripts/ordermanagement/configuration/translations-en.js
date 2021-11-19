@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').config(
             'current': 'current',
             'not-current': 'not current',
             'this-data-product': 'This data package',
+            'this-analysis-product': 'This analysis package',
             'study-series': 'from study series "{{series}}"',
             'contains': 'contains',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
@@ -51,6 +52,7 @@ angular.module('metadatamanagementApp').config(
           'no-final-release': 'The data packages have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
           'variable-not-accessible': 'Although this variable was collected, it is not available in any data package for data protection reasons.',
           'data-package-tooltip': 'Click to display the data package.',
+          'analysis-package-tooltip': 'Click to display the analysis package.',
           'study-series-tooltip': 'Click to display all data packages of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data package.',
           'variables-tooltip': 'Click to display all variables of this data package.',
@@ -81,6 +83,8 @@ angular.module('metadatamanagementApp').config(
         'toasts': {
           'data-package-added': 'The data package was put into the shopping cart.',
           'data-package-already-in-cart': 'The data package is already in the shopping cart.',
+          'analysis-package-added': 'The analysis package was put into the shopping cart.',
+          'analysis-package-already-in-cart': 'The analysis package is already in the shopping cart.',
           'order-has-validation-errors-toast': 'Your form contains invalid data.',
           'error-on-saving-order': 'An error occurred while sending your order.'
         },

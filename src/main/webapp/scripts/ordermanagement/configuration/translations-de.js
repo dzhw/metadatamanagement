@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').config(
             'current': 'aktuell',
             'not-current': 'nicht aktuell',
             'this-data-product': 'Dieses Datenpaket',
+            'this-analysis-product': 'Dieses Analysepaket',
             'study-series': 'aus der Studienreihe "{{series}}"',
             'contains': 'enthält',
             'variables': '{variables, plural, =0{unbekannt viele Variablen} =1{eine Variable} other{{formattedVariables} Variablen}}',
@@ -82,6 +83,8 @@ angular.module('metadatamanagementApp').config(
         'toasts': {
           'data-package-added': 'Das Datenpaket wurde in den Warenkorb gelegt.',
           'data-package-already-in-cart': 'Das Datenpaket ist bereits im Warenkorb.',
+          'analysis-package-added': 'Das Analysepaket wurde in den Warenkorb gelegt.',
+          'analysis-package-already-in-cart': 'Das Analysepaket ist bereits im Warenkorb.',
           'order-has-validation-errors-toast': 'Ihr Formular enthält ungültige Angaben.',
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },
@@ -89,6 +92,7 @@ angular.module('metadatamanagementApp').config(
           'checkout': 'Kostenlos bestellen',
           'add-data-package': 'In den Warenkorb',
           'add-data-package-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
+          'add-analysis-package-tooltip': 'Klicken, um das Analysepaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'choose-data-package-options': 'Klicken, um eine Variante dieses Datenpakets in den Warenkorb zu legen.',
           'open-cart': 'Zum Warenkorb',
           'checkout-tooltip': 'Klicken, um die Datenpakete zu bestellen.',

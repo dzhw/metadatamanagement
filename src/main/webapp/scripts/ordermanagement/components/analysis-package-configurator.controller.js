@@ -33,28 +33,6 @@
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
-    // $ctrl.exportFormats = [{
-    //   format: 'oai_dc',
-    //   label: 'Dublin Core'
-    // }, {
-    //   format: 'dara',
-    //   label: 'da|ra'
-    // }, {
-    //   format: 'oai_ddi31',
-    //   label: 'DDI 3.1'
-    // }, {
-    //   format: 'oai_ddi32',
-    //   label: 'DDI 3.2'
-    // }, {
-    //   format: 'data_cite_xml',
-    //   label: 'DataCite (XML)'
-    // }, {
-    //   format: 'data_cite_json',
-    //   label: 'DataCite (JSON)'
-    // }, {
-    //   format: 'schema_org_json_ld',
-    //   label: 'Schema.org'
-    // }];
 
     function init() {
       var search = $location.search();
@@ -114,65 +92,16 @@
       });
     }
 
-    // function loadAccessWays(id) {
-    //   AnalysisPackageAccessWaysResource.get({id: id})
-    //     .$promise
-    //     .then(function(data) {
-    //       $ctrl.accessWays = data;
-    //       if ($ctrl.accessWays.length === 1) {
-    //         $ctrl.selectedAccessWay = $ctrl.accessWays[0];
-    //       }
-    //     });
-    // }
-
-    // var extractDataFormats = function(dataPackage, selectedAccessWay) {
-    //   var dataFormats = _.flatMap(dataPackage.dataSets, function(dataSet) {
-    //     var subDataSetsBySelectedAccessWay = _.filter(dataSet.subDataSets,
-    //       function(subDataSet) {
-    //         return subDataSet.accessWay === selectedAccessWay;
-    //       });
-    //     return _.flatMap(subDataSetsBySelectedAccessWay,
-    //       function(subDataSet) {
-    //         return subDataSet.dataFormats;
-    //       });
-    //   });
-    //   return _.uniq(dataFormats);
-    // };
-
     $ctrl.addToShoppingCart = function() {
-      // if (!$ctrl.selectedAccessWay) {
-      //   var alert = $mdDialog.alert({
-      //     title: $translate.instant(
-      //       'shopping-cart.detail.select-access-way-title'),
-      //     textContent: $translate.instant(
-      //       'shopping-cart.detail.select-access-way-for-ordering'),
-      //     ok: $translate.instant('global.buttons.close'),
-      //     targetEvent: $event,
-      //     clickOutsideToClose: true,
-      //     escapeToClose: true,
-      //     fullscreen: true
-      //   });
-      //   $mdDialog.show(alert);
-      // } else {
-      //   ShoppingCartService.add({
-      //     dataAcquisitionProjectId: $ctrl.dataPackage
-      //     .dataAcquisitionProjectId,
-      //     accessWay: $ctrl.selectedAccessWay,
-      //     version: $ctrl.selectedVersion,
-      //     dataFormats: extractDataFormats($ctrl.dataPackage,
-      //       $ctrl.selectedAccessWay),
-      //     study: {
-      //       id: $ctrl.dataPackage.id,
-      //       surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
-      //       title: $ctrl.dataPackage.title
-      //     },
-      //     dataPackage: {
-      //       id: $ctrl.dataPackage.id,
-      //       surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
-      //       title: $ctrl.dataPackage.title
-      //     }
-      //   });
-      // }
+        ShoppingCartService.add({
+          dataAcquisitionProjectId: $ctrl.analysisPackage
+          .dataAcquisitionProjectId,
+          version: $ctrl.selectedVersion,
+          analysisPackage: {
+            id: $ctrl.analysisPackage.id,
+            title: $ctrl.analysisPackage.title
+          }
+        });
     };
     var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||
@@ -199,19 +128,6 @@
         $state.go($state.current, search, {reload: true});
       }
     });
-
-    // $scope.$watch(function() {
-    //   return $ctrl.selectedAccessWay;
-    // }, function(newVal) {
-    //   var search = $location.search();
-    //   if (initReady && newVal !== search['access-way']) {
-    //     search['access-way'] = $ctrl.selectedAccessWay;
-    //     if (search['access-way'] === '') {
-    //       delete search['access-way'];
-    //     }
-    //     $location.search(search).replace();
-    //   }
-    // });
 
     $scope.$watch(function() {
         return $rootScope.currentLanguage;
@@ -258,26 +174,6 @@
         targetEvent: $event
       });
     };
-
-    // $ctrl.openCitationDialog = function($event) {
-    //   if (!$ctrl.selectedAccessWay) {
-    //     var alert = $mdDialog.alert({
-    //       title: $translate.instant(
-    //         'shopping-cart.detail.select-access-way-title'),
-    //       textContent: $translate.instant(
-    //         'shopping-cart.detail.select-access-way-for-citation'),
-    //       ok: $translate.instant('global.buttons.close'),
-    //       targetEvent: $event,
-    //       clickOutsideToClose: true,
-    //       escapeToClose: true,
-    //       fullscreen: true
-    //     });
-    //     $mdDialog.show(alert);
-    //   } else {
-    //     DataPackageCitationDialogService.showDialog($ctrl.selectedAccessWay,
-    //       $ctrl.dataPackage, $event);
-    //   }
-    // };
   }
 
   angular

@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').controller('ShoppingCartController',
   function(PageMetadataService, $state, BreadcrumbService,
            ShoppingCartService, $scope, DataPackageResource,
-           DataSetSearchService,
+           DataSetSearchService, AnalysisPackageResource,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
            $window, $interval, $location, $transitions, ProjectReleaseService,
@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     var intervalReference;
     ctrl.dataAcquisitionProjects = {};
     ctrl.dataPackages = {};
+    ctrl.analysisPackages = {};
     ctrl.releases = {};
     ctrl.counts = {};
     ctrl.noShadowCopyAvailable = {};
@@ -137,6 +138,30 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         });
     };
 
+    var loadAnalysisPackageAsMasterFallback = function(analysisPackageId) {
+      var masterId = ProjectReleaseService.stripVersionSuffix(analysisPackageId);
+      return AnalysisPackageResource.get({id: masterId}).$promise.then(
+        function(analysisPackage) {
+          ctrl.analysisPackages[analysisPackageId] = analysisPackage;
+          ctrl.noShadowCopyAvailable[analysisPackageId] = true;
+        }, function(error) {
+          return $q.reject(error);
+        });
+    };
+
+    var loadAnalysisPackage = function(analysisPackageId, promises) {
+      return AnalysisPackageResource.get({id: analysisPackageId}).$promise.then(
+        function(analysisPackage) {
+          ctrl.analysisPackages[analysisPackageId] = analysisPackage;
+        }, function(error) {
+          if (error.status === 404) {
+            return loadAnalysisPackageAsMasterFallback(analysisPackageId);
+          } else {
+            return $q.reject(error);
+          }
+        });
+    };
+
     var loadProjectReleases = function(projectId) {
       return DataAcquisitionProjectReleasesResource.get(
         {id: projectId}).$promise.then(function(releases) {
@@ -146,19 +171,39 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       });
     };
 
+    var getDataPackagesInProducts = function(product, promises) {
+      var dataPackageId = product.dataPackage.id + '-' + product.version;
+      ctrl.dataPackages[dataPackageId] = {};
+      ctrl.releases[product.dataAcquisitionProjectId] = {};
+      promises.push(loadDataSetCountForProduct(product, dataPackageId));
+      promises.push(loadVariablesCountForProduct(product, dataPackageId));
+    };
+
+    var getAnalysisPackagesInProducts = function(product) {
+      var analysisPackageId = product.analysisPackage.id + '-' + product.version;
+      ctrl.analysisPackages[analysisPackageId] = {};
+      ctrl.releases[product.dataAcquisitionProjectId] = {};
+    };
+
     ctrl.init = function() {
+      // ShoppingCartService.clearProducts();
       var promises = [];
       existingOrderId = ShoppingCartService.getOrderId();
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
-        var dataPackageId = product.dataPackage.id + '-' + product.version;
-        ctrl.dataPackages[dataPackageId] = {};
-        ctrl.releases[product.dataAcquisitionProjectId] = {};
-        promises.push(loadDataSetCountForProduct(product, dataPackageId));
-        promises.push(loadVariablesCountForProduct(product, dataPackageId));
+        if (product.hasOwnProperty('dataPackage')) {
+          getDataPackagesInProducts(product, promises);
+        }
+        if (product.hasOwnProperty('analysisPackage')) {
+          getAnalysisPackagesInProducts(product, promises);
+        }
       });
 
       $rootScope.$broadcast('start-ignoring-404');
+      _.forEach(ctrl.analysisPackages,
+        function(analysisPackage, analysisPackageId) { // jshint ignore:line
+          promises.push(loadAnalysisPackage(analysisPackageId, promises));
+        });
       _.forEach(ctrl.dataPackages,
           function(dataPackage, dataPackageId) { // jshint ignore:line
         promises.push(loadDataPackage(dataPackageId));
@@ -171,8 +216,15 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         ctrl.initComplete = true;
         // remove all product which are not available anymore
         ctrl.products.forEach(function(product) {
-          if (ctrl.dataPackages[product.dataPackage.id].hidden) {
-            ShoppingCartService.remove(product);
+          if (product.hasOwnProperty('dataPackage')) {
+            if (ctrl.dataPackages[product.dataPackage.id].hidden) {
+              ShoppingCartService.remove(product);
+            }
+          }
+          if (product.hasOwnProperty('analysisPackage')) {
+            if (ctrl.analysisPackages[product.analysisPackage.id].hidden) {
+              ShoppingCartService.remove(product);
+            }
           }
         });
       }).finally(function() {
@@ -214,7 +266,38 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.deleteProduct = function(product) {
       ShoppingCartService.remove(product);
     };
-
+    var createDataPackageForOrder = function(product) {
+      var completeProduct = {
+        dataAcquisitionProjectId: product.dataAcquisitionProjectId,
+        study: ctrl.dataPackages[product.study.id + '-' +
+        product.version],
+        dataPackage: ctrl.dataPackages[product.dataPackage.id + '-' +
+        product.version],
+        accessWay: product.accessWay,
+        version: product.version,
+        dataFormats: product.dataFormats
+      };
+      _.set(completeProduct, 'study.surveyDataTypes',
+        product.study.surveyDataTypes);
+      _.set(completeProduct, 'dataPackage.surveyDataTypes',
+        product.dataPackage.surveyDataTypes);
+      completeProduct.study.id = ProjectReleaseService
+        .stripVersionSuffix(completeProduct.study.id);
+      completeProduct.dataPackage.id = ProjectReleaseService
+        .stripVersionSuffix(completeProduct.dataPackage.id);
+      order.products.push(completeProduct);
+    };
+    var createAnalysisPackageForOrder = function(product) {
+      var completeProduct = {
+        dataAcquisitionProjectId: product.dataAcquisitionProjectId,
+        analysisPackage: ctrl.analysisPackages[product.analysisPackage.id + '-' +
+        product.version],
+        version: product.version,
+      };
+      completeProduct.analysisPackage.id = ProjectReleaseService
+        .stripVersionSuffix(completeProduct.analysisPackage.id);
+      order.products.push(completeProduct);
+    };
     ctrl.order = function() {
       // check honeypot fields
       var email = $document.find('#email')[0].value;
@@ -227,25 +310,12 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           products: []
         };
         ctrl.products.forEach(function(product) {
-          var completeProduct = {
-            dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-            study: ctrl.dataPackages[product.study.id + '-' +
-              product.version],
-            dataPackage: ctrl.dataPackages[product.dataPackage.id + '-' +
-              product.version],
-            accessWay: product.accessWay,
-            version: product.version,
-            dataFormats: product.dataFormats
-          };
-          _.set(completeProduct, 'study.surveyDataTypes',
-            product.study.surveyDataTypes);
-          _.set(completeProduct, 'dataPackage.surveyDataTypes',
-            product.dataPackage.surveyDataTypes);
-          completeProduct.study.id = ProjectReleaseService
-            .stripVersionSuffix(completeProduct.study.id);
-          completeProduct.dataPackage.id = ProjectReleaseService
-            .stripVersionSuffix(completeProduct.dataPackage.id);
-          order.products.push(completeProduct);
+          if (product.hasOwnProperty('dataPackage')) {
+            createDataPackageForOrder(product);
+          }
+          if (product.hasOwnProperty('analysisPackage')) {
+            createAnalysisPackageForOrder(product);
+          }
         });
 
         var orderFn;
