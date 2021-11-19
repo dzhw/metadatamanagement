@@ -125,4 +125,12 @@ public class AbstractUserApiTests extends AbstractTest {
       role
     );
   }
+
+  public void addFindOneWithAuthoritiesByLoginRequest(final String login) {
+    this.mockServer.request(
+        UserApiService.FIND_ONE_WITH_AUTHORITIES_BY_LOGIN_ENDPOINT,
+        u -> u.getName().equals(login),
+        login
+    );
+  }
 }
