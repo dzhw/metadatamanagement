@@ -42,11 +42,13 @@ public class AbstractUserApiTests extends AbstractTest {
       final int expectedRequests,
       final String role
   ) {
+    var roleAsSearch = AuthoritiesConstants.toSearchValue(role);
+
     mockServer.multipleRequests(
       UserApiService.FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
-      u -> u.getRoles().contains(role),
+      u -> u.getRoles().contains(roleAsSearch),
       expectedRequests,
-      AuthoritiesConstants.toSearchValue(role)
+      AuthoritiesConstants.toSearchValue(roleAsSearch)
     );
   }
 
@@ -56,7 +58,7 @@ public class AbstractUserApiTests extends AbstractTest {
   ) {
     mockServer.request(
         UserApiService.FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT,
-        u -> u.getName().equals(login) || u.getMail().equals(email),
+        u -> u.getName().contains(login) || u.getMail().contains(email),
         login,
         email
     );
@@ -117,12 +119,13 @@ public class AbstractUserApiTests extends AbstractTest {
       final String email,
       final String role
   ) {
+    var roleAsSearch = AuthoritiesConstants.toSearchValue(role);
     this.mockServer.request(
       UserApiService.FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT,
-      u -> (u.getName().equals(login) || u.getMail().equals(email)) && u.getRoles().contains(role),
+      u -> (u.getName().contains(login) || u.getMail().contains(email)) && u.getRoles().contains(roleAsSearch),
       login,
       email,
-      role
+      roleAsSearch
     );
   }
 
