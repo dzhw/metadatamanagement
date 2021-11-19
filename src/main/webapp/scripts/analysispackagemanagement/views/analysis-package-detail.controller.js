@@ -87,22 +87,10 @@ angular.module('metadatamanagementApp')
         _.forEach(packages, function(item, index) {
           if (item.type === 'dataPackage') {
             DataPackageSearchService
-              .findOneById(
-                item.dataPackageMasterId,
-                ['title', 'release'],
-                excludes
-              )
+              .findOneById(item.dataPackageMasterId, ['title'], excludes)
               .promise
               .then(function(data) {
-                // Check if package is released
-                if (data.release &&
-                  (new Date(data.release.lastDate) < new Date()) &&
-                  !Principal.hasAnyAuthority(
-                    ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
-                  delete packages[index];
-                } else {
-                  packages[index].dataPackageTitle = data.title;
-                }
+                packages[index].dataPackageTitle = data.title;
               });
           }
         });
