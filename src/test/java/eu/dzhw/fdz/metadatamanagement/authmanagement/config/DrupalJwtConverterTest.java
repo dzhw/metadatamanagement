@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.config;
 
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWEEncrypter;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.crypto.RSASSASigner;
@@ -12,7 +10,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
@@ -60,10 +57,12 @@ public class DrupalJwtConverterTest extends AbstractTest {
 
     assertTrue(authenticationToken.isAuthenticated());
     assertTrue(
-      authenticationToken.getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+      authenticationToken.getAuthorities().stream()
+          .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.USER))
     );
     assertTrue(
-      authenticationToken.getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN))
+      authenticationToken.getAuthorities().stream()
+          .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.ADMIN))
     );
   }
 
@@ -81,10 +80,12 @@ public class DrupalJwtConverterTest extends AbstractTest {
 
     assertTrue(authenticationToken.isAuthenticated());
     assertTrue(
-        authenticationToken.getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+      authenticationToken.getAuthorities().stream()
+          .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.USER))
     );
     assertTrue(
-      authenticationToken.getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN))
+      authenticationToken.getAuthorities().stream()
+          .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.ADMIN))
     );
   }
 }
