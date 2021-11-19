@@ -28,13 +28,10 @@ public final class SecurityUtils {
    * from the isUserInRole() method in the Servlet API.
    */
   public static boolean isUserInRole(String authority) {
-    SecurityContext securityContext = SecurityContextHolder.getContext();
-    Authentication authentication = securityContext.getAuthentication();
-    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-      UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-      return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
-    }
-    return false;
+    var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    return authentication != null && authentication.getAuthorities().stream()
+        .anyMatch(a -> a.getAuthority().equals(authority));
   }
 
   /**
