@@ -38,16 +38,13 @@
       var initSelectedLanguages = function() {
         isInitialisingSelectedLanguage = true;
         _.forEach($ctrl.scripts, function(value, index) {
-          var result = _.filter(isoLanguagesArray,
+          _.filter(isoLanguagesArray,
             function(isoLanguage) {
-              return isoLanguage.code === value.usedLanguage;
+              if (isoLanguage.code === value.usedLanguage) {
+                $ctrl.scripts[index].language = isoLanguage;
+              }
             });
-          if (result.length > 0) {
-            $ctrl['selectedLanguage_' + index] = result[0]
-              .displayLanguage[$ctrl.currentLanguage];
-          }
         });
-
       };
 
       var getScriptAttachmentMetadata = function() {
@@ -88,6 +85,7 @@
             softwarePackage: '',
             softwarePackageVersion: '',
             usedLanguage: '',
+            language: '',
             scriptAttachmentMetadata: {
               fileName: ''
             }
@@ -175,11 +173,12 @@
       };
 
       $ctrl.selectedLanguageChanged = function(index) {
-        if ($ctrl['selectedLanguage_' + index]) {
+        if ($ctrl.scripts[index].language) {
           $ctrl.scripts[index]
-            .usedLanguage = $ctrl['selectedLanguage_' + index].code;
+            .usedLanguage = $ctrl.scripts[index].language
+            .code;
         } else {
-          delete $ctrl.scripts[index].usedLanguage;
+          $ctrl.scripts[index].usedLanguage = '';
         }
         if (!isInitialisingSelectedLanguage) {
           $ctrl.currentForm.$setDirty();
