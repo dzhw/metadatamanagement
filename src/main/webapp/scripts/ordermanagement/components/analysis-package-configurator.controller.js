@@ -1,4 +1,3 @@
-
 (function() {
 
   'use strict';
@@ -93,15 +92,15 @@
     }
 
     $ctrl.addToShoppingCart = function() {
-        ShoppingCartService.add({
-          dataAcquisitionProjectId: $ctrl.analysisPackage
+      ShoppingCartService.add({
+        dataAcquisitionProjectId: $ctrl.analysisPackage
           .dataAcquisitionProjectId,
-          version: $ctrl.selectedVersion,
-          analysisPackage: {
-            id: $ctrl.analysisPackage.id,
-            title: $ctrl.analysisPackage.title
-          }
-        });
+        version: $ctrl.selectedVersion,
+        analysisPackage: {
+          id: $ctrl.analysisPackage.id,
+          title: $ctrl.analysisPackage.title
+        }
+      });
     };
     var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||

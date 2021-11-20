@@ -139,7 +139,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     var loadAnalysisPackageAsMasterFallback = function(analysisPackageId) {
-      var masterId = ProjectReleaseService.stripVersionSuffix(analysisPackageId);
+      var masterId = ProjectReleaseService
+        .stripVersionSuffix(analysisPackageId);
       return AnalysisPackageResource.get({id: masterId}).$promise.then(
         function(analysisPackage) {
           ctrl.analysisPackages[analysisPackageId] = analysisPackage;
@@ -149,7 +150,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         });
     };
 
-    var loadAnalysisPackage = function(analysisPackageId, promises) {
+    var loadAnalysisPackage = function(analysisPackageId) {
       return AnalysisPackageResource.get({id: analysisPackageId}).$promise.then(
         function(analysisPackage) {
           ctrl.analysisPackages[analysisPackageId] = analysisPackage;
@@ -180,7 +181,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     var getAnalysisPackagesInProducts = function(product) {
-      var analysisPackageId = product.analysisPackage.id + '-' + product.version;
+      var analysisPackageId = product.
+        analysisPackage.id + '-' + product.version;
       ctrl.analysisPackages[analysisPackageId] = {};
       ctrl.releases[product.dataAcquisitionProjectId] = {};
     };
@@ -290,8 +292,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     var createAnalysisPackageForOrder = function(product) {
       var completeProduct = {
         dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-        analysisPackage: ctrl.analysisPackages[product.analysisPackage.id + '-' +
-        product.version],
+        analysisPackage: ctrl
+          .analysisPackages[product.analysisPackage.id + '-' + product.version],
         version: product.version,
       };
       completeProduct.analysisPackage.id = ProjectReleaseService
