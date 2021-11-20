@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.dataAcquisitionProjects = {};
     ctrl.dataPackages = {};
     ctrl.analysisPackages = {};
+    ctrl.softwarePackages = [];
     ctrl.releases = {};
     ctrl.counts = {};
     ctrl.noShadowCopyAvailable = {};
@@ -247,6 +248,21 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     $scope.$on('shopping-cart-changed', function() {
       ctrl.products = ShoppingCartService.getProducts();
     });
+
+    ctrl.getSoftwarePackages = function(product) {
+      var result = [];
+      _.forEach(ctrl.analysisPackages[product.
+        analysisPackage.id + '-' + product.version].scripts,
+        function(item) {
+        result.push(item.softwarePackage);
+      });
+      return result;
+    };
+
+    ctrl.getNumberOfScripts = function(product) {
+      return ctrl.analysisPackages[product.
+        analysisPackage.id + '-' + product.version].scripts.length;
+    };
 
     ctrl.getNumberOfVariables = function(product) {
       var suffixedProduct = appendVersionSuffix(product);

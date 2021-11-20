@@ -27,10 +27,13 @@
         </md-card-header>
         <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.analysisPackage.id + '-' + product.version]">
           <p>
-          <span>{{'shopping-cart.detail.label.this-analysis-product' | translate}}</span>
-          <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
-          <span ng-switch-when="true">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}</span>
-
+            <span>{{'shopping-cart.detail.label.this-analysis-product' | translate}}</span>
+            <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
+            <span>{{'shopping-cart.detail.label.scripts' | translate:'{scripts: ' + ctrl.getNumberOfScripts(product) + ', formattedScripts:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}</span>
+            <span>{{'shopping-cart.detail.label.following' | translate}}</span>
+            <span>{{'shopping-cart.detail.label.software-packages' | translate:'{packages: ' + ctrl.getNumberOfScripts(product) + ', formattedPackages:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}</span>
+            <span ng-repeat="package in ctrl.getSoftwarePackages(product)">{{package}}{{!$last?', ':''}}</span>
+          </p>
           <div ng-if="ctrl.analysisPackages[product.analysisPackage.id + '-' + product.version].annotations">
             <span class="b">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
             <p markdown-to-html="ctrl.analysisPackages[product.analysisPackage.id + '-' + product.version].annotations | displayI18nString"></p>
