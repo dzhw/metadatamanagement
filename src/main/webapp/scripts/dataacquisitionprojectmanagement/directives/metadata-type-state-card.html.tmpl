@@ -50,12 +50,18 @@
 				<span>{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>
-			<md-button class="md-primary md-raised" ng-if="ctrl.type==='publications'" target="_blank" href="{{'related-publication-management.report-publications.button.link' | translate:{dataPackageId: ctrl.dataPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
+			<md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.counts.data_packages > 0" target="_blank" href="{{'related-publication-management.report-publications.button.link' | translate:{dataPackageId: ctrl.dataPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
 				<span>{{'related-publication-management.report-publications.button.text' | translate}}</span>
 				<md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
 		      {{'related-publication-management.report-publications.button.tooltip' | translate }}
 		    </md-tooltip>
 		  </md-button>
+      <md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.counts.analysis_packages > 0" target="_blank" href="{{'related-publication-management.report-publications.button.analysis-package.link' | translate:{dataPackageId: ctrl.dataPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
+        <span>{{'related-publication-management.report-publications.button.text' | translate}}</span>
+        <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'related-publication-management.report-publications.button.analysis-package.tooltip' | translate }}
+        </md-tooltip>
+      </md-button>
 		</div>
 	</md-card-actions>
 </md-card>

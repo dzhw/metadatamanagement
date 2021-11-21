@@ -122,7 +122,11 @@ angular.module('metadatamanagementApp').config(
           'button': {
             'text': 'Report publications',
             'tooltip': 'Click to report publications on our data packages',
-            'link': 'mailto:userservice@dzhw.eu?subject=Reporting%20of%20publications%20on%20data%20packages%20from%20FDZ-DZHW&body=Dear%20FDZ-DZHW%2C%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20publication(s)%2C%20which%20belong%20to%20data%20package%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%3A%0D%0A'
+            'link': 'mailto:userservice@dzhw.eu?subject=Reporting%20of%20publications%20on%20data%20packages%20from%20FDZ-DZHW&body=Dear%20FDZ-DZHW%2C%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20publication(s)%2C%20which%20belong%20to%20data%20package%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%3A%0D%0A',
+            'analysis-package': {
+              'tooltip': 'Click to report publications on our analysis packages',
+              'link': 'mailto:userservice@dzhw.eu?subject=Reporting%20of%20publications%20on%20analysis%20packages%20from%20FDZ-DZHW&body=Dear%20FDZ-DZHW%2C%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20publication(s)%2C%20which%20belong%20to%20analysis%20package%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%3A%0D%0A'
+            }
           }
         }
       }
