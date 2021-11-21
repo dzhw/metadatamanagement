@@ -1,3 +1,4 @@
+/* global _ */
 (function() {
 
   'use strict';
@@ -13,19 +14,14 @@
                       ProjectReleaseService,
                       ShoppingCartService,
                       MessageBus,
-                      // $translate,
                       AnalysisPackageSearchService,
-                      // AnalysisPackageAccessWaysResource,
-                      CurrentAnalysisPackageService
-                      // DataPackageSearchService,
-                      // DataPackageAccessWaysResource,
-                      // DataPackageCitationDialogService,
-                      // CurrentDataPackageService
+                      CurrentAnalysisPackageService,
+                      DataPackageSearchService
   ) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.analysisPackageIdVersion = {};
-    // $ctrl.accessWays = [];
+    $ctrl.dataPackages = [];
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onAnalysisPackageChange = MessageBus;
     $ctrl.noFinalRelease = false;
@@ -34,13 +30,6 @@
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
     function init() {
-      var search = $location.search();
-      if (search['access-way']) {
-        $ctrl.selectedAccessWay = search['access-way'];
-      }
-      if (!$ctrl.selectedAccessWay) {
-        $ctrl.selectedAccessWay = '';
-      }
       $ctrl.selectedVersion = $ctrl.analysisPackageIdVersion.version;
       loadAnalysisPackage($ctrl.analysisPackageIdVersion.masterId,
         $ctrl.analysisPackageIdVersion.version);
@@ -61,8 +50,35 @@
             if (releases.length === 0) {
               $ctrl.noFinalRelease = true;
             }
-            // loadAccessWays(id);
           });
+    }
+
+    var extractDataFormats = function(dataPackage, selectedAccessWay) {
+      var dataFormats = _.flatMap(dataPackage.dataSets, function(dataSet) {
+        var subDataSetsBySelectedAccessWay = _.filter(dataSet.subDataSets,
+          function(subDataSet) {
+            return subDataSet.accessWay === selectedAccessWay;
+          });
+        return _.flatMap(subDataSetsBySelectedAccessWay,
+          function(subDataSet) {
+            return subDataSet.dataFormats;
+          });
+      });
+      return _.uniq(dataFormats);
+    };
+
+    function loadDataPackage(id, version, accessWay) {
+      // $rootScope.$broadcast('start-ignoring-404');
+      $ctrl.noFinalRelease = false;
+      var excludes = ['nested*', 'variables', 'questions',
+        'surveys', 'instruments', 'relatedPublications',
+        'concepts'];
+      DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
+        .promise.then(function(data) {
+        data.selectedAccessWay = accessWay;
+        data.selectedVersion = version;
+        $ctrl.dataPackages.push(data);
+      });
     }
 
     function loadAnalysisPackage(id, version) {
@@ -82,6 +98,15 @@
             $ctrl.noFinalRelease = true;
           }
           loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);
+          _.forEach($ctrl.analysisPackage.analysisDataPackages, function(item) {
+            if (item.type === 'dataPackage') {
+              loadDataPackage(
+                item.dataPackageMasterId,
+                item.version,
+                item.accessWay
+              );
+            }
+          });
         }
       }, function() {
         $ctrl.analysisPackage = null;
@@ -101,6 +126,27 @@
           title: $ctrl.analysisPackage.title
         }
       });
+      if ($ctrl.dataPackages.length) {
+        _.forEach($ctrl.dataPackages, function(item) {
+          ShoppingCartService.add({
+            dataAcquisitionProjectId: item.dataAcquisitionProjectId,
+            accessWay: item.selectedAccessWay,
+            version: item.selectedVersion,
+            dataFormats: extractDataFormats(item,
+              item.selectedAccessWay),
+            study: {
+              id: item.id,
+              surveyDataTypes: item.surveyDataTypes,
+              title: item.title
+            },
+            dataPackage: {
+              id: item.id,
+              surveyDataTypes: item.surveyDataTypes,
+              title: item.title
+            }
+          });
+        });
+      }
     };
     var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||

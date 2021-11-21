@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Warenkorb',
         'detail': {
-          'table-title': 'Ihre ausgewählten Datenpakete',
+          'table-title': 'Ihre ausgewählten Datenpakete und Analysepakete',
           'hint': 'Hinweis',
           'label': {
             'title': 'Datenpakettitel',

@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Shopping Cart',
         'detail': {
-          'table-title': 'Your selected Data Packages',
+          'table-title': 'Your selected Data Packages and Analysis Packages',
           'hint': 'Hint',
           'label': {
             'title': 'Data Package Title',
