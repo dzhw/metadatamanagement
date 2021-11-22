@@ -35,11 +35,7 @@
               </md-tooltip>
             </a>
             <span>{{'shopping-cart.detail.label.following' | translate}}</span>
-            <a ui-sref="analysisPackageDetail({id: product.analysisPackage.id.replace('$', ''), version: product.version})">{{'shopping-cart.detail.label.software-packages' | translate:'{packages: ' + ctrl.getNumberOfScripts(product) + ', formattedPackages:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}:
-              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'shopping-cart.detail.software-packages-tooltip' | translate}}
-              </md-tooltip>
-            </a>
+            <span>{{'shopping-cart.detail.label.software-packages' | translate:'{packages: ' + ctrl.getNumberOfScripts(product) + ', formattedPackages:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}:</span>
             <span ng-repeat="package in ctrl.getSoftwarePackages(product)">{{package}}{{!$last?', ':''}}</span>
           </p>
           <div ng-if="ctrl.analysisPackages[product.analysisPackage.id + '-' + product.version].annotations">

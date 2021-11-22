@@ -161,9 +161,18 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
           $state.go('shoppingCart');
         } else {
           var removed = _.remove(order.products, function(productInOrder) {
-            return productInOrder.study.id === product.study.id &&
-              productInOrder.version === product.version &&
-              productInOrder.accessWay === product.accessWay;
+            if (product.hasOwnProperty('dataPackage') &&
+              productInOrder.hasOwnProperty('dataPackage')) {
+              return productInOrder.study.id === product.study.id &&
+                productInOrder.version === product.version &&
+                productInOrder.accessWay === product.accessWay;
+            }
+            if (product.hasOwnProperty('analysisPackage') &&
+              productInOrder.hasOwnProperty('analysisPackage')) {
+              return productInOrder.analysisPackage.id === product
+                  .analysisPackage.id &&
+                productInOrder.version === product.version;
+            }
           });
 
           if (removed.length > 0) {
@@ -238,7 +247,9 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       localStorageService.set(ORDER_ID_KEY, initOrderId);
       localStorageService.set(VERSION_KEY, initVersion);
       orderId = initOrderId;
+      console.log(products);
       products = copy;
+      console.log(products);
       version = initVersion;
       _broadcastShoppingCartChanged();
     };
