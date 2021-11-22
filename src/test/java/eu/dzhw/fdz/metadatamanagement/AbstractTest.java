@@ -118,17 +118,5 @@ public abstract class AbstractTest {
     assertEquals(0, this.shadowCopyQueueItemRepository.count());
     assertEquals(0, this.dataAcquisitionProjectRepository.count());
     assertEquals(0, greenMail.getReceivedMessages().length);
-
-    auditorStore.clear();
-
-    var authentication = SecurityContextHolder.getContext().getAuthentication();
-    var auditor = authentication != null ?
-        authentication.getName() :
-        null;
-
-    assertEquals(
-        auditorStore.getAuditor(),
-        auditor
-    );
   }
 }
