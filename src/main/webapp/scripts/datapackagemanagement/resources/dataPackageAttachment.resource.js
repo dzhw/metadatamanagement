@@ -2,10 +2,10 @@
 
 /* Data Package Attachment Resource */
 angular.module('metadatamanagementApp')
-.factory('DataPackageAttachmentResource', function($resource,
-  CleanJSObjectService) {
-      return $resource(
-        '/api/data-packages/:dataPackageId/attachments/:fileName', {
+  .factory('DataPackageAttachmentResource', function($resource,
+                                                     CleanJSObjectService) {
+    return $resource(
+      '/api/data-packages/:dataPackageId/attachments/:fileName', {
         dataPackageId: '@dataPackageId',
         fileName: '@fileName'
       }, {
@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp')
               if (data.fileName.charAt(0) === '.') {
                 value = '\\';
               }
-              return  value + data.fileName;
+              return value + data.fileName;
             }
           },
           transformRequest: function(attachment) {
@@ -32,18 +32,18 @@ angular.module('metadatamanagementApp')
             return angular.toJson(copy);
           }
         },
-          'delete': {
-            method: 'DELETE',
-            params: {
-              analysisPackageId: '@analysisPackageId',
-              fileName: function(data) {
-                var value = '';
-                if (data.fileName.charAt(0) === '.') {
-                  value = '\\';
-                }
-                return  value + data.fileName;
+        'delete': {
+          method: 'DELETE',
+          params: {
+            analysisPackageId: '@analysisPackageId',
+            fileName: function(data) {
+              var value = '';
+              if (data.fileName.charAt(0) === '.') {
+                value = '\\';
               }
+              return value + data.fileName;
             }
           }
+        }
       });
-    });
+  });

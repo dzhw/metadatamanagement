@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp')
               if (data.fileName.charAt(0) === '.') {
                 value = '\\';
               }
-              return  value + data.fileName;
+              return value + data.fileName;
             }
           },
           transformRequest: function(attachment) {
@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp')
               if (data.fileName.charAt(0) === '.') {
                 value = '\\';
               }
-              return  value + data.fileName;
+              return value + data.fileName;
             }
           }
         }

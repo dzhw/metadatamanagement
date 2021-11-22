@@ -284,7 +284,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.deleteProduct = function(product) {
       ShoppingCartService.remove(product);
     };
-    var createDataPackageForOrder = function(product) {
+    var createDataPackageForOrder = function(product, order) {
       var completeProduct = {
         dataAcquisitionProjectId: product.dataAcquisitionProjectId,
         study: ctrl.dataPackages[product.study.id + '-' +
@@ -305,7 +305,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         .stripVersionSuffix(completeProduct.dataPackage.id);
       order.products.push(completeProduct);
     };
-    var createAnalysisPackageForOrder = function(product) {
+    var createAnalysisPackageForOrder = function(product, order) {
       var completeProduct = {
         dataAcquisitionProjectId: product.dataAcquisitionProjectId,
         analysisPackage: ctrl
@@ -315,6 +315,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       completeProduct.analysisPackage.id = ProjectReleaseService
         .stripVersionSuffix(completeProduct.analysisPackage.id);
       order.products.push(completeProduct);
+      console.log(order);
     };
     ctrl.order = function() {
       // check honeypot fields
@@ -329,10 +330,10 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         };
         ctrl.products.forEach(function(product) {
           if (product.hasOwnProperty('dataPackage')) {
-            createDataPackageForOrder(product);
+            createDataPackageForOrder(product, order);
           }
           if (product.hasOwnProperty('analysisPackage')) {
-            createAnalysisPackageForOrder(product);
+            createAnalysisPackageForOrder(product, order);
           }
         });
 
