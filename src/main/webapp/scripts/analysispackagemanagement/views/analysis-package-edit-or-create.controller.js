@@ -720,7 +720,6 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-
         var upload = function(file, attachmentMetadata) {
           var metadata = _.extend({}, attachmentMetadata, {
             analysisPackageId: ctrl.analysisPackage.id,
