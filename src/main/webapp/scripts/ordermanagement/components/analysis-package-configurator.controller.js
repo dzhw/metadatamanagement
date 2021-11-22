@@ -129,6 +129,7 @@
       if ($ctrl.dataPackages.length) {
         _.forEach($ctrl.dataPackages, function(item) {
           ShoppingCartService.add({
+            analysisDataPackage: true,
             dataAcquisitionProjectId: item.dataAcquisitionProjectId,
             accessWay: item.selectedAccessWay,
             version: item.selectedVersion,

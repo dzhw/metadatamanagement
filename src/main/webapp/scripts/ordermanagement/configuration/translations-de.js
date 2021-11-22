@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Warenkorb',
         'detail': {
-          'table-title': 'Ihre ausgewählten Datenpakete und Analysepakete',
+          'table-title': 'Ihre ausgewählten Produkte',
           'hint': 'Hinweis',
           'label': {
             'title': 'Datenpakettitel',
@@ -60,6 +60,7 @@ angular.module('metadatamanagementApp').config(
           'data-sets-tooltip': 'Klicken, um alle Datensätze dieses Datenpaketes anzuzeigen.',
           'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.',
           'scripts-tooltip': 'Klicken, um alle Skripte dieses Analysepaketes anzuzeigen.',
+          'software-packages-tooltip': 'Klicken, um alle Softwarepakete dieses Analysepaketes anzuzeigen.',
           'citation': 'Datenpaket und Daten- und Methodenbericht zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
           'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',

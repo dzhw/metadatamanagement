@@ -14,7 +14,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var orderId = localStorageService.get(ORDER_ID_KEY);
     var version = localStorageService.get(VERSION_KEY);
     var synchronizePromise;
-    var isAnalysisPackage = false;
 
     var showSynchronizeErrorMessage = function() {
       SimpleMessageToastService.openAlertMessageToast(SYNCHRONIZE_FAILURE_KEY);
@@ -35,7 +34,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     };
 
     var _displayProductAlreadyInShoppingCart = function(product) {
-      if (product.hasOwnProperty('dataPackage') && !isAnalysisPackage) {
+      if (product.hasOwnProperty('dataPackage') &&
+        !product.hasOwnProperty('analysisDataPackage')) {
         SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.data-package-already-in-cart',
           {id: product.dataPackage.id}
@@ -71,7 +71,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       } else {
         products.push(product);
         localStorageService.set(SHOPPING_CART_KEY, products);
-        if (product.hasOwnProperty('dataPackage') && !isAnalysisPackage) {
+        if (product.hasOwnProperty('dataPackage') &&
+          !product.hasOwnProperty('analysisDataPackage')) {
           SimpleMessageToastService.openSimpleMessageToast(
             'shopping-cart.toasts.data-package-added',
             {id: product.dataPackage.id});
@@ -110,7 +111,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         normalizedProduct.dataPackage.id = ProjectReleaseService
           .stripVersionSuffix(normalizedProduct.dataPackage.id);
       } else {
-        isAnalysisPackage = true;
         normalizedProduct.analysisPackage.id = ProjectReleaseService
           .stripVersionSuffix(normalizedProduct.analysisPackage.id);
       }

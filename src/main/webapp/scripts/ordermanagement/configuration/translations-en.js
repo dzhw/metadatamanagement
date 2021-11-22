@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Shopping Cart',
         'detail': {
-          'table-title': 'Your selected Data Packages and Analysis Packages',
+          'table-title': 'Your selected Products',
           'hint': 'Hint',
           'label': {
             'title': 'Data Package Title',
@@ -59,7 +59,8 @@ angular.module('metadatamanagementApp').config(
           'study-series-tooltip': 'Click to display all data packages of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data package.',
           'variables-tooltip': 'Click to display all variables of this data package.',
-          'cripts-tooltip': 'Click to display all scripts of this analysis package.',
+          'scripts-tooltip': 'Click to display all scripts of this analysis package.',
+          'software-packages-tooltip': 'Click to display all software packages of this analysis package.',
           'citation': 'Cite Data Package and Method Report',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
