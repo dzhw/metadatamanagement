@@ -108,61 +108,63 @@ public class ShadowCopyQueueItemService {
    * Emits {@link ShadowCopyingStartedEvent} for each entry of the collection at a fixed rate.
    */
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
-  public void executeShadowCopyActions() {
+  public void executeShadowCopyActions() throws Exception {
     LocalDateTime updateStartTime = LocalDateTime.now();
     shadowCopyQueueItemRepository.lockAllUnlockedOrExpiredItems(updateStartTime, jvmId);
     List<ShadowCopyQueueItem> tasks =
         shadowCopyQueueItemRepository.findOldestLockedItems(updateStartTime, jvmId);
     log.debug("Executing shadow copy actions for {} queued items.", tasks.size());
     tasks.forEach(task -> {
-      setupSecurityContext(task);
-      String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
-      Release release = task.getRelease();
-      Optional<DataAcquisitionProject> dataAcquisitionProjectOpt;
-      if (task.getAction().equals(ShadowCopyQueueItem.Action.DELETE)) {
-        dataAcquisitionProjectOpt = dataAcquisitionProjectRepository
+      try (auditorService) {
+        setupSecurityContext(task);
+        String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
+        Release release = task.getRelease();
+        Optional<DataAcquisitionProject> dataAcquisitionProjectOpt;
+        if (task.getAction().equals(ShadowCopyQueueItem.Action.DELETE)) {
+          dataAcquisitionProjectOpt = dataAcquisitionProjectRepository
             .findById(dataAcquisitionProjectId + "-" + release.getVersion());
-      } else {
-        dataAcquisitionProjectOpt =
+        } else {
+          dataAcquisitionProjectOpt =
             dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
-      }
-      if (dataAcquisitionProjectOpt.isPresent()) {
-        DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
-        switch (task.getAction()) {
-          case CREATE:
-            Optional<DataAcquisitionProject> existingShadow = dataAcquisitionProjectRepository
-                .findById(dataAcquisitionProjectId + "-" + release.getVersion());
-            String previousReleaseVersion =
-                getPreviousReleaseVersion(dataAcquisitionProject, release);
-            emitShadowCopyingStartedEvent(dataAcquisitionProject, release, previousReleaseVersion,
-                task.getAction());
-            emitShadowCopyingEndedEvent(dataAcquisitionProject, release, previousReleaseVersion,
-                existingShadow.isPresent(), task.getAction());
-            break;
-          case HIDE:
-          case UNHIDE:
-            emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
-                task.getAction());
-            emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, true,
-                task.getAction());
-            break;
-          case DELETE:
-            emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
-                task.getAction());
-            emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, false,
-                task.getAction());
-            break;
-          default:
-            throw new IllegalArgumentException(
-                task.getAction() + " has not been implemented yet!");
         }
+        if (dataAcquisitionProjectOpt.isPresent()) {
+          DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
+          switch (task.getAction()) {
+            case CREATE:
+              Optional<DataAcquisitionProject> existingShadow = dataAcquisitionProjectRepository
+                .findById(dataAcquisitionProjectId + "-" + release.getVersion());
+              String previousReleaseVersion =
+                getPreviousReleaseVersion(dataAcquisitionProject, release);
+              emitShadowCopyingStartedEvent(dataAcquisitionProject, release, previousReleaseVersion,
+                task.getAction());
+              emitShadowCopyingEndedEvent(dataAcquisitionProject, release, previousReleaseVersion,
+                existingShadow.isPresent(), task.getAction());
+              break;
+            case HIDE:
+            case UNHIDE:
+              emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
+                task.getAction());
+              emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, true,
+                task.getAction());
+              break;
+            case DELETE:
+              emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
+                task.getAction());
+              emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, false,
+                task.getAction());
+              break;
+            default:
+              throw new IllegalArgumentException(
+                task.getAction() + " has not been implemented yet!");
+          }
 
-      } else {
-        log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
+        } else {
+          log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
             dataAcquisitionProjectId);
+        }
+        elasticsearchUpdateQueueService.processAllQueueItems();
+        shadowCopyQueueItemRepository.delete(task);
       }
-      elasticsearchUpdateQueueService.processAllQueueItems();
-      shadowCopyQueueItemRepository.delete(task);
     });
     log.debug("Finished creating shadow copies.");
   }

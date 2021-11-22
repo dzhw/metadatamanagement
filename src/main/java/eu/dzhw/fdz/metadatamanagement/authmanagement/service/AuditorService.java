@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
  */
 @Service
 @RequiredArgsConstructor
-public class AuditorService {
+public class AuditorService implements AutoCloseable {
 
   private final UserApiService userApiService;
 
@@ -72,5 +72,10 @@ public class AuditorService {
     } catch (InvalidUserApiResponseException e) {
       throw new IllegalArgumentException("Could not find user " + login);
     }
+  }
+
+  @Override
+  public void close() {
+    auditorStore.clear();
   }
 }
