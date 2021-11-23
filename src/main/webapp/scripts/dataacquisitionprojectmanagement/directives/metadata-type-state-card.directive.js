@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
   .directive('metadataTypeStateCard',
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
       VariableUploadService, QuestionUploadService, DeleteMetadataService,
-      SimpleMessageToastService) {
+      SimpleMessageToastService, AnalysisPackageIdBuilderService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -28,6 +28,8 @@ angular.module('metadatamanagementApp')
         this.project = $scope.project;
         this.dataPackageId =  DataPackageIdBuilderService
           .buildDataPackageId(this.project.id);
+        this.analysisPackageId = AnalysisPackageIdBuilderService
+          .buildAnalysisPackageId(this.project.id);
 
         this.isAssignedDataProvider =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,

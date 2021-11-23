@@ -125,7 +125,7 @@ angular.module('metadatamanagementApp').config(
             'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Datenpaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Datenpaket%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%20geh%C3%B6ren%2C%20melden%3A%0D%0A',
             'analysis-package': {
               'tooltip': 'Klicken, um Publikationen zu unseren Analysepaketen zu melden',
-              'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Analysepaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Analysepaket%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%20geh%C3%B6ren%2C%20melden%3A%0D%0A'
+              'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Analysepaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Analysepaket%20{{ analysisPackageId ? "%22" + analysisPackageId + "%22" : "X"}}%20geh%C3%B6ren%2C%20melden%3A%0D%0A'
             }
           }
         }
