@@ -15,7 +15,7 @@ public class User {
           "name": "%s",
           "mail": "%s",
           "langcode": "%s",
-          "welcome_dialog_deactivated": %s,
+          "field_welcome_dialog_deactivated": %s,
           "roles": [%s]
         }""";
 

@@ -22,7 +22,7 @@ public class UserWithRolesDto extends UserDto {
    * @param name the name value (i.e. "login") of the user
    * @param mail the mail value (i.e. "email") of the user
    * @param langcode the langcode value (i.e. langKey) of the user
-   * @param welcomeDialogDeactivated the welcome_dialog_deactivated flag (i.e.
+   * @param welcomeDialogDeactivated the field_welcome_dialog_deactivated flag (i.e.
    *                                   welcomeDialogDeactivated) of the user
    * @param roles the roles object array (i.e. an object array that includes the role name which
    *              will be used by this class) of the user
@@ -32,7 +32,7 @@ public class UserWithRolesDto extends UserDto {
       @JsonProperty("name") final String name,
       @JsonProperty("mail") final String mail,
       @JsonProperty("langcode") final String langcode,
-      @JsonProperty("welcome_dialog_deactivated") final boolean welcomeDialogDeactivated,
+      @JsonProperty("field_welcome_dialog_deactivated") final boolean welcomeDialogDeactivated,
       @JsonProperty("roles") final List<RoleDto> roles
   ) {
     super(name, mail, langcode, welcomeDialogDeactivated);

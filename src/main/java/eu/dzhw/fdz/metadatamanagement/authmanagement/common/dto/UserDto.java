@@ -20,7 +20,7 @@ public class UserDto {
    * @param name the name value (i.e. "login") of the user
    * @param mail the mail value (i.e. "email") of the user
    * @param langcode the langcode value (i.e. langKey) of the user
-   * @param welcomeDialogDeactivated the welcome_dialog_deactivated flag (i.e.
+   * @param welcomeDialogDeactivated the field_welcome_dialog_deactivated flag (i.e.
    *                                   welcomeDialogDeactivated) of the user
    */
   @JsonCreator
@@ -28,7 +28,7 @@ public class UserDto {
       @JsonProperty(value = "name") final String name,
       @JsonProperty("mail") final String mail,
       @JsonProperty("langcode") final String langcode,
-      @JsonProperty("welcome_dialog_deactivated") final boolean welcomeDialogDeactivated
+      @JsonProperty("field_welcome_dialog_deactivated") final boolean welcomeDialogDeactivated
   ) {
     this.login = name;
     this.email = mail;
