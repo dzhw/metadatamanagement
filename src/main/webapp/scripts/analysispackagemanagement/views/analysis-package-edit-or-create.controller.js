@@ -572,20 +572,11 @@ angular.module('metadatamanagementApp')
               ctrl.analysisPackage.institutions.length > 0) {
               ctrl.currentInstitutions = angular.copy(
                 ctrl.analysisPackage.institutions);
-            } else {
-              ctrl.currentInstitutions = new Array(1);
-              ctrl.analysisPackage.institutions = [{
-                de: '',
-                en: ''
-              }];
             }
             if (ctrl.analysisPackage.sponsors &&
               ctrl.analysisPackage.sponsors.length > 0) {
               ctrl.currentSponsors = angular.copy(
                 ctrl.analysisPackage.sponsors);
-            } else {
-              ctrl.currentSponsors = [];
-              ctrl.analysisPackage.sponsors = [];
             }
 
             $timeout(function() {
