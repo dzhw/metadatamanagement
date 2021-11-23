@@ -178,13 +178,13 @@
 
       $ctrl.selectedLanguageChanged = function(index, code) {
         $ctrl.scripts[index].usedLanguage = code;
-          // if ($ctrl.scripts[index].language) {
-          //   $ctrl.scripts[index]
-          //     .usedLanguage = $ctrl.scripts[index].language
-          //     .code;
-          // } else {
-          //   $ctrl.scripts[index].usedLanguage = '';
-          // }
+        // if ($ctrl.scripts[index].language) {
+        //   $ctrl.scripts[index]
+        //     .usedLanguage = $ctrl.scripts[index].language
+        //     .code;
+        // } else {
+        //   $ctrl.scripts[index].usedLanguage = '';
+        // }
 
         if (!isInitialisingSelectedLanguage) {
           $ctrl.currentForm.$setDirty();
