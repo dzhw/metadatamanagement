@@ -125,13 +125,13 @@
                              md-floating-label="{{'analysis-package-management.edit.label.script.used-language' | translate}}"
                              md-require-match="true" md-select-on-match="true"
                              md-match-case-insensitive="true"
-                             md-selected-item="$ctrl.scripts[$index].language"
+                             md-selected-item="item.code"
                              md-min-length="0"
                              md-search-text="$ctrl['languageSearchText_' + $index]"
                              md-items="item in $ctrl.searchLanguages($ctrl['languageSearchText_' + $index])"
                              md-item-text="item.displayLanguage[$ctrl.currentLanguage]"
                              md-clear-button="true" md-no-cache="true"
-                             md-selected-item-change="$ctrl.selectedLanguageChanged($index)"
+                             md-selected-item-change="$ctrl.selectedLanguageChanged($index, item.code)"
                              md-is-error="!$ctrl.currentForm['scriptsUsedLanguage_' + $index].$valid && ($ctrl.currentForm['scriptsUsedLanguage_' + $index].$dirty || $ctrl.currentForm['scriptsUsedLanguage_' + $index].$touched)">
               <md-item-template>
           <span class="md-title"

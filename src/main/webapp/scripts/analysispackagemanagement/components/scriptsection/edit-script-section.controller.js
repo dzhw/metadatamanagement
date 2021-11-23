@@ -41,7 +41,9 @@
           _.filter(isoLanguagesArray,
             function(isoLanguage) {
               if (isoLanguage.code === value.usedLanguage) {
-                $ctrl.scripts[index].language = isoLanguage;
+                $ctrl['languageSearchText_' + index] = isoLanguage
+                  .displayLanguage[$ctrl.currentLanguage];
+                $ctrl['selectedLanguage_' + index] = isoLanguage.code;
               }
             });
         });
@@ -70,7 +72,8 @@
         });
       };
 
-      $scope.$on('LoadScriptEvent', function() {
+      $scope.$on('LoadScriptEvent', function(event) { // jshint ignore:line
+        // $ctrl.scripts = options.scripts;
         $ctrl.$onInit();
       });
 
@@ -118,7 +121,7 @@
             $ctrl.deleteScriptAttachment(
               scriptAttachment[0], 0, false
             );
-            $ctrl.loadScriptAttachments();
+            // $ctrl.loadScriptAttachments();
           }
         }
 
@@ -129,6 +132,7 @@
         $ctrl['softwarePackageSearchText_' + index] = '';
         $ctrl['selectedSoftwarePackage_' + index] = null;
         $ctrl.currentForm.$setDirty();
+        $ctrl.$onInit();
       };
 
       $ctrl.addScript = function() {
@@ -172,14 +176,16 @@
         });
       };
 
-      $ctrl.selectedLanguageChanged = function(index) {
-        if ($ctrl.scripts[index].language) {
-          $ctrl.scripts[index]
-            .usedLanguage = $ctrl.scripts[index].language
-            .code;
-        } else {
-          $ctrl.scripts[index].usedLanguage = '';
-        }
+      $ctrl.selectedLanguageChanged = function(index, code) {
+        $ctrl.scripts[index].usedLanguage = code;
+          // if ($ctrl.scripts[index].language) {
+          //   $ctrl.scripts[index]
+          //     .usedLanguage = $ctrl.scripts[index].language
+          //     .code;
+          // } else {
+          //   $ctrl.scripts[index].usedLanguage = '';
+          // }
+
         if (!isInitialisingSelectedLanguage) {
           $ctrl.currentForm.$setDirty();
         }
