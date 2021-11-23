@@ -185,7 +185,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'hints': {
-            'data-package': 'Bitte wählen die Herkunftsart der Analysedaten aus.',
+            'data-package': 'Bitte wählen Sie die Herkunftsart der Analysedaten aus.',
             'additional-links': {
               'url': 'Bitte tragen Sie die URL wie in dem folgenden Beispiel ein: https://www.dzhw.eu',
               'display-text': {
