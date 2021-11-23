@@ -247,9 +247,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       localStorageService.set(ORDER_ID_KEY, initOrderId);
       localStorageService.set(VERSION_KEY, initVersion);
       orderId = initOrderId;
-      console.log(products);
       products = copy;
-      console.log(products);
       version = initVersion;
       _broadcastShoppingCartChanged();
     };
