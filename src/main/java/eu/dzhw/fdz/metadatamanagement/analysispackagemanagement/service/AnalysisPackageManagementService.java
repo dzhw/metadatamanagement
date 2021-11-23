@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -16,6 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.Analy
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.helper.AnalysisPackageCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingEndedEvent;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
@@ -38,11 +41,11 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private final AnalysisPackageCrudHelper crudHelper;
-  
+
   private final AnalysisPackageAttachmentService analysisPackageAttachmentService;
-  
+
   private final ScriptAttachmentService scriptAttachmentService;
-  
+
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   /**
@@ -67,7 +70,7 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.analysis_packages);
   }
-  
+
   /**
    * Enqueue update of analysisPackage search documents when a related publication is changed.
    * 
@@ -82,6 +85,21 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> analysisPackageRepository.streamIdsByMasterIdIn(analysisPackageIds),
         ElasticsearchType.analysis_packages);
+  }
+
+  /**
+   * Re-indexes analysis package search documents with new data package references if a shadow copy
+   * of a project is saved.
+   *
+   * @param shadowCopyingEndedEvent Event emitted by {@link ShadowCopyQueueItemService}.
+   */
+  @EventListener
+  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      String masterId = "stu-" + shadowCopyingEndedEvent.getDataAcquisitionProjectId() + "$";
+      String version = shadowCopyingEndedEvent.getRelease().getVersion();
+      return analysisPackageRepository.streamIdsByDataPackageMasterIdAndVersion(masterId, version);
+    }, ElasticsearchType.analysis_packages);
   }
 
   /**
