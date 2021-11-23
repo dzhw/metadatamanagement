@@ -159,7 +159,7 @@ angular.module('metadatamanagementApp')
               LanguageService.getCurrentInstantly()
               ]
           });
-        PageMetadataService.setDublinCoreMetadata(result);
+        // PageMetadataService.setDublinCoreMetadata(result);
         // sponsors create an error
         // PageMetadataService.setSchemaOrgMetadata(result);
         BreadcrumbService.updateToolbarHeader({

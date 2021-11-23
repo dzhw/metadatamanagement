@@ -108,7 +108,8 @@ angular.module('metadatamanagementApp').config(
           'not-yet-released': 'Currently not released',
           'not-released-toast': 'Analysis Package "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
           'beta-release-no-doi': 'This analysis package has no DOI yet.',
-          'publications-for-analysis-package': 'Publications related to this Analysis Package'
+          'publications-for-analysis-package': 'Publications related to this Analysis Package',
+          'page-description': '{{ description }}'
         },
         'edit': {
           'add-analysis-data-tooltip': 'Click to add analysis data to this analysis package.',

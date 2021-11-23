@@ -75,7 +75,7 @@ angular.module('metadatamanagementApp').config(
             'software-package': 'Softwarepaket',
             'language': 'Skriptsprache',
             'version': 'Version des Softwarepakets',
-            'file': 'File'
+            'file': 'Datei'
           },
           'attachments': {
             'table-title': 'Materialien zu diesem Analysepaket',
@@ -108,7 +108,8 @@ angular.module('metadatamanagementApp').config(
           'not-yet-released': 'Aktuell nicht freigegeben',
           'not-released-toast': 'Das Analysepaket "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer:innen freigegeben!',
           'beta-release-no-doi': 'Dieses Analysepaket hat noch keine DOI.',
-          'publications-for-data-package': 'Publikationen zu diesem Analysepaket'
+          'publications-for-data-package': 'Publikationen zu diesem Analysepaket',
+          'page-description': '{{ description }}'
         },
         'edit': {
           'add-analysis-data-tooltip': 'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.',
