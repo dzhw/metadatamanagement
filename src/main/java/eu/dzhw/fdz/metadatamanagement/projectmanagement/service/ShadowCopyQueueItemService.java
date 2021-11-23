@@ -131,36 +131,54 @@ public class ShadowCopyQueueItemService {
           DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
           switch (task.getAction()) {
             case CREATE:
-              Optional<DataAcquisitionProject> existingShadow = dataAcquisitionProjectRepository
-                .findById(dataAcquisitionProjectId + "-" + release.getVersion());
+              Optional<DataAcquisitionProject> existingShadow =
+                  dataAcquisitionProjectRepository.findById(
+                      dataAcquisitionProjectId + "-" + release.getVersion()
+                  );
               String previousReleaseVersion =
-                getPreviousReleaseVersion(dataAcquisitionProject, release);
-              emitShadowCopyingStartedEvent(dataAcquisitionProject, release, previousReleaseVersion,
-                task.getAction());
-              emitShadowCopyingEndedEvent(dataAcquisitionProject, release, previousReleaseVersion,
-                existingShadow.isPresent(), task.getAction());
+                  getPreviousReleaseVersion(dataAcquisitionProject, release);
+              emitShadowCopyingStartedEvent(
+                  dataAcquisitionProject,
+                  release,
+                  previousReleaseVersion,
+                  task.getAction()
+              );
+              emitShadowCopyingEndedEvent(
+                  dataAcquisitionProject,
+                  release,
+                  previousReleaseVersion,
+                  existingShadow.isPresent(),
+                  task.getAction()
+              );
               break;
             case HIDE:
             case UNHIDE:
-              emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
-                task.getAction());
-              emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, true,
-                task.getAction());
+              emitShadowCopyingStartedEvent(
+                  dataAcquisitionProject, release, null, task.getAction()
+              );
+              emitShadowCopyingEndedEvent(
+                  dataAcquisitionProject, release, null, true, task.getAction()
+              );
               break;
             case DELETE:
-              emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
-                task.getAction());
-              emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, false,
-                task.getAction());
+              emitShadowCopyingStartedEvent(
+                  dataAcquisitionProject, release, null, task.getAction()
+              );
+              emitShadowCopyingEndedEvent(
+                  dataAcquisitionProject, release, null, false, task.getAction()
+              );
               break;
             default:
               throw new IllegalArgumentException(
-                task.getAction() + " has not been implemented yet!");
+                  task.getAction() + " has not been implemented yet!"
+              );
           }
 
         } else {
-          log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
-            dataAcquisitionProjectId);
+          log.warn(
+              "A shadow copy task was scheduled for project {}, but it could not be found!",
+              dataAcquisitionProjectId
+          );
         }
         elasticsearchUpdateQueueService.processAllQueueItems();
         shadowCopyQueueItemRepository.delete(task);
