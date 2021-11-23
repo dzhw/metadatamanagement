@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp')
         ctrl.relatedPublication = result;
         // We need this for the tab creation
         ctrl.counts = {};
-        ctrl.counts.dataPackagesCount = 0;
+        ctrl.counts.analysisPackagesCount = 0;
 
         PageMetadataService.setPageTitle('related-publication-management.' +
         'detail.title', {
