@@ -86,6 +86,13 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
             "user"
         ),
         new User(
+            "admin",
+            "admin@local",
+            "de",
+            false,
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
+        ),
+        new User(
             "defaultPublisher",
             "defaultPublisher@local",
             "de",
@@ -172,7 +179,8 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testHideAndUnhideReleasedShadow() throws Exception {
     this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
-    this.addFindOneByLoginRequest(4, "user");
+    this.addFindOneByLoginRequest("user");
+    this.addFindOneByLoginRequest(3, "admin");
     this.addFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
     this.addFindAllByLoginInRequest(Set.of());
 

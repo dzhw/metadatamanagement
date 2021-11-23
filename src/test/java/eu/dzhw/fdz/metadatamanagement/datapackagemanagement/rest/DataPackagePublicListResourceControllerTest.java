@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -85,6 +86,13 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
             "de",
             false,
           AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
+        ),
+        new User(
+            "admin",
+            "admin@local",
+            "de",
+            false,
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
         ),
         new User(
             "release_manager",
@@ -182,7 +190,8 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleasedDataPackageIsPinned() throws IOException, Exception {
-    this.addFindOneByLoginRequest(2, "user");
+    this.addFindOneByLoginRequest("user");
+    this.addFindOneByLoginRequest("admin");
     this.addFindAllByAuthoritiesContainingRequest(2, AuthoritiesConstants.RELEASE_MANAGER);
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
