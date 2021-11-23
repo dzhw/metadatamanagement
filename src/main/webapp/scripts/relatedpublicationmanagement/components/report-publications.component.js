@@ -5,6 +5,9 @@
     controller: 'ReportPublicationsController',
     templateUrl: 'scripts/relatedpublicationmanagement/components/' +
       'report-publications.html.tmpl',
+    bindings: {
+      analysisPackage: '<'
+    }
   };
 
   angular

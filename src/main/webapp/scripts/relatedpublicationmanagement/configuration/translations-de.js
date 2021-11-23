@@ -117,7 +117,10 @@ angular.module('metadatamanagementApp').config(
         'report-publications': {
           'speech-bubble': {
             'close': 'Schließen',
-            'text': 'Kennen Sie Publikationen, die auf Basis unserer Datenpakete entstanden sind? Dann teilen Sie uns diese bitte mit...'
+            'text': 'Kennen Sie Publikationen, die auf Basis unserer Datenpakete entstanden sind? Dann teilen Sie uns diese bitte mit...',
+            'analyse-package': {
+              'text': 'Kennen Sie Publikationen, die auf Basis unserer Analysepakete entstanden sind? Dann teilen Sie uns diese bitte mit...'
+            }
           },
           'button': {
             'text': 'Publikationen melden',

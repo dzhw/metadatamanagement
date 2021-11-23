@@ -15,12 +15,11 @@
       <table fdz-table class="mh16 mb16">
         <thead>
         <tr>
-          <th class="fdz-table-third-absorbing-column">{{'analysis-package-management.detail.scripts.title' |
-          translate }}</th>
+          <th class="fdz-table-third-absorbing-column">{{'analysis-package-management.detail.scripts.title' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.language' | translate }}</th>
           <th class="fdz-table-half-absorbing-column">{{'analysis-package-management.detail.scripts.software-package' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.version' | translate }}</th>
-          <th>{{'analysis-package-management.detail.scripts.file' | translate }}</th>
+          <th style="padding: 9px;">{{'analysis-package-management.detail.scripts.file' | translate }}</th>
         </tr>
         </thead>
         <tbody>
@@ -31,7 +30,7 @@
           <td>{{row.softwarePackageVersion}}</td>
           <td class="fdz-td-filename"><a ng-href="{{row.attachment.id}}" target="_blank" fdz-track-download analytics-if="row.type.en === 'Method Report'" analytics-on="click" analytics-event="download-method-report" analytics-label="{{row.title}}" analytics-category="Downloads">{{row.attachment.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
+              {{'global.tooltips.files.download' | translate: {filename: row.attachment.fileName} }}
             </md-tooltip>
           </a>
           </td>
