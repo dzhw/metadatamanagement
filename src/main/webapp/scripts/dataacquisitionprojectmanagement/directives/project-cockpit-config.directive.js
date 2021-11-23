@@ -39,6 +39,7 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isAnalysisPackageChecked = function() {
+          req.analysisPackagesRequired = true;
           req.dataPackagesRequired = false;
           req.surveysRequired = false;
           req.instrumentsRequired = false;
@@ -51,6 +52,7 @@ angular.module('metadatamanagementApp')
 
         ctrl.isDataPackageChecked = function() {
           req.analysisPackagesRequired = false;
+          req.dataPackagesRequired = true;
           req.publicationsRequired = false;
         };
       }
