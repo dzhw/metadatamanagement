@@ -87,10 +87,10 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'toasts': {
-          'data-package-added': 'Das Datenpaket wurde in den Warenkorb gelegt.',
-          'data-package-already-in-cart': 'Das Datenpaket ist bereits im Warenkorb.',
-          'analysis-package-added': 'Das Analysepaket wurde in den Warenkorb gelegt.',
-          'analysis-package-already-in-cart': 'Das Analysepaket ist bereits im Warenkorb.',
+          'data-package-added': 'Das Datenpaket {{id}} wurde in den Warenkorb gelegt.',
+          'data-package-already-in-cart': 'Das Datenpaket {{id}} ist bereits im Warenkorb.',
+          'analysis-package-added': 'Das Analysepaket {{id}} wurde in den Warenkorb gelegt.',
+          'analysis-package-already-in-cart': 'Das Analysepaket {{id}} ist bereits im Warenkorb.',
           'order-has-validation-errors-toast': 'Ihr Formular enthält ungültige Angaben.',
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },

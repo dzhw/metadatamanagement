@@ -86,10 +86,10 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'toasts': {
-          'data-package-added': 'The data package was put into the shopping cart.',
-          'data-package-already-in-cart': 'The data package is already in the shopping cart.',
-          'analysis-package-added': 'The analysis package was put into the shopping cart.',
-          'analysis-package-already-in-cart': 'The analysis package is already in the shopping cart.',
+          'data-package-added': 'The data package {{id}} was put into the shopping cart.',
+          'data-package-already-in-cart': 'The data package {{id}} is already in the shopping cart.',
+          'analysis-package-added': 'The analysis package {{id}} was put into the shopping cart.',
+          'analysis-package-already-in-cart': 'The analysis package {{id}} is already in the shopping cart.',
           'order-has-validation-errors-toast': 'Your form contains invalid data.',
           'error-on-saving-order': 'An error occurred while sending your order.'
         },

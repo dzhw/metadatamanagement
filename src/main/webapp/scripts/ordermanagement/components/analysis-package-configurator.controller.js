@@ -117,7 +117,8 @@
     }
 
     $ctrl.addToShoppingCart = function() {
-      ShoppingCartService.add({
+      var productList = [];
+      productList.push({
         dataAcquisitionProjectId: $ctrl.analysisPackage
           .dataAcquisitionProjectId,
         version: $ctrl.selectedVersion,
@@ -128,8 +129,7 @@
       });
       if ($ctrl.dataPackages.length) {
         _.forEach($ctrl.dataPackages, function(item) {
-          ShoppingCartService.add({
-            analysisDataPackage: true,
+          productList.push({
             dataAcquisitionProjectId: item.dataAcquisitionProjectId,
             accessWay: item.selectedAccessWay,
             version: item.selectedVersion,
@@ -148,6 +148,7 @@
           });
         });
       }
+      ShoppingCartService.add(productList);
     };
     var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||

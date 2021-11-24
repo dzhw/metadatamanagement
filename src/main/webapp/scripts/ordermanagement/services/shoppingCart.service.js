@@ -33,55 +33,62 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         'shopping-cart.toasts.error-on-saving-order');
     };
 
-    var _displayProductAlreadyInShoppingCart = function(product) {
-      if (product.hasOwnProperty('dataPackage') &&
-        !product.hasOwnProperty('analysisDataPackage')) {
-        SimpleMessageToastService.openSimpleMessageToast(
-          'shopping-cart.toasts.data-package-already-in-cart',
-          {id: product.dataPackage.id}
-        );
-      }
-      if (product.hasOwnProperty('analysisPackage')) {
-        SimpleMessageToastService.openSimpleMessageToast(
-          'shopping-cart.toasts.analysis-package-already-in-cart',
-          {id: product.analysisPackage.id}
-        );
-      }
+    var _isProductInShoppingCart = function(products, productList) {
+      var toastMessages = [];
+      _.forEach(products, function(product, index) {
+        var resultIndex = _.findIndex(productList, function(item) {
+          if (item.hasOwnProperty('dataPackage') && product
+            .hasOwnProperty('dataPackage')) {
+            return item.dataPackage.id === products[index].dataPackage.id &&
+              item.version === products[index].version &&
+              item.accessWay === products[index].accessWay;
+          }
+          if (item.hasOwnProperty('analysisPackage') && product
+            .hasOwnProperty('analysisPackage')) {
+            return item.analysisPackage.id === products[index].analysisPackage.id &&
+              item.version === products[index].version;
+          }
+        });
+        if (productList[resultIndex].hasOwnProperty('dataPackage')) {
+          toastMessages.push({
+            messageId: 'shopping-cart.toasts.data-package-already-in-cart',
+            messageParams: {id: productList[resultIndex].dataPackage.id}
+          });
+        }
+        if (productList[resultIndex].hasOwnProperty('analysisPackage')) {
+          toastMessages.push({
+            messageId: 'shopping-cart.toasts.analysis-package-already-in-cart',
+            messageParams: {id: productList[resultIndex].analysisPackage.id}
+          });
+        }
+        productList.splice(resultIndex, 1);
+      });
+      SimpleMessageToastService.openSimpleMessageToasts(toastMessages);
+
+      return productList;
     };
 
-    var _isProductInShoppingCart = function(products, product) {
-      return _.findIndex(products, function(item) {
-        if (item.hasOwnProperty('dataPackage') && product
-          .hasOwnProperty('dataPackage')) {
-          return item.dataPackage.id === product.dataPackage.id &&
-            item.version === product.version &&
-            item.accessWay === product.accessWay;
-        }
-        if (item.hasOwnProperty('analysisPackage') && product
-          .hasOwnProperty('analysisPackage')) {
-          return item.analysisPackage.id === product.analysisPackage.id &&
-            item.version === product.version;
-        }
-      }) !== -1;
-    };
+    var _addProductToLocalShoppingCart = function(productList) {
 
-    var _addProductToLocalShoppingCart = function(product) {
-      if (_isProductInShoppingCart(products, product)) {
-        _displayProductAlreadyInShoppingCart(product);
-      } else {
-        products.push(product);
+      if (productList.length) {
+        products = products.concat(productList);
         localStorageService.set(SHOPPING_CART_KEY, products);
-        if (product.hasOwnProperty('dataPackage') &&
-          !product.hasOwnProperty('analysisDataPackage')) {
-          SimpleMessageToastService.openSimpleMessageToast(
-            'shopping-cart.toasts.data-package-added',
-            {id: product.dataPackage.id});
-        }
-        if (product.hasOwnProperty('analysisPackage')) {
-          SimpleMessageToastService.openSimpleMessageToast(
-            'shopping-cart.toasts.analysis-package-added',
-            {id: product.analysisPackage.id});
-        }
+        var toastMessages = [];
+        _.forEach(productList, function(item, index) {
+          if (item.hasOwnProperty('dataPackage')) {
+            toastMessages.push({
+              messageId: 'shopping-cart.toasts.data-package-added',
+              messageParams: {id: productList[index].dataPackage.id}
+            });
+          }
+          if (item.hasOwnProperty('analysisPackage')) {
+              toastMessages.push({
+                messageId: 'shopping-cart.toasts.analysis-package-added',
+                messageParams: {id: productList[index].analysisPackage.id}
+              });
+          }
+        });
+        SimpleMessageToastService.openSimpleMessageToasts(toastMessages);
         _broadcastShoppingCartChanged();
       }
     };
@@ -129,22 +136,20 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       _clearLocalShoppingCart();
     };
 
-    var _addProductToExistingOrder = function(product) {
+    var _addProductToExistingOrder = function(productList) {
       OrderResource.get({id: orderId}).$promise.then(function(order) {
         if (order.state === 'ORDERED') {
           completeOrder();
-          var normalizedProduct = _stripVersionSuffix(product);
-          _addProductToLocalShoppingCart(normalizedProduct);
+          _addProductToLocalShoppingCart(productList);
         } else {
-          if (_isProductInShoppingCart(products, product)) {
-            _displayProductAlreadyInShoppingCart(product);
-          } else {
-            order.products.push(product);
+          // productList = _isProductInShoppingCart(products, productList);
+          if (productList.length) {
+            order.products = order.products.concat(productList);
             order.client = 'MDM';
             OrderResource.update(order).$promise
               .then(function(response) {
                   _setOrderVersion(response.version);
-                  _addProductToLocalShoppingCart(product);
+                  _addProductToLocalShoppingCart(productList);
                 },
                 _displayUpdateOrderError);
           }
@@ -201,13 +206,22 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     };
 
     var add = function(product) {
-      var normalizedProduct = _stripVersionSuffix(product);
+      var productList = [];
+      if (!Array.isArray(product)) {
+        productList.push(product);
+      } else {
+        productList = productList.concat(product);
+      }
+      _.forEach(productList, function(item, index) {
+        productList[index] = _stripVersionSuffix(item);
+      });
+      productList = _isProductInShoppingCart(products, productList);
       if (orderId) {
         synchronizePromise.then(function() {
-          _addProductToExistingOrder(normalizedProduct);
+          _addProductToExistingOrder(productList);
         }, showSynchronizeErrorMessage);
       } else {
-        _addProductToLocalShoppingCart(normalizedProduct);
+        _addProductToLocalShoppingCart(productList);
       }
     };
 
