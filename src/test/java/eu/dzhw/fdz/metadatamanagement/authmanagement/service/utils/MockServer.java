@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -13,6 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 /**
@@ -57,7 +59,7 @@ public class MockServer {
   }
 
   /**
-   * Add a mock request which will be expected by the {@link MockRestServiceServer}.
+   * Add a mock GET request which will be expected by the {@link MockRestServiceServer}.
    *
    * @param url the API path (NOTE: only path is needed the root should have already been added)
    * @param predicate the condition(s) that will be used to see which {@link User}s will be
@@ -65,8 +67,21 @@ public class MockServer {
    * @param params the parameters that will be used to replace parameters in the provided url
    * @return the current instance of MockServer
    */
-  public MockServer request(final String url, Predicate<User> predicate, final Object... params) {
+  public MockServer request(
+      final String url,
+      final Predicate<User> predicate,
+      final Object... params
+  ) {
     return multipleRequests(url, predicate, 1, params);
+  }
+
+  public MockServer request(
+      final String url,
+      final HttpMethod method,
+      final Predicate<User> predicate,
+      final Object... params
+  ) {
+    return multipleRequests(url, method, predicate, 1, params);
   }
 
   /**
@@ -81,8 +96,30 @@ public class MockServer {
    * @return the current instance of MockServer
    */
   public MockServer multipleRequests(
+    final String url,
+    final Predicate<User> predicate,
+    final int expectedRequests,
+    final Object... params
+  ) {
+    return multipleRequests(url, HttpMethod.GET, predicate, expectedRequests, params);
+  }
+
+  /**
+   * Add multiple of the same mock requests which will be expected by the
+   * {@link MockRestServiceServer}.
+   *
+   * @param url the API path (NOTE: only path is needed the root should have already been added)
+   * @param method the expected HTTP Method used by the HTTP request
+   * @param predicate the condition(s) that will be used to see which {@link User}s will be
+   *                  included in the response body
+   * @param expectedRequests the number of times the request will be expected
+   * @param params the parameters that will be used to replace parameters in the provided url
+   * @return the current instance of MockServer
+   */
+  public MockServer multipleRequests(
       final String url,
-      Predicate<User> predicate,
+      final HttpMethod method,
+      final Predicate<User> predicate,
       final int expectedRequests,
       final Object... params
   ) {
@@ -90,6 +127,7 @@ public class MockServer {
         ExpectedCount.times(expectedRequests),
         requestTo(uriHandler.expand(url, params))
     )
+      .andExpect(method(method))
     .andRespond(
         withSuccess()
             .body(generateBody(predicate))
