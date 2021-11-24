@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
       Principal, CurrentDataPackageService, DataPackageIdBuilderService,
       CurrentAnalysisPackageService, AnalysisPackageIdBuilderService) {
       $scope.isAuthenticated = Principal.isAuthenticated;
-      if (!$scope.analysisPackage) {
+      if (!$scope.analysisPackage && !$scope.dataPackageId) {
         $scope.dataPackageId = CurrentDataPackageService
           .getCurrentDataPackage() ?
           CurrentDataPackageService.getCurrentDataPackage().masterId : null;
