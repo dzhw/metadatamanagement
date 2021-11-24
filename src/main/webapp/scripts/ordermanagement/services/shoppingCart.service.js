@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         'shopping-cart.toasts.error-on-saving-order');
     };
 
-    var _isProductInShoppingCart = function(products, productList) {
+    var _areProductsInShoppingCart = function(products, productList) {
       var toastMessages = [];
       _.forEach(products, function(product, index) {
         var resultIndex = _.findIndex(productList, function(item) {
@@ -45,31 +45,35 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
           }
           if (item.hasOwnProperty('analysisPackage') && product
             .hasOwnProperty('analysisPackage')) {
-            return item.analysisPackage.id === products[index].analysisPackage.id &&
+            return item.analysisPackage.id === products[index]
+                .analysisPackage.id &&
               item.version === products[index].version;
           }
         });
-        if (productList[resultIndex].hasOwnProperty('dataPackage')) {
-          toastMessages.push({
-            messageId: 'shopping-cart.toasts.data-package-already-in-cart',
-            messageParams: {id: productList[resultIndex].dataPackage.id}
-          });
+        if (resultIndex !== -1) {
+          if (productList[resultIndex].hasOwnProperty('dataPackage')) {
+            toastMessages.push({
+              messageId: 'shopping-cart.toasts.data-package-already-in-cart',
+              messageParams: {id: productList[resultIndex].dataPackage.id}
+            });
+          }
+          if (productList[resultIndex].hasOwnProperty('analysisPackage')) {
+            toastMessages.push({
+              messageId: 'shopping-cart.toasts.' +
+                'analysis-package-already-in-cart',
+              messageParams: {id: productList[resultIndex].analysisPackage.id}
+            });
+          }
+          productList.splice(resultIndex, 1);
         }
-        if (productList[resultIndex].hasOwnProperty('analysisPackage')) {
-          toastMessages.push({
-            messageId: 'shopping-cart.toasts.analysis-package-already-in-cart',
-            messageParams: {id: productList[resultIndex].analysisPackage.id}
-          });
-        }
-        productList.splice(resultIndex, 1);
       });
-      SimpleMessageToastService.openSimpleMessageToasts(toastMessages);
-
+      if (toastMessages.length) {
+        SimpleMessageToastService.openSimpleMessageToasts(toastMessages);
+      }
       return productList;
     };
 
     var _addProductToLocalShoppingCart = function(productList) {
-
       if (productList.length) {
         products = products.concat(productList);
         localStorageService.set(SHOPPING_CART_KEY, products);
@@ -82,10 +86,10 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
             });
           }
           if (item.hasOwnProperty('analysisPackage')) {
-              toastMessages.push({
-                messageId: 'shopping-cart.toasts.analysis-package-added',
-                messageParams: {id: productList[index].analysisPackage.id}
-              });
+            toastMessages.push({
+              messageId: 'shopping-cart.toasts.analysis-package-added',
+              messageParams: {id: productList[index].analysisPackage.id}
+            });
           }
         });
         SimpleMessageToastService.openSimpleMessageToasts(toastMessages);
@@ -142,7 +146,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
           completeOrder();
           _addProductToLocalShoppingCart(productList);
         } else {
-          // productList = _isProductInShoppingCart(products, productList);
           if (productList.length) {
             order.products = order.products.concat(productList);
             order.client = 'MDM';
@@ -215,7 +218,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       _.forEach(productList, function(item, index) {
         productList[index] = _stripVersionSuffix(item);
       });
-      productList = _isProductInShoppingCart(products, productList);
+      productList = _areProductsInShoppingCart(products, productList);
       if (orderId) {
         synchronizePromise.then(function() {
           _addProductToExistingOrder(productList);
