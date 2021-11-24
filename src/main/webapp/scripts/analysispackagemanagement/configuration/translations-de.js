@@ -109,7 +109,8 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Das Analysepaket "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer:innen freigegeben!',
           'beta-release-no-doi': 'Dieses Analysepaket hat noch keine DOI.',
           'publications-for-data-package': 'Publikationen zu diesem Analysepaket',
-          'page-description': '{{ description }}'
+          'page-description': '{{ description }}',
+          'title': 'Analysepaket: {{ title }}'
         },
         'edit': {
           'add-analysis-data-tooltip': 'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.',
