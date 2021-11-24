@@ -19,6 +19,7 @@ public class UserWithRolesDto extends UserDto {
   /**
    * A constructor which will be used by Jackson JSON to create an instance of this class.
    *
+   * @param id the id value of the user
    * @param name the name value (i.e. "login") of the user
    * @param mail the mail value (i.e. "email") of the user
    * @param langcode the langcode value (i.e. langKey) of the user
@@ -29,13 +30,14 @@ public class UserWithRolesDto extends UserDto {
    */
   @JsonCreator
   public UserWithRolesDto(
+      @JsonProperty("id") final String id,
       @JsonProperty("name") final String name,
       @JsonProperty("mail") final String mail,
       @JsonProperty("langcode") final String langcode,
       @JsonProperty("field_welcome_dialog_deactivated") final boolean welcomeDialogDeactivated,
       @JsonProperty("roles") final List<RoleDto> roles
   ) {
-    super(name, mail, langcode, welcomeDialogDeactivated);
+    super(id, name, mail, langcode, welcomeDialogDeactivated);
 
     this.roles = roles.stream().map(r -> r.name).collect(Collectors.toList());
   }

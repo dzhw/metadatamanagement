@@ -9,6 +9,7 @@ import lombok.Getter;
  */
 @Getter
 public class UserDto {
+  private final String id;
   private final String login;
   private final String email;
   private final String langKey;
@@ -17,6 +18,7 @@ public class UserDto {
   /**
    * A constructor which will be used by Jackson JSON to create an instance of this class.
    *
+   * @param id the id value of the user
    * @param name the name value (i.e. "login") of the user
    * @param mail the mail value (i.e. "email") of the user
    * @param langcode the langcode value (i.e. langKey) of the user
@@ -25,11 +27,13 @@ public class UserDto {
    */
   @JsonCreator
   public UserDto(
+      @JsonProperty(value = "id") final String id,
       @JsonProperty(value = "name") final String name,
       @JsonProperty("mail") final String mail,
       @JsonProperty("langcode") final String langcode,
       @JsonProperty("field_welcome_dialog_deactivated") final boolean welcomeDialogDeactivated
   ) {
+    this.id = id;
     this.login = name;
     this.email = mail;
     this.langKey = langcode;
