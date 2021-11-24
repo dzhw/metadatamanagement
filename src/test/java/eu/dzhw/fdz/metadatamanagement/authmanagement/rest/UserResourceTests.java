@@ -45,6 +45,7 @@ public class UserResourceTests extends AbstractUserApiTests {
   public void addUsers() {
     this.mockServer.users(
         new User(
+            "1234",
             "user",
             "user@local",
             "de",
@@ -52,6 +53,7 @@ public class UserResourceTests extends AbstractUserApiTests {
             "user"
         ),
         new User(
+            "asdf",
             "admin",
             "admin@local",
             "de",

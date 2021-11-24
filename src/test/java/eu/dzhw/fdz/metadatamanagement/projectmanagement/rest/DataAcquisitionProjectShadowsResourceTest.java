@@ -79,6 +79,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
 
     this.mockServer.users(
         new User(
+            "1234",
             "user",
             "user@local",
             "de",
@@ -86,6 +87,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
             "user"
         ),
         new User(
+            "asdf",
             "admin",
             "admin@local",
             "de",
@@ -93,6 +95,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
             AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
         ),
         new User(
+            "qwer",
             "defaultPublisher",
             "defaultPublisher@local",
             "de",
@@ -100,6 +103,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
             "publisher"
         ),
         new User(
+            "0987",
             "release_manager",
             "release_manager@local",
             "de",

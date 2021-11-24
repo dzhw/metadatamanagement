@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class User {
   private static final String USER_TEMPLATE = """
         {
+          "id": "%s",
           "name": "%s",
           "mail": "%s",
           "langcode": "%s",
@@ -24,6 +25,9 @@ public class User {
           "drupal_internal__id": "%s"
           }""";
 
+
+  @Getter
+  private final String id;
   @Getter
   private final String name;
   @Getter
@@ -36,6 +40,7 @@ public class User {
   /**
    * Build the user with all the required fields.
    *
+   * @param id the id of the user
    * @param name the name of the user
    * @param mail the email of the user
    * @param langcode the language code the user selected
@@ -43,12 +48,14 @@ public class User {
    * @param roles the name of the roles which the user has
    */
   public User(
-    final String name,
-    final String mail,
-    final String langcode,
-    final boolean welcomeDialogDeactivated,
-    final String... roles
+      final String id,
+      final String name,
+      final String mail,
+      final String langcode,
+      final boolean welcomeDialogDeactivated,
+      final String... roles
   ) {
+    this.id = id;
     this.name = name;
     this.mail = mail;
     this.langcode = langcode;
@@ -60,14 +67,15 @@ public class User {
   @Override
   public String toString() {
     return String.format(
-      USER_TEMPLATE,
-      this.name,
-      this.mail,
-      this.langcode,
-      this.welcomeDialogDeactivated,
-      roles.stream()
-        .map(role -> String.format(ROLE_TEMPLATE, role))
-        .collect(Collectors.joining(","))
+        USER_TEMPLATE,
+        this.id,
+        this.name,
+        this.mail,
+        this.langcode,
+        this.welcomeDialogDeactivated,
+        roles.stream()
+            .map(role -> String.format(ROLE_TEMPLATE, role))
+            .collect(Collectors.joining(","))
     );
   }
 }

@@ -81,6 +81,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
 
     this.mockServer.users(
         new User(
+            "1234",
             "user",
             "user@local",
             "de",
@@ -88,6 +89,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
           AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
         ),
         new User(
+            "asdf",
             "admin",
             "admin@local",
             "de",
@@ -95,6 +97,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
             AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
         ),
         new User(
+            "qwer",
             "release_manager",
             "release_manager@local",
             "de",
