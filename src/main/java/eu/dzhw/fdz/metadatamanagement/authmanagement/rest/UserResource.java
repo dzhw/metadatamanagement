@@ -5,6 +5,7 @@ import java.util.List;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.springframework.http.CacheControl;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +33,30 @@ import lombok.extern.slf4j.Slf4j;
 public class UserResource {
 
   private final UserApiService userApiService;
+
+  /**
+   * Set the value of the deactivated welcome dialog flag for the
+   * currently logged in user.
+   *
+   * @param deactivatedWelcomeDialog the value to which the deactivated welcome dialog will be set
+   * @return A HTTP response
+   */
+  @PatchMapping(value = "/users/deactivatedWelcomeDialog")
+  @Secured(AuthoritiesConstants.USER)
+  public ResponseEntity<Void> patchDeactivatedWelcomeDialog(
+      @RequestParam boolean deactivatedWelcomeDialog
+  ) {
+    var login = SecurityUtils.getCurrentUserLogin();
+    log.debug("REST request to set the shown status of the user: {}", login);
+
+    try {
+      userApiService.patchDeactivatedWelcomeDialogById(login, deactivatedWelcomeDialog);
+    } catch (InvalidUserApiResponseException e) {
+      return ResponseEntity.internalServerError().build();
+    }
+
+    return ResponseEntity.ok().build();
+  }
 
   /**
    * Get the "login" user with less details.
