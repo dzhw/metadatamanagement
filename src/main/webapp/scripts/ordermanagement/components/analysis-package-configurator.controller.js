@@ -128,6 +128,7 @@
         }
       });
       if ($ctrl.dataPackages.length) {
+        _.uniqBy($ctrl.dataPackages, 'dataAcquisitionProjectId');
         _.forEach($ctrl.dataPackages, function(item) {
           productList.push({
             dataAcquisitionProjectId: item.dataAcquisitionProjectId,
@@ -148,7 +149,9 @@
           });
         });
       }
+      $ctrl.dataPackages.length = 0;
       ShoppingCartService.add(productList);
+
     };
     var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||

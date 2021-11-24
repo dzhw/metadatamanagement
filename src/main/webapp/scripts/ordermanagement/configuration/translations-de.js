@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
             'study-series': 'aus der Studienreihe "{{series}}"',
             'contains': 'enthält',
             'following': 'für folgende',
-            'software-packages': '{packages, plural, =0{unbekannt viele Softwarepaketen} =1{ein Softwarepaket} other{Softwarepaketen}}',
+            'software-packages': '{packages, plural, =0{unbekannt viele Softwarepakete} =1{ein Softwarepaket} other{Softwarepakete}}',
             'variables': '{variables, plural, =0{unbekannt viele Variablen} =1{eine Variable} other{{formattedVariables} Variablen}}',
             'scripts': '{scripts, plural, =0{unbekannt viele Skripte} =1{ein Skript} other{{formattedScripts} Skripte}}',
             'in': 'in',
