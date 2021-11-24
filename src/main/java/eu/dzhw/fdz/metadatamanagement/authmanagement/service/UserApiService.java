@@ -2,21 +2,28 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponse;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserWelcomeDialogDeactivatedPatchRequest;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A Service which handles all requests to the Auth Server's User API.
@@ -76,6 +83,9 @@ public class UserApiService {
   static final String FIND_ONE_WITH_AUTHORITIES_BY_LOGIN_ENDPOINT =
       FIND_ONE_BY_LOGIN_ENDPOINT
       + "&include=roles";
+
+  static final String PATCH_DEACTIVATED_WELCOME_DIALOG_BY_ID_ENDPOINT =
+      "/jsonapi/user/user/{id}";
 
   final RestTemplate restTemplate;
 
@@ -263,6 +273,80 @@ public class UserApiService {
       // There should only be one or none response.
       .stream()
       .findFirst();
+  }
+
+  /**
+   * Attempt to update the 'deactivated welcome dialog' flag for a specific user via the user API.
+   *
+   * @param login the login/name of the user which will be updated
+   * @param deactivatedWelcomeDialog the value to which the deactivated welcome dialog flag will be
+   *                                 updated to
+   * @throws InvalidUserApiResponseException when the User API server returns a response whose
+   *                                         status code is not 2XX, the response has errors, or no
+   *                                         response was received at all.
+   */
+  public void patchDeactivatedWelcomeDialogById(
+      final String login,
+      final boolean deactivatedWelcomeDialog
+  ) throws InvalidUserApiResponseException {
+    var user = findOneByLogin(login);
+
+    if (user.isEmpty()) {
+      throw new InvalidUserApiResponseException(String.format(
+          "Could not update user %s, because user was not found",
+          login
+      ));
+    }
+
+    var id = user.get().getId();
+    if (id == null || "".equals(id.trim())) {
+      throw new InvalidUserApiResponseException(String.format(
+          "Could not update user %s, because user id could not be found",
+          login
+      ));
+    }
+
+    var headers = new HttpHeaders();
+    headers.setContentType(new MediaType("application", "vnd.api+json"));
+
+    var request = new HttpEntity<>(
+        new UserWelcomeDialogDeactivatedPatchRequest(id, deactivatedWelcomeDialog),
+        headers
+    );
+
+    UserApiResponse response;
+    try {
+      response = restTemplate.patchForObject(
+        PATCH_DEACTIVATED_WELCOME_DIALOG_BY_ID_ENDPOINT,
+        request,
+        UserApiResponse.class,
+        id
+      );
+    } catch (RestClientException e) {
+      throw new InvalidUserApiResponseException(String.format(
+          "Could not update deactivated welcome dialog flag for user '%s'. Cause: %s",
+          login,
+          e.getMessage()
+      ));
+    }
+
+    if (response == null) {
+      throw new InvalidUserApiResponseException(String.format(
+          "No response received while updating deactivated welcome dialog for user '%s'. "
+          + "Assuming update failed",
+          login
+      ));
+    }
+
+    if (!response.isSuccessful()) {
+      throw new InvalidUserApiResponseException(String.format(
+          "Errors received while updating deactivated welcome dialog for user '%s'. Errors: %s",
+          login,
+          response.getErrors().stream()
+              .map(UserApiResponse.Error::getDetail)
+              .collect(Collectors.joining(","))
+      ));
+    }
   }
 
   private <T extends UserDto> List<T> doFindAllApiCall(
