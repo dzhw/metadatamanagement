@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 
 import java.util.Set;
 
@@ -134,6 +135,16 @@ public class AbstractUserApiTests extends AbstractTest {
         UserApiService.FIND_ONE_WITH_AUTHORITIES_BY_LOGIN_ENDPOINT,
         u -> u.getName().equals(login),
         login
+    );
+  }
+
+  public void addPatchDeactivatedWelcomeDialogById(final String id) {
+    this.mockServer.request(
+        UserApiService.PATCH_DEACTIVATED_WELCOME_DIALOG_BY_ID_ENDPOINT,
+        HttpMethod.PATCH,
+        // An empty body should be returned
+        null,
+        id
     );
   }
 }
