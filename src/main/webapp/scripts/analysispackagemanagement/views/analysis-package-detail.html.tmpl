@@ -49,28 +49,28 @@
           lang="currentLanguage"
           options="ctrl.analysisPackage.license"
           template-url="scripts/analysispackagemanagement/templates/license.html.tmpl"></fdz-detail>
-        <md-divider></md-divider>
+        <md-divider ng-if="ctrl.analysisPackage.license"></md-divider>
         <fdz-detail
           ng-if="ctrl.analysisPackage.scripts.length > 0"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.analysisPackage.scripts"
           template-url="scripts/analysispackagemanagement/templates/scripts.html.tmpl"></fdz-detail>
-        <md-divider></md-divider>
+        <md-divider ng-if="ctrl.analysisPackage.scripts.length > 0"></md-divider>
         <fdz-detail
           ng-if="ctrl.analysisPackage.analysisDataPackages.length > 0 "
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
           template-url="scripts/analysispackagemanagement/templates/packages.html.tmpl"></fdz-detail>
-        <md-divider></md-divider>
+        <md-divider ng-if="ctrl.analysisPackage.analysisDataPackages.length > 0 "></md-divider>
         <fdz-detail
           ng-if="ctrl.attachments.length > 0 "
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"
           template-url="scripts/analysispackagemanagement/templates/attachments.html.tmpl"></fdz-detail>
-        <md-divider></md-divider>
+        <md-divider ng-if="ctrl.attachments.length > 0 "></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
