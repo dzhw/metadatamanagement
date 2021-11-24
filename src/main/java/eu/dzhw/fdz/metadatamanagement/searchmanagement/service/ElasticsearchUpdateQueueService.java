@@ -709,7 +709,7 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       List<AnalysisPackageSubDocumentProjection> analysisPackages = null;
-      if (release != null) {
+      if (dataPackage.isShadow() && release != null) {
         analysisPackages = analysisPackageRepository
             .findByDataPackageMasterIdAndVersion(dataPackage.getMasterId(), release.getVersion());
       }
