@@ -15,9 +15,7 @@
         true: 'scripts/relatedpublicationmanagement/components/' +
           'report-publications.analysis-package.html.tmpl'
       };
-      console.log($attrs.analysisPackage);
       if ($attrs.analysisPackage) {
-        console.log('false test');
         return tmpl.true;
       }
       return tmpl.false;
