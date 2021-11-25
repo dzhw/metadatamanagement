@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,6 +20,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 
+import java.util.Objects;
+
 /**
  * Test class for the UserResource REST controller.
  *
@@ -27,6 +30,8 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
  * @see UserResource
  */
 public class UserResourceTests extends AbstractUserApiTests {
+  private static final String USER_LOGIN = "user";
+  private static final String USER_ID = "1234";
 
   @Autowired
   private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
@@ -45,8 +50,8 @@ public class UserResourceTests extends AbstractUserApiTests {
   public void addUsers() {
     this.mockServer.users(
         new User(
-            "1234",
-            "user",
+            USER_ID,
+            USER_LOGIN,
             "user@local",
             "de",
             false,
@@ -61,6 +66,41 @@ public class UserResourceTests extends AbstractUserApiTests {
             "admin"
         )
     );
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.USER)
+  public void patchDeactivatedWelcomeDialog_Success() throws Exception {
+    this.addFindOneByLoginRequest(USER_LOGIN);
+    this.addPatchDeactivatedWelcomeDialogById(USER_ID)
+        .withSuccess()
+            .body(u -> Objects.equals(u.getId(), USER_ID))
+        .addToServer();
+
+    // search with login;
+    restUserMockMvc
+      .perform(patch("/api/users/deactivatedWelcomeDialog")
+        .param("deactivatedWelcomeDialog", "true")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.USER)
+  public void patchDeactivatedWelcomeDialog_Error() throws Exception {
+    this.addFindOneByLoginRequest(USER_LOGIN);
+    this.addPatchDeactivatedWelcomeDialogById(USER_ID)
+      .withServerError()
+      .addToServer();
+
+    // search with login;
+    restUserMockMvc
+      .perform(patch("/api/users/deactivatedWelcomeDialog")
+        .param("deactivatedWelcomeDialog", "true")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isInternalServerError());
   }
 
   @Test
