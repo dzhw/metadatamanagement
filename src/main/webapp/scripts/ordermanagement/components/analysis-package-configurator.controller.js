@@ -16,6 +16,7 @@
                       MessageBus,
                       AnalysisPackageSearchService,
                       CurrentAnalysisPackageService,
+                      AnalysisPackageCitationDialogService,
                       DataPackageSearchService
   ) {
     var $ctrl = this;
@@ -214,16 +215,10 @@
       });
     };
 
-    $ctrl.showAccessWayHelp = function($event) {
-      $mdDialog.show({
-        controller: 'AccessWayInfoController',
-        templateUrl: 'scripts/ordermanagement/views/' +
-          'access-way-info.html.tmpl',
-        clickOutsideToClose: true,
-        fullscreen: true,
-        escapeToClose: true,
-        targetEvent: $event
-      });
+    $ctrl.openCitationDialog = function($event) {
+      AnalysisPackageCitationDialogService.showDialog(
+        $ctrl.analysisPackage, $event
+      );
     };
   }
 

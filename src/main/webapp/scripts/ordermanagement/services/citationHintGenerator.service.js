@@ -11,7 +11,8 @@ function($interpolate, LanguageService, $filter, $rootScope) {
     var destination = [];
     people.forEach(function(person) {
       var destinationPerson = {
-        given: person.firstName + (person.middleName ? person.middleName : ''),
+        given: person.firstName + (person.middleName ? ' ' +
+          person.middleName : ''),
         family: person.lastName
       };
       destination.push(destinationPerson);

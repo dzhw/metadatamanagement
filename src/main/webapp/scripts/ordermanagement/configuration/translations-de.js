@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp').config(
             'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:',
             'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:',
             'cite-data-package': 'Datenpaket zitieren:',
+            'cite-analysis-package': 'Analysepaket zitieren:',
             'cite-method-report': 'Daten- und Methodenbericht zitieren:'
           },
           'hints': {
@@ -69,7 +70,10 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-title': 'Bitte Zugangsweg auswählen',
           'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
           'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.',
-          'note': 'Wenn Sie Probleme mit dem Bestellprozess haben, wenden Sie sich bitte an <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.'
+          'note': 'Wenn Sie Probleme mit dem Bestellprozess haben, wenden Sie sich bitte an <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'analysis-package': {
+            'citation': 'Analysepaket zitieren'
+          }
         },
         'error': {
           'synchronize': 'Der Warenkorb konnte nicht mit dem Server synchronisiert werden.',
