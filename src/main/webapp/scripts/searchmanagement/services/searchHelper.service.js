@@ -4,8 +4,8 @@
 angular.module('metadatamanagementApp').factory(
   'SearchHelperService',
   function(CleanJSObjectService, Principal, LanguageService) {
-    var domainObjectFilterNames = ['data-package', 'survey', 'data-set',
-      'instrument', 'variable', 'question'];
+    var domainObjectFilterNames = ['data-package', 'analysis-package','survey',
+      'data-set', 'instrument', 'variable', 'question'];
 
     var aggregationMapping = {
       'data_packages': {
@@ -41,6 +41,23 @@ angular.module('metadatamanagementApp').factory(
         },
         'institutions': {
           attribute: 'institutions',
+          i18n: true,
+          min_doc_count: 1
+        }
+      },
+      'analysis_packages': {
+        'sponsors': {
+          attribute: 'sponsors',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'tags': {
+          attribute: 'tags',
           i18n: true,
           min_doc_count: 1
         }
@@ -84,6 +101,23 @@ angular.module('metadatamanagementApp').factory(
           i18n: true,
           concatMultipleWithOr: false
         }
+      },
+      'analysis_packages': {
+        'sponsors': {
+          attribute: 'sponsors',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'tags': {
+          attribute: 'tags',
+          i18n: true,
+          min_doc_count: 1
+        }
       }
     };
 
@@ -104,6 +138,13 @@ angular.module('metadatamanagementApp').factory(
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'
+      },
+      'analysis_packages': {
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'institutions.de',
+        'institution-en': 'institutions.en',
+        'sponsor-de': 'sponsors.de',
+        'sponsor-en': 'sponsors.en'
       },
       'variables': {
         'study-series-de': 'dataPackage.studySeries.de',
@@ -193,6 +234,7 @@ angular.module('metadatamanagementApp').factory(
         'study-series-de': 'dataPackages.studySeries.de',
         'study-series-en': 'dataPackages.studySeries.en',
         'data-package': 'dataPackageIds',
+        'analysis-package': 'analysisPackageIds',
       },
       'concepts': {
         'data-package': 'dataPackages.id',
@@ -207,6 +249,9 @@ angular.module('metadatamanagementApp').factory(
     var hiddenFiltersKeyMapping = {
       'data_packages': {
         'data-package': '_id'
+      },
+      'analysis_packages': {
+        'analysis-package': '_id'
       },
       'variables': {
         'variable': '_id'
@@ -242,6 +287,16 @@ angular.module('metadatamanagementApp').factory(
           en: [
             '_score',
             {'release.pinToStartPage': {order: 'desc'}},
+            {'release.lastDate': {order: 'desc'}}
+          ]
+        },
+        'analysis_packages': {
+          de: [
+            '_score',
+            {'release.lastDate': {order: 'desc'}}
+          ],
+          en: [
+            '_score',
             {'release.lastDate': {order: 'desc'}}
           ]
         },
@@ -343,6 +398,14 @@ angular.module('metadatamanagementApp').factory(
             'title.en'
           ]
         },
+        'analysis_packages': {
+          de: [
+            'title.de'
+          ],
+          en: [
+            'title.en'
+          ]
+        },
         'variables': {
           de: [
             'label.de'
@@ -410,10 +473,18 @@ angular.module('metadatamanagementApp').factory(
         'data_packages': {
           de: [{'release.lastDate': {order: 'desc'}}],
           en: [{'release.lastDate': {order: 'desc'}}]
+        },
+        'analysis_packages': {
+          de: [{'release.lastDate': {order: 'desc'}}],
+          en: [{'release.lastDate': {order: 'desc'}}]
         }
       },
       'first-release-date': {
         'data_packages': {
+          de: [{'release.firstDate': {order: 'desc'}}],
+          en: [{'release.firstDate': {order: 'desc'}}]
+        },
+        'analysis_packages': {
           de: [{'release.firstDate': {order: 'desc'}}],
           en: [{'release.firstDate': {order: 'desc'}}]
         }
@@ -575,8 +646,8 @@ angular.module('metadatamanagementApp').factory(
       pushToFilterArray(query, shadowCopyFilter);
     };
 
-    var addShadowCopyFilter = function(query, filter) {
-      if (Principal.loginName()) {
+    var addShadowCopyFilter = function(query, filter, enforceReleased) {
+      if (!enforceReleased && Principal.loginName()) {
         applyOnlyMasterDataFilter(query, filter);
       } else {
         applyShadowCopyFilter(query, filter);

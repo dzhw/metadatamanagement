@@ -113,6 +113,7 @@ angular.module('metadatamanagementApp').config(
             'question': 'Click to show question {{param}}',
             'variable': 'Click to show variable {{param}}',
             'data-package': 'Click to show data package {{param}}',
+            'analysis-package': 'Click to show analysis package {{param}}',
             'instrument': 'Click to show instrument {{param}}',
             'publication': 'Click to show publication {{param}}',
             'concept': 'Click to show concept {{param}}'
@@ -286,7 +287,7 @@ angular.module('metadatamanagementApp').config(
             'json-parsing-error': 'The import of the object "{{entity}}" from an json file failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'excel-parsing-error': 'The import of the object "{{entity}}" from an excel file from line {{index}} failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'no-json-mapping': 'A server side error happened during the import of an object.',
-            'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 15MB!',
+            'file-size-limit-exceeded': 'The selected file exceeds the limit of 15MB!',
             'file-already-exists': 'Saving failed because there is already a file with the name {{ filename }}!'
           },
           'server-error': {
@@ -402,6 +403,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-all-data-packages': {
             'title': 'Delete the data package of project "{{ id }}"?',
             'content': 'Do you really want to delete the data package of Data Acquisition Project "{{ id }}"?'
+          },
+          'confirm-delete-all-analysis-packages': {
+            'title': 'Delete the analysis package of project "{{ id }}"?',
+            'content': 'Do you really want to delete the analysis package of Data Acquisition Project "{{ id }}"?'
           },
           'confirm-delete-all-variables': {
             'title': 'Delete all variables of project "{{ id }}"?',

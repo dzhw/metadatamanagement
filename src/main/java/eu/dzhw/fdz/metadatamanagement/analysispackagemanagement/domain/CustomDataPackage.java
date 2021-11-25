@@ -39,7 +39,7 @@ import lombok.NoArgsConstructor;
 public class CustomDataPackage extends AbstractAnalysisDataPackage {
   private static final long serialVersionUID = -513926799487045749L;
   private static final String DOWNLOAD = "Download";
-  private static final String REMOTE = "Remote";
+  private static final String REMOTE = "Remote-Desktop";
   private static final String ONSITE = "Onsite";
 
   public static final List<String> AVAILABLE_ACCESS_WAYS =

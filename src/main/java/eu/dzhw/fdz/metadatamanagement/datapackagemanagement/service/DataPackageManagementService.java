@@ -13,6 +13,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
@@ -200,6 +201,31 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
       dataPackageIds.addAll(questionRepository.streamIdsByConceptIdsContaining(concept.getId())
           .map(question -> question.getDataPackageId()).collect(Collectors.toSet()));
       return dataPackageRepository.streamIdsByIdIn(dataPackageIds);
+    }, ElasticsearchType.data_packages);
+  }
+
+  /**
+   * Enqueue update of dataPackage search documents when the {@link AnalysisPackage} is changed.
+   *
+   * @param analysisPackage the updated, created or deleted {@link AnalysisPackage}.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onAnalysisPackageChanged(AnalysisPackage analysisPackage) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      Class<eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage> clazz =
+          eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage.class;
+      if (analysisPackage.getAnalysisDataPackages() != null) {
+        Set<String> dataPackageIds = analysisPackage.getAnalysisDataPackages().stream()
+            .filter(clazz::isInstance).map(clazz::cast)
+            .map(dataPackage -> dataPackage.getDataPackageMasterId() + "-"
+              + dataPackage.getVersion())
+            .collect(Collectors.toSet());
+        return dataPackageRepository.streamIdsByIdIn(dataPackageIds);
+      } else {
+        return Stream.empty();
+      }
     }, ElasticsearchType.data_packages);
   }
 

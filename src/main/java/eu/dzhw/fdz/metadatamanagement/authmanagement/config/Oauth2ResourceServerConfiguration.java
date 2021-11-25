@@ -90,7 +90,8 @@ public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdap
             HttpMethod.POST,
             "/api/search/**/_search",
             "/api/search/**/_mget",
-            "/api/search/**/_count"
+            "/api/search/**/_count",
+            "/api/search/**/_msearch"
       );
   }
 }

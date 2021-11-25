@@ -11,8 +11,10 @@
       ng-if="sidebarContent.filter"
       options="dataPackageFilter"
       template-url="scripts/searchmanagement/components/searchfilter.html.tmpl"></fdz-search-filter>
+    <fdz-analysis-package-configurator
+      ng-if="sidebarContent.configurator && detailViewType === 'analysisPackage'"></fdz-analysis-package-configurator>
     <fdz-data-package-configurator
-      ng-if="sidebarContent.configurator"></fdz-data-package-configurator>
+      ng-if="sidebarContent.configurator && detailViewType === 'dataPackage'"></fdz-data-package-configurator>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul ng-if="isAuthenticated()" class="pa0 ma0 overflow-hidden">
           <li class="fdz-navbar-menu">

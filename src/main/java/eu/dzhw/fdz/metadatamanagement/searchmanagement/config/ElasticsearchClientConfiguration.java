@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AbstractAnalysisDataPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.CustomDataPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ExternalDataPackage;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedQuestionSubDocumentProjectionAdapter;
@@ -33,7 +34,8 @@ public class ElasticsearchClientConfiguration {
     RuntimeTypeAdapterFactory<AbstractAnalysisDataPackage> adapterFactory =
         RuntimeTypeAdapterFactory.of(AbstractAnalysisDataPackage.class, "type")
             .registerSubtype(ExternalDataPackage.class, "externalData")
-            .registerSubtype(DataPackage.class, "dataPackage");
+            .registerSubtype(DataPackage.class, "dataPackage")
+            .registerSubtype(CustomDataPackage.class, "customDataPackage");
     Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateConverter())
         .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
         .registerTypeAdapter(RelatedQuestionSubDocumentProjection.class,

@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp').service(
       if (type) {
         type = type === 'data_sets' ? 'dataSets' : type;
         type = type === 'data_packages' ? 'dataPackages' : type;
+        type = type === 'analysis_packages' ? 'analysisPackages' : type;
         return _.get(project, 'configuration.requirements.' + type +
           'Required');
       } else {
@@ -46,6 +47,8 @@ angular.module('metadatamanagementApp').service(
       switch (type) {
         case 'data_packages':
           return 'dataPackagesState';
+        case 'analysis_packages':
+          return 'analysisPackagesState';
         case 'surveys':
           return 'surveysState';
         case 'instruments':
@@ -119,9 +122,11 @@ angular.module('metadatamanagementApp').service(
             return $2 + '_' + $3.toLowerCase();});
       }
 
-      if (!_.includes(['data_packages', 'surveys', 'instruments',
-        'data_sets', 'questions', 'variables', 'publications', 'concepts',
-         undefined, null], type)) {
+      if (!_.includes(['data_packages', 'analysis_packages',
+        'surveys', 'instruments',
+        'data_sets', 'questions',
+        'variables', 'publications',
+        'concepts', undefined, null], type)) {
         return false;
       }
 
@@ -131,7 +136,6 @@ angular.module('metadatamanagementApp').service(
 
       var test = project || CurrentProjectService.getCurrentProject();
       var isValid = true;
-
       var projectSelected = isProjectSelected.bind(null, test);
       projectSelected.canContinue = false;
       projectSelected.errorKey = errorList.projectSelected;
@@ -185,7 +189,6 @@ angular.module('metadatamanagementApp').service(
           break;
         }
       }
-
       if (notify) {
         var notification = [];
         validations.forEach(function(validation) {

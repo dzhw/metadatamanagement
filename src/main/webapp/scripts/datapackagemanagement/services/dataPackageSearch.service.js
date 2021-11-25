@@ -526,7 +526,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         filterAttribute: filterAttribute,
         queryTerm: queryTerm,
-        prefix: type === 'data_packages' ? '' : 'dataPackage'
+        prefix: (type === 'data_packages' || type === 'analysis_packages') ?
+          '' : 'dataPackage'
       };
     };
 

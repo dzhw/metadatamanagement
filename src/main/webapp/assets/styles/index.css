@@ -13,6 +13,9 @@
 .dif {
   display: inline-flex; }
 
+.fg-1 {
+  flex-grow: 1; }
+
 .pa0 {
   padding: 0; }
 

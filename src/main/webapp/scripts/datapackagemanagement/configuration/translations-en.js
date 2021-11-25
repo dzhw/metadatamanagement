@@ -172,7 +172,7 @@ angular.module('metadatamanagementApp').config(
               'valid-survey-design': 'The allowed values for the survey design of the data package are: Cross-Section, Panel.'
             },
             'project-contributors': {
-              'not-empty': 'The list of project contributors of a data package needs min. one element and must not be empty!',
+              'not-empty': 'The list of project contributors of a data package needs min. one element and must not be empty!'
             },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
@@ -194,7 +194,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The year of publication must not be empty!',
               'invalid-number': 'The year must be a valid number!',
               'min': 'The earliest year is 1990!',
-              'max': 'The latest year is next year!',
+              'max': 'The latest year is next year!'
             },
             'location': {
               'not-empty': 'The location must not be empty!',
@@ -229,7 +229,7 @@ angular.module('metadatamanagementApp').config(
             'location': 'Location',
             'additional-links': {
               'url': 'URL',
-              'display-text': 'Display Text',
+              'display-text': 'Display Text'
             }
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this data package.',

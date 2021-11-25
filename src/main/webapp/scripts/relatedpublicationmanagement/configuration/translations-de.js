@@ -70,6 +70,8 @@ angular.module('metadatamanagementApp').config(
           'related-publication': {
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
             'dataPackage-exists': 'Es gibt kein Datenpaket mit der FDZ-ID "{{invalidValue}}"!',
+            'analysisPackage-exists': 'Es gibt kein Analysepaket mit der FDZ-ID "{{invalidValue}}"!',
+            'at-least-one-referenced-id': 'Die Publikation muss mindestens eine Verknüpfung zu einem Datenpaket oder einem Analysepaket haben.',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
@@ -109,21 +111,25 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'size': 'Die Maximallänge der Anmerkungen zur Publikation ist 2048 Zeichen.'
-            },
-            'data-package-ids': {
-              'not-empty': 'Die Publikation muss mind. eine Verknüpfung zu einem Datenpaket haben!'
             }
           }
         },
         'report-publications': {
           'speech-bubble': {
             'close': 'Schließen',
-            'text': 'Kennen Sie Publikationen, die auf Basis unserer Datenpakete entstanden sind? Dann teilen Sie uns diese bitte mit...'
+            'text': 'Kennen Sie Publikationen, die auf Basis unserer Datenpakete entstanden sind? Dann teilen Sie uns diese bitte mit...',
+            'analyse-package': {
+              'text': 'Kennen Sie Publikationen, die auf Basis unserer Analysepakete entstanden sind? Dann teilen Sie uns diese bitte mit...'
+            }
           },
           'button': {
             'text': 'Publikationen melden',
             'tooltip': 'Klicken, um Publikationen zu unseren Datenpaketen zu melden',
-            'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Datenpaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Datenpaket%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%20geh%C3%B6ren%2C%20melden%3A%0D%0A'
+            'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Datenpaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Datenpaket%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%20geh%C3%B6ren%2C%20melden%3A%0D%0A',
+            'analysis-package': {
+              'tooltip': 'Klicken, um Publikationen zu unseren Analysepaketen zu melden',
+              'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Analysepaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Analysepaket%20{{ analysisPackageId ? "%22" + analysisPackageId + "%22" : "X"}}%20geh%C3%B6ren%2C%20melden%3A%0D%0A'
+            }
           }
         }
       }

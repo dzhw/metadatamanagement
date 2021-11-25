@@ -33,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisP
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.Script;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.ScriptAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.helper.ScriptAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
@@ -64,6 +65,9 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private GridFsMetadataUpdateService gridFsMetadataUpdateService;
+  
+  @Autowired
+  private ScriptAttachmentService scriptAttachmentService;
 
   private MockMvc mockMvc;
 
@@ -325,6 +329,85 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
         .andExpect(jsonPath("$.errors[0].message",
             is("analysis-package-management.error.script-attachment-metadata"
                 + ".script-uuid.not-empty")));
+  }
+  
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void shouldRemoveOrphanedAttachment() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    ScriptAttachmentMetadata scriptAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
+    MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
+    
+    analysisPackageRepository.save(analysisPackage);
+    
+    //upload the attachment
+    mockMvc
+    .perform(
+        MockMvcRequestBuilders
+            .multipart("/api/analysis-packages/"
+                + scriptAttachmentMetadata.getAnalysisPackageId() + "/scripts/attachments")
+            .file(attachment).file(metadata))
+    .andExpect(status().isCreated());
+    
+    //change script uuid to make attachment orphaned
+    analysisPackage.getScripts().get(0).setUuid("etataetataetaettaeet");
+    analysisPackageRepository.save(analysisPackage);
+    
+    // check that the script attachment is available
+    mockMvc
+        .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()
+            + "/scripts/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
+    
+    scriptAttachmentService.removeOrphanedAttachments();
+    
+    // check that the script attachment has been deleted
+    mockMvc
+        .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()
+            + "/scripts/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+  
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void shouldNotRemoveAttachment() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackageRepository.save(analysisPackage);
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    ScriptAttachmentMetadata scriptAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
+    MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
+    
+    //upload the attachment
+    mockMvc
+    .perform(
+        MockMvcRequestBuilders
+            .multipart("/api/analysis-packages/"
+                + scriptAttachmentMetadata.getAnalysisPackageId() + "/scripts/attachments")
+            .file(attachment).file(metadata))
+    .andExpect(status().isCreated());
+    
+    // check that the script attachment is available
+    mockMvc
+        .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()
+            + "/scripts/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
+    
+    scriptAttachmentService.removeOrphanedAttachments();
+    
+    // check that the script attachment is still available
+    mockMvc
+        .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()
+            + "/scripts/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
   }
 
   @Test
