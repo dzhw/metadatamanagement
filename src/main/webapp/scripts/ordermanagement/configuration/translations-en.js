@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').config(
             'this-analysis-product': 'This analysis package',
             'study-series': 'from study series "{{series}}"',
             'contains': 'contains',
-            'following': 'with the following',
+            'following': 'for the following',
             'software-packages': '{packages, plural, =0{an unknown amount of software packages} =1{software package} other{software packages}}',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
             'scripts': '{scripts, plural, =0{an unknown amount of scripts} =1{one script} other{{formattedScripts} scripts}}',

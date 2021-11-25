@@ -21,6 +21,7 @@
     }
 
     function submit() {
+      console.log($state);
       var searchObject = $location.search();
       var paramsObject = {
         lang: LanguageService.getCurrentInstantly(),
