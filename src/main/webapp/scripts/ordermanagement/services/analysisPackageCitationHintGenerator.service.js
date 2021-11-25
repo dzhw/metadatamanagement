@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp')
         people.forEach(function(person) {
           var destinationPerson = {
             given: person.firstName +
-              (person.middleName ? person.middleName : ''),
+              (person.middleName ? ' ' + person.middleName : ''),
             family: person.lastName
           };
           destination.push(destinationPerson);
