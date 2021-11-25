@@ -29,6 +29,11 @@
       if (searchObject.hasOwnProperty('size')) {
         paramsObject.size = parseInt(searchObject.size);
       }
+      console.log('TEST');
+      console.log($state.current.name);
+      if($state.current.name === 'analysisPackageDetail') {
+        paramsObject.type = 'analysis_packages';
+      }
       $state.go('search', paramsObject);
     }
 
