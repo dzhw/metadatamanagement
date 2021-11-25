@@ -110,7 +110,10 @@
 			"type": "keyword",
 			"copy_to": "all"
 		},
-		
+		"analysisPackageIds": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
 		"release": {
 			"type": "keyword"
 		},

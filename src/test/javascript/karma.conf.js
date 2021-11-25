@@ -76,6 +76,7 @@ module.exports = function(config) {
       'node_modules/angular-swx-session-storage/release/swx-session-storage.js',
       'node_modules/angulartics/dist/angulartics.min.js',
       'node_modules/angulartics-piwik/dist/angulartics-piwik.min.js',
+      'node_modules/angular-uuid/angular-uuid.js',
 
       'src/main/webapp/scripts/app.js',
       'src/main/webapp/scripts/**/*.js',

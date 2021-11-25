@@ -152,6 +152,10 @@
     margin-left: 16px!important;
   }
 
+  .ml28 {
+    margin-left: 28px!important;
+  }
+
   .mr8 {
     margin-right: 8px!important;
   }
@@ -325,6 +329,10 @@
 
   .overflow-y-auto {
     overflow-y: auto!important;
+  }
+
+  .fg {
+    flex-grow: 1;
   }
 
   // TODO: Check if this is necessary. Copied from style tags

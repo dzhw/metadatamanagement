@@ -70,6 +70,8 @@ angular.module('metadatamanagementApp').config(
           'related-publication': {
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
             'dataPackage-exists': 'There is no Data Package with RDC-ID "{{invalidValue}}"!',
+            'analysisPackage-exists': 'There is no Analysis Package with RDC-ID "{{invalidValue}}"!',
+            'at-least-one-referenced-id': 'The publication must have at least one connection to a data package or to an analysis package.',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',
@@ -109,21 +111,25 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'size': 'The max length of the annotations is 2048 signs.'
-            },
-            'data-package-ids': {
-              'not-empty': 'The publication must have at least one connection to a data package!'
             }
           }
         },
         'report-publications': {
           'speech-bubble': {
             'close': 'Close',
-            'text': 'Do you know of any publications based on our data packages? Then please share them with us...'
+            'text': 'Do you know of any publications based on our data packages? Then please share them with us...',
+            'analyse-package': {
+              'text': 'Do you know of any publications based on our analysis packages? Then please share them with us...'
+            }
           },
           'button': {
             'text': 'Report publications',
             'tooltip': 'Click to report publications on our data packages',
-            'link': 'mailto:userservice@dzhw.eu?subject=Reporting%20of%20publications%20on%20data%20packages%20from%20FDZ-DZHW&body=Dear%20FDZ-DZHW%2C%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20publication(s)%2C%20which%20belong%20to%20data%20package%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%3A%0D%0A'
+            'link': 'mailto:userservice@dzhw.eu?subject=Reporting%20of%20publications%20on%20data%20packages%20from%20FDZ-DZHW&body=Dear%20FDZ-DZHW%2C%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20publication(s)%2C%20which%20belong%20to%20data%20package%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%3A%0D%0A',
+            'analysis-package': {
+              'tooltip': 'Click to report publications on our analysis packages',
+              'link': 'mailto:userservice@dzhw.eu?subject=Reporting%20of%20publications%20on%20analysis%20packages%20from%20FDZ-DZHW&body=Dear%20FDZ-DZHW%2C%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20publication(s)%2C%20which%20belong%20to%20analysis%20package%20{{ analysisPackageId ? "%22" + analysisPackageId + "%22" : "X"}}%3A%0D%0A'
+            }
           }
         }
       }

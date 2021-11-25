@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
@@ -32,7 +33,10 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
 
   private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
   private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
-  
+
+  private List<DataPackageSubDocument> dataPackages = new ArrayList<>();
+  private List<DataPackageNestedDocument> nestedDataPackages = new ArrayList<>();
+
   private List<I18nString> nestedInstitutions = new ArrayList<>();
   private List<I18nString> nestedSponsors = new ArrayList<>();
 
@@ -51,7 +55,7 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
    */
   @SuppressWarnings("CPD-START")
   public AnalysisPackageSearchDocument(AnalysisPackage analysisPackage, Release release,
-      Configuration configuration, String doi,
+      Configuration configuration, String doi, List<DataPackageSubDocumentProjection> dataPackages,
       List<RelatedPublicationSubDocumentProjection> relatedPublications) {
     super(analysisPackage);
     this.release = release;
@@ -63,6 +67,14 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
       this.nestedRelatedPublications = relatedPublications.stream()
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
+    }
+    if (dataPackages != null && !dataPackages.isEmpty()) {
+      this.dataPackages =
+          dataPackages.stream().map(dataPackage -> new DataPackageSubDocument(dataPackage, doi))
+              .collect(Collectors.toList());
+      this.nestedDataPackages =
+          dataPackages.stream().map(dataPackage -> new DataPackageNestedDocument(dataPackage))
+              .collect(Collectors.toList());
     }
     this.nestedInstitutions = analysisPackage.getInstitutions();
     this.nestedSponsors = analysisPackage.getSponsors();

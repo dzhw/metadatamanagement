@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').controller('SidenavController',
   function($scope, $rootScope, Principal, $mdSidenav, $document, $timeout,
-           LanguageService, Auth, $state,
+           LanguageService, Auth, $state, MessageBus,
            WelcomeDialogService) {
 
     $scope.isAuthenticated = Principal.isAuthenticated;
@@ -13,6 +13,8 @@ angular.module('metadatamanagementApp').controller('SidenavController',
     $scope.isAccountMenuOpen = false;
     $scope.logoutButtonDisabled = false;
     $scope.sidebarContent = $rootScope.sidebarContent;
+    $scope.detailViewLoaded = MessageBus;
+    $scope.detailViewType = '';
     $scope.show = false;
 
     $scope.$on('domain-object-editing-started', function() {
@@ -23,11 +25,11 @@ angular.module('metadatamanagementApp').controller('SidenavController',
       $scope.logoutButtonDisabled = false;
     });
 
-    $rootScope.$on('onDataPackageLoaded',
-      function(event, args) { // jshint ignore:line
-      $scope.dataPackage = args.dataPackage;
-      $scope.accessWays = args.accessWays;
-    });
+    // $rootScope.$on('onDataPackageLoaded',
+    //   function(event, args) { // jshint ignore:line
+    //   $scope.dataPackage = args.dataPackage;
+    //   $scope.accessWays = args.accessWays;
+    // });
 
     //Functions for toggling buttons.
     $scope.toggleAccountMenu = function() {
@@ -104,4 +106,14 @@ angular.module('metadatamanagementApp').controller('SidenavController',
         $scope.close();
       }
     });
+
+    $scope.$watch(function() {
+        return $scope.detailViewLoaded;
+      },
+      function() {
+        var data = $scope.detailViewLoaded.get('onDetailViewLoaded', true);
+        if (data) {
+          $scope.detailViewType = data.type;
+        }
+      }, true);
   });
