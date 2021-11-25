@@ -39,6 +39,7 @@ angular.module('metadatamanagementApp').config(
             'data-formats': 'The data sets contain data in the following formats:',
             'data-languages': 'Furthermore the data sets are available in the following languages:',
             'cite-data-package': 'Cite Data Package:',
+            'cite-analysis-package': 'Cite Analysis Package:',
             'cite-method-report': 'Cite Method Report:'
           },
           'hints': {
@@ -68,7 +69,10 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-title': 'Please select an Access Way',
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',
-          'note': 'In case you have problems with the ordering process, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.'
+          'note': 'In case you have problems with the ordering process, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'analysis-package': {
+            'citation': 'Cite Analysis Package'
+          }
         },
         'error': {
           'synchronize': 'Unable to synchronize shopping cart with the server.',
