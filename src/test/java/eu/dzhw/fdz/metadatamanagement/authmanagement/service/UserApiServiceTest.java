@@ -2,27 +2,154 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.MockError;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserApiServiceTest extends AbstractUserApiTests {
+
+  private static final String ID = "1234";
+  private static final String LOGIN = "resource_server";
+  private static final String NO_ID_LOGIN = "no_id_user";
 
   @BeforeEach
   public void initUsersToMockServer() {
     this.mockServer.users(
         new User(
-            "resource_server",
+            ID,
+            LOGIN,
             "resource_server@example.com",
             "de",
             false,
             "user",
             "admin"
+        ),
+        new User(
+            "",
+            NO_ID_LOGIN,
+            "resource_server@example.com",
+            "de",
+            false,
+            "user",
+            "admin"
+        )
+    );
+  }
+
+  @Test()
+  public void patchDeactivatedWelcomeDialogById_Successful() throws InvalidUserApiResponseException {
+    this.addFindOneByLoginRequest(LOGIN);
+    this.addPatchDeactivatedWelcomeDialogById(ID)
+        .withSuccess()
+            .body(u -> Objects.equals(u.getId(), ID))
+        .addToServer();
+
+    userApiService.patchDeactivatedWelcomeDialogById(LOGIN, true);
+  }
+
+  @Test
+  public void patchDeactivatedWelcomeDialogById_MissingUser() {
+    var login = "invalid_user";
+    this.addFindOneByLoginRequest(login);
+
+    var message = assertThrows(
+        InvalidUserApiResponseException.class,
+        () -> userApiService.patchDeactivatedWelcomeDialogById(login, true)
+    ).getMessage();
+
+    assertEquals(
+        message,
+        String.format("Could not update user %s, because user was not found", login)
+    );
+  }
+
+  @Test
+  public void patchDeactivatedWelcomeDialogById_MissingId() {
+    this.addFindOneByLoginRequest(NO_ID_LOGIN);
+
+    var message = assertThrows(
+        InvalidUserApiResponseException.class,
+        () -> userApiService.patchDeactivatedWelcomeDialogById(NO_ID_LOGIN, true)
+    ).getMessage();
+
+    assertEquals(
+        message,
+        String.format(
+            "Could not update user %s, because user id could not be found",
+            NO_ID_LOGIN
+        )
+    );
+  }
+
+  @Test
+  public void patchDeactivatedWelcomeDialogById_InternalServer() {
+    this.addFindOneByLoginRequest(LOGIN);
+    this.addPatchDeactivatedWelcomeDialogById(ID)
+        .withServerError()
+        .addToServer();
+
+    assertThrows(
+        InvalidUserApiResponseException.class,
+        () -> userApiService.patchDeactivatedWelcomeDialogById(LOGIN, true)
+    );
+  }
+
+  @Test
+  public void patchDeactivatedWelcomeDialogById_NoResponse() {
+    this.addFindOneByLoginRequest(LOGIN);
+    this.addPatchDeactivatedWelcomeDialogById(ID)
+      .withSuccess()
+      .addToServer();
+
+    var message = assertThrows(
+        InvalidUserApiResponseException.class,
+        () -> userApiService.patchDeactivatedWelcomeDialogById(LOGIN, true)
+    ).getMessage();
+
+    assertEquals(
+        message,
+        String.format(
+            "No response received while updating deactivated welcome dialog for user '%s'. "
+                + "Assuming update failed",
+            LOGIN
+        )
+    );
+  }
+
+  @Test
+  public void patchDeactivatedWelcomeDialogById_WithErrors() {
+    final var error1 = new MockError("invalid_request");
+    final var error2 = new MockError("bad_request");
+
+    this.addFindOneByLoginRequest(LOGIN);
+    this.addPatchDeactivatedWelcomeDialogById(ID)
+      .withSuccess()
+        .body(
+            error1,
+            error2
+        )
+      .addToServer();
+
+    var message = assertThrows(
+        InvalidUserApiResponseException.class,
+        () -> userApiService.patchDeactivatedWelcomeDialogById(LOGIN, true)
+    ).getMessage();
+
+    assertEquals(
+        message,
+        String.format(
+            "Errors received while updating deactivated welcome dialog for user '%s'. Errors: %s",
+            LOGIN,
+            String.format("%s,%s", error1.getDetail(), error2.getDetail())
         )
     );
   }
@@ -155,14 +282,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     var results = userApiService.findAllByLoginIn(LOGINS);
     assertThat(results.size(), greaterThan(0));
 
-    boolean foundAll = true;
-    for (var result : results) {
-      if (!LOGINS.contains(result.getLogin())) {
-        foundAll = false;
-        break;
-      }
-    }
-    assertThat(foundAll, is(true));
+    assertThat(results.stream().allMatch(r -> LOGINS.contains(r.getLogin())), is(true));
   }
 
   @Test

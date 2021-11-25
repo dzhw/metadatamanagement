@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 
-import java.util.Objects;
 import java.util.Set;
 
 public class AbstractUserApiTests extends AbstractTest {
