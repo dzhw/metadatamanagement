@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class AbstractUserApiTests extends AbstractTest {
@@ -45,12 +46,14 @@ public class AbstractUserApiTests extends AbstractTest {
   ) {
     var roleAsSearch = AuthoritiesConstants.toSearchValue(role);
 
-    mockServer.multipleRequests(
-      UserApiService.FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
-      u -> u.getRoles().contains(roleAsSearch),
-      expectedRequests,
-      AuthoritiesConstants.toSearchValue(roleAsSearch)
-    );
+    mockServer.request(
+        UserApiService.FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
+        AuthoritiesConstants.toSearchValue(roleAsSearch)
+    )
+        .expectedCount(expectedRequests)
+        .withSuccess()
+            .body(u -> u.getRoles().contains(roleAsSearch))
+        .addToServer();
   }
 
   public void addFindAllByLoginLikeOrEmailLikeRequest(
@@ -59,10 +62,12 @@ public class AbstractUserApiTests extends AbstractTest {
   ) {
     mockServer.request(
         UserApiService.FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT,
-        u -> u.getName().contains(login) || u.getMail().contains(email),
         login,
         email
-    );
+    )
+        .withSuccess()
+            .body(u -> u.getName().contains(login) || u.getMail().contains(email))
+        .addToServer();
   }
 
   public void addFindAllByLoginInRequest(final Set<String> logins) {
@@ -82,21 +87,25 @@ public class AbstractUserApiTests extends AbstractTest {
       ));
     }
 
-    this.mockServer.multipleRequests(
+    this.mockServer.request(
         sb.toString(),
-        u -> logins.contains(u.getName()),
-        expectedRequests,
         logins
-    );
+    )
+        .expectedCount(expectedRequests)
+        .withSuccess()
+            .body(u -> logins.contains(u.getName()))
+        .addToServer();
   }
 
   public void addFindOneByLoginOrEmailRequest(final String login, final String email) {
     this.mockServer.request(
         UserApiService.FIND_ONE_BY_LOGIN_OR_EMAIL_ENDPOINT,
-        u -> u.getName().equals(login) || u.getMail().equals(email),
         login,
         email
-    );
+    )
+        .withSuccess()
+            .body(u -> u.getName().equals(login) || u.getMail().equals(email))
+        .addToServer();
   }
 
   public void addFindOneByLoginRequest(final String login) {
@@ -107,12 +116,14 @@ public class AbstractUserApiTests extends AbstractTest {
       final int expectedRequests,
       final String login
   ) {
-    this.mockServer.multipleRequests(
+    this.mockServer.request(
         UserApiService.FIND_ONE_BY_LOGIN_ENDPOINT,
-        u -> u.getName().equals(login),
-        expectedRequests,
         login
-    );
+    )
+      .expectedCount(expectedRequests)
+      .withSuccess()
+          .body(u -> u.getName().equals(login))
+      .addToServer();
   }
 
   public void addFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
@@ -123,28 +134,33 @@ public class AbstractUserApiTests extends AbstractTest {
     var roleAsSearch = AuthoritiesConstants.toSearchValue(role);
     this.mockServer.request(
       UserApiService.FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT,
-      u -> (u.getName().contains(login) || u.getMail().contains(email)) && u.getRoles().contains(roleAsSearch),
       login,
       email,
       roleAsSearch
-    );
+    )
+        .withSuccess()
+            .body(u ->
+                (u.getName().contains(login) || u.getMail().contains(email))
+                    && u.getRoles().contains(roleAsSearch)
+            )
+        .addToServer();
   }
 
   public void addFindOneWithAuthoritiesByLoginRequest(final String login) {
     this.mockServer.request(
         UserApiService.FIND_ONE_WITH_AUTHORITIES_BY_LOGIN_ENDPOINT,
-        u -> u.getName().equals(login),
         login
-    );
+    )
+        .withSuccess()
+            .body(u -> u.getName().equals(login))
+        .addToServer();
   }
 
-  public void addPatchDeactivatedWelcomeDialogById(final String id) {
-    this.mockServer.request(
+  public MockServer.MockRequest addPatchDeactivatedWelcomeDialogById(final String id) {
+    return this.mockServer.request(
         UserApiService.PATCH_DEACTIVATED_WELCOME_DIALOG_BY_ID_ENDPOINT,
-        HttpMethod.PATCH,
-        // An empty body should be returned
-        null,
         id
-    );
+    )
+        .httpMethod(HttpMethod.PATCH);
   }
 }
