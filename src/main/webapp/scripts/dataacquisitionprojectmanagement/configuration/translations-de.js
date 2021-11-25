@@ -81,7 +81,9 @@ angular.module('metadatamanagementApp').config(
               'unauthorized': 'Publisher dürfen nur durch andere Publisher gesetzt werden.'
             },
             'requirements': {
-              'unauthorized': 'Pflichtfelder dürfen nur durch Publishers dieses Projekts geändert werden.'
+              'unauthorized': 'Pflichtfelder dürfen nur durch Publishers dieses Projekts geändert werden.',
+              'publications-required-for-analysis-packages': 'Eine Publikation wird für ein Analysepaket benötigt.',
+              'either-data-packages-or-analysis-packages-required': 'Es wird entweder ein Datenpaket oder Analysepaket benötigt.'
             }
           },
           'release': {
@@ -94,6 +96,8 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-dataPackage': 'Das Projekt mit der FDZ-ID {{ id }} enthält kein Datenpaket.',
+            'project-has-no-analysisPackage': 'Das Projekt mit der FDZ-ID {{ id }} enthält kein Analysepaket.',
+            'project-must-have-exactly-one-publication': 'Das Projekt mit der FDZ-ID {{ id }} muss genau eine Publikation enthalten.',
             'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.',
             'project-has-no-survey': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens eine Erhebung enthalten.',
             'project-has-no-data-set': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens einen Datensatz enthalten.'
@@ -169,7 +173,8 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Variablen',
             'publications': 'Publikationen',
             'concepts': 'Konzepte',
-            'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer:innen freigegeben werden kann:'
+            'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer:innen freigegeben werden kann:',
+            'analysisPackages': 'Analysepaket'
           },
           'config': {
             'assigned-group': 'Zugewiesene Benutzer:innengruppe',
@@ -221,6 +226,7 @@ angular.module('metadatamanagementApp').config(
             'release-version': 'Aktuelle Version',
             'assigned-group': 'Zugewiesene Gruppe',
             'data-package-status': 'Datenpaket',
+            'analysis-package-status': 'Analyse Paket',
             'surveys-status': 'Erhebungen',
             'instruments-status': 'Instrumente',
             'data-sets-status': 'Datensätze',

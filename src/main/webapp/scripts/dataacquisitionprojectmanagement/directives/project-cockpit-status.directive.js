@@ -134,7 +134,8 @@ angular.module('metadatamanagementApp')
           SearchDao.search('', 1, projectId, {}, undefined, 0, undefined)
             .then(function(data) {
               ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
-                'data_packages', 'related_publications', 'concepts'].forEach(
+                'data_packages', 'analysis_packages', 'related_publications',
+                'concepts'].forEach(
               function(type) {
                 var bucket = _.find(data.aggregations.countByType.buckets,
                   {key: type});

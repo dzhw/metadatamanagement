@@ -13,6 +13,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
@@ -36,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link DataPackage}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -60,7 +61,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Delete all dataPackages when the dataAcquisitionProject was deleted.
-   * 
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
@@ -70,7 +71,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Update all {@link DataPackageSearchDocument} of the project.
-   * 
+   *
    * @param dataAcquisitionProject the changed project.
    */
   @HandleAfterSave
@@ -83,7 +84,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * A service method for deletion of dataPackages within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -100,7 +101,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the data set is changed.
-   * 
+   *
    * @param dataSet the updated, created or deleted dataSet.
    */
   @HandleAfterCreate
@@ -114,7 +115,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the variable is changed.
-   * 
+   *
    * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
@@ -128,7 +129,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when a related publication is changed.
-   * 
+   *
    * @param relatedPublication the updated, created or deleted publication.
    */
   @HandleAfterCreate
@@ -144,7 +145,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the survey is changed.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -158,7 +159,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the question is changed.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -172,7 +173,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the instrument is changed.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -186,7 +187,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate
@@ -200,6 +201,31 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
       dataPackageIds.addAll(questionRepository.streamIdsByConceptIdsContaining(concept.getId())
           .map(question -> question.getDataPackageId()).collect(Collectors.toSet()));
       return dataPackageRepository.streamIdsByIdIn(dataPackageIds);
+    }, ElasticsearchType.data_packages);
+  }
+
+  /**
+   * Enqueue update of dataPackage search documents when the {@link AnalysisPackage} is changed.
+   *
+   * @param analysisPackage the updated, created or deleted {@link AnalysisPackage}.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onAnalysisPackageChanged(AnalysisPackage analysisPackage) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      Class<eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage> clazz =
+          eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage.class;
+      if (analysisPackage.getAnalysisDataPackages() != null) {
+        Set<String> dataPackageIds = analysisPackage.getAnalysisDataPackages().stream()
+            .filter(clazz::isInstance).map(clazz::cast)
+            .map(dataPackage -> dataPackage.getDataPackageMasterId() + "-"
+              + dataPackage.getVersion())
+            .collect(Collectors.toSet());
+        return dataPackageRepository.streamIdsByIdIn(dataPackageIds);
+      } else {
+        return Stream.empty();
+      }
     }, ElasticsearchType.data_packages);
   }
 

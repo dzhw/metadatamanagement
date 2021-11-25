@@ -194,7 +194,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Das Veröffentlichungsjahr darf nicht leer sein!',
               'invalid-number': 'Das Jahr muss eine gültige Zahl sein!',
               'min': 'Das früheste Jahr ist 1990!',
-              'max': 'Das späteste Jahr ist nächstes Jahr!',
+              'max': 'Das späteste Jahr ist nächstes Jahr!'
             },
             'location': {
               'not-empty': 'Der Ort darf nicht leer sein!',
@@ -229,7 +229,7 @@ angular.module('metadatamanagementApp').config(
             'location': 'Ort',
             'additional-links': {
               'url': 'URL',
-              'display-text': 'Anzeigetext',
+              'display-text': 'Anzeigetext'
             }
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datenpakets wieder herzustellen.',
@@ -347,7 +347,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
             },
             'languages': {
-              'not-empty': 'Sie müssen mindestens eine Sprache auswählen!',
+              'not-empty': 'Sie müssen mindestens eine Sprache auswählen!'
             }
           },
           'hints': {

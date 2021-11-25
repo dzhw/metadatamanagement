@@ -1,0 +1,52 @@
+  <md-input-container flex="50"
+                      class="mr8"
+                      md-is-error="!$ctrl.currentForm[$ctrl.name + 'TitleDe_' + $ctrl.index].$valid && ($ctrl.currentForm[$ctrl.name + 'TitleDe_' + $ctrl.index].$dirty || $ctrl.currentForm[$ctrl.name + 'TitleDe_' + $ctrl.index].$touched)">
+    <label
+      class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
+    <input fdz-required
+           md-no-asterisk
+           name="{{$ctrl.name}}TitleDe_{{$ctrl.index}}"
+           lang="de"
+           md-maxlength="$ctrl.maxLength"
+           ng-model="$ctrl.content.title.de">
+    <div class="fdz-input-hint"
+         ng-if="!$ctrl.currentForm[$ctrl.name + 'TitleDe_' + $ctrl.index].$dirty && !$ctrl.currentForm[$ctrl.name + 'TitleDe_' + $ctrl.index].$touched">
+      {{'analysis-package-management.edit.hints.' + $ctrl.translationKeyPackage +'.title.de' | translate}}
+    </div>
+    <div multiple
+         ng-messages="$ctrl.currentForm[$ctrl.name + 'TitleDe_' + $ctrl.index].$error">
+      <div ng-message="fdz-required">
+        {{'analysis-package-management.error.' + $ctrl.translationKeyPackage +'.title.i18n-string-entire-not-empty' |
+      translate}}
+      </div>
+      <div ng-message="md-maxlength">
+        {{'analysis-package-management.error.' + $ctrl.translationKeyPackage + '.title.i18n-string-size' | translate}}
+      </div>
+    </div>
+  </md-input-container>
+  <md-input-container flex="50"
+                      class="mr8"
+                      md-is-error="!$ctrl.currentForm[$ctrl.name + 'TitleEn_' + $ctrl.index].$valid && ($ctrl.currentForm[$ctrl.name + 'TitleEn_' + $ctrl.index].$dirty || $ctrl.currentForm[$ctrl.name + 'TitleEn_' + $ctrl.index].$touched)">
+    <label
+      class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}} ({{'global.in-english' | translate}})</label>
+    <input fdz-required
+           md-no-asterisk
+           name="{{$ctrl.name}}TitleEn_{{$ctrl.index}}"
+           lang="de"
+           md-maxlength="$ctrl.maxLength"
+           ng-model="$ctrl.content.title.en">
+    <div class="fdz-input-hint"
+         ng-if="!$ctrl.currentForm[$ctrl.name + 'TitleEn_' + $ctrl.index].$dirty && !$ctrl.currentForm[$ctrl.name + 'TitleEn_' + $ctrl.index].$touched">
+      {{'analysis-package-management.edit.hints.' + $ctrl.translationKeyPackage +'.title.en' | translate}}
+    </div>
+    <div multiple
+         ng-messages="$ctrl.currentForm[$ctrl.name + 'TitleEn_' + $ctrl.index].$error">
+      <div ng-message="fdz-required">
+        {{'analysis-package-management.error.' + $ctrl.translationKeyPackage +'.title.i18n-string-entire-not-empty' |
+      translate}}
+      </div>
+      <div ng-message="md-maxlength">
+        {{'analysis-package-management.error.' + $ctrl.translationKeyPackage +'.title.i18n-string-size' | translate}}
+      </div>
+    </div>
+  </md-input-container>

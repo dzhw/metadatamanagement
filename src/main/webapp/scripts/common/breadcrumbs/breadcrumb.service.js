@@ -94,6 +94,24 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         'iconType': 'svg',
         'icon': 'assets/images/icons/data-package.svg'
       },
+      'analysisPackageCreate': {
+        'type': 'analysis-package-management.detail.label.analysisPackage',
+        'translateString': 'global.tooltips.toolbarHeader.analysis-package',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/data-package.svg'
+      },
+      'analysisPackageEdit': {
+        'type': 'analysis-package-management.detail.label.analysisPackage',
+        'translateString': 'global.tooltips.toolbarHeader.analysis-package',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/data-package.svg'
+      },
+      'analysisPackageDetail': {
+        'type': 'analysis-package-management.detail.label.analysisPackage',
+        'translateString': 'global.tooltips.toolbarHeader.analysis-package',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/data-package.svg'
+      },
       'surveyDetail': {
         'type': 'survey-management.detail.label.survey',
         'types': 'survey-management.detail.label.surveys',
@@ -211,6 +229,39 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         dataPackageItem.notFound = '?';
       }
       return dataPackageItem;
+    };
+    var createRelatedAnalysisPackageItem = function(item) {
+      var analysisPackageItem = {
+        'type': translationStringsMap.analysisPackageDetail.type,
+        'iconType': translationStringsMap.analysisPackageDetail.iconType,
+        'icon': translationStringsMap.analysisPackageDetail.icon
+      };
+      if (item.analysisPackageIsPresent) {
+        var stateParams = {
+          id: stripVersionSuffixAndDollar(item.analysisPackageId)
+        };
+        if (item.version) {
+          stateParams.version = item.version;
+        }
+        analysisPackageItem.state = 'analysisPackageDetail(' +
+          JSON.stringify(stateParams) + ')';
+        if (isAuthenticated()) {
+          analysisPackageItem.tooltip = translationStringsMap
+            .analysisPackageDetail.translateString;
+        } else {
+          analysisPackageItem.tooltip = translationStringsMap
+            .analysisPackageDetail.translateString;
+          analysisPackageItem.type = translationStringsMap
+            .analysisPackageDetail.type;
+        }
+        analysisPackageItem.projectId = stripVersionSuffixAndDollar(
+          item.projectId
+        );
+        analysisPackageItem.enableLastItem = item.enableLastItem;
+      } else {
+        analysisPackageItem.notFound = '?';
+      }
+      return analysisPackageItem;
     };
     var createRelatedInstrumentItem = function(item, type) {
       var instrumentItem = {
@@ -351,6 +402,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       var publicationItem = {};
       var surveyItem = {};
       var dataPackageItem = createRelatedDataPackageItem(item);
+      var analysisPackageItem = createRelatedAnalysisPackageItem(item);
       switch (item.stateName) {
         case 'dataPackageDetail':
           $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem);
@@ -360,6 +412,18 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           break;
         case 'dataPackageCreate':
           $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem);
+          break;
+        case 'analysisPackageDetail':
+          $rootScope.toolbarHeaderItems
+            .push(searchItem.get(), analysisPackageItem);
+          break;
+        case 'analysisPackageEdit':
+          $rootScope.toolbarHeaderItems
+            .push(searchItem.get(), analysisPackageItem);
+          break;
+        case 'analysisPackageCreate':
+          $rootScope.toolbarHeaderItems
+            .push(searchItem.get(), analysisPackageItem);
           break;
         case 'questionDetail':
           questionItem = {

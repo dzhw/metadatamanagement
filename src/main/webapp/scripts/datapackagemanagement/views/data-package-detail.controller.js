@@ -101,6 +101,7 @@ angular.module('metadatamanagementApp')
               masterId: result.masterId,
               version: result.release.version
             });
+          MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         }
 
         PageMetadataService.setPageTitle(

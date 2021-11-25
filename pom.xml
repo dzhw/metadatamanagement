@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.6</version>
+        <version>2.5.7</version>
         <relativePath />
     </parent>
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.116-SNAPSHOT</version>
+    <version>1.0.117-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -175,7 +175,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>6.5.0</version>
+            <version>6.5.1</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -195,11 +195,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -297,7 +292,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.5.5</version>
+            <version>2.5.6</version>
         </dependency>
         <dependency>
             <groupId>org.zalando</groupId>

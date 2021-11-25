@@ -113,6 +113,7 @@ angular.module('metadatamanagementApp').config(
             'question': 'Klicken, um die Frage {{param}} anzuzeigen',
             'variable': 'Klicken, um die Variable {{param}} anzuzeigen',
             'data-package': 'Klicken, um das Datenpaket {{param}} anzuzeigen',
+            'analysis-package': 'Klicken, um das Analysepaket {{param}} anzuzeigen',
             'instrument': 'Klicken, um das Instrument {{param}} anzuzeigen',
             'publication': 'Klicken, um die Publikation {{param}} anzuzeigen',
             'concept': 'Klicken, um das Konzept {{param}} anzuzeigen'
@@ -286,7 +287,7 @@ angular.module('metadatamanagementApp').config(
             'json-parsing-error': 'Der Import des Objektes "{{entity}}" aus einer JSON Daei schlug fehl, denn das Feld "{{property}}" hat einen ungültigen Wert: {{invalidValue}}',
             'excel-parsing-error': 'Der Import des Objektes "{{entity}}" aus einer Excel Datei in Zeile {{index}} schlug fehl, denn das Feld "{{property}}" hat einen ungültigen Wert: {{invalidValue}}',
             'no-json-mapping': 'Ein serverseitiger Fehler trat beim Import eines Objektes auf.',
-            'file-size-limit-exceeded': 'Die Datei "{{ entity }}" ist größer 15MB!',
+            'file-size-limit-exceeded': 'Die angegebene Datei ist größer 15MB!',
             'file-already-exists': 'Das Speichern ist fehlgeschlagen, weil es bereits eine Datei mit dem Namen "{{ filename }}" gibt!'
           },
           'server-error': {
@@ -402,6 +403,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-all-data-packages': {
             'title': 'Datenpaket des Projekts "{{ id }}" löschen?',
             'content': 'Wollen Sie wirklich das Datenpaket des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-analysis-packages': {
+            'title': 'Analysepaket des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich das Analysepaket des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-variables': {
             'title': 'Alle Variablen des Projekts "{{ id }}" löschen?',

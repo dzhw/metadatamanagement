@@ -47,6 +47,9 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   
   @RestResource(exported = false)
   boolean existsByAnalysisPackageIdsContaining(String analysisPackageId);
+  
+  @RestResource(exported = false)
+  long countByAnalysisPackageIdsContaining(String analysisPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
