@@ -27,8 +27,8 @@ angular.module('metadatamanagementApp').config(
             'this-analysis-product': 'Dieses Analysepaket',
             'study-series': 'aus der Studienreihe "{{series}}"',
             'contains': 'enthält',
-            'following': 'für folgende',
-            'software-packages': '{packages, plural, =0{unbekannt viele Softwarepakete} =1{ein Softwarepaket} other{Softwarepakete}}',
+            'following': '{packages, plural, =0{für folgende} =1{für folgendes} other{für folgende}}',
+            'software-packages': '{packages, plural, =0{unbekannt viele Softwarepakete} =1{Softwarepaket} other{Softwarepakete}}',
             'variables': '{variables, plural, =0{unbekannt viele Variablen} =1{eine Variable} other{{formattedVariables} Variablen}}',
             'scripts': '{scripts, plural, =0{unbekannt viele Skripte} =1{ein Skript} other{{formattedScripts} Skripte}}',
             'in': 'in',
@@ -113,12 +113,16 @@ angular.module('metadatamanagementApp').config(
           'beta-hint': 'Alle Formate generiert via da|ra (beta-Status)',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
+          'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
         },
         'version-info': {
           'title': 'Eine Version auswählen',
           'content': '<p style="margin-bottom: 0px;">Unsere Datenpakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen am Datensatz (abgesehen von Änderungen der Variablenlabels)</li><li>Zweite Stelle (Minor): Label ändern sich, Metadatenänderungen wie Hinzufügen weiterer Fragen oder Änderungen der Metadaten/Dokumentation, die Auswirkungen auf die Analyse haben.</li><li>Dritte Stelle (Patch): Zusätzliche Datensatzformate werden bereitgestellt, Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer:innen ist die aktuellste Version der Daten relevant.</strong>',
-          'close-tooltip': 'Klicken, um diesen Dialog zu schließen.'
+          'close-tooltip': 'Klicken, um diesen Dialog zu schließen.',
+          'analysis-package': {
+            'content': '<p style="margin-bottom: 0px;">TODO: Unsere Analysepakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen am Datensatz</li><li>Zweite Stelle (Minor): Label ändern sich, Metadatenänderungen wie Hinzufügen weiterer Skripte oder Änderungen der Metadaten/Dokumentation.</li><li>Dritte Stelle (Patch): Zusätzliche Datensatzformate werden bereitgestellt, Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer:innen ist die aktuellste Version der Daten relevant.</strong>',
+          }
         },
         'access-way-info': {
           'title': 'Einen Zugangsweg auswählen',

@@ -34,7 +34,7 @@
                 {{'shopping-cart.detail.scripts-tooltip' | translate}}
               </md-tooltip>
             </a>
-            <span>{{'shopping-cart.detail.label.following' | translate}}</span>
+            <span>{{'shopping-cart.detail.label.following' | translate:'{packages: ' + ctrl.getNumberOfScripts(product) + ', formattedPackages:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}</span>
             <span>{{'shopping-cart.detail.label.software-packages' | translate:'{packages: ' + ctrl.getNumberOfScripts(product) + ', formattedPackages:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}:</span>
             <span ng-repeat="package in ctrl.getSoftwarePackages(product)">{{package}}{{!$last?', ':''}}</span>
           </p>

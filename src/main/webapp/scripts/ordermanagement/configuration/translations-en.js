@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
             'study-series': 'from study series "{{series}}"',
             'contains': 'contains',
             'following': 'with the following',
-            'software-packages': '{packages, plural, =0{an unknown amount of software packages} =1{one software package} other{software packages}}',
+            'software-packages': '{packages, plural, =0{an unknown amount of software packages} =1{software package} other{software packages}}',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
             'scripts': '{scripts, plural, =0{an unknown amount of scripts} =1{one script} other{{formattedScripts} scripts}}',
             'in': 'in',
@@ -112,12 +112,16 @@ angular.module('metadatamanagementApp').config(
           'open-export-tooltip': 'Click to export the metadata of this data package.',
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
+          'analysis-package-version-tooltip': 'Click to get more information about versions of analysis packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
         },
         'version-info': {
           'title': 'Select a Version',
           'content': '<p style="margin-bottom: 0px;">Our data packages are available in a three-digit version. The digits of the version number indicate how big the changes to the data are. You will be notified if changes are made to the first two digits.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>First digit (Major): Changes to the data set (except for changes to variable labels)</li><li>Second digit (Minor): Labels change, metadata changes such as adding more questions or changes to metadata/documentation that affect the analysis.</li><li>Third digit (Patch): Additional dataset formats are provided, adding/deleting language versions.</li></ul><strong>For most data users, the most recent version of the data is relevant.</strong>',
-          'close-tooltip': 'Click to close this dialog'
+          'close-tooltip': 'Click to close this dialog',
+          'analysis-package': {
+            'content': '<p style="margin-bottom: 0px;">TODO: Our analysis packages are available in a three-digit version. The digits of the version number indicate how big the changes to the data are. You will be notified if changes are made to the first two digits.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>First digit (Major): Changes to the data set.</li><li>Second digit (Minor): Labels change, metadata changes such as adding more scripts or changes to metadata/documentation.</li><li>Third digit (Patch): Additional dataset formats are provided, adding/deleting language versions.</li></ul><strong>For most data users, the most recent version of the data is relevant.</strong>'
+          }
         },
         'access-way-info': {
           'title': 'Select an Access Way',

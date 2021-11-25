@@ -98,6 +98,7 @@
             $ctrl.noFinalRelease = true;
           }
           loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);
+          $ctrl.dataPackages.length = 0;
           _.forEach($ctrl.analysisPackage.analysisDataPackages, function(item) {
             if (item.type === 'dataPackage') {
               loadDataPackage(
