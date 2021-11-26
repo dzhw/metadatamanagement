@@ -5,7 +5,7 @@ angular
   .factory(
     'AuthServiceProvider',
     function loginService($http, localStorageService, $window,
-                          $q, AuthProperties) {
+                          $q, AuthProperties, $location) {
       var config = {
         clientId: AuthProperties.clientId,
         clientSecret: AuthProperties.clientSecret,
