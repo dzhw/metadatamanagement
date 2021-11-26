@@ -27,7 +27,7 @@ public class AuditorService implements AutoCloseable {
    * @return info about the user with the provided {@code login}
    */
   public UserDto findAndSetOnBehalfAuditor(String login) {
-    if (!StringUtils.hasLength(login)) {
+    if (!StringUtils.hasText(login)) {
       return null;
     }
 
