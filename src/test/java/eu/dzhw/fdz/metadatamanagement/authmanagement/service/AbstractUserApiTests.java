@@ -35,6 +35,15 @@ public class AbstractUserApiTests extends AbstractTest {
     }
   }
 
+  public MockServer.MockRequest startFindAllByAuthoritiesContainingRequest(final String role) {
+    var roleAsSearch = AuthoritiesConstants.toSearchValue(role);
+
+    return mockServer.request(
+      UserApiService.FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
+      AuthoritiesConstants.toSearchValue(roleAsSearch)
+    );
+  }
+
   public void addFindAllByAuthoritiesContainingRequest(final String role) {
     addFindAllByAuthoritiesContainingRequest(1, role);
   }
@@ -43,15 +52,10 @@ public class AbstractUserApiTests extends AbstractTest {
       final int expectedRequests,
       final String role
   ) {
-    var roleAsSearch = AuthoritiesConstants.toSearchValue(role);
-
-    mockServer.request(
-        UserApiService.FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT,
-        AuthoritiesConstants.toSearchValue(roleAsSearch)
-    )
+    startFindAllByAuthoritiesContainingRequest(role)
         .expectedCount(expectedRequests)
         .withSuccess()
-            .body(u -> u.getRoles().contains(roleAsSearch))
+            .body(u -> u.getRoles().contains(AuthoritiesConstants.toSearchValue(role)))
         .addToServer();
   }
 

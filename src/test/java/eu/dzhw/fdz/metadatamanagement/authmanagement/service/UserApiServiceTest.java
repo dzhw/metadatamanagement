@@ -155,6 +155,19 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
+  public void findAllByAuthoritiesContaining_EmptyBody() throws InvalidUserApiResponseException {
+    final var ROLE = AuthoritiesConstants.ADMIN;
+
+    this.startFindAllByAuthoritiesContainingRequest(ROLE)
+        .withSuccess()
+        .addToServer();
+
+    var result = userApiService.findAllByAuthoritiesContaining(ROLE);
+
+    assertEquals(0, result.size());
+  }
+
+  @Test
   public void findAllByAuthoritiesContaining_WithResults() throws InvalidUserApiResponseException {
     final var ROLE = AuthoritiesConstants.ADMIN;
 
@@ -174,6 +187,38 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     var results = userApiService.findAllByAuthoritiesContaining(ROLE);
 
     assertThat(results.size(), is(0));
+  }
+
+  @Test
+  public void findAllByAuthoritiesContaining_ResponseErrors() {
+    final var ROLE = AuthoritiesConstants.ADMIN;
+
+    // 400
+    this.startFindAllByAuthoritiesContainingRequest(ROLE)
+      .withBadRequest()
+      .addToServer();
+
+    // 401
+    this.startFindAllByAuthoritiesContainingRequest(ROLE)
+      .withUnauthorizedRequest()
+      .addToServer();
+
+    // 404
+    this.startFindAllByAuthoritiesContainingRequest(ROLE)
+      .withNotFound()
+      .addToServer();
+
+    // 500 response
+    this.startFindAllByAuthoritiesContainingRequest(ROLE)
+      .withServerError()
+      .addToServer();
+
+    for (var i = 0; i < 4; i++) {
+      assertThrows(
+        InvalidUserApiResponseException.class,
+        () -> userApiService.findAllByAuthoritiesContaining(ROLE)
+      );
+    }
   }
 
   @Test
