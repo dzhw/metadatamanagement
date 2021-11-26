@@ -177,7 +177,7 @@ public class UserResourceTests extends AbstractUserApiTests {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testGetUserPublic() throws Exception {
+  public void testGetUserPublic_Success() throws Exception {
     this.addFindOneWithAuthoritiesByLoginRequest("unknown");
     this.addFindOneWithAuthoritiesByLoginRequest("admin");
 
@@ -188,5 +188,17 @@ public class UserResourceTests extends AbstractUserApiTests {
           .accept(MediaType.APPLICATION_JSON))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$.login").value("admin"));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testGetUserPublic_ServerError() throws Exception {
+    this.startFindOneWithAuthoritiesByLoginRequest("admin")
+        .withServerError()
+        .addToServer();
+
+    restUserMockMvc.perform(get("/api/users/admin/public")
+        .accept(MediaType.APPLICATION_JSON))
+       .andExpect(status().isInternalServerError());
   }
 }
