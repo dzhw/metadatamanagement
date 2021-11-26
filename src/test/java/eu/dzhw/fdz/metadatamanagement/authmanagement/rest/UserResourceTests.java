@@ -105,8 +105,7 @@ public class UserResourceTests extends AbstractUserApiTests {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void findUserWithRole() throws Exception {
-    final var USER_LOGIN = "user";
+  public void findUserWithRole_Success() throws Exception {
     final var USER_ROLE = AuthoritiesConstants.USER;
     final var ADMIN_EMAIL = "admin@local";
     final var ADMIN_ROLE = AuthoritiesConstants.ADMIN;
@@ -154,7 +153,26 @@ public class UserResourceTests extends AbstractUserApiTests {
             .param("role", ADMIN_ROLE)
             .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(content().json("[]"));
+  }
 
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+  public void findUserWithRole_ServerError() throws Exception {
+    var role = AuthoritiesConstants.USER;
+    this.startFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
+        USER_LOGIN,
+        USER_LOGIN,
+        role
+    )
+        .withServerError()
+        .addToServer();
+
+    restUserMockMvc
+        .perform(get("/api/users/findUserWithRole/")
+            .param("login", USER_LOGIN)
+            .param("role", role)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isInternalServerError());
   }
 
   @Test
