@@ -24,7 +24,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.QDataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Service responsible for retrieving an initializing the data acquisition project history.
@@ -36,8 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 public class DataAcquisitionProjectVersionsService extends
     GenericDomainObjectVersionsService<DataAcquisitionProject, DataAcquisitionProjectRepository> {
 
-  private final AuditorService auditorService;
-
   private static final Predicate projectNotHidden =
       QDataAcquisitionProject.dataAcquisitionProject.hidden.isNull()
           .or(QDataAcquisitionProject.dataAcquisitionProject.hidden.isFalse());
@@ -45,13 +42,13 @@ public class DataAcquisitionProjectVersionsService extends
   /**
    * Construct the service.
    */
-  public DataAcquisitionProjectVersionsService(Javers javers,
-      DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
-      MetadataManagementProperties metadataManagementProperties,
-      AuditorService auditorService) {
+  public DataAcquisitionProjectVersionsService(
+        Javers javers,
+        DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
+        MetadataManagementProperties metadataManagementProperties
+  ) {
     super(DataAcquisitionProject.class, javers, dataAcquisitionProjectRepository,
         metadataManagementProperties);
-    this.auditorService = auditorService;
   }
 
   /**
