@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
@@ -28,10 +27,15 @@ public class VariableCrudHelper
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       VariableChangesProvider changesProvider,
       RestHighLevelClient elasticsearchClient,
-      AuditorService auditorService,
       Gson gson
   ) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        elasticsearchClient, VariableSearchDocument.class, auditorService, gson);
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService, changesProvider,
+        elasticsearchClient,
+        VariableSearchDocument.class,
+        gson
+    );
   }
 }

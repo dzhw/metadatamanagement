@@ -12,7 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Component which implements CRUD functions for all {@link Question}s.
@@ -28,10 +27,16 @@ public class QuestionCrudHelper
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       QuestionChangesProvider changesProvider,
       RestHighLevelClient elasticsearchClient,
-      AuditorService auditorService,
       Gson gson
   ) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        elasticsearchClient, QuestionSearchDocument.class, auditorService, gson);
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        changesProvider,
+        elasticsearchClient,
+        QuestionSearchDocument.class,
+        gson
+    );
   }
 }

@@ -12,7 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Component which implements CRUD functions for all {@link Instrument}s.
@@ -31,11 +30,16 @@ public class InstrumentCrudHelper
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       InstrumentChangesProvider instrumentChangesProvider,
       RestHighLevelClient elasticsearchClient,
-      AuditorService auditorService,
       Gson gson
   ) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        instrumentChangesProvider, elasticsearchClient, InstrumentSearchDocument.class,
-      auditorService, gson);
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        instrumentChangesProvider,
+        elasticsearchClient,
+        InstrumentSearchDocument.class,
+        gson
+    );
   }
 }

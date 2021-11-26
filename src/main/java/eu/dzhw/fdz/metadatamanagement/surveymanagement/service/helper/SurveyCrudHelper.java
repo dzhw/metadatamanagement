@@ -11,7 +11,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDoc
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Component which implements CRUD functions for all {@link Survey}s.
@@ -21,12 +20,21 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 @Component
 public class SurveyCrudHelper
     extends GenericShadowableDomainObjectCrudHelper<Survey, SurveyRepository> {
-  public SurveyCrudHelper(SurveyRepository repository,
+  public SurveyCrudHelper(
+      SurveyRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      RestHighLevelClient elasticsearchClient, AuditorService auditorService,
-      Gson gson) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null,
-        elasticsearchClient, SurveySearchDocument.class, auditorService, gson);
+      RestHighLevelClient elasticsearchClient,
+      Gson gson
+  ) {
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        null,
+        elasticsearchClient,
+        SurveySearchDocument.class,
+        gson
+    );
   }
 }

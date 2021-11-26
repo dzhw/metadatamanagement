@@ -25,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ExcludeFieldsHe
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentInterface;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * CRUD Service Helper for {@link AbstractShadowableRdcDomainObject}.
@@ -42,8 +41,6 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
   private static final QAbstractShadowableRdcDomainObject shadowQuery =
       QAbstractShadowableRdcDomainObject.abstractShadowableRdcDomainObject;
 
-  private AuditorService auditorService;
-
   /**
    * Construct the helper.
    */
@@ -54,12 +51,10 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
       DomainObjectChangesProvider<T> domainObjectChangesProvider,
       RestHighLevelClient elasticsearchClient,
       Class<? extends T> searchDocumentClass,
-      AuditorService auditorService,
       Gson gson
   ) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
         domainObjectChangesProvider, elasticsearchClient, searchDocumentClass, gson);
-    this.auditorService = auditorService;
   }
 
   /**

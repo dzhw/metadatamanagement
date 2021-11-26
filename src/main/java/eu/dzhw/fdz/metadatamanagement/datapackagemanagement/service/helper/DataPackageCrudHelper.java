@@ -12,7 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Component which implements CRUD functions for all {@link DataPackage}s.
@@ -28,10 +27,16 @@ public class DataPackageCrudHelper
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       DataPackageChangesProvider changesProvider,
       RestHighLevelClient elasticsearchClient,
-      AuditorService auditorService,
       Gson gson
   ) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        elasticsearchClient, DataPackageSearchDocument.class, auditorService, gson);
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        changesProvider,
+        elasticsearchClient,
+        DataPackageSearchDocument.class,
+        gson
+    );
   }
 }

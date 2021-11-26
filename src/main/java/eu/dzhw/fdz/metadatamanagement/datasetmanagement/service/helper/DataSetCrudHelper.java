@@ -12,7 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Component which implements CRUD functions for all {@link DataSet}s.
@@ -31,11 +30,16 @@ public class DataSetCrudHelper
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       DataSetChangesProvider dataSetChangesProvider,
       RestHighLevelClient elasticsearchClient,
-      AuditorService auditorService,
       Gson gson
   ) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        dataSetChangesProvider, elasticsearchClient, DataSetSearchDocument.class,
-      auditorService, gson);
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        dataSetChangesProvider,
+        elasticsearchClient,
+        DataSetSearchDocument.class,
+        gson
+    );
   }
 }
