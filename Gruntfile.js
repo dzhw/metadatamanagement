@@ -664,9 +664,9 @@ module.exports = function(grunt) {
               .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
             AuthProperties: {
-              clientId: process.env.CLIENT_ID || null,
-              clientSecret: process.env.CLIENT_SECRET || null,
-              issuer: process.env.ISSUER || null
+              clientId: process.env.CLIENT_ID_PROD || null,
+              clientSecret: process.env.CLIENT_SECRET_PROD || null,
+              issuer: process.env.ISSUER_PROD || null
             }
           }
         }
