@@ -143,6 +143,12 @@ public class MockServer {
       return this;
     }
 
+    public MockResponse body() {
+      responseCreator.body("{}");
+
+      return this;
+    }
+
     public MockResponse body(Predicate<User> predicate) {
       assert predicate != null;
 

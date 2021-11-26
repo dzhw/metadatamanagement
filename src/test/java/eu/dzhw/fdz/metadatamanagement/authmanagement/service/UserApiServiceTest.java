@@ -305,8 +305,15 @@ public class UserApiServiceTest extends AbstractUserApiTests {
         .withSuccess()
         .addToServer();
 
-    var result = userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
+    this.startFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL)
+      .withSuccess()
+          .body()
+      .addToServer();
 
+    var result = userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
+    assertEquals(0, result.size());
+
+    result = userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
     assertEquals(0, result.size());
   }
 
@@ -353,9 +360,15 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     this.startFindAllByLoginInRequest(logins)
         .withSuccess()
         .addToServer();
+    this.startFindAllByLoginInRequest(logins)
+      .withSuccess()
+          .body()
+      .addToServer();
 
     var result = userApiService.findAllByLoginIn(logins);
+    assertEquals(0, result.size());
 
+    result = userApiService.findAllByLoginIn(logins);
     assertEquals(0, result.size());
   }
 
@@ -406,9 +419,14 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     this.startFindOneByLoginOrEmailRequest(LOGIN, EMAIL)
         .withSuccess()
         .addToServer();
+    this.startFindOneByLoginOrEmailRequest(LOGIN, EMAIL)
+      .withSuccess()
+          .body()
+      .addToServer();
 
     var result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
-
+    assertThat(result.isPresent(), is(false));
+    result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
     assertThat(result.isPresent(), is(false));
   }
 
@@ -447,9 +465,14 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     this.startFindOneByLoginRequest(LOGIN)
         .withSuccess()
         .addToServer();
+    this.startFindOneByLoginRequest(LOGIN)
+      .withSuccess()
+          .body()
+      .addToServer();
 
     var result = userApiService.findOneByLogin(LOGIN);
-
+    assertThat(result.isPresent(), is(false));
+    result = userApiService.findOneByLogin(LOGIN);
     assertThat(result.isPresent(), is(false));
   }
 
@@ -486,9 +509,14 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     this.startFindOneWithAuthoritiesByLoginRequest(LOGIN)
         .withSuccess()
         .addToServer();
+    this.startFindOneWithAuthoritiesByLoginRequest(LOGIN)
+      .withSuccess()
+          .body()
+      .addToServer();
 
     var result = userApiService.findOneWithAuthoritiesByLogin(LOGIN);
-
+    assertThat(result.isPresent(), is(false));
+    result = userApiService.findOneWithAuthoritiesByLogin(LOGIN);
     assertThat(result.isPresent(), is(false));
   }
 
@@ -549,13 +577,26 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     )
         .withSuccess()
         .addToServer();
+    this.startFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
+          LOGIN,
+          EMAIL,
+          AuthoritiesConstants.ADMIN
+    )
+        .withSuccess()
+            .body()
+        .addToServer();
 
     var result = userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
         LOGIN,
         EMAIL,
         AuthoritiesConstants.ADMIN
     );
-
+    assertEquals(0, result.size());
+    result = userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+        LOGIN,
+        EMAIL,
+        AuthoritiesConstants.ADMIN
+    );
     assertEquals(0, result.size());
   }
 

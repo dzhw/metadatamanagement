@@ -371,7 +371,7 @@ public class UserApiService {
       ));
     }
 
-    if (results.getBody() == null) {
+    if (results.getBody() == null || results.getBody().getData() == null) {
       return List.of();
     }
 
