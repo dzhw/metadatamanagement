@@ -88,18 +88,18 @@ public class DataAcquisitionProjectManagementService
       return acquisitionProjectRepository
           .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(projectId);
     } else {
-      String loginName = auditorService.getUserLogin();
+      String loginName = SecurityUtils.getCurrentUserLogin();
       return acquisitionProjectRepository
           .findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(projectId, loginName);
     }
   }
 
   private boolean isAdmin() {
-    return auditorService.isUserInRole(AuthoritiesConstants.ADMIN);
+    return SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
   }
 
   private boolean isPublisher() {
-    return auditorService.isUserInRole(AuthoritiesConstants.PUBLISHER);
+    return SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {

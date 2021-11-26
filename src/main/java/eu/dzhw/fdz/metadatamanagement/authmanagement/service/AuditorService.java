@@ -1,10 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
-import javax.validation.constraints.NotEmpty;
-
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.springframework.stereotype.Service;
 
@@ -21,32 +18,6 @@ public class AuditorService implements AutoCloseable {
   private final UserApiService userApiService;
 
   private final AuditorStore auditorStore;
-
-  /**
-   * Retrieve the username of the currently authenticated user.
-   */
-  public String getUserLogin() {
-    return SecurityUtils.getCurrentUserLogin();
-  }
-
-  /**
-   * Checks if the currently authenticated user has the provided role.
-   *
-   * @param role the role against which
-   * @return is the user in the role?
-   */
-  public boolean isUserInRole(@NotEmpty String role) {
-    return SecurityUtils.isUserInRole(role);
-  }
-
-  /**
-   * Checks if the currently authenticated user has been authenticated anonymously.
-   *
-   * @return is user anonymous?
-   */
-  public boolean isUserAnonymous() {
-    return SecurityUtils.isUserAnonymous();
-  }
 
   /**
    * Find a user based on their login and set them to the "on behalf" auditor.

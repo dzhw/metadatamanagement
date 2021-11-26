@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.util.Optional;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -180,7 +181,7 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
     if (elasticsearchType == null) {
       return Optional.empty();
     }
-    if (!auditorService.isUserAnonymous()) {
+    if (!SecurityUtils.isUserAnonymous()) {
       return super.readSearchDocument(id);
     } else {
       Optional<T> searchDocument = null;

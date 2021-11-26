@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
@@ -135,7 +136,7 @@ public class DataAcquisitionProjectVersionsService extends
    * @return false if the shadow is hidden and the current user is a public user
    */
   private boolean isAvailable(String id, Release release) {
-    if (auditorService.isUserAnonymous()) {
+    if (SecurityUtils.isUserAnonymous()) {
       return super.repository.exists(QDataAcquisitionProject.dataAcquisitionProject.id
           .eq(id + "-" + release.getVersion()).and(projectNotHidden));
     }
