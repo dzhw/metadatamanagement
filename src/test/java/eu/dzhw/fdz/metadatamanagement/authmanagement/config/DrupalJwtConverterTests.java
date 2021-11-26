@@ -18,9 +18,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DrupalJwtConverterTest extends AbstractTest {
+public class DrupalJwtConverterTests extends AbstractTest {
 
   @Autowired
   private DrupalJwtConverter jwtConverter;
@@ -67,7 +68,7 @@ public class DrupalJwtConverterTest extends AbstractTest {
   }
 
   @Test
-  public void SpringJwtDrupalJwtConverterTest() {
+  public void SpringJwtDrupalJwtConverterTest_WithRoles() {
     var jwt = Jwt.withTokenValue("test token")
         .header("alg", "RS256")
         .header("typ", "JWT")
@@ -80,12 +81,31 @@ public class DrupalJwtConverterTest extends AbstractTest {
 
     assertTrue(authenticationToken.isAuthenticated());
     assertTrue(
-      authenticationToken.getAuthorities().stream()
-          .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.USER))
+        authenticationToken.getAuthorities().stream()
+            .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.USER))
     );
     assertTrue(
-      authenticationToken.getAuthorities().stream()
-          .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.ADMIN))
+        authenticationToken.getAuthorities().stream()
+            .anyMatch(a -> a.getAuthority().equals(AuthoritiesConstants.ADMIN))
+    );
+  }
+
+
+  @Test
+  public void SpringJwtDrupalJwtConverterTest_WithoutRoles() {
+    var jwt = Jwt.withTokenValue("test token")
+        .header("alg", "RS256")
+        .header("typ", "JWT")
+        .subject("1")
+        .expiresAt(Instant.now().plusSeconds(60))
+        .build();
+
+    var authenticationToken = jwtConverter.convert(jwt);
+
+    assertTrue(authenticationToken.isAuthenticated());
+    assertEquals(
+        0,
+        authenticationToken.getAuthorities().size()
     );
   }
 }
