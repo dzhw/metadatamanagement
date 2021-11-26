@@ -13,10 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,10 +61,12 @@ public class UserResource {
   /**
    * Get the "login" user with less details.
    */
-  @RequestMapping(value = "/users/{login}/public", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
-      AuthoritiesConstants.PUBLISHER})
+  @GetMapping(value = "/users/{login}/public", produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured({
+      AuthoritiesConstants.ADMIN,
+      AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.PUBLISHER
+      })
   public ResponseEntity<UserWithRolesDto> getUserPublic(@PathVariable String login) {
     log.debug("REST request to get User (with roles) : {}", login);
     try {
@@ -82,10 +84,12 @@ public class UserResource {
   /**
    * Search for privileged users.
    */
-  @RequestMapping(value = "/users/findUserWithRole", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
-      AuthoritiesConstants.PUBLISHER})
+  @GetMapping(value = "/users/findUserWithRole", produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured({
+      AuthoritiesConstants.ADMIN,
+      AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.PUBLISHER
+      })
   public ResponseEntity<List<UserDto>> findUserWithRole(
       @RequestParam String login,
       @RequestParam String role
