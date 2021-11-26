@@ -371,15 +371,6 @@ public class UserApiService {
       ));
     }
 
-    if (results.getStatusCode() != HttpStatus.OK) {
-      throw new InvalidUserApiResponseException(
-        String.format(
-          "Invalid Server status code received. Response Status: %s",
-          results.getStatusCode()
-        )
-      );
-    }
-
     if (results.getBody() == null) {
       return List.of();
     }
