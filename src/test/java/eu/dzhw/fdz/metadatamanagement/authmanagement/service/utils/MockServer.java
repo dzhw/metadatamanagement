@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -77,7 +78,6 @@ public class MockServer {
       this.uri = MockServer.this.uriHandler.expand(url, params);
     }
 
-
     public MockRequest httpMethod(final HttpMethod httpMethod) {
       this.httpMethod = httpMethod;
 
@@ -96,6 +96,18 @@ public class MockServer {
           MockRestResponseCreators.withSuccess()
               .contentType(new MediaType("application", "vnd.api+json"))
       );
+    }
+
+    public MockResponse withBadRequest() {
+      return new MockResponse(this, MockRestResponseCreators.withBadRequest());
+    }
+
+    public MockResponse withUnauthorizedRequest() {
+      return new MockResponse(this, MockRestResponseCreators.withUnauthorizedRequest());
+    }
+
+    public MockResponse withNotFound() {
+      return new MockResponse(this, MockRestResponseCreators.withStatus(HttpStatus.NOT_FOUND));
     }
 
     public MockResponse withServerError() {
