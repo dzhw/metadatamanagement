@@ -9,7 +9,8 @@ angular
       var config = {
         clientId: AuthProperties.clientId,
         clientSecret: AuthProperties.clientSecret,
-        redirectUri: 'http://localhost:3000',
+        redirectUri: $location.protocol() + '://' + $location.host() +
+          ($location.port() ? ':' + $location.port() : ''),
         authUrl: AuthProperties.issuer + '/oauth/authorize',
         tokenUrl: AuthProperties.issuer + '/oauth/token',
         userInfo: AuthProperties.issuer + '/oauth/userinfo',
