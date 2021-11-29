@@ -12,7 +12,6 @@ angular
         logout: function() {
           AuthServiceProvider.logout();
           $rootScope.identity = {};
-          Principal.authenticate(null);
           // Reset state memory
           $rootScope.previousStateName = undefined;
           $rootScope.previousStateParams = undefined;
@@ -20,21 +19,12 @@ angular
         },
         authorize: function(code) {
           return AuthServiceProvider.authorize(code);
-          /*var deferred = $q.defer();
-          AuthServiceProvider.authorize(code).then(function () {
-            deferred.resolve();
-          }, function (error) {
-            console.log(error);
-            deferred.reject();
-          });
-          return deferred.promise;*/
         },
         init: function() {
           var deferred = $q.defer();
           AuthServiceProvider.isLoggedIn().then(
             function(res) {
               if (res === 'sso') {
-                console.log('sso login');
                 AuthServiceProvider.login();
               } else {
                 Principal.identity().then(function(identity) {

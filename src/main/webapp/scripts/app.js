@@ -76,9 +76,6 @@ try {
           $transitions.onStart({}, function(trans) {
             $rootScope.toState = trans.$to();
             $rootScope.toStateParams = trans.params();
-            if (Principal.isIdentityResolved()) {
-              Auth.authorize();
-            }
 
             // Update the language
             LanguageService.setCurrent($rootScope.toStateParams.lang);
@@ -208,7 +205,12 @@ try {
             });
           });
         } else {
-          init();
+          Auth.init().then(function () {
+            init();
+          }, function (error) {
+            console.log(error);
+            init();
+          });
         }
       })
     .config(
@@ -226,12 +228,7 @@ try {
         $locationProvider.hashPrefix('!');
         $stateProvider.state('site', {
           'abstract': true,
-          url: '/{lang:(?:de|en)}',
-          resolve: {
-            init: ['Auth', function(Auth) {
-              return Auth.init();
-            }]
-          }
+          url: '/{lang:(?:de|en)}'
         });
 
         // Initialize angular-translate

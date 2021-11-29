@@ -27,7 +27,7 @@ angular
         return false;
       };
       return {
-        login: function() {
+        login: function(silent) {
           var url =
             config.authUrl +
             '?response_type=code' +
@@ -38,7 +38,28 @@ angular
             '&state=' + 'auth' +
             '&scope=' + encodeURIComponent(config.scope);
 
-          $window.location.href = url;
+          silent = false;
+
+          if (silent) {
+            var deferred = $q.defer();
+            $http.get(
+              url, {
+              headers: {
+                'Content-type': 'application/json'
+              }
+            }
+            ).then(
+              function(res) {
+                console.log(res);
+                deferred.resolve();
+              },
+              function(error) {
+                deferred.reject(error);
+              }
+            );
+          } else {
+            $window.location.href = url;
+          }
         },
         isLoggedInSso: function() {
           var deferred = $q.defer();
