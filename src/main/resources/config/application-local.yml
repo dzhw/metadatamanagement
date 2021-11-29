@@ -38,7 +38,7 @@ spring:
       oauth2:
         resourceserver:
           jwt:
-            issuer-uri: http://localhost:8082
+            issuer-uri: ${RESOURCE_SERVER_ISSUER_URI}
 
 logging:
     level:
@@ -60,6 +60,11 @@ metadatamanagement:
   server:
     instance-index: 0
     context-root: http://localhost:8080
+  authmanagement:
+    server:
+      endpoint: ${USER_API_ENDPOINT}
+      username: ${USER_API_USERNAME}
+      password: ${USER_API_PASSWORD}
   elasticsearch-angular-client:
     apiVersion: '7.x'
     logLevel: error
