@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
@@ -23,7 +24,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.QDataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Service responsible for retrieving an initializing the data acquisition project history.
@@ -35,8 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 public class DataAcquisitionProjectVersionsService extends
     GenericDomainObjectVersionsService<DataAcquisitionProject, DataAcquisitionProjectRepository> {
 
-  private final AuditorService auditorService;
-
   private static final Predicate projectNotHidden =
       QDataAcquisitionProject.dataAcquisitionProject.hidden.isNull()
           .or(QDataAcquisitionProject.dataAcquisitionProject.hidden.isFalse());
@@ -44,13 +42,13 @@ public class DataAcquisitionProjectVersionsService extends
   /**
    * Construct the service.
    */
-  public DataAcquisitionProjectVersionsService(Javers javers,
-      DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
-      MetadataManagementProperties metadataManagementProperties,
-      AuditorService auditorService) {
+  public DataAcquisitionProjectVersionsService(
+        Javers javers,
+        DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
+        MetadataManagementProperties metadataManagementProperties
+  ) {
     super(DataAcquisitionProject.class, javers, dataAcquisitionProjectRepository,
         metadataManagementProperties);
-    this.auditorService = auditorService;
   }
 
   /**
@@ -135,7 +133,7 @@ public class DataAcquisitionProjectVersionsService extends
    * @return false if the shadow is hidden and the current user is a public user
    */
   private boolean isAvailable(String id, Release release) {
-    if (auditorService.isUserAnonymous()) {
+    if (SecurityUtils.isUserAnonymous()) {
       return super.repository.exists(QDataAcquisitionProject.dataAcquisitionProject.id
           .eq(id + "-" + release.getVersion()).and(projectNotHidden));
     }

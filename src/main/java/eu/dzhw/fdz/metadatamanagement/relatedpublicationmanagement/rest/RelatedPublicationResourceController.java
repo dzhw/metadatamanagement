@@ -16,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -31,9 +30,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class RelatedPublicationResourceController extends
     GenericDomainObjectResourceController<RelatedPublication, CrudService<RelatedPublication>> {
 
-  public RelatedPublicationResourceController(CrudService<RelatedPublication> crudService,
-      AuditorService auditorService) {
-    super(crudService, auditorService);
+  public RelatedPublicationResourceController(CrudService<RelatedPublication> crudService) {
+    super(crudService);
   }
 
   @Override

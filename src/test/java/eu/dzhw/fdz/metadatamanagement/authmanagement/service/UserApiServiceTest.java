@@ -3,22 +3,25 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.MockError;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.MockServer;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserApiServiceTest extends AbstractUserApiTests {
 
   private static final String ID = "1234";
   private static final String LOGIN = "resource_server";
+  private static final String EMAIL = "resource_server@example.com";
   private static final String NO_ID_LOGIN = "no_id_user";
 
   @BeforeEach
@@ -27,7 +30,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
         new User(
             ID,
             LOGIN,
-            "resource_server@example.com",
+            EMAIL,
             "de",
             false,
             "user",
@@ -107,8 +110,8 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   public void patchDeactivatedWelcomeDialogById_NoResponse() {
     this.addFindOneByLoginRequest(LOGIN);
     this.addPatchDeactivatedWelcomeDialogById(ID)
-      .withSuccess()
-      .addToServer();
+        .withSuccess()
+        .addToServer();
 
     var message = assertThrows(
         InvalidUserApiResponseException.class,
@@ -155,6 +158,19 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
+  public void findAllByAuthoritiesContaining_EmptyBody() throws InvalidUserApiResponseException {
+    final var ROLE = AuthoritiesConstants.ADMIN;
+
+    this.startFindAllByAuthoritiesContainingRequest(ROLE)
+        .withSuccess()
+        .addToServer();
+
+    var result = userApiService.findAllByAuthoritiesContaining(ROLE);
+
+    assertEquals(0, result.size());
+  }
+
+  @Test
   public void findAllByAuthoritiesContaining_WithResults() throws InvalidUserApiResponseException {
     final var ROLE = AuthoritiesConstants.ADMIN;
 
@@ -174,6 +190,16 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     var results = userApiService.findAllByAuthoritiesContaining(ROLE);
 
     assertThat(results.size(), is(0));
+  }
+
+  @Test
+  public void findAllByAuthoritiesContaining_ResponseErrors() {
+    final var ROLE = AuthoritiesConstants.ADMIN;
+
+    responseErrorTests(
+        () -> userApiService.findAllByAuthoritiesContaining(ROLE),
+        () -> this.startFindAllByAuthoritiesContainingRequest(ROLE)
+    );
   }
 
   @Test
@@ -274,6 +300,32 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
+  public void findAllByLoginLikeOrEmailLike_NoBody() throws InvalidUserApiResponseException {
+    this.startFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL)
+        .withSuccess()
+        .addToServer();
+
+    this.startFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL)
+      .withSuccess()
+          .body()
+      .addToServer();
+
+    var result = userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
+    assertEquals(0, result.size());
+
+    result = userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL);
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  public void findAllByLoginLikeOrEmailLike_ResponseErrors() {
+    responseErrorTests(
+        () -> userApiService.findAllByLoginLikeOrEmailLike(LOGIN, EMAIL),
+        () -> this.startFindAllByLoginLikeOrEmailLikeRequest(LOGIN, EMAIL)
+    );
+  }
+
+  @Test
   public void findAllByLoginIn_WithResults() throws InvalidUserApiResponseException {
     final var LOGINS = Set.of("resource_server");
 
@@ -303,38 +355,87 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   }
 
   @Test
+  public void findAllByLoginIn_NoBody() throws InvalidUserApiResponseException {
+    var logins = Set.of(LOGIN);
+    this.startFindAllByLoginInRequest(logins)
+        .withSuccess()
+        .addToServer();
+    this.startFindAllByLoginInRequest(logins)
+      .withSuccess()
+          .body()
+      .addToServer();
+
+    var result = userApiService.findAllByLoginIn(logins);
+    assertEquals(0, result.size());
+
+    result = userApiService.findAllByLoginIn(logins);
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  public void findAllByLoginIn_ResponseErrors() {
+    var logins = Set.of(LOGIN);
+    responseErrorTests(
+        () -> userApiService.findAllByLoginIn(logins),
+        () -> this.startFindAllByLoginInRequest(logins)
+    );
+  }
+
+  @Test
   public void findOneByLoginOrEmail_WithResult_ByLogin() throws InvalidUserApiResponseException {
-    final var LOGIN = "resource_server";
-    final var EMAIL = "NON_EMAIL";
+    final var email = "NON_EMAIL";
 
-    this.addFindOneByLoginOrEmailRequest(LOGIN, EMAIL);
+    this.addFindOneByLoginOrEmailRequest(LOGIN, email);
 
-    var result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
+    var result = userApiService.findOneByLoginOrEmail(LOGIN, email);
     assertThat(result.isPresent(), is(true));
     assertThat(result.get().getLogin(), is(LOGIN));
   }
 
   @Test
   public void findOneByLoginOrEmail_WithResult_ByEmail() throws InvalidUserApiResponseException {
-    final var LOGIN = "NON_LOGIN";
-    final var EMAIL = "resource_server@example.com";
+    final var login = "NON_LOGIN";
 
-    this.addFindOneByLoginOrEmailRequest(LOGIN, EMAIL);
+    this.addFindOneByLoginOrEmailRequest(login, EMAIL);
 
-    var result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
+    var result = userApiService.findOneByLoginOrEmail(login, EMAIL);
     assertThat(result.isPresent(), is(true));
     assertThat(result.get().getEmail(), is (EMAIL));
   }
 
   @Test
   public void findOneByLoginOrEmail_NoResult() throws InvalidUserApiResponseException {
-    final var LOGIN = "NON_LOGIN";
-    final var EMAIL = "NON_EMAIL";
+    final var login = "NON_LOGIN";
+    final var email = "NON_EMAIL";
 
-    this.addFindOneByLoginOrEmailRequest(LOGIN, EMAIL);
+    this.addFindOneByLoginOrEmailRequest(login, email);
+
+    var result = userApiService.findOneByLoginOrEmail(login, email);
+    assertThat(result.isPresent(), is(false));
+  }
+
+  @Test
+  public void findOneByLoginOrEmail_NoBody() throws InvalidUserApiResponseException {
+    this.startFindOneByLoginOrEmailRequest(LOGIN, EMAIL)
+        .withSuccess()
+        .addToServer();
+    this.startFindOneByLoginOrEmailRequest(LOGIN, EMAIL)
+      .withSuccess()
+          .body()
+      .addToServer();
 
     var result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
     assertThat(result.isPresent(), is(false));
+    result = userApiService.findOneByLoginOrEmail(LOGIN, EMAIL);
+    assertThat(result.isPresent(), is(false));
+  }
+
+  @Test
+  public void findOneByLoginOrEmail_ResponseErrors() {
+    responseErrorTests(
+        () -> userApiService.findOneByLoginOrEmail(LOGIN, EMAIL),
+        () -> this.startFindOneByLoginOrEmailRequest(LOGIN, EMAIL)
+    );
   }
 
   @Test
@@ -357,5 +458,194 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     var result = userApiService.findOneByLogin(LOGIN);
 
     assertThat(result.isPresent(), is(false));
+  }
+
+  @Test
+  public void findOneByLogin_NoBody() throws InvalidUserApiResponseException {
+    this.startFindOneByLoginRequest(LOGIN)
+        .withSuccess()
+        .addToServer();
+    this.startFindOneByLoginRequest(LOGIN)
+      .withSuccess()
+          .body()
+      .addToServer();
+
+    var result = userApiService.findOneByLogin(LOGIN);
+    assertThat(result.isPresent(), is(false));
+    result = userApiService.findOneByLogin(LOGIN);
+    assertThat(result.isPresent(), is(false));
+  }
+
+  @Test
+  public void findOneByLogin_ResponseErrors() {
+    responseErrorTests(
+        () -> userApiService.findOneWithAuthoritiesByLogin(LOGIN),
+        () -> this.startFindOneWithAuthoritiesByLoginRequest(LOGIN)
+    );
+  }
+
+  @Test
+  public void findOneWithAuthoritiesByLogin_WithResult() throws InvalidUserApiResponseException {
+    this.addFindOneWithAuthoritiesByLoginRequest(LOGIN);
+
+    var result = userApiService.findOneWithAuthoritiesByLogin(LOGIN);
+    assertThat(result.isPresent(), is(true));
+    assertEquals(LOGIN, result.get().getLogin());
+  }
+
+  @Test
+  public void findOneWithAuthoritiesByLogin_NoResult() throws InvalidUserApiResponseException {
+    final var login = "NON_LOGIN";
+
+    this.addFindOneWithAuthoritiesByLoginRequest(login);
+
+    var result = userApiService.findOneWithAuthoritiesByLogin(login);
+
+    assertThat(result.isPresent(), is(false));
+  }
+
+  @Test
+  public void findOneWithAuthoritiesByLogin_NoBody() throws InvalidUserApiResponseException {
+    this.startFindOneWithAuthoritiesByLoginRequest(LOGIN)
+        .withSuccess()
+        .addToServer();
+    this.startFindOneWithAuthoritiesByLoginRequest(LOGIN)
+      .withSuccess()
+          .body()
+      .addToServer();
+
+    var result = userApiService.findOneWithAuthoritiesByLogin(LOGIN);
+    assertThat(result.isPresent(), is(false));
+    result = userApiService.findOneWithAuthoritiesByLogin(LOGIN);
+    assertThat(result.isPresent(), is(false));
+  }
+
+  @Test
+  public void findOneWithAuthoritiesByLogin_ResponseErrors() {
+    responseErrorTests(
+        () -> userApiService.findOneWithAuthoritiesByLogin(LOGIN),
+        () -> this.startFindOneWithAuthoritiesByLoginRequest(LOGIN)
+    );
+  }
+
+  @Test
+  public void findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining_WithResult()
+      throws InvalidUserApiResponseException {
+    this.addFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
+        LOGIN,
+        EMAIL,
+        AuthoritiesConstants.ADMIN
+    );
+
+    var result = userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+        LOGIN,
+        EMAIL,
+        AuthoritiesConstants.ADMIN
+    );
+
+    assertNotEquals(0, result.size());
+  }
+
+  @Test
+  public void findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining_NoResult()
+      throws InvalidUserApiResponseException {
+    final var login = "NON_LOGIN";
+    final var email = "non_login@local";
+
+    this.addFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
+        login,
+        email,
+        AuthoritiesConstants.ADMIN
+    );
+
+    var result = userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+        login,
+        email,
+        AuthoritiesConstants.ADMIN
+    );
+
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  public void findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining_NoBody()
+      throws InvalidUserApiResponseException {
+    this.startFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
+        LOGIN,
+        EMAIL,
+        AuthoritiesConstants.ADMIN
+    )
+        .withSuccess()
+        .addToServer();
+    this.startFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
+          LOGIN,
+          EMAIL,
+          AuthoritiesConstants.ADMIN
+    )
+        .withSuccess()
+            .body()
+        .addToServer();
+
+    var result = userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+        LOGIN,
+        EMAIL,
+        AuthoritiesConstants.ADMIN
+    );
+    assertEquals(0, result.size());
+    result = userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+        LOGIN,
+        EMAIL,
+        AuthoritiesConstants.ADMIN
+    );
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  public void findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining_ResponseErrors() {
+    responseErrorTests(
+        () -> userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+            LOGIN,
+            EMAIL,
+            AuthoritiesConstants.ADMIN
+        ),
+        () -> this.startFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
+            LOGIN,
+            EMAIL,
+            AuthoritiesConstants.ADMIN
+        )
+    );
+  }
+
+  private void responseErrorTests(
+      Executable userApiCall,
+      Supplier<MockServer.MockRequest> requestSupplier
+  ) {
+    var request = requestSupplier.get();
+    // 400
+    request
+        .withBadRequest()
+        .addToServer();
+
+    // 401
+    request
+        .withUnauthorizedRequest()
+        .addToServer();
+
+    // 404
+    request
+        .withNotFound()
+        .addToServer();
+
+    // 500 response
+    request
+        .withServerError()
+        .addToServer();
+
+    for (var i = 0; i < 4; i++) {
+      assertThrows(
+          InvalidUserApiResponseException.class,
+          userApiCall
+      );
+    }
   }
 }

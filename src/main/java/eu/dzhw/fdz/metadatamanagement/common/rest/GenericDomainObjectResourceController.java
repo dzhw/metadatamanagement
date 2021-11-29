@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 
@@ -13,7 +14,6 @@ import com.mongodb.client.MongoDatabase;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -31,8 +31,6 @@ public abstract class GenericDomainObjectResourceController
 
   private final CrudService<T> crudService;
 
-  private final AuditorService auditorService;
-
   /**
    * Retrieve the {@link AbstractRdcDomainObject} and set the cache header.
    *
@@ -41,7 +39,7 @@ public abstract class GenericDomainObjectResourceController
    */
   public ResponseEntity<T> getDomainObject(String id) {
     Optional<T> optional = null;
-    if (auditorService.isUserAnonymous()) {
+    if (SecurityUtils.isUserAnonymous()) {
       optional = crudService.readSearchDocument(id);
       if (optional.isEmpty()) {
         optional = crudService.read(id);
@@ -53,7 +51,7 @@ public abstract class GenericDomainObjectResourceController
       return ResponseEntity.notFound().build();
     } else {
       T domainObject = optional.get();
-      if (auditorService.isUserAnonymous()
+      if (SecurityUtils.isUserAnonymous()
           && AbstractShadowableRdcDomainObject.class.isAssignableFrom(domainObject.getClass())
           && ((AbstractShadowableRdcDomainObject) domainObject).isHidden()) {
         return ResponseEntity.notFound().build();

@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -299,7 +300,7 @@ public class UserApiService {
     }
 
     var id = user.get().getId();
-    if (id == null || "".equals(id.trim())) {
+    if (!StringUtils.hasText(id)) {
       throw new InvalidUserApiResponseException(String.format(
           "Could not update user %s, because user id could not be found",
           login
@@ -354,22 +355,22 @@ public class UserApiService {
       final Class<? extends UserApiResponseDto<T>> responseClazz,
       final Object... uriVariables
   ) throws InvalidUserApiResponseException {
-    var results = restTemplate.getForEntity(
+    ResponseEntity<? extends UserApiResponseDto<T>> results;
+    try {
+      results = restTemplate.getForEntity(
         apiUri,
         responseClazz,
         uriVariables
-    );
-
-    if (results.getStatusCode() != HttpStatus.OK) {
-      throw new InvalidUserApiResponseException(
-        String.format(
-          "Invalid Server status code received. Response Status: %s",
-          results.getStatusCode()
-        )
       );
+    } catch (RestClientException e) {
+      throw new InvalidUserApiResponseException(String.format(
+          "Error for GET request: %s. Cause: %s",
+          apiUri,
+          e.getMessage()
+      ));
     }
 
-    if (results.getBody() == null) {
+    if (results.getBody() == null || results.getBody().getData() == null) {
       return List.of();
     }
 
