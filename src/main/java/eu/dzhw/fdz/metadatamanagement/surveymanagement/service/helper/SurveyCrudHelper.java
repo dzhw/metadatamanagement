@@ -20,6 +20,15 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
 @Component
 public class SurveyCrudHelper
     extends GenericShadowableDomainObjectCrudHelper<Survey, SurveyRepository> {
+
+  /**
+   * Build the helper.
+   *
+   * @param repository the repository the helper will use
+   * @param applicationEventPublisher the publisher for application events
+   * @param elasticsearchUpdateQueueService the service which will be used to update Elasticsearch
+   * @param gson the GSON helper this class will use
+   */
   public SurveyCrudHelper(
       SurveyRepository repository,
       ApplicationEventPublisher applicationEventPublisher,

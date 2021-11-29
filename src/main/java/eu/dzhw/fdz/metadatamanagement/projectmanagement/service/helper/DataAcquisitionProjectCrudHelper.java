@@ -18,6 +18,15 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 public class DataAcquisitionProjectCrudHelper extends
     GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject,
       DataAcquisitionProjectRepository> {
+
+  /**
+   * Build the helper.
+   *
+   * @param repository the repository the helper will use
+   * @param applicationEventPublisher the publisher for application events
+   * @param elasticsearchUpdateQueueService the service which will be used to update Elasticsearch
+   * @param changesProvider the provider which provides changes to any DataAcquisitionProject(s)
+   */
   public DataAcquisitionProjectCrudHelper(
       DataAcquisitionProjectRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
