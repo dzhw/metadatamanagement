@@ -68,6 +68,13 @@ public class MockServer {
     server.verify();
   }
 
+  /**
+   * Reset all expectations.
+   */
+  public void reset() {
+    server.reset();
+  }
+
   public class MockRequest {
     private final URI uri;
 
