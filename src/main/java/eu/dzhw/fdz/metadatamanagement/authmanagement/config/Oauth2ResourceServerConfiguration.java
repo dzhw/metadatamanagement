@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.config;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.Http401UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +11,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+
+import java.util.List;
 
 /**
  * TODO add documentation.
@@ -93,5 +101,21 @@ public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdap
             "/api/search/**/_count",
             "/api/search/**/_msearch"
       );
+  }
+
+  /**
+   * Temporary.
+   *
+   * @return tmp
+   */
+  @Bean
+  public JwtDecoder jwtDecoder() {
+    var decoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation("http://localhost:8082");
+
+    decoder.setJwtValidator(
+        new DelegatingOAuth2TokenValidator<>(List.of(new JwtTimestampValidator()))
+    );
+
+    return decoder;
   }
 }
