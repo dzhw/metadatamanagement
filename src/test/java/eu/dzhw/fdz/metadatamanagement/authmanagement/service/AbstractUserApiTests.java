@@ -4,35 +4,28 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.MockServer;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 
 import java.util.Set;
 
-public class AbstractUserApiTests extends AbstractTest {
+public abstract class AbstractUserApiTests extends AbstractTest {
 
-  @Value("${metadatamanagement.authmanagement.server.endpoint}")
-  private String authServerEndpoint;
+  protected final UserApiService userApiService;
 
-  @Autowired
-  protected UserApiService userApiService;
+  protected final MockServer mockServer;
 
-  protected MockServer mockServer;
-
-  @BeforeEach
-  public void init() {
+  public AbstractUserApiTests(
+        final String authServerEndpoint,
+        final UserApiService userApiService
+  ) {
     this.mockServer = new MockServer(authServerEndpoint, userApiService.restTemplate);
+    this.userApiService = userApiService;
   }
 
   @AfterEach
   public void destroy() {
-    if (mockServer != null) {
-      mockServer.verify();
-
-      mockServer = null;
-    }
+    mockServer.verify();
+    mockServer.reset();
   }
 
   public MockServer.MockRequest startFindAllByAuthoritiesContainingRequest(final String role) {

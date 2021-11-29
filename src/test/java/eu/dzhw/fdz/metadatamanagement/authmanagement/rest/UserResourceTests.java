@@ -8,10 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -33,21 +34,21 @@ public class UserResourceTests extends AbstractUserApiTests {
   private static final String USER_LOGIN = "user";
   private static final String USER_ID = "1234";
 
-  @Autowired
-  private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+  private final MockMvc restUserMockMvc;
 
-  private MockMvc restUserMockMvc;
+  public UserResourceTests(
+      @Autowired final PageableHandlerMethodArgumentResolver pageableArgumentResolver,
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
+      @Autowired final UserApiService userApiService
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @BeforeEach
-  public void setup() {
     UserResource userResource =
         new UserResource(this.userApiService);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
         .setCustomArgumentResolvers(pageableArgumentResolver).build();
-  }
 
-  @BeforeEach
-  public void addUsers() {
     this.mockServer.users(
         new User(
             USER_ID,

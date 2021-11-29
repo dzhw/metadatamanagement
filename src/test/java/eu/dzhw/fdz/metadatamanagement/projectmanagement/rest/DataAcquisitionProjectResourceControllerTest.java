@@ -11,18 +11,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import com.icegreen.greenmail.store.FolderException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import org.hamcrest.core.AnyOf;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -54,25 +55,30 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   private static final String PUBLISHER_USERNAME = "publisher";
 
-  @Autowired
-  private WebApplicationContext wac;
+  private final DataAcquisitionProjectRepository rdcProjectRepository;
+  private final JaversService javersService;
+  private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  private final ElasticsearchAdminService elasticsearchAdminService;
 
-  @Autowired
-  private DataAcquisitionProjectRepository rdcProjectRepository;
+  private final MockMvc mockMvc;
 
-  private MockMvc mockMvc;
+  public DataAcquisitionProjectResourceControllerTest(
+    @Autowired final DataAcquisitionProjectRepository rdcProjectRepository,
+    @Autowired final JaversService javersService,
+    @Autowired final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository,
+    @Autowired final ElasticsearchAdminService elasticsearchAdminService,
+    @Value("${metadatamanagement.authmanagement.server.endpoint}")
+    final String authServerEndpoint,
+    @Autowired final UserApiService userApiService,
+    @Autowired final WebApplicationContext wac
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @Autowired
-  private JaversService javersService;
+    this.rdcProjectRepository = rdcProjectRepository;
+    this.javersService = javersService;
+    this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
+    this.elasticsearchAdminService = elasticsearchAdminService;
 
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-
-  @Autowired
-  private ElasticsearchAdminService elasticsearchAdminService;
-
-  @BeforeEach
-  public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
@@ -87,7 +93,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testCreateDataAcquisitionProject() throws IOException, Exception {
+  public void testCreateDataAcquisitionProject() throws Exception {
     this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -106,8 +112,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void shouldFailToCreateProjectsForAnalysisPackagesAndDataPackages()
-      throws IOException, Exception {
+  public void shouldFailToCreateProjectsForAnalysisPackagesAndDataPackages() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
 
@@ -126,8 +131,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void shouldCreateProjectsForAnalysisPackages()
-      throws IOException, Exception {
+  public void shouldCreateProjectsForAnalysisPackages() throws Exception {
     this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -147,7 +151,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testCreateDataAcquisitionProjectWithPost() throws IOException, Exception {
+  public void testCreateDataAcquisitionProjectWithPost() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_URI).contentType(MediaType.APPLICATION_JSON)
@@ -177,7 +181,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteDataAcquisitionProject() throws IOException, Exception {
+  public void testDeleteDataAcquisitionProject() throws Exception {
     this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -200,7 +204,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   }
 
   @Test
-  public void testCompleteProjectionContainsId() throws IOException, Exception {
+  public void testCompleteProjectionContainsId() throws Exception {
     this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -248,7 +252,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws IOException, Exception {
+  public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws Exception {
     this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -376,7 +380,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   /**
    * test the user implemented parts of save project
    *
-   * @throws Exception
+   * @throws Exception when something went wrong
    */
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
@@ -397,7 +401,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
   public void testSaveProjectWithInvalidConfigAsProvider() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setDataProviders(Arrays.asList("dataprovider"));
+    project.getConfiguration().setDataProviders(List.of("dataprovider"));
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)

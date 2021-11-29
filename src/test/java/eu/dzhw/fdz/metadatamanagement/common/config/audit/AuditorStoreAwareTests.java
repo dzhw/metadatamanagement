@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.icegreen.greenmail.store.FolderException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -18,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPacka
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,20 +32,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AuditorStoreAwareTests extends AbstractUserApiTests {
   private static final String INIT_USER = "user";
 
-  @Autowired
-  private WebApplicationContext wac;
+  private final WebApplicationContext wac;
+  private final AuditorStoreAware auditorStoreAware;
+  private final AuditorStore auditorStore;
+  private final DataPackageRepository dataPackageRepository;
+  private final JaversService javersService;
 
-  @Autowired
-  private AuditorStoreAware auditorStoreAware;
+  public AuditorStoreAwareTests(
+      @Autowired final WebApplicationContext wac,
+      @Autowired final AuditorStoreAware auditorStoreAware,
+      @Autowired final AuditorStore auditorStore,
+      @Autowired final DataPackageRepository dataPackageRepository,
+      @Autowired final JaversService javersService,
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
+      @Autowired final UserApiService userApiService
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @Autowired
-  private AuditorStore auditorStore;
-
-  @Autowired
-  private DataPackageRepository dataPackageRepository;
-
-  @Autowired
-  private JaversService javersService;
+    this.wac = wac;
+    this.auditorStoreAware = auditorStoreAware;
+    this.auditorStore = auditorStore;
+    this.dataPackageRepository = dataPackageRepository;
+    this.javersService = javersService;
+  }
 
   @AfterEach
   public void cleanUp() throws FolderException {

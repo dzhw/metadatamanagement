@@ -3,12 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 public class AuditorServiceTests extends AbstractUserApiTests {
   private static final String LOGIN = "user";
@@ -18,15 +17,17 @@ public class AuditorServiceTests extends AbstractUserApiTests {
   private final AuditorStore auditorStore;
 
   public AuditorServiceTests(
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
+      @Autowired final UserApiService userApiService,
       @Autowired final AuditorService auditorService,
       @Autowired final AuditorStore auditorStore
   ) {
+    super(authServerEndpoint, userApiService);
+
     this.auditorService = auditorService;
     this.auditorStore = auditorStore;
-  }
 
-  @BeforeEach
-  public void initUsers() {
     this.mockServer.users(
         new User(
             "1234",

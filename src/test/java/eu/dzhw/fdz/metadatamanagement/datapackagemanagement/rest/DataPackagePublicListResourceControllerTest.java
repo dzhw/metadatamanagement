@@ -7,15 +7,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
-
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -44,37 +43,40 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
 
   private static final String API_LEGACY_URI = "/api/studies";
 
-  @Autowired
-  private WebApplicationContext wac;
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final DataPackageRepository dataPackageRepository;
+  private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  private final ElasticsearchAdminService elasticsearchAdminService;
+  private final JaversService javersService;
+  private final ShadowCopyQueueItemService shadowCopyQueueItemService;
+  private final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
 
-  @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final MockMvc mockMvc;
 
-  @Autowired
-  private DataPackageRepository dataPackageRepository;
+  public DataPackagePublicListResourceControllerTest(
+    @Autowired final DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
+    @Autowired final DataPackageRepository dataPackageRepository,
+    @Autowired final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository,
+    @Autowired final ElasticsearchAdminService elasticsearchAdminService,
+    @Autowired final JaversService javersService,
+    @Autowired final LegacyUrlsFilter legacyUrlsFilter,
+    @Autowired final ShadowCopyQueueItemService shadowCopyQueueItemService,
+    @Autowired final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository,
+    @Value("${metadatamanagement.authmanagement.server.endpoint}")
+    final String authServerEndpoint,
+    @Autowired final UserApiService userApiService,
+    @Autowired final WebApplicationContext wac
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+    this.dataAcquisitionProjectRepository = dataAcquisitionProjectRepository;
+    this.dataPackageRepository = dataPackageRepository;
+    this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
+    this.elasticsearchAdminService = elasticsearchAdminService;
+    this.javersService = javersService;
+    this.shadowCopyQueueItemService = shadowCopyQueueItemService;
+    this.shadowCopyQueueItemRepository = shadowCopyQueueItemRepository;
 
-  @Autowired
-  private ElasticsearchAdminService elasticsearchAdminService;
-
-  @Autowired
-  private JaversService javersService;
-
-  @Autowired
-  private LegacyUrlsFilter legacyUrlsFilter;
-
-  @Autowired
-  private ShadowCopyQueueItemService shadowCopyQueueItemService;
-
-  @Autowired
-  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
-
-  private MockMvc mockMvc;
-
-  @BeforeEach
-  public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilters(legacyUrlsFilter).build();
     elasticsearchAdminService.recreateAllIndices();
 
@@ -136,7 +138,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testUnreleasedNotPubliclyVisible() throws IOException, Exception {
+  public void testUnreleasedNotPubliclyVisible() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
@@ -158,7 +160,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testReleasedDataPackageIsPubliclyVisible() throws IOException, Exception {
+  public void testReleasedDataPackageIsPubliclyVisible() throws Exception {
     this.addFindOneByLoginRequest("user");
     this.addFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
 
@@ -191,7 +193,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testReleasedDataPackageIsPinned() throws IOException, Exception {
+  public void testReleasedDataPackageIsPinned() throws Exception {
     this.addFindOneByLoginRequest("user");
     this.addFindOneByLoginRequest("admin");
     this.addFindAllByAuthoritiesContainingRequest(2, AuthoritiesConstants.RELEASE_MANAGER);

@@ -10,10 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,32 +40,38 @@ import java.util.Set;
 public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
-  @Autowired
-  private WebApplicationContext wac;
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  private final ElasticsearchAdminService elasticsearchAdminService;
+  private final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+  private final JaversService javersService;
+  private final DataAcquisitionProjectVersionsService versionsService;
 
-  @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final MockMvc mockMvc;
 
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  public DataAcquisitionProjectVersionsResourceTest(
+      @Autowired final DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
+      @Autowired final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository,
+      @Autowired final ElasticsearchAdminService elasticsearchAdminService,
+      @Autowired final ShadowCopyQueueItemService shadowCopyQueueItemService,
+      @Autowired final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository,
+      @Autowired final JaversService javersService,
+      @Autowired final DataAcquisitionProjectVersionsService versionsService,
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
+      @Autowired final UserApiService userApiService,
+      @Autowired final WebApplicationContext wac
+  ) {
+      super(authServerEndpoint, userApiService);
 
-  @Autowired
-  private ElasticsearchAdminService elasticsearchAdminService;
+      this.dataAcquisitionProjectRepository = dataAcquisitionProjectRepository;
+      this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
+      this.elasticsearchAdminService = elasticsearchAdminService;
+      this.shadowCopyQueueItemRepository = shadowCopyQueueItemRepository;
+      this.javersService = javersService;
+      this.versionsService = versionsService;
 
-  @Autowired
-  private JaversService javersService;
-
-  @Autowired
-  private DataAcquisitionProjectVersionsService versionsService;
-
-  @Autowired
-  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
-
-  private MockMvc mockMvc;
-
-  @BeforeEach
-  public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+      this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @AfterEach
@@ -191,7 +199,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isNoContent());;
+        .andExpect(status().isNoContent());
 
     // Assert that the last version is 1.0.1
     lastRelease = this.versionsService.findLastRelease(project.getId());

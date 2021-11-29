@@ -12,12 +12,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -47,34 +48,39 @@ import java.util.Set;
 public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
-  @Autowired
-  private WebApplicationContext wac;
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  private final ElasticsearchAdminService elasticsearchAdminService;
+  private final ShadowCopyQueueItemService shadowCopyQueueItemService;
+  private final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+  private final JaversService javersService;
 
-  @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-
-  @Autowired
-  private ElasticsearchAdminService elasticsearchAdminService;
-
-  @Autowired
-  private ShadowCopyQueueItemService shadowCopyQueueItemService;
-
-  @Autowired
-  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
-
-  @Autowired
-  private JaversService javersService;
+  private final MockMvc mockMvc;
 
   @MockBean
   private DaraService daraService;
 
-  private MockMvc mockMvc;
+  public DataAcquisitionProjectShadowsResourceTest(
+      @Autowired final DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
+      @Autowired final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository,
+      @Autowired final ElasticsearchAdminService elasticsearchAdminService,
+      @Autowired final ShadowCopyQueueItemService shadowCopyQueueItemService,
+      @Autowired final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository,
+      @Autowired final JaversService javersService,
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
+      @Autowired final UserApiService userApiService,
+      @Autowired final WebApplicationContext wac
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @BeforeEach
-  public void setup() {
+    this.dataAcquisitionProjectRepository = dataAcquisitionProjectRepository;
+    this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
+    this.elasticsearchAdminService = elasticsearchAdminService;
+    this.shadowCopyQueueItemService = shadowCopyQueueItemService;
+    this.shadowCopyQueueItemRepository = shadowCopyQueueItemRepository;
+    this.javersService = javersService;
+
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 
     this.mockServer.users(
@@ -248,7 +254,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
   private void releaseProject(String projectId, String version) throws Exception {
     DataAcquisitionProject project = dataAcquisitionProjectRepository.findById(projectId).get();
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
-    project.getRelease().setVersion(version);;
+    project.getRelease().setVersion(version);
     this.mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());

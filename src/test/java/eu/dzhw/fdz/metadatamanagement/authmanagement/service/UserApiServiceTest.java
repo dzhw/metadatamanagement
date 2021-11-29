@@ -5,9 +5,10 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUs
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.MockError;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.MockServer;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Objects;
 import java.util.Set;
@@ -24,8 +25,13 @@ public class UserApiServiceTest extends AbstractUserApiTests {
   private static final String EMAIL = "resource_server@example.com";
   private static final String NO_ID_LOGIN = "no_id_user";
 
-  @BeforeEach
-  public void initUsersToMockServer() {
+  public UserApiServiceTest(
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
+      @Autowired final UserApiService userApiService
+  ) {
+    super(authServerEndpoint, userApiService);
+
     this.mockServer.users(
         new User(
             ID,
@@ -48,7 +54,7 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     );
   }
 
-  @Test()
+  @Test
   public void patchDeactivatedWelcomeDialogById_Successful() throws InvalidUserApiResponseException {
     this.addFindOneByLoginRequest(LOGIN);
     this.addPatchDeactivatedWelcomeDialogById(ID)

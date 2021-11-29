@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -23,20 +25,31 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstan
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectVersionsServiceTest extends AbstractUserApiTests {
-  @Autowired
-  private DataAcquisitionProjectVersionsService versionsService;
 
-  @Autowired
-  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+  private final DataAcquisitionProjectVersionsService versionsService;
+  private final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+  private final DataAcquisitionProjectManagementService projectManagementService;
+  private final DataAcquisitionProjectRepository repository;
+  private final JaversService javersService;
 
-  @Autowired
-  private DataAcquisitionProjectManagementService projectManagementService;
+  public DataAcquisitionProjectVersionsServiceTest(
+      @Autowired final DataAcquisitionProjectVersionsService versionsService,
+      @Autowired final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository,
+      @Autowired final DataAcquisitionProjectManagementService projectManagementService,
+      @Autowired final DataAcquisitionProjectRepository repository,
+      @Autowired final JaversService javersService,
+      @Value("${metadatamanagement.authmanagement.server.endpoint}")
+      final String authServerEndpoint,
+      @Autowired final UserApiService userApiService
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @Autowired
-  private DataAcquisitionProjectRepository repository;
-
-  @Autowired
-  private JaversService javersService;
+    this.shadowCopyQueueItemRepository = shadowCopyQueueItemRepository;
+    this.projectManagementService = projectManagementService;
+    this.repository = repository;
+    this.javersService = javersService;
+    this.versionsService = versionsService;
+  }
 
   @AfterEach
   public void tearDown() {
