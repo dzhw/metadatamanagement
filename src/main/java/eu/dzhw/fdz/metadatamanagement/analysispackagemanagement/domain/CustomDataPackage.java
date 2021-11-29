@@ -11,7 +11,6 @@ import org.javers.core.metamodel.annotation.ValueObject;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidCustomDataPackageAccessWay;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidCustomDataPackageAvailabilityType;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImmutableI18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
@@ -94,7 +93,7 @@ public class CustomDataPackage extends AbstractAnalysisDataPackage {
    * May be empty.
    */
   @Valid
-  private List<I18nLink> dataSources;
+  private List<DataSource> dataSources;
 
   /**
    * Must be one of AVAILABLE_ACCESS_WAYS.
