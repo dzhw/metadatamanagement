@@ -13,14 +13,14 @@
     }
     SearchDao.search('', 0, null, null, 'data_packages', 0, null, null, null,
       'relevance', false, 'analysis_packages').then(function(data) {
-        $scope.dataPackagesCount = data.responses[0].hits.total.value;
-        $scope.analysisPackagesCount = data.responses[1].hits.total.value;
+      $scope.dataPackagesCount = data.responses[0].hits.total.value;
+      $scope.analysisPackagesCount = data.responses[1].hits.total.value;
     });
 
     PinnedDataPackagesService.getPinnedDataPackage().then(
       function(response) {
-      $scope.pinnedDataPackage = response.data;
-    });
+        $scope.pinnedDataPackage = response.data;
+      });
 
     $scope.lang = LanguageService.getCurrentInstantly();
     $scope.socialSurvey = {
