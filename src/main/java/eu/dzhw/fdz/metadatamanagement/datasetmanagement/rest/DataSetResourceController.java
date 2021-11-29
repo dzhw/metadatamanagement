@@ -16,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -30,9 +29,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class DataSetResourceController
     extends GenericDomainObjectResourceController<DataSet, CrudService<DataSet>> {
 
-  public DataSetResourceController(CrudService<DataSet> crudService,
-      AuditorService auditorService) {
-    super(crudService, auditorService);
+  public DataSetResourceController(CrudService<DataSet> crudService) {
+    super(crudService);
   }
 
   @Override

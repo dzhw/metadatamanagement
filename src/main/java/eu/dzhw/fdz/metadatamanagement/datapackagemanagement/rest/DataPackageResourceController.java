@@ -27,7 +27,6 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.MetadataExpor
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DaraOaiPmhClient;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataCiteClient;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -55,12 +54,11 @@ public class DataPackageResourceController
    */
   public DataPackageResourceController(
       CrudService<DataPackage> crudService,
-      AuditorService auditorService,
       DaraOaiPmhClient oaiPmhClient,
       DataCiteClient dataCiteClient,
       Environment environment
   ) {
-    super(crudService, auditorService);
+    super(crudService);
     this.oaiPmhClient = oaiPmhClient;
     this.dataCiteClient = dataCiteClient;
     this.environment = environment;

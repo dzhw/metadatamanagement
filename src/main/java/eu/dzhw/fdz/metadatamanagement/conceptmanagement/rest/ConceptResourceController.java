@@ -22,7 +22,6 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -36,9 +35,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class ConceptResourceController
     extends GenericDomainObjectResourceController<Concept, CrudService<Concept>> {
 
-  public ConceptResourceController(CrudService<Concept> crudService,
-      AuditorService auditorService) {
-    super(crudService, auditorService);
+  public ConceptResourceController(CrudService<Concept> crudService) {
+    super(crudService);
   }
 
   @Override

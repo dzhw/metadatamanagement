@@ -38,7 +38,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -55,8 +54,6 @@ public class DataAcquisitionProjectManagementService
     implements CrudService<DataAcquisitionProject> {
 
   private final DataAcquisitionProjectRepository acquisitionProjectRepository;
-
-  private final AuditorService auditorService;
 
   private final DataAcquisitionProjectChangesProvider changesProvider;
 

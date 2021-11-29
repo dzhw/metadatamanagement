@@ -14,7 +14,6 @@ import com.mongodb.client.MongoDatabase;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -31,8 +30,6 @@ public abstract class GenericDomainObjectResourceController
     <T extends AbstractRdcDomainObject, S extends CrudService<T>> {
 
   private final CrudService<T> crudService;
-
-  private final AuditorService auditorService;
 
   /**
    * Retrieve the {@link AbstractRdcDomainObject} and set the cache header.

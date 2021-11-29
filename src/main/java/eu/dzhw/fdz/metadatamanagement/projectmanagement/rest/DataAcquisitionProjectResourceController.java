@@ -20,7 +20,6 @@ import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectSave;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectManagementService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Variable REST Controller which overrides default spring data rest methods.
@@ -36,9 +35,8 @@ public class DataAcquisitionProjectResourceController extends
   private final DataAcquisitionProjectManagementService projectManagementService;
 
   public DataAcquisitionProjectResourceController(
-      DataAcquisitionProjectManagementService projectManagementService,
-      AuditorService auditorService) {
-    super(projectManagementService, auditorService);
+      DataAcquisitionProjectManagementService projectManagementService) {
+    super(projectManagementService);
     this.projectManagementService = projectManagementService;
   }
 

@@ -91,9 +91,6 @@ public abstract class AbstractTest {
   @Autowired
   private TaskRepository taskRepository;
 
-  @Autowired
-  private AuditorStore auditorStore;
-
   protected static GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP.withPort(4025));
 
   static {

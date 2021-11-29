@@ -199,6 +199,6 @@ public class UserResourceTests extends AbstractUserApiTests {
 
     restUserMockMvc.perform(get("/api/users/admin/public")
         .accept(MediaType.APPLICATION_JSON))
-       .andExpect(status().isInternalServerError());
+        .andExpect(status().isInternalServerError());
   }
 }
