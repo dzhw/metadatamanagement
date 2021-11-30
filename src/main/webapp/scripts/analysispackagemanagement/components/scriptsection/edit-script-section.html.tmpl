@@ -231,18 +231,21 @@
                  layout-gt-sm="row"
                  class="mr8"
                  style="align-items: center;">
+              <p class="ma0" ng-if="$ctrl.createMode">{{'analysis-package-management.detail.label.save-file' | translate}}</p>
               <md-input-container class="pa0 ms-flex"
+                                  ng-if="!$ctrl.createMode"
                                   style="width: 100%;"
                                   ngf-drop="$ctrl.addScriptAttachment($file, $index, $event)"
                                   ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}"
                                   ngf-select="$ctrl.addScriptAttachment($file, $index, $event)"
                                   class="pointer"
                                   md-is-error="!currentForm['filename' + $index].$valid && (currentForm['filename' + $index].$dirty || currentForm['filename' + $index].$touched)">
-                <label>{{'analysis-package-management.detail.label.file' | translate
-                  }}</label>
+
+                <label>{{'analysis-package-management.detail.label.file' | translate}}</label>
                 <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/"
                        ng-model="script.scriptAttachmentMetadata.fileName"
                        name="filename_{{$index}}" class="pointer"
+                       ng-if="!ctrl.createMode"
                        style="border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
                 <div
                   ng-if="!currentForm['filename' + $index].$dirty && !currentForm['filename' + $index].$touched"

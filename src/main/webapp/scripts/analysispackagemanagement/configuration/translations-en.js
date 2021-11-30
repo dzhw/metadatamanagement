@@ -62,7 +62,8 @@ angular.module('metadatamanagementApp').config(
             'overview-generation-started-toast': 'The analysis package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
             'tags': 'Tags',
             'title': 'Title',
-            'file': 'File'
+            'file': 'File',
+            'save-file': 'The analysis package has to be saved to enable attaching script files.'
           },
           'script-attachment-metadata': {
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
@@ -279,8 +280,8 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Enter additional annotations for this custom data package in English.'
               },
               'data-source': {
-                'de': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).',
-                'en': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).'
+                'de': 'The data source must be described in more detail here in German.',
+                'en': 'The data source must be described in more detail here in English.'
               },
               'data-source-url': 'Enter the data source url.',
               'availability-type': {
@@ -422,6 +423,9 @@ angular.module('metadatamanagementApp').config(
             },
             'access-way': {
               'i18n-not-null': 'The access way of the data package must not be empty!'
+            },
+            'data-source': {
+              'i18n-not-null': 'The data source of the custom data package must not be empty!'
             }
           },
           'analyzed-data-package': {

@@ -62,7 +62,8 @@ angular.module('metadatamanagementApp').config(
             'overview-generation-started-toast': 'Die Analysepaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
             'tags': 'Schlagwörter',
             'title': 'Titel',
-            'file': 'Datei'
+            'file': 'Datei',
+            'save-file': 'Das Analysepaket muss erst gespeichert werden, bevor Skript Dateien hinzugefügt werden können.'
           },
           'script-attachment-metadata': {
             'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
@@ -282,8 +283,8 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Geben Sie zusätzliche Anmerkungen zum benutzerdefinierten Datenpaket auf Englisch ein.'
               },
               'data-source': {
-                'de': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).',
-                'en': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).'
+                'de': 'Die Datenquelle muss hier näher auf Deutsch beschrieben werden.',
+                'en': 'Die Datenquelle muss hier näher auf Englisch beschrieben werden.'
               },
               'data-source-url': 'Geben Sie den Link zur Datenquelle ein.',
               'availability-type': {
@@ -425,6 +426,9 @@ angular.module('metadatamanagementApp').config(
             },
             'access-way': {
               'i18n-not-null': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
+            },
+            'data-source': {
+              'i18n-not-null': 'Die Datenquelle eines benutzerdefinierten Datenpaket darf nicht leer sein!'
             }
           },
           'analyzed-data-package': {
