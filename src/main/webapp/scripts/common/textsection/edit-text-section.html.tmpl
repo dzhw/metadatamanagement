@@ -19,6 +19,8 @@
           <md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon>
         </label>
         <textarea lang="de"
+                  rows="10"
+                  md-no-autogrow
                   ng-attr-fdz-required="{{($ctrl.notNull) ? true : false}}"
                   md-maxlength="$ctrl.maxLength"
                   name="{{$ctrl.translationKeyName}}"

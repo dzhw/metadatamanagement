@@ -97,7 +97,7 @@ angular.module('metadatamanagementApp').config(
           'post-validation': {
             'project-has-no-dataPackage': 'The Project with the RDC-ID {{ id }} has no data package.',
             'project-has-no-analysisPackage': 'The Project with the RDC-ID {{ id }} has no analysis package.',
-            'project-must-have-exactly-one-publication': 'The Project with the RDC-ID {{ id }} contain exactly one publication.',
+            'project-must-have-exactly-one-publication': 'The Project with the RDC-ID {{ id }} must contain exactly one publication.',
             'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.',
             'project-has-no-survey': 'The Project with the RDC-ID {{ id }} must contain at least one survey.',
             'project-has-no-data-set': 'The Project with the RDC-ID {{ id }} must contain at least one data set.'
