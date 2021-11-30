@@ -34,8 +34,8 @@
         }
       });
       $timeout(function() {
-        $document.find('input[name="' + $ctrl.name + 'DisplayTextDe' + $ctrl.index + '_' +
-          ($ctrl.content.length - 1) + '"]')
+        $document.find('input[name="' + $ctrl.name + 'DisplayTextDe' +
+          $ctrl.index + '_' + ($ctrl.content.length - 1) + '"]')
           .focus();
       }, 200);
     };
