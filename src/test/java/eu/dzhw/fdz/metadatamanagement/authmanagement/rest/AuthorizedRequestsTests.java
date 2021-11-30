@@ -5,9 +5,11 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstan
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -20,6 +22,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthorizedRequestsTests extends AbstractUserApiTests {
@@ -58,15 +61,16 @@ public class AuthorizedRequestsTests extends AbstractUserApiTests {
   public void withoutJwtTest() throws Exception {
     mvc.perform(
         patch("/api/users/deactivatedWelcomeDialog")
-    ).andExpect(unauthenticated());
+    )
+        .andExpect(unauthenticated());
   }
 
   @Test
   public void withEmptyJwtTest() throws Exception {
     mvc.perform(
         patch("/api/users/deactivatedWelcomeDialog")
-          .param("deactivatedWelcomeDialog", "false")
-          .with(jwt())
+            .param("deactivatedWelcomeDialog", "false")
+            .with(jwt())
     )
         .andExpect(authenticated())
         .andExpect(status().isForbidden());
@@ -80,12 +84,46 @@ public class AuthorizedRequestsTests extends AbstractUserApiTests {
             .body(u -> Objects.equals(u.getId(), USER.getId()))
         .addToServer();
 
-    var result = mvc.perform(
+    mvc.perform(
         patch("/api/users/deactivatedWelcomeDialog")
             .param("deactivatedWelcomeDialog", "false")
             .header("Authorization", "Bearer " + jwtDecoder.generateTokenForUser(USER))
     )
-        .andExpect(status().isOk())
-        .andReturn();
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  public void withXForwardProtoHeaderTest() throws Exception {
+    mvc.perform(
+        patch("/api/users/deactivatedWelcomeDialog")
+            .param("deactivatedWelcomeDialog", "false")
+            .header("X-Forwarded-Proto", "http")
+            .with(jwt().jwt(jwt ->
+                jwt
+                    .header("alg", "rs256")
+                    .subject("xForwardProtoTester"))
+                    .authorities(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+            )
+    )
+        .andExpect(status().is(HttpStatus.SC_MOVED_TEMPORARILY))
+        .andExpect(
+            header().string("Location", "https://localhost/api/users/deactivatedWelcomeDialog")
+        );
+
+    mvc.perform(
+        patch("/api/users/deactivatedWelcomeDialog")
+            .param("deactivatedWelcomeDialog", "false")
+            .header("X-Forwarded-Proto", "https")
+            .with(jwt().jwt(jwt ->
+                jwt
+                    .header("alg", "rs256")
+                    .subject("xForwardProtoTester"))
+                    .authorities(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+            )
+    )
+        .andExpect(status().is(HttpStatus.SC_MOVED_TEMPORARILY))
+        .andExpect(
+            header().string("Location", "https://localhost/api/users/deactivatedWelcomeDialog")
+        );
   }
 }
