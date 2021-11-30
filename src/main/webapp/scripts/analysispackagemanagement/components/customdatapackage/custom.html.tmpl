@@ -111,16 +111,14 @@
   </md-input-container>
 </div>
 
-<div layout="row"
-     layout-gt-sm="row"
-     class="ms-flex">
-  <url-component
-    id="dataSources"
-    index="$ctrl.index"
-    name="analysisDataPackages"
-    current-form="$ctrl.currentForm"
-    max-length="2000"
-    content="$ctrl.package.dataSources"
-    template-url="scripts/common/url/url-with-index.html.tmpl"
-    class="df fg"></url-component>
-</div>
+
+
+<datasource-component
+  id="dataSource"
+  index="$ctrl.index"
+  name="analysisDataPackages"
+  current-form="$ctrl.currentForm"
+  max-length="2000"
+  content="$ctrl.package.dataSources"
+  template-url="scripts/common/datasource/datasource.html.tmpl"
+  class="df fg"></datasource-component>

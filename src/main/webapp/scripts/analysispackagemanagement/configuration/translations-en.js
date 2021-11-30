@@ -62,7 +62,8 @@ angular.module('metadatamanagementApp').config(
             'overview-generation-started-toast': 'The analysis package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
             'tags': 'Tags',
             'title': 'Title',
-            'file': 'File'
+            'file': 'File',
+            'save-file': 'The analysis package has to be saved to enable attaching script files.'
           },
           'script-attachment-metadata': {
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
@@ -135,9 +136,13 @@ angular.module('metadatamanagementApp').config(
           'move-link-up-tooltip': 'Click to move the selected link up.',
           'move-link-down-tooltip': 'Click to move the selected link down.',
           'delete-link-tooltip': 'Click to remove the link from this analysis package.',
+          'delete-data-source-tooltip': 'Click to remove the data source from this analysis package.',
           'add-url-tooltip': 'Click to add another url to this custom data package.',
+          'add-data-source-tooltip': 'Click to add another data source to this custom data package.',
           'move-url-up-tooltip': 'Click to move the selected url up.',
+          'move-data-source-up-tooltip': 'Click to move the selected data source up.',
           'move-url-down-tooltip': 'Click to move the selected url down.',
+          'move-data-source-down-tooltip': 'Click to move the selected data source down.',
           'delete-url-tooltip': 'Click to remove the url from this custom data package.',
           'delete-institution-tooltip': 'Click to remove the institution from this analysis package.',
           'delete-package-author-tooltip': 'Click to remove the author from this analysis package.',
@@ -279,8 +284,8 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Enter additional annotations for this custom data package in English.'
               },
               'data-source': {
-                'de': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).',
-                'en': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).'
+                'de': 'The data source must be described in more detail here in German.',
+                'en': 'The data source must be described in more detail here in English.'
               },
               'data-source-url': 'Enter the data source url.',
               'availability-type': {
@@ -422,6 +427,9 @@ angular.module('metadatamanagementApp').config(
             },
             'access-way': {
               'i18n-not-null': 'The access way of the data package must not be empty!'
+            },
+            'data-source': {
+              'i18n-not-null': 'The data source of the custom data package must not be empty!'
             }
           },
           'analyzed-data-package': {

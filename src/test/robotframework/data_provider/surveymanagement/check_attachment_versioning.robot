@@ -17,7 +17,6 @@ Editing survey attachement and check versioning
     Page Should Contain    vor ein paar Sekunden
     Revise to second latest version
     Click Attachment Save Button
-    Close Attachment Dialog
     [Teardown]    Get back to german home page
 
 *** Keywords ***
