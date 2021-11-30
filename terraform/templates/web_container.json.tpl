@@ -77,6 +77,22 @@
         {
           "name": "vcap_services_seo4ajax_sitetoken",
           "value": "${site_token}"
+        },
+        {
+          "name": "vcap_services_resourceserver_issuer_uri",
+          "value": "${issuer_uri}"
+        },
+        {
+          "name": "vcap_services_userapi_credentials_endpoint",
+          "value": "${userapi_endpoint}"
+        },
+        {
+          "name": "vcap_services_userapi_credentials_username",
+          "value": "${userapi_username}"
+        },
+        {
+          "name": "vcap_services_userapi_credentials_password",
+          "value": "${userapi_password}"
         }
       ],
       "resourceRequirements": null,
