@@ -72,7 +72,7 @@
           <ul class="md-secondary" style="list-style-type: none; margin: 0px; margin-block: 0px; padding-inline: 0px; padding: 0px;">
             <li ng-repeat="link in item.dataSources">
               <a href="{{link.url}}" target="_blank">
-                {{ link.displayText ? (link.displayText | displayI18nString) : link.url}}
+                {{ link.name ? (link.name | displayI18nString) : link.url}}
                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'analysis-package-management.detail.link-tooltip' | translate}}
                 </md-tooltip>
