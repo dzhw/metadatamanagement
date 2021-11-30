@@ -2,13 +2,16 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.icegreen.greenmail.store.FolderException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +26,12 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
+import javax.mail.MessagingException;
+
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectVersionsServiceTest extends AbstractUserApiTests {
+  private static final String PUBLISHER_EMAIL = "publisher@local";
+  private static final String PUBLISHER_LOGIN = "defaultPublisher";
 
   private final DataAcquisitionProjectVersionsService versionsService;
   private final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
@@ -49,22 +56,38 @@ public class DataAcquisitionProjectVersionsServiceTest extends AbstractUserApiTe
     this.repository = repository;
     this.javersService = javersService;
     this.versionsService = versionsService;
+
+    this.mockServer.users(
+        new User(
+            "1234",
+            PUBLISHER_LOGIN,
+            PUBLISHER_EMAIL,
+            "de",
+            false,
+            AuthoritiesConstants.PUBLISHER
+        )
+    );
   }
 
   @AfterEach
-  public void tearDown() {
+  public void tearDown() throws FolderException {
     shadowCopyQueueItemRepository.deleteAll();
     repository.deleteAll();
     javersService.deleteAll();
+    greenMail.purgeEmailFromAllMailboxes();
   }
 
   @Test
-  public void testMultipleReleases() {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+  public void testMultipleReleases() throws MessagingException {
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_LOGIN));
     this.addFindAllByLoginInRequest(2, Set.of());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project = projectManagementService.save(project);
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
 
     project.setRelease(Release.builder().version("0.0.1").lastDate(LocalDateTime.now()).build());
     project = projectManagementService.save(project);

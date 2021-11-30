@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -47,6 +48,7 @@ import java.util.Set;
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
+  private static final String PUBLISHER_EMAIL = "defaultPublisher@local";
 
   private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
   private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
@@ -103,7 +105,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
         new User(
             "qwer",
             "defaultPublisher",
-            "defaultPublisher@local",
+            PUBLISHER_EMAIL,
             "de",
             false,
             "publisher"
@@ -152,6 +154,9 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
     this.mockMvc
         .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + projectId + "/shadows/1.0.0/action"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.size()", is(0)));
+
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test

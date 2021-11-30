@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +20,7 @@ import java.util.Set;
 import com.icegreen.greenmail.store.FolderException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import org.hamcrest.core.AnyOf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -52,8 +54,10 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   private static final String DATA_PROVIDER_USERNAME = "dataProvider";
+  private static final String DATA_PROVIDER_EMAIL = "dataProvider@local";
 
-  private static final String PUBLISHER_USERNAME = "publisher";
+  private static final String PUBLISHER_USERNAME = "defaultPublisher";
+  private static final String PUBLISHER_EMAIL = "publisher@local";
 
   private final DataAcquisitionProjectRepository rdcProjectRepository;
   private final JaversService javersService;
@@ -80,6 +84,25 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
     this.elasticsearchAdminService = elasticsearchAdminService;
 
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+
+    this.mockServer.users(
+        new User(
+            "1234",
+            DATA_PROVIDER_USERNAME,
+            DATA_PROVIDER_EMAIL,
+            "de",
+            false,
+            AuthoritiesConstants.DATA_PROVIDER
+        ),
+        new User(
+          "5678",
+          PUBLISHER_USERNAME,
+          PUBLISHER_EMAIL,
+          "de",
+          false,
+          AuthoritiesConstants.PUBLISHER
+        )
+    );
   }
 
   @AfterEach
@@ -94,7 +117,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateDataAcquisitionProject() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
@@ -108,6 +131,10 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
 
     // call toString for test coverage :-)
     project.toString();
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
@@ -132,7 +159,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void shouldCreateProjectsForAnalysisPackages() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
@@ -147,6 +174,10 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
     // read the project under the new url
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isOk());
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
@@ -182,7 +213,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteDataAcquisitionProject() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // delete not created project
@@ -201,11 +232,15 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
     // ensure it is really deleted
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
   public void testCompleteProjectionContainsId() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
@@ -219,12 +254,16 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(0)));
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateProject() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
     this.addFindAllByLoginInRequest(Set.of());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -248,12 +287,16 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(1)));
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setHasBeenReleasedBefore(true);
@@ -278,6 +321,10 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.hasBeenReleasedBefore", is(true)))
         .andExpect(jsonPath("$.version", is(0)));
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
@@ -488,7 +535,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdatDataAcquisitionProject_override_as_publisher() throws Exception {
     this.addFindAllByLoginInRequest(2, Set.of());
-    this.addFindOneByLoginRequest("publisher");
+    this.addFindOneByLoginRequest(PUBLISHER_USERNAME);
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));

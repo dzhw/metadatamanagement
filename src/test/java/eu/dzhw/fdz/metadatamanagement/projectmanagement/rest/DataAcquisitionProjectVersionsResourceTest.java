@@ -3,14 +3,17 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.icegreen.greenmail.store.FolderException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +42,9 @@ import java.util.Set;
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
+
+  private static final String PUBLISHER_EMAIL = "publisher@local";
+  private static final String PUBLISHER_LOGIN = "defaultPublisher";
 
   private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
   private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
@@ -72,27 +78,43 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
       this.versionsService = versionsService;
 
       this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+
+      this.mockServer.users(
+          new User(
+              "1234",
+              PUBLISHER_LOGIN,
+              PUBLISHER_EMAIL,
+              "de",
+              false,
+              AuthoritiesConstants.PUBLISHER
+          )
+      );
   }
 
   @AfterEach
-  public void cleanUp() {
+  public void cleanUp() throws FolderException {
     dataAcquisitionProjectRepository.deleteAll();
     shadowCopyQueueItemRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
+    greenMail.purgeEmailFromAllMailboxes();
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateProjectAndReadVersions() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_LOGIN));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the dataPackage with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
 
     // read the dataPackage versions
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "/versions"))
@@ -110,7 +132,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testEditProjectAndReadVersions() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_LOGIN));
     this.addFindAllByLoginInRequest(Set.of());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -119,6 +141,10 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
     project.setVersion(0L);
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
 
     // update the dataPackage with the given id
     project.setHasBeenReleasedBefore(true);
@@ -153,7 +179,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testReleaseCompare() throws Exception {
-    this.addFindAllByLoginInRequest(Set.of("defaultPublisher"));
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_LOGIN));
     this.addFindAllByLoginInRequest(Set.of());
 
     // Arrange
@@ -181,6 +207,10 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
     // Assert that the last version is 1.0.0
     lastRelease = this.versionsService.findLastRelease(project.getId());
     assertThat(lastRelease.getVersion(), is("1.0.0"));
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
 
     // Save third time without release (simulates unrelease)
     project.setRelease(null);
