@@ -9,6 +9,7 @@ describe('Test File Resource: ', function() {
   var data = 'Latex Example';
 
   beforeEach(mockApis);
+  beforeEach(mockSso);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
     fileResource = $injector.get('FileResource');

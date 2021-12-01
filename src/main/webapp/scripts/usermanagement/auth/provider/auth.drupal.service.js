@@ -6,18 +6,22 @@ angular
     'AuthServiceProvider',
     function loginService($http, localStorageService, $window,
                           $q, AuthProperties, $location) {
-      var config = {
-        clientId: AuthProperties.clientId,
-        clientSecret: AuthProperties.clientSecret,
-        redirectUri: $location.protocol() + '://' + $location.host() +
-          ($location.port() ? ':' + $location.port() : ''),
-        authUrl: AuthProperties.issuer + '/oauth/authorize',
-        tokenUrl: AuthProperties.issuer + '/oauth/token',
-        userInfo: AuthProperties.issuer + '/oauth/userinfo',
-        logout: AuthProperties.issuer + '/user/logout',
-        scope: 'openid email profile role_admin ' +
-          'role_data_provider role_publisher role_release_manager'
-      };
+      var config = null;
+      if (AuthProperties.hasOwnProperty('issuer') &&
+        AuthProperties.issuer.indexOf('http') !== -1) {
+        config = {
+          clientId: AuthProperties.clientId,
+          clientSecret: AuthProperties.clientSecret,
+          redirectUri: $location.protocol() + '://' + $location.host() +
+            ($location.port() ? ':' + $location.port() : ''),
+          authUrl: AuthProperties.issuer + '/oauth/authorize',
+          tokenUrl: AuthProperties.issuer + '/oauth/token',
+          userInfo: AuthProperties.issuer + '/oauth/userinfo',
+          logout: AuthProperties.issuer + '/user/logout',
+          scope: 'openid email profile role_admin ' +
+            'role_data_provider role_publisher role_release_manager'
+        };
+      }
       var decodeToken = function(token) {
         if (token) {
           var base64Url = token.split('.')[1];
@@ -28,29 +32,54 @@ angular
       };
       return {
         login: function(silent) {
-          var url =
-            config.authUrl +
-            '?response_type=code' +
-            '&client_id=' +
-            encodeURIComponent(config.clientId) +
-            '&redirect_uri=' +
-            encodeURIComponent(config.redirectUri) +
-            '&state=' + 'auth' +
-            '&scope=' + encodeURIComponent(config.scope);
+          if (config) {
+            var url =
+              config.authUrl +
+              '?response_type=code' +
+              '&client_id=' +
+              encodeURIComponent(config.clientId) +
+              '&redirect_uri=' +
+              encodeURIComponent(config.redirectUri) +
+              '&state=' + 'auth' +
+              '&scope=' + encodeURIComponent(config.scope);
 
-          silent = false;
+            silent = false;
 
-          if (silent) {
-            var deferred = $q.defer();
-            $http.get(
-              url, {
-              headers: {
-                'Content-type': 'application/json'
-              }
+            if (silent) {
+              var deferred = $q.defer();
+              $http.get(
+                url, {
+                  headers: {
+                    'Content-type': 'application/json'
+                  }
+                }
+              ).then(
+                function(res) {
+                  console.log(res);
+                  deferred.resolve();
+                },
+                function(error) {
+                  deferred.reject(error);
+                }
+              );
+            } else {
+              $window.location.href = url;
             }
+          }
+        },
+        isLoggedInSso: function() {
+          var deferred = $q.defer();
+          if (config) {
+            var url = AuthProperties.issuer + '/user/login?_format=json';
+            $http.get(
+              url,
+              {
+                headers: {
+                  'Content-type': 'application/json'
+                }
+              }
             ).then(
-              function(res) {
-                console.log(res);
+              function() {
                 deferred.resolve();
               },
               function(error) {
@@ -58,27 +87,9 @@ angular
               }
             );
           } else {
-            $window.location.href = url;
+            deferred.reject();
           }
-        },
-        isLoggedInSso: function() {
-          var deferred = $q.defer();
-          var url = AuthProperties.issuer + '/user/login?_format=json';
-          $http.get(
-            url,
-            {
-              headers: {
-                'Content-type': 'application/json'
-              }
-            }
-          ).then(
-            function() {
-              deferred.resolve();
-            },
-            function(error) {
-              deferred.reject(error);
-            }
-          );
+          deferred.reject();
           return deferred.promise;
         },
         isLoggedIn: function() {
@@ -102,7 +113,7 @@ angular
         authorize: function(code) {
           var deferred = $q.defer();
 
-          if (code) {
+          if (config && code) {
             var data =
               'code=' + encodeURIComponent(code) +
               '&grant_type=authorization_code' +
@@ -124,6 +135,8 @@ angular
               function(error) {
                 deferred.reject(error);
               });
+          } else {
+            deferred.reject();
           }
           return deferred.promise;
         },

@@ -205,9 +205,9 @@ try {
             });
           });
         } else {
-          Auth.init().then(function () {
+          Auth.init().then(function() {
             init();
-          }, function (error) {
+          }, function(error) {
             console.log(error);
             init();
           });

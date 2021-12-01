@@ -1,4 +1,4 @@
-/* global describe, beforeEach, inject, it, expect, spyOn, _ */
+/* global describe, beforeEach, inject, it, expect, spyOn, _, mockSso */
 'use strict';
 
 describe('TagEditorController', function() {
@@ -8,6 +8,7 @@ describe('TagEditorController', function() {
   var $q;
 
   beforeEach(module('metadatamanagementApp'));
+  beforeEach(mockSso);
   beforeEach(inject(function(_DataPackageSearchService_, _$rootScope_,
                              _$controller_, _$q_) {
     DataPackageSearchService = _DataPackageSearchService_;

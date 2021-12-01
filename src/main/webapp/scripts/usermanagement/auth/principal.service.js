@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').factory(
       _authenticated = true;
       _identity = {
         activated: true,
-        authorities: accessInfo.scope ? accessInfo.scope.map(function (e) {
+        authorities: accessInfo.scope ? accessInfo.scope.map(function(e) {
           return e.toUpperCase();
         }) : [],
         email: idInfo.email,
@@ -27,30 +27,32 @@ angular.module('metadatamanagementApp').factory(
     }
 
     //@todo: save welcome dialog state in dpl
-    var displayWelcomeDialog = function (identity) {
+    var displayWelcomeDialog = function(identity) {
       return _identity &&
         _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
         !identity.welcomeDialogDeactivated;
     };
 
     return {
-      isAuthenticated: function () {
+      isAuthenticated: function() {
         return AuthServiceProvider.hasToken();
       },
-      hasAuthority: function (authority) {
+      hasAuthority: function(authority) {
         if (!AuthServiceProvider.hasToken()) {
           return false;
         }
-        return (AuthServiceProvider.accessTokenInfo().scope && AuthServiceProvider.
-        accessTokenInfo().scope.indexOf(authority.toLowerCase()) !== -1);
+        return (AuthServiceProvider.accessTokenInfo().scope &&
+          AuthServiceProvider.accessTokenInfo().scope.
+          indexOf(authority.toLowerCase()) !== -1);
       },
-      hasAnyAuthority: function (authorities) {
+      hasAnyAuthority: function(authorities) {
         if (!AuthServiceProvider.hasToken()) {
           return false;
         }
         for (var i = 0; i < authorities.length; i++) {
-          if (AuthServiceProvider.accessTokenInfo().scope && AuthServiceProvider.
-          accessTokenInfo().scope.indexOf(authorities[i].toLowerCase()) !== -1) {
+          if (AuthServiceProvider.accessTokenInfo().scope &&
+            AuthServiceProvider.accessTokenInfo().scope.
+            indexOf(authorities[i].toLowerCase()) !== -1) {
             return true;
           }
         }

@@ -14,6 +14,7 @@ describe('DataAcquisitionProject', function() {
 		id: 1,
 		name: 'DataAcquisitionProjectResource'
 	};
+	beforeEach(mockSso);
 	beforeEach(mockApis);
 	beforeEach(inject(function($injector) {
 		$httpBackend = $injector.get('$httpBackend');

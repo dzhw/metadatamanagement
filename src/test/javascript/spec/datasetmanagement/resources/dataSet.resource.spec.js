@@ -14,6 +14,7 @@ describe('DataSet', function() {
     id: 1,
     name: 'DataSetResource'
   };
+  beforeEach(mockSso);
   beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');

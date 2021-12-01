@@ -4,6 +4,7 @@
 /* global expect */
 /* global inject */
 /* global spyOn */
+/* global mockSso */
 'use strict';
 
 describe('jsonContentDialog.directive', function() {
@@ -15,6 +16,7 @@ describe('jsonContentDialog.directive', function() {
 
   beforeEach(module('metadatamanagementApp'));
   beforeEach(module('templates'));
+  beforeEach(mockSso);
   beforeEach(inject(function(_$compile_, _$rootScope_, _$mdDialog_) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
