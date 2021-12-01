@@ -38,7 +38,10 @@ Order analysis packages
     Check for shopping cart items    Dieses Analysepaket    2
     Go to Shopping Cart
     Order
+    Sleep   6s
     go back
+    Go to Shopping Cart
+    Empty The Shopping Cart
     Get back to german home page
 
 *** Keywords ***
