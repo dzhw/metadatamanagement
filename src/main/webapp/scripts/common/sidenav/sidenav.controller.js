@@ -100,7 +100,6 @@ angular.module('metadatamanagementApp').controller('SidenavController',
         $state.current.name !== 'requestReset' &&
         $state.current.name !== 'finishReset' &&
         $state.current.name !== 'activate' &&
-        $state.current.name !== 'register' &&
         $state.current.name !== 'login';
       if (!$scope.show && $mdSidenav('SideNavBar').isOpen()) {
         $scope.close();

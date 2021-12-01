@@ -83,15 +83,6 @@
                   <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
-                    <!-- @todo remove -->
-                    <li>
-                        <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                              {{'global.toolbar.buttons.user-management-tooltip' | translate}}
-                          </md-tooltip>
-                          <span>DEBUG - User management</span>
-                        </md-button>
-                    </li>
                     <li>
                         <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                           <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
