@@ -13,16 +13,32 @@ Put analysis packages in shopping cart
     Go to Shopping Cart
     Check for shopping cart items    Dieses Datenpaket    2
     Check for shopping cart items    Dieses Analysepaket    2
+    Empty The Shopping Cart
+    Get back to german home page
 
 Test delete functionality
-    Delete an Item    1
-    Empty The Shopping Cart
-    go back
-
-Order analysis packages
+    Click Element   //a[@ui-sref="search({type: 'analysis_packages'})"]
+    Click on first search result
+    Wait for Angular    2s
     Put all analysis package versions in shopping cart
     Go to Shopping Cart
+    Check for shopping cart items    Dieses Datenpaket    2
+    Check for shopping cart items    Dieses Analysepaket    2
+    Delete an Item    1
+    Empty The Shopping Cart
+    Get back to german home page
+
+Order analysis packages
+    Click Element   //a[@ui-sref="search({type: 'analysis_packages'})"]
+    Click on first search result
+    Wait for Angular    2s
+    Put all analysis package versions in shopping cart
+    Go to Shopping Cart
+    Check for shopping cart items    Dieses Datenpaket    2
+    Check for shopping cart items    Dieses Analysepaket    2
+    Go to Shopping Cart
     Order
+    go back
     Get back to german home page
 
 *** Keywords ***
