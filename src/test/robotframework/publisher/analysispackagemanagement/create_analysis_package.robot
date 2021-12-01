@@ -19,5 +19,7 @@ Create Analysis Package
     Add tags
     Add scripts
     Save Changes
+    Upload script file
+    Delete script file
     Page Should Contain Element    //fdz-breadcrumbs//span[contains(.,'robotsproject${BROWSER}')]
     Delete Robotsproject
