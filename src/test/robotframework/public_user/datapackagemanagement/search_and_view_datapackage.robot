@@ -1,4 +1,4 @@
-*** Settings ***#2983
+*** Settings ***
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening its data package page
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
