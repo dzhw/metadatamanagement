@@ -89,7 +89,6 @@ angular
           } else {
             deferred.reject();
           }
-          deferred.reject();
           return deferred.promise;
         },
         isLoggedIn: function() {
