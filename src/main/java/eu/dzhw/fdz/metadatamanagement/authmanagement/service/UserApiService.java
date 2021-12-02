@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserWithRolesDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponse;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserWelcomeDialogDeactivatedPatchRequest;
@@ -88,6 +88,8 @@ public class UserApiService {
   static final String PATCH_DEACTIVATED_WELCOME_DIALOG_BY_ID_ENDPOINT =
       "/jsonapi/user/user/{id}";
 
+  final String authServerEndpoint;
+
   final RestTemplate restTemplate;
 
   /**
@@ -106,6 +108,8 @@ public class UserApiService {
       @Value("${metadatamanagement.authmanagement.server.password}")
       final String authServerPassword
   ) {
+    this.authServerEndpoint = authServerEndpoint;
+
     restTemplate = new RestTemplateBuilder()
         .rootUri(authServerEndpoint)
         .requestFactory(HttpComponentsClientHttpRequestFactory::new)
@@ -347,6 +351,19 @@ public class UserApiService {
               .map(UserApiResponse.Error::getDetail)
               .collect(Collectors.joining(","))
       ));
+    }
+  }
+
+  public boolean isHealthy() {
+    try {
+      return this.restTemplate.getForEntity(
+          this.authServerEndpoint,
+          Void.class
+      )
+          .getStatusCode()
+          .is2xxSuccessful();
+    } catch(RestClientException e) {
+      return false;
     }
   }
 

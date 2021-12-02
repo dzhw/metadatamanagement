@@ -7,10 +7,9 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -137,14 +136,10 @@ public class TaskManagementService implements CrudService<Task> {
       UserDto onBehalfUser,
       String projectManagementEmailSender
   ) {
-    try {
-      var admins =
-          userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
-      mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
-          projectManagementEmailSender);
-    } catch (InvalidUserApiResponseException e) {
-      log.error("Could not handle Data Set Report error: {}", e.getMessage());
-    }
+    var admins =
+        userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
+    mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
+        projectManagementEmailSender);
   }
 
   private void handleDataPackageOverviewError(
@@ -152,14 +147,10 @@ public class TaskManagementService implements CrudService<Task> {
       UserDto onBehalfUser,
       String projectManagementEmailSender
   ) {
-    try {
-      var admins =
-          userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
-      mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,
-          projectManagementEmailSender);
-    } catch (InvalidUserApiResponseException e) {
-      log.error("Could not handle Data Package Overview error: {}", e.getMessage());
-    }
+    var admins =
+        userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
+    mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,
+        projectManagementEmailSender);
   }
 
   /**

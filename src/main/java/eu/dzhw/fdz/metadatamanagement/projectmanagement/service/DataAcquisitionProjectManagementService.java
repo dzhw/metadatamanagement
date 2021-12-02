@@ -9,9 +9,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -108,27 +107,11 @@ public class DataAcquisitionProjectManagementService
             .getConfiguration().getDataProviders();
 
         List<UserDto> users;
-        try {
-          users = userApiService.findAllByLoginIn(new HashSet<>(dataProviders));
-        } catch (InvalidUserApiResponseException e) {
-          log.error(
-              "Could not find Data Providers for sending assignee group changed mails: {}",
-              e.getMessage()
-          );
-          return;
-        }
+        users = userApiService.findAllByLoginIn(new HashSet<>(dataProviders));
 
         UserDto currentUser;
-        try {
-          currentUser =
+        currentUser =
             userApiService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
-        } catch (InvalidUserApiResponseException e) {
-          log.error(
-              "Could not find current user for sending assignee group changed mails: {}",
-              e.getMessage()
-          );
-          return;
-        }
         mailService.sendDataProviderAccessRevokedMail(users, projectId,
             newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
       } else {
@@ -151,27 +134,11 @@ public class DataAcquisitionProjectManagementService
 
         if (!userNames.isEmpty()) {
           List<UserDto> users;
-          try {
-            users = userApiService.findAllByLoginIn(userNames);
-          } catch (InvalidUserApiResponseException e) {
-            log.error(
-                "Could not find Assignee Group for sending assignee group changed mails: {}",
-                e.getMessage()
-            );
-            return;
-          }
+          users = userApiService.findAllByLoginIn(userNames);
 
           UserDto currentUser;
-          try {
-            currentUser =
+          currentUser =
               userApiService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
-          } catch (InvalidUserApiResponseException e) {
-            log.error(
-                "Could not find current assignee for sending assignee group changed mails: {}",
-                e.getMessage()
-            );
-            return;
-          }
 
           mailService.sendAssigneeGroupChangedMail(users, projectId,
               newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
@@ -201,16 +168,8 @@ public class DataAcquisitionProjectManagementService
         changesProvider.getRemovedDataProviderUserNamesList(projectId);
 
     UserFetchResult users;
-    try {
-      users = fetchUsersForUserNames(addedPublishers, removedPublishers,
+    users = fetchUsersForUserNames(addedPublishers, removedPublishers,
           addedDataProviders, removedDataProviders);
-    } catch (InvalidUserApiResponseException e) {
-      log.error(
-          "Could not fetch Users to send Data Providers changed mails: {}",
-          e.getMessage()
-      );
-      return;
-    }
 
     String sender = metadataManagementProperties.getProjectmanagement().getEmail();
 
@@ -226,7 +185,7 @@ public class DataAcquisitionProjectManagementService
       List<String> removedPublishers,
       List<String> addedDataProviders,
       List<String> removedDataProviders
-  ) throws InvalidUserApiResponseException {
+  ) {
     Set<String> userLoginNames = new HashSet<>(addedPublishers);
     userLoginNames.addAll(removedPublishers);
     userLoginNames.addAll(addedDataProviders);
@@ -371,16 +330,8 @@ public class DataAcquisitionProjectManagementService
                 .valueOf(previousRelease.getVersion()).getMajorVersion()) {
           // a new major release has been shadow copied
           List<UserDto> releaseManagers;
-          try {
-            releaseManagers = userApiService
-                .findAllByAuthoritiesContaining(AuthoritiesConstants.RELEASE_MANAGER);
-          } catch (InvalidUserApiResponseException e) {
-            log.error(
-                "Could not find release managers for ending the shadow copying: {}",
-                e.getMessage()
-            );
-            return;
-          }
+          releaseManagers = userApiService
+              .findAllByAuthoritiesContaining(AuthoritiesConstants.RELEASE_MANAGER);
           mailService.sendMailOnNewMajorProjectRelease(releaseManagers,
               shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
               shadowCopyingEndedEvent.getRelease());
