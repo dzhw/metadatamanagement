@@ -242,15 +242,14 @@ angular.module('metadatamanagementApp')
 
       var timeoutActive = null;
 
-      ctrl.deleteCurrentInstitution = function(event) {
+      ctrl.deleteCurrentInstitution = function(index, event) {
         if (timeoutActive) {
           $timeout.cancel(timeoutActive);
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
-            $(document.activeElement).parents('#move-institution-container')
+            $(document.activeElement).parents('#institution-' + index)
               .length) {
             return;
           }
@@ -318,15 +317,14 @@ angular.module('metadatamanagementApp')
         ctrl.currentSponsorIndex = index;
       };
 
-      ctrl.deleteCurrentSponsor = function(event) {
+      ctrl.deleteCurrentSponsor = function(index, event) {
         if (timeoutActive) {
           $timeout.cancel(timeoutActive);
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
-            $(document.activeElement).parents('#move-sponsor-container')
+            $(document.activeElement).parents('#sponsor-' + index)
               .length) {
             return;
           }
@@ -402,15 +400,14 @@ angular.module('metadatamanagementApp')
         ctrl.currentLinkIndex = index;
       };
 
-      ctrl.deleteCurrentLink = function(event) {
+      ctrl.deleteCurrentLink = function(index, event) {
         if (timeoutActive) {
           $timeout.cancel(timeoutActive);
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
-            $(document.activeElement).parents('#move-link-container')
+            $(document.activeElement).parents('#link-' + index)
               .length) {
             return;
           }
