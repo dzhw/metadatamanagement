@@ -67,14 +67,6 @@
          ng-if="!$ctrl.currentForm['analysisDataPackagesAvailabilityType_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackagesAvailabilityType_' + $ctrl.index].$touched">
       {{'analysis-package-management.edit.hints.custom-data-package.availability-type.choose' | translate}}
     </div>
-    <div class="fdz-input-hint"
-         ng-if="$ctrl.package.availabilityType.en === 'accessible'">
-      {{'analysis-package-management.edit.hints.custom-data-package.availability-type.accessible' | translate}}
-    </div>
-    <div class="fdz-input-hint"
-         ng-if="$ctrl.package.availabilityType.en === 'not-accessible'">
-      {{'analysis-package-management.edit.hints.custom-data-package.availability-type.not-accessible' | translate}}
-    </div>
     <div multiple
          ng-messages="$ctrl.currentForm['analysisDataPackagesAvailabilityType_' + $ctrl.index].$error">
       <div ng-message="required">

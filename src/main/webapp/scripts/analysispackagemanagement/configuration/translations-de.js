@@ -265,9 +265,7 @@ angular.module('metadatamanagementApp').config(
                 'choose': 'Bitte wählen Sie einen Zugangsstatus.',
                 'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
                 'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
-                'none': 'nicht zugänglich.',
-                'accessible': 'Lorem ipsum...',
-                'not-accessible': 'Lorem ipsum...'
+                'none': 'nicht zugänglich.'
               }
             },
             'custom-data-package': {
