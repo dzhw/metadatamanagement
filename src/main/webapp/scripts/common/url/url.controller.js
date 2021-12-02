@@ -45,15 +45,19 @@
       $ctrl.currentLinkIndex = index;
     };
 
-    $ctrl.deleteCurrentLink = function(event) {
+    $ctrl.deleteCurrentLink = function(index, event) {
       if (timeoutActive) {
         $timeout.cancel(timeoutActive);
       }
       timeoutActive = $timeout(function() {
         timeoutActive = false;
         // msie workaround: inputs unfocus on button mousedown
+        var name = '-';
+        if ($ctrl.name) {
+          name = $ctrl.name + '-';
+        }
         if (document.activeElement &&
-          $(document.activeElement).parents('#move-link-container')
+          $(document.activeElement).parents('#url' + name + index)
             .length) {
           return;
         }
