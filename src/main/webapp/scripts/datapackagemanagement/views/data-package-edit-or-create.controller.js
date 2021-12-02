@@ -385,17 +385,17 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentLink = function(index, event) {
-          if (document.activeElement &&
-            $(document.activeElement).parents('#link-' + index)
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-link-up-button' ||
-              event.relatedTarget.id === 'move-link-down-button')) {
-            return;
-          }
-          delete ctrl.currentLinkIndex;
+        if (document.activeElement &&
+          $(document.activeElement).parents('#link-' + index)
+            .length) {
+          return;
+        }
+        if (event.relatedTarget && (
+            event.relatedTarget.id === 'move-link-up-button' ||
+            event.relatedTarget.id === 'move-link-down-button')) {
+          return;
+        }
+        delete ctrl.currentLinkIndex;
       };
 
       ctrl.moveCurrentLinkUp = function() {

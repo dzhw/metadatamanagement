@@ -420,7 +420,7 @@ angular.module('metadatamanagementApp')
         $document.find('input[name="' + ctrl.currentLinkInputName + '"]')
           .focus();
         $scope.analysisPackage.$setDirty();
-       };
+      };
 
       ctrl.moveCurrentLinkDown = function() {
         var a = ctrl.analysisPackage.additionalLinks[ctrl.currentLinkIndex + 1];

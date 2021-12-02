@@ -9,7 +9,6 @@
     LanguageService
   ) {
     var $ctrl = this;
-    var timeoutActive = null;
 
     $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
 
