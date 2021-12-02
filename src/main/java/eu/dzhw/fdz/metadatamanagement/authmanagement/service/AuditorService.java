@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.springframework.stereotype.Service;
 
@@ -31,18 +30,14 @@ public class AuditorService implements AutoCloseable {
       return null;
     }
 
-    try {
-      var user = userApiService.findOneByLogin(login);
-      if (user.isPresent()) {
-        auditorStore.setAuditor(login);
+    var user = userApiService.findOneByLogin(login);
+    if (user.isPresent()) {
+      auditorStore.setAuditor(login);
 
-        return user.get();
-      }
-
-      throw new IllegalArgumentException("User not found: " + login);
-    } catch (InvalidUserApiResponseException e) {
-      throw new IllegalArgumentException("Could not find user " + login);
+      return user.get();
     }
+
+    throw new IllegalArgumentException("User not found: " + login);
   }
 
   @Override

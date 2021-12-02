@@ -7,7 +7,7 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
+
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,11 +53,7 @@ public class UserResource {
     var login = SecurityUtils.getCurrentUserLogin();
     log.debug("REST request to set the shown status of the user: {}", login);
 
-    try {
-      userApiService.patchDeactivatedWelcomeDialogById(login, deactivatedWelcomeDialog);
-    } catch (InvalidUserApiResponseException e) {
-      return ResponseEntity.internalServerError().build();
-    }
+    userApiService.patchDeactivatedWelcomeDialogById(login, deactivatedWelcomeDialog);
 
     return ResponseEntity.ok().build();
   }
@@ -73,16 +69,12 @@ public class UserResource {
       })
   public ResponseEntity<UserWithRolesDto> getUserPublic(@PathVariable String login) {
     log.debug("REST request to get User (with roles) : {}", login);
-    try {
-      var user = userApiService.findOneWithAuthoritiesByLogin(login);
-      return user.map(userDto -> ResponseEntity.ok()
-          .cacheControl(CacheControl.noCache())
-          .body(
-              userDto
-          )).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    } catch (InvalidUserApiResponseException e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    var user = userApiService.findOneWithAuthoritiesByLogin(login);
+    return user.map(userDto -> ResponseEntity.ok()
+        .cacheControl(CacheControl.noCache())
+        .body(
+            userDto
+        )).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
   /**
@@ -98,17 +90,13 @@ public class UserResource {
       @RequestParam String login,
       @RequestParam String role
   ) {
-    try {
-      return ResponseEntity.ok()
-          .cacheControl(CacheControl.noCache().mustRevalidate()).body(
-              userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
-                  login,
-                  login,
-                  role
-              )
-          );
-    } catch (InvalidUserApiResponseException e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    return ResponseEntity.ok()
+        .cacheControl(CacheControl.noCache().mustRevalidate()).body(
+            userApiService.findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+                login,
+                login,
+                role
+            )
+        );
   }
 }

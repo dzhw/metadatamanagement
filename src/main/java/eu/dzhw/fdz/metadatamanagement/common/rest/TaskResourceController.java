@@ -5,7 +5,6 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
@@ -78,22 +77,14 @@ public class TaskResourceController
     if (StringUtils.isEmpty(errorNotification.getOnBehalfOf())) {
       taskService.handleErrorNotification(errorNotification, null);
     } else {
-      try {
-        var user =
-            userApiService.findOneByLogin(errorNotification.getOnBehalfOf());
+      var user =
+          userApiService.findOneByLogin(errorNotification.getOnBehalfOf());
 
-        if (user.isPresent()) {
-          taskService.handleErrorNotification(errorNotification, user.get());
-        } else {
-          return ResponseEntity.badRequest()
-            .body("User with name '" + errorNotification.getOnBehalfOf() + "' does not exist!");
-        }
-      } catch (InvalidUserApiResponseException e) {
+      if (user.isPresent()) {
+        taskService.handleErrorNotification(errorNotification, user.get());
+      } else {
         return ResponseEntity.badRequest()
-          .body(
-              "Could not check if user with name '"
-                + errorNotification.getOnBehalfOf() + "'  exists!"
-          );
+            .body("User with name '" + errorNotification.getOnBehalfOf() + "' does not exist!");
       }
     }
     return ResponseEntity.ok().build();
