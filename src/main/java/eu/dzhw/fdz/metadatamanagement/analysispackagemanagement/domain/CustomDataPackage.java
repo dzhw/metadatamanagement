@@ -96,7 +96,7 @@ public class CustomDataPackage extends AbstractAnalysisDataPackage {
   private List<DataSource> dataSources;
 
   /**
-   * Must be one of AVAILABLE_ACCESS_WAYS.
+   * Must be one of AVAILABLE_ACCESS_WAYS. May be empty.
    */
   @ValidCustomDataPackageAccessWay(
       message = "analysis-package-management.error.custom-data-package.access-way.not-valid")

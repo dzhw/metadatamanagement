@@ -84,6 +84,7 @@
   </md-input-container>
 
   <md-input-container flex="50"
+                      ng-if="$ctrl.checkAccessWay()"
                       md-is-error="!$ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$touched)"
                       class="mr8 ms-flex">
     <label>{{'analysis-package-management.detail.label.custom-data-package.access-way' | translate}}</label>
