@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('EditPeopleController',
     function($scope, $rootScope, $timeout, $element, ORCIDSearchResource,
-      $mdDialog) {
+             $mdDialog) {
       var $ctrl = this;
       $scope.bowser = $rootScope.bowser;
       $ctrl.$onInit = function() {
@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp')
         });
         $timeout(function() {
           $element.find('input[name="' + $ctrl.peopleId + 'FirstName_' +
-              ($ctrl.people.length - 1) + '"]')
+            ($ctrl.people.length - 1) + '"]')
             .focus();
         });
       };
@@ -40,28 +40,20 @@ angular.module('metadatamanagementApp')
         $ctrl.currentPersonIndex = index;
       };
 
-      var timeoutActive = null;
       $ctrl.deleteCurrentPerson = function(index, event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+        if (document.activeElement &&
+          $(document.activeElement).parents('#' +
+            $ctrl.peopleId + '-' + index).length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          if (document.activeElement &&
-            $(document.activeElement).parents('#' +
-              $ctrl.peopleId + '-' + index).length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-' +
-                $ctrl.peopleId + '-up-button' ||
-              event.relatedTarget.id === 'move-' +
-                $ctrl.peopleId + '-down-button')) {
-            return;
-          }
-          delete $ctrl.currentPersonIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-' +
+          $ctrl.peopleId + '-up-button' ||
+          event.relatedTarget.id === 'move-' +
+          $ctrl.peopleId + '-down-button')) {
+          return;
+        }
+        delete $ctrl.currentPersonIndex;
       };
 
       $ctrl.moveCurrentPersonUp = function() {
@@ -100,7 +92,7 @@ angular.module('metadatamanagementApp')
           $mdDialog.show({
             controller: 'ChooseORCIDController',
             templateUrl: 'scripts/common/people/' +
-                'choose-orcid.html.tmpl',
+              'choose-orcid.html.tmpl',
             clickOutsideToClose: false,
             fullscreen: true,
             locals: {

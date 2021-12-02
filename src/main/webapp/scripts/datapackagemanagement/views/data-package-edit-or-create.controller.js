@@ -240,27 +240,18 @@ angular.module('metadatamanagementApp')
         ctrl.currentInstitutionIndex = index;
       };
 
-      var timeoutActive = null;
-
       ctrl.deleteCurrentInstitution = function(index, event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+        if (document.activeElement &&
+          $(document.activeElement).parents('#institution-' + index)
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          if (document.activeElement &&
-            $(document.activeElement).parents('#institution-' + index)
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-institution-up-button' ||
-              event.relatedTarget.id === 'move-institution-down-button')) {
-            return;
-          }
-          delete ctrl.currentInstitutionIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-institution-up-button' ||
+          event.relatedTarget.id === 'move-institution-down-button')) {
+          return;
+        }
+        delete ctrl.currentInstitutionIndex;
       };
 
       ctrl.moveCurrentInstitutionUp = function() {
@@ -318,24 +309,17 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentSponsor = function(index, event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+        if (document.activeElement &&
+          $(document.activeElement).parents('#sponsor-' + index)
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          if (document.activeElement &&
-            $(document.activeElement).parents('#sponsor-' + index)
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-sponsor-up-button' ||
-              event.relatedTarget.id === 'move-sponsor-down-button')) {
-            return;
-          }
-          delete ctrl.currentSponsorIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-sponsor-up-button' ||
+          event.relatedTarget.id === 'move-sponsor-down-button')) {
+          return;
+        }
+        delete ctrl.currentSponsorIndex;
       };
 
       ctrl.moveCurrentSponsorUp = function() {
@@ -401,11 +385,6 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentLink = function(index, event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
-        }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
           if (document.activeElement &&
             $(document.activeElement).parents('#link-' + index)
               .length) {
@@ -417,8 +396,6 @@ angular.module('metadatamanagementApp')
             return;
           }
           delete ctrl.currentLinkIndex;
-          timeoutActive = null;
-        }, 500);
       };
 
       ctrl.moveCurrentLinkUp = function() {

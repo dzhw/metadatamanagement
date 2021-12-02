@@ -225,7 +225,8 @@ angular.module('metadatamanagementApp')
         if (!ctrl.currentInstitutions) {
           ctrl.currentInstitutions = [];
         }
-        ctrl.currentInstitutions.push(null);
+        ctrl.currentInstitutions.push({de: '', en: ''});
+        console.table(ctrl.currentInstitutions);
         $timeout(function() {
           $document.find('input[name="institutionDe_' +
             (ctrl.analysisPackage.institutions.length - 1) + '"]')
@@ -238,27 +239,18 @@ angular.module('metadatamanagementApp')
         ctrl.currentInstitutionIndex = index;
       };
 
-      var timeoutActive = null;
-
       ctrl.deleteCurrentInstitution = function(index, event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+        if (document.activeElement &&
+          $(document.activeElement).parents('#institution-' + index)
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          if (document.activeElement &&
-            $(document.activeElement).parents('#institution-' + index)
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-institution-up-button' ||
-            event.relatedTarget.id === 'move-institution-down-button')) {
-            return;
-          }
-          delete ctrl.currentInstitutionIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-institution-up-button' ||
+          event.relatedTarget.id === 'move-institution-down-button')) {
+          return;
+        }
+        delete ctrl.currentInstitutionIndex;
       };
 
       ctrl.moveCurrentInstitutionUp = function() {
@@ -328,11 +320,6 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentSponsor = function(index, event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
-        }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
           if (document.activeElement &&
             $(document.activeElement).parents('#sponsor-' + index)
               .length) {
@@ -344,8 +331,6 @@ angular.module('metadatamanagementApp')
             return;
           }
           delete ctrl.currentSponsorIndex;
-          timeoutActive = null;
-        }, 500);
       };
 
       ctrl.moveCurrentSponsorUp = function() {
@@ -411,12 +396,6 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentLink = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
-        }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
             $(document.activeElement).parents('#move-link-container')
               .length) {
@@ -428,8 +407,6 @@ angular.module('metadatamanagementApp')
             return;
           }
           delete ctrl.currentLinkIndex;
-          timeoutActive = null;
-        }, 500);
       };
 
       ctrl.moveCurrentLinkUp = function() {

@@ -9,7 +9,6 @@
     LanguageService
   ) {
     var $ctrl = this;
-    var timeoutActive = null;
 
     $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
 
@@ -46,28 +45,21 @@
     };
 
     $ctrl.deleteCurrentLink = function(index, event) {
-      if (timeoutActive) {
-        $timeout.cancel(timeoutActive);
+      var name = '-';
+      if ($ctrl.name) {
+        name = $ctrl.name + '-';
       }
-      timeoutActive = $timeout(function() {
-        timeoutActive = false;
-        var name = '-';
-        if ($ctrl.name) {
-          name = $ctrl.name + '-';
-        }
-        if (document.activeElement &&
-          $(document.activeElement).parents('#url' + name + index)
-            .length) {
-          return;
-        }
-        if (event.relatedTarget && (
-          event.relatedTarget.id === 'move-link-up-button' ||
-          event.relatedTarget.id === 'move-link-down-button')) {
-          return;
-        }
-        delete $ctrl.currentLinkIndex;
-        timeoutActive = null;
-      }, 500);
+      if (document.activeElement &&
+        $(document.activeElement).parents('#url' + name + index)
+          .length) {
+        return;
+      }
+      if (event.relatedTarget && (
+        event.relatedTarget.id === 'move-link-up-button' ||
+        event.relatedTarget.id === 'move-link-down-button')) {
+        return;
+      }
+      delete $ctrl.currentLinkIndex;
     };
 
     $ctrl.moveCurrentLinkUp = function() {
