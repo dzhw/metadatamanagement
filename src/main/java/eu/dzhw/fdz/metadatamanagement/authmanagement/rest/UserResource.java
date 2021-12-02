@@ -42,7 +42,11 @@ public class UserResource {
    * @return A HTTP response
    */
   @PatchMapping(value = "/users/deactivatedWelcomeDialog")
-  @Secured(AuthoritiesConstants.USER)
+  @Secured({
+      AuthoritiesConstants.ADMIN,
+      AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.PUBLISHER
+      })
   public ResponseEntity<Void> patchDeactivatedWelcomeDialog(
       @RequestParam boolean deactivatedWelcomeDialog
   ) {
