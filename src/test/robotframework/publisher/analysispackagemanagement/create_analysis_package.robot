@@ -6,6 +6,7 @@ Resource          ./add_data.robot
 
 *** Test Cases ***
 Create Analysis Package
+
     Pass Execution If    '${BROWSER}' == 'ie'    Package Creation not possible in IE
     Create Project  robotsproject${BROWSER}
     Create new analysis package
@@ -18,8 +19,10 @@ Create Analysis Package
     Add license
     Add tags
     Add scripts
+    Add analysis data
     Save Changes
-    Upload script file
+    Upload attachments
+    Save Changes
     Delete script file
-    Page Should Contain Element    //fdz-breadcrumbs//span[contains(.,'robotsproject${BROWSER}')]
+    Discard Changes
     Delete Robotsproject

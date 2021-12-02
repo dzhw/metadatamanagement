@@ -9,6 +9,10 @@ Move element
     set focus to element              //${focusElement}\[@name='${elementName}']
     Click Element Through Tooltips    ${button}
 
+Discard Changes
+    Get Back to german home page
+    Click Element Through Tooltips    //md-dialog//button[2]
+
 Open Create Page
     Click Element Through Tooltips    //ui-view/descendant::button[md-icon[text()='add']]
 
@@ -102,13 +106,50 @@ Add scripts
     Click Element Through Tooltips      //md-card[@id='scripts']//div[@ng-repeat='script in $ctrl.scripts track by $index'][1]//div[@layout='column']/button[3]
     Click Element Through Tooltips      //md-card[@id='scripts']//div[@ng-repeat='script in $ctrl.scripts track by $index'][2]//div[@layout='column']/button[1]
 
+Add FDHZ data package
+    Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.')]
+    Click Element Through Tooltips      //list-data-package-component//md-select[1]
+    Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'FDZ-DZHW Datenpaket')]
+    set focus to element                name=analysisDataPackagesAnalyzedDataPackage_0
+    Run Keyword And Ignore Error        Click Element Through Tooltips     //md-virtual-repeat-container//span[text()='DZHW-Absolventenpanel 2005']
+    Click Element Through Tooltips      //fdz-data-package-component//md-select[@name='analysisDataPackagesAnalyzedDataPackageVersion_0']
+    Click Element Through Tooltips      //md-select-menu//md-option[contains(., '1.0.2')]
+    Click Element Through Tooltips      //fdz-data-package-component//md-select[@name='analysisDataPackagesAnalyzedDataPackageAccessWay_0']
+    Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'CUF: Download')]
 
+Add external data package
+    Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.')]
+    Click Element Through Tooltips      //list-data-package-component//div[@layout='column'][2]//md-select
+    Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'Externes Datenpaket')]
+    set focus to element                //external-data-package-component//input[@name='analysisDataPackagesTitleDe_1']
+    input text                          name='analysisDataPackagesTitleDe_1'            Titel Externes Datenpaket
+    input text                          name='analysisDataPackagesTitleEn_1'            Title external data package
+    input text                          name='analysisDataPackagesDescriptionDe_1'      Beschreibung
+    input text                          name='analysisDataPackagesDescriptionEn_1'      Description
+    input text                          name='analysisDataPackagesAnnotationsDe_1'      Anmerkung
+    input text                          name='analysisDataPackagesAnnotationsEn_1'      Annotation
+    input text                          name='analysisDataPackagesData-sourceDe_1'      Datenquelle
+    input text                          name='analysisDataPackagesData-sourceEn_1'      Data source
+    input text                          name='analysisDataPackagesDataSourceUrl_1'      http://dzhw.de
+    Click Element Through Tooltips      //list-data-package-component//div[@layout='column'][2]//external-data-package-component//md-select
+    Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'Open Access)]
+
+Add analysis data
+    Add FDHZ data package
+
+
+Upload attachments
+    Upload script file
+
+Remove attachments
+    Delete script file
 
 Upload script file
     [Tags]   chromeonly
     Choose File                        //input[@type='file' and @ng-if='!$ctrl.createMode']   ${CURDIR}/upload/test.py
 
 Delete script file
+    [Tags]   chromeonly
     Click Element Through Tooltips    //button[@aria-label='Klicken, um die Datei aus diesem Skript zu löschen!']
     Click Element Through Tooltips    //md-dialog//button[2]
 
