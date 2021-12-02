@@ -320,17 +320,17 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentSponsor = function(index, event) {
-          if (document.activeElement &&
-            $(document.activeElement).parents('#sponsor-' + index)
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-sponsor-up-button' ||
-            event.relatedTarget.id === 'move-sponsor-down-button')) {
-            return;
-          }
-          delete ctrl.currentSponsorIndex;
+        if (document.activeElement &&
+          $(document.activeElement).parents('#sponsor-' + index)
+            .length) {
+          return;
+        }
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-sponsor-up-button' ||
+          event.relatedTarget.id === 'move-sponsor-down-button')) {
+          return;
+        }
+        delete ctrl.currentSponsorIndex;
       };
 
       ctrl.moveCurrentSponsorUp = function() {
@@ -396,17 +396,17 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentLink = function(event) {
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-link-container')
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-link-up-button' ||
-            event.relatedTarget.id === 'move-link-down-button')) {
-            return;
-          }
-          delete ctrl.currentLinkIndex;
+        if (document.activeElement &&
+          $(document.activeElement).parents('#move-link-container')
+            .length) {
+          return;
+        }
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-link-up-button' ||
+          event.relatedTarget.id === 'move-link-down-button')) {
+          return;
+        }
+        delete ctrl.currentLinkIndex;
       };
 
       ctrl.moveCurrentLinkUp = function() {
@@ -420,7 +420,7 @@ angular.module('metadatamanagementApp')
         $document.find('input[name="' + ctrl.currentLinkInputName + '"]')
           .focus();
         $scope.analysisPackage.$setDirty();
-      };
+       };
 
       ctrl.moveCurrentLinkDown = function() {
         var a = ctrl.analysisPackage.additionalLinks[ctrl.currentLinkIndex + 1];

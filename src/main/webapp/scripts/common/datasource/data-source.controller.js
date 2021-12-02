@@ -46,24 +46,17 @@
     };
 
     $ctrl.deleteCurrentLink = function(index, event) {
-      if (timeoutActive) {
-        $timeout.cancel(timeoutActive);
+      if (document.activeElement &&
+        $(document.activeElement).parents('#dataSource-' + index)
+          .length) {
+        return;
       }
-      timeoutActive = $timeout(function() {
-        timeoutActive = false;
-        if (document.activeElement &&
-          $(document.activeElement).parents('#dataSource-' + index)
-            .length) {
-          return;
-        }
-        if (event.relatedTarget && (
-          event.relatedTarget.id === 'move-link-up-button' ||
-          event.relatedTarget.id === 'move-link-down-button')) {
-          return;
-        }
-        delete $ctrl.currentLinkIndex;
-        timeoutActive = null;
-      }, 500);
+      if (event.relatedTarget && (
+        event.relatedTarget.id === 'move-link-up-button' ||
+        event.relatedTarget.id === 'move-link-down-button')) {
+        return;
+      }
+      delete $ctrl.currentLinkIndex;
     };
 
     $ctrl.moveCurrentLinkUp = function() {
