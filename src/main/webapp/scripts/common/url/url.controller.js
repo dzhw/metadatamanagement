@@ -51,7 +51,6 @@
       }
       timeoutActive = $timeout(function() {
         timeoutActive = false;
-        // msie workaround: inputs unfocus on button mousedown
         var name = '-';
         if ($ctrl.name) {
           name = $ctrl.name + '-';
