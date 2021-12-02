@@ -41,16 +41,15 @@ angular.module('metadatamanagementApp')
       };
 
       var timeoutActive = null;
-      $ctrl.deleteCurrentPerson = function(event) {
+      $ctrl.deleteCurrentPerson = function(index, event) {
         if (timeoutActive) {
           $timeout.cancel(timeoutActive);
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
-            $(document.activeElement).parents('#move-' +
-              $ctrl.peopleId + '-container').length) {
+            $(document.activeElement).parents('#' +
+              $ctrl.peopleId + '-' + index).length) {
             return;
           }
           if (event.relatedTarget && (
