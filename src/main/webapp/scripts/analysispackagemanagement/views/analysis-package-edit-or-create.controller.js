@@ -225,8 +225,8 @@ angular.module('metadatamanagementApp')
         if (!ctrl.currentInstitutions) {
           ctrl.currentInstitutions = [];
         }
-        ctrl.currentInstitutions.push({de: '', en: ''});
-        console.table(ctrl.currentInstitutions);
+        ctrl.currentInstitutions.push(null);
+        // console.table(ctrl.currentInstitutions);
         $timeout(function() {
           $document.find('input[name="institutionDe_' +
             (ctrl.analysisPackage.institutions.length - 1) + '"]')
@@ -241,7 +241,7 @@ angular.module('metadatamanagementApp')
 
       ctrl.deleteCurrentInstitution = function(index, event) {
         if (document.activeElement &&
-          $(document.activeElement).parents('#institution-' + index)
+          $(document.activeElement).parents('#institution' + index)
             .length) {
           return;
         }
