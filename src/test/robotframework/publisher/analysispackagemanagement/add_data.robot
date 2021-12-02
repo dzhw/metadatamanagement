@@ -119,24 +119,32 @@ Add FDHZ data package
 
 Add external data package
     Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.')]
-    Click Element Through Tooltips      //list-data-package-component//div[@layout='column'][2]//md-select
-    Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'Externes Datenpaket')]
-    set focus to element                //external-data-package-component//input[@name='analysisDataPackagesTitleDe_1']
-    input text                          name='analysisDataPackagesTitleDe_1'            Titel Externes Datenpaket
-    input text                          name='analysisDataPackagesTitleEn_1'            Title external data package
-    input text                          name='analysisDataPackagesDescriptionDe_1'      Beschreibung
-    input text                          name='analysisDataPackagesDescriptionEn_1'      Description
-    input text                          name='analysisDataPackagesAnnotationsDe_1'      Anmerkung
-    input text                          name='analysisDataPackagesAnnotationsEn_1'      Annotation
-    input text                          name='analysisDataPackagesData-sourceDe_1'      Datenquelle
-    input text                          name='analysisDataPackagesData-sourceEn_1'      Data source
-    input text                          name='analysisDataPackagesDataSourceUrl_1'      http://dzhw.de
-    Click Element Through Tooltips      //list-data-package-component//div[@layout='column'][2]//external-data-package-component//md-select
-    Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'Open Access)]
+    Click Element Through Tooltips      //div[@id='package-1']//md-select
+    Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Externes Datenpaket')]
+    set focus to element                //input[@name='analysisDataPackagesTitleDe_1']
+    input text                          name=analysisDataPackagesTitleDe_1            Titel Externes Datenpaket
+    input text                          name=analysisDataPackagesTitleEn_1            Title external data package
+    input text                          name=analysisDataPackagesDescriptionDe_1      Beschreibung
+    input text                          name=analysisDataPackagesDescriptionEn_1      Description
+    input text                          name=analysisDataPackagesAnnotationsDe_1      Anmerkung
+    input text                          name=analysisDataPackagesAnnotationsEn_1      Annotation
+    input text                          name=analysisDataPackagesData-sourceDe_1      Datenquelle
+    input text                          name=analysisDataPackagesData-sourceEn_1      Data source
+    input text                          name=analysisDataPackagesDataSourceUrl_1      http://dzhw.de
+    Click Element Through Tooltips      //div[@id='package-1']//external-data-package-component//md-select
+    Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Open Access)]
+    sleep    6s
+
+Add custom data package
+    Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.')]
+    Click Element Through Tooltips      //div[@id='package-2']//md-select
+    Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Benutzerdefiniertes Datenpaket')]
+
+
 
 Add analysis data
     Add FDHZ data package
-
+    Add external data package
 
 Upload attachments
     Upload script file

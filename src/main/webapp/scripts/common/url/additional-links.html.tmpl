@@ -8,7 +8,7 @@
   </md-card-header>
   <md-divider></md-divider>
   <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-    <div id="move-link-container" layout="row"
+    <div id="url{{$ctrl.name}}-{{$index}}" layout="row"
          ng-repeat="link in $ctrl.content track by $index">
       <md-button class="md-primary md-icon-button"
                  ng-click="$ctrl.deleteLink($index)"
@@ -25,7 +25,7 @@
           class="fdz-input-required">{{'analysis-package-management.edit.label.additional-links.url' | translate}}</label>
         <input type="url" fdz-required md-no-asterisk
                name="{{$ctrl.name}}Url_{{$index}}" md-maxlength="2000"
-               ng-blur="$ctrl.deleteCurrentLink($event)"
+               ng-blur="$ctrl.deleteCurrentLink($index,$event)"
                ng-focus="$ctrl.setCurrentLink($index,$event)"
                ng-model="link.url" autocomplete="off">
         <div
@@ -52,7 +52,7 @@
           ({{'global.in-german' | translate}})</label>
         <input md-no-asterisk name="linkDisplayTextDe_{{$index}}"
                md-maxlength="512"
-               ng-blur="$ctrl.deleteCurrentLink($event)"
+               ng-blur="$ctrl.deleteCurrentLink($index,$event)"
                ng-focus="$ctrl.setCurrentLink($index,$event)"
                ng-model="link.displayText.de" autocomplete="off">
         <div
@@ -73,7 +73,7 @@
           ({{'global.in-english' | translate}})</label>
         <input md-no-asterisk name="linkDisplayTextEn_{{$index}}"
                md-maxlength="512"
-               ng-blur="$ctrl.deleteCurrentLink($event)"
+               ng-blur="$ctrl.deleteCurrentLink($index,$event)"
                ng-focus="$ctrl.setCurrentLink($index,$event)"
                ng-model="link.displayText.en" autocomplete="off">
         <div

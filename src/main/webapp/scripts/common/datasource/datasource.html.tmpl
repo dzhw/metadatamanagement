@@ -7,7 +7,7 @@
   </md-card-header>
   <md-divider></md-divider>
   <md-content class="pt16" style="background-color: #FFFFFF;">
-  <div id="move-link-container" layout="row"
+  <div id="dataSource-{{$index}}" layout="row"
        ng-repeat="link in $ctrl.content track by $index">
     <md-button class="md-primary md-icon-button"
                ng-click="$ctrl.deleteLink()"
@@ -25,7 +25,7 @@
       <input md-no-asterisk
              name="analysisDataPackagesDisplayTextDe{{$ctrl.index}}_{{$index}}"
              md-maxlength="512"
-             ng-blur="$ctrl.deleteCurrentLink($event)"
+             ng-blur="$ctrl.deleteCurrentLink($index,$event)"
              ng-focus="$ctrl.setCurrentLink($index,$event)"
              ng-model="$ctrl.content[$index].name.de"
              fdz-required
@@ -52,7 +52,7 @@
       <input md-no-asterisk
              name="analysisDataPackagesDisplayTextEn{{$ctrl.index}}_{{$index}}"
              md-maxlength="512"
-             ng-blur="$ctrl.deleteCurrentLink($event)"
+             ng-blur="$ctrl.deleteCurrentLink($index,$event)"
              ng-focus="$ctrl.setCurrentLink($index,$event)"
              ng-model="$ctrl.content[$index].name.en"
              fdz-required
@@ -78,7 +78,7 @@
       <input type="url"
              name="analysisDataPackagesUrl{{$ctrl.index}}_{{$index}}"
              md-maxlength="$ctrl.maxLength"
-             ng-blur="$ctrl.deleteCurrentLink($event)"
+             ng-blur="$ctrl.deleteCurrentLink($index,$event)"
              ng-focus="$ctrl.setCurrentLink($index,$event)"
              ng-model="$ctrl.content[$index].url"
              autocomplete="off">

@@ -7,7 +7,7 @@
   </md-card-header>
   <md-divider></md-divider>
   <md-content class="pt16" style="background-color: #FFFFFF;">
-  <div id="move-link-container" layout="row"
+  <div id="url{{$ctrl.name}}-{{$index}}" layout="row"
        ng-repeat="link in $ctrl.content track by $index">
     <md-button class="md-primary md-icon-button"
                ng-click="$ctrl.deleteLink()"

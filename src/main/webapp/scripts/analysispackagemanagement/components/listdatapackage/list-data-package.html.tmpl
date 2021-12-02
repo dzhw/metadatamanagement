@@ -10,6 +10,7 @@
     <div layout="column"
          layout-gt-sm="column"
          class="ms-flex"
+         id="package-{{$index}}"
          ng-repeat="package in $ctrl.packages track by $index">
       <div layout="row"
            layout-gt-sm="row"
@@ -101,12 +102,13 @@
             current-form="$ctrl.currentForm"
             package="package"
             index="$index"></fdz-data-package-component>
-          <md-divider
-            ng-if="$ctrl.packages.length > 1 && $ctrl.packages.length -1 !== $index"
-            style="margin: 24px 0 16px 0;"></md-divider>
         </div>
       </div>
+      <md-divider
+        ng-if="$ctrl.packages.length -1 !== $index"
+        style="margin: 24px 0 32px 0;"></md-divider>
     </div>
+
   </md-card-content>
   <md-card-actions layout="row" layout-align="begin center"
                    style="margin-top: 8px; margin-bottom: 12px;">

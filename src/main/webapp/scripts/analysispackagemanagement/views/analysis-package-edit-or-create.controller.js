@@ -226,6 +226,7 @@ angular.module('metadatamanagementApp')
           ctrl.currentInstitutions = [];
         }
         ctrl.currentInstitutions.push(null);
+        // console.table(ctrl.currentInstitutions);
         $timeout(function() {
           $document.find('input[name="institutionDe_' +
             (ctrl.analysisPackage.institutions.length - 1) + '"]')
@@ -238,28 +239,18 @@ angular.module('metadatamanagementApp')
         ctrl.currentInstitutionIndex = index;
       };
 
-      var timeoutActive = null;
-
-      ctrl.deleteCurrentInstitution = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+      ctrl.deleteCurrentInstitution = function(index, event) {
+        if (document.activeElement &&
+          $(document.activeElement).parents('#institution' + index)
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-institution-container')
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-institution-up-button' ||
-            event.relatedTarget.id === 'move-institution-down-button')) {
-            return;
-          }
-          delete ctrl.currentInstitutionIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-institution-up-button' ||
+          event.relatedTarget.id === 'move-institution-down-button')) {
+          return;
+        }
+        delete ctrl.currentInstitutionIndex;
       };
 
       ctrl.moveCurrentInstitutionUp = function() {
@@ -328,26 +319,18 @@ angular.module('metadatamanagementApp')
         ctrl.currentSponsorIndex = index;
       };
 
-      ctrl.deleteCurrentSponsor = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+      ctrl.deleteCurrentSponsor = function(index, event) {
+        if (document.activeElement &&
+          $(document.activeElement).parents('#sponsor-' + index)
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-sponsor-container')
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-sponsor-up-button' ||
-            event.relatedTarget.id === 'move-sponsor-down-button')) {
-            return;
-          }
-          delete ctrl.currentSponsorIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-sponsor-up-button' ||
+          event.relatedTarget.id === 'move-sponsor-down-button')) {
+          return;
+        }
+        delete ctrl.currentSponsorIndex;
       };
 
       ctrl.moveCurrentSponsorUp = function() {
@@ -413,25 +396,17 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentLink = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+        if (document.activeElement &&
+          $(document.activeElement).parents('#move-link-container')
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-link-container')
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-link-up-button' ||
-            event.relatedTarget.id === 'move-link-down-button')) {
-            return;
-          }
-          delete ctrl.currentLinkIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-link-up-button' ||
+          event.relatedTarget.id === 'move-link-down-button')) {
+          return;
+        }
+        delete ctrl.currentLinkIndex;
       };
 
       ctrl.moveCurrentLinkUp = function() {
