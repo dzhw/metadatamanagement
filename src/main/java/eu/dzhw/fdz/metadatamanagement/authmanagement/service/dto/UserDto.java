@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto;
+package eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

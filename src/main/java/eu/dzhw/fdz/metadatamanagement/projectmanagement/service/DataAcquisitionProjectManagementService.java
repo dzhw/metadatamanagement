@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

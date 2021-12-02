@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;

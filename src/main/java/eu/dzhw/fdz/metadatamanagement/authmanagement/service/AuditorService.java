@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.springframework.stereotype.Service;
 

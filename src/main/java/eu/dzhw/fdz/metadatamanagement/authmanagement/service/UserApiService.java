@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.common.dto.UserWithRolesDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserWithRolesDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponse;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserWelcomeDialogDeactivatedPatchRequest;
