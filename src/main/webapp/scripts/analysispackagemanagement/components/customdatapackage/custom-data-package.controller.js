@@ -17,6 +17,14 @@
         }
       ];
       $ctrl.accessWay = ['Download', 'Onsite', 'Remote-Desktop'];
+      $ctrl.checkAccessWay = function() {
+        if ($ctrl.package.availabilityType[$ctrl.currentLanguage] === $ctrl
+          .availabilityType[1][$ctrl.currentLanguage]) {
+          $ctrl.package.accessWay = '';
+          return false;
+        }
+        return true;
+      };
       $ctrl.$onInit = function() {
         $ctrl.package.accessWay = $ctrl.package.accessWay || '';
       };
