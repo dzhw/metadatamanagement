@@ -192,7 +192,7 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-          <div id="institution-{{$index}}" layout="row"
+          <div id="move-institution-container" layout="row"
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteInstitution($index)"
                        ng-if="ctrl.dataPackage.institutions.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
@@ -318,7 +318,7 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-          <div id="sponsor-{{$index}}" layout="row"
+          <div id="move-sponsor-container" layout="row"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteSponsor($index)"
                        ng-if="ctrl.dataPackage.sponsors.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">

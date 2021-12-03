@@ -240,18 +240,27 @@ angular.module('metadatamanagementApp')
         ctrl.currentInstitutionIndex = index;
       };
 
-      ctrl.deleteCurrentInstitution = function(index, event) {
-        if (document.activeElement &&
-          $(document.activeElement).parents('#institution-' + index)
-            .length) {
-          return;
+      var timeoutActive = null;
+      ctrl.deleteCurrentInstitution = function(event) {
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
         }
-        if (event.relatedTarget && (
-          event.relatedTarget.id === 'move-institution-up-button' ||
-          event.relatedTarget.id === 'move-institution-down-button')) {
-          return;
-        }
-        delete ctrl.currentInstitutionIndex;
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-institution-container')
+              .length) {
+            return;
+          }
+          if (event.relatedTarget && (
+            event.relatedTarget.id === 'move-institution-up-button' ||
+            event.relatedTarget.id === 'move-institution-down-button')) {
+            return;
+          }
+          delete ctrl.currentInstitutionIndex;
+          timeoutActive = null;
+        }, 500);
       };
 
       ctrl.moveCurrentInstitutionUp = function() {
@@ -308,18 +317,26 @@ angular.module('metadatamanagementApp')
         ctrl.currentSponsorIndex = index;
       };
 
-      ctrl.deleteCurrentSponsor = function(index, event) {
-        if (document.activeElement &&
-          $(document.activeElement).parents('#sponsor-' + index)
-            .length) {
-          return;
+      ctrl.deleteCurrentSponsor = function(event) {
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
         }
-        if (event.relatedTarget && (
-          event.relatedTarget.id === 'move-sponsor-up-button' ||
-          event.relatedTarget.id === 'move-sponsor-down-button')) {
-          return;
-        }
-        delete ctrl.currentSponsorIndex;
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-sponsor-container')
+              .length) {
+            return;
+          }
+          if (event.relatedTarget && (
+            event.relatedTarget.id === 'move-sponsor-up-button' ||
+            event.relatedTarget.id === 'move-sponsor-down-button')) {
+            return;
+          }
+          delete ctrl.currentSponsorIndex;
+          timeoutActive = null;
+        }, 500);
       };
 
       ctrl.moveCurrentSponsorUp = function() {
