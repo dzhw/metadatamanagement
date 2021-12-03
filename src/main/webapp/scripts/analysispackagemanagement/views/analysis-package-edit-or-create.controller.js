@@ -263,7 +263,6 @@ angular.module('metadatamanagementApp')
         }, 500);
       };
 
-
       ctrl.moveCurrentInstitutionUp = function() {
         var a = ctrl.analysisPackage
           .institutions[ctrl.currentInstitutionIndex - 1];
@@ -351,7 +350,6 @@ angular.module('metadatamanagementApp')
           timeoutActive = null;
         }, 500);
       };
-
 
       ctrl.moveCurrentSponsorUp = function() {
         var a = ctrl.analysisPackage.sponsors[ctrl.currentSponsorIndex - 1];
