@@ -20,6 +20,7 @@ describe('geographic-coverage.controller', function() {
   var expectedCountry = countryQueryResult[0];
 
   beforeEach(module('metadatamanagementApp'));
+  beforeEach(mockSso);
   beforeEach(inject(function(_$controller_, _$rootScope_, _LanguageService_,
                              _$httpBackend_) {
     $controller = _$controller_;

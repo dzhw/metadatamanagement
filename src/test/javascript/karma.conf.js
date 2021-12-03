@@ -97,14 +97,7 @@ module.exports = function(config) {
 
 
     // list of files / patterns to exclude
-    exclude: [
-      //@todo: fix auth and tests
-      'src/test/javascript/**/usermanagement/**/*.js',
-      'src/test/javascript/**/data*/**/*.js',
-      'src/test/javascript/**/survey*/**/*.js',
-      'src/test/javascript/**/search*/**/*.js',
-      'src/test/javascript/**/administration/**/*.js'
-    ],
+    exclude: [],
 
     preprocessors: {
       'src/main/webapp/scripts/**/*.js': ['coverage'],

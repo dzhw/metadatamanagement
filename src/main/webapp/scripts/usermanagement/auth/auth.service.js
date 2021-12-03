@@ -7,7 +7,7 @@ angular
     function Auth($rootScope, Principal, AuthServiceProvider, $q) {
       return {
         login: function() {
-          AuthServiceProvider.login();
+          return AuthServiceProvider.login();
         },
         logout: function() {
           AuthServiceProvider.logout();
@@ -27,8 +27,8 @@ angular
               if (res === 'sso') {
                 AuthServiceProvider.login();
               } else {
-                Principal.identity().then(function(identity) {
-                  $rootScope.identity = identity;
+                Principal.identity().then(function() {
+                  $rootScope.identity = AuthServiceProvider.idTokenInfo();
                   deferred.resolve(res);
                 });
               }

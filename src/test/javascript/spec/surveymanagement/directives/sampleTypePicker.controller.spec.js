@@ -1,4 +1,4 @@
-/* globals describe, beforeEach, inject, it, spyOn, expect */
+/* globals describe, beforeEach, inject, it, spyOn, expect, mockSso */
 'use strict';
 
 describe('SurveySampleTypePicker', function() {
@@ -20,6 +20,7 @@ describe('SurveySampleTypePicker', function() {
   var noop = function() {};
 
   beforeEach(module('metadatamanagementApp'));
+  beforeEach(mockSso);
   beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_,
                              _LanguageService_) {
     $scope = _$rootScope_.$new();

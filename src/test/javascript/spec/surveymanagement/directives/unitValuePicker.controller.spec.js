@@ -19,6 +19,7 @@ describe('UnitValuePickerController', function() {
 
   };
   beforeEach(module('metadatamanagementApp'));
+  beforeEach(mockSso);
   beforeEach(inject(function(_$rootScope_, _$controller_, _LanguageService_,
                              _$httpBackend_) {
     $scope = _$rootScope_.$new();

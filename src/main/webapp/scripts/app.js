@@ -84,7 +84,7 @@ try {
             if (Principal.isAuthenticated() &&
               $rootScope.toState.parent.name === 'account' &&
               ($rootScope.toState.name === 'login' ||
-                $rootScope.toState.name === 'register' ||
+                $rootScope.toState.name === 'auth' ||
                 $rootScope.toState.name === 'start')) {
               return trans.router.stateService.target('search',
                 {
@@ -156,8 +156,8 @@ try {
           });
 
           $rootScope.back = function() {
-            // If previous state is 'activate' or do not exist go to 'search'
-            if ($rootScope.previousStateName === 'activate' ||
+            // If previous state is 'auth' or do not exist go to 'search'
+            if ($rootScope.previousStateName === 'auth' ||
               $state.get($rootScope.previousStateName) === null) {
               $state.go('search', {
                 lang: LanguageService.getCurrentInstantly()
@@ -194,9 +194,6 @@ try {
         if (code) {
           Auth.authorize(code).then(function() {
             init();
-            $state.go('search', {
-              lang: LanguageService.getCurrentInstantly()
-            });
           }, function($scope) {
             $scope.authenticationError = true;
             init();
@@ -210,6 +207,12 @@ try {
           }, function(error) {
             console.log(error);
             init();
+            $state.go('login', {
+              lang: LanguageService.getCurrentInstantly(),
+              data: {
+                authenticationError: true
+              }
+            });
           });
         }
       })

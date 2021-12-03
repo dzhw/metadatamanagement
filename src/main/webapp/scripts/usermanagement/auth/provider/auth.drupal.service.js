@@ -32,6 +32,7 @@ angular
       };
       return {
         login: function(silent) {
+          var deferred = $q.defer();
           if (config) {
             var url =
               config.authUrl +
@@ -46,7 +47,6 @@ angular
             silent = false;
 
             if (silent) {
-              var deferred = $q.defer();
               $http.get(
                 url, {
                   headers: {
@@ -64,8 +64,12 @@ angular
               );
             } else {
               $window.location.href = url;
+              deferred.resolve();
             }
+          } else {
+            deferred.reject();
           }
+          return deferred.promise;
         },
         isLoggedInSso: function() {
           var deferred = $q.defer();
@@ -102,8 +106,6 @@ angular
               function() {
                 deferred.reject(false);
               });
-            return deferred.promise;
-
           } else {
             deferred.reject(false);
           }
@@ -149,6 +151,7 @@ angular
             function(error) {
               console.log(error);
             });
+          localStorageService.remove('tokens');
         },
         getUserInfo: function() {
           var deferred = $q.defer();

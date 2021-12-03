@@ -11,7 +11,9 @@ angular.module('metadatamanagementApp').controller('LoginController',
       angular.element('[ng-model="username"]').focus();
     });
     $scope.login = function() {
-      Auth.login();
+      Auth.login().catch(function() {
+        $scope.authenticationError = true;
+      });
     };
     BreadcrumbService.updateToolbarHeader({
       'stateName': $state.current.name

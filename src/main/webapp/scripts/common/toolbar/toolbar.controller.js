@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp').controller(
         $state.current.name !== 'disclosure' &&
         $state.current.name !== 'shoppingCart' &&
         $state.current.name !== 'requestReset' &&
-        $state.current.name !== 'activate' &&
+        $state.current.name !== 'auth' &&
         $state.current.name !== 'register' &&
         $state.current.name !== 'login';
     });

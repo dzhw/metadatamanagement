@@ -1,6 +1,7 @@
 'use strict';
 
 describe('Controllers Tests ', function() {
+  beforeEach(mockSso);
   beforeEach(mockApis);
   describe('LoginController', function() {
     var $scope, $rootScope, $httpBackend, $q, MockAuth, event,
@@ -30,12 +31,12 @@ describe('Controllers Tests ', function() {
     it('login should be a function', function() {
       expect($scope.login).toEqual(jasmine.any(Function));
     });
-    /*it('should set authenticationError to true upon login failure',
+    it('should set authenticationError to true upon login failure',
       function() {
         MockAuth.login.and.returnValue($q.reject());
         $scope.login(event);
         $scope.$apply(createController);
         expect($scope.authenticationError).toBe(true);
-      });*/
+      });
   });
 });

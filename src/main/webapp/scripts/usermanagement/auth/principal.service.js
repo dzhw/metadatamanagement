@@ -1,36 +1,19 @@
-/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
   function Principal($q, AuthServiceProvider, $rootScope,
                      WelcomeDialogService) {
-    var _identity;
-    var _authenticated = false;
 
-    //@todo: remove init _identity
-    if (!$rootScope.identity && AuthServiceProvider.hasToken()) {
-      var accessInfo = AuthServiceProvider.accessTokenInfo();
-      var idInfo = AuthServiceProvider.idTokenInfo();
-      _authenticated = true;
-      _identity = {
-        activated: true,
-        authorities: accessInfo.scope ? accessInfo.scope.map(function(e) {
-          return e.toUpperCase();
-        }) : [],
-        email: idInfo.email,
-        langKey: idInfo.local,
-        login: idInfo.preferred_username,
-        welcomeDialogDeactivated: false
-      };
-      $rootScope.identity = _identity;
+    if (AuthServiceProvider.hasToken()) {
+      $rootScope.identity = AuthServiceProvider.idTokenInfo();
     }
 
     //@todo: save welcome dialog state in dpl
-    var displayWelcomeDialog = function(identity) {
-      return _identity &&
+    var displayWelcomeDialog = function() {
+      /*return _identity &&
         _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
-        !identity.welcomeDialogDeactivated;
+        !identity.welcomeDialogDeactivated;*/
     };
 
     return {
@@ -61,18 +44,18 @@ angular.module('metadatamanagementApp').factory(
       identity: function() {
         var deferred = $q.defer();
 
-        if (displayWelcomeDialog(_identity)) {
-          WelcomeDialogService.display(_identity.login)
+        if (displayWelcomeDialog()) {
+          WelcomeDialogService.display(
+            AuthServiceProvider.idTokenInfo().preferred_username)
             .then(function(hideWelcomeDialog) {
               if (hideWelcomeDialog) {
-                _identity.welcomeDialogDeactivated = true;
+                //_identity.welcomeDialogDeactivated = true;
                 //@todo: save state in dpl user profile
               }
             });
         }
-
-        deferred.resolve(_identity);
-        //deferred.resolve(AuthServiceProvider.idTokenInfo());
+        $rootScope.indentity = AuthServiceProvider.idTokenInfo();
+        deferred.resolve(AuthServiceProvider.idTokenInfo());
         return deferred.promise;
       },
       loginName: function() {

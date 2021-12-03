@@ -99,7 +99,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
         $state.current.name !== 'restoreShoppingCart' &&
         $state.current.name !== 'requestReset' &&
         $state.current.name !== 'finishReset' &&
-        $state.current.name !== 'activate' &&
+        $state.current.name !== 'auth' &&
         $state.current.name !== 'login';
       if (!$scope.show && $mdSidenav('SideNavBar').isOpen()) {
         $scope.close();

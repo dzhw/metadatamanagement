@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').factory('authInterceptor', function(
 
         var AuthServiceProvider = $injector.get('AuthServiceProvider');
         // check expire timestamp if token is valid for more than one minute
-        if (AuthServiceProvider.accessTokenInfo().exp < new Date(Date.now() - 60000) / 1000) {
+        if (AuthServiceProvider.hasToken() && AuthServiceProvider.accessTokenInfo().exp < new Date(Date.now() - 60000) / 1000) {
           return AuthServiceProvider.refreshToken().then(function (){
             config.headers.Authorization = 'Bearer ' + localStorageService.get('tokens').access_token;
             return config;
