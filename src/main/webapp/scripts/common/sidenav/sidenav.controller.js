@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
     $scope.detailViewLoaded = MessageBus;
     $scope.detailViewType = '';
     $scope.show = false;
+    $scope.loginName = Principal.loginName;
 
     $scope.$on('domain-object-editing-started', function() {
       $scope.logoutButtonDisabled = true;
