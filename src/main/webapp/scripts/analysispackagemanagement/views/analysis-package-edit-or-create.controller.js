@@ -247,10 +247,10 @@ angular.module('metadatamanagementApp')
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
+            (document.activeElement.tagName === 'BODY' ||
             $(document.activeElement).parents('#move-institution-container')
-              .length) {
+              .length)) {
             return;
           }
           if (event.relatedTarget && (
@@ -260,7 +260,7 @@ angular.module('metadatamanagementApp')
           }
           delete ctrl.currentInstitutionIndex;
           timeoutActive = null;
-        }, 500);
+        });
       };
 
       ctrl.moveCurrentInstitutionUp = function() {
@@ -335,10 +335,10 @@ angular.module('metadatamanagementApp')
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
+            (document.activeElement.tagName === 'BODY' ||
             $(document.activeElement).parents('#move-sponsor-container')
-              .length) {
+              .length)) {
             return;
           }
           if (event.relatedTarget && (
@@ -348,7 +348,7 @@ angular.module('metadatamanagementApp')
           }
           delete ctrl.currentSponsorIndex;
           timeoutActive = null;
-        }, 500);
+        });
       };
 
       ctrl.moveCurrentSponsorUp = function() {

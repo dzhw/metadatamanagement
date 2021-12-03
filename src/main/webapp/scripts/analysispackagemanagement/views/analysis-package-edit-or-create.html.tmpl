@@ -128,7 +128,7 @@
                              md-select-on-match="true"
                              md-selected-item="ctrl.currentInstitutions[$index]"
                              md-selected-item-change="analysisPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentInstitution($index, $event)"
+                             ng-blur="ctrl.deleteCurrentInstitution($event)"
                              ng-focus="ctrl.setCurrentInstitution($index, $event)"
                              ng-required="true"
                              class="ms-flex mr8">
@@ -169,7 +169,7 @@
                              md-select-on-match="true"
                              md-selected-item="ctrl.currentInstitutions[$index]"
                              md-selected-item-change="analysisPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentInstitution($index, $event)"
+                             ng-blur="ctrl.deleteCurrentInstitution($event)"
                              ng-focus="ctrl.setCurrentInstitution($index, $event)"
                              ng-required="true"
                              class="ms-flex">
@@ -264,7 +264,7 @@
                              md-select-on-match="true"
                              md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="analysisPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentSponsor($index, $event)"
+                             ng-blur="ctrl.deleteCurrentSponsor($event)"
                              ng-focus="ctrl.setCurrentSponsor($index, $event)"
                              ng-required="true"
                              class="ms-flex mr8">
@@ -305,7 +305,7 @@
                              md-select-on-match="true"
                              md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="analysisPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentSponsor($index, $event)"
+                             ng-blur="ctrl.deleteCurrentSponsor($event)"
                              ng-focus="ctrl.setCurrentSponsor($index, $event)"
                              ng-required="true"
                              class="ms-flex">
