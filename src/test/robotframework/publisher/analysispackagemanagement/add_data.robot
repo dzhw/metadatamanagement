@@ -166,6 +166,12 @@ Add custom data package
     Click Element Through Tooltips      //button[@id='move-link-up-button']
     Click Element Through Tooltips      //button[@id='move-link-down-button']
 
+Move custom data package
+    Click Element Through Tooltips      //*[@id="package-2"]/div/div[1]/button[2]
+    Click Element Through Tooltips      //*[@id="package-1"]/div/div[1]/button[3]
+
+Delete custom data package
+    Click Element Through Tooltips      //*[@id="package-2"]/div/div[1]/button[1]
 
 Add analysis data
     Add FDHZ data package
