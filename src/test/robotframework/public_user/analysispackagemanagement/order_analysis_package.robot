@@ -6,6 +6,7 @@ Resource          ../../resources/order_resource.robot
 
 *** Test Cases ***
 Put analysis packages in shopping cart
+    wait until page contains element    //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click Element   //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click on first search result
     Wait for Angular    2s
@@ -14,9 +15,10 @@ Put analysis packages in shopping cart
     Check for shopping cart items    Dieses Datenpaket    2
     Check for shopping cart items    Dieses Analysepaket    2
     Empty The Shopping Cart
-    Get back to german home page
+    [Teardown]    Get back to german home page
 
 Test delete functionality
+    wait until page contains element    //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click Element   //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click on first search result
     Wait for Angular    2s
@@ -26,12 +28,13 @@ Test delete functionality
     Check for shopping cart items    Dieses Analysepaket    2
     Delete an Item    1
     Empty The Shopping Cart
-    Get back to german home page
+    [Teardown]    Get back to german home page
 
 Order analysis packages
     Pass Execution If    '${BROWSER}' == 'ie'         Package Creation not possible in IE
     Pass Execution If    '${BROWSER}' == 'firefox'    Package Creation not possible in Firefox
     Pass Execution If    '${BROWSER}' == 'safari'     Package Creation not possible in Safari
+    wait until page contains element    //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click Element   //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click on first search result
     Wait for Angular    2s
@@ -42,7 +45,7 @@ Order analysis packages
     go back
     Go to Shopping Cart
     Empty The Shopping Cart
-    Get back to german home page
+    [Teardown]    Get back to german home page
 
 *** Keywords ***
 Check for shopping cart items

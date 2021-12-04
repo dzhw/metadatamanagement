@@ -21,10 +21,12 @@ Put in Shopping Cart
    Click Element Through Tooltips    //span[contains(., 'In den Warenkorb legen')]
 
 Order
-    Click Element Through Tooltips    //span[contains(., 'Kostenlos bestellen')]
+    wait until page contains element    //span[contains(., 'Kostenlos bestellen')]
+    Click Element Through Tooltips      //span[contains(., 'Kostenlos bestellen')]
 
 Go to Shopping Cart
-   Click Element Through Tooltips    //a//md-icon[contains(., 'shopping_cart')]
+    wait until page contains element    //a//md-icon[contains(., 'shopping_cart')]
+    Click Element Through Tooltips      //a//md-icon[contains(., 'shopping_cart')]
 
 Delete an Item
     [Arguments]   ${limit}
