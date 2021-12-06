@@ -9,7 +9,6 @@ Create Analysis Package
     Pass Execution If    '${BROWSER}' == 'ie'    Package Creation not possible in IE
     Create Project  robotsproject${BROWSER}
     Create new analysis package
-    Add analysis data
     Fill out details
     Fill out description
     Fill out authors
@@ -20,9 +19,11 @@ Create Analysis Package
     Add tags
     Add scripts
     Add analysis data
+    Move custom data package
+    Delete custom data package
     Save Changes
     Upload attachments
     Save Changes
     Delete script file
     Discard Changes
-    Delete Robotsproject
+    [Teardown]    Delete Robotsproject

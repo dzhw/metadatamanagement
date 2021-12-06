@@ -235,6 +235,16 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       });
     };
 
+    ctrl.getAccessibleCustomDataPackages = function(id) {
+      var avail = {de: 'verfügbar', en: 'accessible'};
+      var lang = LanguageService.getCurrentInstantly();
+      return _.sumBy(ctrl.analysisPackages[id].analysisDataPackages,
+        function(o) {
+          return o.type === 'customDataPackage' &&
+            o.availabilityType[lang] === avail[lang];
+        });
+    };
+
     ctrl.containsQuantitativeData = function(surveyDataTypes) {
       var containsQuantitativeData = false;
       surveyDataTypes.forEach(function(dataType) {

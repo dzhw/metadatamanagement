@@ -192,7 +192,7 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-          <div id="institution-{{$index}}" layout="row"
+          <div id="move-institution-container" layout="row"
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteInstitution($index)"
                        ng-if="ctrl.dataPackage.institutions.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
@@ -214,7 +214,7 @@
                              md-search-text="ctrl.dataPackage.institutions[$index].de"
                              md-select-on-match="true" md-selected-item="ctrl.currentInstitutions[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentInstitution($index,$event)"
+                             ng-blur="ctrl.deleteCurrentInstitution($event)"
                              ng-focus="ctrl.setCurrentInstitution($index,$event)"
                              ng-required="true"
                              class="ms-flex mr8">
@@ -252,7 +252,7 @@
                              md-search-text="ctrl.dataPackage.institutions[$index].en"
                              md-select-on-match="true" md-selected-item="ctrl.currentInstitutions[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentInstitution($index,$event)"
+                             ng-blur="ctrl.deleteCurrentInstitution($event)"
                              ng-focus="ctrl.setCurrentInstitution($index,$event)"
                              ng-required="true"
                              class="ms-flex">
@@ -318,7 +318,7 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-          <div id="sponsor-{{$index}}" layout="row"
+          <div id="move-sponsor-container" layout="row"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteSponsor($index)"
                        ng-if="ctrl.dataPackage.sponsors.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
@@ -340,7 +340,7 @@
                              md-search-text="ctrl.dataPackage.sponsors[$index].de"
                              md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentSponsor($index,$event)"
+                             ng-blur="ctrl.deleteCurrentSponsor($event)"
                              ng-focus="ctrl.setCurrentSponsor($index,$event)"
                              ng-required="true"
                              class="ms-flex mr8">
@@ -378,7 +378,7 @@
                              md-search-text="ctrl.dataPackage.sponsors[$index].en"
                              md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
-                             ng-blur="ctrl.deleteCurrentSponsor($index,$event)"
+                             ng-blur="ctrl.deleteCurrentSponsor($event)"
                              ng-focus="ctrl.setCurrentSponsor($index,$event)"
                              ng-required="true"
                              class="ms-flex">

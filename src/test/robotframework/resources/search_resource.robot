@@ -44,7 +44,8 @@ Click on search result by id
     Click Element Through Tooltips    xpath=//a//span[text()='${id}']
 
 Click on first search result
-    Click Element Through Tooltips    xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
+    wait until page contains element    xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
+    Click Element Through Tooltips      xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
 
 Activate Filter by name
     [Arguments]    ${filtername}

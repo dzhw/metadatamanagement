@@ -132,19 +132,52 @@ Add external data package
     input text                          name=analysisDataPackagesData-sourceEn_1      Data source
     input text                          name=analysisDataPackagesDataSourceUrl_1      http://dzhw.de
     Click Element Through Tooltips      //div[@id='package-1']//external-data-package-component//md-select
-    Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Open Access)]
-    sleep    6s
+    Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Open Access')]
+    set focus to element                //input[@name='analysisDataPackagesTitleDe_1']
 
 Add custom data package
     Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.')]
     Click Element Through Tooltips      //div[@id='package-2']//md-select
     Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Benutzerdefiniertes Datenpaket')]
+    set focus to element                //input[@name='analysisDataPackagesTitleDe_2']
+    input text                          name=analysisDataPackagesTitleDe_2            Titel Externes Datenpaket
+    input text                          name=analysisDataPackagesTitleEn_2            Title external data package
+    input text                          name=analysisDataPackagesDescriptionDe_2      Beschreibung
+    input text                          name=analysisDataPackagesDescriptionEn_2      Description
+    input text                          name=analysisDataPackagesAnnotationsDe_2      Anmerkung
+    input text                          name=analysisDataPackagesAnnotationsEn_2      Annotation
+    Click Element Through Tooltips      //div[@id='package-2']//md-select[@name='analysisDataPackagesAvailabilityType_2']
+    Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'verfügbar')]
+    Click Element Through Tooltips      //div[@id='package-2']//md-select[@name='analysisDataPackagesAccessWay_2']
+    Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Download')]
+    Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um eine weitere Datenquelle diesem benutzerdefinierten Datenpaket hinzuzufügen.')]
+    input text                          name=analysisDataPackagesDisplayTextDe2_0     Mensch
+    input text                          name=analysisDataPackagesDisplayTextEn2_0     Human
+    input text                          name=analysisDataPackagesUrl2_0               https://www.heise.de/
+    Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um eine weitere Datenquelle diesem benutzerdefinierten Datenpaket hinzuzufügen.')]
+    input text                          name=analysisDataPackagesDisplayTextDe2_1     Roboter
+    input text                          name=analysisDataPackagesDisplayTextEn2_1     Robot
+    input text                          name=analysisDataPackagesUrl2_1               https://www.tm-robot.com/de/
+    Click Element Through Tooltips      //div[@id='dataSource-1']//button
+    Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um eine weitere Datenquelle diesem benutzerdefinierten Datenpaket hinzuzufügen.')]
+    input text                          name=analysisDataPackagesDisplayTextDe2_1     Roboter
+    input text                          name=analysisDataPackagesDisplayTextEn2_1     Robot
+    input text                          name=analysisDataPackagesUrl2_1               https://www.tm-robot.com/de/
+    set focus to element                //input[@name='analysisDataPackagesDisplayTextDe2_1']
+    Click Element Through Tooltips      //button[@id='move-link-up-button']
+    Click Element Through Tooltips      //button[@id='move-link-down-button']
 
+Move custom data package
+    Click Element Through Tooltips      //*[@id="package-2"]/div/div[1]/button[2]
+    Click Element Through Tooltips      //*[@id="package-1"]/div/div[1]/button[3]
 
+Delete custom data package
+    Click Element Through Tooltips      //*[@id="package-2"]/div/div[1]/button[1]
 
 Add analysis data
     Add FDHZ data package
     Add external data package
+    Add custom data package
 
 Upload attachments
     Upload script file
