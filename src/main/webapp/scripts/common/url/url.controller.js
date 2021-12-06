@@ -9,7 +9,6 @@
     LanguageService
   ) {
     var $ctrl = this;
-    var timeoutActive = null;
 
     $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
 
@@ -45,26 +44,22 @@
       $ctrl.currentLinkIndex = index;
     };
 
-    $ctrl.deleteCurrentLink = function(event) {
-      if (timeoutActive) {
-        $timeout.cancel(timeoutActive);
+    $ctrl.deleteCurrentLink = function(index, event) {
+      var name = '-';
+      if ($ctrl.name) {
+        name = $ctrl.name + '-';
       }
-      timeoutActive = $timeout(function() {
-        timeoutActive = false;
-        // msie workaround: inputs unfocus on button mousedown
-        if (document.activeElement &&
-          $(document.activeElement).parents('#move-link-container')
-            .length) {
-          return;
-        }
-        if (event.relatedTarget && (
-          event.relatedTarget.id === 'move-link-up-button' ||
-          event.relatedTarget.id === 'move-link-down-button')) {
-          return;
-        }
-        delete $ctrl.currentLinkIndex;
-        timeoutActive = null;
-      }, 500);
+      if (document.activeElement &&
+        $(document.activeElement).parents('#url' + name + index)
+          .length) {
+        return;
+      }
+      if (event.relatedTarget && (
+        event.relatedTarget.id === 'move-link-up-button' ||
+        event.relatedTarget.id === 'move-link-down-button')) {
+        return;
+      }
+      delete $ctrl.currentLinkIndex;
     };
 
     $ctrl.moveCurrentLinkUp = function() {

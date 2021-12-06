@@ -509,7 +509,7 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-          <div id="move-link-container" layout="row"
+          <div id="link-{{$index}}" layout="row"
                ng-repeat="link in ctrl.dataPackage.additionalLinks track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteLink($index)"
                        style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
@@ -523,7 +523,7 @@
                                 md-is-error="!dataPackageForm['linkUrl_' + $index].$valid && (dataPackageForm['linkUrl_' + $index].$dirty || dataPackageForm['linkUrl_' + $index].$touched)">
               <label class="fdz-input-required">{{'data-package-management.edit.label.additional-links.url' | translate}}</label>
               <input type="url" fdz-required md-no-asterisk name="linkUrl_{{$index}}" md-maxlength="2000"
-                     ng-blur="ctrl.deleteCurrentLink($event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
                      ng-model="link.url" autocomplete="off">
               <div
                 class="fdz-input-hint"
@@ -540,7 +540,7 @@
                                 md-is-error="!dataPackageForm['linkDisplayTextDe_' + $index].$valid && (dataPackageForm['linkDisplayTextDe_' + $index].$dirty || dataPackageForm['linkDisplayTextDe_' + $index].$touched)">
               <label>{{'data-package-management.edit.label.additional-links.display-text' | translate}} ({{'global.in-german' | translate}})</label>
               <input md-no-asterisk name="linkDisplayTextDe_{{$index}}" md-maxlength="512"
-                     ng-blur="ctrl.deleteCurrentLink($event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
                      ng-model="link.displayText.de" autocomplete="off">
               <div
                 class="fdz-input-hint"
@@ -555,7 +555,7 @@
                                 md-is-error="!dataPackageForm['linkDisplayTextEn_' + $index].$valid && (dataPackageForm['linkDisplayTextEn_' + $index].$dirty || dataPackageForm['linkDisplayTextEn_' + $index].$touched)">
               <label>{{'data-package-management.edit.label.additional-links.display-text' | translate}} ({{'global.in-english' | translate}})</label>
               <input md-no-asterisk name="linkDisplayTextEn_{{$index}}" md-maxlength="512"
-                     ng-blur="ctrl.deleteCurrentLink($event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
                      ng-model="link.displayText.en" autocomplete="off">
               <div
                 class="fdz-input-hint"

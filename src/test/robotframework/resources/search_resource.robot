@@ -44,7 +44,8 @@ Click on search result by id
     Click Element Through Tooltips    xpath=//a//span[text()='${id}']
 
 Click on first search result
-    Click Element Through Tooltips    xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
+    wait until page contains element    xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
+    Click Element Through Tooltips      xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
 
 Activate Filter by name
     [Arguments]    ${filtername}
@@ -59,6 +60,11 @@ Click on data package tab
     ${url} =    Get Location
     Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Datenpaket')]
     Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Data Package')]
+
+Click on analysis package tab
+    ${url} =    Get Location
+    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Analysepaket')]
+    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Analysis Package')]
 
 Click on surveys tab
     ${url} =    Get Location

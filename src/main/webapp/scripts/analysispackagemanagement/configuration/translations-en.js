@@ -262,9 +262,7 @@ angular.module('metadatamanagementApp').config(
                 'choose': 'Please choose an availability type.',
                 'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
                 'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
-                'none': 'Not accessible.',
-                'accessible': 'Lorem ipsum...',
-                'not-accessible': 'Lorem ipsum...'
+                'none': 'Not accessible.'
               }
             },
             'custom-data-package': {

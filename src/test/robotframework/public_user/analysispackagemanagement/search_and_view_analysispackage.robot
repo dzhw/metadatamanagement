@@ -5,6 +5,7 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Looking for Test Analysis Package in german
+    wait until page contains element    //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click Element   xpath=//a[@ui-sref="search({type: 'analysis_packages'})"]
     Click on first search result
     Wait for Angular    2s
@@ -15,10 +16,11 @@ Looking for Test Analysis Package in german
     Data packages should have different versions    FDZ-DZHW Datenpaket
     Select Version for the Analysis Package    1.0.0
     Show Cite
-    [Teardown]    Get back to german home page
+    Get back to german home page
 
 Looking for Test Analysis Package in english
     [Setup]    Change language to english
+    wait until page contains element    //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click Element   xpath=//a[@ui-sref="search({type: 'analysis_packages'})"]
     Click on first search result
     Page Should Contain    Test Analysis Package

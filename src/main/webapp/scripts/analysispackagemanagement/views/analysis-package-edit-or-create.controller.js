@@ -226,6 +226,7 @@ angular.module('metadatamanagementApp')
           ctrl.currentInstitutions = [];
         }
         ctrl.currentInstitutions.push(null);
+        // console.table(ctrl.currentInstitutions);
         $timeout(function() {
           $document.find('input[name="institutionDe_' +
             (ctrl.analysisPackage.institutions.length - 1) + '"]')
@@ -246,10 +247,10 @@ angular.module('metadatamanagementApp')
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
+            (document.activeElement.tagName === 'BODY' ||
             $(document.activeElement).parents('#move-institution-container')
-              .length) {
+              .length)) {
             return;
           }
           if (event.relatedTarget && (
@@ -259,7 +260,7 @@ angular.module('metadatamanagementApp')
           }
           delete ctrl.currentInstitutionIndex;
           timeoutActive = null;
-        }, 500);
+        });
       };
 
       ctrl.moveCurrentInstitutionUp = function() {
@@ -334,10 +335,10 @@ angular.module('metadatamanagementApp')
         }
         timeoutActive = $timeout(function() {
           timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
+            (document.activeElement.tagName === 'BODY' ||
             $(document.activeElement).parents('#move-sponsor-container')
-              .length) {
+              .length)) {
             return;
           }
           if (event.relatedTarget && (
@@ -347,7 +348,7 @@ angular.module('metadatamanagementApp')
           }
           delete ctrl.currentSponsorIndex;
           timeoutActive = null;
-        }, 500);
+        });
       };
 
       ctrl.moveCurrentSponsorUp = function() {
@@ -413,25 +414,17 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteCurrentLink = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+        if (document.activeElement &&
+          $(document.activeElement).parents('#move-link-container')
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-link-container')
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-link-up-button' ||
-            event.relatedTarget.id === 'move-link-down-button')) {
-            return;
-          }
-          delete ctrl.currentLinkIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+          event.relatedTarget.id === 'move-link-up-button' ||
+          event.relatedTarget.id === 'move-link-down-button')) {
+          return;
+        }
+        delete ctrl.currentLinkIndex;
       };
 
       ctrl.moveCurrentLinkUp = function() {
