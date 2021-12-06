@@ -100,9 +100,6 @@
 .fdz-theme .ml0 {
   margin-left: 0 !important; }
 
-.fdz-theme .ml4 {
-  margin-left: 4px !important; }
-
 .fdz-theme .ml6 {
   margin-left: 6px !important; }
 
@@ -1938,6 +1935,10 @@ fdz-breadcrumbs {
   margin: 8px 8px 8px 8px;
   width: 100%; }
   @media (min-width: 600px) {
+    .fdz-breadcrumbs {
+      margin-left: 16px;
+      margin: 16px 8px 16px 8px; } }
+  @media (min-width: 1400px) {
     .fdz-breadcrumbs {
       margin-left: 16px;
       margin: 16px 8px 16px 16px; } }
