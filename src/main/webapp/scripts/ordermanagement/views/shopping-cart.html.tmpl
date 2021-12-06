@@ -36,7 +36,13 @@
             </a>
             <span>{{'shopping-cart.detail.label.following' | translate:'{packages: ' + ctrl.getNumberOfScripts(product) + ', formattedPackages:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}</span>
             <span>{{'shopping-cart.detail.label.software-packages' | translate:'{packages: ' + ctrl.getNumberOfScripts(product) + ', formattedPackages:"' + (ctrl.getNumberOfScripts(product) | number) + '"}':'messageformat'}}:</span>
-            <span ng-repeat="package in ctrl.getSoftwarePackages(product)">{{package}}{{!$last?', ':''}}</span>
+            <span ng-repeat="package in ctrl.getSoftwarePackages(product)">{{package}}{{!$last?', ':'.'}}</span>
+            <span>{{'shopping-cart.detail.label.additionally' | translate}}</span>
+            <a ui-sref="analysisPackageDetail({id: product.analysisPackage.id.replace('$', ''), version: product.version})">{{'shopping-cart.detail.label.custom-data-packages' | translate:'{packages: ' + ctrl.getAccessibleCustomDataPackages(product.analysisPackage.id + '-' + product.version) + ', formattedPackages:"' + (ctrl.getAccessibleCustomDataPackages(product.analysisPackage.id + '-' + product.version) | number) + '"}':'messageformat'}}.
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'shopping-cart.detail.custom-data-packages-tooltip' | translate}}
+              </md-tooltip>
+            </a>
           </p>
           <div ng-if="ctrl.analysisPackages[product.analysisPackage.id + '-' + product.version].annotations">
             <span class="b">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
