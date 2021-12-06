@@ -354,6 +354,11 @@ public class UserApiService {
     }
   }
 
+  /**
+   * A check to see if the server(s) providing the User API are up and healthy.
+   *
+   * @return is/are User API Server(s) healthy?
+   */
   public boolean isHealthy() {
     try {
       return this.restTemplate.getForEntity(
@@ -362,7 +367,7 @@ public class UserApiService {
       )
           .getStatusCode()
           .is2xxSuccessful();
-    } catch(RestClientException e) {
+    } catch (RestClientException e) {
       return false;
     }
   }

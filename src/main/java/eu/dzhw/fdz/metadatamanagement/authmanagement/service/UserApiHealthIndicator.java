@@ -7,6 +7,10 @@ import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.stereotype.Component;
 
+/**
+ * A Health indicator which checks to see if the server(s) providing the User API are up and
+ * healthy.
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
