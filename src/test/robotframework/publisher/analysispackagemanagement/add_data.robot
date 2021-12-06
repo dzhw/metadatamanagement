@@ -133,6 +133,7 @@ Add external data package
     input text                          name=analysisDataPackagesDataSourceUrl_1      http://dzhw.de
     Click Element Through Tooltips      //div[@id='package-1']//external-data-package-component//md-select
     Click Element Through Tooltips      //body/div[last()]//md-select-menu//md-option[contains(., 'Open Access')]
+    set focus to element                //input[@name='analysisDataPackagesTitleDe_1']
 
 Add custom data package
     Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.')]
