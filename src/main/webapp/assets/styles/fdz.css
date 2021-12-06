@@ -1937,6 +1937,10 @@ fdz-breadcrumbs {
   @media (min-width: 600px) {
     .fdz-breadcrumbs {
       margin-left: 16px;
+      margin: 16px 8px 16px 8px; } }
+  @media (min-width: 1400px) {
+    .fdz-breadcrumbs {
+      margin-left: 16px;
       margin: 16px 8px 16px 16px; } }
 
 .fdz-theme .fdz-search {
