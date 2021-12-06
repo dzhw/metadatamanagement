@@ -610,9 +610,9 @@ module.exports = function(grunt) {
               .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
             AuthProperties: {
-              clientId: process.env.CLIENT_ID_LOCAL || null,
-              clientSecret: process.env.CLIENT_SECRET_LOCAL || null,
-              issuer: process.env.ISSUER_LOCAL || null
+              clientId: process.env.CLIENT_ID_LOCAL,
+              clientSecret: process.env.CLIENT_SECRET_LOCAL,
+              issuer: process.env.ISSUER_LOCAL
             }
           }
         },
@@ -628,9 +628,9 @@ module.exports = function(grunt) {
               .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
             AuthProperties: {
-              clientId: process.env.CLIENT_ID_DEV || null,
-              clientSecret: process.env.CLIENT_SECRET_DEV || null,
-              issuer: process.env.ISSUER_DEV || null
+              clientId: process.env.CLIENT_ID_DEV,
+              clientSecret: process.env.CLIENT_SECRET_DEV,
+              issuer: process.env.ISSUER_DEV
             }
           }
         },
@@ -646,9 +646,9 @@ module.exports = function(grunt) {
               .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
             AuthProperties: {
-              clientId: process.env.CLIENT_ID_TEST || null,
-              clientSecret: process.env.CLIENT_SECRET_TEST || null,
-              issuer: process.env.ISSUER_TEST || null
+              clientId: process.env.CLIENT_ID_TEST,
+              clientSecret: process.env.CLIENT_SECRET_TEST,
+              issuer: process.env.ISSUER_TEST
             }
           }
         },
@@ -664,9 +664,9 @@ module.exports = function(grunt) {
               .metadatamanagement['elasticsearch-angular-client'],
               // jscs: enable
             AuthProperties: {
-              clientId: process.env.CLIENT_ID_PROD || null,
-              clientSecret: process.env.CLIENT_SECRET_PROD || null,
-              issuer: process.env.ISSUER_PROD || null
+              clientId: process.env.CLIENT_ID_PROD,
+              clientSecret: process.env.CLIENT_SECRET_PROD,
+              issuer: process.env.ISSUER_PROD
             }
           }
         }

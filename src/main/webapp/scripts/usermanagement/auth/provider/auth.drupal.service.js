@@ -7,7 +7,7 @@ angular
     function loginService($http, localStorageService, $window,
                           $q, AuthProperties, $location) {
       var config = null;
-      if (AuthProperties.hasOwnProperty('issuer') &&
+      if (AuthProperties && AuthProperties.hasOwnProperty('issuer') &&
         AuthProperties.issuer.indexOf('http') !== -1) {
         config = {
           clientId: AuthProperties.clientId,
@@ -98,7 +98,7 @@ angular
         isLoggedIn: function() {
           var deferred = $q.defer();
 
-          if (!this.hasToken()) {
+          if (config && !this.hasToken()) {
             this.isLoggedInSso().then(
               function() {
                 deferred.resolve('sso');
