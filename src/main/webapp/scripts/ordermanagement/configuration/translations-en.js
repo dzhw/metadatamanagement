@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').config(
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
             'scripts': '{scripts, plural, =0{an unknown amount of scripts} =1{one script} other{{formattedScripts} scripts}}',
             'additionally': 'Additionally it contains',
-            'custom-data-packages': '{packages, plural, =0{an unknown amount of accessible custom data packages} =1{one accessible custom data package} other{{formattedPackages} accessible custom data packages}}',
+            'custom-data-packages': '{packages, plural, =0{an unknown amount of custom data packages} =1{one custom data package} other{{formattedPackages} custom data packages}}',
             'in': 'in',
             'data-sets': '{dataSets, plural, =0{an unknown amount of data sets.} =1{one data set.} other{{formattedDataSets} data sets.}}',
             'data-package': 'Data Package',
