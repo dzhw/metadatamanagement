@@ -66,6 +66,10 @@
 .fdz-theme .ma8 {
   margin: 8px !important; }
 
+.fdz-theme .mh0 {
+  margin-left: 0 !important;
+  margin-right: 0 !important; }
+
 .fdz-theme .mv0 {
   margin-top: 0 !important;
   margin-bottom: 0 !important; }
@@ -73,6 +77,10 @@
 .fdz-theme .mv8 {
   margin-top: 8px !important;
   margin-bottom: 8px !important; }
+
+.fdz-theme .mv16 {
+  margin-top: 16px !important;
+  margin-bottom: 16px !important; }
 
 .fdz-theme .mt0 {
   margin-top: 0 !important; }
@@ -83,11 +91,23 @@
 .fdz-theme .mt16 {
   margin-top: 16px !important; }
 
+.fdz-theme .mt18 {
+  margin-top: 18px !important; }
+
 .fdz-theme .mb0 {
   margin-bottom: 0 !important; }
 
 .fdz-theme .mb8 {
   margin-bottom: 8px !important; }
+
+.fdz-theme .mb12 {
+  margin-bottom: 12px !important; }
+
+.fdz-theme .mb16 {
+  margin-bottom: 16px !important; }
+
+.fdz-theme .mb18 {
+  margin-bottom: 18px !important; }
 
 .fdz-theme .mh0 {
   margin-left: 0 !important;
@@ -240,6 +260,15 @@
 
 .fdz-theme .fg {
   flex-grow: 1; }
+
+.fdz-theme .flex-wrap {
+  flex-wrap: wrap; }
+
+.fdz-theme .items-center {
+  align-items: center; }
+
+.fdz-theme .self-start {
+  align-self: flex-start; }
 
 .fdz-theme .ms-flex {
   -ms-flex: auto !important; }
@@ -1935,6 +1964,10 @@ fdz-breadcrumbs {
   margin: 8px 8px 8px 8px;
   width: 100%; }
   @media (min-width: 600px) {
+    .fdz-breadcrumbs {
+      margin-left: 16px;
+      margin: 16px 8px 16px 8px; } }
+  @media (min-width: 1400px) {
     .fdz-breadcrumbs {
       margin-left: 16px;
       margin: 16px 8px 16px 16px; } }

@@ -7,18 +7,19 @@
     </md-card-header-text>
   </md-card-header>
   <md-divider></md-divider>
-  <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+  <md-card-content>
     <div id="url{{$ctrl.name}}-{{$index}}" layout="row"
          ng-repeat="link in $ctrl.content track by $index">
-      <md-button class="md-primary md-icon-button"
-                 ng-click="$ctrl.deleteLink($index)"
-                 style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-        <md-tooltip md-autohide="true" md-direction="bottom"
-                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'analysis-package-management.edit.delete-link-tooltip' | translate}}
-        </md-tooltip>
-        <md-icon md-font-set="material-icons">delete_forever</md-icon>
-      </md-button>
+      <div>
+        <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                   ng-click="$ctrl.deleteLink($index)">
+          <md-tooltip md-autohide="true" md-direction="bottom"
+                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'analysis-package-management.edit.delete-link-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">delete_forever</md-icon>
+        </md-button>
+      </div>
       <md-input-container flex="33" class="mr8"
                           md-is-error="!$ctrl.currentForm[$ctrl.name + 'Url_' + $index].$valid && ($ctrl.currentForm[$ctrl.name + 'Url_' + $index].$dirty || $ctrl.currentForm[$ctrl.name + 'Url_' + $index].$touched)">
         <label
@@ -90,8 +91,7 @@
       </md-input-container>
     </div>
   </md-card-content>
-  <md-card-actions layout="row" layout-align="begin center"
-                   style="margin-top: 0px; margin-bottom: 12px;">
+  <md-card-actions layout="row" layout-align="begin center" class="mb12">
     <md-button class="md-primary md-raised md-icon-button ml6"
                ng-click="$ctrl.addLink()">
       <md-tooltip md-autohide="true" md-direction="bottom"

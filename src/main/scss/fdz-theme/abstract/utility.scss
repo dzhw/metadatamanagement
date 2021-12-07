@@ -96,6 +96,11 @@
     margin: 8px!important;
   }
 
+  .mh0 {
+    margin-left: 0!important;
+    margin-right: 0!important;
+  }
+
   .mv0 {
     margin-top: 0!important;
     margin-bottom: 0!important;
@@ -104,6 +109,11 @@
   .mv8 {
     margin-top: 8px!important;
     margin-bottom: 8px!important;
+  }
+
+  .mv16 {
+    margin-top: 16px!important;
+    margin-bottom: 16px!important;
   }
 
   .mt0 {
@@ -118,12 +128,28 @@
     margin-top: 16px!important;
   }
 
+  .mt18 {
+    margin-top: 18px!important;
+  }
+
   .mb0 {
     margin-bottom: 0!important;
   }
 
   .mb8 {
     margin-bottom: 8px!important;
+  }
+
+  .mb12 {
+    margin-bottom: 12px!important;
+  }
+
+  .mb16 {
+    margin-bottom: 16px!important;
+  }
+
+  .mb18 {
+    margin-bottom: 18px!important;
   }
 
   .mh0 {
@@ -334,6 +360,9 @@
   .fg {
     flex-grow: 1;
   }
+  .flex-wrap    { flex-wrap: wrap; }
+  .items-center { align-items: center; }
+  .self-start { align-self: flex-start; }
 
   // TODO: Check if this is necessary. Copied from style tags
   .ms-flex {
