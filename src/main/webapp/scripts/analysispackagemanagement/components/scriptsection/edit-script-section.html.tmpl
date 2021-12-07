@@ -229,12 +229,10 @@
             <div flex="100"
                  layout="row"
                  layout-gt-sm="row"
-                 class="mr8"
-                 style="align-items: center;">
+                 class="mr8 items-center">
               <p class="ma0" ng-if="$ctrl.createMode">{{'analysis-package-management.detail.label.save-file' | translate}}</p>
-              <md-input-container class="pa0 ms-flex"
+              <md-input-container class="pa0 ms-flex w-100"
                                   ng-if="!$ctrl.createMode"
-                                  style="width: 100%;"
                                   ngf-drop="$ctrl.addScriptAttachment($file, $index, $event)"
                                   ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}"
                                   ngf-select="$ctrl.addScriptAttachment($file, $index, $event)"
@@ -265,8 +263,7 @@
                   </div>
                 </div>
               </md-input-container>
-              <div class="fdz-button-wrapper"
-                   style="align-self: flex-start; margin-top: 18px;">
+              <div class="fdz-button-wrapper mt18 self-start">
                 <md-button class="md-primary md-icon-button ma0"
                            ng-click="$ctrl.addScriptAttachmentButton($index)"
                            ng-if="!$ctrl.createMode && !($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0">
@@ -296,8 +293,7 @@
                   style="margin: 24px 0 16px 0;"></md-divider>
     </div>
   </md-card-content>
-  <md-card-actions layout="row" layout-align="begin center"
-                   style="margin-top: 0px; margin-bottom: 12px;">
+  <md-card-actions layout="row" layout-align="begin center" class="mb12">
     <md-button class="md-primary md-raised md-icon-button ml6"
                ng-click="$ctrl.addScript()">
       <md-tooltip md-autohide="true"

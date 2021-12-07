@@ -83,6 +83,9 @@
 .fdz-theme .mt16 {
   margin-top: 16px !important; }
 
+.fdz-theme .mt18 {
+  margin-top: 18px !important; }
+
 .fdz-theme .mb0 {
   margin-bottom: 0 !important; }
 
@@ -246,6 +249,12 @@
 
 .fdz-theme .fg {
   flex-grow: 1; }
+
+.fdz-theme .items-center {
+  align-items: center; }
+
+.fdz-theme .self-start {
+  align-self: flex-start; }
 
 .fdz-theme .ms-flex {
   -ms-flex: auto !important; }

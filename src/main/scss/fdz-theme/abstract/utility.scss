@@ -118,6 +118,10 @@
     margin-top: 16px!important;
   }
 
+  .mt18 {
+    margin-top: 18px!important;
+  }
+
   .mb0 {
     margin-bottom: 0!important;
   }
@@ -342,6 +346,9 @@
   .fg {
     flex-grow: 1;
   }
+
+  .items-center { align-items: center; }
+  .self-start { align-self: flex-start; }
 
   // TODO: Check if this is necessary. Copied from style tags
   .ms-flex {
