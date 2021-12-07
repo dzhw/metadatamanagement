@@ -102,18 +102,19 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content>
           <div id="move-institution-container" layout="row"
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
-            <md-button class="md-primary md-icon-button"
-                       ng-click="ctrl.deleteInstitution($index)"
-                       style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.edit.delete-institution-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                         ng-click="ctrl.deleteInstitution($index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'analysis-package-management.edit.delete-institution-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'analysis-package-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512"
@@ -198,8 +199,7 @@
             </md-autocomplete>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center"
-                         style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6"
                      ng-click="ctrl.addInstitution()">
             <md-tooltip md-autohide="true" md-direction="bottom"
@@ -238,18 +238,19 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content>
           <div id="move-sponsor-container" layout="row"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
-            <md-button class="md-primary md-icon-button"
-                       ng-click="ctrl.deleteSponsor($index)"
-                       style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.edit.delete-sponsor-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                         ng-click="ctrl.deleteSponsor($index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'analysis-package-management.edit.delete-sponsor-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'analysis-package-management.edit.label.sponsor' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512"
@@ -334,8 +335,7 @@
             </md-autocomplete>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center"
-                         style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6"
                      ng-click="ctrl.addSponsor()">
             <md-tooltip md-autohide="true" md-direction="bottom"
@@ -500,8 +500,7 @@
         {{'analysis-package-management.detail.attachments.save-analysis-package-before-adding-attachment' | translate}}
       </md-card-content>
       <md-card-actions layout="row" layout-align="begin center"
-                       ng-if="!ctrl.createMode"
-                       style="margin-top: 12px; margin-bottom: 12px;">
+                       ng-if="!ctrl.createMode" class="mt16 mb12">
         <md-button class="md-primary md-raised md-icon-button ml6"
                    ng-click="ctrl.addAttachment($event)">
           <md-tooltip md-autohide="true" md-direction="bottom"
