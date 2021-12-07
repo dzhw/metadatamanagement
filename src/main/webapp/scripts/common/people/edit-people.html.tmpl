@@ -5,7 +5,7 @@
     </md-card-header-text>
   </md-card-header>
   <md-divider></md-divider>
-  <md-card-content style="padding-bottom: 0px; padding-left: 0px; padding-top: 0px;">
+  <md-card-content class="pt0">
     <div id="{{ $ctrl.peopleId }}-{{$index}}" layout="column" ng-repeat="person in $ctrl.people track by $index">
       <div flex layout="row" class="mt16 ms-flex">
         <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
@@ -62,8 +62,8 @@
           </div>
         </md-input-container>
       </div>
-      <div layout="row" layout-align="start center" style="margin-bottom: 18px;">
-        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '26px' : '0px'}" style="margin-top: 0px; margin-bottom: 0px;">
+      <div layout="row" layout-align="start center">
+        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '26px' : '0px'}" class="mt0">
           <label>ORCID</label>
           <input name="{{ $ctrl.peopleId }}ORCID_{{$index}}" disabled="true"
                  ng-blur="$ctrl.deleteCurrentPerson($index, $event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
@@ -91,7 +91,7 @@
       <md-divider ng-if="!$last"></md-divider>
     </div>
   </md-card-content>
-  <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+  <md-card-actions layout="row" layout-align="begin center" class="mb12">
     <md-button class="md-primary md-raised md-icon-button ml6" ng-click="$ctrl.addPerson()">
       <md-tooltip md-autohide="true" md-direction="bottom"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
