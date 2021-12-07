@@ -14,6 +14,7 @@ Looking for Test Analysis Package in german
     Page should contain x data packages    FDZ-DZHW Datenpaket    2
     Page should contain x items in analysis data    4
     Data packages should have different versions    FDZ-DZHW Datenpaket
+    Page should have one related publication
     Select Version for the Analysis Package    1.0.0
     Show Cite
     Get back to german home page
@@ -28,6 +29,7 @@ Looking for Test Analysis Package in english
     Page should contain x items in analysis data    4
     Page should contain x data packages   FDZ-DZHW Datapackage    2
     Data packages should have different versions    FDZ-DZHW Datapackage
+    Page should have one related publication
     [Teardown]    Get back to german home page
 
 *** Keywords ***
@@ -51,8 +53,8 @@ Data packages should have different versions
     should not be true    """${version1}""" == """${version2}"""
 
 Page should have one related publication
-    [Arguments]    ${text}    ${limit}
-    page should contain element   //related-publication-search-result/md-card/md-card-header/md-card-header-text/a/div[text()='${text}']    limit=${limit}
+    ${count}    get element count       //related-publication-search-result/md-card
+    Should Be True  ${count} == 1
 
 Select Version for the Analysis Package
     [Arguments]   ${versionname}

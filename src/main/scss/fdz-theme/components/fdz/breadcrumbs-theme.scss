@@ -13,6 +13,11 @@ fdz-breadcrumbs {
 
   @include rwd(600) {
     margin-left: 16px;
+    margin: 16px 8px 16px 8px;
+  }
+
+  @include rwd(1400) {
+    margin-left: 16px;
     margin: 16px 8px 16px 16px;
   }
 }
