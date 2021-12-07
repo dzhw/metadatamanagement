@@ -194,14 +194,16 @@
         <md-card-content>
           <div id="move-institution-container" layout="row"
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteInstitution($index)"
-                       ng-if="ctrl.dataPackage.institutions.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.edit.delete-institution-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteInstitution($index)"
+                         ng-if="ctrl.dataPackage.institutions.length > 1">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-institution-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'data-package-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512" md-input-name="institutionDe_{{$index}}"
@@ -320,14 +322,16 @@
         <md-card-content>
           <div id="move-sponsor-container" layout="row"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteSponsor($index)"
-                       ng-if="ctrl.dataPackage.sponsors.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.edit.delete-sponsor-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteSponsor($index)"
+                         ng-if="ctrl.dataPackage.sponsors.length > 1">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-sponsor-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512" md-input-name="sponsorDe_{{$index}}"
@@ -511,14 +515,15 @@
         <md-card-content>
           <div id="link-{{$index}}" layout="row"
                ng-repeat="link in ctrl.dataPackage.additionalLinks track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteLink($index)"
-                       style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.edit.delete-link-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteLink($index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-link-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-input-container flex="33" class="mr8"
                                 md-is-error="!dataPackageForm['linkUrl_' + $index].$valid && (dataPackageForm['linkUrl_' + $index].$dirty || dataPackageForm['linkUrl_' + $index].$touched)">
               <label class="fdz-input-required">{{'data-package-management.edit.label.additional-links.url' | translate}}</label>

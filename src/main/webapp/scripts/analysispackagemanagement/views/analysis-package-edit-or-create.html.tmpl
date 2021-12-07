@@ -105,15 +105,16 @@
         <md-card-content>
           <div id="move-institution-container" layout="row"
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
-            <md-button class="md-primary md-icon-button"
-                       ng-click="ctrl.deleteInstitution($index)"
-                       style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.edit.delete-institution-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                         ng-click="ctrl.deleteInstitution($index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'analysis-package-management.edit.delete-institution-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'analysis-package-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512"
@@ -240,15 +241,16 @@
         <md-card-content>
           <div id="move-sponsor-container" layout="row"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
-            <md-button class="md-primary md-icon-button"
-                       ng-click="ctrl.deleteSponsor($index)"
-                       style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.edit.delete-sponsor-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                         ng-click="ctrl.deleteSponsor($index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'analysis-package-management.edit.delete-sponsor-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'analysis-package-management.edit.label.sponsor' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512"

@@ -8,15 +8,16 @@
   <md-card-content class="pt0">
     <div id="{{ $ctrl.peopleId }}-{{$index}}" layout="column" ng-repeat="person in $ctrl.people track by $index">
       <div flex layout="row" class="mt16 ms-flex">
-        <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
-                   ng-if="$ctrl.people.length > 1"
-                   style="margin-top: 18px; margin-left: 0px; margin-right: 8px; padding-left: 0px; padding-right: 12px;">
-          <md-tooltip md-autohide="true" md-direction="bottom"
-                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-            {{ $ctrl.translationKeys.tooltips.delete | translate}}
-          </md-tooltip>
-          <md-icon md-font-set="material-icons">delete_forever</md-icon>
-        </md-button>
+        <div>
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="$ctrl.deletePerson($index)"
+                     ng-if="$ctrl.people.length > 1">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{ $ctrl.translationKeys.tooltips.delete | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_forever</md-icon>
+          </md-button>
+        </div>
         <md-input-container flex="33" class="mr8"
                             md-is-error="!form[$ctrl.peopleId + 'FirstName_' + $index].$valid && (form[$ctrl.peopleId + 'FirstName_' + $index].$dirty || form[$ctrl.peopleId + 'FirstName_' + $index].$touched)">
           <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
@@ -63,7 +64,7 @@
         </md-input-container>
       </div>
       <div layout="row" layout-align="start center">
-        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '26px' : '0px'}" class="mt0">
+        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '40px' : '0px'}" class="mt0">
           <label>ORCID</label>
           <input name="{{ $ctrl.peopleId }}ORCID_{{$index}}" disabled="true"
                  ng-blur="$ctrl.deleteCurrentPerson($index, $event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
