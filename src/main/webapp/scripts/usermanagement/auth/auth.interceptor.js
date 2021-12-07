@@ -29,7 +29,8 @@ angular.module('metadatamanagementApp').factory('authInterceptor', function(
       //jscs:enable
     },
     responseError: function(response) {
-      if (response.status === 401 && (response.config.url.indexOf('/api/') === 0 ||
+      if (response.status === 401 &&
+        (response.config.url.indexOf('/api/') === 0 ||
         response.config.url.indexOf('api/') === 0 ||
         response.config.url.indexOf('/management/') === 0 ||
         response.config.url.indexOf('management/') === 0)) {
