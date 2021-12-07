@@ -250,6 +250,9 @@
 .fdz-theme .fg {
   flex-grow: 1; }
 
+.fdz-theme .flex-wrap {
+  flex-wrap: wrap; }
+
 .fdz-theme .items-center {
   align-items: center; }
 

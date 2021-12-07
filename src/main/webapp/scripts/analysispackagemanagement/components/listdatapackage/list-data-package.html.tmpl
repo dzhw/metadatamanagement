@@ -55,7 +55,7 @@
         <div layout="row"
              flex="100"
              layout-gt-sm="row"
-             class="ms-flex" style="flex-wrap: wrap;">
+             class="ms-flex flex-wrap">
           <div flex="100">
             <md-input-container flex="50"
                                 class="mr8 ms-flex"
@@ -110,8 +110,7 @@
     </div>
 
   </md-card-content>
-  <md-card-actions layout="row" layout-align="begin center"
-                   style="margin-top: 8px; margin-bottom: 12px;">
+  <md-card-actions layout="row" layout-align="begin center" class="mt8 mb12">
     <md-button class="md-primary md-raised md-icon-button ml6"
                ng-click="$ctrl.addPackage()">
       <md-tooltip md-autohide="true"
