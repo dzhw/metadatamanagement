@@ -19,9 +19,8 @@
              layout-gt-sm="column"
              flex="2"
              class="ms-flex">
-          <md-button class="md-primary md-icon-button"
-                     ng-click="$ctrl.deletePackage($index)"
-                     style="margin-top: 18px; margin-left: 0px; margin-right: -8px; padding-left: 0px;">
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                     ng-click="$ctrl.deletePackage($index)">
             <md-tooltip md-autohide="true"
                         md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -29,10 +28,9 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_forever</md-icon>
           </md-button>
-          <md-button class="md-primary md-icon-button"
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0"
                      ng-click="$ctrl.move('up', $index)"
-                     ng-disabled="$index === 0"
-                     style="margin-top: 18px; margin-left: 0px; margin-right: -8px; padding-left: 0px;">
+                     ng-disabled="$index === 0">
             <md-tooltip md-autohide="true"
                         md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -40,10 +38,9 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
           </md-button>
-          <md-button class="md-primary md-icon-button"
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0"
                      ng-click="$ctrl.move('down', $index)"
-                     ng-disabled="$index === $ctrl.packages.length - 1"
-                     style="margin-left: 0px; margin-right: -8px; padding-left: 0px;">
+                     ng-disabled="$index === $ctrl.packages.length - 1">
             <md-tooltip md-autohide="true"
                         md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -55,7 +52,7 @@
         <div layout="row"
              flex="100"
              layout-gt-sm="row"
-             class="ms-flex" style="flex-wrap: wrap;">
+             class="ms-flex flex-wrap">
           <div flex="100">
             <md-input-container flex="50"
                                 class="mr8 ms-flex"
@@ -110,8 +107,7 @@
     </div>
 
   </md-card-content>
-  <md-card-actions layout="row" layout-align="begin center"
-                   style="margin-top: 8px; margin-bottom: 12px;">
+  <md-card-actions layout="row" layout-align="begin center" class="mt8 mb12">
     <md-button class="md-primary md-raised md-icon-button ml6"
                ng-click="$ctrl.addPackage()">
       <md-tooltip md-autohide="true"
