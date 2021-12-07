@@ -191,7 +191,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content>
           <div id="move-institution-container" layout="row"
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteInstitution($index)"
@@ -280,7 +280,7 @@
             </md-autocomplete>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addInstitution()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -317,7 +317,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content>
           <div id="move-sponsor-container" layout="row"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteSponsor($index)"
@@ -406,7 +406,7 @@
             </md-autocomplete>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addSponsor()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -508,7 +508,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content>
           <div id="link-{{$index}}" layout="row"
                ng-repeat="link in ctrl.dataPackage.additionalLinks track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteLink($index)"
@@ -568,7 +568,7 @@
             </md-input-container>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addLink()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
