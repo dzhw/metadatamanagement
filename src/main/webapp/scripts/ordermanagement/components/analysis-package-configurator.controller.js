@@ -207,7 +207,7 @@
       $mdDialog.show({
         controller: 'VersionInfoController',
         templateUrl: 'scripts/ordermanagement/views/' +
-          'version-info.html.tmpl',
+          'ap-version-info.html.tmpl',
         clickOutsideToClose: true,
         escapeToClose: true,
         fullscreen: true,
