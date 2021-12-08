@@ -11,10 +11,8 @@
     </md-button>
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
-    <md-card-content  ng-text-truncate="$ctrl.options"
-                      ng-tt-chars-threshold="512"
-                      ng-tt-less-label="{{'global.less' | translate}}"
-                      ng-tt-more-label="{{'global.more' | translate}}">
+    <md-card-content
+      <p class="fdz-text-block" markdown-to-html="$ctrl.options"></p>
     </md-card-content>
   </div>
 </md-card>
