@@ -119,6 +119,8 @@ angular.module('metadatamanagementApp').config(
           'open-export-tooltip': 'Click to export the metadata of this data package.',
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
+          'data-package-tooltip': 'Click to get more information about data packages',
+          'analysis-package-tooltip': 'Click to get more information about analysis packages',
           'analysis-package-version-tooltip': 'Click to get more information about versions of analysis packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
         },

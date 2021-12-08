@@ -2,7 +2,9 @@
 (function() {
   'use strict';
 
-  function SearchFilterController($scope, $location, MessageBus, $timeout) {
+  function SearchFilterController(
+    $scope, $location, MessageBus, $timeout, $mdDialog
+  ) {
     var filterValueObject = {
       analysis_packages: [
         {
@@ -194,6 +196,21 @@
         'type', 'query', 'sort-by'
       ]);
     }
+
+    $ctrl.infoModal = function(type, $event) {
+      var url = {
+        data: 'data-package-info.html.tmpl',
+        analysis: 'analysis-package-info.html.tmpl'
+      };
+      $mdDialog.show({
+        controller: 'dataPackageInfoController',
+        templateUrl: 'scripts/searchmanagement/components/' + url[type],
+        clickOutsideToClose: true,
+        escapeToClose: true,
+        fullscreen: true,
+        targetEvent: $event
+      });
+    };
 
     $scope.$watch('$ctrl.searchParams.type', function(newValue, oldValue) {
       if (newValue !== oldValue) {
