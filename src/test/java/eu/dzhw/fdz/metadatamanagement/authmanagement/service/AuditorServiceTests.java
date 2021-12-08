@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.junit.jupiter.api.Test;
@@ -66,12 +67,10 @@ public class AuditorServiceTests extends AbstractUserApiTests {
         .withServerError()
         .addToServer();
 
-    var message = assertThrows(
-      IllegalArgumentException.class,
+    assertThrows(
+      InvalidUserApiResponseException.class,
       () -> auditorService.findAndSetOnBehalfAuditor(LOGIN)
-    ).getMessage();
-
-    assertEquals("Could not find user " + LOGIN, message);
+    );
   }
 
   @Test

@@ -1,14 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.rest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidUserApiResponseException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import org.springframework.web.util.NestedServletException;
 
 import java.util.Objects;
 
@@ -95,13 +99,17 @@ public class UserResourceTests extends AbstractUserApiTests {
       .withServerError()
       .addToServer();
 
-    // search with login;
-    restUserMockMvc
-      .perform(patch("/api/users/deactivatedWelcomeDialog")
-        .param("deactivatedWelcomeDialog", "true")
-        .contentType(TestUtil.APPLICATION_JSON_UTF8)
-        .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isInternalServerError());
+    var exception = assertThrows(
+      NestedServletException.class,
+      () -> restUserMockMvc
+          .perform(patch("/api/users/deactivatedWelcomeDialog")
+              .param("deactivatedWelcomeDialog", "true")
+              .contentType(TestUtil.APPLICATION_JSON_UTF8)
+              .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isInternalServerError())
+    );
+
+    assertEquals(InvalidUserApiResponseException.class, exception.getCause().getClass());
   }
 
   @Test
@@ -158,7 +166,7 @@ public class UserResourceTests extends AbstractUserApiTests {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-  public void findUserWithRole_ServerError() throws Exception {
+  public void findUserWithRole_ServerError() {
     var role = AuthoritiesConstants.USER;
     this.startFindAllByLoginLikeOrEmailLikeAndByAuthoritiesContainingRequest(
         USER_LOGIN,
@@ -168,12 +176,17 @@ public class UserResourceTests extends AbstractUserApiTests {
         .withServerError()
         .addToServer();
 
-    restUserMockMvc
-        .perform(get("/api/users/findUserWithRole/")
-            .param("login", USER_LOGIN)
-            .param("role", role)
-            .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isInternalServerError());
+    var exception = assertThrows(
+        NestedServletException.class,
+        () -> restUserMockMvc
+            .perform(get("/api/users/findUserWithRole/")
+                .param("login", USER_LOGIN)
+                .param("role", role)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isInternalServerError())
+    );
+
+    assertEquals(InvalidUserApiResponseException.class, exception.getCause().getClass());
   }
 
   @Test
@@ -193,13 +206,18 @@ public class UserResourceTests extends AbstractUserApiTests {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testGetUserPublic_ServerError() throws Exception {
+  public void testGetUserPublic_ServerError() {
     this.startFindOneWithAuthoritiesByLoginRequest("admin")
         .withServerError()
         .addToServer();
 
-    restUserMockMvc.perform(get("/api/users/admin/public")
-        .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isInternalServerError());
+    var exception = assertThrows(
+        NestedServletException.class,
+        () -> restUserMockMvc.perform(get("/api/users/admin/public")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isInternalServerError())
+    );
+
+    assertEquals(InvalidUserApiResponseException.class, exception.getCause().getClass());
   }
 }
