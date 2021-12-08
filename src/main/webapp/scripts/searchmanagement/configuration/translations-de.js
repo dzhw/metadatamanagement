@@ -36,7 +36,9 @@ angular.module('metadatamanagementApp').config(
           'noresult': 'Keine Suchergebnisse gefunden.',
           'version': 'Version',
           'access-way': 'Zugangsweg',
-          'cart': 'In den Warenkorb legen'
+          'cart': 'In den Warenkorb legen',
+          'data-packages-info': 'Datenpakete enthalten Scientific Use Files und/oder Campus Use Files, die für eine breite Nutzung in Wissenschaft bzw. Lehre vorgesehen sind.',
+          'analysis-packages-info': 'Analysepakete enthalten Analyseskripte und Analysedaten, die zur Erstellung einer spezifischen Pubilkation verwendet wurden und ermöglichen damit deren Replikation.'
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',

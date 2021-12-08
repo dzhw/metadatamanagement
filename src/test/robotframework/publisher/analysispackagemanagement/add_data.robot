@@ -64,7 +64,7 @@ Add institutions
     Input Text      name=institutionEn_1       DZHW 2 ${BROWSER}
     Move element    input   institutionDe_1    //button[@id = 'move-institution-up-button']
     Move element    input   institutionDe_0    //button[@id = 'move-institution-down-button']
-    click element through tooltips             //div[2]/button[@aria-label='Klicken, um die Institution aus diesem Analysepaket zu entfernen.']
+    click element through tooltips             //div[2]/div/button[@aria-label='Klicken, um die Institution aus diesem Analysepaket zu entfernen.']
 
 Add sponsors
     Click Element Through Tooltips         //button[contains(@aria-label,'Klicken, um eine weitere Geldgeber:in diesem Analysepaket hinzuzufügen.')]
@@ -75,7 +75,7 @@ Add sponsors
     Input Text      name=sponsorEn_1       DZHW 2 ${BROWSER}
     Move element    input   sponsorDe_1    //button[@id = 'move-sponsor-up-button']
     Move element    input   sponsorDe_0    //button[@id = 'move-sponsor-down-button']
-    Click Element Through Tooltips         //div[2]/button[@aria-label='Klicken, um die Geldgeber:in aus diesem Analysepaket zu entfernen.']
+    Click Element Through Tooltips         //div[2]/div/button[@aria-label='Klicken, um die Geldgeber:in aus diesem Analysepaket zu entfernen.']
 
 Add license
     Input Text    name=license    This is free and unencumbered software released into the public domain...
