@@ -119,6 +119,8 @@ angular.module('metadatamanagementApp').config(
           'open-export-tooltip': 'Klicken, um die Metadaten dieses Datenpakets zu exportieren.',
           'beta-hint': 'Alle Formate generiert via da|ra (beta-Status)',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
+          'data-package-tooltip': 'Klicken, um weitere Informationen zu Datenpaketen zu erhalten.',
+          'analysis-package-tooltip': 'Klicken, um weitere Informationen zu Analysepaketen zu erhalten.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
