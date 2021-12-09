@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp')
       templateUrl: 'scripts/surveymanagement/directives/geographic-coverage' +
         '.html.tmpl',
       scope: {
-        geographicCoverage: '=',
-        onDelete: '&'
+        geographicCoverage: '='
       },
       controller: 'GeographicCoverageController'
     };
