@@ -10,7 +10,6 @@ angular.module('metadatamanagementApp').controller('SidenavController',
     //For toggle buttons
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
-    $scope.isAccountMenuOpen = false;
     $scope.logoutButtonDisabled = false;
     $scope.sidebarContent = $rootScope.sidebarContent;
     $scope.detailViewLoaded = MessageBus;
@@ -33,10 +32,6 @@ angular.module('metadatamanagementApp').controller('SidenavController',
     // });
 
     //Functions for toggling buttons.
-    $scope.toggleAccountMenu = function() {
-      $scope.isAccountMenuOpen = !$scope.isAccountMenuOpen;
-    };
-
     $scope.toggleAdminMenu = function() {
       $scope.isAdminMenuOpen = !$scope.isAdminMenuOpen;
     };
