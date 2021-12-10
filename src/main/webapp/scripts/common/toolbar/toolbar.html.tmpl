@@ -67,7 +67,7 @@
       <md-button
         class="md-icon-button"
         ng-if="!isAuthenticated()"
-        ui-sref="login({lang:currentLanguage})">
+        ng-click="switchMode()">
         <md-icon class="fdz-secondary" md-font-set="material-icons">
           account_circle
         </md-icon>
@@ -80,7 +80,7 @@
       </md-button>
       <md-button
         class="md-icon-button md-accent"
-        ng-click="logout()"
+        ng-click="switchMode()"
         ng-if="isAuthenticated()">
         <md-icon md-font-set="material-icons">account_circle</md-icon>
         <md-tooltip
