@@ -92,7 +92,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
             DATA_PROVIDER_EMAIL,
             "de",
             false,
-            AuthoritiesConstants.DATA_PROVIDER
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.DATA_PROVIDER)
         ),
         new User(
           "5678",
@@ -100,7 +100,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractUserAp
           PUBLISHER_EMAIL,
           "de",
           false,
-          AuthoritiesConstants.PUBLISHER
+          AuthoritiesConstants.toSearchValue(AuthoritiesConstants.PUBLISHER)
         )
     );
   }
