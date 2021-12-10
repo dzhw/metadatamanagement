@@ -101,11 +101,14 @@ public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdap
       );
   }
 
+  /**
+   * TODO document this.
+   */
   @Bean
   public JwtDecoder jwtDecoder(
-    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") final String issuerURI
+      @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") final String issuerUri
   ) {
-    var decoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(issuerURI);
+    var decoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(issuerUri);
 
     decoder.setJwtValidator(new JwtTimestampValidator());
 
