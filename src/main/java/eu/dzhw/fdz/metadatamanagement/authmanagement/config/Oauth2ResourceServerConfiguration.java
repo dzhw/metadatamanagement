@@ -46,7 +46,7 @@ public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdap
       .and().authorizeRequests(
           authorize ->
               authorize
-              .mvcMatchers(
+              .antMatchers(
                 "/api/orders/**",
                 "/public/files/**",
                 "/api/variables/**",
@@ -64,14 +64,14 @@ public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdap
                 "/api/swagger-ui.html",
                 "/api/api-docs/**"
               ).permitAll()
-              .mvcMatchers(
+              .antMatchers(
                 "/management/info",
                 "/management/metrics",
                 "/management/prometheus",
                 "/management/health/**"
               ).permitAll()
-              .mvcMatchers("/api/**").authenticated()
-              .mvcMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+              .antMatchers("/api/**").authenticated()
+              .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
       )
       .oauth2ResourceServer()
       .jwt();
@@ -80,19 +80,19 @@ public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdap
   @Override
   public void configure(WebSecurity web) {
     web.ignoring()
-        .mvcMatchers(
+        .antMatchers(
             "/scripts/**/*.{js,html}",
             "/node_modules/**",
             "/websocket/**",
             "/i18n/**",
             "/assets/**"
         )
-        .mvcMatchers(
+        .antMatchers(
             HttpMethod.GET,
             "/management/info",
             "/api/search/**"
         )
-        .mvcMatchers(
+        .antMatchers(
             HttpMethod.POST,
             "/api/search/**/_search",
             "/api/search/**/_mget",
