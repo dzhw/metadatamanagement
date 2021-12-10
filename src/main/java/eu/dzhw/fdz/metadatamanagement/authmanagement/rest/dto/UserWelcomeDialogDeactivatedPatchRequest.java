@@ -31,7 +31,7 @@ public class UserWelcomeDialogDeactivatedPatchRequest {
    */
   @Getter
   public static class Data {
-    private static final String type = "user--user";
+    private final String type = "user--user";
     private final String id;
     private final Attributes attributes;
 
