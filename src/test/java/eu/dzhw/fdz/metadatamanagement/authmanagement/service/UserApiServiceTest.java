@@ -622,6 +622,36 @@ public class UserApiServiceTest extends AbstractUserApiTests {
     );
   }
 
+  @Test
+  public void isHealthyTest_Success() {
+    this.addUserJsonApiPath()
+        .withSuccess()
+        .addToServer();
+
+    assertTrue(userApiService.isHealthy());
+  }
+
+  @Test
+  public void isHealthyTest_Errors() {
+    this.addUserJsonApiPath()
+        .withServerError()
+        .addToServer();
+    this.addUserJsonApiPath()
+        .withBadRequest()
+        .addToServer();
+    this.addUserJsonApiPath()
+        .withNotFound()
+        .addToServer();
+    this.addUserJsonApiPath()
+        .withUnauthorizedRequest()
+        .addToServer();
+
+    assertFalse(userApiService.isHealthy());
+    assertFalse(userApiService.isHealthy());
+    assertFalse(userApiService.isHealthy());
+    assertFalse(userApiService.isHealthy());
+  }
+
   private void responseErrorTests(
       Executable userApiCall,
       Supplier<MockServer.MockRequest> requestSupplier
