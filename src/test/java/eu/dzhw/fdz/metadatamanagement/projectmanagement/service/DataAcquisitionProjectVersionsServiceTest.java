@@ -64,7 +64,7 @@ public class DataAcquisitionProjectVersionsServiceTest extends AbstractUserApiTe
             PUBLISHER_EMAIL,
             "de",
             false,
-            AuthoritiesConstants.PUBLISHER
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.PUBLISHER)
         )
     );
   }

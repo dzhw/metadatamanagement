@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import org.springframework.web.util.NestedServletException;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -60,7 +61,7 @@ public class UserResourceTests extends AbstractUserApiTests {
             "user@local",
             "de",
             false,
-            "user"
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
         ),
         new User(
             "asdf",
@@ -68,7 +69,7 @@ public class UserResourceTests extends AbstractUserApiTests {
             "admin@local",
             "de",
             false,
-            "admin"
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
         )
     );
   }

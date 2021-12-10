@@ -24,7 +24,10 @@ public class UserApiHealthIndicator extends AbstractHealthIndicator {
     try {
       if (this.userApiService.isHealthy()) {
         builder.up();
-        builder.withDetail("location", this.userApiService.authServerEndpoint);
+        builder.withDetail(
+            "location",
+            userApiService.authServerEndpoint + UserApiService.USER_JSON_API_PATH
+        );
       } else {
         builder.down();
       }

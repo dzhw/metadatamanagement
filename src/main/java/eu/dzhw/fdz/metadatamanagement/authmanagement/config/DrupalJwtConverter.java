@@ -34,8 +34,6 @@ public final class DrupalJwtConverter extends JwtAuthenticationConverter {
   private static final class DrupalJwtGrantedAuthoritiesConverter
       implements Converter<Jwt, Collection<GrantedAuthority>> {
 
-    private static final String PREFIX = "ROLE_";
-
     private static final String CLAIM_NAME = "scope";
 
     @Override
@@ -43,7 +41,7 @@ public final class DrupalJwtConverter extends JwtAuthenticationConverter {
       return getAuthorities(jwt)
           .stream()
           .map(
-              authority -> new SimpleGrantedAuthority(PREFIX + authority.toUpperCase(Locale.GERMAN))
+              authority -> new SimpleGrantedAuthority(authority.toUpperCase(Locale.GERMAN))
           )
           .collect(Collectors.toList());
     }

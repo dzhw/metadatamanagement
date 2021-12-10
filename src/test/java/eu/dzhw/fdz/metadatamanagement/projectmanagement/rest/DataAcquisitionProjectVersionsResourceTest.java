@@ -86,7 +86,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractUserApiT
               PUBLISHER_EMAIL,
               "de",
               false,
-              AuthoritiesConstants.PUBLISHER
+              AuthoritiesConstants.toSearchValue(AuthoritiesConstants.PUBLISHER)
           )
       );
   }

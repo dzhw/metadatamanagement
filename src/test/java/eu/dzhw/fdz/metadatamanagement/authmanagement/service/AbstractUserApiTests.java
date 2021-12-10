@@ -195,4 +195,11 @@ public abstract class AbstractUserApiTests extends AbstractTest {
     )
         .httpMethod(HttpMethod.PATCH);
   }
+
+  public MockServer.MockRequest addUserJsonApiPath() {
+    return this.mockServer.request(
+        UserApiService.USER_JSON_API_PATH
+    )
+        .httpMethod(HttpMethod.GET);
+  }
 }

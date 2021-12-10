@@ -36,7 +36,7 @@ public class AuditorServiceTests extends AbstractUserApiTests {
             "user@local",
             "de",
             false,
-            AuthoritiesConstants.USER
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
         )
     );
   }

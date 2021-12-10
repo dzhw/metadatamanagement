@@ -87,7 +87,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
             "user@local",
             "de",
             false,
-          AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
         ),
         new User(
             "asdf",
@@ -103,7 +103,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractUserApi
             "release_manager@local",
             "de",
             false,
-          AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER),
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER),
             AuthoritiesConstants.toSearchValue(AuthoritiesConstants.RELEASE_MANAGER)
         )
     );

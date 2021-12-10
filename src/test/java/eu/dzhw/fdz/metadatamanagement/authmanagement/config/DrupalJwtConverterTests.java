@@ -40,7 +40,13 @@ public class DrupalJwtConverterTests extends AbstractTest {
         .issueTime(new Date())
         .notBeforeTime(new Date())
         .expirationTime(Date.from(Instant.now().plusSeconds(60)))
-        .claim("scope", List.of("admin", "user"))
+      .claim(
+          "scope",
+          List.of(
+              AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN),
+              AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
+          )
+      )
         .build();
 
     var signedJWT = new SignedJWT(
@@ -74,7 +80,13 @@ public class DrupalJwtConverterTests extends AbstractTest {
         .header("typ", "JWT")
         .subject("1")
         .expiresAt(Instant.now().plusSeconds(60))
-        .claim("scope", List.of("admin", "user"))
+        .claim(
+            "scope",
+            List.of(
+                AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN),
+                AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
+            )
+        )
         .build();
 
     var authenticationToken = jwtConverter.convert(jwt);

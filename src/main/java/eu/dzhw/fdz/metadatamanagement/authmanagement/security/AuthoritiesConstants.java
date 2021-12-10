@@ -33,9 +33,7 @@ public final class AuthoritiesConstants {
    * @return the role as a Drupal user API role search parameter
    */
   public static String toSearchValue(final String role) {
-    return role
-        .replace("ROLE_", "")
-        .toLowerCase(Locale.ROOT);
+    return role.toLowerCase(Locale.ROOT);
 
   }
 }

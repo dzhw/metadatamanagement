@@ -32,11 +32,14 @@ import java.util.stream.Collectors;
 @Service
 public class UserApiService {
 
+  static final String USER_JSON_API_PATH = "/jsonapi/user/user";
+
   static final String FIND_ALL_BY_AUTHORITIES_CONTAINING_ENDPOINT =
-      "/jsonapi/user/user?filter[roles.id]={roleId}";
+      USER_JSON_API_PATH
+      + "?filter[roles.id]={roleId}";
 
   static final String FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT =
-      "/jsonapi/user/user"
+      USER_JSON_API_PATH
       // Create an OR group
       + "?filter[or-group][group][conjunction]=OR"
       // Add a name CONTAINS filter
@@ -55,7 +58,7 @@ public class UserApiService {
       + "&filter[roles.id]={roleId}";
 
   static final String FIND_ALL_BY_LOGIN_IN_ENDPOINT =
-      "/jsonapi/user/user"
+      USER_JSON_API_PATH
       + "?filter[name-filter][condition][path]=name"
       + "&filter[name-filter][condition][operator]=IN";
 
@@ -63,7 +66,7 @@ public class UserApiService {
       "&filter[name-filter][condition][value][%d]={login}";
 
   static final String FIND_ONE_BY_LOGIN_OR_EMAIL_ENDPOINT =
-      "/jsonapi/user/user"
+      USER_JSON_API_PATH
       // Create an OR group
       + "?filter[or-group][group][conjunction]=OR"
       // Add a name equals filter
@@ -86,7 +89,8 @@ public class UserApiService {
       + "&include=roles";
 
   static final String PATCH_DEACTIVATED_WELCOME_DIALOG_BY_ID_ENDPOINT =
-      "/jsonapi/user/user/{id}";
+      USER_JSON_API_PATH
+      + "/{id}";
 
   final String authServerEndpoint;
 
@@ -362,7 +366,7 @@ public class UserApiService {
   public boolean isHealthy() {
     try {
       return this.restTemplate.getForEntity(
-          this.authServerEndpoint,
+          USER_JSON_API_PATH,
           Void.class
       )
           .getStatusCode()
