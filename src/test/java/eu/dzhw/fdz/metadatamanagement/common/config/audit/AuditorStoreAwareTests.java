@@ -112,7 +112,7 @@ public class AuditorStoreAwareTests extends AbstractUserApiTests {
             "auditor@local",
             "de",
             false,
-            "task_user"
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.TASK_USER)
         )
     );
     this.addFindOneByLoginRequest(AUDITOR);

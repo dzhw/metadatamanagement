@@ -92,7 +92,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
             "user@local",
             "de",
             false,
-            "user"
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
         ),
         new User(
             "asdf",
@@ -108,7 +108,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractUserApiTe
             PUBLISHER_EMAIL,
             "de",
             false,
-            "publisher"
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.PUBLISHER)
         ),
         new User(
             "0987",

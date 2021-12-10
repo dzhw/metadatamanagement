@@ -39,8 +39,8 @@ public class UserApiServiceTest extends AbstractUserApiTests {
             EMAIL,
             "de",
             false,
-            "user",
-            "admin"
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER),
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
         ),
         new User(
             "",
@@ -48,8 +48,8 @@ public class UserApiServiceTest extends AbstractUserApiTests {
             "resource_server@example.com",
             "de",
             false,
-            "user",
-            "admin"
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER),
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
         )
     );
   }
