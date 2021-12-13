@@ -18,7 +18,7 @@
              layout-gt-sm="column"
              flex="2"
              class="ms-flex">
-          <md-button class="md-primary md-icon-button"
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0"
                      ng-if="$ctrl.scripts.length > 1"
                      ng-click="$ctrl.deleteScript($index, script.uuid)">
             <md-tooltip md-autohide="true"
@@ -60,7 +60,7 @@
                    name="scriptsUuid_{{$index}}"
                    ng-model="script.uuid">
             <md-input-container flex="50"
-                                class="mr8"
+                                class="ml0 mr8"
                                 md-is-error="!$ctrl.currentForm['scriptsTitleDe_' + $index].$valid && ($ctrl.currentForm['scriptsTitleDe_' + $index].$dirty || $ctrl.currentForm['scriptsTitleDe_' + $index].$touched)">
               <label
                 class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}

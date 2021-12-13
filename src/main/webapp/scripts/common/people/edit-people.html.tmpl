@@ -18,7 +18,7 @@
             <md-icon md-font-set="material-icons">delete_forever</md-icon>
           </md-button>
         </div>
-        <md-input-container flex="33" class="mr8"
+        <md-input-container flex="33" class="ml0 mr8"
                             md-is-error="!form[$ctrl.peopleId + 'FirstName_' + $index].$valid && (form[$ctrl.peopleId + 'FirstName_' + $index].$dirty || form[$ctrl.peopleId + 'FirstName_' + $index].$touched)">
           <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
           <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}FirstName_{{$index}}"
