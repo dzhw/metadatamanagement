@@ -66,28 +66,32 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
       }
     };
 
-    var setDublinCoreMetadata = function(dataPackage) {
+    var setDublinCoreMetadata = function(dataPackage, analysis) {
+      if (!analysis) {
+        analysis = false;
+      }
       var language = LanguageService.getCurrentInstantly();
       if (dataPackage && dataPackage.release) {
-        $rootScope.dublinCoreMetadata = {
-          type: 'Dataset',
-          title: dataPackage.title,
-          identifier: dataPackage.doi ?
-            'https://doi.org/' + dataPackage.doi : undefined,
-          description: dataPackage.description,
-          creators: dataPackage.projectContributors,
-          contributors: dataPackage.dataCurators,
-          date: dataPackage.release.firstDate,
-          subjects: dataPackage.tags,
-          publisher: 'FDZ-DZHW',
-          coverage: {
-            period: dataPackage.surveyPeriod,
-            countries: dataPackage.surveyCountries
-          },
-          languages: dataPackage.dataLanguages,
-          rights: getLicenseDescription(dataPackage)
-        };
-        $rootScope.dublinCoreMetadata.institutions =
+        if (!analysis) {
+          $rootScope.dublinCoreMetadata = {
+            type: 'Dataset',
+            title: dataPackage.title,
+            identifier: dataPackage.doi ?
+              'https://doi.org/' + dataPackage.doi : undefined,
+            description: dataPackage.description,
+            creators: dataPackage.projectContributors,
+            contributors: dataPackage.dataCurators,
+            date: dataPackage.release.firstDate,
+            subjects: dataPackage.tags,
+            publisher: 'FDZ-DZHW',
+            coverage: {
+              period: dataPackage.surveyPeriod,
+              countries: dataPackage.surveyCountries
+            },
+            languages: dataPackage.dataLanguages,
+            rights: getLicenseDescription(dataPackage)
+          };
+          $rootScope.dublinCoreMetadata.institutions =
             dataPackage.institutions.map(function(institution) {
               if (institution[language]) {
                 return institution[language];
@@ -95,6 +99,33 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
                 return getI18nStringInOtherLanguage(institution, language);
               }
             });
+        } else {
+          $rootScope.dublinCoreMetadata = {
+            type: 'Software',
+            title: dataPackage.title,
+            identifier: dataPackage.doi ?
+              'https://doi.org/' + dataPackage.doi : undefined,
+            description: dataPackage.description,
+            creators: dataPackage.authors,
+            contributors: dataPackage.dataCurators,
+            date: dataPackage.release.firstDate,
+            subjects: dataPackage.tags,
+            publisher: 'FDZ-DZHW',
+            rights: $rootScope.baseUrl + '/' + language +
+              '/analysis-packages/' +
+              dataPackage.masterId + '?version=' + dataPackage.release.version
+          };
+          if (dataPackage.institutions) {
+            $rootScope.dublinCoreMetadata.institutions =
+              dataPackage.institutions.map(function(institution) {
+                if (institution[language]) {
+                  return institution[language];
+                } else {
+                  return getI18nStringInOtherLanguage(institution, language);
+                }
+              });
+          }
+        }
       } else {
         $rootScope.dublinCoreMetadata = null;
       }
@@ -151,12 +182,25 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
         '@type': 'Organization'
       };
     };
+    var mapSoftwarePackagesToSchemaOrg = function(scripts) {
+      var result = scripts.map(function(item) {
+        return item.softwarePackage;
+      });
+      return result.toString();
+    };
 
     var formatDate = function(date) {
       return $filter('date')(date, 'yyyy-MM-dd');
     };
 
-    var setSchemaOrgMetadata = function(dataPackage) {
+    var setSchemaOrgMetadata = function(dataPackage, analysis) {
+      if (!analysis) {
+        analysis = false;
+      }
+      var path = {
+        false: '/data-packages/',
+        true: '/analysis-packages/'
+      };
       if (dataPackage && dataPackage.release) {
         var language = LanguageService.getCurrentInstantly();
         var schemaOrgMetadata = {
@@ -169,9 +213,9 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
           'description': dataPackage.description[language] ?
             dataPackage.description[language] :
             getI18nStringInOtherLanguage(dataPackage.description),
-          'url': $rootScope.baseUrl + '/' + language + '/data-packages/' +
+          'url': $rootScope.baseUrl + '/' + language + path[analysis] +
             dataPackage.masterId + '?version=' + dataPackage.release.version,
-          'sameAs': $rootScope.baseUrl + '/en/data-packages/' +
+          'sameAs': $rootScope.baseUrl + '/en' + path[analysis] +
             dataPackage.masterId,
           'version': dataPackage.release.version,
           'identifier': dataPackage.doi ?
@@ -185,6 +229,32 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
             'description': getLicenseDescription(dataPackage)[language]
           }
         };
+        if (analysis) {
+          schemaOrgMetadata['@type'] = 'SoftwareSourceCode';
+          if (dataPackage.authors) {
+            schemaOrgMetadata.creator = dataPackage.authors.map(
+              mapPersonToSchemaOrg);
+          }
+          if (dataPackage.institutions) {
+            schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
+              dataPackage.institutions.map(function(institution) {
+                return mapOrganizationToSchemaOrg(institution, language);
+              }));
+          }
+          schemaOrgMetadata.license = {
+            '@type': 'CreativeWork',
+            'description': schemaOrgMetadata.url
+          };
+          schemaOrgMetadata.runtimePlatform =
+            mapSoftwarePackagesToSchemaOrg(dataPackage.scripts);
+        } else {
+          schemaOrgMetadata.license = {
+            '@type': 'CreativeWork',
+            'name': getLicenseName()[language],
+            'description': getLicenseDescription(dataPackage)[language]
+          };
+        }
+
         if (dataPackage.tags) {
           schemaOrgMetadata.keywords = dataPackage.tags[language];
         }
@@ -211,12 +281,14 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
             function(sponsor) {
               return mapOrganizationToSchemaOrg(sponsor, language);
             });
-          schemaOrgMetadata.creator = dataPackage.projectContributors.map(
-            mapPersonToSchemaOrg);
-          schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
-            dataPackage.institutions.map(function(institution) {
-              return mapOrganizationToSchemaOrg(institution, language);
-            }));
+          if (dataPackage.projectContributors) {
+            schemaOrgMetadata.creator = dataPackage.projectContributors.map(
+              mapPersonToSchemaOrg);
+            schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
+              dataPackage.institutions.map(function(institution) {
+                return mapOrganizationToSchemaOrg(institution, language);
+              }));
+          }
           schemaOrgMetadata.contributor = dataPackage.dataCurators.map(
             mapPersonToSchemaOrg);
           schemaOrgMetadata.publisher = {

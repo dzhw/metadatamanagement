@@ -159,9 +159,8 @@ angular.module('metadatamanagementApp')
               LanguageService.getCurrentInstantly()
               ]
           });
-        // PageMetadataService.setDublinCoreMetadata(result);
-        // sponsors create an error
-        // PageMetadataService.setSchemaOrgMetadata(result);
+        PageMetadataService.setDublinCoreMetadata(result, true);
+        PageMetadataService.setSchemaOrgMetadata(result, true);
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
