@@ -3,12 +3,14 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.MetadataExportFormat;
 
+@Disabled("Da-ra OAI-PMH is currently down!")
 public class DaraOaiPmhClientTest extends AbstractTest {
   @Autowired
   private DaraOaiPmhClient oaiPmhClient;
