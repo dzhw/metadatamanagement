@@ -2,12 +2,13 @@
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
-  function Principal($q, AuthServiceProvider, $rootScope,
-                     WelcomeDialogService) {
+  function Principal($q, AuthServiceProvider, $rootScope, localStorageService,
+                     WelcomeDialogService, $state, LanguageService) {
 
     if (AuthServiceProvider.hasToken()) {
       $rootScope.identity = AuthServiceProvider.idTokenInfo();
     }
+    var uiLoggedIn = localStorageService.get('uilstate') || false;
 
     //@todo: save welcome dialog state in dpl
     var displayWelcomeDialog = function() {
@@ -17,19 +18,44 @@ angular.module('metadatamanagementApp').factory(
     };
 
     return {
+      isUiLoggedIn: function() {
+        return uiLoggedIn;
+      },
       isAuthenticated: function() {
-        return AuthServiceProvider.hasToken();
+        return uiLoggedIn && AuthServiceProvider.hasToken();
+      },
+      switchMode: function() {
+        if (AuthServiceProvider.hasToken()) {
+          uiLoggedIn = !uiLoggedIn;
+          localStorageService.set('uilstate', uiLoggedIn);
+
+          if (!uiLoggedIn) {
+            $rootScope.identity = {};
+            $rootScope.previousStateName = undefined;
+            $rootScope.previousStateParams = undefined;
+            $rootScope.$broadcast('user-logged-out');
+          } else {
+            $rootScope.identity = AuthServiceProvider.idTokenInfo();
+          }
+
+          $state.go('start', {
+            lang: LanguageService.getCurrentInstantly()
+          }, {
+            reload: true
+          });
+        } else {
+          localStorageService.set('uilstate', false);
+          AuthServiceProvider.login();
+        }
       },
       hasAuthority: function(authority) {
-        if (!AuthServiceProvider.hasToken()) {
-          return false;
-        }
-        return (AuthServiceProvider.accessTokenInfo().scope &&
-          AuthServiceProvider.accessTokenInfo().scope.
-          indexOf(authority.toLowerCase()) !== -1);
+        return (uiLoggedIn && AuthServiceProvider.hasToken() &&
+          AuthServiceProvider.accessTokenInfo().scope &&
+          AuthServiceProvider.accessTokenInfo().
+          scope.indexOf(authority.toLowerCase()) !== -1);
       },
       hasAnyAuthority: function(authorities) {
-        if (!AuthServiceProvider.hasToken()) {
+        if (!uiLoggedIn || !AuthServiceProvider.hasToken()) {
           return false;
         }
         for (var i = 0; i < authorities.length; i++) {
@@ -44,22 +70,27 @@ angular.module('metadatamanagementApp').factory(
       identity: function() {
         var deferred = $q.defer();
 
-        if (displayWelcomeDialog()) {
-          WelcomeDialogService.display(
-            AuthServiceProvider.idTokenInfo().preferred_username)
-            .then(function(hideWelcomeDialog) {
-              if (hideWelcomeDialog) {
-                //_identity.welcomeDialogDeactivated = true;
-                //@todo: save state in dpl user profile
-              }
-            });
+        if (!uiLoggedIn) {
+          deferred.reject();
         }
-        $rootScope.indentity = AuthServiceProvider.idTokenInfo();
-        deferred.resolve(AuthServiceProvider.idTokenInfo());
+        if (uiLoggedIn && AuthServiceProvider.hasToken()) {
+          if (displayWelcomeDialog()) {
+            WelcomeDialogService.display(
+              AuthServiceProvider.idTokenInfo().preferred_username)
+              .then(function(hideWelcomeDialog) {
+                if (hideWelcomeDialog) {
+                  //_identity.welcomeDialogDeactivated = true;
+                  //@todo: save state in dpl user profile
+                }
+              });
+          }
+          $rootScope.indentity = AuthServiceProvider.idTokenInfo();
+          deferred.resolve(AuthServiceProvider.idTokenInfo());
+        }
         return deferred.promise;
       },
       loginName: function() {
-        return AuthServiceProvider.hasToken() &&
+        return uiLoggedIn && AuthServiceProvider.hasToken() &&
           AuthServiceProvider.idTokenInfo().preferred_username;
       }
     };
