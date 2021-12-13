@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
 
     //Goto Logout Page
     $scope.logout = function() {
-      Auth.logout();
+      Auth.logout(true);
       $rootScope.searchQuery = '';
       $state.go('start', {
         lang: LanguageService.getCurrentInstantly()

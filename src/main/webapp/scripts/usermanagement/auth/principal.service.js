@@ -44,9 +44,8 @@ angular.module('metadatamanagementApp').factory(
             reload: true
           });
         } else {
-          $state.go('login', {
-            lang: LanguageService.getCurrentInstantly()
-          });
+          localStorageService.set('uilstate', false);
+          AuthServiceProvider.login();
         }
       },
       hasAuthority: function(authority) {
