@@ -281,21 +281,25 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
             function(sponsor) {
               return mapOrganizationToSchemaOrg(sponsor, language);
             });
-          if (dataPackage.projectContributors) {
-            schemaOrgMetadata.creator = dataPackage.projectContributors.map(
-              mapPersonToSchemaOrg);
-            schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
-              dataPackage.institutions.map(function(institution) {
-                return mapOrganizationToSchemaOrg(institution, language);
-              }));
-          }
+        }
+        if (!analysis && dataPackage.projectContributors) {
+          schemaOrgMetadata.creator = dataPackage.projectContributors.map(
+            mapPersonToSchemaOrg);
+        }
+        if (!analysis && dataPackage.institutions) {
+          schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
+            dataPackage.institutions.map(function(institution) {
+              return mapOrganizationToSchemaOrg(institution, language);
+            }));
+        }
+        if (dataPackage.dataCurators) {
           schemaOrgMetadata.contributor = dataPackage.dataCurators.map(
             mapPersonToSchemaOrg);
-          schemaOrgMetadata.publisher = {
-            name: 'FDZ-DZHW',
-            '@type': 'Organization'
-          };
         }
+        schemaOrgMetadata.publisher = {
+          name: 'FDZ-DZHW',
+          '@type': 'Organization'
+        };
         $rootScope.schemaOrgMetadata = $sce.trustAsHtml(angular.toJson(
           schemaOrgMetadata));
       } else {
