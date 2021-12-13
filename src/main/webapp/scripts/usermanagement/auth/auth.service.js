@@ -9,8 +9,10 @@ angular
         login: function() {
           return AuthServiceProvider.login();
         },
-        logout: function() {
-          AuthServiceProvider.logout();
+        logout: function(complete) {
+          if (complete) {
+            AuthServiceProvider.logout();
+          }
           $rootScope.identity = {};
           // Reset state memory
           $rootScope.previousStateName = undefined;
