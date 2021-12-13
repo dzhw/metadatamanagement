@@ -254,6 +254,9 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
         if (dataPackage.projectContributors) {
           schemaOrgMetadata.creator = dataPackage.projectContributors.map(
             mapPersonToSchemaOrg);
+        }
+        if (dataPackage.institutions) {
+          schemaOrgMetadata.creator = schemaOrgMetadata.creator || [];
           schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
             dataPackage.institutions.map(function(institution) {
               return mapOrganizationToSchemaOrg(institution, language);
@@ -263,10 +266,10 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
           schemaOrgMetadata.contributor = dataPackage.dataCurators.map(
             mapPersonToSchemaOrg);
         }
-          schemaOrgMetadata.publisher = {
-            name: 'FDZ-DZHW',
-            '@type': 'Organization'
-          };
+        schemaOrgMetadata.publisher = {
+          name: 'FDZ-DZHW',
+          '@type': 'Organization'
+        };
 
         $rootScope.schemaOrgMetadata = $sce.trustAsHtml(angular.toJson(
           schemaOrgMetadata));
@@ -312,22 +315,12 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
             mapPersonToSchemaOrg);
         }
         if (analysisPackage.institutions) {
-          if (schemaOrgMetadata.creator) {
-            schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
-              analysisPackage.institutions.map(function(institution) {
-                return mapOrganizationToSchemaOrg(institution, language);
-              }));
-          } else {
-            schemaOrgMetadata.creator = analysisPackage.institutions.map(
-              function(institution) {
+          schemaOrgMetadata.creator = schemaOrgMetadata.creator || [];
+          schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
+            analysisPackage.institutions.map(function(institution) {
               return mapOrganizationToSchemaOrg(institution, language);
-            });
-          }
+            }));
         }
-        schemaOrgMetadata.license = {
-          '@type': 'CreativeWork',
-          'description': schemaOrgMetadata.url
-        };
         schemaOrgMetadata.runtimePlatform =
           mapSoftwarePackagesToSchemaOrg(analysisPackage.scripts);
         if (analysisPackage.tags) {
