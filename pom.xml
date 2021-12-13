@@ -24,7 +24,7 @@
     </distributionManagement>
 
     <properties>
-        <elasticsearch.version>7.15.0</elasticsearch.version>
+        <elasticsearch.version>7.15.2</elasticsearch.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <java.version>15</java.version>
         <maven-sortpom-plugin.version>2.12.0</maven-sortpom-plugin.version>
@@ -32,6 +32,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <org.slf4j.simpleLogger.log.pl.project13.maven.git>WARN</org.slf4j.simpleLogger.log.pl.project13.maven.git>
+        <log4j2.version>2.15.0</log4j2.version>
         <!-- Sonar properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <run.addResources>false</run.addResources>

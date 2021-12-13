@@ -3,7 +3,7 @@
 // service for updating the page title (used in toolbar and window.title)
 angular.module('metadatamanagementApp').factory('PageMetadataService',
   function($rootScope, $transitions, $location, $analytics, $timeout, $window,
-    $sce, LanguageService, $filter) {
+           $sce, LanguageService, $filter) {
     $transitions.onExit({}, function() {
       setPageTitle();
       setPageDescription();
@@ -52,7 +52,7 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
 
     var setPreviousLink = function(type) {
       if (type) {
-        $rootScope.previousUiSref = '({type: "' + type  + '", page: 1})';
+        $rootScope.previousUiSref = '({type: "' + type + '", page: 1})';
       } else {
         $rootScope.previousUiSref = null;
       }
@@ -60,12 +60,11 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
 
     var setNextLink = function(type) {
       if (type) {
-        $rootScope.nextUiSref = '({type: "' + type  + '", page: 1})';
+        $rootScope.nextUiSref = '({type: "' + type + '", page: 1})';
       } else {
         $rootScope.nextUiSref = null;
       }
     };
-
     var setDublinCoreMetadata = function(dataPackage) {
       var language = LanguageService.getCurrentInstantly();
       if (dataPackage && dataPackage.release) {
@@ -88,13 +87,48 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
           rights: getLicenseDescription(dataPackage)
         };
         $rootScope.dublinCoreMetadata.institutions =
-            dataPackage.institutions.map(function(institution) {
+          dataPackage.institutions.map(function(institution) {
+            if (institution[language]) {
+              return institution[language];
+            } else {
+              return getI18nStringInOtherLanguage(institution, language);
+            }
+          });
+      } else {
+        $rootScope.dublinCoreMetadata = null;
+      }
+    };
+
+    var setDublinCoreMetadataForAP = function(analysisPackage) {
+      var language = LanguageService.getCurrentInstantly();
+      if (analysisPackage && analysisPackage.release) {
+        $rootScope.dublinCoreMetadata = {
+          type: 'Software',
+          title: analysisPackage.title,
+          identifier: analysisPackage.doi ?
+            'https://doi.org/' + analysisPackage.doi : undefined,
+          description: analysisPackage.description,
+          creators: analysisPackage.authors,
+          contributors: analysisPackage.dataCurators,
+          date: analysisPackage.release.firstDate,
+          subjects: analysisPackage.tags,
+          publisher: 'FDZ-DZHW',
+          rights: $rootScope.baseUrl + '/' + language +
+            '/analysis-packages/' +
+            analysisPackage.masterId + '?version=' +
+            analysisPackage.release.version
+        };
+        if (analysisPackage.institutions) {
+          $rootScope.dublinCoreMetadata.institutions =
+            analysisPackage.institutions.map(function(institution) {
               if (institution[language]) {
                 return institution[language];
               } else {
                 return getI18nStringInOtherLanguage(institution, language);
               }
             });
+        }
+
       } else {
         $rootScope.dublinCoreMetadata = null;
       }
@@ -151,11 +185,16 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
         '@type': 'Organization'
       };
     };
+    var mapSoftwarePackagesToSchemaOrg = function(scripts) {
+      var result = scripts.map(function(item) {
+        return item.softwarePackage;
+      });
+      return result.toString();
+    };
 
     var formatDate = function(date) {
       return $filter('date')(date, 'yyyy-MM-dd');
     };
-
     var setSchemaOrgMetadata = function(dataPackage) {
       if (dataPackage && dataPackage.release) {
         var language = LanguageService.getCurrentInstantly();
@@ -211,19 +250,96 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
             function(sponsor) {
               return mapOrganizationToSchemaOrg(sponsor, language);
             });
+        }
+        if (dataPackage.projectContributors) {
           schemaOrgMetadata.creator = dataPackage.projectContributors.map(
             mapPersonToSchemaOrg);
+        }
+        if (dataPackage.institutions) {
+          schemaOrgMetadata.creator = schemaOrgMetadata.creator || [];
           schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
             dataPackage.institutions.map(function(institution) {
               return mapOrganizationToSchemaOrg(institution, language);
             }));
+        }
+        if (dataPackage.dataCurators) {
           schemaOrgMetadata.contributor = dataPackage.dataCurators.map(
             mapPersonToSchemaOrg);
-          schemaOrgMetadata.publisher = {
-            name: 'FDZ-DZHW',
-            '@type': 'Organization'
-          };
         }
+        schemaOrgMetadata.publisher = {
+          name: 'FDZ-DZHW',
+          '@type': 'Organization'
+        };
+
+        $rootScope.schemaOrgMetadata = $sce.trustAsHtml(angular.toJson(
+          schemaOrgMetadata));
+      } else {
+        $rootScope.schemaOrgMetadata = null;
+      }
+    };
+
+    var setSchemaOrgMetadataForAP = function(analysisPackage) {
+      if (analysisPackage && analysisPackage.release) {
+        var language = LanguageService.getCurrentInstantly();
+        var schemaOrgMetadata = {
+          '@context': 'https://schema.org/',
+          '@type': 'SoftwareSourceCode',
+          '@language': language,
+          'name': analysisPackage.title[language] ?
+            analysisPackage.title[language] :
+            getI18nStringInOtherLanguage(analysisPackage.title),
+          'description': analysisPackage.description[language] ?
+            analysisPackage.description[language] :
+            getI18nStringInOtherLanguage(analysisPackage.description),
+          'url': $rootScope.baseUrl + '/' + language + '/analysis-packages/' +
+            analysisPackage.masterId + '?version=' +
+            analysisPackage.release.version,
+          'sameAs': $rootScope.baseUrl + '/en' + '/analysis-packages/' +
+            analysisPackage.masterId,
+          'version': analysisPackage.release.version,
+          'identifier': analysisPackage.doi ?
+            'https://doi.org/' + analysisPackage.doi : undefined,
+          'isAccessibleForFree': true,
+          'datePublished': formatDate(analysisPackage.release.firstDate),
+          'dateModified': formatDate(analysisPackage.release.lastDate),
+          'license': {
+            '@type': 'CreativeWork',
+            'description': $rootScope.baseUrl + '/' + language +
+              '/analysis-packages/' +
+              analysisPackage.masterId + '?version=' +
+              analysisPackage.release.version
+          }
+        };
+        if (analysisPackage.authors) {
+          schemaOrgMetadata.creator = analysisPackage.authors.map(
+            mapPersonToSchemaOrg);
+        }
+        if (analysisPackage.institutions) {
+          schemaOrgMetadata.creator = schemaOrgMetadata.creator || [];
+          schemaOrgMetadata.creator = schemaOrgMetadata.creator.concat(
+            analysisPackage.institutions.map(function(institution) {
+              return mapOrganizationToSchemaOrg(institution, language);
+            }));
+        }
+        schemaOrgMetadata.runtimePlatform =
+          mapSoftwarePackagesToSchemaOrg(analysisPackage.scripts);
+        if (analysisPackage.tags) {
+          schemaOrgMetadata.keywords = analysisPackage.tags[language];
+        }
+        if (analysisPackage.sponsors) {
+          schemaOrgMetadata.funder = analysisPackage.sponsors.map(
+            function(sponsor) {
+              return mapOrganizationToSchemaOrg(sponsor, language);
+            });
+        }
+        if (analysisPackage.dataCurators) {
+          schemaOrgMetadata.contributor = analysisPackage.dataCurators.map(
+            mapPersonToSchemaOrg);
+        }
+        schemaOrgMetadata.publisher = {
+          name: 'FDZ-DZHW',
+          '@type': 'Organization'
+        };
         $rootScope.schemaOrgMetadata = $sce.trustAsHtml(angular.toJson(
           schemaOrgMetadata));
       } else {
@@ -237,7 +353,9 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
       setPageTitle: setPageTitle,
       setPageDescription: setPageDescription,
       setDublinCoreMetadata: setDublinCoreMetadata,
-      setSchemaOrgMetadata: setSchemaOrgMetadata
+      setDublinCoreMetadataForAP: setDublinCoreMetadataForAP,
+      setSchemaOrgMetadata: setSchemaOrgMetadata,
+      setSchemaOrgMetadataForAP: setSchemaOrgMetadataForAP
     };
 
     return exports;
