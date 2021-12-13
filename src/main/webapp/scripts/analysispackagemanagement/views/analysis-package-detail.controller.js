@@ -159,8 +159,8 @@ angular.module('metadatamanagementApp')
               LanguageService.getCurrentInstantly()
               ]
           });
-        PageMetadataService.setDublinCoreMetadata(result, true);
-        PageMetadataService.setSchemaOrgMetadata(result, true);
+        PageMetadataService.setDublinCoreMetadataForAP(result);
+        PageMetadataService.setSchemaOrgMetadataForAP(result);
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
