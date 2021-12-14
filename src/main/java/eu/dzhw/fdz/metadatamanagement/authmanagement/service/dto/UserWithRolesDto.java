@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
@@ -11,6 +12,11 @@ import java.util.stream.Collectors;
  * An extension of the {@link UserDto} which includes
  * the roles of the associated user.
  */
+// This is a read only object
+@JsonIgnoreProperties(
+    value = "login",
+    allowGetters = true
+)
 public class UserWithRolesDto extends UserDto {
 
   @Getter
@@ -39,7 +45,11 @@ public class UserWithRolesDto extends UserDto {
   ) {
     super(id, name, mail, langcode, welcomeDialogDeactivated);
 
-    this.roles = roles.stream().map(r -> r.name).collect(Collectors.toList());
+    if (roles != null) {
+      this.roles = roles.stream().map(r -> r.name).collect(Collectors.toList());
+    } else {
+      this.roles = List.of();
+    }
   }
 
   /**

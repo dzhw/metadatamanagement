@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
@@ -8,6 +9,10 @@ import lombok.Getter;
  * A DTO which contains all desired fields related to a User in the User API response.
  */
 @Getter
+@JsonIgnoreProperties(
+    value = "login",
+    allowGetters = true
+)
 public class UserDto {
   private final String id;
   private final String login;
@@ -27,8 +32,8 @@ public class UserDto {
    */
   @JsonCreator
   public UserDto(
-      @JsonProperty(value = "id") final String id,
-      @JsonProperty(value = "name") final String name,
+      @JsonProperty("id") final String id,
+      @JsonProperty("name") final String name,
       @JsonProperty("mail") final String mail,
       @JsonProperty("langcode") final String langcode,
       @JsonProperty("field_welcome_dialog_deactivated") final boolean welcomeDialogDeactivated
