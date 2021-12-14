@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,19 +10,19 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Ensure that the referenced script exists.
+ * Ensure that there is at least one dataPackageId or at least one analysisPackageId.
  */
 @Documented
-@Constraint(validatedBy = {ValidScriptUuidValidator.class})
-@Target(ElementType.TYPE)
+@Constraint(validatedBy = {DataPackageIdsOrAnalysisPackageIdsPresentValidator.class})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidScriptUuid {
+public @interface DataPackageIdsOrAnalysisPackageIdsPresent {
 
   /**
    * Defines the default error message.
    */
-  String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation"
-      + "analysis-package.error.script-attachment.script-uuid-does-not-exist}";
+  String message() default "related-publication-management.error."
+      + "related-publication.at-least-one-referenced-id";
 
   /**
    * This contains groups.

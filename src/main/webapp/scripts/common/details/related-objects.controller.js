@@ -41,6 +41,18 @@
       sortOptions: ['relevance', 'alphabetically', 'survey-period',
         'first-release-date', 'last-release-date']
     }, {
+      title: 'search-management.tabs.analysis_packages',
+      inputLabel: 'search-management.input-label.analysis-packages',
+      elasticSearchType: 'analysis_packages',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.analysis-packages',
+      group: 'analysisPackages',
+      sortOptions: ['relevance', 'alphabetically', 'first-release-date',
+        'last-release-date']
+    }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
       elasticSearchType: 'surveys',
@@ -153,6 +165,7 @@
     function getCurrentObjectFilter() {
       var objMapper = {
         'data-packages': 'data-package',
+        'analysis-packages': 'analysis-package',
         'studies': 'data-package',
         'surveys': 'survey',
         'instruments': 'instrument',
@@ -211,7 +224,8 @@
         delete locationSearch['sort-by'];
       }
       _.assign(locationSearch, _.omit($ctrl.searchParams.filter,
-        'data-package', 'survey', 'concept', 'data-set', 'instrument',
+        'data-package', 'analysis-package', 'survey',
+        'concept', 'data-set', 'instrument',
         'question', 'related-publication', 'variable'));
       locationChanged = !angular.equals($location.search(),
         locationSearch);

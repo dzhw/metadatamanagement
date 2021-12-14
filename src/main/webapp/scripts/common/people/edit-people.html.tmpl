@@ -5,23 +5,24 @@
     </md-card-header-text>
   </md-card-header>
   <md-divider></md-divider>
-  <md-card-content style="padding-bottom: 0px; padding-left: 0px; padding-top: 0px;">
-    <div id="move-{{ $ctrl.peopleId }}-container" layout="column" ng-repeat="person in $ctrl.people track by $index">
+  <md-card-content class="pt0">
+    <div id="{{ $ctrl.peopleId }}-{{$index}}" layout="column" ng-repeat="person in $ctrl.people track by $index">
       <div flex layout="row" class="mt16 ms-flex">
-        <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
-                   ng-if="$ctrl.people.length > 1"
-                   style="margin-top: 18px; margin-left: 0px; margin-right: 8px; padding-left: 0px; padding-right: 12px;">
-          <md-tooltip md-autohide="true" md-direction="bottom"
-                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-            {{ $ctrl.translationKeys.tooltips.delete | translate}}
-          </md-tooltip>
-          <md-icon md-font-set="material-icons">delete_forever</md-icon>
-        </md-button>
-        <md-input-container flex="33" class="mr8"
+        <div>
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="$ctrl.deletePerson($index)"
+                     ng-if="$ctrl.people.length > 1">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{ $ctrl.translationKeys.tooltips.delete | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_forever</md-icon>
+          </md-button>
+        </div>
+        <md-input-container flex="33" class="ml0 mr8"
                             md-is-error="!form[$ctrl.peopleId + 'FirstName_' + $index].$valid && (form[$ctrl.peopleId + 'FirstName_' + $index].$dirty || form[$ctrl.peopleId + 'FirstName_' + $index].$touched)">
           <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
           <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}FirstName_{{$index}}"
-                 ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+                 ng-blur="$ctrl.deleteCurrentPerson($index, $event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
                  ng-model="person.firstName" autocomplete="off">
           <div
             class="fdz-input-hint"
@@ -35,7 +36,7 @@
         <md-input-container flex="33" class="mr8"
                             md-is-error="!form[$ctrl.peopleId + 'MiddleName_' + $index].$valid && (form[$ctrl.peopleId + 'MiddleName_' + $index].$dirty || form[$ctrl.peopleId + 'MiddleName_' + $index].touched)">
           <label>{{'global.people.edit.label.middle-name' | translate}}</label>
-          <input name="{{ $ctrl.peopleId }}MiddleName_{{$index}}" ng-blur="$ctrl.deleteCurrentPerson($event)"
+          <input name="{{ $ctrl.peopleId }}MiddleName_{{$index}}" ng-blur="$ctrl.deleteCurrentPerson($index, $event)"
                  ng-focus="$ctrl.setCurrentPerson($index,$event)" ng-model="person.middleName"
                  autocomplete="off">
           <div
@@ -50,7 +51,7 @@
                             md-is-error="!form[$ctrl.peopleId + 'LastName_' + $index].$valid && (form[$ctrl.peopleId + 'LastName_' + $index].$dirty || form[$ctrl.peopleId + 'LastName_' + $index].$touched)">
           <label class="fdz-input-required">{{'global.people.edit.label.last-name' | translate}}</label>
           <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}LastName_{{$index}}"
-                 ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+                 ng-blur="$ctrl.deleteCurrentPerson($index, $event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
                  ng-model="person.lastName" autocomplete="off">
           <div
             class="fdz-input-hint"
@@ -62,11 +63,11 @@
           </div>
         </md-input-container>
       </div>
-      <div layout="row" layout-align="start center" style="margin-bottom: 18px;">
-        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '26px' : '0px'}" style="margin-top: 0px; margin-bottom: 0px;">
+      <div layout="row" layout-align="start center">
+        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '40px' : '0px'}" class="mt0">
           <label>ORCID</label>
           <input name="{{ $ctrl.peopleId }}ORCID_{{$index}}" disabled="true"
-                 ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+                 ng-blur="$ctrl.deleteCurrentPerson($index, $event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
                  ng-model="person.orcid" autocomplete="off">
           <div
             class="fdz-input-hint">
@@ -91,7 +92,7 @@
       <md-divider ng-if="!$last"></md-divider>
     </div>
   </md-card-content>
-  <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+  <md-card-actions layout="row" layout-align="begin center" class="mb12">
     <md-button class="md-primary md-raised md-icon-button ml6" ng-click="$ctrl.addPerson()">
       <md-tooltip md-autohide="true" md-direction="bottom"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

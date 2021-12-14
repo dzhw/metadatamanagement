@@ -290,8 +290,19 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications =
           relatedPublicationRepository
               .findSubDocumentsByAnalysisPackageIdsContaining(analysisPackage.getMasterId());
+      List<DataPackageSubDocumentProjection> dataPackages = null;
+      if (analysisPackage.getAnalysisDataPackages() != null) {
+        Class<eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage> clazz =
+            eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage.class;
+        Set<String> dataPackageIds =
+            analysisPackage.getAnalysisDataPackages().stream().filter(clazz::isInstance)
+                .map(clazz::cast).map(dataPackage -> dataPackage.getDataPackageMasterId() + "-"
+                    + dataPackage.getVersion())
+                .collect(Collectors.toSet());
+        dataPackages = dataPackageRepository.findSubDocumentsByIdIn(dataPackageIds);
+      }
       AnalysisPackageSearchDocument searchDocument = new AnalysisPackageSearchDocument(
-          analysisPackage, release, configuration, doi, relatedPublications);
+          analysisPackage, release, configuration, doi, dataPackages, relatedPublications);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -697,11 +708,16 @@ public class ElasticsearchUpdateQueueService {
         return false;
       }
       Release release = getRelease(project);
+      List<AnalysisPackageSubDocumentProjection> analysisPackages = null;
+      if (dataPackage.isShadow() && release != null) {
+        analysisPackages = analysisPackageRepository
+            .findByDataPackageMasterIdAndVersion(dataPackage.getMasterId(), release.getVersion());
+      }
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
-      DataPackageSearchDocument searchDocument =
-          new DataPackageSearchDocument(dataPackage, dataSets, variables, relatedPublications,
-              surveys, questions, instruments, concepts, release, doi, configuration);
+      DataPackageSearchDocument searchDocument = new DataPackageSearchDocument(dataPackage,
+          dataSets, variables, relatedPublications, surveys, questions, instruments, concepts,
+          analysisPackages, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));

@@ -81,7 +81,9 @@ angular.module('metadatamanagementApp').config(
               'unauthorized': 'Publisher can only be assigned by other publishers.'
             },
             'requirements': {
-              'unauthorized': 'Only publishers of this project are allowed to change mandatory fields.'
+              'unauthorized': 'Only publishers of this project are allowed to change mandatory fields.',
+              'publications-required-for-analysis-packages': 'Publication is needed for an analysis package.',
+              'either-data-packages-or-analysis-packages-required': 'Either a data package or analysis package is required.'
             }
           },
           'release': {
@@ -94,6 +96,8 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-dataPackage': 'The Project with the RDC-ID {{ id }} has no data package.',
+            'project-has-no-analysisPackage': 'The Project with the RDC-ID {{ id }} has no analysis package.',
+            'project-must-have-exactly-one-publication': 'The Project with the RDC-ID {{ id }} must contain exactly one publication.',
             'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.',
             'project-has-no-survey': 'The Project with the RDC-ID {{ id }} must contain at least one survey.',
             'project-has-no-data-set': 'The Project with the RDC-ID {{ id }} must contain at least one data set.'
@@ -170,7 +174,8 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Variables',
             'publications': 'Publications',
             'concepts': 'Concepts',
-            'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:'
+            'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:',
+            'analysisPackages': 'Analysis Package'
           },
           'config': {
             'assigned-group': 'Assigned User Group',
@@ -222,6 +227,7 @@ angular.module('metadatamanagementApp').config(
             'release-version': 'Current Version',
             'assigned-group': 'Assigned Group',
             'data-package-status': 'Data Package',
+            'analysis-package-status': 'Analysis Package',
             'surveys-status': 'Surveys',
             'instruments-status': 'Instruments',
             'data-sets-status': 'Data Sets',

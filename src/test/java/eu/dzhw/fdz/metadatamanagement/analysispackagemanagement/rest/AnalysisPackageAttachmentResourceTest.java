@@ -369,6 +369,5 @@ public class AnalysisPackageAttachmentResourceTest extends AbstractTest {
             + metadata.getFileName()))
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
             containsString("global.error.shadow-delete-not-allowed")));
-  }
-
+  } 
 }

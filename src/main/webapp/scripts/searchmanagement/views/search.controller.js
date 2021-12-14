@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageMetadataService, BreadcrumbService, SearchHelperService,
            SearchResultNavigatorService, DataPackageResource,
-           DataPackageIdBuilderService,
+           AnalysisPackageResource, DataPackageIdBuilderService,
+           AnalysisPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
            SimpleMessageToastService, $mdSidenav, $analytics) {
 
@@ -22,15 +23,22 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
 
-    var searchFilterAggregations = [
-      'study-series',
-      'survey-data-types',
-      'tags',
-      'sponsors',
-      'institutions',
-      'access-ways',
-      'concepts'
-    ];
+    var searchFilterAggregations = {
+      data_packages: [
+        'study-series',
+        'survey-data-types',
+        'tags',
+        'sponsors',
+        'institutions',
+        'access-ways',
+        'concepts'
+      ],
+      analysis_packages: [
+        'tags',
+        'sponsors',
+        'institutions'
+      ]
+    };
     var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
         .elasticSearchType;
@@ -62,7 +70,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.searchParams.selectedTabIndex].elasticSearchType;
         }
       } else {
-        locationSearch.type = 'data_packages';
+        try {
+          locationSearch.type = $scope.searchParams.type;
+        } catch (e) {
+          locationSearch.type = 'data_packages';
+        }
       }
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
@@ -107,6 +119,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.searchParams.query = locationSearch.query;
         } else {
           $scope.searchParams.query = '';
+        }
+        if (locationSearch.type) {
+          $scope.searchParams.type = locationSearch.type;
         }
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'size',
           'type', 'query', 'sort-by'
@@ -161,6 +176,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       readSearchParamsFromLocation();
       writeSearchParamsToLocation();
       $scope.loadDataPackageForProject();
+      $scope.loadAnalysisPackageForProject();
       $scope.search();
     };
 
@@ -205,6 +221,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
       group: 'dataPackages',
       sortOptions: ['relevance', 'alphabetically', 'survey-period',
         'first-release-date']
+    }, {
+      title: 'search-management.tabs.analysis_packages',
+      inputLabel: 'search-management.input-label.analysis-packages',
+      elasticSearchType: 'analysis_packages',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.analysis-packages',
+      group: 'analysisPackages',
+      sortOptions: ['relevance', 'alphabetically', 'first-release-date']
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -296,6 +323,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       return data.all.filtered[prop].buckets;
     }
+
     function createDataPackageFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
       var dataPackageFilter = {
@@ -316,6 +344,29 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
+
+    function createAnalysisPackageFilterObject(data) {
+      if (Principal.isAuthenticated()) { return null; }
+      var dataPackageFilter = {
+        'tags': createDataPackageFilterContent(data,
+          'tags'),
+        'sponsors': createDataPackageFilterContent(data,
+          'sponsors'),
+        'institutions': createDataPackageFilterContent(data,
+          'institutions')
+      };
+      MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
+    }
+
+    function createTotalHitsObject(totalHitsInCurrentIndex,
+      totalHitsInAdditionalIndex) {
+      var totalHits = {};
+      totalHits[$scope.searchParams.type] = totalHitsInCurrentIndex;
+      totalHits[$scope.searchParams.additionalSearchIndex] =
+        totalHitsInAdditionalIndex;
+      MessageBus.set('onTotalHitsChange', totalHits);
+    }
+
     $scope.setCurrentSearchParams = function(projectId) {
       if (!projectId) {
         projectId = _.get($scope, 'currentProject.id');
@@ -328,8 +379,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function() {
+      var aggregation = null;
+      $scope.searchParams.additionalSearchIndex = null;
       if (!Principal.isAuthenticated()) {
         $scope.searchFilterMapping = $scope.searchParams.filter;
+        aggregation = searchFilterAggregations[$scope.searchParams.type];
+        if ($scope.searchParams.type === 'data_packages') {
+          $scope.searchParams.additionalSearchIndex = 'analysis_packages';
+        }
+        if ($scope.searchParams.type === 'analysis_packages') {
+          $scope.searchParams.additionalSearchIndex = 'data_packages';
+        }
       }
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
@@ -344,23 +404,35 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.options.pageObject.size,
         null,
         // Aggregations Usage: ['study-series', ...]
-        searchFilterAggregations,
+        aggregation,
         // Usage:
         // {
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
         //   'sponsors': ['Bundesministerium für Bildung und Forschung (BMBF)']
         // })
-        $scope.searchFilterMapping, $scope.options.sortObject.selected)
+        $scope.searchFilterMapping, $scope.options.sortObject.selected, false,
+        $scope.searchParams.additionalSearchIndex)
         .then(function(data) {
-          createDataPackageFilterObject(data.aggregations);
+          var totalHitsInAdditionalIndex = 0;
+          if ($scope.searchParams.additionalSearchIndex) {
+            totalHitsInAdditionalIndex = data.responses[1].hits.total.value;
+            data = data.responses[0];
+          }
+          if ($scope.searchParams.type === 'data_packages') {
+            createDataPackageFilterObject(data.aggregations);
+          } else {
+            createAnalysisPackageFilterObject(data.aggregations);
+          }
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
+          createTotalHitsObject(data.hits.total.value,
+            totalHitsInAdditionalIndex);
           $analytics.trackSiteSearch(
             $scope.searchParams.query ? $scope.searchParams.query : '<null>',
             $scope.tabs[$scope.searchParams.selectedTabIndex]
               .elasticSearchType ?
-            $scope.tabs[$scope.searchParams.selectedTabIndex]
-              .elasticSearchType : 'all',
+              $scope.tabs[$scope.searchParams.selectedTabIndex]
+                .elasticSearchType : 'all',
             $scope.options.pageObject.totalHits);
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {
@@ -409,6 +481,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
       if (project) {
         var inactiveStates = [];
+        if (!project.configuration.requirements.dataPackagesRequired) {
+          inactiveStates.push('dataPackages');
+        }
+        if (!project.configuration.requirements.analysisPackagesRequired) {
+          inactiveStates.push('analysisPackages');
+        }
+        if (!project.configuration.requirements.conceptsRequired) {
+          inactiveStates.push('concepts');
+        }
         if (!project.configuration.requirements.surveysRequired) {
           inactiveStates.push('surveys');
         }
@@ -453,7 +534,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (newValue !== oldValue && !locationChanged) {
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
-        if (newValue.type === oldValue.type) {
+        // if (newValue.type === oldValue.type) {
+        if (!$scope.isSearching) {
+          $scope.options.sortObject.options = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].sortOptions;
+          $scope.options.sortObject.selected = 'relevance';
           $scope.search();
         }
       } else {
@@ -481,6 +566,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.search();
           }
           $scope.loadDataPackageForProject();
+          $scope.loadAnalysisPackageForProject();
           currentProjectChangeIsBeingHandled = false;
         });
       });
@@ -511,6 +597,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }
 
     $scope.onSelectedTabChanged = function() {
+      $scope.tabs = filterActiveTabs(tabs);
       $scope.options.sortObject.options = $scope.tabs[
         $scope.searchParams.selectedTabIndex].sortOptions;
       $scope.options.sortObject.selected = 'relevance';
@@ -531,6 +618,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
               $scope.search();
             }
             $scope.loadDataPackageForProject();
+            $scope.loadAnalysisPackageForProject();
             selectedTabChangeIsBeingHandled = false;
           } else {
             tabChangedOnInitFlag = false;
@@ -584,6 +672,25 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.currentDataPackage = undefined;
       }
     };
+    $scope.loadAnalysisPackageForProject = function() {
+      if ($scope.currentProject && !$scope.currentProject.release &&
+        $scope.tabs[$scope.searchParams.selectedTabIndex]
+          .elasticSearchType === 'analysis_packages') {
+        $rootScope.$broadcast('start-ignoring-404');
+        AnalysisPackageResource.get({
+          id: AnalysisPackageIdBuilderService.buildAnalysisPackageId(
+            $scope.currentProject.id)
+        }).$promise.then(function(analysisPackage) {
+          $scope.currentAnalysisPackage = analysisPackage;
+        }).catch(function() {
+          $scope.currentAnalysisPackage = undefined;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        $scope.currentAnalysisPackage = undefined;
+      }
+    };
 
     $scope.setDropZoneDisabled = function() {
       if (!$scope.tabs[$scope.searchParams.selectedTabIndex].uploadFunction) {
@@ -630,6 +737,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
       DeleteMetadataService.deleteAllOfType($scope.currentProject,
         'data_packages');
     };
+    $scope.deleteAllAnalysisPackages = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject,
+        'analysis_packages');
+    };
     $scope.deleteAllQuestions = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
     };
@@ -638,7 +749,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
     $scope.deleteAllInstruments = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject,
-         'instruments');
+        'instruments');
     };
     $scope.deleteAllSurveys = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');

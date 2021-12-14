@@ -66,6 +66,10 @@
 .fdz-theme .ma8 {
   margin: 8px !important; }
 
+.fdz-theme .mh0 {
+  margin-left: 0 !important;
+  margin-right: 0 !important; }
+
 .fdz-theme .mv0 {
   margin-top: 0 !important;
   margin-bottom: 0 !important; }
@@ -74,8 +78,15 @@
   margin-top: 8px !important;
   margin-bottom: 8px !important; }
 
+.fdz-theme .mv16 {
+  margin-top: 16px !important;
+  margin-bottom: 16px !important; }
+
 .fdz-theme .mt0 {
   margin-top: 0 !important; }
+
+.fdz-theme .mt4 {
+  margin-top: 4px !important; }
 
 .fdz-theme .mt8 {
   margin-top: 8px !important; }
@@ -83,11 +94,23 @@
 .fdz-theme .mt16 {
   margin-top: 16px !important; }
 
+.fdz-theme .mt18 {
+  margin-top: 18px !important; }
+
 .fdz-theme .mb0 {
   margin-bottom: 0 !important; }
 
 .fdz-theme .mb8 {
   margin-bottom: 8px !important; }
+
+.fdz-theme .mb12 {
+  margin-bottom: 12px !important; }
+
+.fdz-theme .mb16 {
+  margin-bottom: 16px !important; }
+
+.fdz-theme .mb18 {
+  margin-bottom: 18px !important; }
 
 .fdz-theme .mh0 {
   margin-left: 0 !important;
@@ -108,6 +131,9 @@
 
 .fdz-theme .ml16 {
   margin-left: 16px !important; }
+
+.fdz-theme .ml28 {
+  margin-left: 28px !important; }
 
 .fdz-theme .mr8 {
   margin-right: 8px !important; }
@@ -234,6 +260,18 @@
 
 .fdz-theme .overflow-y-auto {
   overflow-y: auto !important; }
+
+.fdz-theme .fg {
+  flex-grow: 1; }
+
+.fdz-theme .flex-wrap {
+  flex-wrap: wrap; }
+
+.fdz-theme .items-center {
+  align-items: center; }
+
+.fdz-theme .self-start {
+  align-self: flex-start; }
 
 .fdz-theme .ms-flex {
   -ms-flex: auto !important; }
@@ -1377,7 +1415,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   color: rgba(0, 0, 0, 0.38);
   text-transform: none; }
   .fdz-theme md-tabs .md-tab[disabled], .fdz-theme md-tabs .md-tab[disabled] md-icon {
-    color: #f0f0f0; }
+    color: rgba(0, 0, 0, 0.38);
+    opacity: 0.4; }
   .fdz-theme md-tabs .md-tab.md-active, .fdz-theme md-tabs .md-tab.md-active md-icon, .fdz-theme md-tabs .md-tab.md-focused, .fdz-theme md-tabs .md-tab.md-focused md-icon {
     color: black; }
   .fdz-theme md-tabs .md-tab.md-focused {
@@ -1551,12 +1590,21 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
     box-shadow: none; }
   .fdz-theme .fdz-start .fdz-link {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    font-size: 20px;
+    font-size: 14px;
     padding: 16px; }
-    @media (min-width: 600px) {
+    .fdz-theme .fdz-start .fdz-link a {
+      padding: 8px; }
+    @media (min-width: 700px) {
       .fdz-theme .fdz-start .fdz-link {
+        flex-direction: row;
+        justify-content: space-evenly;
+        font-size: 16px;
         padding: 24px; } }
+    @media (min-width: 860px) {
+      .fdz-theme .fdz-start .fdz-link {
+        font-size: 20px; } }
   .fdz-theme .fdz-start .fdz-search {
     margin-bottom: 8px; }
     @media (min-width: 600px) {
@@ -1930,6 +1978,10 @@ fdz-breadcrumbs {
   @media (min-width: 600px) {
     .fdz-breadcrumbs {
       margin-left: 16px;
+      margin: 16px 8px 16px 8px; } }
+  @media (min-width: 1400px) {
+    .fdz-breadcrumbs {
+      margin-left: 16px;
       margin: 16px 8px 16px 16px; } }
 
 .fdz-theme .fdz-search {
@@ -2218,7 +2270,7 @@ md-input-container label {
   width: fit-content;
   min-width: 100%;
   table-layout: auto;
-  border-collapse: collapse;
+  border-collapse: unset;
   text-align: left; }
 
 .fdz-table-wide thead {
@@ -2352,9 +2404,22 @@ tr:focus {
 .fdz-table-rotated tbody tr:first-child {
   border-left: 1px solid #ddd; }
 
+.fdz-theme .fdz-package-filter {
+  box-shadow: none;
+  padding: 0 8px; }
+  .fdz-theme .fdz-package-filter md-card-content {
+    padding: 16px 16px 8px 16px; }
+    .fdz-theme .fdz-package-filter md-card-content label {
+      padding-bottom: 8px;
+      font-weight: 500; }
+    .fdz-theme .fdz-package-filter md-card-content md-radio-group {
+      color: #000; }
+      .fdz-theme .fdz-package-filter md-card-content md-radio-group md-radio-button:last-child {
+        margin-bottom: 0; }
+
 .fdz-theme .fdz-search-filter {
   box-shadow: none;
-  padding-top: 16px; }
+  padding-top: 8px; }
   .fdz-theme .fdz-search-filter md-card-header {
     display: block;
     border-top-width: 1px;

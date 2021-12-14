@@ -1,0 +1,42 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'analysis-package-management.detail.scripts.table-title' | translate}}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <table fdz-table class="mh16 mb16">
+        <thead>
+        <tr>
+          <th class="fdz-table-third-absorbing-column">{{'analysis-package-management.detail.scripts.title' | translate }}</th>
+          <th>{{'analysis-package-management.detail.scripts.language' | translate }}</th>
+          <th class="fdz-table-half-absorbing-column">{{'analysis-package-management.detail.scripts.software-package' | translate }}</th>
+          <th>{{'analysis-package-management.detail.scripts.version' | translate }}</th>
+          <th>{{'analysis-package-management.detail.scripts.file' | translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in $ctrl.options">
+          <td>{{row.title[$ctrl.lang]}} </td>
+          <td>{{row.usedLanguage | displayIsoLanguage: $ctrl.lang}}</td>
+          <td>{{row.softwarePackage}}</td>
+          <td>{{row.softwarePackageVersion}}</td>
+          <td class="fdz-td-filename"><a ng-href="{{row.attachment.id}}" target="_blank" fdz-track-download analytics-if="row.type.en === 'Method Report'" analytics-on="click" analytics-event="download-method-report" analytics-label="{{row.title}}" analytics-category="Downloads">{{row.attachment.fileName}}
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'global.tooltips.files.download' | translate: {filename: row.attachment.fileName} }}
+            </md-tooltip>
+          </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </md-card-content>
+  </div>
+</md-card>

@@ -19,8 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.AnalysisPackageExists;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.AtMostOnePublicationPerAnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataPackageExists;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataPackageIdsOrAnalysisPackageIdsPresent;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
@@ -48,9 +48,9 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-@AtMostOnePublicationPerAnalysisPackage(
+@DataPackageIdsOrAnalysisPackageIdsPresent(
     message = "related-publication-management.error.related-publication."
-        + "duplicate-analysis-package-id")
+        + "at-least-one-referenced-id")
 public class RelatedPublication extends AbstractRdcDomainObject {
 
   private static final long serialVersionUID = -7754758901246743458L;

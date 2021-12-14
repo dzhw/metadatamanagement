@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -26,7 +27,7 @@ public interface AnalysisPackageRepository extends BaseRepository<AnalysisPackag
 
   @RestResource(exported = false)
   Stream<AnalysisPackage> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   AnalysisPackage findOneByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
@@ -50,4 +51,14 @@ public interface AnalysisPackageRepository extends BaseRepository<AnalysisPackag
   @RestResource(exported = false)
   List<AnalysisPackageSubDocumentProjection> findSubDocumentsByIdIn(
       Collection<String> analysisPackageIds);
+
+  @RestResource(exported = false)
+  @Query("{ 'analysisDataPackages.dataPackageMasterId' : ?0, 'analysisDataPackages.version' : ?1 }")
+  Stream<IdAndVersionProjection> streamIdsByDataPackageMasterIdAndVersion(String masterId,
+      String version);
+
+  @RestResource(exported = false)
+  @Query("{ 'analysisDataPackages.dataPackageMasterId' : ?0, 'analysisDataPackages.version' : ?1 }")
+  List<AnalysisPackageSubDocumentProjection> findByDataPackageMasterIdAndVersion(String masterId,
+      String version);
 }

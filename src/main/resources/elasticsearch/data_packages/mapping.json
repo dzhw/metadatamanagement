@@ -938,6 +938,60 @@
 				}
 			}
 		},
+		"analysisPackages": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": [
+						"all"
+					]
+				}
+			}
+		},
+		"nestedAnalysisPackages": {
+			"type": "nested",
+			"properties": {
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"id": {
+					"type": "keyword"
+				},
+				"masterId": {
+					"type": "keyword"
+				},
+				"shadow": {
+					"type": "keyword"
+				},
+				"successorId": {
+					"type": "keyword"
+				},
+				"title": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		},
 		"release": {
 			"type": "object",
 			"properties": {

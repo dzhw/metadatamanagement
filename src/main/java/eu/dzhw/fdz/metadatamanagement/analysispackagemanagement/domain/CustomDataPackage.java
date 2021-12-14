@@ -11,7 +11,6 @@ import org.javers.core.metamodel.annotation.ValueObject;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidCustomDataPackageAccessWay;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidCustomDataPackageAvailabilityType;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImmutableI18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
@@ -39,7 +38,7 @@ import lombok.NoArgsConstructor;
 public class CustomDataPackage extends AbstractAnalysisDataPackage {
   private static final long serialVersionUID = -513926799487045749L;
   private static final String DOWNLOAD = "Download";
-  private static final String REMOTE = "Remote";
+  private static final String REMOTE = "Remote-Desktop";
   private static final String ONSITE = "Onsite";
 
   public static final List<String> AVAILABLE_ACCESS_WAYS =
@@ -94,10 +93,10 @@ public class CustomDataPackage extends AbstractAnalysisDataPackage {
    * May be empty.
    */
   @Valid
-  private List<I18nLink> dataSources;
+  private List<DataSource> dataSources;
 
   /**
-   * Must be one of AVAILABLE_ACCESS_WAYS.
+   * Must be one of AVAILABLE_ACCESS_WAYS. May be empty.
    */
   @ValidCustomDataPackageAccessWay(
       message = "analysis-package-management.error.custom-data-package.access-way.not-valid")

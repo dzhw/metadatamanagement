@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Warenkorb',
         'detail': {
-          'table-title': 'Ihre ausgewählten Datenpakete',
+          'table-title': 'Ihre ausgewählten Produkte',
           'hint': 'Hinweis',
           'label': {
             'title': 'Datenpakettitel',
@@ -24,9 +24,15 @@ angular.module('metadatamanagementApp').config(
             'current': 'aktuell',
             'not-current': 'nicht aktuell',
             'this-data-product': 'Dieses Datenpaket',
+            'this-analysis-product': 'Dieses Analysepaket',
             'study-series': 'aus der Studienreihe "{{series}}"',
             'contains': 'enthält',
+            'following': '{packages, plural, =0{für folgende} =1{für folgendes} other{für folgende}}',
+            'software-packages': '{packages, plural, =0{unbekannt viele Softwarepakete} =1{Softwarepaket} other{Softwarepakete}}',
             'variables': '{variables, plural, =0{unbekannt viele Variablen} =1{eine Variable} other{{formattedVariables} Variablen}}',
+            'scripts': '{scripts, plural, =0{unbekannt viele Skripte} =1{ein Skript} other{{formattedScripts} Skripte}}',
+            'additionally': 'Außerdem enthält es',
+            'custom-data-packages': '{packages, plural, =0{unbekannt viele benutzerdefinierte Datenpakete} =1{ein benutzerdefiniertes Datenpaket} other{{formattedPackages} benutzerdefinierte Datenpakete}}',
             'in': 'in',
             'data-sets': '{dataSets, plural, =0{unbekannt vielen Datensätzen.} =1{einem Datensatz.} other{{formattedDataSets} Datensätzen.}}',
             'qualitative-data-sets': '{dataSets, plural, =0{unbekannt viele Datensätze.} =1{einen Datensatz.} other{{formattedDataSets} Datensätze.}}',
@@ -36,6 +42,7 @@ angular.module('metadatamanagementApp').config(
             'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:',
             'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:',
             'cite-data-package': 'Datenpaket zitieren:',
+            'cite-analysis-package': 'Analysepaket zitieren:',
             'cite-method-report': 'Daten- und Methodenbericht zitieren:'
           },
           'hints': {
@@ -52,9 +59,13 @@ angular.module('metadatamanagementApp').config(
           'no-final-release': 'Die Datenpakete wurden noch nicht erstellt. Sobald diese fertig sind können Sie sie an dieser Stelle in den Warenkorb legen.',
           'variable-not-accessible': 'Diese Variable wurde zwar erhoben, ist aber aus datenschutzrechtlichen Gründen in keinem Datenpaket verfügbar.',
           'data-package-tooltip': 'Klicken, um das Datenpaket anzuzeigen.',
+          'analysis-package-tooltip': 'Klicken, um das Analysepaket anzuzeigen.',
           'study-series-tooltip': 'Klicken, um alle Datenpakete der Studienreihe anzuzeigen.',
           'data-sets-tooltip': 'Klicken, um alle Datensätze dieses Datenpaketes anzuzeigen.',
           'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.',
+          'scripts-tooltip': 'Klicken, um alle Skripte dieses Analysepaketes anzuzeigen.',
+          'custom-data-packages-tooltip': 'Klicken, um alle benutzerdefinierten Datenpakete dieses Analysepaketes anzuzeigen.',
+          'software-packages-tooltip': 'Klicken, um alle Softwarepakete dieses Analysepaketes anzuzeigen.',
           'citation': 'Datenpaket und Daten- und Methodenbericht zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
           'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',
@@ -62,7 +73,10 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-title': 'Bitte Zugangsweg auswählen',
           'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
           'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.',
-          'note': 'Wenn Sie Probleme mit dem Bestellprozess haben, wenden Sie sich bitte an <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.'
+          'note': 'Wenn Sie Probleme mit dem Bestellprozess haben, wenden Sie sich bitte an <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'analysis-package': {
+            'citation': 'Analysepaket zitieren'
+          }
         },
         'error': {
           'synchronize': 'Der Warenkorb konnte nicht mit dem Server synchronisiert werden.',
@@ -80,8 +94,10 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'toasts': {
-          'data-package-added': 'Das Datenpaket wurde in den Warenkorb gelegt.',
-          'data-package-already-in-cart': 'Das Datenpaket ist bereits im Warenkorb.',
+          'data-package-added': 'Das Datenpaket {{id}} wurde in den Warenkorb gelegt.',
+          'data-package-already-in-cart': 'Das Datenpaket {{id}} ist bereits im Warenkorb.',
+          'analysis-package-added': 'Das Analysepaket {{id}} wurde in den Warenkorb gelegt.',
+          'analysis-package-already-in-cart': 'Das Analysepaket {{id}} ist bereits im Warenkorb.',
           'order-has-validation-errors-toast': 'Ihr Formular enthält ungültige Angaben.',
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },
@@ -89,6 +105,7 @@ angular.module('metadatamanagementApp').config(
           'checkout': 'Kostenlos bestellen',
           'add-data-package': 'In den Warenkorb',
           'add-data-package-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
+          'add-analysis-package-tooltip': 'Klicken, um das Analysepaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'choose-data-package-options': 'Klicken, um eine Variante dieses Datenpakets in den Warenkorb zu legen.',
           'open-cart': 'Zum Warenkorb',
           'checkout-tooltip': 'Klicken, um die Datenpakete zu bestellen.',
@@ -102,13 +119,19 @@ angular.module('metadatamanagementApp').config(
           'open-export-tooltip': 'Klicken, um die Metadaten dieses Datenpakets zu exportieren.',
           'beta-hint': 'Alle Formate generiert via da|ra (beta-Status)',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
+          'data-package-tooltip': 'Klicken, um weitere Informationen zu Datenpaketen zu erhalten.',
+          'analysis-package-tooltip': 'Klicken, um weitere Informationen zu Analysepaketen zu erhalten.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
+          'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
         },
         'version-info': {
           'title': 'Eine Version auswählen',
           'content': '<p style="margin-bottom: 0px;">Unsere Datenpakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen am Datensatz (abgesehen von Änderungen der Variablenlabels)</li><li>Zweite Stelle (Minor): Label ändern sich, Metadatenänderungen wie Hinzufügen weiterer Fragen oder Änderungen der Metadaten/Dokumentation, die Auswirkungen auf die Analyse haben.</li><li>Dritte Stelle (Patch): Zusätzliche Datensatzformate werden bereitgestellt, Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer:innen ist die aktuellste Version der Daten relevant.</strong>',
-          'close-tooltip': 'Klicken, um diesen Dialog zu schließen.'
+          'close-tooltip': 'Klicken, um diesen Dialog zu schließen.',
+          'analysis-package': {
+            'content': '<p style="margin-bottom: 0px;">Unsere Analysepakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen an oder Hinzufügen von einem oder mehreren Analyseskript(en) und/oder benutzerdefinierten Analysedaten.</li><li>Zweite Stelle (Minor): Änderungen der Metadaten/Dokumentation.</li><li>Dritte Stelle (Patch): Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer:innen ist die aktuellste Version der Daten relevant.</strong>',
+          }
         },
         'access-way-info': {
           'title': 'Einen Zugangsweg auswählen',

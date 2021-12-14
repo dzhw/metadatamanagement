@@ -76,6 +76,14 @@
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
               search-result-index="$ctrl.computeSearchResultIndex($index)"></datapackage-search-result>
+            <analysispackage-search-result
+              ng-switch-when="analysis_packages"
+              search-result="result._source"
+              current-language="$ctrl.lang"
+              search-query="$ctrl.searchParams.query"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></analysispackage-search-result>
             <variable-search-result
               ng-switch-when="variables"
               search-result="result._source"

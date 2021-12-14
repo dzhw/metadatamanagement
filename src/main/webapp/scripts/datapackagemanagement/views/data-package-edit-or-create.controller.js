@@ -241,7 +241,6 @@ angular.module('metadatamanagementApp')
       };
 
       var timeoutActive = null;
-
       ctrl.deleteCurrentInstitution = function(event) {
         if (timeoutActive) {
           $timeout.cancel(timeoutActive);
@@ -250,18 +249,19 @@ angular.module('metadatamanagementApp')
           timeoutActive = false;
           // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
+            (document.activeElement.tagName === 'BODY' ||
             $(document.activeElement).parents('#move-institution-container')
-              .length) {
+              .length)) {
             return;
           }
           if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-institution-up-button' ||
-              event.relatedTarget.id === 'move-institution-down-button')) {
+            event.relatedTarget.id === 'move-institution-up-button' ||
+            event.relatedTarget.id === 'move-institution-down-button')) {
             return;
           }
           delete ctrl.currentInstitutionIndex;
           timeoutActive = null;
-        }, 500);
+        });
       };
 
       ctrl.moveCurrentInstitutionUp = function() {
@@ -326,18 +326,19 @@ angular.module('metadatamanagementApp')
           timeoutActive = false;
           // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
+            (document.activeElement.tagName === 'BODY' ||
             $(document.activeElement).parents('#move-sponsor-container')
-              .length) {
+              .length)) {
             return;
           }
           if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-sponsor-up-button' ||
-              event.relatedTarget.id === 'move-sponsor-down-button')) {
+            event.relatedTarget.id === 'move-sponsor-up-button' ||
+            event.relatedTarget.id === 'move-sponsor-down-button')) {
             return;
           }
           delete ctrl.currentSponsorIndex;
           timeoutActive = null;
-        }, 500);
+        });
       };
 
       ctrl.moveCurrentSponsorUp = function() {
@@ -402,26 +403,18 @@ angular.module('metadatamanagementApp')
         ctrl.currentLinkIndex = index;
       };
 
-      ctrl.deleteCurrentLink = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
+      ctrl.deleteCurrentLink = function(index, event) {
+        if (document.activeElement &&
+          $(document.activeElement).parents('#link-' + index)
+            .length) {
+          return;
         }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-link-container')
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-link-up-button' ||
-              event.relatedTarget.id === 'move-link-down-button')) {
-            return;
-          }
-          delete ctrl.currentLinkIndex;
-          timeoutActive = null;
-        }, 500);
+        if (event.relatedTarget && (
+            event.relatedTarget.id === 'move-link-up-button' ||
+            event.relatedTarget.id === 'move-link-down-button')) {
+          return;
+        }
+        delete ctrl.currentLinkIndex;
       };
 
       ctrl.moveCurrentLinkUp = function() {

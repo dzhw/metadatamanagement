@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.javers.common.collections.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.CustomDataPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ExternalDataPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -405,5 +409,36 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     // assert that the public user cannot access the previous shadow anymore
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getMasterId() + "-1.0.0"))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void shouldSaveAnalysisPackageWithDifferentDataPackageTypes() throws Exception {
+    DataAcquisitionProject project =
+        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectForAnalysisPackages();
+    dataAcquisitionProjectRepository.save(project);
+
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage(project.getId());
+    ExternalDataPackage externalDataPackage =
+        ExternalDataPackage.builder().title(new I18nString("titel", "title"))
+            .description(new I18nString("Beschreibung", "Description"))
+            .dataSource(new I18nString("Datenquelle", "Data Source"))
+            .availabilityType(ExternalDataPackage.AVAILABLE_AVAILABILITY_TYPES.get(0)).build();
+    CustomDataPackage customDataPackage =
+        CustomDataPackage.builder().title(new I18nString("titel", "title"))
+            .description(new I18nString("Beschreibung", "Description"))
+            .availabilityType(CustomDataPackage.AVAILABLE_AVAILABILITY_TYPES.get(0))
+            .accessWay(CustomDataPackage.AVAILABLE_ACCESS_WAYS.get(0)).build();
+    analysisPackage.setAnalysisDataPackages(Lists.asList(customDataPackage, externalDataPackage));
+    
+    // create the analysis package with the given id
+    mockMvc.perform(put(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId())
+        .content(TestUtil.convertObjectToJsonBytes(analysisPackage))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    // read the analysis package under the new url
+    mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId()))
+        .andExpect(status().isOk());
   }
 }

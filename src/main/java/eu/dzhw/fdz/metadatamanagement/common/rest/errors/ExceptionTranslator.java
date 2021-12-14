@@ -8,6 +8,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -303,6 +304,13 @@ public class ExceptionTranslator {
       return new ErrorListDto(new ErrorDto(fileSizeException.getFileName(),
           "global.error.import.file-size-limit-exceeded",
           String.valueOf(fileSizeException.getActualSize()), null));
+    } else {
+      SizeLimitExceededException requestSizeException = findSizeLimitExceededException(exception);
+      if (requestSizeException != null) {
+        return new ErrorListDto(new ErrorDto("size", 
+            "global.error.import.file-size-limit-exceeded",
+            String.valueOf(requestSizeException.getActualSize()), null));
+      }
     }
     // return the message as it is
     return new ErrorListDto(new ErrorDto(null, exception.getLocalizedMessage(), null, null));
@@ -313,6 +321,14 @@ public class ExceptionTranslator {
       return (FileSizeLimitExceededException) exception;
     } else {
       return findFileSizeLimitExceededException(exception.getCause());
+    }
+  }
+
+  private SizeLimitExceededException findSizeLimitExceededException(Throwable exception) {
+    if (exception == null || exception instanceof SizeLimitExceededException) {
+      return (SizeLimitExceededException) exception;
+    } else {
+      return findSizeLimitExceededException(exception.getCause());
     }
   }
 
