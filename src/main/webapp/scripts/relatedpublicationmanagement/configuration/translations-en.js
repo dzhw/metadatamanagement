@@ -100,7 +100,7 @@ angular.module('metadatamanagementApp').config(
             },
             'year': {
               'not-null': 'The Publication Year must not be empty!',
-              'valid': 'The Publication Year must be between 1960 and {{currentDate | date :"yyyy"}}.'
+              'valid': 'The Publication Year must be after 1960.'
             },
             'abstract-source': {
               'size': 'The max length of Source of the Publication is 2048 signs.'
