@@ -99,8 +99,8 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'Es muss mindestens eine Autor:in angegeben werden!'
             },
             'year': {
-              'not-null': 'Erscheinungsjahr darf nicht leer sein!',
-              'valid': 'Erscheinungsjahr muss zwischen 1960 und {{currentDate | date :"yyyy"}} sein!.'
+              'not-null': 'Das Erscheinungsjahr darf nicht leer sein!',
+              'valid': 'Das Erscheinungsjahr muss nach 1960 sein.'
             },
             'abstract-source': {
               'size': 'Die Maximallänge der Quelle der Publication ist 2048 Zeichen.'

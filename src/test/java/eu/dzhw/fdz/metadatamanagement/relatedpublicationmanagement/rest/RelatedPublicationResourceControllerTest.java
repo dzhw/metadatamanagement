@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -166,26 +165,6 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
     dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", 1959);
-
-    // ACT
-    this.mockMvc
-        .perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-            .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
-            .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
-            containsString("related-publication-management.error.related-publication.year.valid")));
-  }
-
-  @Test
-  public void testCreateRelatedPublicationsWithInvalidYearInFuture() throws IOException, Exception {
-    // ARRANGE
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    dataAcquisitionProjectRepository.save(project);
-    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
-    dataPackageRepository.save(dataPackage);
-    LocalDate date = LocalDate.now();
-    RelatedPublication relatedPublication =
-        UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
 
     // ACT
     this.mockMvc
