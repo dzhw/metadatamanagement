@@ -1,0 +1,42 @@
+<md-dialog aria-label="{{'global.welcome-dialog.toolbar-head' |translate}}" md-autofocus>
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+      <h2>{{'shopping-cart.detail.analysis-package.citation' | translate}}</h2>
+      <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
+        <md-icon md-font-set="material-icons">clear</md-icon>
+        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{"global.dialog.tooltip.close" | translate}}
+        </md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-divider></md-divider>
+  <div class="md-dialog-content">
+    <div>
+      <h5>{{'shopping-cart.detail.label.cite-analysis-package' | translate }}</h5>
+      <p style="display: inline;" display-i18n-string="ctrl.analysisPackageCitationHint" id="analysisPackageCitationHint">
+      </p>
+      <md-button class="md-icon-button md-primary md-inline-tiny" data-clipboard-target="#dataPackageCitationHint" ng-click="ctrl.openSuccessCopyToClipboardToast('shopping-cart.detail.citation-success-copy-to-clipboard')" ngclipboard>
+        <md-icon md-font-library="material-icons">content_copy</md-icon>
+        <md-tooltip md-autohide="true" md-direction="south" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.detail.copy-citation-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
+      <md-button ng-if="!bowser.msie" class="md-primary md-inline-tiny" ng-click="ctrl.downloadAnalysisPackageBibtex()">
+        <span>BibTex</span>
+        <md-icon md-font-library="material-icons">download</md-icon>
+        <md-tooltip md-autohide="true" md-direction="south" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.detail.download-bibtex-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
+    </div>
+  <md-dialog-actions>
+    <span flex></span>
+    <md-button class="md-primary md-raised" ng-click="ctrl.closeDialog()">
+      {{"global.buttons.close" | translate}}
+      <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{"global.dialog.tooltip.close" | translate}}
+      </md-tooltip>
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

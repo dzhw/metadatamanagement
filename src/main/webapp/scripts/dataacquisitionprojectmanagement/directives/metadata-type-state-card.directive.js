@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
   .directive('metadataTypeStateCard',
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
       VariableUploadService, QuestionUploadService, DeleteMetadataService,
-      SimpleMessageToastService) {
+      SimpleMessageToastService, AnalysisPackageIdBuilderService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -28,6 +28,8 @@ angular.module('metadatamanagementApp')
         this.project = $scope.project;
         this.dataPackageId =  DataPackageIdBuilderService
           .buildDataPackageId(this.project.id);
+        this.analysisPackageId = AnalysisPackageIdBuilderService
+          .buildAnalysisPackageId(this.project.id);
 
         this.isAssignedDataProvider =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,
@@ -44,6 +46,17 @@ angular.module('metadatamanagementApp')
               'create-data-package-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
               'delete-all-data-packages-tooltip';
+            this.limit = 1;
+            break;
+          case 'analysisPackages':
+            this.createState = 'analysisPackageCreate';
+            this.searchState = 'analysis_packages';
+            this.tooltip = 'search-management.buttons.' +
+              'create-analysis-package-tooltip';
+            this.editTooltip = 'search-management.buttons.' +
+              'edit-analysis-package-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+              'delete-all-analysis-packages-tooltip';
             this.limit = 1;
             break;
           case 'surveys':

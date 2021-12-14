@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validati
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.util.StringUtils;
+
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.CustomDataPackage;
 
 /**
@@ -27,6 +29,9 @@ public class ValidCustomDataPackageAccesWayValidator
    */
   @Override
   public boolean isValid(String accessWay, ConstraintValidatorContext context) {
+    if (!StringUtils.hasLength(accessWay)) {
+      return true;
+    }
     return CustomDataPackage.AVAILABLE_ACCESS_WAYS.contains(accessWay);
   }
 

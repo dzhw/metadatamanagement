@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Shopping Cart',
         'detail': {
-          'table-title': 'Your selected Data Packages',
+          'table-title': 'Your selected Products',
           'hint': 'Hint',
           'label': {
             'title': 'Data Package Title',
@@ -24,9 +24,15 @@ angular.module('metadatamanagementApp').config(
             'current': 'current',
             'not-current': 'not current',
             'this-data-product': 'This data package',
+            'this-analysis-product': 'This analysis package',
             'study-series': 'from study series "{{series}}"',
             'contains': 'contains',
+            'following': 'for the following',
+            'software-packages': '{packages, plural, =0{an unknown amount of software packages} =1{software package} other{software packages}}',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
+            'scripts': '{scripts, plural, =0{an unknown amount of scripts} =1{one script} other{{formattedScripts} scripts}}',
+            'additionally': 'Additionally it contains',
+            'custom-data-packages': '{packages, plural, =0{an unknown amount of custom data packages} =1{one custom data package} other{{formattedPackages} custom data packages}}',
             'in': 'in',
             'data-sets': '{dataSets, plural, =0{an unknown amount of data sets.} =1{one data set.} other{{formattedDataSets} data sets.}}',
             'data-package': 'Data Package',
@@ -35,6 +41,7 @@ angular.module('metadatamanagementApp').config(
             'data-formats': 'The data sets contain data in the following formats:',
             'data-languages': 'Furthermore the data sets are available in the following languages:',
             'cite-data-package': 'Cite Data Package:',
+            'cite-analysis-package': 'Cite Analysis Package:',
             'cite-method-report': 'Cite Method Report:'
           },
           'hints': {
@@ -51,9 +58,13 @@ angular.module('metadatamanagementApp').config(
           'no-final-release': 'The data packages have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
           'variable-not-accessible': 'Although this variable was collected, it is not available in any data package for data protection reasons.',
           'data-package-tooltip': 'Click to display the data package.',
+          'analysis-package-tooltip': 'Click to display the analysis package.',
           'study-series-tooltip': 'Click to display all data packages of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data package.',
           'variables-tooltip': 'Click to display all variables of this data package.',
+          'scripts-tooltip': 'Click to display all scripts of this analysis package.',
+          'custom-data-packages-tooltip': 'Click to display all custom data packages of this analysis package.',
+          'software-packages-tooltip': 'Click to display all software packages of this analysis package.',
           'citation': 'Cite Data Package and Method Report',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
@@ -61,7 +72,10 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-title': 'Please select an Access Way',
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',
-          'note': 'In case you have problems with the ordering process, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.'
+          'note': 'In case you have problems with the ordering process, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'analysis-package': {
+            'citation': 'Cite Analysis Package'
+          }
         },
         'error': {
           'synchronize': 'Unable to synchronize shopping cart with the server.',
@@ -79,8 +93,10 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'toasts': {
-          'data-package-added': 'The data package was put into the shopping cart.',
-          'data-package-already-in-cart': 'The data package is already in the shopping cart.',
+          'data-package-added': 'The data package {{id}} was put into the shopping cart.',
+          'data-package-already-in-cart': 'The data package {{id}} is already in the shopping cart.',
+          'analysis-package-added': 'The analysis package {{id}} was put into the shopping cart.',
+          'analysis-package-already-in-cart': 'The analysis package {{id}} is already in the shopping cart.',
           'order-has-validation-errors-toast': 'Your form contains invalid data.',
           'error-on-saving-order': 'An error occurred while sending your order.'
         },
@@ -89,6 +105,7 @@ angular.module('metadatamanagementApp').config(
           'checkout-tooltip': 'Click to order the data packages.',
           'add-data-package': 'Put in Shopping Cart',
           'add-data-package-tooltip': 'Click to put the data package with the selected options into the shopping cart.',
+          'add-analysis-package-tooltip': 'Click to put the analysis package with the selected options into the shopping cart.',
           'choose-data-package-options': 'Click to add a variant of this data package to the shopping cart.',
           'open-cart': 'Go to shopping cart',
           'remove-all': 'Empty Shopping Cart',
@@ -102,12 +119,18 @@ angular.module('metadatamanagementApp').config(
           'open-export-tooltip': 'Click to export the metadata of this data package.',
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
+          'data-package-tooltip': 'Click to get more information about data packages',
+          'analysis-package-tooltip': 'Click to get more information about analysis packages',
+          'analysis-package-version-tooltip': 'Click to get more information about versions of analysis packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
         },
         'version-info': {
           'title': 'Select a Version',
           'content': '<p style="margin-bottom: 0px;">Our data packages are available in a three-digit version. The digits of the version number indicate how big the changes to the data are. You will be notified if changes are made to the first two digits.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>First digit (Major): Changes to the data set (except for changes to variable labels)</li><li>Second digit (Minor): Labels change, metadata changes such as adding more questions or changes to metadata/documentation that affect the analysis.</li><li>Third digit (Patch): Additional dataset formats are provided, adding/deleting language versions.</li></ul><strong>For most data users, the most recent version of the data is relevant.</strong>',
-          'close-tooltip': 'Click to close this dialog'
+          'close-tooltip': 'Click to close this dialog',
+          'analysis-package': {
+            'content': '<p style="margin-bottom: 0px;">Our analysis packages are available in a three-digit version. The digits of the version number indicate how big the changes to the data are. You will be notified if changes are made to the first two digits.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>First digit (Major): Changes/Adding to/of one or more analysis scripts and/or one or more custom data packages.</li><li>Second digit (Minor): Changes to metadata/documentation.</li><li>Third digit (Patch): Adding/deleting language versions.</li></ul><strong>For most data users, the most recent version of the data is relevant.</strong>'
+          }
         },
         'access-way-info': {
           'title': 'Select an Access Way',

@@ -1,3 +1,4 @@
+<script src="unitValuePicker.controller.js"></script>
 <md-card>
     <md-card-header>
         <md-card-header-text>
@@ -9,14 +10,20 @@
         <ul ng-if="geographicCoverages.length > 0">
             <li ng-repeat="geographicCoverage in geographicCoverages">
                 <div layout="row" layout-align="start stretch">
-                    <div layout="column" layout-align="center stretch" class="fdz-geographic-coverage-item-controls">
-                        <md-button class="md-icon-button md-primary" ng-disabled="$index === 0" ng-click="moveItemUp($index)" md-no-ink="true">
+                    <div layout="column" class="fdz-geographic-coverage-item-controls">
+                      <md-button class="md-icon-button md-primary mt18 mh0 pl0" aria-label="Delete geographic location" ng-click="deleteGeographicCoverage(geographicCoverage)" style="margin: 6px;">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                          {{'survey-management.geographic-coverage.tooltip.delete' | translate}}
+                        </md-tooltip>
+                        <md-icon>delete_forever</md-icon>
+                      </md-button>
+                        <md-button class="md-icon-button md-primary mt18 mh0 pl0" ng-disabled="$index === 0" ng-click="moveItemUp($index)" md-no-ink="true">
                             <md-icon md-font-set="material-icons" class="ng-scope material-icons" role="img" aria-hidden="true">keyboard_arrow_up</md-icon>
                             <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'survey-management.geographic-coverage-list.tooltip.move-item-up'|translate}}
                             </md-tooltip>
                         </md-button>
-                        <md-button class="md-icon-button md-primary" ng-disabled="$index >= geographicCoverages.length - 1" ng-click="moveItemDown($index)" md-no-ink="true">
+                        <md-button class="md-icon-button md-primary mt18 mh0 pl0" ng-disabled="$index >= geographicCoverages.length - 1" ng-click="moveItemDown($index)" md-no-ink="true">
                             <md-icon md-font-set="material-icons" class="ng-scope material-icons" role="img" aria-hidden="true">keyboard_arrow_down</md-icon>
                             <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'survey-management.geographic-coverage-list.tooltip.move-item-down'|translate}}
@@ -24,7 +31,6 @@
                         </md-button>
                     </div>
                     <geographic-coverage geographic-coverage="geographicCoverage"
-                                         on-delete="deleteGeographicCoverage(geographicCoverage)"
                                          flex>
                     </geographic-coverage>
                 </div>

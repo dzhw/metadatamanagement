@@ -5,6 +5,11 @@ angular.module('metadatamanagementApp').config(
     var searchTranslations = {
       //jscs:disable
       'search-management': {
+        'packages': {
+          'label': 'What are you searching for?',
+          'data-packages': 'Data Packages (SUFs, CUFs)',
+          'analysis-packages': 'Analysis Packages (Scripts)'
+        },
         'delete-messages': {
           'delete-variables-title': 'Replace all Variables?',
           'delete-variables': 'Are you sure you want to replace all data of the Variables within the Data Acquisition Project "{{ id }}"?',
@@ -22,7 +27,8 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Are you sure you want to replace all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },
         'search-result': {
-          'dataPackageSearch': 'Search "{{ searchQuery }}" in Data Package'
+          'dataPackageSearch': 'Search "{{ searchQuery }}" in Data Package',
+          'analysisPackageSearch': 'Search "{{ searchQuery }}" in Analysis Package'
         },
         'detail': {
           'search': 'Data Search',
@@ -30,7 +36,9 @@ angular.module('metadatamanagementApp').config(
           'noresult': 'No search results found.',
           'version': 'Version',
           'access-way': 'Access Way',
-          'cart': 'Add to shopping cart'
+          'cart': 'Add to shopping cart',
+          'data-packages-info': 'Data packages contain Scientific Use Files and/or Campus Use Files that are intended for broad use in science or teaching.',
+          'analysis-packages-info': 'Analysis packages contain analysis scripts and analysis data that were used to create a specific publication and thus enable its replication.'
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',
@@ -46,9 +54,11 @@ angular.module('metadatamanagementApp').config(
           'upload-or-create-data-sets-tooltip': 'Create one data set',
           'upload-or-edit-data-packages-tooltip': 'Click to edit the data package',
           'create-data-package-tooltip': 'Click to create the data package',
+          'create-analysis-package-tooltip': 'Click to create the analysis package',
           'create-concept-tooltip': 'Click to create the concept',
           'create-survey-tooltip': 'Click to create a new survey',
           'edit-data-package-tooltip': 'Click to edit the data package',
+          'edit-analysis-package-tooltip': 'Click to edit the analysis package',
           'edit-concept-tooltip': 'Click to edit the concept',
           'edit-survey-tooltip': 'Click to edit the survey',
           'delete-survey-tooltip': 'Click to delete the survey',
@@ -65,6 +75,7 @@ angular.module('metadatamanagementApp').config(
           'previous-search-result-tooltip': 'Click (or CTRL+"\u21E6") to show search result {{ index }} ({{ id }})',
           'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})',
           'delete-all-data-packages-tooltip': 'Click, to delete the data package of the Data Acquisition Project',
+          'delete-all-analysis-packages-tooltip': 'Click, to delete the analysis package of the Data Acquisition Project',
           'delete-all-questions-tooltip': 'Click, to delete all questions of the Data Acquisition Project',
           'delete-all-variables-tooltip': 'Click, to delete all variables of the Data Acquisition Project',
           'delete-all-surveys-tooltip': 'Click, to delete all surveys of the Data Acquisition Project',
@@ -78,12 +89,13 @@ angular.module('metadatamanagementApp').config(
           'open-filter-panel': 'Click to show the search filters'
         },
         'input-label': {
-          'all': 'Search for Data Packages, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',
+          'all': 'Search for Data Packages, Analysis Packages, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',
           'variables': 'Search for Variables...',
           'questions': 'Search for Questions...',
           'surveys': 'Search for Surveys...',
           'data-sets': 'Search for Data Sets...',
           'data-packages': 'Search for Data Packages...',
+          'analysis-packages': 'Search for Analysis Packages...',
           'related-publications': 'Search for Publications...',
           'instruments': 'Search for Instruments...',
           'concepts': 'Search for Concepts...'
@@ -95,6 +107,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'No Surveys found for your search request.',
           'data-sets': 'No Data Sets found for your search request.',
           'data-packages': 'No Data packages found for your search request.',
+          'analysis-packages': 'No Analysis packages found for your search request.',
           'related-publications': 'No Publications found for your search request.',
           'instruments': 'No Instruments found for your search request.',
           'concepts': 'No Concepts found for your search request.',
@@ -119,6 +132,9 @@ angular.module('metadatamanagementApp').config(
           'data_packages': 'Data Packages',
           'data_packages-found': '{number} {number, plural, =0{data packages} =1{data package} other{data packages}} found.',
           'data_packages-tooltip': 'Click to search for data packages',
+          'analysis_packages': 'Analysis Packages',
+          'analysis_packages-found': '{number} {number, plural, =0{analysis packages} =1{analysis package} other{analysis packages}} found.',
+          'analysis_packages-tooltip': 'Click to search for analysis packages',
           'all': 'All',
           'all-tooltip': 'Click to search for all objects',
           'related_publications': 'Publications',
@@ -139,7 +155,9 @@ angular.module('metadatamanagementApp').config(
           'concept-tooltip': 'Click to show concept "{{id}}"'
         },
         'filter': {
+          'no-record': 'No data recorded.',
           'data-package': 'Data Package',
+          'analysis-package': 'Analysis Package',
           'concept': 'Concept',
           'data-set': 'Data Set',
           'question': 'Question',
@@ -178,6 +196,7 @@ angular.module('metadatamanagementApp').config(
           },
           'input-label': {
             'data_packages': 'Select filters for Study Search...',
+            'analysis_packages': 'Select filters for Analysis Search...',
             'concepts': 'Select filters for Concept Search...',
             'surveys': 'Select filters for Survey Search...',
             'instruments': 'Select filters for Instrument Search...',

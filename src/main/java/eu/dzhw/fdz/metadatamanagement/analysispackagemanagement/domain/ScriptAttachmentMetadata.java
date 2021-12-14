@@ -7,7 +7,6 @@ import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.data.annotation.Id;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.AtMostOneAttachmentPerScript;
-import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidScriptUuid;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -34,8 +33,6 @@ import lombok.ToString;
 @AtMostOneAttachmentPerScript(
     message = "analysis-package-management.error.script-attachment-metadata"
         + ".script-uuid.not-unique")
-@ValidScriptUuid(message = "analysis-package-management.error.script-attachment-metadata"
-    + ".script-uuid.not-exists")
 public class ScriptAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
   private static final long serialVersionUID = 5380995617337286180L;

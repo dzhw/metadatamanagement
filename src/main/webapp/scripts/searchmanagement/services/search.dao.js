@@ -4,8 +4,9 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-           LanguageService, DataPackageIdBuilderService, SearchHelperService,
-           clientId) {
+           LanguageService, DataPackageIdBuilderService,
+           AnalysisPackageIdBuilderService,
+           SearchHelperService, clientId) {
 
     var addAdditionalShouldQueries = function(elasticsearchType, query,
                                               boolQuery) {
@@ -98,6 +99,32 @@ angular.module('metadatamanagementApp').service('SearchDao',
               queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'projectContributors.lastName.ngrams',
+              queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.de', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.en', queryTerm, englishMajorBoost));
+            break;
+
+          case 'analysis_packages':
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.firstName.ngrams',
+              queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.middleName.ngrams',
+              queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.lastName.ngrams',
               queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'description.de.ngrams', queryTerm, germanMinorBoost));
@@ -333,10 +360,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
 
     var applyFetchLatestShadowCopyFilter = function(query, elasticSearchType,
-                                                    filter) {
+                                                    filter, enforceReleased) {
       if (!_.includes(['related_publications', 'concepts'],
         elasticSearchType)) {
-        SearchHelperService.addShadowCopyFilter(query, filter);
+        SearchHelperService.addShadowCopyFilter(query, filter, enforceReleased);
       }
     };
 
@@ -353,23 +380,80 @@ angular.module('metadatamanagementApp').service('SearchDao',
       return strippedFilter;
     };
 
+    var createAdditionalSearchQueryForPublicUsers = function(queryterm,
+      elasticsearchType) {
+      var query = {};
+      query.index = elasticsearchType;
+      query.body = {};
+      query.body.track_total_hits = true;
+      query.body._source = ['id'];
+      query.body.from = 0;
+      //define size
+      query.body.size = 0;
+      //a query term
+      if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
+        query.body.query = {
+          'bool': {
+            'must': [
+              {
+                'constant_score': {
+                  'filter': {
+                    'match': {
+                      'all': {
+                        'query': queryterm,
+                        'operator': 'AND',
+                        'minimum_should_match': '100%',
+                        'zero_terms_query': 'NONE',
+                        'boost': 1 //constant base score of 1 for matches
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        };
+        //no query term
+      } else {
+        query.body.query = {
+          'bool': {
+            'must': [{
+              'match_all': {}
+            }]
+          }
+        };
+      }
+      query.body.query.bool.filter = [];
+      query.body.query.bool.filter.push({
+        'exists': {
+          'field': 'release'
+        }
+      });
+      applyFetchLatestShadowCopyFilter(query, elasticsearchType);
+
+      return query;
+    };
+
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
-                       aggregations, newFilters, sortCriteria) {
+                       aggregations, newFilters, sortCriteria,
+                       enforceReleased, additionalSearchIndex) {
         var query = {};
         query.preference = clientId;
         var dataPackageId;
+        var analysisPackageId;
 
         query.index = elasticsearchType;
-        query.track_total_hits = true;
         if (!elasticsearchType) {
           //search in all indices
-          query.index = ['data_packages', 'variables', 'surveys', 'data_sets',
-            'instruments', 'related_publications', 'questions', 'concepts'
+          query.index = ['data_packages', 'analysis_packages', 'variables',
+            'surveys', 'data_sets', 'instruments', 'related_publications',
+            'questions', 'concepts'
           ];
         }
         query.body = {};
+        query.body.track_total_hits = true;
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'sourceReference', 'authors',
@@ -449,7 +533,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         //only publisher and data provider see unreleased projects
-        if (!Principal
+        if (enforceReleased || !Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
             'ROLE_ADMIN'])) {
           query.body.query.bool.filter = [];
@@ -463,7 +547,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         var filterToUse;
 
         if (_.includes(['related_publications', 'concepts'],
-        elasticsearchType)) {
+          elasticsearchType)) {
           filterToUse = stripVersionSuffixFromFilters(filter);
         } else {
           filterToUse = filter;
@@ -473,6 +557,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
           !SearchHelperService.containsDomainObjectFilter(filterToUse)) {
           dataPackageId = DataPackageIdBuilderService
             .buildDataPackageId(dataAcquisitionProjectId);
+          analysisPackageId = AnalysisPackageIdBuilderService
+            .buildAnalysisPackageId(dataAcquisitionProjectId);
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = [];
           }
@@ -490,6 +576,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }, {
                 'term': {
                   'dataPackages.id': dataPackageId
+                }
+              }, {
+                'term': {
+                  'analysisPackageIds': analysisPackageId
+                }
+              }, {
+                'term': {
+                  'analysisPackages.id': analysisPackageId
                 }
               }]
             }
@@ -515,15 +609,32 @@ angular.module('metadatamanagementApp').service('SearchDao',
         SearchHelperService.addNewFilters(query, elasticsearchType,
           newFilters);
 
-        if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+        if (enforceReleased ||
+            Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-            filterToUse);
+            filterToUse, enforceReleased);
           return ElasticSearchClient.search(query);
         } else {
           applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
             filterToUse);
-          return ElasticSearchClient.search(query);
+          if (additionalSearchIndex) {
+            var query2 = createAdditionalSearchQueryForPublicUsers(
+              queryterm, additionalSearchIndex);
+            var header1 = {
+              index: query.index,
+              preference: query.preference
+            };
+            var header2 = {
+              index: query2.index,
+              preference: query2.preference
+            };
+            return ElasticSearchClient.msearch({
+              body: [header1, query.body, header2, query2.body]
+            });
+          } else {
+            return ElasticSearchClient.search(query);
+          }
         }
       }
     };

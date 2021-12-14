@@ -1,0 +1,97 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">
+        {{'analysis-package-management.detail.label.analysis-data' | translate
+        }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">
+        keyboard_arrow_up
+      </md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">
+        keyboard_arrow_down
+      </md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list
+        ng-repeat="item in $ctrl.options.analysisPackage.analysisDataPackages">
+        <md-list-item ng-if="item.type" class="mb16">
+          <h5>{{ 'analysis-package-management.detail.label.type-of-data' | translate}}:</h5>
+          <span
+            class="md-secondary pre">{{$ctrl.options.dataPackageList[item.type][$ctrl.lang]}}</span>
+        </md-list-item>
+        <md-list-item ng-if="item.dataPackageMasterId">
+          <h5>{{'analysis-package-management.detail.label.analyzed-data-package.data-package' | translate}}:</h5>
+          <span class="md-secondary">
+            <a ui-sref="dataPackageDetail({id: item.dataPackageMasterId.replace('$',''), version: item.version})">
+            {{item.dataPackageTitle[$ctrl.lang]}}</a></span>
+        </md-list-item>
+        <md-list-item ng-if="item.version">
+          <h5>{{ 'analysis-package-management.detail.label.analyzed-data-package.version' | translate}}:</h5>
+          <span class="md-secondary pre">{{item.version}}</span>
+        </md-list-item>
+        <md-list-item ng-if="item.accessWay && item.type !== 'customDataPackage'">
+          <h5>{{ 'analysis-package-management.detail.label.analyzed-data-package.access-way' | translate}}:</h5>
+          <span class="md-secondary pre">{{item.accessWay | displayAccessWay}}</span>
+        </md-list-item>
+        <md-list-item ng-if="item.title">
+          <h5>{{ 'analysis-package-management.detail.label.title' | translate}}:</h5>
+          <span class="md-secondary pre">{{item.title[$ctrl.lang]}}</span>
+        </md-list-item>
+        <md-list-item ng-if="item.description">
+          <h5>{{'analysis-package-management.detail.label.external-data-package.description' | translate }}:</h5>
+          <p
+            class="md-secondary"
+            markdown-to-html="item.description | displayI18nString"
+          ></p>
+        </md-list-item>
+        <md-list-item ng-if="item.annotations">
+          <h5>{{'analysis-package-management.detail.label.external-data-package.annotations' | translate }}:</h5>
+          <p
+            class="md-secondary"
+            markdown-to-html="item.annotations | displayI18nString"
+          ></p>
+        </md-list-item>
+        <md-list-item ng-if="item.dataSource">
+          <h5>{{'analysis-package-management.detail.label.external-data-package.data-source' | translate }}:</h5>
+          <p ng-if="!item.dataSourceUrl" class="md-secondary">{{item.dataSource[$ctrl.lang]}}</p>
+          <a ng-if="item.dataSourceUrl" href="{{item.dataSourceUrl}}" target="_blank">{{item.dataSource[$ctrl.lang]}}</a>
+        </md-list-item>
+        <md-list-item ng-if="item.availabilityType && item.type !== 'customDataPackage'">
+          <h5>{{ 'analysis-package-management.detail.label.external-data-package.availability-type' | translate}}:</h5>
+          <span class="md-secondary pre">{{item.availabilityType[$ctrl.lang]}}</span>
+        </md-list-item>
+
+        <md-list-item ng-if="item.dataSources && item.dataSources.length > 0">
+          <h5>{{'analysis-package-management.detail.label.custom-data-package.dataSources' | translate }}:</h5>
+          <ul class="md-secondary" style="list-style-type: none; margin: 0px; margin-block: 0px; padding-inline: 0px; padding: 0px;">
+            <li ng-repeat="link in item.dataSources">
+              <p ng-if="!link.url">{{ link.name | displayI18nString}}</p>
+              <a ng-if="link.url" href="{{link.url}}" target="_blank">
+                {{ link.name ? (link.name | displayI18nString) : link.url}}
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'analysis-package-management.detail.link-tooltip' | translate}}
+                </md-tooltip>
+              </a>
+            </li>
+          </ul>
+        </md-list-item>
+        <md-list-item ng-if="item.type === 'customDataPackage' && item.accessWay">
+          <h5>{{ 'analysis-package-management.detail.label.custom-data-package.access-way' | translate}}:</h5>
+          <span class="md-secondary pre">{{item.accessWay}}</span>
+        </md-list-item>
+        <md-list-item ng-if="item.type === 'customDataPackage' && item.availabilityType">
+          <h5>{{ 'analysis-package-management.detail.label.custom-data-package.availability-type' | translate}}:</h5>
+          <span class="md-secondary pre">{{item.availabilityType[$ctrl.lang]}}</span>
+        </md-list-item>
+
+        <md-divider ng-if="!$last" class="mv16 mh0"></md-divider>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

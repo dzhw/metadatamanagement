@@ -191,17 +191,19 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content>
           <div id="move-institution-container" layout="row"
                ng-repeat="institution in ctrl.currentInstitutions track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteInstitution($index)"
-                       ng-if="ctrl.dataPackage.institutions.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.edit.delete-institution-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteInstitution($index)"
+                         ng-if="ctrl.dataPackage.institutions.length > 1">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-institution-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'data-package-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512" md-input-name="institutionDe_{{$index}}"
@@ -280,7 +282,7 @@
             </md-autocomplete>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addInstitution()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -317,17 +319,19 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content>
           <div id="move-sponsor-container" layout="row"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteSponsor($index)"
-                       ng-if="ctrl.dataPackage.sponsors.length > 1" style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.edit.delete-sponsor-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteSponsor($index)"
+                         ng-if="ctrl.dataPackage.sponsors.length > 1">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-sponsor-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512" md-input-name="sponsorDe_{{$index}}"
@@ -406,7 +410,7 @@
             </md-autocomplete>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addSponsor()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -508,22 +512,23 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-          <div id="move-link-container" layout="row"
+        <md-card-content>
+          <div id="link-{{$index}}" layout="row"
                ng-repeat="link in ctrl.dataPackage.additionalLinks track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteLink($index)"
-                       style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom"
-                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.edit.delete-link-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteLink($index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-link-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
             <md-input-container flex="33" class="mr8"
                                 md-is-error="!dataPackageForm['linkUrl_' + $index].$valid && (dataPackageForm['linkUrl_' + $index].$dirty || dataPackageForm['linkUrl_' + $index].$touched)">
               <label class="fdz-input-required">{{'data-package-management.edit.label.additional-links.url' | translate}}</label>
               <input type="url" fdz-required md-no-asterisk name="linkUrl_{{$index}}" md-maxlength="2000"
-                     ng-blur="ctrl.deleteCurrentLink($event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
                      ng-model="link.url" autocomplete="off">
               <div
                 class="fdz-input-hint"
@@ -540,7 +545,7 @@
                                 md-is-error="!dataPackageForm['linkDisplayTextDe_' + $index].$valid && (dataPackageForm['linkDisplayTextDe_' + $index].$dirty || dataPackageForm['linkDisplayTextDe_' + $index].$touched)">
               <label>{{'data-package-management.edit.label.additional-links.display-text' | translate}} ({{'global.in-german' | translate}})</label>
               <input md-no-asterisk name="linkDisplayTextDe_{{$index}}" md-maxlength="512"
-                     ng-blur="ctrl.deleteCurrentLink($event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
                      ng-model="link.displayText.de" autocomplete="off">
               <div
                 class="fdz-input-hint"
@@ -555,7 +560,7 @@
                                 md-is-error="!dataPackageForm['linkDisplayTextEn_' + $index].$valid && (dataPackageForm['linkDisplayTextEn_' + $index].$dirty || dataPackageForm['linkDisplayTextEn_' + $index].$touched)">
               <label>{{'data-package-management.edit.label.additional-links.display-text' | translate}} ({{'global.in-english' | translate}})</label>
               <input md-no-asterisk name="linkDisplayTextEn_{{$index}}" md-maxlength="512"
-                     ng-blur="ctrl.deleteCurrentLink($event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
                      ng-model="link.displayText.en" autocomplete="off">
               <div
                 class="fdz-input-hint"
@@ -568,7 +573,7 @@
             </md-input-container>
           </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addLink()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

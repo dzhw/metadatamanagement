@@ -30,12 +30,6 @@
                 <div ng-message="md-require-match">{{'survey-management.geographic-coverage.errors.no-match' | translate}}</div>
             </div>
         </md-autocomplete>
-        <md-button class="md-icon-button md-primary" aria-label="Delete geographic location" ng-click="onDelete()" style="margin: 6px;">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'survey-management.geographic-coverage.tooltip.delete' | translate}}
-            </md-tooltip>
-            <md-icon>delete_forever</md-icon>
-        </md-button>
     </div>
     <div layout-gt-xs="column" layout-gt-sm="row" class="pr16">
         <md-input-container flex="grow" ng-class="{'mr10': isScreenGreaterSmall}">

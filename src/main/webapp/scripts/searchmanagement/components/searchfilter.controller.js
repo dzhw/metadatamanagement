@@ -2,47 +2,71 @@
 (function() {
   'use strict';
 
-  function SearchFilterController($scope, $location, MessageBus, $timeout) {
+  function SearchFilterController(
+    $scope, $location, MessageBus, $timeout, $mdDialog
+  ) {
+    var filterValueObject = {
+      analysis_packages: [
+        {
+          name: 'global.filter.tags',
+          property: 'tags', collapsed: false
+        },
+        {
+          name: 'global.filter.sponsors',
+          property: 'sponsors', collapsed: false
+        },
+        {
+          name: 'global.filter.institutions',
+          property: 'institutions', collapsed: true
+        }
+      ],
+      data_packages: [
+        {
+          name: 'global.filter.survey-data-types',
+          property: 'survey-data-types',
+          collapsed: false
+        },
+        {
+          name: 'global.filter.study-series',
+          property: 'study-series',
+          collapsed: false
+        },
+        {
+          name: 'global.filter.tags',
+          property: 'tags', collapsed: true
+        },
+        {
+          name: 'global.filter.access-ways',
+          property: 'access-ways',
+          collapsed: true
+        },
+        {
+          name: 'global.filter.concepts',
+          property: 'concepts', collapsed: true
+        },
+        {
+          name: 'global.filter.sponsors',
+          property: 'sponsors', collapsed: true
+        },
+        {
+          name: 'global.filter.institutions',
+          property: 'institutions', collapsed: true
+        }
+      ]
+    };
     var $ctrl = this;
     $ctrl.onDataPackageFilterChange = MessageBus;
+    $ctrl.onTotalHitsChange = MessageBus;
+    $ctrl.totalHits = {};
     $ctrl.dataPackageFilter = {};
     $ctrl.searchFilterMapping = {};
     $ctrl.searchParams = {};
-    $ctrl.filterValues = [
-      {
-        name: 'global.filter.survey-data-types',
-        property: 'survey-data-types',
-        collapsed: false
-      },
-      {
-        name: 'global.filter.study-series',
-        property: 'study-series',
-        collapsed: false
-      },
-      {
-        name: 'global.filter.tags',
-        property: 'tags', collapsed: true
-      },
-      {
-        name: 'global.filter.access-ways',
-        property: 'access-ways',
-        collapsed: true
-      },
-      {
-        name: 'global.filter.concepts',
-        property: 'concepts', collapsed: true
-      },
-      {
-        name: 'global.filter.sponsors',
-        property: 'sponsors', collapsed: true
-      },
-      {
-        name: 'global.filter.institutions',
-        property: 'institutions', collapsed: true
-      }
-    ];
+    $ctrl.filterValues = _.clone(filterValueObject.data_packages);
+    $ctrl.dataPackageSearchFilter = 'data_packages';
+
     $ctrl.toggleFilterItem = toggleFilterItem;
     $ctrl.exists = exists;
+    $ctrl.changePackageFilter = changePackageFilter;
     $ctrl.clearFilter = clearFilter;
     $ctrl.$onInit = init;
 
@@ -50,8 +74,24 @@
       $ctrl.searchParams.filter = {};
       $ctrl.searchFilterMapping = {};
       readSearchParamsFromLocation();
+      if ($ctrl.searchParams.type === 'analysis_packages') {
+        $ctrl.dataPackageSearchFilter = $ctrl.searchParams.type;
+        setFilterValues($ctrl.searchParams.type);
+      }
       checkCollapsible();
       _.assign($ctrl.searchFilterMapping, $ctrl.searchParams.filter);
+    }
+
+    function setFilterValues(prop) {
+      $ctrl.filterValues.length = 0;
+      $ctrl.filterValues = _.clone(filterValueObject[prop]);
+    }
+
+    function changePackageFilter() {
+      $ctrl.searchParams.type = $ctrl.dataPackageSearchFilter;
+      $ctrl.searchParams.filter = {};
+      setFilterValues($ctrl.dataPackageSearchFilter);
+      writeSearchParamsToLocation();
     }
 
     function clearFilter() {
@@ -119,7 +159,6 @@
       if ($ctrl.searchParams.type) {
         locationSearch.type = $ctrl.searchParams.type;
       }
-
       if ($ctrl.searchParams.sortBy) {
         locationSearch['sort-by'] = $ctrl.searchParams.sortBy;
       }
@@ -158,10 +197,35 @@
       ]);
     }
 
+    $ctrl.infoModal = function(type, $event) {
+      var url = {
+        data: 'data-package-info.html.tmpl',
+        analysis: 'analysis-package-info.html.tmpl'
+      };
+      $mdDialog.show({
+        controller: 'dataPackageInfoController',
+        templateUrl: 'scripts/searchmanagement/components/' + url[type],
+        clickOutsideToClose: true,
+        escapeToClose: true,
+        fullscreen: true,
+        targetEvent: $event
+      });
+    };
+
+    $scope.$watch('$ctrl.searchParams.type', function(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        clearFilter();
+      }
+    });
+
     $scope.$watch(function() {
         return $ctrl.onDataPackageFilterChange;
       },
       function() {
+        if ($ctrl.onTotalHitsChange.get('onTotalHitsChange')) {
+          $ctrl.totalHits = $ctrl.onTotalHitsChange
+            .get('onTotalHitsChange', true);
+        }
         if ($ctrl.onDataPackageFilterChange.get('onDataPackageFilterChange')) {
           $ctrl.dataPackageFilter = $ctrl.onDataPackageFilterChange
             .get('onDataPackageFilterChange', true);
@@ -176,15 +240,15 @@
       },
       function() {
         $ctrl.searchParams.filter = _.omit($location.search(), ['page', 'size',
-        'type', 'query', 'sort-by'
+          'type', 'query', 'sort-by'
         ]);
         init();
       });
 
     $scope.$on('current-language-changed', function() {
-        // we need to wait for the state change being completed
-        $timeout($ctrl.clearFilter, 200);
-      });
+      // we need to wait for the state change being completed
+      $timeout($ctrl.clearFilter, 200);
+    });
   }
 
   angular

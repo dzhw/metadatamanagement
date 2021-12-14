@@ -162,6 +162,28 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.search(query);
       };
 
+      var findByAnalysisPackageId = function(analysisPackageId,
+                                             selectedAttributes, from, size) {
+        var query = createQueryObject();
+        query.body = {};
+        query.body.from = from;
+        query.body.size = size;
+        query.body._source = selectedAttributes;
+        query.body.query = {
+          'bool': {
+            'must': [{
+              'match_all': {}
+            }],
+            'filter': [{
+              'term': {
+                'analysisPackageIds': analysisPackageId
+              }
+            }]
+          }
+        };
+        return ElasticSearchClient.search(query);
+      };
+
       var findTitles = function(searchText, filter, type,
         queryterm, dataAcquisitionProjectId) {
         var query = createQueryObject(type);
@@ -275,6 +297,7 @@ angular.module('metadatamanagementApp')
         findByDataSetId: findByDataSetId,
         findByQuestionId: findByQuestionId,
         findByDataPackageId: findByDataPackageId,
+        findByAnalysisPackageId: findByAnalysisPackageId,
         findByInstrumentId: findByInstrumentId,
         findTitles: findTitles
       };

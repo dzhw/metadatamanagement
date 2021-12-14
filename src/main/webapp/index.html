@@ -220,6 +220,7 @@
 <script src="../../../node_modules/angular-swx-session-storage/release/swx-session-storage.js"></script>
 <script src="../../../node_modules/angulartics/src/angulartics.js"></script>
 <script src="../../../node_modules/angulartics-piwik/src/angulartics-piwik.js"></script>
+<script src="../../../node_modules/angular-uuid/angular-uuid.js"></script>
 <!-- citation.js throws an exception in IE11 thus it has to come as last script -->
 <script src="../../../node_modules/citation-js/build/citation.js"></script>
 <!-- endbuild -->
@@ -337,8 +338,7 @@
 <script src="/scripts/common/dialogs/attachment/attachmentDialog.service.js"></script>
 <script src="/scripts/common/dialogs/attachment/configuration/translations-de.js"></script>
 <script src="/scripts/common/dialogs/attachment/configuration/translations-en.js"></script>
-<script
-  src="/scripts/common/dialogs/choose-previous-attachment-version/choose-attachment-version.controller.js"></script>
+<script src="/scripts/common/dialogs/choose-previous-attachment-version/choose-attachment-version.controller.js"></script>
 <script src="/scripts/common/dialogs/attachment/components/edit-citation-details.component.js"></script>
 <script src="/scripts/common/dialogs/attachment/components/edit-citation-details.controller.js"></script>
 <script src="/scripts/common/dialogs/choose-previous-attachment-version/configuration/translations-de.js"></script>
@@ -371,6 +371,16 @@
 <script src="/scripts/common/analytics/track-download.directive.js"></script>
 <script src="/scripts/common/analytics/user-consent.controller.js"></script>
 <script src="/scripts/common/analytics/user-consent.component.js"></script>
+<script src="/scripts/common/textsection/edit-text-section.component.js"></script>
+<script src="/scripts/common/textsection/edit-text-section.controller.js"></script>
+<script src="/scripts/common/text/text.component.js"></script>
+<script src="/scripts/common/text/text.controller.js"></script>
+<script src="/scripts/common/title/title.component.js"></script>
+<script src="/scripts/common/title/title.controller.js"></script>
+<script src="/scripts/common/url/url.component.js"></script>
+<script src="/scripts/common/url/url.controller.js"></script>
+<script src="/scripts/common/datasource/data-source.component.js"></script>
+<script src="/scripts/common/datasource/data-source.controller.js"></script>
 
 <script src="/scripts/filemanagement/resources/file.resource.js"></script>
 <script src="/scripts/filemanagement/services/zipReader.service.js"></script>
@@ -575,6 +585,7 @@
 <script src="/scripts/searchmanagement/configuration/translations-de.js"></script>
 <script src="/scripts/searchmanagement/configuration/translations-en.js"></script>
 <script src="/scripts/searchmanagement/views/search.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/analysis-package-search-result.directive.js"></script>
 <script src="/scripts/searchmanagement/directives/variable-search-result.directive.js"></script>
 <script src="/scripts/searchmanagement/directives/survey-search-result.directive.js"></script>
 <script src="/scripts/searchmanagement/directives/concept-search-result.directive.js"></script>
@@ -624,6 +635,7 @@
 <script src="/scripts/searchmanagement/components/searchfilter.controller.js"></script>
 <script src="/scripts/searchmanagement/components/menu-toggle.component.js"></script>
 <script src="/scripts/searchmanagement/components/menu-toggle.controller.js"></script>
+<script src="/scripts/searchmanagement/components/package-info.controller.js"></script>
 
 <script src="/scripts/ordermanagement/configuration/shoppingCart.js"></script>
 <script src="/scripts/ordermanagement/configuration/translations-de.js"></script>
@@ -631,16 +643,21 @@
 <script src="/scripts/ordermanagement/views/shopping-cart.controller.js"></script>
 <script src="/scripts/ordermanagement/services/shoppingCart.service.js"></script>
 <script src="/scripts/ordermanagement/services/citationHintGenerator.service.js"></script>
+<script src="/scripts/ordermanagement/services/analysisPackageCitationHintGenerator.service.js"></script>
 <script src="/scripts/ordermanagement/services/dataPackageCitationDialog.service.js"></script>
+<script src="/scripts/ordermanagement/services/analysisPackageCitationDialog.service.js"></script>
 <script src="/scripts/ordermanagement/filter/displayPeriod.filter.js"></script>
 <script src="/scripts/ordermanagement/filter/displayPersons.filter.js"></script>
 <script src="/scripts/ordermanagement/filter/displayAccessWay.filter.js"></script>
 <script src="/scripts/ordermanagement/resources/order.resource.js"></script>
-<script src="/scripts/ordermanagement/components/data-package-configurator.component.js"></script>
 <script src="/scripts/ordermanagement/views/version-info.controller.js"></script>
 <script src="/scripts/ordermanagement/views/access-way-info.controller.js"></script>
 <script src="/scripts/ordermanagement/views/data-package-citation-dialog.controller.js"></script>
+<script src="/scripts/ordermanagement/views/analysis-package-citation-dialog.controller.js"></script>
+<script src="/scripts/ordermanagement/components/data-package-configurator.component.js"></script>
 <script src="/scripts/ordermanagement/components/data-package-configurator.controller.js"></script>
+<script src="/scripts/ordermanagement/components/analysis-package-configurator.component.js"></script>
+<script src="/scripts/ordermanagement/components/analysis-package-configurator.controller.js"></script>
 
 <script src="/scripts/conceptmanagement/configuration/concept.js"></script>
 <script src="/scripts/conceptmanagement/configuration/translations-de.js"></script>
@@ -655,6 +672,37 @@
 <script src="/scripts/conceptmanagement/views/concept-edit-or-create.controller.js"></script>
 <script src="/scripts/conceptmanagement/directives/uniqueConceptIdValidator.directive.js"></script>
 <script src="/scripts/conceptmanagement/directives/composeConceptId.directive.js"></script>
+
+<script src="/scripts/analysispackagemanagement/configuration/analysis-package.js"></script>
+<script src="/scripts/analysispackagemanagement/configuration/translations-de.js"></script>
+<script src="/scripts/analysispackagemanagement/configuration/translations-en.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/analysisPackage.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/analysisPackageAccessWays.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/analysisPackageAttachment.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/analysisPackageAttachmentVersions.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/analysisPackageOverview.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/analysisPackageVersions.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/deleteAllAnalysisPackages.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/scriptAttachment.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/deleteAllScriptAttachments.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/resources/scriptSoftwarePackages.resource.js"></script>
+<script src="/scripts/analysispackagemanagement/services/analysisPackageAttachmentUpload.service.js"></script>
+<script src="/scripts/analysispackagemanagement/services/analysisPackageIdBuilder.service.js"></script>
+<script src="/scripts/analysispackagemanagement/services/analysisPackageSearch.service.js"></script>
+<script src="/scripts/analysispackagemanagement/services/currentAnalysisPackage.service.js"></script>
+<script src="/scripts/analysispackagemanagement/services/scriptAttachmentUpload.service.js"></script>
+<script src="/scripts/analysispackagemanagement/views/analysis-package-edit-or-create.controller.js"></script>
+<script src="/scripts/analysispackagemanagement/views/analysis-package-detail.controller.js"></script>
+<script src="/scripts/analysispackagemanagement/components/scriptsection/edit-script-section.component.js"></script>
+<script src="/scripts/analysispackagemanagement/components/scriptsection/edit-script-section.controller.js"></script>
+<script src="/scripts/analysispackagemanagement/components/listdatapackage/list-data-package.component.js"></script>
+<script src="/scripts/analysispackagemanagement/components/listdatapackage/list-data-package.controller.js"></script>
+<script src="/scripts/analysispackagemanagement/components/customdatapackage/custom-data-package.component.js"></script>
+<script src="/scripts/analysispackagemanagement/components/customdatapackage/custom-data-package.controller.js"></script>
+<script src="/scripts/analysispackagemanagement/components/externaldatapackage/external-data-package.component.js"></script>
+<script src="/scripts/analysispackagemanagement/components/externaldatapackage/external-data-package.controller.js"></script>
+<script src="/scripts/analysispackagemanagement/components/datapackage/data-package.component.js"></script>
+<script src="/scripts/analysispackagemanagement/components/datapackage/data-package.controller.js"></script>
 <!-- endbuild -->
 </body>
 

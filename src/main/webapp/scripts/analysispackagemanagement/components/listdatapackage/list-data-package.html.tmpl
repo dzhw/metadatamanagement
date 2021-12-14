@@ -1,0 +1,121 @@
+<md-card class="mb8" id="packages">
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">
+        {{ 'analysis-package-management.detail.label.analysis-data' | translate}}</h2>
+    </md-card-header-text>
+  </md-card-header>
+  <md-divider></md-divider>
+  <md-card-content>
+    <div layout="column"
+         layout-gt-sm="column"
+         class="ms-flex"
+         id="package-{{$index}}"
+         ng-repeat="package in $ctrl.packages track by $index">
+      <div layout="row"
+           layout-gt-sm="row"
+           class="ms-flex">
+        <div layout="column"
+             layout-gt-sm="column"
+             flex="2"
+             class="ms-flex">
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                     ng-click="$ctrl.deletePackage($index)">
+            <md-tooltip md-autohide="true"
+                        md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'analysis-package-management.edit.delete-script-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_forever</md-icon>
+          </md-button>
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                     ng-click="$ctrl.move('up', $index)"
+                     ng-disabled="$index === 0">
+            <md-tooltip md-autohide="true"
+                        md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'analysis-package-management.edit.move-analysis-data-up-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+          </md-button>
+          <md-button class="md-primary md-icon-button mt18 mh0 pl0"
+                     ng-click="$ctrl.move('down', $index)"
+                     ng-disabled="$index === $ctrl.packages.length - 1">
+            <md-tooltip md-autohide="true"
+                        md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'analysis-package-management.edit.move-analysis-data-down-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+          </md-button>
+        </div>
+        <div layout="row"
+             flex="100"
+             layout-gt-sm="row"
+             class="ms-flex flex-wrap">
+          <div flex="100">
+            <md-input-container flex="50"
+                                class="mr8 ms-flex"
+                                md-is-error="!$ctrl.currentForm['analysisDataPackagesType_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesType_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesType_' + $index].$touched)">
+              <label>{{ 'analysis-package-management.detail.label.type-of-data' | translate}}</label>
+              <md-select ng-model="package.type"
+                         name="analysisDataPackagesType_{{$index}}" required>
+                <md-optgroup
+                  label="{{'analysis-package-management.detail.label.type-of-data' | translate}}">
+                  <md-option ng-repeat="item in $ctrl.dataPackageList"
+                             ng-value="item.type">
+                    {{ item[$ctrl.currentLanguage] }}
+                  </md-option>
+                </md-optgroup>
+              </md-select>
+              <div class="fdz-input-hint"
+                   ng-if="!$ctrl.currentForm['analysisDataPackagesType_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesType_' + $index].$touched">
+                {{'analysis-package-management.edit.hints.data-package' | translate}}
+              </div>
+              <div multiple
+                   ng-messages="$ctrl.currentForm['analysisDataPackagesType_' + $index].$error">
+                <div ng-message="required">
+                  {{'analysis-package-management.error.analysis-package.analysis-data-packages.package-type.i18n-not-null' |
+                translate}}
+                </div>
+              </div>
+            </md-input-container>
+          </div>
+          <custom-data-package-component
+            flex="100"
+            ng-if="package.type === 'customDataPackage'"
+            current-form="$ctrl.currentForm"
+            package="package"
+            index="$index"></custom-data-package-component>
+          <external-data-package-component
+            flex="100"
+            ng-if="package.type === 'externalDataPackage'"
+            current-form="$ctrl.currentForm"
+            package="package"
+            index="$index"></external-data-package-component>
+          <fdz-data-package-component
+            flex="100"
+            ng-if="package.type === 'dataPackage'"
+            current-form="$ctrl.currentForm"
+            package="package"
+            index="$index"></fdz-data-package-component>
+        </div>
+      </div>
+      <md-divider
+        ng-if="$ctrl.packages.length -1 !== $index"
+        style="margin: 24px 0 32px 0;"></md-divider>
+    </div>
+
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="begin center" class="mt8 mb12">
+    <md-button class="md-primary md-raised md-icon-button ml6"
+               ng-click="$ctrl.addPackage()">
+      <md-tooltip md-autohide="true"
+                  md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'analysis-package-management.edit.add-analysis-data-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">add</md-icon>
+    </md-button>
+  </md-card-actions>
+</md-card>

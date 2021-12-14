@@ -238,11 +238,13 @@ public class PostValidationService {
       errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
           + "post-validation.project-has-no-analysisPackage", Arrays.asList(information)));
     } else {
-      if (activateFullReleaseChecks && !relatedPublicationRepository
-          .existsByAnalysisPackageIdsContaining(analysisPackage.getId())) {
+      if (activateFullReleaseChecks && relatedPublicationRepository
+          .countByAnalysisPackageIdsContaining(analysisPackage.getId()) != 1) {
         String[] information = {dataAcquisitionProjectId, analysisPackage.getId()};
-        errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
-            + "post-validation.project-has-no-publications", Arrays.asList(information)));
+        errors.add(new PostValidationMessageDto(
+            "data-acquisition-project-management.error."
+                + "post-validation.project-must-have-exactly-one-publication",
+            Arrays.asList(information)));
       }
     }
     return errors;

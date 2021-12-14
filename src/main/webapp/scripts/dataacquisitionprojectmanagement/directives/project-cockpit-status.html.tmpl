@@ -35,7 +35,8 @@
 		</div>
 	</div>
 	<div layout-gt-sm="row" layout="column" layout-wrap class="mb8">
-		<metadata-type-state-card flex="auto" project="ctrl.project" counts="ctrl.counts" type="dataPackages"></metadata-type-state-card>
+		<metadata-type-state-card ng-if="ctrl.project.configuration.requirements['dataPackagesRequired']" flex="auto" project="ctrl.project" counts="ctrl.counts" type="dataPackages"></metadata-type-state-card>
+		<metadata-type-state-card ng-if="ctrl.project.configuration.requirements['analysisPackagesRequired']" flex="auto" project="ctrl.project" counts="ctrl.counts" type="analysisPackages"></metadata-type-state-card>
 		<metadata-type-state-card ng-repeat="state in ctrl.sortedStates" flex="auto" project="ctrl.project" counts="ctrl.counts" type="{{state}}"></metadata-type-state-card>
 	</div>
 </div>

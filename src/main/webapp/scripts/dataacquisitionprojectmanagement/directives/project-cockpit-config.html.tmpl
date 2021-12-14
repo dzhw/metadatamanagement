@@ -22,65 +22,74 @@
 			<p class="md-body-1">
 				{{'data-acquisition-project-management.project-cockpit.requirements.setting-info' | translate}}
 			</p>
-			<form name="requirements" novalidate>
-				<md-list>
+			<form class="df fg-1" name="requirements" novalidate>
+				<md-list class="w-50">
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataPackagesRequired" name="dataPackage" class="mb0" ng-disabled="true">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataPackagesRequired" ng-change="ctrl.isDataPackageChecked()" ng-disabled="ctrl.isProjectRequirementsDisabled()" name="dataPackage" class="mb0">
 								{{'data-acquisition-project-management.project-cockpit.requirements.dataPackages' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.surveysRequired" class="mb0" name="survey" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.surveysRequired" class="mb0" name="survey" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.configuration.requirements.analysisPackagesRequired">
 								{{'data-acquisition-project-management.project-cockpit.requirements.surveys' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.instrumentsRequired" class="mb0" name="instruments" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.instrumentsRequired" class="mb0" name="instruments" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.configuration.requirements.analysisPackagesRequired">
 								{{'data-acquisition-project-management.project-cockpit.requirements.instruments' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.questionsRequired" class="mb0" name="questions" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.questionsRequired" class="mb0" name="questions" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.configuration.requirements.analysisPackagesRequired">
 								{{'data-acquisition-project-management.project-cockpit.requirements.questions' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataSetsRequired" class="mb0" name="dataSet" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataSetsRequired" class="mb0" name="dataSet" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.configuration.requirements.analysisPackagesRequired">
 								{{'data-acquisition-project-management.project-cockpit.requirements.dataSets' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.variablesRequired" class="mb0" name="variables" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.variablesRequired" class="mb0" name="variables" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.configuration.requirements.analysisPackagesRequired">
 								{{'data-acquisition-project-management.project-cockpit.requirements.variables' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.publicationsRequired" class="mb0" name="publications" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.publicationsRequired" class="mb0" name="publications" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.configuration.requirements.analysisPackagesRequired">
 								{{'data-acquisition-project-management.project-cockpit.requirements.publications' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container class="mb0">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.conceptsRequired" class="mb0" name="concepts" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mv8">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.conceptsRequired" class="mb0" name="concepts" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.configuration.requirements.analysisPackagesRequired">
 								{{'data-acquisition-project-management.project-cockpit.requirements.concepts' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 				</md-list>
+        <md-list class="w-50">
+          <md-list-item>
+            <md-input-container class="mv8">
+              <md-checkbox ng-model="ctrl.project.configuration.requirements.analysisPackagesRequired" ng-change="ctrl.isAnalysisPackageChecked()"  ng-disabled="ctrl.isProjectRequirementsDisabled()" name="analysisPackage" class="mb0">
+                {{'data-acquisition-project-management.project-cockpit.requirements.analysisPackages' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </md-list-item>
+        </md-list>
 			</form>
 		</md-card-content>
 	</md-card>
