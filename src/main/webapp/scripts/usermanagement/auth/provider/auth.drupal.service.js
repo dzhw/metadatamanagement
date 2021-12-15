@@ -5,7 +5,7 @@ angular
   .factory(
     'AuthServiceProvider',
     function loginService($http, localStorageService, $window,
-                          $q, AuthProperties, $location) {
+                          $q, AuthProperties, $location, $rootScope) {
       var config = null;
       if (AuthProperties && AuthProperties.hasOwnProperty('issuer') &&
         AuthProperties.issuer.indexOf('http') !== -1) {
@@ -142,16 +142,14 @@ angular
           return deferred.promise;
         },
         logout: function() {
+          localStorageService.remove('tokens');
           $http.post(config.logout).then(
             function(response) {
-              //@todo: call logout?
-              localStorageService.remove('tokens');
               return response;
             },
             function(error) {
               console.log(error);
             });
-          localStorageService.remove('tokens');
         },
         getUserInfo: function() {
           var deferred = $q.defer();
@@ -188,9 +186,9 @@ angular
           return localStorageService.get('tokens') || false;
         },
         refreshToken: function() {
-          console.log('refresh token');
           var deferred = $q.defer();
           if (localStorageService.get('tokens')) {
+            $rootScope.$broadcast('start-ignoring-401');
             var data =
               'grant_type=refresh_token' +
               '&refresh_token=' +
@@ -206,10 +204,13 @@ angular
                 }
               }).then(
               function(response) {
+                $rootScope.$broadcast('stop-ignoring-401');
                 localStorageService.set('tokens', response.data);
                 deferred.resolve();
               },
               function(error) {
+                $rootScope.$broadcast('stop-ignoring-401');
+                localStorageService.remove('tokens');
                 deferred.reject(error);
               });
           } else {
