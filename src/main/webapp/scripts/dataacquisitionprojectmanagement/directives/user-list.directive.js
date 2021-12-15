@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp')
             ctrl.project.configuration = {};
           }
           var configuredUsers = ctrl.activeUsers.map(function(identity) {
-              return identity.preferred_username;
+              return identity.login;
             });
           if (ctrl.group === 'publishers') {
             if (ctrl.project.configuration.publishers) {
@@ -179,6 +179,9 @@ angular.module('metadatamanagementApp')
                     login: userLogin
                   }).$promise.then(function(userResult) {
                     if (!_.includes(ctrl.activeUsers.map(function(u) {
+                      u.roles = u.roles.map(function(el) {
+                        return el.toUpperCase();
+                      });
                       return u.login;
                     }), userResult.login)) {
                       ctrl.activeUsers.push(userResult);
