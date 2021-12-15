@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.rest;
 
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserWithRolesDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
@@ -86,7 +85,7 @@ public class UserResource {
       AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.PUBLISHER
       })
-  public ResponseEntity<List<UserDto>> findUserWithRole(
+  public ResponseEntity<List<UserWithRolesDto>> findUserWithRole(
       @RequestParam String login,
       @RequestParam String role
   ) {

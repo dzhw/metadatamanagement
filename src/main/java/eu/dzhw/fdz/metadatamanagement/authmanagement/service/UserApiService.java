@@ -178,14 +178,14 @@ public class UserApiService {
    * @throws InvalidUserApiResponseException when the Server's status response is not OK
    *                                         (i.e. code 200)
    */
-  public List<UserDto> findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
+  public List<UserWithRolesDto> findAllByLoginLikeOrEmailLikeAndByAuthoritiesContaining(
       final String login,
       final String email,
       final String role
   ) throws InvalidUserApiResponseException {
     return this.doFindAllApiCall(
         FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT,
-        UserApiResponseDto.Users.class,
+        UserApiResponseDto.UsersWithRoles.class,
         login,
         email,
         AuthoritiesConstants.toSearchValue(role)
