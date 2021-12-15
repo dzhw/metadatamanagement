@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').factory(
             $rootScope.identity = AuthServiceProvider.idTokenInfo();
           }
 
-          if(redirect !== false) {
+          if (redirect !== false) {
             $state.go('start', {
               lang: LanguageService.getCurrentInstantly()
             }, {
