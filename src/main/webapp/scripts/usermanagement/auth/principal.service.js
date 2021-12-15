@@ -21,10 +21,13 @@ angular.module('metadatamanagementApp').factory(
       isUiLoggedIn: function() {
         return uiLoggedIn;
       },
+      isLocalLoggedIn: function() {
+        return AuthServiceProvider.hasToken();
+      },
       isAuthenticated: function() {
         return uiLoggedIn && AuthServiceProvider.hasToken();
       },
-      switchMode: function() {
+      switchMode: function(redirect) {
         if (AuthServiceProvider.hasToken()) {
           uiLoggedIn = !uiLoggedIn;
           localStorageService.set('uilstate', uiLoggedIn);
@@ -38,11 +41,13 @@ angular.module('metadatamanagementApp').factory(
             $rootScope.identity = AuthServiceProvider.idTokenInfo();
           }
 
-          $state.go('start', {
-            lang: LanguageService.getCurrentInstantly()
-          }, {
-            reload: true
-          });
+          if(redirect !== false) {
+            $state.go('start', {
+              lang: LanguageService.getCurrentInstantly()
+            }, {
+              reload: true
+            });
+          }
         } else {
           localStorageService.set('uilstate', false);
           AuthServiceProvider.login();
