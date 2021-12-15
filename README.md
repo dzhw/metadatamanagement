@@ -33,6 +33,12 @@ On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of g
 Before starting the app on your local machine you need to start the following Document Stores:
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from [here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/). ***However, running it with docker is preferred.***
 2. Elasticsearch (7.12.1): Elasticsearch must be running on its default port. You can download it from [here](https://www.elastic.co/downloads/elasticsearch). ***However running it with docker is preferred.***
+3. Drupal with "Consumers", "OpenAPI", "Simple OAuth & OpenID Connect", and "Simple OAuth Claims" extensions: The Drupal URL and Port can be set via application.yml. ***However running it with docker is preferred.***
+   1. Drupal can be downloaded [here](https://www.drupal.org/download)
+   2. The Consumers extension can be downloaded [here](https://www.drupal.org/project/consumers)
+   3. The OpenAPI extension can be downloaded [here](https://www.drupal.org/project/openapi)
+   4. The Simple OAuth & OpenID Connect extension can be downloaded [here](https://www.drupal.org/project/simple_oauth)
+   5. The Simple OAuth Claims can be downloaded [here](https://www.drupal.org/project/simple_oauth_claims)
 
 ***Alternatively*** you can run
 
@@ -72,7 +78,18 @@ In order to have all java dependencies for the server and  all nodejs dependenci
 
     mvn -Pdev clean verify
 
-Run the following commands in two separate terminals to create a blissful development experience where your browser
+Before starting your development environment you will need to set the following environment variables:
+
+```
+RESOURCE_SERVER_ISSUER_URI=http://localhost:8082 (URI if you are using docker-compose up. This URI needs to be equal to the path to the Drupal Identity Provider)
+USER_API_ENDPOINT=http://localhost:8082 (URI if you are using docker-compose up. This URI needs to be equal to the path to the Drupal Identity Provider)
+USER_API_USERNAME={the username of the user which MDM will use to make API calls to the Identity Provider's User APIs)
+USER_API_PASSWORD={the password of the user which MDM will use to make API calls to the Identity Provider's User APIs)
+```
+
+You will have to set up at least one user (three are recommended) in the Identity Provider. For step-by-step instructions, please see the wiki [here](https://github.com/dzhw/metadatamanagement/wiki)
+
+Once everything is set up, run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
     mvn
