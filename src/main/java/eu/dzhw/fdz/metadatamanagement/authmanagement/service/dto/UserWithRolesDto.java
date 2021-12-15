@@ -3,16 +3,15 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * An extension of the {@link UserDto} which includes
  * the roles of the associated user.
  */
-// This is a read only object
 @JsonIgnoreProperties(
     value = "login",
     allowGetters = true
@@ -41,26 +40,17 @@ public class UserWithRolesDto extends UserDto {
       @JsonProperty("mail") final String mail,
       @JsonProperty("langcode") final String langcode,
       @JsonProperty("field_welcome_dialog_deactivated") final boolean welcomeDialogDeactivated,
-      @JsonProperty("roles") final List<RoleDto> roles
+      @JsonProperty("roles") final JsonNode roles
   ) {
     super(id, name, mail, langcode, welcomeDialogDeactivated);
 
-    if (roles != null) {
-      this.roles = roles.stream().map(r -> r.name).collect(Collectors.toList());
+    // Drupal's User API are not the same if the user has no roles. Only if the user has a role
+    // will the User API response have a "roles" array field. Assume that if roles is not an
+    // array, the user has no roles.
+    if (roles.isArray()) {
+      this.roles = roles.findValuesAsText("drupal_internal__id");
     } else {
       this.roles = List.of();
-    }
-  }
-
-  /**
-   * A wrapper class which exists as an in-between for Jackson JSON to change the JSON's role
-   * array object field to a list of role names.
-   */
-  public static class RoleDto {
-    private final String name;
-
-    public RoleDto(@JsonProperty("drupal_internal__id") final String drupalInternalId) {
-      this.name = drupalInternalId;
     }
   }
 }
