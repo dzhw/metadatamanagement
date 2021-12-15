@@ -55,7 +55,8 @@ public class UserApiService {
 
   static final String FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_AND_BY_AUTHORITIES_CONTAINING_ENDPOINT =
       FIND_ALL_BY_LOGIN_LIKE_OR_EMAIL_LIKE_ENDPOINT
-      + "&filter[roles.id]={roleId}";
+      + "&filter[roles.id]={roleId}"
+      + "&include=roles";
 
   static final String FIND_ALL_BY_LOGIN_IN_ENDPOINT =
       USER_JSON_API_PATH
