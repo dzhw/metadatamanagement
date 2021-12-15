@@ -110,6 +110,9 @@ angular.module('metadatamanagementApp')
             }).$promise.then(function(result) {
               ctrl.currentPromise = null;
               var results = result.filter(function(x) {
+                // add requested role
+                x.authorities = [];
+                x.authorities.push(roleInternal);
                 // filter out already added users
                 return ctrl.activeUsers.map(function(u) {
                   return u.login;
