@@ -215,7 +215,7 @@ public class UserApiService {
     return doFindAllApiCall(
         sb.toString(),
         UserApiResponseDto.Users.class,
-        logins
+        logins.toArray()
     );
   }
 
