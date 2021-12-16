@@ -76,7 +76,8 @@ angular.module('metadatamanagementApp').config(
             'software-package': 'Softwarepaket',
             'language': 'Skriptsprache',
             'version': 'Version des Softwarepakets',
-            'file': 'Datei'
+            'file': 'Datei',
+            'file-must-be-ordered': 'Das Skript ist nicht über einen direkten Download verfügbar, bitte bestellen Sie das Analysepaket über den Warenkorb.'
           },
           'attachments': {
             'table-title': 'Materialien zu diesem Analysepaket',
