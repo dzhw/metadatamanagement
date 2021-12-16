@@ -85,7 +85,7 @@ public abstract class AbstractUserApiTests extends AbstractTest {
 
     return this.mockServer.request(
       sb.toString(),
-      logins
+      logins.toArray()
     );
   }
 
