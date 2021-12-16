@@ -7,8 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -18,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskType;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
@@ -26,8 +27,17 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageA
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageOverviewService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+<<<<<<< Updated upstream
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
+=======
+<<<<<<< Updated upstream
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -66,11 +76,10 @@ public class DataPackageOverviewResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> startOverviewGeneration(
       @PathVariable("dataPackageId") String dataPackageId, @PathVariable("version") String version,
-      HttpServletRequest request,
       @RequestParam(name = "languages", defaultValue = "de") List<String> languages)
       throws IOException {
     taskService.startReportTasks(dataPackageId, version, languages,
-        request.getUserPrincipal().getName(), TaskType.DATA_PACKAGE_OVERVIEW);
+        SecurityUtils.getCurrentUserLogin(), TaskType.DATA_PACKAGE_OVERVIEW);
     return ResponseEntity.ok().build();
   }
 
