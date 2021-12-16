@@ -57,6 +57,7 @@ cloud:
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html
+    disable-swagger-default-url: true
   api-docs:
     path: /api/api-docs
     enabled: true
