@@ -27,17 +27,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncomp
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-<<<<<<< Updated upstream
-import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
-=======
-<<<<<<< Updated upstream
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
