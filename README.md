@@ -52,8 +52,8 @@ Make sure that you have read-write-access on the ***data*** directory (in your p
 
 You can get a MongoDB dump and restore it locally:
 ```
-wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20211019_metadatamanagement.zip
-unzip 20211019_metadatamanagement.zip
+wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20210216_metadatamanagement.zip
+unzip 20210216_metadatamanagement.zip
 mongorestore ./metadatamanagement --db=metadatamanagement
 ```
 
