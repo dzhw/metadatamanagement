@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').config(
               'language': 'Document Language',
               'file': 'File'
             },
-             'additional-links': 'Additional Links',
+            'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
             'analysisPackages': 'Analysis Packages',
             'analysis-data': 'Analysis Data',
@@ -76,7 +76,8 @@ angular.module('metadatamanagementApp').config(
             'software-package': 'Software Package',
             'language': 'Script Language',
             'version': 'Version of Software Package',
-            'file': 'File'
+            'file': 'File',
+            'file-must-be-ordered': 'The script is not available via direct download, please order the analysis package via the shopping cart.'
           },
           'attachments': {
             'table-title': 'Documents related to this Analysis Package',
