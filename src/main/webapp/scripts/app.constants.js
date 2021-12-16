@@ -6,10 +6,8 @@ angular.module('metadatamanagementApp')
 
 .constant('ENV', 'local')
 
-.constant('VERSION', '1.0.118-SNAPSHOT')
+.constant('VERSION', '1.0.117-HOTFIX')
 
 .constant('ElasticSearchProperties', {apiVersion:'7.x',logLevel:'error',pageSize:10})
-
-.constant('AuthProperties', {clientId:'0804cf40-fb4e-4fc5-8334-fe33973ec2c5',clientSecret:'0804cf40-fb4e-4fc5-8334-fe33973ec2c5',issuer:'http://localhost:8082'})
 
 ;
