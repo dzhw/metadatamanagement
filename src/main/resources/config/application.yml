@@ -125,9 +125,9 @@ metadatamanagement:
   elasticsearch:
     version: 7.12.1
   ordermanagement:
-    email: reitmann@dzhw.eu
+    email: daniel@dzhw.eu
   projectmanagement:
-    email: reitmann@dzhw.eu
+    email: daniel@dzhw.eu
   dlp:
     endpoint: https://stage.fdz.dzhw.eu/{language}/form/data-usage-application
   report-task:
