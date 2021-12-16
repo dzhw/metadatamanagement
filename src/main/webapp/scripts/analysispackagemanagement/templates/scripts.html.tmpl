@@ -28,15 +28,16 @@
           <td>{{row.usedLanguage | displayIsoLanguage: $ctrl.lang}}</td>
           <td>{{row.softwarePackage}}</td>
           <td>{{row.softwarePackageVersion}}</td>
-          <td class="fdz-td-filename"><a ng-href="{{row.attachment.id}}" target="_blank" fdz-track-download analytics-if="row.type.en === 'Method Report'" analytics-on="click" analytics-event="download-method-report" analytics-label="{{row.title}}" analytics-category="Downloads">{{row.attachment.fileName}}
+          <td class="fdz-td-filename"><a ng-if="row.attachment" ng-href="{{row.attachment.id}}" target="_blank" fdz-track-download analytics-on="click" analytics-event="download-script" analytics-label="{{row.title[$ctrl.lang]}}" analytics-category="Downloads">{{row.attachment.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.tooltips.files.download' | translate: {filename: row.attachment.fileName} }}
             </md-tooltip>
-          </a>
+          </a><strong ng-if="!row.attachment">*</strong>
           </td>
         </tr>
         </tbody>
       </table>
+      <p ng-if="$ctrl.options.containsScriptWithoutAttachment" style="columns: 1"><strong>*</strong> {{'analysis-package-management.detail.scripts.file-must-be-ordered' | translate }}</p>
     </md-card-content>
   </div>
 </md-card>
