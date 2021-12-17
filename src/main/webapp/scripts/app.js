@@ -194,12 +194,8 @@ try {
         if (code) {
           Auth.authorize(code).then(function() {
             init();
-          }, function($scope) {
-            $scope.authenticationError = true;
+          }, function() {
             init();
-            $state.go('login', {
-              lang: LanguageService.getCurrentInstantly()
-            });
           });
         } else {
           Auth.init().then(function() {
