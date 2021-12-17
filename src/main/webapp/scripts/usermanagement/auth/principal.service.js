@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').factory(
           $sessionStorage.put('uiLoginState', uiLoggedIn);
 
           if (!uiLoggedIn) {
+            AuthServiceProvider.logout();
             $rootScope.identity = {};
             $rootScope.previousStateName = undefined;
             $rootScope.previousStateParams = undefined;
@@ -49,7 +50,7 @@ angular.module('metadatamanagementApp').factory(
             });
           }
         } else {
-          $sessionStorage.put('uiLoginState', false);
+          //$sessionStorage.put('uiLoginState', false);
           AuthServiceProvider.login();
         }
       },
