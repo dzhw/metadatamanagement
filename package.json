@@ -35,7 +35,7 @@
     "bootstrap-sass": "3.4.1",
     "bowser": "https://github.com/lancedikson/bowser/archive/1.9.4.tar.gz",
     "cheet.js": "0.3.3",
-    "citation-js": "0.5.3",
+    "citation-js": "0.5.1",
     "clientjs": "0.2.1",
     "elasticsearch-browser": "https://github.com/elastic/bower-elasticsearch-js/archive/v16.7.1.tar.gz",
     "es5-shim": "4.6.2",
