@@ -25,32 +25,13 @@ describe('Factory Tests ', function() {
     it('AuthServerProvider.login( should be defined', function() {
       expect(AuthServiceProvider.login).toBeDefined();
     });
-    /*it(' should make a POST request', function() {
-      var credentials = {
-        'username': 'admin',
-        'password': 'pw'
-      };
-      var defer = $q.defer();
-      defer.resolve(credentials);
-      defer.promise.success = function(fn) {
-        fn({
-          expires_in: new Date()
-        });
-        defer.promise.then(null, fn);
-        return defer.promise;
-      };
-      $httpMock.post.and.returnValue(defer.promise);
-      AuthServerProvider.login(credentials);
-      $scope.$digest();
-      expect($httpMock.post).toHaveBeenCalled();
-    });*/
-    /*it('should call localStorageService.get', function() {
+    it('should call localStorageService.get', function() {
       AuthServiceProvider.getToken();
       expect(localStorageService.get).toHaveBeenCalled();
-    });*/
-    /*it('should call localStorageService.get', function() {
-      var token = AuthServiceProvider.hasToken();
-      expect(token).toBeDefined();
-    });*/
+    });
+    it('should call localStorageService.get', function() {
+      var tokens = AuthServiceProvider.hasToken();
+      expect(tokens).toBeDefined();
+    });
   });
 });
