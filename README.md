@@ -4,7 +4,7 @@
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
-[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/rreitmann.svg)](https://app.saucelabs.com/u/rreitmann)
+[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg)](https://app.saucelabs.com/u/andydaniel)
 # Metadatamanagement (MDM)
 
 The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
@@ -46,8 +46,8 @@ Make sure that you have read-write-access on the ***data*** directory (in your p
 
 You can get a MongoDB dump and restore it locally:
 ```
-wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20211019_metadatamanagement.zip
-unzip 20211019_metadatamanagement.zip
+wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20210216_metadatamanagement.zip
+unzip 20210216_metadatamanagement.zip
 mongorestore ./metadatamanagement --db=metadatamanagement
 ```
 
