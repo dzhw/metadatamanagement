@@ -43,9 +43,9 @@ management:
 
 metadatamanagement:
   ordermanagement:
-    email: reitmann@dzhw.eu
+    email: daniel@dzhw.eu
   projectmanagement:
-    email: reitmann@dzhw.eu
+    email: daniel@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
     context-root: https://test.metadata.fdz.dzhw.eu
