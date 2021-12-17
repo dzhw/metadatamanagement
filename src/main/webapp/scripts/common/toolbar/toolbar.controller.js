@@ -14,6 +14,9 @@ angular.module('metadatamanagementApp').controller(
     $scope.hasAuthority = Principal.hasAuthority;
     $scope.loginName = Principal.loginName;
     $scope.switchMode = Principal.switchMode;
+    $scope.logout = function () {
+      Auth.logout(true);
+    };
 
     //Set Languages
     $scope.changeLanguage = function(languageKey) {
