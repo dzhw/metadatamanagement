@@ -2,13 +2,13 @@
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
-  function Principal($q, AuthServiceProvider, $rootScope, localStorageService,
+  function Principal($q, AuthServiceProvider, $rootScope, $sessionStorage,
                      WelcomeDialogService, $state, LanguageService) {
 
     if (AuthServiceProvider.hasToken()) {
       $rootScope.identity = AuthServiceProvider.idTokenInfo();
     }
-    var uiLoggedIn = localStorageService.get('uilstate') || false;
+    var uiLoggedIn = $sessionStorage.get('uiLoginState') || false;
 
     //@todo: save welcome dialog state in dpl
     var displayWelcomeDialog = function() {
@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp').factory(
       switchMode: function(redirect) {
         if (AuthServiceProvider.hasToken()) {
           uiLoggedIn = !uiLoggedIn;
-          localStorageService.set('uilstate', uiLoggedIn);
+          $sessionStorage.put('uiLoginState', uiLoggedIn);
 
           if (!uiLoggedIn) {
             $rootScope.identity = {};
@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').factory(
             });
           }
         } else {
-          localStorageService.set('uilstate', false);
+          $sessionStorage.put('uiLoginState', false);
           AuthServiceProvider.login();
         }
       },
