@@ -45,14 +45,6 @@ angular.module('metadatamanagementApp').config(
             'must-not-loose-data-provider-role': 'Der Benutzer:in kann die Rolle "Datengeber:in" nicht entzogen werden, weil sie noch folgenden Projekten als Datengeber:in zugewiesen ist: {{ projectIds }}'
           }
         },
-        'activate': {
-          'title': 'Aktivierung',
-          'messages': {
-            'success': '<strong>Ihre Benutzer:in wurde aktiviert.</strong>',
-            'error': '<strong>Ihre Benutzer:in konnte nicht aktiviert werden.</strong> Bitte benutzen Sie die Registrierungsmaske, um sich zu registrieren.',
-            'wait-for-role': 'Sie werden benachrichtigt sobald Sie einem Projekt zugewiesen wurden.'
-          }
-        },
         'login': {
           'login': 'Anmelden',
           'title': 'Anmeldung für Datengeber:innen',
@@ -72,63 +64,6 @@ angular.module('metadatamanagementApp').config(
           },
           'registration': {
             'register': 'Registrieren Sie sich'
-          }
-        },
-        'password': {
-          'title': 'Passwort für <b>{{username}}</b> ändern',
-          'form': {
-            'button': 'Speichern'
-          },
-          'messages': {
-            'error': '<strong>Es ist ein Fehler aufgetreten!</strong> Das Passwort konnte nicht geändert werden.',
-            'success': '<strong>Passwort wurde geändert!</strong>'
-          }
-        },
-        'register': {
-          'title': 'Registrierung für Datengeber:innen',
-          'form': {
-            'button': 'Registrieren'
-          },
-          'messages': {
-            'validate': {
-              'login': {
-                'required': 'Ihr Benutzer:innenname wird benötigt.',
-                'minlength': 'Ihr Benutzer:innenname muss mindestens 1 Zeichen lang sein',
-                'maxlength': 'Ihr Benutzer:innenname darf nicht länger als 50 Zeichen sein',
-                'pattern': 'Ihr Benutzer:innenname darf nur Kleinbuchstaben und Ziffern enthalten'
-              }
-            },
-            'success': '<strong>Registrierung gespeichert!</strong> Bitte überprüfen Sie ihre E-Mails für die Bestätigung.',
-            'error': {
-              'fail': '<strong>Registrierung fehlgeschlagen!</strong> Bitte versuchen Sie es später nochmal.',
-              'userexists': '<strong>Benutzer:innenname bereits vergeben!</strong> Bitte wählen Sie einen anderen aus.',
-              'emailexists': '<strong>E-mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus.'
-            }
-          }
-        },
-        'reset': {
-          'request': {
-            'title': 'Passwort zurücksetzen',
-            'form': {
-              'button': 'Passwort zurücksetzen'
-            },
-            'messages': {
-              'info': 'Geben Sie die E-Mail Adresse ein, welche Sie bei der Registrierung verwendet haben.',
-              'success': 'Eine E-Mail mit weiteren Instruktionen für das Zurücksetzen des Passworts wurde gesendet.',
-              'notfound': '<strong>Diese E-Mail Adresse existiert nicht!</strong> Überprüfen Sie ihre E-Mail Adresse und versuchen Sie es nochmal.'
-            }
-          },
-          'finish': {
-            'title': 'Passwort zurücksetzen',
-            'form': {
-              'button': 'Neues Passwort setzen'
-            },
-            'messages': {
-              'info': 'Wählen Sie ein neues Passwort',
-              'success': '<strong>Ihr Passwort wurde zurückgesetzt.</strong> Bitte ',
-              'keymissing': 'Der Reset Schlüssel fehlt.',
-              'error': 'Ihr Passwort konnte nicht zurückgesetzt werden. Zur Erinnerung ihre Anfrage ist nur 24 Stunden gültig.'
-            }
           }
         },
         'settings': {
