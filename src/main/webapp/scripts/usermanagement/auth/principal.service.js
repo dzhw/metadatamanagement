@@ -50,8 +50,9 @@ angular.module('metadatamanagementApp').factory(
             });
           }
         } else {
-          //$sessionStorage.put('uiLoginState', false);
-          AuthServiceProvider.login();
+          AuthServiceProvider.login().then(function() {
+            $sessionStorage.put('uiLoginState', true);
+          });
         }
       },
       hasAuthority: function(authority) {
