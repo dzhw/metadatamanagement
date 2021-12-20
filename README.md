@@ -87,6 +87,13 @@ USER_API_USERNAME={the username of the user which MDM will use to make API calls
 USER_API_PASSWORD={the password of the user which MDM will use to make API calls to the Identity Provider's User APIs)
 ```
 
+In order to configure the local client you need to setup the following environment variables and run `grunt buildlocal`:
+```
+CLIENT_ID_LOCAL=*** (see your configured oauth2 client in the identity provider)
+CLIENT_SECRET_LOCAL=*** (see your configured oauth2 client in the identity provider)
+ISSUER_LOCAL=http://localhost:8082
+```
+
 You will have to set up at least one user (three are recommended) in the Identity Provider. For step-by-step instructions, please see the wiki [here](https://github.com/dzhw/metadatamanagement/wiki)
 
 Once everything is set up, run the following commands in two separate terminals to create a blissful development experience where your browser
