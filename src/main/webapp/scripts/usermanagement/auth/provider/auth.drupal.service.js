@@ -141,16 +141,15 @@ angular
           }
           return deferred.promise;
         },
-        logout: function () {
+        logout: function() {
           if (this.hasToken()) {
             $http.post(config.logout).then(
               function(response) {
                 this.deleteToken();
                 return response;
               },
-              function(error) {
+              function() {
                 this.deleteToken();
-                console.log(error);
               });
           }
         },
