@@ -39,8 +39,8 @@ angular.module('metadatamanagementApp').factory('authInterceptor', function(
         response.config.url.indexOf('/management/') === 0 ||
         response.config.url.indexOf('management/') === 0)) {
 
-        var AuthServiceProvider = $injector.get('AuthServiceProvider');
-        AuthServiceProvider.logout();
+        var Auth = $injector.get('Auth');
+        Auth.logout(true);
 
         return response;
       } else {
