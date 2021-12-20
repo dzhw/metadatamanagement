@@ -1,13 +1,13 @@
 name: Nightly E2E Tests
 on:
-  schedule:
-   - cron: "0 2 * * *"
+  #schedule:
+   #- cron: "0 2 * * *"
   workflow_dispatch:
 jobs:
     chrome-public-user:
       runs-on: ubuntu-18.04
       steps:
-        - uses: actions/checkout@v1
+        - uses: actions/checkout@v2
           with:
             ref: development
         - name: Setup Python 3.8.0
