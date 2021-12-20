@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').factory(
   'Principal',
   function Principal($q, AuthServiceProvider, $rootScope, $sessionStorage,
-                     WelcomeDialogService, $state, LanguageService) {
+                     WelcomeDialogService, $state, LanguageService, $injector) {
 
     if (AuthServiceProvider.hasToken()) {
       $rootScope.identity = AuthServiceProvider.idTokenInfo();
@@ -33,7 +33,8 @@ angular.module('metadatamanagementApp').factory(
           $sessionStorage.put('uiLoginState', uiLoggedIn);
 
           if (!uiLoggedIn) {
-            AuthServiceProvider.logout();
+            var Auth = $injector.get('Auth');
+            Auth.logout(true);
             $rootScope.identity = {};
             $rootScope.previousStateName = undefined;
             $rootScope.previousStateParams = undefined;
