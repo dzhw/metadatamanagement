@@ -141,15 +141,18 @@ angular
           }
           return deferred.promise;
         },
-        logout: function() {
-          localStorageService.remove('tokens');
-          $http.post(config.logout).then(
-            function(response) {
-              return response;
-            },
-            function(error) {
-              console.log(error);
-            });
+        logout: function () {
+          if (this.hasToken()) {
+            $http.post(config.logout).then(
+              function(response) {
+                this.deleteToken();
+                return response;
+              },
+              function(error) {
+                this.deleteToken();
+                console.log(error);
+              });
+          }
         },
         getUserInfo: function() {
           var deferred = $q.defer();
