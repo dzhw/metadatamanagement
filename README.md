@@ -4,7 +4,7 @@
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
-[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg)](https://app.saucelabs.com/u/andydaniel)
+[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg?cachebuster=1234)](https://app.saucelabs.com/u/andydaniel)
 # Metadatamanagement (MDM)
 
 The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
@@ -85,6 +85,13 @@ RESOURCE_SERVER_ISSUER_URI=http://localhost:8082 (URI if you are using docker-co
 USER_API_ENDPOINT=http://localhost:8082 (URI if you are using docker-compose up. This URI needs to be equal to the path to the Drupal Identity Provider)
 USER_API_USERNAME={the username of the user which MDM will use to make API calls to the Identity Provider's User APIs)
 USER_API_PASSWORD={the password of the user which MDM will use to make API calls to the Identity Provider's User APIs)
+```
+
+In order to configure the local client you need to setup the following environment variables and run `grunt buildlocal`:
+```
+CLIENT_ID_LOCAL=*** (see your configured oauth2 client in the identity provider)
+CLIENT_SECRET_LOCAL=*** (see your configured oauth2 client in the identity provider)
+ISSUER_LOCAL=http://localhost:8082
 ```
 
 You will have to set up at least one user (three are recommended) in the Identity Provider. For step-by-step instructions, please see the wiki [here](https://github.com/dzhw/metadatamanagement/wiki)
