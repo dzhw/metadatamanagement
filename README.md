@@ -4,7 +4,7 @@
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
-[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg)](https://app.saucelabs.com/u/andydaniel)
+[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg?cachebuster=1234)](https://app.saucelabs.com/u/andydaniel)
 # Metadatamanagement (MDM)
 
 The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
