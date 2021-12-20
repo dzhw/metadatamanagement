@@ -18,7 +18,7 @@
     ng-if="sidebarContent.configurator && detailViewType === 'dataPackage'"></fdz-data-package-configurator>
   <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
     <ul ng-if="isAuthenticated()" class="pa0 ma0 overflow-hidden">
-      <li class="fdz-navbar-menu" ng-switch-when="true">
+      <li class="fdz-navbar-menu">
         <md-button ng-click="logout()" class="fdz-navbar-button">
           <md-icon md-font-set="material-icons">supervisor_account</md-icon>
           <md-tooltip md-direction="right" md-autohide="true"

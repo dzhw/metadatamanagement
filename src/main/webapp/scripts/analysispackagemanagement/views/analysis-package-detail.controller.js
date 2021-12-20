@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
              MessageBus,
              PageMetadataService,
              LanguageService, DataPackageSearchService,
-             $state, $location,
+             $state,
              BreadcrumbService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService,
              $stateParams,
@@ -112,6 +112,15 @@ angular.module('metadatamanagementApp')
             if (attachments.length > 0) {
               ctrl.scriptAttachments = attachments;
               getScriptAttachmentMetadata();
+              ctrl.analysisPackage.scripts.forEach(function(script) {
+                if (!script.attachment) {
+                  ctrl.analysisPackage.scripts
+                    .containsScriptWithoutAttachment = true;
+                }
+              });
+            } else {
+              ctrl.analysisPackage.scripts.containsScriptWithoutAttachment =
+                true;
             }
           });
       };
@@ -159,9 +168,8 @@ angular.module('metadatamanagementApp')
               LanguageService.getCurrentInstantly()
               ]
           });
-        // PageMetadataService.setDublinCoreMetadata(result);
-        // sponsors create an error
-        // PageMetadataService.setSchemaOrgMetadata(result);
+        PageMetadataService.setDublinCoreMetadataForAP(result);
+        PageMetadataService.setSchemaOrgMetadataForAP(result);
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
@@ -174,14 +182,6 @@ angular.module('metadatamanagementApp')
           ctrl.loadDataPackages(result.analysisDataPackages);
           ctrl.loadAttachments();
           ctrl.loadScriptAttachments();
-
-          $timeout(function() {
-            if ($location.search().query ||
-              $location.search()['repeated-measurement-identifier'] ||
-              $location.search()['derived-variables-identifier']) {
-              ctrl.scroll();
-            }
-          }, 1000);
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'analysis-package-management.detail.not-released-toast',

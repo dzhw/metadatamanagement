@@ -535,7 +535,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
         // if (newValue.type === oldValue.type) {
-        if (!Principal.isAuthenticated() && !$scope.isSearching) {
+        if (!$scope.isSearching) {
           $scope.options.sortObject.options = $scope.tabs[
             $scope.searchParams.selectedTabIndex].sortOptions;
           $scope.options.sortObject.selected = 'relevance';
