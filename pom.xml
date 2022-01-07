@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.7</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>eu.dzhw.fdz</groupId>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.github.cloudyrock.mongock</groupId>
             <artifactId>mongock-spring-v5</artifactId>
-            <version>4.1.19</version>
+            <version>4.3.3</version>
         </dependency>
         <dependency>
             <groupId>com.github.cloudyrock.mongock</groupId>
@@ -191,7 +191,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.0</version>
+            <version>1.6.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -293,7 +293,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.5.6</version>
+            <version>2.5.8</version>
         </dependency>
         <dependency>
             <groupId>org.zalando</groupId>
@@ -406,7 +406,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -419,7 +419,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -432,7 +432,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -445,7 +445,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
