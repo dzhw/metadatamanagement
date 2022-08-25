@@ -3,18 +3,35 @@
 angular.module('metadatamanagementApp').factory(
   'Principal',
   function Principal($q, AuthServiceProvider, $rootScope, $sessionStorage,
-                     WelcomeDialogService, $state, LanguageService, $injector) {
+                     WelcomeDialogService, $state, LanguageService, $injector
+                     //, $http
+                     ) {
 
     if (AuthServiceProvider.hasToken()) {
       $rootScope.identity = AuthServiceProvider.idTokenInfo();
     }
     var uiLoggedIn = $sessionStorage.get('uiLoginState') || false;
 
-    //@todo: save welcome dialog state in dpl
     var displayWelcomeDialog = function() {
-      /*return _identity &&
-        _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
-        !identity.welcomeDialogDeactivated;*/
+      const tokenInfo = AuthServiceProvider.idTokenInfo();
+      return !tokenInfo.welcome_dialog_deactivated;
+      // return _identity &&
+      //   _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
+      //   !identity.welcomeDialogDeactivated;
+    };
+
+
+    /**
+     * This function decativates the welcome dialog if the user has not
+     * set this to false before and the return value of the dialog is false
+     * @param {bool} hideDialog should Dialog be hid next time
+     * @returns Http-Respone
+     */
+    var deactivateWelcomeDialogIDP = function(hideDialog /* bool */) {
+      if (hideDialog && 
+        !AuthServiceProvider.idTokenInfo().welcome_dialog_deactivated) {
+          //return $http.patch("api/users/deactivatedWelcomeDialog?deactivatedWelcomeDialog=true");
+      }
     };
 
     return {
@@ -28,13 +45,15 @@ angular.module('metadatamanagementApp').factory(
         return uiLoggedIn && AuthServiceProvider.hasToken();
       },
       switchMode: function(redirect) {
+        console.log('switch', redirect, AuthServiceProvider.hasToken());
         if (AuthServiceProvider.hasToken()) {
-          uiLoggedIn = !uiLoggedIn;
+          uiLoggedIn = !uiLoggedIn; // why?
           $sessionStorage.put('uiLoginState', uiLoggedIn);
 
           if (!uiLoggedIn) {
             var Auth = $injector.get('Auth');
             Auth.logout(true);
+            // the same thing is done in auth service
             $rootScope.identity = {};
             $rootScope.previousStateName = undefined;
             $rootScope.previousStateParams = undefined;
@@ -86,10 +105,11 @@ angular.module('metadatamanagementApp').factory(
             WelcomeDialogService.display(
               AuthServiceProvider.idTokenInfo().preferred_username)
               .then(function(hideWelcomeDialog) {
-                if (hideWelcomeDialog) {
-                  //_identity.welcomeDialogDeactivated = true;
-                  //@todo: save state in dpl user profile
-                }
+                console.log('after welcome dialog', hideWelcomeDialog);
+                
+                deactivateWelcomeDialogIDP(hideWelcomeDialog);
+                //   .then((res) => console.log(res))
+                //   .error((err) => console.log(err));
               });
           }
           $rootScope.indentity = AuthServiceProvider.idTokenInfo();
