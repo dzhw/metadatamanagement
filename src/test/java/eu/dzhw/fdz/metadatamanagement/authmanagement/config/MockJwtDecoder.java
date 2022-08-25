@@ -45,12 +45,13 @@ public class MockJwtDecoder implements JwtDecoder {
 
   public String generateTokenForUser(User user) throws JOSEException {
     var claims = new JWTClaimsSet.Builder()
-        .subject(user.getName())
+        .subject(user.getId())
         .issuer("http://localhost:8082")
         .issueTime(Date.from(Instant.now()))
         .expirationTime(Date.from(Instant.now().plusSeconds(5)))
         .notBeforeTime(Date.from(Instant.now()))
         .claim("scope", user.getRoles())
+        .claim("preferred_username", user.getName())
         .build();
 
     var jwt = new SignedJWT(

@@ -24,6 +24,8 @@ public final class DrupalJwtConverter extends JwtAuthenticationConverter {
    * Construct the Converter and set the {@link GrantedAuthority} Converter to a custom converter.
    */
   public DrupalJwtConverter() {
+    // value of the claim specified by principalClaimName is used as name in the resulting authentication object
+    super.setPrincipalClaimName("preferred_username");
     super.setJwtGrantedAuthoritiesConverter(new DrupalJwtGrantedAuthoritiesConverter());
   }
 
