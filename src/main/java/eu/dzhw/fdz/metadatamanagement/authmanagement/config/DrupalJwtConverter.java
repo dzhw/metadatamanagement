@@ -24,7 +24,8 @@ public final class DrupalJwtConverter extends JwtAuthenticationConverter {
    * Construct the Converter and set the {@link GrantedAuthority} Converter to a custom converter.
    */
   public DrupalJwtConverter() {
-    // value of the claim specified by principalClaimName is used as name in the resulting authentication object
+    // value of the claim specified by principalClaimName is used as name in the resulting
+    // authentication object
     super.setPrincipalClaimName("preferred_username");
     super.setJwtGrantedAuthoritiesConverter(new DrupalJwtGrantedAuthoritiesConverter());
   }
@@ -52,7 +53,7 @@ public final class DrupalJwtConverter extends JwtAuthenticationConverter {
     }
 
     private String getGrantedAuthorityPrefix(final String jwtAuthority) {
-      return (!jwtAuthority.toUpperCase(Locale.GERMAN).startsWith(PREFIX)) ? PREFIX : "";
+      return !jwtAuthority.toUpperCase(Locale.GERMAN).startsWith(PREFIX) ? PREFIX : "";
     }
 
     private List<String> getAuthorities(Jwt jwt) {
