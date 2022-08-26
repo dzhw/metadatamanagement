@@ -5,6 +5,9 @@
 * before first `docker-compose up`:
     * `mkdir -p data/mongodb/db data/mongodb/logs data/elasticsearch/data` in order to avoid wrong permissions
     * if protonmail bridge is running: change smtp port of the bridge (e.g. `1026`)
+    * restrict ram usage of elasticsearch (optional, but recommended)
+        * add `ES_JAVA_OPTS` to environment of elasticsearch container in `docker-compose.yml`
+        * e.g. (4 gb): `- "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"`
 
 ## idp
 
