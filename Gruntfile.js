@@ -829,7 +829,8 @@ module.exports = function(grunt) {
     });
 
   grunt.registerTask('serve', ['clean:server', 'ngconstant:local',
-    'sass:server', 'copy:localfonts','copy:localroboto', 'copy:localmaticon','browserSync', 'watch'
+    'sass:server', 'copy:localfonts','copy:localroboto',
+    'copy:localmaticon','browserSync', 'watch'
   ]);
 
   grunt.registerTask('server', function(target) {
@@ -848,7 +849,8 @@ module.exports = function(grunt) {
     'htmlangular:index',*/ 'clean:dist',
     'ngconstant:dev',
     'useminPrepare', 'ngtemplates', 'svgmin',
-    'concat', 'copy:fonts', 'copy:fontroboto', 'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
+    'concat', 'copy:fonts', 'copy:fontroboto',
+    'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
@@ -857,7 +859,8 @@ module.exports = function(grunt) {
     'htmlangular:index',*/ 'clean:dist',
     'ngconstant:test',
     'useminPrepare', 'ngtemplates', 'svgmin',
-    'concat', 'copy:fonts', 'copy:fontroboto', 'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
+    'concat', 'copy:fonts', 'copy:fontroboto',
+    'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
@@ -866,7 +869,8 @@ module.exports = function(grunt) {
     'htmlangular:index',*/ 'clean:dist',
     'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'svgmin',
-    'concat', 'copy:fonts','copy:fontroboto', 'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
+    'concat', 'copy:fonts','copy:fontroboto',
+    'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
@@ -876,14 +880,14 @@ module.exports = function(grunt) {
     'test', 'clean:dist',
     'ngconstant:local',
     'useminPrepare', 'ngtemplates', 'svgmin',
-    'concat', 'copy:fonts','copy:fontroboto', 'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
+    'concat', 'copy:fonts','copy:fontroboto',
+    'copy:fontmaticon', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
   grunt.registerTask('buildlocal', [
-    'test', 'clean:dist', 'copy:localfonts', 'copy:localroboto', 'copy:localmaticon',
-    'ngconstant:local', 'ngAnnotate'
-  ]);
+    'test', 'clean:dist', 'copy:localfonts', 'copy:localroboto',
+    'copy:localmaticon','ngconstant:local', 'ngAnnotate']);
 
   grunt.registerTask('default', ['serve']);
 };
