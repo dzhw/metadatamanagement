@@ -3,21 +3,17 @@
 angular.module('metadatamanagementApp').factory(
   'Principal',
   function Principal($q, AuthServiceProvider, $rootScope, $sessionStorage,
-                     WelcomeDialogService, $state, LanguageService, $injector
-                     //, $http
+                     WelcomeDialogService, $state, LanguageService, $injector, $http
                      ) {
 
     if (AuthServiceProvider.hasToken()) {
       $rootScope.identity = AuthServiceProvider.idTokenInfo();
     }
-    var uiLoggedIn = $sessionStorage.get('uiLoginState') || false;
+    // var uiLoggedIn = $sessionStorage.get('uiLoginState') || false;
 
     var displayWelcomeDialog = function() {
       const tokenInfo = AuthServiceProvider.idTokenInfo();
       return !tokenInfo.welcome_dialog_deactivated;
-      // return _identity &&
-      //   _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
-      //   !identity.welcomeDialogDeactivated;
     };
 
 
@@ -30,29 +26,30 @@ angular.module('metadatamanagementApp').factory(
     var deactivateWelcomeDialogIDP = function(hideDialog /* bool */) {
       if (hideDialog && 
         !AuthServiceProvider.idTokenInfo().welcome_dialog_deactivated) {
-          //return $http.patch("api/users/deactivatedWelcomeDialog?deactivatedWelcomeDialog=true");
+          return $http.patch("api/users/deactivatedWelcomeDialog?deactivatedWelcomeDialog=true");
       }
     };
 
     return {
-      isUiLoggedIn: function() {
-        return uiLoggedIn;
-      },
+      // isUiLoggedIn: function() {
+      //   return uiLoggedIn;
+      // },
       isLocalLoggedIn: function() {
         return AuthServiceProvider.hasToken();
       },
       isAuthenticated: function() {
-        return uiLoggedIn && AuthServiceProvider.hasToken();
+        return /*uiLoggedIn && */ AuthServiceProvider.hasToken();
       },
-      switchMode: function(redirect) {
+      _switchMode: function(redirect) {
         console.log('switch', redirect, AuthServiceProvider.hasToken());
         if (AuthServiceProvider.hasToken()) {
           uiLoggedIn = !uiLoggedIn; // why?
           $sessionStorage.put('uiLoginState', uiLoggedIn);
 
           if (!uiLoggedIn) {
-            var Auth = $injector.get('Auth');
-            Auth.logout(true);
+            AuthServiceProvider.logout()
+            // var Auth = $injector.get('Auth');
+            // Auth.logout(true);
             // the same thing is done in auth service
             $rootScope.identity = {};
             $rootScope.previousStateName = undefined;
@@ -75,14 +72,40 @@ angular.module('metadatamanagementApp').factory(
           });
         }
       },
+      /**
+       * Switch from logged in to logged out and vice versa
+       * @param  redirect 
+       */
+      switchMode: function(redirect) {
+        console.log('switch', redirect, AuthServiceProvider.hasToken());
+        if (AuthServiceProvider.hasToken()) {
+            // if token is present user is logged in so we proceed to logout
+            AuthServiceProvider.logout().then((_) => {
+              $rootScope.identity = {};
+              $rootScope.previousStateName = undefined;
+              $rootScope.previousStateParams = undefined;
+              $rootScope.$broadcast('user-logged-out');
+
+              // logged out --> navigate to start page
+              $state.go('start', {
+                lang: LanguageService.getCurrentInstantly()
+              }, {
+                reload: true
+              });
+            });
+        } else {
+          // no token --> login
+          AuthServiceProvider.login();
+        }
+      },
       hasAuthority: function(authority) {
-        return (uiLoggedIn && AuthServiceProvider.hasToken() &&
+        return (/*uiLoggedIn &&*/ AuthServiceProvider.hasToken() &&
           AuthServiceProvider.accessTokenInfo().scope &&
           AuthServiceProvider.accessTokenInfo().
           scope.indexOf(authority.toLowerCase()) !== -1);
       },
       hasAnyAuthority: function(authorities) {
-        if (!uiLoggedIn || !AuthServiceProvider.hasToken()) {
+        if (/*!uiLoggedIn ||*/ !AuthServiceProvider.hasToken()) {
           return false;
         }
         for (var i = 0; i < authorities.length; i++) {
@@ -97,16 +120,15 @@ angular.module('metadatamanagementApp').factory(
       identity: function() {
         var deferred = $q.defer();
 
-        if (!uiLoggedIn) {
-          deferred.reject();
-        }
-        if (uiLoggedIn && AuthServiceProvider.hasToken()) {
+        // if (!uiLoggedIn) {
+        //   deferred.reject();
+        // }
+        if (/*uiLoggedIn &&*/ AuthServiceProvider.hasToken()) {
           if (displayWelcomeDialog()) {
             WelcomeDialogService.display(
               AuthServiceProvider.idTokenInfo().preferred_username)
               .then(function(hideWelcomeDialog) {
                 console.log('after welcome dialog', hideWelcomeDialog);
-                
                 deactivateWelcomeDialogIDP(hideWelcomeDialog);
                 //   .then((res) => console.log(res))
                 //   .error((err) => console.log(err));
@@ -118,7 +140,7 @@ angular.module('metadatamanagementApp').factory(
         return deferred.promise;
       },
       loginName: function() {
-        return uiLoggedIn && AuthServiceProvider.hasToken() &&
+        return /*uiLoggedIn &&*/ AuthServiceProvider.hasToken() &&
           AuthServiceProvider.idTokenInfo().preferred_username;
       }
     };

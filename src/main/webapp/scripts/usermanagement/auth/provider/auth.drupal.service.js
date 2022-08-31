@@ -148,12 +148,15 @@ angular
         },
         logout: function() {
           if (this.hasToken()) {
-            $http.post(config.logout).then(
+            return $http.post(config.logout).then(
               function(response) {
                 deleteToken();
                 return response;
               },
               function() {
+                deleteToken();
+              }).error((err) =>{
+                console.err(err);
                 deleteToken();
               });
           }
