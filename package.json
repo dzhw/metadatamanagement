@@ -28,7 +28,7 @@
     "angular-translate-interpolation-messageformat": "2.19.0",
     "angular-translate-storage-cookie": "2.19.0",
     "angular-ui-bootstrap": "https://github.com/angular-ui/bootstrap-bower/archive/2.5.0.tar.gz",
-    "angular-ui-router": "1.0.29",
+    "angular-ui-router": "1.0.30",
     "angular-uuid": "^0.0.4",
     "angulartics-piwik": "^1.0.6",
     "blob-polyfill": "https://github.com/bjornstar/blob-polyfill/archive/1.0.20150320.tar.gz",
