@@ -40,13 +40,12 @@ angular
         login: function(silent) {
           var deferred = $q.defer();
           if (config) {
-            
-            var url = `${config.authUrl}?response_type=code`+
-                      `&client_id=${encodeURIComponent(config.clientId)}`+
-                      `&redirect_uri=${encodeURIComponent(config.redirectUri)}`+
-                      `&state=auth&scope=${encodeURIComponent(config.scope)}`+
+            var url = config.authUrl + '?response_type=code' +
+                      '&client_id=' + encodeURIComponent(config.clientId) +
+                      '&redirect_uri=' + encodeURIComponent(config.redirectUri) +
+                      '&state=auth&scope=' + encodeURIComponent(config.scope) +
                       // comingfrom Param as style param for drupal
-                      `&comingFrom=${config.comingFrom}`;
+                      '&comingFrom=' + config.comingFrom;
 
             // todo: remove this ?
             silent = false;
@@ -154,9 +153,6 @@ angular
                 return response;
               },
               function() {
-                deleteToken();
-              }).error((err) =>{
-                console.err(err);
                 deleteToken();
               });
           }

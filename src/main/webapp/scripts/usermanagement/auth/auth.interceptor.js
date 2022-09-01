@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').factory('authInterceptor', function(
       config.headers = config.headers || {};
       //jscs:disable
 
-      var Principal = $injector.get('Principal');
+      // var Principal = $injector.get('Principal');
       //Principal.authMode() &&
 
       if (/*Principal.isUiLoggedIn() && */ localStorageService.get('tokens') && (config.url.indexOf('/api/') === 0 ||

@@ -2,9 +2,9 @@
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
-  function Principal($q, AuthServiceProvider, $rootScope, $sessionStorage,
-                     WelcomeDialogService, $state, LanguageService, $injector, $http
-                     ) {
+  function Principal($q, AuthServiceProvider, $rootScope,
+                     WelcomeDialogService, $state,
+                     LanguageService, $http) {
 
     if (AuthServiceProvider.hasToken()) {
       $rootScope.identity = AuthServiceProvider.idTokenInfo();
@@ -12,21 +12,14 @@ angular.module('metadatamanagementApp').factory(
     // var uiLoggedIn = $sessionStorage.get('uiLoginState') || false;
 
     var displayWelcomeDialog = function() {
-      const tokenInfo = AuthServiceProvider.idTokenInfo();
+      var tokenInfo = AuthServiceProvider.idTokenInfo();
       return !tokenInfo.welcome_dialog_deactivated;
     };
 
-
-    /**
-     * This function decativates the welcome dialog if the user has not
-     * set this to false before and the return value of the dialog is false
-     * @param {bool} hideDialog should Dialog be hid next time
-     * @returns Http-Respone
-     */
-    var deactivateWelcomeDialogIDP = function(hideDialog /* bool */) {
-      if (hideDialog && 
-        !AuthServiceProvider.idTokenInfo().welcome_dialog_deactivated) {
-          return $http.patch("api/users/deactivatedWelcomeDialog?deactivatedWelcomeDialog=true");
+    var deactivateWelcomeDialogIDP = function(hideDialog) {
+      if (hideDialog && !AuthServiceProvider.idTokenInfo().welcome_dialog_deactivated) {
+        var url = 'api/users/deactivatedWelcomeDialog?deactivatedWelcomeDialog=true';
+        return $http.patch(url);
       }
     };
 
@@ -40,59 +33,60 @@ angular.module('metadatamanagementApp').factory(
       isAuthenticated: function() {
         return /*uiLoggedIn && */ AuthServiceProvider.hasToken();
       },
-      _switchMode: function(redirect) {
+      // _switchMode: function(redirect) {
+      //   console.log('switch', redirect, AuthServiceProvider.hasToken());
+      //   if (AuthServiceProvider.hasToken()) {
+      //     uiLoggedIn = !uiLoggedIn;
+      //     $sessionStorage.put('uiLoginState', uiLoggedIn);
+
+      //     if (!uiLoggedIn) {
+      //       AuthServiceProvider.logout();
+      //       // var Auth = $injector.get('Auth');
+      //       // Auth.logout(true);
+      //       // the same thing is done in auth service
+      //       $rootScope.identity = {};
+      //       $rootScope.previousStateName = undefined;
+      //       $rootScope.previousStateParams = undefined;
+      //       $rootScope.$broadcast('user-logged-out');
+      //     } else {
+      //       $rootScope.identity = AuthServiceProvider.idTokenInfo();
+      //     }
+
+      //     if (redirect !== false) {
+      //       $state.go('start', {
+      //         lang: LanguageService.getCurrentInstantly()
+      //       }, {
+      //         reload: true
+      //       });
+      //     }
+      //   } else {
+      //     AuthServiceProvider.login().then(function() {
+      //       $sessionStorage.put('uiLoginState', true);
+      //     });
+      //   }
+      // },
+      /**
+       * Switch from logged in to logged out and vice versa
+       *
+       * @param {any} redirect
+       */
+      switchMode: function(redirect) {
         console.log('switch', redirect, AuthServiceProvider.hasToken());
         if (AuthServiceProvider.hasToken()) {
-          uiLoggedIn = !uiLoggedIn; // why?
-          $sessionStorage.put('uiLoginState', uiLoggedIn);
-
-          if (!uiLoggedIn) {
-            AuthServiceProvider.logout()
-            // var Auth = $injector.get('Auth');
-            // Auth.logout(true);
-            // the same thing is done in auth service
+          // if token is present user is logged in so we proceed to logout
+          AuthServiceProvider.logout().then(function() {
             $rootScope.identity = {};
             $rootScope.previousStateName = undefined;
             $rootScope.previousStateParams = undefined;
             $rootScope.$broadcast('user-logged-out');
-          } else {
-            $rootScope.identity = AuthServiceProvider.idTokenInfo();
-          }
 
-          if (redirect !== false) {
+            // logged out --> navigate to start page
             $state.go('start', {
               lang: LanguageService.getCurrentInstantly()
             }, {
               reload: true
             });
-          }
-        } else {
-          AuthServiceProvider.login().then(function() {
-            $sessionStorage.put('uiLoginState', true);
           });
-        }
-      },
-      /**
-       * Switch from logged in to logged out and vice versa
-       * @param  redirect 
-       */
-      switchMode: function(redirect) {
-        console.log('switch', redirect, AuthServiceProvider.hasToken());
-        if (AuthServiceProvider.hasToken()) {
-            // if token is present user is logged in so we proceed to logout
-            AuthServiceProvider.logout().then((_) => {
-              $rootScope.identity = {};
-              $rootScope.previousStateName = undefined;
-              $rootScope.previousStateParams = undefined;
-              $rootScope.$broadcast('user-logged-out');
-
-              // logged out --> navigate to start page
-              $state.go('start', {
-                lang: LanguageService.getCurrentInstantly()
-              }, {
-                reload: true
-              });
-            });
         } else {
           // no token --> login
           AuthServiceProvider.login();
