@@ -52,7 +52,7 @@ module.exports = function(grunt) {
       watch: {
         scripts: {
           files: ['src/main/webapp/scripts/**/*.js'],
-          tasks: ['jshint'],
+          tasks: ['jshint', 'jscs'],
           options: {
             spawn: false,
           },

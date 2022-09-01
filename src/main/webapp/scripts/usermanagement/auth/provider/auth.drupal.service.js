@@ -19,7 +19,8 @@ angular
           userInfo: AuthProperties.issuer + '/oauth/userinfo',
           logout: AuthProperties.issuer + '/user/logout',
           scope: 'openid email profile role_admin ' +
-            'role_data_provider role_publisher role_release_manager'
+            'role_data_provider role_publisher role_release_manager',
+          comingFrom: 'mdm'
         };
       }
       var decodeToken = function(token) {
@@ -30,20 +31,23 @@ angular
         }
         return false;
       };
+
+      var deleteToken = function() {
+        localStorageService.remove('tokens');
+      };
+
       return {
         login: function(silent) {
           var deferred = $q.defer();
           if (config) {
-            var url =
-              config.authUrl +
-              '?response_type=code' +
-              '&client_id=' +
-              encodeURIComponent(config.clientId) +
-              '&redirect_uri=' +
-              encodeURIComponent(config.redirectUri) +
-              '&state=' + 'auth' +
-              '&scope=' + encodeURIComponent(config.scope);
+            var url = config.authUrl + '?response_type=code' +
+                      '&client_id=' + encodeURIComponent(config.clientId) +
+                      '&redirect_uri=' + encodeURIComponent(config.redirectUri) +
+                      '&state=auth&scope=' + encodeURIComponent(config.scope) +
+                      // comingfrom Param as style param for drupal
+                      '&comingFrom=' + config.comingFrom;
 
+            // todo: remove this ?
             silent = false;
 
             if (silent) {
@@ -143,13 +147,13 @@ angular
         },
         logout: function() {
           if (this.hasToken()) {
-            $http.post(config.logout).then(
+            return $http.post(config.logout).then(
               function(response) {
-                this.deleteToken();
+                deleteToken();
                 return response;
               },
               function() {
-                this.deleteToken();
+                deleteToken();
               });
           }
         },
@@ -220,9 +224,6 @@ angular
           }
 
           return deferred.promise;
-        },
-        deleteToken: function() {
-          localStorageService.remove('tokens');
         },
         hasToken: function() {
           return !!this.getToken().access_token;

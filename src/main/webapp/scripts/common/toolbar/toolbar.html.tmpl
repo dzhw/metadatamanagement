@@ -64,6 +64,7 @@
           {{'global.toolbar.buttons.change-language' | translate}}
         </md-tooltip>
       </md-button>
+      <!-- login -->
       <md-button
         class="md-icon-button"
         ng-if="!isAuthenticated()"
@@ -78,6 +79,7 @@
           {{'global.toolbar.buttons.login-tooltip' | translate}}
         </md-tooltip>
       </md-button>
+      <!-- logout -->
       <md-button
         class="md-icon-button md-accent"
         ng-click="switchMode()"

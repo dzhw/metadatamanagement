@@ -22,7 +22,8 @@ angular
           resolve: {
             loginState: function(Principal, $q) {
               var deferred = $q.defer();
-              if (Principal.isLocalLoggedIn() && !Principal.isUiLoggedIn()) {
+              if (Principal.isLocalLoggedIn()
+                  /*&& !Principal.isUiLoggedIn()*/) {
                 Principal.switchMode(false);
                 deferred.resolve();
               } else {
@@ -78,7 +79,7 @@ angular
           },
           loginState: function(Principal, $q) {
             var deferred = $q.defer();
-            if (Principal.isLocalLoggedIn() && !Principal.isUiLoggedIn()) {
+            if (Principal.isLocalLoggedIn() /* &&!Principal.isUiLoggedIn()*/) {
               Principal.switchMode(false);
               deferred.resolve();
             } else {

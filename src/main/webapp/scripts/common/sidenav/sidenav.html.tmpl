@@ -16,9 +16,9 @@
     ng-if="sidebarContent.configurator && detailViewType === 'analysisPackage'"></fdz-analysis-package-configurator>
   <fdz-data-package-configurator
     ng-if="sidebarContent.configurator && detailViewType === 'dataPackage'"></fdz-data-package-configurator>
-  <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
+  <md-content ng-switch="isAuthenticated()" flex layout="column" style="padding-top: 14px;" role="navigation">
     <ul ng-if="isAuthenticated()" class="pa0 ma0 overflow-hidden">
-      <li class="fdz-navbar-menu">
+      <!--<li class="fdz-navbar-menu">
         <md-button ng-click="logout()" class="fdz-navbar-button">
           <md-icon md-font-set="material-icons">supervisor_account</md-icon>
           <md-tooltip md-direction="right" md-autohide="true"
@@ -28,7 +28,7 @@
           <span>{{'global.toolbar.buttons.logout' | translate: '{username:"' + loginName() + '"}'}}</span>
         </md-button>
         <md-divider></md-divider>
-      <li>
+      <li>-->
       <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
         <project-navbar-module></project-navbar-module>
         <md-divider></md-divider>
