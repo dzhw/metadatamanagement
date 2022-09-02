@@ -29,14 +29,14 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link DataSet}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -58,7 +58,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Delete all data sets when the dataAcquisitionProject was deleted.
-   * 
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
@@ -68,7 +68,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Update the {@link DataSet}s of the project when the project is released.
-   * 
+   *
    * @param dataAcquisitionProject the changed project
    */
   @HandleAfterSave
@@ -80,7 +80,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * A service method for deletion of dataSets within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -96,7 +96,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Enqueue update of dataSet search documents when the dataPackage is changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -110,7 +110,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Enqueue update of dataSet search documents when the survey is updated.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -124,7 +124,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Enqueue update of data set search documents when the question is updated.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -141,7 +141,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Enqueue update of data set search documents when the instrument is updated.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -158,7 +158,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Enqueue update of dataSet search documents when the variable is changed.
-   * 
+   *
    * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
@@ -173,7 +173,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Enqueue update of dataSet search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate
@@ -192,7 +192,7 @@ public class DataSetManagementService implements CrudService<DataSet> {
 
   /**
    * Get a list of available dataSet numbers for creating a new dataSet.
-   * 
+   *
    * @param dataAcquisitionProjectId The project id.
    * @return A list of available dataSet numbers.
    */

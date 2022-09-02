@@ -1,99 +1,105 @@
-/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
-  function Principal($q, AccountResource, AuthServerProvider, $rootScope,
-                     WelcomeDialogService) {
-    var _identity;
-    var _authenticated = false;
+  function Principal($q, AuthServiceProvider, $rootScope, $sessionStorage,
+                     WelcomeDialogService, $state, LanguageService, $injector) {
 
-    var displayWelcomeDialog = function(identity) {
-      return _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
-        !identity.welcomeDialogDeactivated;
+    if (AuthServiceProvider.hasToken()) {
+      $rootScope.identity = AuthServiceProvider.idTokenInfo();
+    }
+    var uiLoggedIn = $sessionStorage.get('uiLoginState') || false;
+
+    //@todo: save welcome dialog state in dpl
+    var displayWelcomeDialog = function() {
+      /*return _identity &&
+        _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
+        !identity.welcomeDialogDeactivated;*/
     };
 
     return {
-      isIdentityResolved: function() {
-        return angular.isDefined(_identity);
+      isUiLoggedIn: function() {
+        return uiLoggedIn;
+      },
+      isLocalLoggedIn: function() {
+        return AuthServiceProvider.hasToken();
       },
       isAuthenticated: function() {
-        return _authenticated;
+        return uiLoggedIn && AuthServiceProvider.hasToken();
+      },
+      switchMode: function(redirect) {
+        if (AuthServiceProvider.hasToken()) {
+          uiLoggedIn = !uiLoggedIn;
+          $sessionStorage.put('uiLoginState', uiLoggedIn);
+
+          if (!uiLoggedIn) {
+            var Auth = $injector.get('Auth');
+            Auth.logout(true);
+            $rootScope.identity = {};
+            $rootScope.previousStateName = undefined;
+            $rootScope.previousStateParams = undefined;
+            $rootScope.$broadcast('user-logged-out');
+          } else {
+            $rootScope.identity = AuthServiceProvider.idTokenInfo();
+          }
+
+          if (redirect !== false) {
+            $state.go('start', {
+              lang: LanguageService.getCurrentInstantly()
+            }, {
+              reload: true
+            });
+          }
+        } else {
+          AuthServiceProvider.login().then(function() {
+            $sessionStorage.put('uiLoginState', true);
+          });
+        }
       },
       hasAuthority: function(authority) {
-        if (!_authenticated || !_identity || !_identity.authorities) {
-          return false;
-        }
-
-        return (_identity.authorities.indexOf(authority) !== -1);
+        return (uiLoggedIn && AuthServiceProvider.hasToken() &&
+          AuthServiceProvider.accessTokenInfo().scope &&
+          AuthServiceProvider.accessTokenInfo().
+          scope.indexOf(authority.toLowerCase()) !== -1);
       },
       hasAnyAuthority: function(authorities) {
-        if (!_authenticated || !_identity || !_identity.authorities) {
+        if (!uiLoggedIn || !AuthServiceProvider.hasToken()) {
           return false;
         }
-
         for (var i = 0; i < authorities.length; i++) {
-          if (_identity.authorities.indexOf(authorities[i]) !== -1) {
+          if (AuthServiceProvider.accessTokenInfo().scope &&
+            AuthServiceProvider.accessTokenInfo().scope.
+            indexOf(authorities[i].toLowerCase()) !== -1) {
             return true;
           }
         }
-
         return false;
       },
-      authenticate: function(identity) {
-        _identity = identity;
-        _authenticated = identity !== null;
-      },
-      identity: function(force) {
+      identity: function() {
         var deferred = $q.defer();
 
-        if (force === true) {
-          _identity = undefined;
+        if (!uiLoggedIn) {
+          deferred.reject();
         }
-
-        // check and see if we have retrieved the identity data from the
-        // server.
-        // if we have, reuse it by immediately resolving
-        if (angular.isDefined(_identity)) {
-          deferred.resolve(_identity);
-
-          return deferred.promise;
-        }
-
-        // retrieve the identity data from the server, update the
-        // identity object, and then resolve.
-        if (AuthServerProvider.hasToken()) {
-          $rootScope.$broadcast('start-ignoring-401');
-          AccountResource.get().$promise.then(function(account) {
-            $rootScope.$broadcast('stop-ignoring-401');
-            _identity = account.data;
-            _authenticated = true;
-            if (displayWelcomeDialog(_identity)) {
-              WelcomeDialogService.display(_identity.login)
-                .then(function(hideWelcomeDialog) {
-                  if (hideWelcomeDialog) {
-                    _identity.welcomeDialogDeactivated = true;
-                    AccountResource.save(_identity);
-                  }
-                });
-            }
-            return deferred.resolve(_identity);
-          }).catch(function() {
-            $rootScope.$broadcast('stop-ignoring-401');
-            AuthServerProvider.deleteToken();
-            _identity = null;
-            _authenticated = false;
-            deferred.resolve(_identity);
-          });
-        } else {
-          _identity = null;
-          _authenticated = false;
-          deferred.resolve(_identity);
+        if (uiLoggedIn && AuthServiceProvider.hasToken()) {
+          if (displayWelcomeDialog()) {
+            WelcomeDialogService.display(
+              AuthServiceProvider.idTokenInfo().preferred_username)
+              .then(function(hideWelcomeDialog) {
+                if (hideWelcomeDialog) {
+                  //_identity.welcomeDialogDeactivated = true;
+                  //@todo: save state in dpl user profile
+                }
+              });
+          }
+          $rootScope.indentity = AuthServiceProvider.idTokenInfo();
+          deferred.resolve(AuthServiceProvider.idTokenInfo());
         }
         return deferred.promise;
       },
       loginName: function() {
-        return _identity && _identity.login;
+        return uiLoggedIn && AuthServiceProvider.hasToken() &&
+          AuthServiceProvider.idTokenInfo().preferred_username;
       }
     };
   });

@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,10 +36,10 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -176,6 +177,26 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
   }
 
   @Test
+  public void testCreateRelatedPublicationsWithInvalidYearInFuture() throws IOException, Exception {
+    // ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
+    LocalDate date = LocalDate.now();
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
+
+    // ACT
+    this.mockMvc
+        .perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+            .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("related-publication-management.error.related-publication.year.valid")));
+  }
+
+  @Test
   public void testUpdateRelatedPublications() throws IOException, Exception {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -225,7 +246,7 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
         .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
-    
+
     // delete the related publication under the new url
     mockMvc.perform(delete(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
         .andExpect(status().is2xxSuccessful());
@@ -233,7 +254,7 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
     // ensure it is really deleted
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
         .andExpect(status().isNotFound());
-    
+
     // check that there is one dataPackage document left
     elasticsearchUpdateQueueService.processAllQueueItems();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));

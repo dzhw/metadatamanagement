@@ -8,24 +8,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting data sets of a data acquisition project.
- * 
+ *
  * @author tgehrke
  *
  */
 @RestController
 @RequiredArgsConstructor
 public class DeleteAllDataSetsResourceController {
- 
+
   private final DataSetManagementService dataSetService;
 
   /**
    * delete all data sets from data acquisition project.
-   * 
+   *
    * @param id the Id of the project.
    * @return no Content.
    */

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
@@ -23,7 +24,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.QDataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
  * Service responsible for retrieving an initializing the data acquisition project history.
@@ -35,8 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 public class DataAcquisitionProjectVersionsService extends
     GenericDomainObjectVersionsService<DataAcquisitionProject, DataAcquisitionProjectRepository> {
 
-  private final UserInformationProvider userInformationProvider;
-
   private static final Predicate projectNotHidden =
       QDataAcquisitionProject.dataAcquisitionProject.hidden.isNull()
           .or(QDataAcquisitionProject.dataAcquisitionProject.hidden.isFalse());
@@ -44,13 +42,13 @@ public class DataAcquisitionProjectVersionsService extends
   /**
    * Construct the service.
    */
-  public DataAcquisitionProjectVersionsService(Javers javers,
-      DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
-      MetadataManagementProperties metadataManagementProperties,
-      UserInformationProvider userInformationProvider) {
+  public DataAcquisitionProjectVersionsService(
+        Javers javers,
+        DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
+        MetadataManagementProperties metadataManagementProperties
+  ) {
     super(DataAcquisitionProject.class, javers, dataAcquisitionProjectRepository,
         metadataManagementProperties);
-    this.userInformationProvider = userInformationProvider;
   }
 
   /**
@@ -63,7 +61,7 @@ public class DataAcquisitionProjectVersionsService extends
 
   /**
    * Get the last saved release for the given project id.
-   * 
+   *
    * @param id the id of the data acquisition project.
    * @return the last saved release or null
    */
@@ -73,7 +71,7 @@ public class DataAcquisitionProjectVersionsService extends
 
   /**
    * Get the previous release of a data acquisition project. The release before currentRelease.
-   * 
+   *
    * @param id the id of the data acquisition project.
    * @param currentRelease get the release saved before this release, if null will return the
    *        current release
@@ -129,13 +127,13 @@ public class DataAcquisitionProjectVersionsService extends
 
   /**
    * Check if the released shadow has not been hidden for public users.
-   * 
+   *
    * @param id masterId of the project
    * @param release the release containing the version of the shadow
    * @return false if the shadow is hidden and the current user is a public user
    */
   private boolean isAvailable(String id, Release release) {
-    if (userInformationProvider.isUserAnonymous()) {
+    if (SecurityUtils.isUserAnonymous()) {
       return super.repository.exists(QDataAcquisitionProject.dataAcquisitionProject.id
           .eq(id + "-" + release.getVersion()).and(projectNotHidden));
     }

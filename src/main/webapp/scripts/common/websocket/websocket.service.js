@@ -53,7 +53,7 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
       };
 
       var sendMessageToAllUsers = function(message) {
-        var token = localStorageService.get('token');
+        var token = localStorageService.get('tokens');
 
         if (token) {
           //jscs:disable requireCamelCaseOrUpperCaseIdentifiers

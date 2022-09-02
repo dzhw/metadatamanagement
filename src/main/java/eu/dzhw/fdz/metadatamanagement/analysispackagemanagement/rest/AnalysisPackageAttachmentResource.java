@@ -23,7 +23,7 @@ import org.springframework.web.util.UriUtils;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackageAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.AnalysisPackageAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -48,7 +48,7 @@ public class AnalysisPackageAttachmentResource {
   @RequestMapping(path = "/analysis-packages/attachments", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("analysisPackageAttachmentMetadata") 
+      @RequestPart("analysisPackageAttachmentMetadata")
       @Valid AnalysisPackageAttachmentMetadata analysisPackageAttachmentMetadata)
       throws URISyntaxException, IOException {
     analysisPackageAttachmentService.createAnalysisPackageAttachment(multiPartFile,

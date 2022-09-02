@@ -4,6 +4,7 @@
 /* global inject */
 /* global expect */
 /* global mockApis */
+/* global mockSso */
 
 'use strict';
 
@@ -18,6 +19,7 @@ describe('Survey', function() {
       end: '12-12-2012'
     }
   };
+  beforeEach(mockSso);
   beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');

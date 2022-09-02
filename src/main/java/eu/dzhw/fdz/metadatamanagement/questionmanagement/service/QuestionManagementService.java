@@ -26,14 +26,14 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchD
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link Question}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -65,7 +65,7 @@ public class QuestionManagementService implements CrudService<Question> {
 
   /**
    * Update all {@link QuestionSearchDocument}s when the project is released.
-   * 
+   *
    * @param dataAcquisitionProject the changed project
    */
   @HandleAfterSave
@@ -78,7 +78,7 @@ public class QuestionManagementService implements CrudService<Question> {
 
   /**
    * A service method for deletion of questions within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -95,7 +95,7 @@ public class QuestionManagementService implements CrudService<Question> {
 
   /**
    * Enqueue update of question search documents when the dataPackage is changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -109,7 +109,7 @@ public class QuestionManagementService implements CrudService<Question> {
 
   /**
    * Enqueue update of question search documents when the instrument is changed.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -123,7 +123,7 @@ public class QuestionManagementService implements CrudService<Question> {
 
   /**
    * Enqueue update of question search documents when the survey is changed.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -142,7 +142,7 @@ public class QuestionManagementService implements CrudService<Question> {
 
   /**
    * Enqueue update of question search document when the variable is changed.
-   * 
+   *
    * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
@@ -156,7 +156,7 @@ public class QuestionManagementService implements CrudService<Question> {
 
   /**
    * Enqueue update of question search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate

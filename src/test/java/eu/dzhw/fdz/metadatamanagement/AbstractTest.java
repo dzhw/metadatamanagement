@@ -4,11 +4,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -90,7 +92,7 @@ public abstract class AbstractTest {
   private TaskRepository taskRepository;
 
   protected static GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP.withPort(4025));
-  
+
   static {
     greenMail.start();
   }

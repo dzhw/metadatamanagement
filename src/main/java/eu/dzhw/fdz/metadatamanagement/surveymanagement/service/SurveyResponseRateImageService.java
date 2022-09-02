@@ -15,12 +15,12 @@ import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for creating and updating survey images. Used for updating images in mongo
- * 
+ *
  * @author Daniel Katzberg
  */
 @Service
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class SurveyResponseRateImageService {
 
   private final GridFsOperations operations;
- 
+
   private final SurveyRepository surveyRepository;
 
   private final AttachmentMetadataHelper<SurveyResponseRateImageMetadata> attachmentMetadataHelper;
@@ -58,10 +58,10 @@ public class SurveyResponseRateImageService {
         currentUser);
     return relativePathWithName;
   }
-  
+
   /**
    * Delete the image from GridFS.
-   * 
+   *
    * @param surveyId The id of the survey.
    * @param fileName The filename of the response rate image.
    * @throws IOException if gridfs access fails
@@ -76,11 +76,11 @@ public class SurveyResponseRateImageService {
         .is(filename));
     this.operations.delete(query);
   }
-  
+
   private String buildFilename(String surveyId, String fileName) {
     return "/surveys/" + surveyId + "/" + fileName;
   }
-  
+
   /**
    * This method deletes all images of a survey from GridFS/MongoDB.
    * @param surveyId The id of the image to be deleted
@@ -95,14 +95,14 @@ public class SurveyResponseRateImageService {
     Query queryDe = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameGerman(surveyId)));
     this.operations.delete(queryDe);
-    
+
     Query queryEn = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameEnglish(surveyId)));
     this.operations.delete(queryEn);
   }
-  
+
   /**
-   * This method checks the response rate file name, if it is correct. 
+   * This method checks the response rate file name, if it is correct.
    * If it is a valid response rate file name, it returns true.
    * @param surveyId The id of the survey.
    * @param fileName The original file name of an uploaded reponserate file
@@ -112,22 +112,22 @@ public class SurveyResponseRateImageService {
     return this.getResponseRateFileNameGerman(surveyId).equals(fileName)
         || this.getResponseRateFileNameEnglish(surveyId).equals(fileName);
   }
-  
-  /** 
+
+  /**
    * Get the file name of the german response rate image.
-   * 
+   *
    * @param surveyId The id of a survey.
-   * @return The name of a response rate image in german. 
+   * @return The name of a response rate image in german.
    */
   private String getResponseRateFileNameGerman(String surveyId) {
     String[] surveyNumberWithDollar = surveyId.split("-sy");
     String[] surveyNumber = surveyNumberWithDollar[1].split("\\$");
     return surveyNumber[0] + "_responserate_de";
   }
-  
+
   /**
    * Get the file name of the english response rate image.
-   * 
+   *
    * @param surveyId The id of a survey.
    * @return The name of a response rate image in english.
    */
@@ -136,5 +136,5 @@ public class SurveyResponseRateImageService {
     String[] surveyNumber = surveyNumberWithDollar[1].split("\\$");
     return surveyNumber[0] + "_responserate_en";
   }
-  
+
 }

@@ -19,7 +19,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -28,17 +28,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ConceptAttachmentService {
-  
+
   private final GridFsOperations operations;
-  
+
   private final MongoTemplate mongoTemplate;
-  
+
   private final Javers javers;
 
   private final AttachmentMetadataHelper<ConceptAttachmentMetadata> attachmentMetadataHelper;
 
   /**
-   * Save the attachment for a {@link Concept}. 
+   * Save the attachment for a {@link Concept}.
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream cannot be closed
@@ -64,7 +64,7 @@ public class ConceptAttachmentService {
         metadata.getFileName());
     attachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
-  
+
   /**
    * Delete all attachments of the given {@link Concept}.
    * @param conceptId the id of the {@link Concept}.
@@ -82,7 +82,7 @@ public class ConceptAttachmentService {
     });
     this.operations.delete(query);
   }
-  
+
   /**
    * Load all metadata objects from gridfs (ordered by indexInConcept).
    * @param conceptId The id of the {@link Concept}.
@@ -96,13 +96,13 @@ public class ConceptAttachmentService {
     Iterable<GridFSFile> files = this.operations.find(query);
     List<ConceptAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {
-      result.add(mongoTemplate.getConverter().read(ConceptAttachmentMetadata.class, 
+      result.add(mongoTemplate.getConverter().read(ConceptAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
     return result;
   }
-  
-  
+
+
 
   /**
    * Delete all attachments of all {@link Concept}s.

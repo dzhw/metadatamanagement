@@ -4,6 +4,7 @@ describe('Unit testing metadatamanagementAppPagination', function() {
     $scope,
     $httpBackend,
     element;
+  beforeEach(mockSso);
   beforeEach(mockApis);
   beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
     $compile = _$compile_;

@@ -45,14 +45,6 @@ angular.module('metadatamanagementApp').config(
             'must-not-loose-data-provider-role': 'The user must not loose the role "Data Provider", because he is assigned to the following projects as data provider: {{ projectIds }}'
           }
         },
-        'activate': {
-          'title': 'Activation',
-          'messages': {
-            'success': '<strong>Your user has been activated.</strong>',
-            'error': '<strong>Your user could not be activated.</strong> Please use the registration form to sign up.',
-            'wait-for-role': 'You will be notified as soon as you have been assigned to a project.'
-          }
-        },
         'login': {
           'login': 'Login',
           'title': 'Sign in for Data Providers',
@@ -72,63 +64,6 @@ angular.module('metadatamanagementApp').config(
           },
           'registration': {
             'register': 'Register a new account'
-          }
-        },
-        'password': {
-          'title': 'Change Password for <b>{{username}}</b>',
-          'form': {
-            'button': 'Save'
-          },
-          'messages': {
-            'error': '<strong>An error has occurred!</strong> The password could not be changed.',
-            'success': '<strong>Password changed!</strong>'
-          }
-        },
-        'register': {
-          'title': 'Registration for Data Providers',
-          'form': {
-            'button': 'Register'
-          },
-          'messages': {
-            'validate': {
-              'login': {
-                'required': 'Your username is required.',
-                'minlength': 'Your username is required to be at least 1 character.',
-                'maxlength': 'Your username cannot be longer than 50 characters.',
-                'pattern': 'Your username can only contain lower-case letters and digits.'
-              }
-            },
-            'success': '<strong>Registration saved!</strong> Please check your email for confirmation.',
-            'error': {
-              'fail': '<strong>Registration failed!</strong> Please try again later.',
-              'userexists': '<strong>Login name already registered!</strong> Please choose another one.',
-              'emailexists': '<strong>E-mail is already in use!</strong> Please choose another one.'
-            }
-          }
-        },
-        'reset': {
-          'request': {
-            'title': 'Reset your password',
-            'form': {
-              'button': 'Reset password'
-            },
-            'messages': {
-              'info': 'Enter the e-mail address you used to register',
-              'success': 'Check your e-mails for details on how to reset your password.',
-              'notfound': '<strong>E-Mail address isn\'t registered!</strong> Please check and try again'
-            }
-          },
-          'finish': {
-            'title': 'Reset password',
-            'form': {
-              'button': 'Validate new password'
-            },
-            'messages': {
-              'info': 'Choose a new password',
-              'success': '<strong>Your password has been reset.</strong> Please ',
-              'keymissing': 'The reset key is missing.',
-              'error': 'Your password couldn\'t be reset. Remember a password request is only valid for 24 hours.'
-            }
           }
         },
         'settings': {

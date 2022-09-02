@@ -36,7 +36,7 @@ import com.github.cloudyrock.spring.v5.EnableMongock;
  */
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
-@EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
+@EnableMongoAuditing(auditorAwareRef = "auditorStoreAware")
 @EnableMongock
 public class MongoDbConfiguration {
 
@@ -75,7 +75,7 @@ public class MongoDbConfiguration {
 
   /**
    * Create the {@link MongoMappingContext} which scans only our domain objects.
-   * 
+   *
    * @param applicationContext The application context
    * @param properties The {@link MongoProperties}
    * @param conversions Registered converters

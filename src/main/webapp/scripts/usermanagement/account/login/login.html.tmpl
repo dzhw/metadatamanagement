@@ -10,20 +10,12 @@
         </div>
         <div class="col-md-4 col-md-offset-4">
             <form class="form" ng-submit="login($event)">
-                <div class="form-group">
-                    <label for="username" data-translate="global.form.username">Login</label>
-                    <input type="text" class="form-control" id="username" placeholder="{{'global.form.username-placeholder' | translate}}" ng-model="username">
-                </div>
-                <div class="form-group">
-                    <label for="password" data-translate="user-management.login.form.password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="{{'user-management.login.form.password-placeholder' | translate}}" ng-model="password">
-                </div>
                 <button type="submit" class="btn btn-primary" data-translate="user-management.login.form.button">Sign in</button>
             </form>
             <p></p>
-            <div class="alert alert-warning">
+            <!--<div class="alert alert-warning">
                 <a class="alert-link" ng-href="/{{currentLanguage}}/reset/request" data-translate="user-management.login.password.forgot">Did you forget your password?</a>
-            </div>
+            </div>-->
             <div class="alert alert-warning">
                 <span data-translate="global.messages.info.data-usage-application">
                     Do you want to use our data?</span>

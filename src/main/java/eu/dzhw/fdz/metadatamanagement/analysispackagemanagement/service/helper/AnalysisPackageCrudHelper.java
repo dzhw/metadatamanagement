@@ -12,11 +12,10 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.Analysis
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AnalysisPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
  * Component which implements CRUD functions for all {@link AnalysisPackage}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -25,14 +24,22 @@ public class AnalysisPackageCrudHelper
   /**
    * Construct the helper.
    */
-  public AnalysisPackageCrudHelper(AnalysisPackageRepository repository,
+  public AnalysisPackageCrudHelper(
+      AnalysisPackageRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       AnalysisPackageChangesProvider analysisPackageChangesProvider,
-      RestHighLevelClient elasticsearchClient, UserInformationProvider userInformationProvider,
-      Gson gson) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        analysisPackageChangesProvider, elasticsearchClient, AnalysisPackageSearchDocument.class,
-        userInformationProvider, gson);
+      RestHighLevelClient elasticsearchClient,
+      Gson gson
+  ) {
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        analysisPackageChangesProvider,
+        elasticsearchClient,
+        AnalysisPackageSearchDocument.class,
+        gson
+    );
   }
 }

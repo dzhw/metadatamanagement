@@ -47,6 +47,8 @@ public class MetadataManagementProperties {
 
   private final Seo4ajax seo4ajax = new Seo4ajax();
 
+  private final Authmanagement authmanagement = new Authmanagement();
+
   /**
    * Configure the current elasticsearch server version for testing.
    *
@@ -179,6 +181,26 @@ public class MetadataManagementProperties {
   @Setter
   public static class Projectmanagement {
     private String email = "";
+  }
+
+  /**
+   * Auth Management properties.
+   */
+  @Getter
+  @Setter
+  public static class Authmanagement {
+    private Server server;
+
+    /**
+     * Auth Server properties.
+     */
+    @Getter
+    @Setter
+    public static class Server {
+      private String endpoint = "";
+      private String username = "";
+      private String password = "";
+    }
   }
 
   /**

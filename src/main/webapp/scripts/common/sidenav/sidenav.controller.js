@@ -10,12 +10,12 @@ angular.module('metadatamanagementApp').controller('SidenavController',
     //For toggle buttons
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
-    $scope.isAccountMenuOpen = false;
     $scope.logoutButtonDisabled = false;
     $scope.sidebarContent = $rootScope.sidebarContent;
     $scope.detailViewLoaded = MessageBus;
     $scope.detailViewType = '';
     $scope.show = false;
+    $scope.loginName = Principal.loginName;
 
     $scope.$on('domain-object-editing-started', function() {
       $scope.logoutButtonDisabled = true;
@@ -32,10 +32,6 @@ angular.module('metadatamanagementApp').controller('SidenavController',
     // });
 
     //Functions for toggling buttons.
-    $scope.toggleAccountMenu = function() {
-      $scope.isAccountMenuOpen = !$scope.isAccountMenuOpen;
-    };
-
     $scope.toggleAdminMenu = function() {
       $scope.isAdminMenuOpen = !$scope.isAdminMenuOpen;
     };
@@ -54,7 +50,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
 
     //Goto Logout Page
     $scope.logout = function() {
-      Auth.logout();
+      Auth.logout(true);
       $rootScope.searchQuery = '';
       $state.go('start', {
         lang: LanguageService.getCurrentInstantly()
@@ -99,8 +95,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
         $state.current.name !== 'restoreShoppingCart' &&
         $state.current.name !== 'requestReset' &&
         $state.current.name !== 'finishReset' &&
-        $state.current.name !== 'activate' &&
-        $state.current.name !== 'register' &&
+        $state.current.name !== 'auth' &&
         $state.current.name !== 'login';
       if (!$scope.show && $mdSidenav('SideNavBar').isOpen()) {
         $scope.close();

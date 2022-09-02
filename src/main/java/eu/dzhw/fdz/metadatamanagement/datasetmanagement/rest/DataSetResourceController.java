@@ -16,13 +16,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * DataSet REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @Controller
@@ -30,9 +29,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class DataSetResourceController
     extends GenericDomainObjectResourceController<DataSet, CrudService<DataSet>> {
 
-  public DataSetResourceController(CrudService<DataSet> crudService,
-      UserInformationProvider userInformationProvider) {
-    super(crudService, userInformationProvider);
+  public DataSetResourceController(CrudService<DataSet> crudService) {
+    super(crudService);
   }
 
   @Override

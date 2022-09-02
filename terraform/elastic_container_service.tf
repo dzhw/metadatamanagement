@@ -3,7 +3,7 @@
 resource "aws_ecs_cluster" "cluster" {
   count = length(var.stages)
   name  = var.stages[count.index]
-  
+
   capacity_providers = ["FARGATE", "FARGATE_SPOT"]
   default_capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
@@ -99,6 +99,10 @@ data "template_file" "worker_container" {
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
     site_token        = var.seo4ajax_tokens[count.index].site_token
+    issuer_uri        = var.issuer_uri
+    userapi_endpoint  = var.userapi_credentials[count.index].endpoint
+    userapi_username  = var.userapi_credentials[count.index].username
+    userapi_password  = var.userapi_credentials[count.index].password
   }
 }
 

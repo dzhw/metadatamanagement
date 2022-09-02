@@ -37,7 +37,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class InstrumentResourceControllerTest extends AbstractTest {
@@ -113,7 +113,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
   }
 
   @Test
-  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  @WithMockUser(username = "test", authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateInstrumentWithPost() throws Exception {
 
     // Arrange

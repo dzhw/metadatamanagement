@@ -25,6 +25,11 @@ spring:
       rest:
         uris:
         - ${vcap.services.elastic.credentials.sslUri}
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: ${vcap.services.resourceserver.issuer.uri}
 
 mongock:
   enabled: false
@@ -42,10 +47,15 @@ management:
 # ===================================================================
 
 metadatamanagement:
+  authmanagement:
+    server:
+      endpoint: ${vcap.services.userapi.credentials.endpoint}
+      username: ${vcap.services.userapi.credentials.username}
+      password: ${vcap.services.userapi.credentials.password}
   ordermanagement:
-    email: daniel@dzhw.eu
+    email: reitmann@dzhw.eu
   projectmanagement:
-    email: daniel@dzhw.eu
+    email: reitmann@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
     context-root: https://test.metadata.fdz.dzhw.eu

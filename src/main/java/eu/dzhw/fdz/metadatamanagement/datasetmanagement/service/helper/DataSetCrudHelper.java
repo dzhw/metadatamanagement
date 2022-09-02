@@ -12,11 +12,10 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
  * Component which implements CRUD functions for all {@link DataSet}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -25,13 +24,22 @@ public class DataSetCrudHelper
   /**
    * Construct the helper.
    */
-  public DataSetCrudHelper(DataSetRepository repository,
+  public DataSetCrudHelper(
+      DataSetRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DataSetChangesProvider dataSetChangesProvider, RestHighLevelClient elasticsearchClient,
-      UserInformationProvider userInformationProvider, Gson gson) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        dataSetChangesProvider, elasticsearchClient, DataSetSearchDocument.class,
-        userInformationProvider, gson);
+      DataSetChangesProvider dataSetChangesProvider,
+      RestHighLevelClient elasticsearchClient,
+      Gson gson
+  ) {
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        dataSetChangesProvider,
+        elasticsearchClient,
+        DataSetSearchDocument.class,
+        gson
+    );
   }
 }

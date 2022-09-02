@@ -17,13 +17,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Analysis package REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @Controller
@@ -36,9 +35,8 @@ public class AnalysisPackageResourceController
   /**
    * Construct the controller.
    */
-  public AnalysisPackageResourceController(CrudService<AnalysisPackage> crudService,
-      UserInformationProvider userInformationProvider) {
-    super(crudService, userInformationProvider);
+  public AnalysisPackageResourceController(CrudService<AnalysisPackage> crudService) {
+    super(crudService);
   }
 
   @Override

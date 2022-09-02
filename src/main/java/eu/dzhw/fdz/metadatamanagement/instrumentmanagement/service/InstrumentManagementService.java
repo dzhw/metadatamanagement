@@ -28,14 +28,14 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link Instrument}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -57,7 +57,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Delete all instruments when the dataAcquisitionProject was deleted.
-   * 
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
@@ -67,7 +67,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Update all Instruments of the project, when the project is released.
-   * 
+   *
    * @param dataAcquisitionProject the changed project
    */
   @HandleAfterSave
@@ -80,7 +80,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * A service method for deletion of instruments within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -97,7 +97,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Enqueue update of instrument search documents when the dataPackage changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -111,7 +111,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Enqueue update of instrument search documents when the survey changed.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -125,7 +125,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Enqueue update of instrument search documents when the question changed.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -139,7 +139,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Enqueue update of instrument search documents when the variable changed.
-   * 
+   *
    * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
@@ -153,7 +153,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Enqueue update of instrument search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate
@@ -174,7 +174,7 @@ public class InstrumentManagementService implements CrudService<Instrument> {
 
   /**
    * Get a list of available instrument numbers for creating a new instrument.
-   * 
+   *
    * @param dataAcquisitionProjectId The project id.
    * @return A list of available instrument numbers.
    */

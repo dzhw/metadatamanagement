@@ -26,9 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncomp
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -44,7 +43,7 @@ public class DataSetReportResource {
 
   private final MailService mailService;
 
-  private final UserInformationProvider userInformationProvider;
+  private final AuditorService auditorService;
 
   private final TaskManagementService taskService;
 
@@ -53,7 +52,7 @@ public class DataSetReportResource {
 
   /**
    * Start the generation of a dataset report for the given {@link DataSet}.
-   * 
+   *
    * @param dataSetId The id of the {@link DataSet} for which we need to generate the report.
    * @param version The version of the report.
    * @param languages List of languages for which the report needs to be generated. Currently only
@@ -121,10 +120,12 @@ public class DataSetReportResource {
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf,
       @PathVariable("language") String language) throws IOException {
-    User user = userInformationProvider.switchToUser(onBehalfOf);
-    dataSetAttachmentService.attachDataSetReport(dataSetId, language, reportFile);
-    mailService.sendDataSetReportGeneratedMail(user, dataSetId, language, sender);
-    userInformationProvider.switchToUser(null);
+    try (auditorService) {
+      var user = auditorService.findAndSetOnBehalfAuditor(onBehalfOf);
+      dataSetAttachmentService.attachDataSetReport(dataSetId, language, reportFile);
+      mailService.sendDataSetReportGeneratedMail(user, dataSetId, language, sender);
+    }
+
     return ResponseEntity.ok().build();
   }
 }

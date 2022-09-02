@@ -42,7 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 public class ScriptAttachmentResourceTest extends AbstractTest {
   @Autowired
@@ -171,7 +171,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
             + "/scripts/attachments"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
   public void shouldNotDeleteAttachmentIfScriptIsModified() throws Exception {

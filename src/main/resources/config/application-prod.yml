@@ -25,7 +25,11 @@ spring:
       rest:
         uris:
         - ${vcap.services.elastic.credentials.sslUri}
-
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: ${vcap.services.resourceserver.issuer.uri}
 mongock:
   enabled: false
 
@@ -42,6 +46,11 @@ management:
 # ===================================================================
 
 metadatamanagement:
+  authmanagement:
+    server:
+      endpoint: ${vcap.services.userapi.credentials.endpoint}
+      username: ${vcap.services.userapi.credentials.username}
+      password: ${vcap.services.userapi.credentials.password}
   ordermanagement:
     email: userservice@dzhw.eu
   projectmanagement:

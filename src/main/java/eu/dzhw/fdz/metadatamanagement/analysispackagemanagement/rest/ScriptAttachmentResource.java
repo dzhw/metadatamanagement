@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisP
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.Script;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.ScriptAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -49,7 +49,7 @@ public class ScriptAttachmentResource {
       method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("scriptAttachmentMetadata") 
+      @RequestPart("scriptAttachmentMetadata")
       @Valid ScriptAttachmentMetadata scriptAttachmentMetadata)
       throws URISyntaxException, IOException {
     scriptAttachmentService.createScriptAttachment(multiPartFile, scriptAttachmentMetadata);
@@ -89,7 +89,7 @@ public class ScriptAttachmentResource {
 
   /**
    * Delete the given attachments of the given {@link Script}.
-   * 
+   *
    * @param analysisPackageId The analysisPackageId of the {@link Script}
    * @param scriptUuid The uuid of the {@link Script}
    * @param filename The filename of the {@link ScriptAttachmentMetadata}

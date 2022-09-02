@@ -27,14 +27,13 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.MetadataExpor
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DaraOaiPmhClient;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataCiteClient;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * DataPackage REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @Controller
@@ -53,10 +52,13 @@ public class DataPackageResourceController
   /**
    * Construct the controller.
    */
-  public DataPackageResourceController(CrudService<DataPackage> crudService,
-      UserInformationProvider userInformationProvider, DaraOaiPmhClient oaiPmhClient,
-      DataCiteClient dataCiteClient, Environment environment) {
-    super(crudService, userInformationProvider);
+  public DataPackageResourceController(
+      CrudService<DataPackage> crudService,
+      DaraOaiPmhClient oaiPmhClient,
+      DataCiteClient dataCiteClient,
+      Environment environment
+  ) {
+    super(crudService);
     this.oaiPmhClient = oaiPmhClient;
     this.dataCiteClient = dataCiteClient;
     this.environment = environment;

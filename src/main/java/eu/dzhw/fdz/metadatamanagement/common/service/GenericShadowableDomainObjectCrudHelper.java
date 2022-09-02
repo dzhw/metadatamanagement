@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.util.Optional;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -24,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ExcludeFieldsHe
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentInterface;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
  * CRUD Service Helper for {@link AbstractShadowableRdcDomainObject}.
@@ -41,20 +41,20 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
   private static final QAbstractShadowableRdcDomainObject shadowQuery =
       QAbstractShadowableRdcDomainObject.abstractShadowableRdcDomainObject;
 
-  private UserInformationProvider userInformationProvider;
-
   /**
    * Construct the helper.
    */
-  public GenericShadowableDomainObjectCrudHelper(S repository,
+  public GenericShadowableDomainObjectCrudHelper(
+      S repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       DomainObjectChangesProvider<T> domainObjectChangesProvider,
-      RestHighLevelClient elasticsearchClient, Class<? extends T> searchDocumentClass,
-      UserInformationProvider userInformationProvider, Gson gson) {
+      RestHighLevelClient elasticsearchClient,
+      Class<? extends T> searchDocumentClass,
+      Gson gson
+  ) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
         domainObjectChangesProvider, elasticsearchClient, searchDocumentClass, gson);
-    this.userInformationProvider = userInformationProvider;
   }
 
   /**
@@ -176,7 +176,7 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
     if (elasticsearchType == null) {
       return Optional.empty();
     }
-    if (!userInformationProvider.isUserAnonymous()) {
+    if (!SecurityUtils.isUserAnonymous()) {
       return super.readSearchDocument(id);
     } else {
       Optional<T> searchDocument = null;
@@ -200,7 +200,7 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
 
   /**
    * Find all shadows for the given masterId.
-   * 
+   *
    * @param masterId The id of the master.
    * @param pageable used for paging and sorting the results
    * @return A page containing all shadows. Can be empty.

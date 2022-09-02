@@ -1,20 +1,52 @@
 'use strict';
 angular.module('metadatamanagementApp').factory('authInterceptor', function(
-  localStorageService) {
+  localStorageService, $injector, $q) {
   return {
     // Add authorization token to headers to all API requests
     request: function(config) {
       config.headers = config.headers || {};
-      var token = localStorageService.get('token');
       //jscs:disable
-      if (token && (config.url.indexOf('/api/') === 0 ||
+
+      var Principal = $injector.get('Principal');
+      //Principal.authMode() &&
+
+      if (Principal.isUiLoggedIn() && localStorageService.get('tokens') && (config.url.indexOf('/api/') === 0 ||
         config.url.indexOf('api/') === 0 ||
         config.url.indexOf('/management/') === 0 ||
         config.url.indexOf('management/') === 0)) {
-        config.headers.Authorization = 'Bearer ' + token.access_token;
+
+        var AuthServiceProvider = $injector.get('AuthServiceProvider');
+        // check expire timestamp if token is valid for more than one minute
+        if (AuthServiceProvider.hasToken() && AuthServiceProvider.accessTokenInfo().exp < new Date(Date.now() - 60000) / 1000) {
+          return AuthServiceProvider.refreshToken().then(function() {
+            config.headers.Authorization = 'Bearer ' + localStorageService.get('tokens').access_token;
+            return config;
+          });
+        } else {
+          config.headers.Authorization = 'Bearer ' + localStorageService.get('tokens').access_token;
+          return config;
+        }
+
+      } else {
+        return config;
       }
       //jscs:enable
-      return config;
+    },
+    responseError: function(response) {
+      if (response.status === 401 &&
+        (response.config.url.indexOf('/api/') === 0 ||
+        response.config.url.indexOf('api/') === 0 ||
+        response.config.url.indexOf('/management/') === 0 ||
+        response.config.url.indexOf('management/') === 0)) {
+
+        var Auth = $injector.get('Auth');
+        Auth.logout(true);
+
+        return response;
+      } else {
+        return $q.reject(response);
+      }
+
     }
   };
 });

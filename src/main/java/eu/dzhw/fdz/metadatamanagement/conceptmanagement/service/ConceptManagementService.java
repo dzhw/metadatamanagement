@@ -35,7 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
@@ -44,7 +44,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link Concept}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -72,7 +72,7 @@ public class ConceptManagementService implements CrudService<Concept> {
 
   /**
    * Enqueue update of concept search documents when the dataPackage changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -106,7 +106,7 @@ public class ConceptManagementService implements CrudService<Concept> {
 
   /**
    * Enqueue update of concept search documents when the question changed.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -126,7 +126,7 @@ public class ConceptManagementService implements CrudService<Concept> {
 
   /**
    * Enqueue update of concept search documents when the instrument changed.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -151,7 +151,7 @@ public class ConceptManagementService implements CrudService<Concept> {
 
   /**
    * Enqueue update of concept search documents when the survey changed.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -167,7 +167,7 @@ public class ConceptManagementService implements CrudService<Concept> {
 
   /**
    * Enqueue update of concept search documents when the data set changed.
-   * 
+   *
    * @param dataSet the updated, created or deleted data set.
    */
   @HandleAfterCreate
@@ -193,7 +193,7 @@ public class ConceptManagementService implements CrudService<Concept> {
 
   /**
    * Enqueue update of concept search documents when the variable changed.
-   * 
+   *
    * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate

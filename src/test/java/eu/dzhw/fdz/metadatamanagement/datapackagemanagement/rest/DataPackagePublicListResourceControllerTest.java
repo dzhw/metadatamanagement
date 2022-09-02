@@ -7,13 +7,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
-
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -21,12 +24,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.icegreen.greenmail.store.FolderException;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.LegacyUrlsFilter;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -35,46 +36,77 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQue
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
-public class DataPackagePublicListResourceControllerTest extends AbstractTest {
+public class DataPackagePublicListResourceControllerTest extends AbstractUserApiTests {
   private static final String API_DATAPACKAGE_URI = "/api/data-packages";
 
   private static final String API_LEGACY_URI = "/api/studies";
 
-  @Autowired
-  private WebApplicationContext wac;
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final DataPackageRepository dataPackageRepository;
+  private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  private final ElasticsearchAdminService elasticsearchAdminService;
+  private final JaversService javersService;
+  private final ShadowCopyQueueItemService shadowCopyQueueItemService;
+  private final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
 
-  @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final MockMvc mockMvc;
 
-  @Autowired
-  private DataPackageRepository dataPackageRepository;
+  public DataPackagePublicListResourceControllerTest(
+    @Autowired final DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
+    @Autowired final DataPackageRepository dataPackageRepository,
+    @Autowired final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository,
+    @Autowired final ElasticsearchAdminService elasticsearchAdminService,
+    @Autowired final JaversService javersService,
+    @Autowired final LegacyUrlsFilter legacyUrlsFilter,
+    @Autowired final ShadowCopyQueueItemService shadowCopyQueueItemService,
+    @Autowired final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository,
+    @Value("${metadatamanagement.authmanagement.server.endpoint}")
+    final String authServerEndpoint,
+    @Autowired final UserApiService userApiService,
+    @Autowired final WebApplicationContext wac
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+    this.dataAcquisitionProjectRepository = dataAcquisitionProjectRepository;
+    this.dataPackageRepository = dataPackageRepository;
+    this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
+    this.elasticsearchAdminService = elasticsearchAdminService;
+    this.javersService = javersService;
+    this.shadowCopyQueueItemService = shadowCopyQueueItemService;
+    this.shadowCopyQueueItemRepository = shadowCopyQueueItemRepository;
 
-  @Autowired
-  private ElasticsearchAdminService elasticsearchAdminService;
-
-  @Autowired
-  private JaversService javersService;
-
-  @Autowired
-  private LegacyUrlsFilter legacyUrlsFilter;
-
-  @Autowired
-  private ShadowCopyQueueItemService shadowCopyQueueItemService;
-
-  @Autowired
-  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
-
-  private MockMvc mockMvc;
-
-  @BeforeEach
-  public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilters(legacyUrlsFilter).build();
     elasticsearchAdminService.recreateAllIndices();
+
+    this.mockServer.users(
+        new User(
+            "1234",
+            "user",
+            "user@local",
+            "de",
+            false,
+          AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER)
+        ),
+        new User(
+            "asdf",
+            "admin",
+            "admin@local",
+            "de",
+            false,
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.ADMIN)
+        ),
+        new User(
+            "qwer",
+            "release_manager",
+            "release_manager@local",
+            "de",
+            false,
+          AuthoritiesConstants.toSearchValue(AuthoritiesConstants.USER),
+            AuthoritiesConstants.toSearchValue(AuthoritiesConstants.RELEASE_MANAGER)
+        )
+    );
   }
 
   @AfterEach
@@ -86,6 +118,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
     greenMail.purgeEmailFromAllMailboxes();
+    SecurityContextHolder.clearContext();
   }
 
   @Test
@@ -105,7 +138,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testUnreleasedNotPubliclyVisible() throws IOException, Exception {
+  public void testUnreleasedNotPubliclyVisible() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
@@ -117,7 +150,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     // ensure list contains no items cause not yet released
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     mockMvc.perform(get(API_DATAPACKAGE_URI)).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(0)));
     // ensure that there are still no pinned data packages
@@ -127,7 +160,10 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testReleasedDataPackageIsPubliclyVisible() throws IOException, Exception {
+  public void testReleasedDataPackageIsPubliclyVisible() throws Exception {
+    this.addFindOneByLoginRequest("user");
+    this.addFindAllByAuthoritiesContainingRequest(AuthoritiesConstants.RELEASE_MANAGER);
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
@@ -145,7 +181,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
 
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     // ensure that there are still no pinned data packages
     mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(0)));
@@ -157,7 +193,11 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testReleasedDataPackageIsPinned() throws IOException, Exception {
+  public void testReleasedDataPackageIsPinned() throws Exception {
+    this.addFindOneByLoginRequest("user");
+    this.addFindOneByLoginRequest("admin");
+    this.addFindAllByAuthoritiesContainingRequest(2, AuthoritiesConstants.RELEASE_MANAGER);
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
@@ -174,16 +214,18 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
     mockMvc.perform(put("/api/data-acquisition-projects" + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
+
     shadowCopyQueueItemService.executeShadowCopyActions();
 
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     // ensure that there is one pinned data package
     mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(1)))
         .andExpect(jsonPath("$.content[0].masterId", is(dataPackage.getId())));
 
     // now release a second data package and pin it
-    UnitTestUserManagementUtils.login("admin", "admin");
+    UnitTestUserManagementUtils.generateJwt("admin", AuthoritiesConstants.DATA_PROVIDER);
+
     project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject("testproject2");
     dataAcquisitionProjectRepository.save(project);
 
@@ -202,7 +244,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
 
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
     // ensure that there are two pinned data packages and the first one is the newest
     mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true&size=2")).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(2)))

@@ -84,6 +84,7 @@ module.exports = function(config) {
       'src/main/webapp/scripts/**/*.html.tmpl',
       'src/test/javascript/spec/helpers/module.js',
       'src/test/javascript/spec/helpers/httpBackend.js',
+      'src/test/javascript/spec/helpers/sso.js',
 
       // Files needed?
       // 'node_modules/messageformat/locale/en.js',

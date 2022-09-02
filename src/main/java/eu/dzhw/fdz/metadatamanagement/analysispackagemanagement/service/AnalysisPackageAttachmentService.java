@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedEx
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -39,7 +39,7 @@ public class AnalysisPackageAttachmentService {
 
   private final Javers javers;
 
-  private final AttachmentMetadataHelper<AnalysisPackageAttachmentMetadata> 
+  private final AttachmentMetadataHelper<AnalysisPackageAttachmentMetadata>
       attachmentMetadataHelper;
 
   /**

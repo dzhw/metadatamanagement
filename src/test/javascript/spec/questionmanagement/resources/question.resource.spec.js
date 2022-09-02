@@ -14,6 +14,7 @@ describe('QuestionResource', function() {
     id: 1,
     name: 'QuestionResource'
   };
+  beforeEach(mockSso);
   beforeEach(mockApis);
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');

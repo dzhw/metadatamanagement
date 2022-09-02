@@ -73,7 +73,7 @@ angular.module('metadatamanagementApp')
             Principal.identity().then(function(identity) {
               project.hasBeenReleasedBefore = false;
               project.configuration = {
-                publishers: [identity.login],
+                publishers: [identity.preferred_username],
                 requirements: {
                   dataPackagesRequired: true
                 }

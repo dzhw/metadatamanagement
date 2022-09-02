@@ -1,4 +1,10 @@
 'use strict';
+/* global describe */
+/* global beforeEach */
+/* global it */
+/* global inject */
+/* global expect */
+/* global spyOn */
 
 xdescribe('Factory Tests ', function () {
   var authInterceptor, localStorageService, response, $q, $scope;

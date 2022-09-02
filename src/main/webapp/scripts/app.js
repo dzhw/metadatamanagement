@@ -18,181 +18,206 @@ try {
         'ng-showdown', 'swxSessionStorage', 'angulartics', 'angulartics.piwik'
       ])
 
-  .run(
-      function($rootScope, $location, $state, LanguageService, Auth, Principal,
-        ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-        WebSocketService, $urlRouter, $translate, MigrationService, $browser) {
+    .run(
+      function($rootScope, $location, $state, LanguageService, Auth,
+               Principal, ENV, VERSION, $mdMedia, $transitions, $timeout,
+               $window, WebSocketService, $urlRouter, $translate,
+               MigrationService, $browser) {
         // sometimes urlRouter does not load the state automatically on startup
-        $urlRouter.sync();
-        WebSocketService.connect();
-        $rootScope.bowser = bowser;
-        // set baseUrl in case someone needs absolute urls
-        if (ENV === 'local') {
-          $rootScope.baseUrl = $location.protocol() + '://' + $location.host() +
-            ':' + $location.port();
-        } else {
-          $rootScope.baseUrl = $location.protocol() + '://' + $location.host();
-        }
-        $rootScope.ENV = ENV;
-        $rootScope.VERSION = VERSION;
-        $rootScope.$mdMedia = $mdMedia;
-        $rootScope.$state = $state;
-        $rootScope.currentDate = new Date();
-        $rootScope.searchQuery = '';
-        $rootScope.sidebarContent = {
-          'search': false,
-          'filter': false,
-          'detailSearch': false,
-          'configurator': false
-        };
-        //prevent default browser actions for drag and drop
-        $window.addEventListener('dragover', function(e) {
-          e = e || event;
-          e.preventDefault();
-        }, false);
-        $window.addEventListener('drop', function(e) {
-          e = e || event;
-          e.preventDefault();
-        }, false);
-        if (typeof String.prototype.endsWith !== 'function') {
-          String.prototype.endsWith = function(suffix) {
-            return this.indexOf(suffix, this.length - suffix.length) !== -1;
-          };
-        }
-        //init the current language
-        if ($location.path().indexOf('/en/') > -1) {
-          LanguageService.setCurrent('en');
-        } else if ($location.path().indexOf('/de/') > -1) {
-          LanguageService.setCurrent('de');
-        } else {
-          LanguageService.setCurrent($translate.preferredLanguage());
-        }
 
-        $transitions.onStart({}, function(trans) {
-          $rootScope.toState = trans.$to();
-          $rootScope.toStateParams = trans.params();
-          if (Principal.isIdentityResolved()) {
-            Auth.authorize();
+        var init = function() {
+          $urlRouter.sync();
+          WebSocketService.connect();
+          $rootScope.bowser = bowser;
+          // set baseUrl in case someone needs absolute urls
+          if (ENV === 'local') {
+            $rootScope.baseUrl = $location.protocol() + '://' +
+              $location.host() +
+              ':' + $location.port();
+          } else {
+            $rootScope.baseUrl = $location.protocol() + '://' +
+              $location.host();
           }
-
-          // Update the language
-          LanguageService.setCurrent($rootScope.toStateParams.lang);
-          // an authenticated user can't access to login and
-          // register pages
-          if (Principal.isAuthenticated() &&
-            $rootScope.toState.parent.name === 'account' &&
-            ($rootScope.toState.name === 'login' ||
-              $rootScope.toState.name === 'register' ||
-              $rootScope.toState.name === 'start')) {
-            return trans.router.stateService.target('search',
-            {
-              lang: LanguageService.getCurrentInstantly()
-            });
-          }
-          if ($rootScope.toState.data.authorities &&
-            $rootScope.toState.data.authorities.length > 0) {
-            // wait for initialization of Principal Service
-            $timeout(function() {
-              if ($rootScope.toState.data.authorities &&
-                $rootScope.toState.data.authorities.length > 0 &&
-                (!Principal.hasAnyAuthority(
-                  $rootScope.toState.data.authorities) ||
-                  !Principal.isAuthenticated())) {
-                $rootScope.$broadcast('userNotAuthorized');
-              }
-            }, 1000);
-          }
-        });
-
-        $transitions.onSuccess({}, function(trans) {
-          $rootScope.toStateName = trans.$to().name;
+          $rootScope.ENV = ENV;
+          $rootScope.VERSION = VERSION;
+          $rootScope.$mdMedia = $mdMedia;
+          $rootScope.$state = $state;
+          $rootScope.currentDate = new Date();
+          $rootScope.searchQuery = '';
           $rootScope.sidebarContent = {
             'search': false,
             'filter': false,
             'detailSearch': false,
             'configurator': false
           };
-          if (!Principal.loginName() &&
-            (trans.$to().name).indexOf('Detail') !== -1) {
-            $rootScope.sidebarContent = {
-              'search': false,
-              'filter': false,
-              'detailSearch': true,
-              'configurator': true
-            };
-          } else if (!Principal.loginName() &&
-            (trans.$to().name).indexOf('search') !== -1) {
-            $rootScope.sidebarContent = {
-              'search': true,
-              'filter': true,
-              'detailSearch': false,
-              'configurator': false
+          //prevent default browser actions for drag and drop
+          $window.addEventListener('dragover', function(e) {
+            e = e || event;
+            e.preventDefault();
+          }, false);
+          $window.addEventListener('drop', function(e) {
+            e = e || event;
+            e.preventDefault();
+          }, false);
+          if (typeof String.prototype.endsWith !== 'function') {
+            String.prototype.endsWith = function(suffix) {
+              return this.indexOf(suffix, this.length - suffix.length) !== -1;
             };
           }
-          if (Principal.loginName() ||
-            (trans.$to().name).indexOf('start') !== -1) {
-            $rootScope.sidebarContent = {
-              'search': false,
-              'filter': false,
-              'detailSearch': false,
-              'configurator': false
-            };
-          }
-          // Remember previous state unless we've been redirected to login or
-          // we've just
-          // reset the state memory after logout. If we're redirected to
-          // login, our
-          // previousState is already set in the authExpiredInterceptor. If
-          // we're going
-          // to login directly, we don't want to be sent to some previous
-          // state anyway
-          if ($rootScope.toStateName !== 'login' &&
-          $rootScope.previousStateName) {
-            $rootScope.previousStateName = trans.$from().name;
-            $rootScope.previousStateParams = trans.$from().params;
-          }
-        });
-
-        $rootScope.back = function() {
-          // If previous state is 'activate' or do not exist go to 'search'
-          if ($rootScope.previousStateName === 'activate' ||
-            $state.get($rootScope.previousStateName) === null) {
-            $state.go('search', {
-              lang: LanguageService.getCurrentInstantly()
-            });
+          //init the current language
+          if ($location.path().indexOf('/en/') > -1) {
+            LanguageService.setCurrent('en');
+          } else if ($location.path().indexOf('/de/') > -1) {
+            LanguageService.setCurrent('de');
           } else {
-            $state.go($rootScope.previousStateName,
-              $rootScope.previousStateParams);
+            LanguageService.setCurrent($translate.preferredLanguage());
           }
-        };
 
-        // ignore ui-routers transition superseded errors
-        var standardDefaultErrorHandler = $state.defaultErrorHandler();
-        $state.defaultErrorHandler(function(error) {
-          // transition superseded
-          if (error.type === 2) {
-            return;
-          }
-          standardDefaultErrorHandler(error);
-        });
+          $transitions.onStart({}, function(trans) {
+            $rootScope.toState = trans.$to();
+            $rootScope.toStateParams = trans.params();
 
-        MigrationService.migrate();
-
-        // let seo4ajax know that we are ready to be captured
-        $timeout(function() {
-          $browser.notifyWhenNoOutstandingRequests(function() {
-            if (window.onCaptureReady) {
-              window.onCaptureReady();
+            // Update the language
+            LanguageService.setCurrent($rootScope.toStateParams.lang);
+            // an authenticated user can't access to login and
+            // register pages
+            if (Principal.isAuthenticated() &&
+              $rootScope.toState.parent.name === 'account' &&
+              ($rootScope.toState.name === 'login' ||
+                $rootScope.toState.name === 'auth' ||
+                $rootScope.toState.name === 'start')) {
+              return trans.router.stateService.target('search',
+                {
+                  lang: LanguageService.getCurrentInstantly()
+                });
+            }
+            if ($rootScope.toState.data.authorities &&
+              $rootScope.toState.data.authorities.length > 0) {
+              // wait for initialization of Principal Service
+              $timeout(function() {
+                if ($rootScope.toState.data.authorities &&
+                  $rootScope.toState.data.authorities.length > 0 &&
+                  (!Principal.hasAnyAuthority(
+                      $rootScope.toState.data.authorities) ||
+                    !Principal.isAuthenticated())) {
+                  $rootScope.$broadcast('userNotAuthorized');
+                }
+              }, 1000);
             }
           });
-        }, 1000);
+
+          $transitions.onSuccess({}, function(trans) {
+            $rootScope.toStateName = trans.$to().name;
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': false,
+              'configurator': false
+            };
+            if (!Principal.loginName() &&
+              (trans.$to().name).indexOf('Detail') !== -1) {
+              $rootScope.sidebarContent = {
+                'search': false,
+                'filter': false,
+                'detailSearch': true,
+                'configurator': true
+              };
+            } else if (!Principal.loginName() &&
+              (trans.$to().name).indexOf('search') !== -1) {
+              $rootScope.sidebarContent = {
+                'search': true,
+                'filter': true,
+                'detailSearch': false,
+                'configurator': false
+              };
+            }
+            if (Principal.loginName() ||
+              (trans.$to().name).indexOf('start') !== -1) {
+              $rootScope.sidebarContent = {
+                'search': false,
+                'filter': false,
+                'detailSearch': false,
+                'configurator': false
+              };
+            }
+            // Remember previous state unless we've been redirected to login or
+            // we've just
+            // reset the state memory after logout. If we're redirected to
+            // login, our
+            // previousState is already set in the authExpiredInterceptor. If
+            // we're going
+            // to login directly, we don't want to be sent to some previous
+            // state anyway
+            if ($rootScope.toStateName !== 'login' &&
+              $rootScope.previousStateName) {
+              $rootScope.previousStateName = trans.$from().name;
+              $rootScope.previousStateParams = trans.$from().params;
+            }
+          });
+
+          $rootScope.back = function() {
+            // If previous state is 'auth' or do not exist go to 'search'
+            if ($rootScope.previousStateName === 'auth' ||
+              $state.get($rootScope.previousStateName) === null) {
+              $state.go('search', {
+                lang: LanguageService.getCurrentInstantly()
+              });
+            } else {
+              $state.go($rootScope.previousStateName,
+                $rootScope.previousStateParams);
+            }
+          };
+
+          // ignore ui-routers transition superseded errors
+          var standardDefaultErrorHandler = $state.defaultErrorHandler();
+          $state.defaultErrorHandler(function(error) {
+            // transition superseded
+            if (error.type === 2) {
+              return;
+            }
+            standardDefaultErrorHandler(error);
+          });
+
+          MigrationService.migrate();
+
+          // let seo4ajax know that we are ready to be captured
+          $timeout(function() {
+            $browser.notifyWhenNoOutstandingRequests(function() {
+              if (window.onCaptureReady) {
+                window.onCaptureReady();
+              }
+            });
+          }, 1000);
+        };
+
+        var code = $location.search().code;
+        if (code) {
+          Auth.authorize(code).then(function() {
+            init();
+          }, function() {
+            init();
+          });
+        } else {
+          Auth.init().then(function() {
+            init();
+          }, function(error) {
+            console.log(error);
+            init();
+            $state.go('login', {
+              lang: LanguageService.getCurrentInstantly(),
+              data: {
+                authenticationError: true
+              }
+            });
+          });
+        }
       })
     .config(
       function($stateProvider, $urlRouterProvider,
-        $httpProvider, $locationProvider, $translateProvider,
-        tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
-        localStorageServiceProvider, $qProvider, $provide, $showdownProvider,
-        $analyticsProvider, ENV) {
+               $httpProvider, $locationProvider, $translateProvider,
+               tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
+               localStorageServiceProvider, $qProvider, $provide,
+               $showdownProvider, $analyticsProvider, ENV) {
         localStorageServiceProvider
           .setPrefix('metadatamanagementApp')
           .setStorageType('localStorage')
@@ -202,16 +227,11 @@ try {
         $locationProvider.hashPrefix('!');
         $stateProvider.state('site', {
           'abstract': true,
-          url: '/{lang:(?:de|en)}',
-          resolve: {
-            authorize: ['Auth', function(Auth) {
-              return Auth.authorize();
-            }]
-          }
+          url: '/{lang:(?:de|en)}'
         });
 
         // Initialize angular-translate
-        $translateProvider.registerAvailableLanguageKeys(['de','en'], {
+        $translateProvider.registerAvailableLanguageKeys(['de', 'en'], {
           'en_*': 'en',
           'de_*': 'de',
           '*': 'en'
@@ -275,12 +295,12 @@ try {
 
         $provide.decorator('$state', function($delegate, $stateParams) {
           $delegate.forceReload = function() {
-              return $delegate.go($delegate.current, $stateParams, {
-                  reload: true,
-                  inherit: false,
-                  notify: true
-                });
-            };
+            return $delegate.go($delegate.current, $stateParams, {
+              reload: true,
+              inherit: false,
+              notify: true
+            });
+          };
           return $delegate;
         });
 
@@ -290,12 +310,12 @@ try {
         // disable automatic page tracking
         $analyticsProvider.virtualPageviews(false);
       })
-      //use a fake sessionId for consistent shard routing
-      .constant('clientId', new ClientJS().getFingerprint())
-      .constant('ClientJS', new ClientJS());
+    //use a fake sessionId for consistent shard routing
+    .constant('clientId', new ClientJS().getFingerprint())
+    .constant('ClientJS', new ClientJS());
 } finally {
   if (!app) {
     document.getElementsByClassName('fdz-bootstrap-error')[0].style.display =
-    'table-header-group';
+      'table-header-group';
   }
 }

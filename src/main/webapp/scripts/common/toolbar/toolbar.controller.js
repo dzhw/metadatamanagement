@@ -12,6 +12,8 @@ angular.module('metadatamanagementApp').controller(
     };
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
+    $scope.loginName = Principal.loginName;
+    $scope.switchMode = Principal.switchMode;
 
     //Set Languages
     $scope.changeLanguage = function(languageKey) {
@@ -20,7 +22,7 @@ angular.module('metadatamanagementApp').controller(
 
     //Goto Logout Page
     $scope.logout = function() {
-      Auth.logout();
+      Auth.logout(true);
       $scope.resetQuery();
       $state.go('start', {
         lang: LanguageService.getCurrentInstantly()
@@ -59,7 +61,7 @@ angular.module('metadatamanagementApp').controller(
         $state.current.name !== 'disclosure' &&
         $state.current.name !== 'shoppingCart' &&
         $state.current.name !== 'requestReset' &&
-        $state.current.name !== 'activate' &&
+        $state.current.name !== 'auth' &&
         $state.current.name !== 'register' &&
         $state.current.name !== 'login';
     });

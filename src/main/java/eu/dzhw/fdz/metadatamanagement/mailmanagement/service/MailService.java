@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -27,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -113,64 +113,19 @@ public class MailService {
   }
 
   /**
-   * Send user activation email.
-   */
-  @Async
-  public Future<Void> sendActivationEmail(User user) {
-    log.debug("Sending activation e-mail to '{}'", user.getEmail());
-    Locale locale = Locale.forLanguageTag(user.getLangKey());
-    Context context = new Context(locale);
-    context.setVariable("user", user);
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("activationEmail", context);
-    String subject = messageSource.getMessage("email.activation.title", null, locale);
-    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, locale);
-  }
-
-  /**
-   * Send password reset mail.
-   */
-  @Async
-  public Future<Void> sendPasswordResetMail(User user) {
-    log.debug("Sending password reset e-mail to '{}'", user.getEmail());
-    Locale locale = Locale.forLanguageTag(user.getLangKey());
-    Context context = new Context(locale);
-    context.setVariable("user", user);
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("passwordResetEmail", context);
-    String subject = messageSource.getMessage("email.reset.title", null, locale);
-    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, locale);
-  }
-
-  /**
-   * Send new account activated mail.
-   */
-  @Async
-  public Future<Void> sendNewAccountActivatedMail(List<User> admins, User newUser) {
-    log.debug("Sending new account e-mail to all admins");
-    Context context = new Context();
-    context.setVariable("user", newUser);
-    context.setVariable("profiles", env.getActiveProfiles());
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("newAccountActivatedEmail", context);
-    String subject = "New account " + newUser.getLogin() + " activated ("
-        + StringUtils.arrayToCommaDelimitedString(env.getActiveProfiles()) + ")";
-    List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
-    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
-        subject, content, Locale.ENGLISH);
-  }
-
-  /**
    * Send an mail, if an automatic update to dara was not successful.
    */
   @Async
-  public Future<Void> sendMailOnDaraAutomaticUpdateError(List<User> admins, String projectId) {
+  public Future<Void> sendMailOnDaraAutomaticUpdateError(List<UserDto> admins, String projectId) {
     log.debug("Sending 'automatic update to dara was not successful' mail");
     Context context = new Context();
     context.setVariable("projectId", projectId);
     String content = templateEngine.process("automaticDaraUpdateFailed", context);
     String subject = "Automatic Update to da|ra was not successful";
-    List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    List<String> emailAddresses = admins
+        .stream()
+        .map(UserDto::getEmail)
+        .collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
         subject, content, Locale.ENGLISH);
   }
@@ -179,7 +134,7 @@ public class MailService {
    * Send a mail to users who were added as publishers to a project.
    */
   @Async
-  public void sendPublishersAddedMail(List<User> publishers, String projectId, String sender) {
+  public void sendPublishersAddedMail(List<UserDto> publishers, String projectId, String sender) {
     if (!publishers.isEmpty()) {
       log.debug("Sending 'publishers added' mail");
       sendChangedProjectConfigurationMail("addedToProjectConfiguration",
@@ -192,7 +147,7 @@ public class MailService {
    * Send a mail to users who were removed as publishers from a project.
    */
   @Async
-  public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId,
+  public void sendPublisherRemovedMail(List<UserDto> removedPublisherUsers, String projectId,
       String sender) {
     if (!removedPublisherUsers.isEmpty()) {
       log.debug("Sending 'publishers removed' mail");
@@ -206,7 +161,7 @@ public class MailService {
    * Send a mail to users who were added as data providers to a project.
    */
   @Async
-  public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId,
+  public void sendDataProviderAddedMail(List<UserDto> addedDataProviders, String projectId,
       String sender) {
     if (!addedDataProviders.isEmpty()) {
       log.debug("Sending 'data providers added' mail");
@@ -220,7 +175,7 @@ public class MailService {
    * Send a mail to users who were removed as data providers to a project.
    */
   @Async
-  public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId,
+  public void sendDataProviderRemovedMail(List<UserDto> removedDataProviders, String projectId,
       String sender) {
     if (!removedDataProviders.isEmpty()) {
       log.debug("Sending 'data providers removed' mail");
@@ -233,7 +188,7 @@ public class MailService {
 
   @Async
   private void sendChangedProjectConfigurationMail(String template, String subjectKey,
-      String roleKey, List<User> users, String projectId, String sender) {
+      String roleKey, List<UserDto> users, String projectId, String sender) {
     users.parallelStream().forEach(user -> {
       Locale locale = Locale.forLanguageTag(user.getLangKey());
       Context context = new Context(locale);
@@ -252,8 +207,13 @@ public class MailService {
    * Send a mail to users who are now able to edit the project.
    */
   @Async
-  public void sendAssigneeGroupChangedMail(List<User> users, String projectId, String message,
-      String sender, User currentUser) {
+  public void sendAssigneeGroupChangedMail(
+      List<UserDto> users,
+      String projectId,
+      String message,
+      String sender,
+      UserDto currentUser
+  ) {
 
     if (!users.isEmpty()) {
       log.debug("Sending 'assignee group changed mail'");
@@ -280,9 +240,13 @@ public class MailService {
    * a publisher.
    */
   @Async
-  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId, String message,
-      String sender, User currentUser) {
-
+  public void sendDataProviderAccessRevokedMail(
+      List<UserDto> users,
+      String projectId,
+      String message,
+      String sender,
+      UserDto currentUser
+  ) {
     if (!users.isEmpty()) {
       log.debug("Sending 'data provider access revoked' mail");
     }
@@ -306,14 +270,14 @@ public class MailService {
   /**
    * Send the result of the dataset report generation to the user who has started the report
    * generation.
-   * 
+   *
    * @param user The user who has started the report generation.
    * @param dataSetId The id of the {@link DataSet} for which the report has been generated.
    * @param language The language in which the report has been generated.
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataSetReportGeneratedMail(User user, String dataSetId, String language,
+  public void sendDataSetReportGeneratedMail(UserDto user, String dataSetId, String language,
       String sender) {
     log.debug("Sending 'dataset report generated' mail");
     Locale locale = Locale.forLanguageTag(user.getLangKey());
@@ -332,14 +296,14 @@ public class MailService {
   /**
    * Send the error during dataset report generation to the user who started the task and to all
    * admins.
-   * 
+   *
    * @param onBehalfUser The user who has started the report generation.
    * @param admins A list of admins.
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataSetReportErrorMail(User onBehalfUser, List<User> admins,
-      TaskErrorNotification errorNotification, String sender) {
+  public void sendDataSetReportErrorMail(UserDto onBehalfUser, List<UserDto> admins,
+                                         TaskErrorNotification errorNotification, String sender) {
     log.debug("Sending 'dataset report error' mail");
     Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());
     Context context = new Context(locale);
@@ -350,7 +314,10 @@ public class MailService {
     String content = templateEngine.process("datasetReportErrorEmail", context);
     String subject = messageSource.getMessage("email.dataset-report-error.title",
         new Object[] {errorNotification.getDomainObjectId()}, locale);
-    List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    List<String> adminAddresses = admins
+        .stream()
+        .map(UserDto::getEmail)
+        .collect(Collectors.toList());
     sendEmail(sender, new String[] {onBehalfUser.getEmail()},
         adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, locale);
 
@@ -358,12 +325,12 @@ public class MailService {
 
   /**
    * Send a mail to all release managers when the project is released with a new major version.
-   * 
+   *
    * @param releaseManagers List of ROLE_RELEASE_MANAGER
    * @param dataAcquisitionProjectId the id of the project which has been released
    * @param release the release object containing the version
    */
-  public void sendMailOnNewMajorProjectRelease(List<User> releaseManagers,
+  public void sendMailOnNewMajorProjectRelease(List<UserDto> releaseManagers,
       String dataAcquisitionProjectId, Release release) {
     log.debug("Sending 'new major project release' mail");
     Context context = new Context();
@@ -375,7 +342,7 @@ public class MailService {
     String subject = "New Major Release for Project \"" + dataAcquisitionProjectId + "\" ("
         + release.getVersion() + ") on " + Strings.join(env.getActiveProfiles(), ",");
     List<String> emailAddresses =
-        releaseManagers.stream().map(User::getEmail).collect(Collectors.toList());
+        releaseManagers.stream().map(UserDto::getEmail).collect(Collectors.toList());
     sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null, subject,
         content, Locale.ENGLISH);
   }
@@ -383,7 +350,7 @@ public class MailService {
   /**
    * Send the result of the data package overview generation to the user who has started the
    * overview generation.
-   * 
+   *
    * @param user The user who has started the overview generation.
    * @param dataPackageId The id of the {@link DataPackage} for which the overview has been
    *        generated.
@@ -391,8 +358,12 @@ public class MailService {
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataPackageOverviewGeneratedMail(User user, String dataPackageId, String language,
-      String sender) {
+  public void sendDataPackageOverviewGeneratedMail(
+      UserDto user,
+      String dataPackageId,
+      String language,
+      String sender
+  ) {
     log.debug("Sending 'data package overview generated' mail");
     Locale locale = Locale.forLanguageTag(user.getLangKey());
     Context context = new Context(locale);
@@ -410,13 +381,13 @@ public class MailService {
   /**
    * Send the error during data package overview generation to the user who started the task and to
    * all admins.
-   * 
+   *
    * @param onBehalfUser The user who has started the report generation.
    * @param admins A list of admins.
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataPackageOverviewErrorMail(User onBehalfUser, List<User> admins,
+  public void sendDataPackageOverviewErrorMail(UserDto onBehalfUser, List<UserDto> admins,
       TaskErrorNotification errorNotification, String sender) {
     log.debug("Sending 'datapackage overview error' mail");
     Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());
@@ -428,7 +399,10 @@ public class MailService {
     String content = templateEngine.process("dataPackageOverviewErrorEmail", context);
     String subject = messageSource.getMessage("email.datapackage-overview-error.title",
         new Object[] {errorNotification.getDomainObjectId()}, locale);
-    List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    List<String> adminAddresses = admins
+        .stream()
+        .map(UserDto::getEmail)
+        .collect(Collectors.toList());
     sendEmail(sender, new String[] {onBehalfUser.getEmail()},
         adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, locale);
 

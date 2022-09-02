@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import eu.dzhw.fdz.metadatamanagement.common.rest.dto.LoggerDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
  * Controller for view and managing Log Level at runtime.

@@ -14,6 +14,7 @@ describe('fdz-require-one-validator', function() {
     '</form>';
 
   beforeEach(module('metadatamanagementApp'));
+  beforeEach(mockSso);
   beforeEach(inject(function(_$rootScope_, _$compile_) {
     $scope = _$rootScope_.$new();
     $scope.source = {a: '', b: ''};

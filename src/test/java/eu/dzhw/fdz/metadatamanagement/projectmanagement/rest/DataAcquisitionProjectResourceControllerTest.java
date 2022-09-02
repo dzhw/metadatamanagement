@@ -10,23 +10,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
+import com.icegreen.greenmail.store.FolderException;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AbstractUserApiTests;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.utils.User;
 import org.hamcrest.core.AnyOf;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -36,55 +41,84 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
+public class DataAcquisitionProjectResourceControllerTest extends AbstractUserApiTests {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   private static final String DATA_PROVIDER_USERNAME = "dataProvider";
+  private static final String DATA_PROVIDER_EMAIL = "dataProvider@local";
 
-  private static final String PUBLISHER_USERNAME = "publisher";
+  private static final String PUBLISHER_USERNAME = "defaultPublisher";
+  private static final String PUBLISHER_EMAIL = "publisher@local";
 
-  @Autowired
-  private WebApplicationContext wac;
+  private final DataAcquisitionProjectRepository rdcProjectRepository;
+  private final JaversService javersService;
+  private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  private final ElasticsearchAdminService elasticsearchAdminService;
 
-  @Autowired
-  private DataAcquisitionProjectRepository rdcProjectRepository;
+  private final MockMvc mockMvc;
 
-  private MockMvc mockMvc;
+  public DataAcquisitionProjectResourceControllerTest(
+    @Autowired final DataAcquisitionProjectRepository rdcProjectRepository,
+    @Autowired final JaversService javersService,
+    @Autowired final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository,
+    @Autowired final ElasticsearchAdminService elasticsearchAdminService,
+    @Value("${metadatamanagement.authmanagement.server.endpoint}")
+    final String authServerEndpoint,
+    @Autowired final UserApiService userApiService,
+    @Autowired final WebApplicationContext wac
+  ) {
+    super(authServerEndpoint, userApiService);
 
-  @Autowired
-  private JaversService javersService;
+    this.rdcProjectRepository = rdcProjectRepository;
+    this.javersService = javersService;
+    this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
+    this.elasticsearchAdminService = elasticsearchAdminService;
 
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-
-  @Autowired
-  private ElasticsearchAdminService elasticsearchAdminService;
-
-  @BeforeEach
-  public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+
+    this.mockServer.users(
+        new User(
+            "1234",
+            DATA_PROVIDER_USERNAME,
+            DATA_PROVIDER_EMAIL,
+            "de",
+            false,
+            AuthoritiesConstants.DATA_PROVIDER
+        ),
+        new User(
+          "5678",
+          PUBLISHER_USERNAME,
+          PUBLISHER_EMAIL,
+          "de",
+          false,
+          AuthoritiesConstants.PUBLISHER
+        )
+    );
   }
 
   @AfterEach
-  public void cleanUp() {
+  public void cleanUp() throws FolderException {
     rdcProjectRepository.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
+    greenMail.purgeEmailFromAllMailboxes();
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testCreateDataAcquisitionProject() throws IOException, Exception {
+  public void testCreateDataAcquisitionProject() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -97,12 +131,15 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     // call toString for test coverage :-)
     project.toString();
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void shouldFailToCreateProjectsForAnalysisPackagesAndDataPackages()
-      throws IOException, Exception {
+  public void shouldFailToCreateProjectsForAnalysisPackagesAndDataPackages() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
 
@@ -118,11 +155,12 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", matcher))
         .andExpect(jsonPath("$.errors[1].message", matcher));
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void shouldCreateProjectsForAnalysisPackages()
-      throws IOException, Exception {
+  public void shouldCreateProjectsForAnalysisPackages() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
     project.getConfiguration().getRequirements().setDataPackagesRequired(false);
@@ -136,11 +174,15 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     // read the project under the new url
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isOk());
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testCreateDataAcquisitionProjectWithPost() throws IOException, Exception {
+  public void testCreateDataAcquisitionProjectWithPost() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_URI).contentType(MediaType.APPLICATION_JSON)
@@ -170,7 +212,9 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteDataAcquisitionProject() throws IOException, Exception {
+  public void testDeleteDataAcquisitionProject() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // delete not created project
     mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -188,10 +232,16 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     // ensure it is really deleted
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
-  public void testCompleteProjectionContainsId() throws IOException, Exception {
+  public void testCompleteProjectionContainsId() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -204,11 +254,18 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(0)));
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testUpdateProject() throws IOException, Exception {
+  public void testUpdateProject() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
+    this.addFindAllByLoginInRequest(Set.of());
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
 
     // create the project with the given id
@@ -230,11 +287,17 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(1)));
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws IOException, Exception {
+  public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of(PUBLISHER_USERNAME));
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setHasBeenReleasedBefore(true);
 
@@ -258,6 +321,10 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.hasBeenReleasedBefore", is(true)))
         .andExpect(jsonPath("$.version", is(0)));
+
+    // The defaultPublisher should have received an email
+    assertEquals(1, greenMail.getReceivedMessages().length);
+    assertEquals(PUBLISHER_EMAIL, greenMail.getReceivedMessages()[0].getHeader("To")[0]);
   }
 
   @Test
@@ -359,8 +426,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   /**
    * test the user implemented parts of save project
-   * 
-   * @throws Exception
+   *
+   * @throws Exception when something went wrong
    */
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
@@ -381,7 +448,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
   public void testSaveProjectWithInvalidConfigAsProvider() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setDataProviders(Arrays.asList("dataprovider"));
+    project.getConfiguration().setDataProviders(List.of("dataprovider"));
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
@@ -413,6 +480,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdateRequiredObjectTypes() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of());
+
     Configuration configuration =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
             Collections.singletonList(PUBLISHER_USERNAME), Collections.emptyList());
@@ -449,6 +518,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
   public void testUpdatDataAcquisitionProject_valid_assignee_group() throws Exception {
+    this.addFindAllByLoginInRequest(Set.of());
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
     project.setLastAssigneeGroupMessage("test");
@@ -463,6 +534,9 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdatDataAcquisitionProject_override_as_publisher() throws Exception {
+    this.addFindAllByLoginInRequest(2, Set.of());
+    this.addFindOneByLoginRequest(PUBLISHER_USERNAME);
+
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);

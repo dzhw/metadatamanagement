@@ -24,12 +24,12 @@ import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.helper.InstrumentAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing attachments for instruments.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -46,7 +46,7 @@ public class InstrumentAttachmentService {
 
   /**
    * Save the attachment for an instrument.
-   * 
+   *
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream cannot be closed
@@ -69,7 +69,7 @@ public class InstrumentAttachmentService {
 
   /**
    * Update the metadata of the attachment.
-   * 
+   *
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(InstrumentAttachmentMetadata metadata) {
@@ -80,7 +80,7 @@ public class InstrumentAttachmentService {
 
   /**
    * Delete all attachments of the given instrument.
-   * 
+   *
    * @param instrumentId the id of the instrument.
    */
   public void deleteAllByInstrumentId(String instrumentId) {
@@ -101,7 +101,7 @@ public class InstrumentAttachmentService {
 
   /**
    * Load all metadata objects from gridfs (ordered by indexInInstrument).
-   * 
+   *
    * @param instrumentId The id of the instrument.
    * @return A list of metadata.
    */
@@ -120,7 +120,7 @@ public class InstrumentAttachmentService {
 
   /**
    * Load all metadata objects from gridfs (ordered by instrumentNumber and indexInInstrument).
-   * 
+   *
    * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
    * @return A list of metadata.
    */
@@ -170,7 +170,7 @@ public class InstrumentAttachmentService {
 
   /**
    * Delete the attachment and its metadata from gridfs.
-   * 
+   *
    * @param instrumentId The id of the instrument.
    * @param filename The filename of the attachment.
    */

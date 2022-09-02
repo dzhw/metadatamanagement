@@ -35,7 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
  * Test the REST API for {@link Survey}s.
@@ -55,13 +55,13 @@ public class SurveyResourceControllerTest extends AbstractTest {
 
   @Autowired
   private SurveyRepository surveyRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -100,13 +100,13 @@ public class SurveyResourceControllerTest extends AbstractTest {
 
     // call toString for test coverage :-)
     survey.toString();
-    
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey document
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
-  
+
   @Test
   public void testCreateValidSurveyWithPost() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -141,7 +141,7 @@ public class SurveyResourceControllerTest extends AbstractTest {
       .andExpect(status().isBadRequest())
       .andReturn();
   }
-  
+
   @Test
   public void testCreateSurveyWithNoDataType() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -245,13 +245,13 @@ public class SurveyResourceControllerTest extends AbstractTest {
 
     // create the survey with the given id but without a project
     mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isBadRequest())     
+      .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].invalidValue", is("2013-04-01d")))
       .andExpect(jsonPath("$.errors[0].property", is("end")))
       .andExpect(jsonPath("$.errors[0].entity", is("Survey")))
-      .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));    
+      .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));
   }
-  
+
   @Test
   public void testCreateSurveyWithUnparsableSampleSize() throws Exception {
     String survey = "{\"id\":\"6\"," + "\"dataAcquisitionProjectId\":\"Renes Projekt\","
@@ -268,7 +268,7 @@ public class SurveyResourceControllerTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].entity", is("Survey")))
       .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));
   }
-  
+
   @Test
   public void testCreateSurveyWithUnparsableResponseRate() throws Exception {
     String survey = "{\"id\":\"6\"," + "\"dataAcquisitionProjectId\":\"Renes Projekt\","
@@ -305,7 +305,7 @@ public class SurveyResourceControllerTest extends AbstractTest {
     // check that the survey is really deleted
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isNotFound());
-    
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more survey documents
@@ -323,15 +323,15 @@ public class SurveyResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
     // delete the survey
     mockMvc.perform(delete(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().is2xxSuccessful());
-    
+
     // update the survey
     survey.getTitle()
       .setDe("titel2");
-    
+
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
         .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
@@ -342,7 +342,7 @@ public class SurveyResourceControllerTest extends AbstractTest {
       .andExpect(jsonPath("$.id", is(survey.getId())))
       .andExpect(jsonPath("$.version", is(0)))
       .andExpect(jsonPath("$.title.de", is("titel2")));
-    
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey documents

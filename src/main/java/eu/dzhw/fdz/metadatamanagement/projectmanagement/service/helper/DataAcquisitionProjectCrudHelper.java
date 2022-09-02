@@ -8,23 +8,39 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
  * Component which implements CRUD functions for all {@link DataAcquisitionProjectCrudHelper}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
 public class DataAcquisitionProjectCrudHelper extends
-    GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject, 
+    GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject,
       DataAcquisitionProjectRepository> {
-  public DataAcquisitionProjectCrudHelper(DataAcquisitionProjectRepository repository,
+
+  /**
+   * Build the helper.
+   *
+   * @param repository the repository the helper will use
+   * @param applicationEventPublisher the publisher for application events
+   * @param elasticsearchUpdateQueueService the service which will be used to update Elasticsearch
+   * @param changesProvider the provider which provides changes to any DataAcquisitionProject(s)
+   */
+  public DataAcquisitionProjectCrudHelper(
+      DataAcquisitionProjectRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DataAcquisitionProjectChangesProvider changesProvider,
-      UserInformationProvider userInformationProvider) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        null, null, userInformationProvider, null);
+      DataAcquisitionProjectChangesProvider changesProvider
+  ) {
+    super(
+        repository,
+        applicationEventPublisher,
+        elasticsearchUpdateQueueService,
+        changesProvider,
+        null,
+        null,
+        null
+    );
   }
 }

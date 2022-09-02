@@ -8,11 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -21,7 +24,6 @@ import org.springframework.web.util.NestedServletException;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
@@ -44,7 +46,7 @@ public class SearchResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -57,20 +59,19 @@ public class SearchResourceTest extends AbstractTest {
   }
 
   @AfterEach
+  @WithMockUser(username = "admin", authorities = AuthoritiesConstants.ADMIN)
   public void cleanUp() {
-    UnitTestUserManagementUtils.login("admin", "admin");
     dataAcquisitionProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
     javersService.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
-    UnitTestUserManagementUtils.logout();
+    SecurityContextHolder.clearContext();
   }
 
   @Test
+  @WithMockUser(username = "admin", authorities = AuthoritiesConstants.ADMIN)
   public void testRecreateAllIndices() throws Exception {
-    UnitTestUserManagementUtils.login("admin", "admin");
-
     // test recreation of all elasticsearch indices
     mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
@@ -90,14 +91,14 @@ public class SearchResourceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(username = "admin", authorities = AuthoritiesConstants.ADMIN)
   public void testRecreateIndicesWithExistingVariablesAndSurveys() throws Exception {
-    UnitTestUserManagementUtils.login("admin", "admin");
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
     List<Integer> surveyNumbers = new ArrayList<Integer>();
     surveyNumbers.add(1);
-    
+
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variableRepository.save(variable);

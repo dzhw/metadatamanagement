@@ -4,22 +4,20 @@ xdescribe('Services Tests ', function() {
 
   describe('Auth', function() {
     var $httpBackend, spiedLocalStorageService, authService,
-      spiedAuthServerProvider;
-
+      spiedAuthServiceProvider;
+    beforeEach(mockSso);
     beforeEach(inject(function($injector, localStorageService, Auth,
-      AuthServerProvider) {
+      AuthServiceProvider) {
       $httpBackend = $injector.get('$httpBackend');
       spiedLocalStorageService = localStorageService;
       authService = Auth;
-      spiedAuthServerProvider = AuthServerProvider;
+      spiedAuthServiceProvider = AuthServiceProvider;
       //Request on app init
       $httpBackend.whenGET('scripts/app/main/main.html.tmpl').respond({});
       var globalJson = new RegExp('i18n\/.*\/global.json');
       var mainJson = new RegExp('i18n\/.*\/main.json');
       $httpBackend.whenGET(globalJson).respond({});
       $httpBackend.whenGET(mainJson).respond({});
-      $httpBackend.expectPOST(/api\/logout/).respond(
-        200, '');
     }));
     //make sure no expectations were missed in your tests.
     //(e.g. expectGET or expectPOST)
@@ -33,7 +31,7 @@ xdescribe('Services Tests ', function() {
       function() {
         //GIVEN
         //Set spy
-        spyOn(spiedAuthServerProvider, 'logout').and.callThrough();
+        spyOn(spiedAuthServiceProvider, 'logout').and.callThrough();
         spyOn(spiedLocalStorageService, 'clearAll').and.callThrough();
 
         //WHEN
@@ -42,7 +40,7 @@ xdescribe('Services Tests ', function() {
         $httpBackend.flush();
 
         //THEN
-        expect(spiedAuthServerProvider.logout).toHaveBeenCalled();
+        expect(spiedAuthServiceProvider.logout).toHaveBeenCalled();
         expect(spiedLocalStorageService.clearAll).toHaveBeenCalled();
       });
 

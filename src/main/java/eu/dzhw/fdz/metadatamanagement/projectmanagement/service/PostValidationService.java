@@ -32,8 +32,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -200,7 +200,7 @@ public class PostValidationService {
 
   /**
    * This method checks all potential issues for dataPackage by post-validation.
-   * 
+   *
    * @param errors The list of known errors.
    * @param dataAcquisitionProjectId The project id.
    * @return The updated list of errors.
@@ -221,7 +221,7 @@ public class PostValidationService {
 
   /**
    * This method checks all potential issues for analysis package by post-validation.
-   * 
+   *
    * @param errors The list of known errors.
    * @param dataAcquisitionProjectId The project id.
    * @return The updated list of errors.

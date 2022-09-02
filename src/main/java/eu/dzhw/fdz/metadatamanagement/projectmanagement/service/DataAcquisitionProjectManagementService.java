@@ -9,6 +9,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
@@ -32,20 +35,17 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAl
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowUnhidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link DataAcquisitionProject}.
- * 
+ *
  * @author René Reitmann
  */
+@Slf4j
 @Service
 @RepositoryEventHandler
 @RequiredArgsConstructor
@@ -54,11 +54,9 @@ public class DataAcquisitionProjectManagementService
 
   private final DataAcquisitionProjectRepository acquisitionProjectRepository;
 
-  private final UserInformationProvider userInformationProvider;
-
   private final DataAcquisitionProjectChangesProvider changesProvider;
 
-  private final UserRepository userRepository;
+  private final UserApiService userApiService;
 
   private final MailService mailService;
 
@@ -77,7 +75,7 @@ public class DataAcquisitionProjectManagementService
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
    * if the current user is not an admin or publisher.
-   * 
+   *
    * @param projectId Project id
    * @return A list of {@link DataAcquisitionProject}
    */
@@ -86,18 +84,18 @@ public class DataAcquisitionProjectManagementService
       return acquisitionProjectRepository
           .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(projectId);
     } else {
-      String loginName = userInformationProvider.getUserLogin();
+      String loginName = SecurityUtils.getCurrentUserLogin();
       return acquisitionProjectRepository
           .findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(projectId, loginName);
     }
   }
 
   private boolean isAdmin() {
-    return userInformationProvider.isUserInRole(AuthoritiesConstants.ADMIN);
+    return SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
   }
 
   private boolean isPublisher() {
-    return userInformationProvider.isUserInRole(AuthoritiesConstants.PUBLISHER);
+    return SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
@@ -107,9 +105,13 @@ public class DataAcquisitionProjectManagementService
       if (isProjectForcefullyReassignedByPublisher(projectId)) {
         List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
             .getConfiguration().getDataProviders();
-        List<User> users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
-        User currentUser =
-            userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+
+        List<UserDto> users;
+        users = userApiService.findAllByLoginIn(new HashSet<>(dataProviders));
+
+        UserDto currentUser;
+        currentUser =
+            userApiService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
         mailService.sendDataProviderAccessRevokedMail(users, projectId,
             newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
       } else {
@@ -131,9 +133,13 @@ public class DataAcquisitionProjectManagementService
         }
 
         if (!userNames.isEmpty()) {
-          List<User> users = userRepository.findAllByLoginIn(userNames);
-          User currentUser =
-              userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+          List<UserDto> users;
+          users = userApiService.findAllByLoginIn(userNames);
+
+          UserDto currentUser;
+          currentUser =
+              userApiService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+
           mailService.sendAssigneeGroupChangedMail(users, projectId,
               newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
         }
@@ -161,8 +167,9 @@ public class DataAcquisitionProjectManagementService
     List<String> removedDataProviders =
         changesProvider.getRemovedDataProviderUserNamesList(projectId);
 
-    UserFetchResult users = fetchUsersForUserNames(addedPublishers, removedPublishers,
-        addedDataProviders, removedDataProviders);
+    UserFetchResult users;
+    users = fetchUsersForUserNames(addedPublishers, removedPublishers,
+          addedDataProviders, removedDataProviders);
 
     String sender = metadataManagementProperties.getProjectmanagement().getEmail();
 
@@ -173,26 +180,29 @@ public class DataAcquisitionProjectManagementService
 
   }
 
-  private UserFetchResult fetchUsersForUserNames(List<String> addedPublishers,
-      List<String> removedPublishers, List<String> addedDataProviders,
-      List<String> removedDataProviders) {
+  private UserFetchResult fetchUsersForUserNames(
+      List<String> addedPublishers,
+      List<String> removedPublishers,
+      List<String> addedDataProviders,
+      List<String> removedDataProviders
+  ) {
     Set<String> userLoginNames = new HashSet<>(addedPublishers);
     userLoginNames.addAll(removedPublishers);
     userLoginNames.addAll(addedDataProviders);
     userLoginNames.addAll(removedDataProviders);
 
-    List<User> users = userRepository.findAllByLoginIn(userLoginNames);
+    var users = userApiService.findAllByLoginIn(userLoginNames);
 
-    List<User> addedPublisherUsers = filterUsersByUserNames(users, addedPublishers);
-    List<User> removedPublisherUsers = filterUsersByUserNames(users, removedPublishers);
-    List<User> addedDataProviderUsers = filterUsersByUserNames(users, addedDataProviders);
-    List<User> removedDataProviderUsers = filterUsersByUserNames(users, removedDataProviders);
+    var addedPublisherUsers = filterUsersByUserNames(users, addedPublishers);
+    var removedPublisherUsers = filterUsersByUserNames(users, removedPublishers);
+    var addedDataProviderUsers = filterUsersByUserNames(users, addedDataProviders);
+    var removedDataProviderUsers = filterUsersByUserNames(users, removedDataProviders);
 
     return new UserFetchResult(addedPublisherUsers, removedPublisherUsers, addedDataProviderUsers,
         removedDataProviderUsers);
   }
 
-  private List<User> filterUsersByUserNames(List<User> users, List<String> userNames) {
+  private List<UserDto> filterUsersByUserNames(List<UserDto> users, List<String> userNames) {
     return users.stream().filter(u -> userNames.contains(u.getLogin()))
         .collect(Collectors.toList());
   }
@@ -201,13 +211,13 @@ public class DataAcquisitionProjectManagementService
    * Encapsulates repository query result for added or removed publishers and data providers.
    */
   private static class UserFetchResult {
-    private List<User> addedPublisherUsers;
-    private List<User> removedPublisherUsers;
-    private List<User> addedDataProviderUsers;
-    private List<User> removedDataProviderUsers;
+    private List<UserDto> addedPublisherUsers;
+    private List<UserDto> removedPublisherUsers;
+    private List<UserDto> addedDataProviderUsers;
+    private List<UserDto> removedDataProviderUsers;
 
-    UserFetchResult(List<User> addedPublisherUsers, List<User> removedPublisherUsers,
-        List<User> addedDataProviderUsers, List<User> removedDataProviderUsers) {
+    UserFetchResult(List<UserDto> addedPublisherUsers, List<UserDto> removedPublisherUsers,
+        List<UserDto> addedDataProviderUsers, List<UserDto> removedDataProviderUsers) {
       this.addedPublisherUsers = addedPublisherUsers;
       this.removedPublisherUsers = removedPublisherUsers;
       this.addedDataProviderUsers = addedDataProviderUsers;
@@ -297,7 +307,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Notify all {@link AuthoritiesConstants.RELEASE_MANAGER}'s about the new major release.
-   * 
+   *
    * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}.
    * @throws TemplateException thrown if template processing for dara's xml fails
    * @throws IOException thrown if IO errors occur during template processing
@@ -319,8 +329,9 @@ public class DataAcquisitionProjectManagementService
             || previousRelease != null && currentVersion.getMajorVersion() > Version
                 .valueOf(previousRelease.getVersion()).getMajorVersion()) {
           // a new major release has been shadow copied
-          List<User> releaseManagers = userRepository
-              .findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.RELEASE_MANAGER));
+          List<UserDto> releaseManagers;
+          releaseManagers = userApiService
+              .findAllByAuthoritiesContaining(AuthoritiesConstants.RELEASE_MANAGER);
           mailService.sendMailOnNewMajorProjectRelease(releaseManagers,
               shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
               shadowCopyingEndedEvent.getRelease());
@@ -345,7 +356,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Load a page containing all shadow copies of the given master.
-   * 
+   *
    * @param masterId project id of the master
    * @param pageable pageable for paging and sorting
    * @return all shadows of the given master, may be empty
@@ -356,7 +367,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Hide the given shadow copy of a project.
-   * 
+   *
    * @param shadowProject The shadow to be hidden.
    * @throws ShadowHidingNotAllowedException thrown if the given project cannot be hidden
    */
@@ -379,7 +390,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Unhide the given shadow, thus make it visible for public users.
-   * 
+   *
    * @param shadowProject The shadow copy of a project.
    * @throws ShadowUnhidingNotAllowedException Thrown if the project is already unhidden.
    */

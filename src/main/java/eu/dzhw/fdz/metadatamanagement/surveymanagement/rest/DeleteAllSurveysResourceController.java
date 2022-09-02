@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting surveys of a data acquisition project.
- * 
+ *
  * @author tgehrke
  *
  */
@@ -22,12 +22,12 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class DeleteAllSurveysResourceController {
-  
+
   private final SurveyManagementService surveyService;
 
   /**
    * delete all surveys from data acquisition project.
-   * 
+   *
    * @param id the Id of the project.
    * @return no Content.
    */

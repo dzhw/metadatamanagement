@@ -40,7 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
  * @author Daniel Katzberg
@@ -61,13 +61,13 @@ public class DataSetResourceControllerTest extends AbstractTest {
 
   @Autowired
   private DataSetRepository dataSetRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -110,13 +110,13 @@ public class DataSetResourceControllerTest extends AbstractTest {
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))      
-      .andExpect(jsonPath("$.createdBy", is("user")))      
+      .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.createdBy", is("user")))
       .andExpect(jsonPath("$.lastModifiedBy", is("user")));
 
     // call toString for test coverage :-)
     dataSet.toString();
-    
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents
@@ -171,7 +171,7 @@ public class DataSetResourceControllerTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
-  
+
   @Test
   public void testCreateDataSetWithWrongFormat() throws Exception {
     // Arrange
@@ -266,7 +266,7 @@ public class DataSetResourceControllerTest extends AbstractTest {
     // check that the DataSet has been deleted
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isNotFound());
-    
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more data set documents
@@ -304,7 +304,7 @@ public class DataSetResourceControllerTest extends AbstractTest {
       .andExpect(jsonPath("$.id", is(dataSet.getId())))
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.description.de", is("Angepasst.")));
-    
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents

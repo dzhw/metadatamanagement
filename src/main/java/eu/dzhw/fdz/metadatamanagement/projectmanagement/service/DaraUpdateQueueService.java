@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
@@ -27,16 +28,13 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQue
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * This queue collects automatic dara updates in a queue and handles.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -58,7 +56,7 @@ public class DaraUpdateQueueService {
 
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
-  private final UserRepository userRepository;
+  private final UserApiService userApiService;
 
   private final MailService mailService;
 
@@ -66,7 +64,7 @@ public class DaraUpdateQueueService {
 
   /**
    * Update dataPackage metadata at dara if necessary.
-   * 
+   *
    * @param relatedPublication the changed publication
    */
   @HandleAfterCreate
@@ -93,7 +91,7 @@ public class DaraUpdateQueueService {
 
   /**
    * Attach one item to the queue.
-   * 
+   *
    * @param projectId The id of the data acquisition project to be updated.
    */
   private void enqueue(String projectId) {
@@ -178,7 +176,7 @@ public class DaraUpdateQueueService {
 
   /**
    * Execute locked items from the MongoDB Queue Repository.
-   * 
+   *
    * @param lockedItems A list of locked queues items.
    */
   private void executeQueueItems(List<DaraUpdateQueueItem> lockedItems) {
@@ -203,8 +201,8 @@ public class DaraUpdateQueueService {
   }
 
   private void handleDaraCommunicationError(DaraUpdateQueueItem lockedItem) {
-    List<User> admins =
-        userRepository.findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.ADMIN));
+    var admins =
+        userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
     this.unlock(lockedItem);
   }

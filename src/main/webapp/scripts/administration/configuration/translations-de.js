@@ -24,7 +24,8 @@ angular.module('metadatamanagementApp').config(
             'dara': 'Dara',
             'messageBroker': 'Message Broker (für Websockets)',
             'rabbit': 'RabbitMQ',
-            'seo4Ajax': 'Seo4Ajax (Prerender as a Service)'
+            'seo4Ajax': 'Seo4Ajax (Prerender as a Service)',
+            'userApi': 'DLP User-API'
           },
           'table': {
             'service': 'Servicename',

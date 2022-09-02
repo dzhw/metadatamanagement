@@ -18,6 +18,18 @@ angular
               controller: 'ProjectOverviewController',
               controllerAs: 'ctrl'
             }
+          },
+          resolve: {
+            loginState: function(Principal, $q) {
+              var deferred = $q.defer();
+              if (Principal.isLocalLoggedIn() && !Principal.isUiLoggedIn()) {
+                Principal.switchMode(false);
+                deferred.resolve();
+              } else {
+                deferred.reject();
+              }
+              return deferred;
+            }
           }
         })
         .state('project-cockpit', {
@@ -63,6 +75,16 @@ angular
               }
               return deferred;
             }
+          },
+          loginState: function(Principal, $q) {
+            var deferred = $q.defer();
+            if (Principal.isLocalLoggedIn() && !Principal.isUiLoggedIn()) {
+              Principal.switchMode(false);
+              deferred.resolve();
+            } else {
+              deferred.reject();
+            }
+            return deferred;
           },
           onEnter: function($timeout) {
             $timeout(function() {

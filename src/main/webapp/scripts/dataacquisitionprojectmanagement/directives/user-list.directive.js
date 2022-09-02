@@ -110,11 +110,14 @@ angular.module('metadatamanagementApp')
             }).$promise.then(function(result) {
               ctrl.currentPromise = null;
               var results = result.filter(function(x) {
+                x.roles = x.roles.map(function(el) {
+                  return el.toUpperCase();
+                });
                 // filter out already added users
                 return ctrl.activeUsers.map(function(u) {
-                  return u.login;
-                }).indexOf(x.login) < 0 &&
-                  _.includes(x.authorities, roleInternal);
+                    return u.login;
+                  }).indexOf(x.login) < 0 &&
+                  _.includes(x.roles, roleInternal);
               });
               ctrl.searchCache['text_' + search] = results;
               deferred.resolve(ctrl.searchCache['text_' + search]);
@@ -176,6 +179,9 @@ angular.module('metadatamanagementApp')
                     login: userLogin
                   }).$promise.then(function(userResult) {
                     if (!_.includes(ctrl.activeUsers.map(function(u) {
+                      u.roles = u.roles.map(function(el) {
+                        return el.toUpperCase();
+                      });
                       return u.login;
                     }), userResult.login)) {
                       ctrl.activeUsers.push(userResult);

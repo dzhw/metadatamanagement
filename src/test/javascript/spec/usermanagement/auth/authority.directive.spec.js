@@ -6,6 +6,7 @@ describe('Unit testing Authority', function() {
     html_Auth,
     element,
     element_Auth;
+  beforeEach(mockSso);
   beforeEach(mockApis);
 
   describe('when Principal dont retun a value', function() {
