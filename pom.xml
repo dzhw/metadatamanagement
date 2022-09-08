@@ -873,8 +873,35 @@
                                     </arguments>
                                 </configuration>
                             </execution>
+                            <execution>
+                                <id>unpack-fat-jar</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>deploy/unjar.sh</executable>
+                                    <arguments>
+                                        <argument>${project.build.finalName}.war</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
+                    <?SORTPOM IGNORE?>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <configuration>
+                            <repository>local/dzhw/${project.artifactId}</repository>
+                            <tag>${project.version}-${project.activeProfiles[0].id}</tag>
+                            <registryUrl></registryUrl>
+                            <buildArgs>
+                                <JAR_FILE>target/${project.build.finalName}.war</JAR_FILE>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                    <?SORTPOM RESUME?>
                 </plugins>
             </build>
         </profile>

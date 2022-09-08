@@ -7,7 +7,7 @@
 version: "3.1"
 services:
   app:
-    image: dzhw/metadatamanagement:latest
+    image: local/dzhw/metadatamanagement:latest-local-minified
     environment:
       - SPRING_PROFILES_ACTIVE=local,minified
       - SPRING_DATA_MONGODB_HOST=mongodb
