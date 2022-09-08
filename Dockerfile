@@ -9,6 +9,9 @@ COPY target/app /app/
 COPY run.sh run.sh
 COPY jvmkill.so.sha512 jvmkill.so.sha512
 
+# install all available package updates
+RUN apt-get update && apt-get upgrade -y -q && apt-get dist-upgrade -y -q
+
 # add kill agent for correct OutOfMemory Handling
 RUN apt update \
  &&  apt install -y --no-install-recommends curl\
