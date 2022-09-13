@@ -66,6 +66,12 @@
   .md-button {
     min-width: 88px;
   }
+
+  md-checkbox {
+    margin-bottom: 16px;
+    margin-right: 16px;
+  }
+
 }
 .fdz-theme .fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
   visibility: hidden;
