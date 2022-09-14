@@ -645,6 +645,8 @@
               {{'data-package-management.detail.label.attachments.language' | translate }}
             </md-tooltip>
           </th>
+          <th>DOI
+          </th>
           <th>{{'data-package-management.detail.label.attachments.file' | translate }}
             <md-tooltip hide-gt-xs md-direction="right">
               {{'data-package-management.detail.label.attachments.file' | translate }}
@@ -689,6 +691,14 @@
           <td class="fdz-text-block" display-i18n-string="row.description" ></td>
           <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
           <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
+          <td>
+            <a target="_blank" rel="noopener noreferrer" href="{{row.doi}}" ng-if="row.doi">
+              <md-icon md-font-set="material-icons" class="ng-scope material-icons md-primary" role="img">link</md-icon>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{row.doi}}
+              </md-tooltip>
+            </a> 
+          </td>
           <td class="nowrap"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
