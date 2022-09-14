@@ -23,6 +23,8 @@
           </th>
           <th>{{'data-package-management.detail.label.attachments.language' | translate }}
           </th>
+          <th>DOI
+          </th>
           <th>{{'data-package-management.detail.label.attachments.file' | translate }}
           </th>
         </tr>
@@ -32,6 +34,14 @@
           <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
           <td class="fdz-text-block" display-i18n-string="row.description" ></td>
           <td>{{row.language | displayIsoLanguage: $ctrl.lang}}</td>
+          <td>
+            <a target="_blank" rel="noopener noreferrer" href="{{row.doi}}" ng-if="row.doi">
+              <md-icon md-font-set="material-icons" class="ng-scope material-icons md-primary" role="img">link</md-icon>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{row.doi}}
+              </md-tooltip>
+            </a> 
+          </td>
           <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank" fdz-track-download analytics-if="row.type.en === 'Method Report'" analytics-on="click" analytics-event="download-method-report" analytics-label="{{row.title}}" analytics-category="Downloads">{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}

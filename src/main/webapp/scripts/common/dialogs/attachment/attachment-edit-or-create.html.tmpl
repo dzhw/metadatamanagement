@@ -98,7 +98,7 @@
             </md-input-container>
           </div>
           <div layout-gt-sm="row" layout="column">
-            <md-input-container flex="50" class="ms-flex mr8" md-is-error="!attachmentForm.descriptionDe.$valid && (attachmentForm.descriptionDe.$dirty || attachmentForm.descriptionDe.$touched)">
+            <md-input-container flex="50" class="ms-flex" md-is-error="!attachmentForm.descriptionDe.$valid && (attachmentForm.descriptionDe.$dirty || attachmentForm.descriptionDe.$touched)">
               <label class="fdz-input-required">{{'attachment.label.description' | translate}} ({{'global.in-german' | translate}})</label>
               <input fdz-required="!ctrl.attachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.attachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
               <div ng-if="!attachmentForm.descriptionDe.$dirty && !attachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'attachment.hint.description.de' | translate}}</div>
@@ -107,13 +107,26 @@
                 <div ng-message="md-maxlength">{{'attachment.error.description.i18n-string-size' | translate}}</div>
               </div>
             </md-input-container>
-            <md-input-container flex="50" class="ms-flex mr8" md-is-error="!attachmentForm.descriptionEn.$valid && (attachmentForm.descriptionEn.$dirty || attachmentForm.descriptionEn.$touched)">
+            <md-input-container flex="50" class="ms-flex" md-is-error="!attachmentForm.descriptionEn.$valid && (attachmentForm.descriptionEn.$dirty || attachmentForm.descriptionEn.$touched)">
               <label class="fdz-input-required">{{'attachment.label.description' | translate}} ({{'global.in-english' | translate}})</label>
               <input fdz-required="!ctrl.attachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.attachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
               <div ng-if="!attachmentForm.descriptionEn.$dirty && !attachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'attachment.hint.description.en' | translate}}</div>
               <div ng-messages="attachmentForm.descriptionEn.$error" multiple>
-                <div ng-message="fdz-required">{{'attachment.error.description.i18n-string-not-empty' | translate}}</div>
+                <div ng-message="fdz-required">{{'atthiuzguachment.error.description.i18n-string-not-empty' | translate}}</div>
                 <div ng-message="md-maxlength">{{'attachment.error.description.i18n-string-size' | translate}}</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div flex="100" flex-gt-sm="50" layout="column" layout-gt-sm="row" class="ms-flex">
+            <md-input-container flex="50" class="ms-flex" md-is-error="!attachmentForm.doi.$valid && (attachmentForm.doi.$dirty || attachmentForm.doi.$touched)">
+              <label>{{'attachment.label.doi' | translate}}</label>
+              <input ng-pattern="/^https:\/\/doi.org\/?([_A-Za-z0-9äöüÄÖÜß\-\/\:.]{2,}$)/" md-maxlength="512" name="doi" ng-model="ctrl.attachmentMetadata.doi">
+              <div class="fdz-input-hint" ng-if="!attachmentForm.doi.$dirty && !attachmentForm.doi.$touched" >
+                {{'attachment.hint.doi' | translate}}
+              </div>
+              <div multiple ng-messages="attachmentForm.doi.$error">
+                <div ng-message="md-maxlength">{{'attachment.error.doi.size' | translate}}</div>
+                <div ng-message="pattern">{{'attachment.error.doi.pattern' | translate}}</div>
               </div>
             </md-input-container>
           </div>
