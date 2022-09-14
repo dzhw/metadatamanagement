@@ -681,101 +681,76 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 
     .fdz-theme md-card-header-text.pb {
       padding-bottom: 16px; } }
 
-.fdz-theme md-checkbox .md-ripple {
-  color: #f0812d; }
-
-.fdz-theme md-checkbox.md-focused:not([disabled]) .md-container:before {
-  background-color: rgba(0, 0, 0, 0.12);
-  border-radius: 0px; }
-
-.fdz-theme md-checkbox.md-checked .md-ripple {
-  color: #979797; }
-
-.fdz-theme md-checkbox.md-checked.md-focused .md-container {
-  background-color: #f7a839; }
-
-.fdz-theme md-checkbox .md-ink-ripple {
-  color: rgba(0, 0, 0, 0.54); }
-
-.fdz-theme md-checkbox.md-checked .md-ink-ripple {
-  color: #f7a839; }
-
-.fdz-theme md-checkbox:not(.md-checked) .md-icon {
-  border-color: rgba(0, 0, 0, 0.54); }
-
-.fdz-theme md-checkbox.md-checked .md-icon {
-  background-color: #f7a839; }
-
-.fdz-theme md-checkbox.md-checked .md-icon:after {
-  border-color: #000; }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary .md-ripple {
-  color: #0095e4; }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-ripple {
-  color: #979797; }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary .md-ink-ripple {
-  color: rgba(0, 0, 0, 0.54); }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-ink-ripple {
-  color: rgba(255, 255, 255, 0.87); }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary:not(.md-checked) .md-icon {
-  border-color: rgba(0, 0, 0, 0.54); }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-icon {
-  background-color: rgba(255, 255, 255, 0.87); }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary.md-checked.md-focused .md-container:before {
-  background-color: rgba(255, 255, 255, 0.26); }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-icon:after {
-  border-color: #0071bc; }
-
-.fdz-theme md-checkbox:not([disabled]).md-primary .md-indeterminate[disabled] .md-container {
-  color: rgba(0, 0, 0, 0.38); }
-
-.fdz-theme md-checkbox:not([disabled]).ng-invalid {
-  color: #d91835; }
-  .fdz-theme md-checkbox:not([disabled]).ng-invalid:not(.md-checked) .md-icon {
-    border-color: #d91835; }
-
-.fdz-theme md-checkbox:not([disabled]).md-warn .md-ripple {
-  color: #f7a839; }
-
-.fdz-theme md-checkbox:not([disabled]).md-warn .md-ink-ripple {
-  color: rgba(0, 0, 0, 0.54); }
-
-.fdz-theme md-checkbox:not([disabled]).md-warn.md-checked .md-ink-ripple {
-  color: rgba(0, 0, 0, 0.54); }
-
-.fdz-theme md-checkbox:not([disabled]).md-warn:not(.md-checked) .md-icon {
-  border-color: rgba(0, 0, 0, 0.54); }
-
-.fdz-theme md-checkbox:not([disabled]).md-warn.md-checked .md-icon {
-  background-color: #f7a839; }
-
-.fdz-theme md-checkbox:not([disabled]).md-warn.md-checked.md-focused:not([disabled]) .md-container {
-  background-color: #f7a839; }
-
-.fdz-theme md-checkbox:not([disabled]).md-warn.md-checked .md-icon:after {
-  border-color: whitesmoke; }
-
-.fdz-theme md-checkbox[disabled]:not(.md-checked) .md-icon {
-  border-color: rgba(0, 0, 0, 0.38); }
-
-.fdz-theme md-checkbox[disabled].md-checked .md-icon {
-  background-color: rgba(0, 0, 0, 0.38); }
-
-.fdz-theme md-checkbox[disabled].md-checked .md-icon:after {
-  border-color: whitesmoke; }
-
-.fdz-theme md-checkbox[disabled] .md-icon:after {
-  border-color: rgba(0, 0, 0, 0.38); }
-
-.fdz-theme md-checkbox[disabled] .md-label {
-  color: rgba(0, 0, 0, 0.38); }
+.fdz-theme md-checkbox {
+  min-height: 25px; }
+  .fdz-theme md-checkbox .md-ripple {
+    color: #f0812d; }
+  .fdz-theme md-checkbox .md-icon, .fdz-theme md-checkbox .md-container {
+    width: 20px;
+    height: 20px; }
+  .fdz-theme md-checkbox.md-focused:not([disabled]) .md-container:before {
+    background-color: rgba(0, 0, 0, 0.12);
+    border-radius: 0px; }
+  .fdz-theme md-checkbox.md-checked .md-ripple {
+    color: #979797; }
+  .fdz-theme md-checkbox.md-checked.md-focused .md-container {
+    background-color: #f7a839; }
+  .fdz-theme md-checkbox .md-ink-ripple {
+    color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-checkbox.md-checked .md-ink-ripple {
+    color: #f7a839; }
+  .fdz-theme md-checkbox:not(.md-checked) .md-icon {
+    border-color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-checkbox.md-checked .md-icon {
+    background-color: #f7a839; }
+  .fdz-theme md-checkbox.md-checked .md-icon:after {
+    border-color: #000; }
+  .fdz-theme md-checkbox:not([disabled]).md-primary .md-ripple {
+    color: #0095e4; }
+  .fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-ripple {
+    color: #979797; }
+  .fdz-theme md-checkbox:not([disabled]).md-primary .md-ink-ripple {
+    color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-ink-ripple {
+    color: rgba(255, 255, 255, 0.87); }
+  .fdz-theme md-checkbox:not([disabled]).md-primary:not(.md-checked) .md-icon {
+    border-color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-icon {
+    background-color: rgba(255, 255, 255, 0.87); }
+  .fdz-theme md-checkbox:not([disabled]).md-primary.md-checked.md-focused .md-container:before {
+    background-color: rgba(255, 255, 255, 0.26); }
+  .fdz-theme md-checkbox:not([disabled]).md-primary.md-checked .md-icon:after {
+    border-color: #0071bc; }
+  .fdz-theme md-checkbox:not([disabled]).md-primary .md-indeterminate[disabled] .md-container {
+    color: rgba(0, 0, 0, 0.38); }
+  .fdz-theme md-checkbox:not([disabled]).ng-invalid {
+    color: #d91835; }
+    .fdz-theme md-checkbox:not([disabled]).ng-invalid:not(.md-checked) .md-icon {
+      border-color: #d91835; }
+  .fdz-theme md-checkbox:not([disabled]).md-warn .md-ripple {
+    color: #f7a839; }
+  .fdz-theme md-checkbox:not([disabled]).md-warn .md-ink-ripple {
+    color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-checkbox:not([disabled]).md-warn.md-checked .md-ink-ripple {
+    color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-checkbox:not([disabled]).md-warn:not(.md-checked) .md-icon {
+    border-color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-checkbox:not([disabled]).md-warn.md-checked .md-icon {
+    background-color: #f7a839; }
+  .fdz-theme md-checkbox:not([disabled]).md-warn.md-checked.md-focused:not([disabled]) .md-container {
+    background-color: #f7a839; }
+  .fdz-theme md-checkbox:not([disabled]).md-warn.md-checked .md-icon:after {
+    border-color: whitesmoke; }
+  .fdz-theme md-checkbox[disabled]:not(.md-checked) .md-icon {
+    border-color: rgba(0, 0, 0, 0.38); }
+  .fdz-theme md-checkbox[disabled].md-checked .md-icon {
+    background-color: rgba(0, 0, 0, 0.38); }
+  .fdz-theme md-checkbox[disabled].md-checked .md-icon:after {
+    border-color: whitesmoke; }
+  .fdz-theme md-checkbox[disabled] .md-icon:after {
+    border-color: rgba(0, 0, 0, 0.38); }
+  .fdz-theme md-checkbox[disabled] .md-label {
+    color: rgba(0, 0, 0, 0.38); }
 
 .fdz-theme md-chips .md-chips {
   box-shadow: 0 1px rgba(0, 0, 0, 0.12); }
@@ -2447,18 +2422,22 @@ tr:focus {
     .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list {
       padding: 0 8px; }
       .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox {
-        margin-bottom: 8px; }
+        margin-bottom: 8px;
+        min-height: 25px; }
         .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-container {
           position: unset;
           transform: unset;
           box-sizing: border-box;
           display: inline-block;
           width: 20px;
-          height: 20px; }
+          height: 20px;
+          margin: 0px; }
         .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-label {
           max-width: 270px;
           white-space: normal;
-          vertical-align: top; }
+          vertical-align: top;
+          margin-left: 30px;
+          margin-top: 0px; }
 
 .fdz-search-filter-component md-input-container {
   margin: 0; }
@@ -2826,6 +2805,9 @@ md-dialog .fdz-fab-button-container {
     justify-content: space-between; }
   .fdz-theme .fdz-metadata-type-state-card .md-button {
     min-width: 88px; }
+  .fdz-theme .fdz-metadata-type-state-card md-checkbox {
+    margin-bottom: 16px;
+    margin-right: 16px; }
 
 .fdz-theme .fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
   visibility: hidden;

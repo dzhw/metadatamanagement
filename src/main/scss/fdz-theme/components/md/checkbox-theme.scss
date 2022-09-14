@@ -4,6 +4,12 @@
     color: $accent-A700;
   }
 
+  // revert checkbox size to 20px (was changed to 18px in angular-material 1.2)
+  .md-icon, .md-container {
+    width: $checkbox-width;
+    height: $checkbox-height;
+  }
+
   &.md-focused:not([disabled]) .md-container:before {
     background-color: rgba(0, 0, 0, 0.12);
     border-radius: 0px;
