@@ -698,6 +698,9 @@
                 {{row.doi}}
               </md-tooltip>
             </a> 
+            <a ng-if="!row.doi" aria-disabled>
+              <md-icon md-font-set="material-icons" class="ng-scope material-icons" role="img">link_off</md-icon>
+            </a> 
           </td>
           <td class="nowrap"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

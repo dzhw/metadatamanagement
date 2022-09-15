@@ -40,6 +40,9 @@
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{row.doi}}
               </md-tooltip>
+              <a ng-if="!row.doi" aria-disabled>
+                <md-icon md-font-set="material-icons" class="ng-scope material-icons" role="img">link_off</md-icon>
+              </a> 
             </a> 
           </td>
           <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank" fdz-track-download analytics-if="row.type.en === 'Method Report'" analytics-on="click" analytics-event="download-method-report" analytics-label="{{row.title}}" analytics-category="Downloads">{{row.fileName}}
