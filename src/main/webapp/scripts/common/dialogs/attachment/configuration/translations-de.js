@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp').config(
             'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
             'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
           },
-          'doi': 'Bitte geben Sie die DOI für diesen Anhang an (falls verfügbar).',
+          'doi': 'Bitte tragen Sie die DOI als URL ein (Beispiel: https://doi.org/10.21249/DZHW:gra2009:2.0.0).',
         },
         'label': {
           'description': 'Beschreibung',

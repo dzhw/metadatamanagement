@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').config(
             'de': 'Please enter a description for the file in German.',
             'en': 'Please enter a description for the file in English.'
           },
-          'doi': 'Please enter the DOI for this Attachment (if available).',
+          'doi': 'Please enter the DOI as URL (Example: https://doi.org/10.21249/DZHW:gra2009:2.0.0).',
         },
         'label': {
           'description': 'Description',
