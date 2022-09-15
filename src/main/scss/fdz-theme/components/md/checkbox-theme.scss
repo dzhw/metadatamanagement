@@ -1,6 +1,13 @@
 .fdz-theme md-checkbox {
+  min-height: 25px;
   .md-ripple {
     color: $accent-A700;
+  }
+
+  // revert checkbox size to 20px (was changed to 18px in angular-material 1.2)
+  .md-icon, .md-container {
+    width: $checkbox-width;
+    height: $checkbox-height;
   }
 
   &.md-focused:not([disabled]) .md-container:before {
