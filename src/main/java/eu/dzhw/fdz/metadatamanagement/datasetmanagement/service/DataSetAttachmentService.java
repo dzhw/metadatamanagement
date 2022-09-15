@@ -215,8 +215,8 @@ public class DataSetAttachmentService {
         metadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
             .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
             .dataSetNumber(dataSet.getNumber())
-            .fileName("dsreport-" + dataSet.getDataAcquisitionProjectId() + "-ds"
-                + dataSet.getNumber() + ".pdf")
+            .fileName(dataSet.getDataAcquisitionProjectId() + "-ds"
+                + dataSet.getNumber() + "_DsReport_de.pdf")
             .title("Datensatzreport:\n" + dataSet.getDescription().getDe())
             .description(new I18nString(
                 "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
@@ -229,8 +229,8 @@ public class DataSetAttachmentService {
         metadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
             .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
             .dataSetNumber(dataSet.getNumber())
-            .fileName("dsreport-" + dataSet.getDataAcquisitionProjectId() + "-ds"
-                + dataSet.getNumber() + "_en.pdf")
+            .fileName(dataSet.getDataAcquisitionProjectId() + "-ds"
+                + dataSet.getNumber() + "_DsReport_en.pdf")
             .title("Dataset Report:\n" + dataSet.getDescription().getEn())
             .description(new I18nString(
                 "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
