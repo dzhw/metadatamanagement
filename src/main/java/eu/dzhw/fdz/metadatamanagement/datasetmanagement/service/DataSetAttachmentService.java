@@ -210,6 +210,9 @@ public class DataSetAttachmentService {
       throws IOException {
     DataSet dataSet = dataSetRepository.findById(dataSetId).get();
     DataSetAttachmentMetadata metadata = null;
+    // create a second metadata object using the old naming scheme to allow deletion of files
+    // that have been attached before the naming scheme change
+    DataSetAttachmentMetadata oldFilenameMetadata = null;
     switch (language) {
       case "de":
         metadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
@@ -217,6 +220,18 @@ public class DataSetAttachmentService {
             .dataSetNumber(dataSet.getNumber())
             .fileName(dataSet.getDataAcquisitionProjectId() + "-ds"
                 + dataSet.getNumber() + "_DsReport_de.pdf")
+            .title("Datensatzreport:\n" + dataSet.getDescription().getDe())
+            .description(new I18nString(
+                "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
+                    + "\"",
+                "Codebook/Variable Report/Dataset Report of \"" + dataSet.getDescription().getEn()
+                    + "\""))
+            .language("de").indexInDataSet(0).build();
+        oldFilenameMetadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
+            .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
+            .dataSetNumber(dataSet.getNumber())
+            .fileName("dsreport-" + dataSet.getDataAcquisitionProjectId() + "-ds"
+                + dataSet.getNumber() + ".pdf")
             .title("Datensatzreport:\n" + dataSet.getDescription().getDe())
             .description(new I18nString(
                 "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
@@ -238,10 +253,23 @@ public class DataSetAttachmentService {
                 "Codebook/Variable Report/Dataset Report of \"" + dataSet.getDescription().getEn()
                     + "\""))
             .language("en").indexInDataSet(0).build();
+        oldFilenameMetadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
+            .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
+            .dataSetNumber(dataSet.getNumber())
+            .fileName("dsreport-" + dataSet.getDataAcquisitionProjectId() + "-ds"
+                + dataSet.getNumber() + "_en.pdf")
+            .title("Dataset Report:\n" + dataSet.getDescription().getEn())
+            .description(new I18nString(
+                "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
+                    + "\"",
+                "Codebook/Variable Report/Dataset Report of \"" + dataSet.getDescription().getEn()
+                    + "\""))
+            .language("en").indexInDataSet(0).build();
         break;
       default:
         throw new IllegalArgumentException("Unsupported language '" + language + "'!");
     }
+    deleteByDataSetIdAndFilename(dataSetId, oldFilenameMetadata.getFileName());
     deleteByDataSetIdAndFilename(dataSetId, metadata.getFileName());
     createDataSetAttachment(reportFile, metadata);
   }
