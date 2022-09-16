@@ -55,7 +55,7 @@
     "ng-text-truncate-2": "^1.0.1",
     "ngclipboard": "2.0.0",
     "plotly.js": "1.58.5",
-    "showdown": "^1.9.1",
+    "showdown": "^2.0.0",
     "sockjs-client": "1.5.2",
     "stomp-websocket": "2.3.4-next"
   },
