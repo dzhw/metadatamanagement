@@ -30,9 +30,12 @@ Go to Shopping Cart
 
 Delete an Item
     [Arguments]   ${limit}
-    Click Element Through Tooltips   //button[text()=' Löschen ']
+    Click Element Through Tooltips   //button[normalize-space()='Löschen']
+
+Check Item Count
+    [Arguments]  ${expected}
     ${count} =  Get Element Count   //md-card[contains(@class, 'fdz-search-result')]
-    Should Be True    ${count} == 3
+    Should Be True    ${count} == ${expected}
 
 Empty The Shopping Cart
    Click Element Through Tooltips   //span[contains(., 'Warenkorb leeren')]
