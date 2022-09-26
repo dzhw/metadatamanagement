@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Generate a data package overview.
+Metadata        Info on data    This test suite uses the project with the name "gra2005" which needs to be available in the testing environment
 Library           OperatingSystem
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot

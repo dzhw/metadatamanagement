@@ -1,5 +1,6 @@
 *** Settings ***
-Documentation   Dataprovider assign a concept to an instrument and assert it under the instrument. Prerequisite to havce "Test Konzept ${BROWSER} Publisher" concepts in the system.
+Documentation   Dataprovider assign a concept to an instrument and assert it under the instrument.
+Metadata        Info on data    This test suite uses the project with the name "conceptproject${BROWSER}" which needs to be available in the testing environment
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot

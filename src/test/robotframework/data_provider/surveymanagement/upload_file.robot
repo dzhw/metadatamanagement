@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Tests the upload on the survey edit site. #File upload is not possible in Firefox
+Metadata          Info on data    This test suite uses the project with the name "fileuploadproject" which needs to be available in the testing environment
 Force Tags        chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot

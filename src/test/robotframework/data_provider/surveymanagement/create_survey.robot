@@ -1,5 +1,6 @@
 *** Settings ***
-Documentation     Data driven test of survey creation. #Prerequisite to have robotproject
+Documentation     Data driven test of survey creation.
+Metadata          Info on data   This test suite uses the project with the name "robotproject" which needs to be available in the testing environment
 Suite Setup       Go To Survey Create Page
 Suite Teardown    Close Survey Editor
 Force Tags        noslowpoke

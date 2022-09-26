@@ -1,11 +1,12 @@
 *** Settings ***
-Documentation     Test editing survey page and versioning #Prerequisite to have fileuploadproject
+Documentation     Test editing survey page and versioning
+Metadata          Info on data    This test suite uses the project with the name "fileuploadproject" which needs to be available in the testing environment
 Force Tags        chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 
 *** Test Cases ***
-Editing survey attachement and check versioning
+Editing survey attachment and check versioning
     Select project by name    fileuploadproject
     Click on surveys tab
     Click Survey Edit Button
