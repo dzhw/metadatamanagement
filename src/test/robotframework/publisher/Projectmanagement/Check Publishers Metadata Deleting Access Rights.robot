@@ -1,17 +1,19 @@
 *** Settings ***
 Documentation     Publisher Create a new Project and Data Package, then checks the metadata deleting access rights
+Metadata          Info on data    This test suite creates a temporary test project with the name "${PROJECT_NAME}${BROWSER}" which is automatically deleted afterwards
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
 *** Variables ***
-${PROJECT_NAME}  hossainrobot
+${PROJECT_NAME}  temprobotcheckaccess
 ${TOAST_MSSG}  Die Aktion ist nicht möglich
 
 *** Test Cases ***
 Publisher Create But Can Not Delete Data Package When Publisher is Ready
-   Create Project  ${PROJECT_NAME}${BROWSER}
+   ${created}  Run Keyword and return status  Create Project  ${PROJECT_NAME}${BROWSER}
+   Run Keyword If  ${created}==False  Fail  Could not create new project '${PROJECT_NAME}${BROWSER}'
    Assign a dataprovider  dataprovider
    Select Survey Checkbox
    Select Instruments Checkbox
@@ -48,23 +50,23 @@ Publisher Create But Can Not Delete Data Package When Publisher is Ready
    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='English Days Keyword']
    Save Changes
    Click on Cockpit Button
-   Click Publisher Ready Checkbox for Data Packages
+   Click Publisher Ready Checkbox  dataPackages
    Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 
 Publisher Create and Can Delete Data Package When Both are Ready
-   Click Dataprovider Ready Checkbox for Data Packages
+   Click Dataprovider Ready Checkbox  dataPackages
    Run Keyword If    '${BROWSER}' == 'safari'   Sleep  10s
    Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 
 Publisher Create and Can Delete Data Package When Dataprovider is Ready
-   Click Publisher Ready Checkbox for Data Packages    #deselect the checkbox this time
+   Click Publisher Ready Checkbox  dataPackages   #deselect the checkbox this time
    Click on Delete Button for Metadata
    Discard Changes No
 
 Publisher Create and Can Delete Data Package When Both are Not Ready
-    Click Dataprovider Ready Checkbox for Data Packages   #deselect the checkbox this time
+    Click Dataprovider Ready Checkbox  dataPackages   #deselect the checkbox this time
     Click on Delete Button for Metadata
     Discard Changes Yes
     Delete project by name  ${PROJECT_NAME}${BROWSER}

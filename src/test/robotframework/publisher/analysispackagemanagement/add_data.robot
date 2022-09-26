@@ -2,6 +2,7 @@
 Documentation     Publisher Keyword to fill out the form
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
+Resource          ../../resources/project_management_resource.robot
 
 *** Keywords ***
 Move element
@@ -18,7 +19,7 @@ Open Create Page
 
 Create new analysis package
     Click Element Through Tooltips    //md-checkbox[@name = 'analysisPackage']
-    Click Element Through Tooltips    //md-tab-item[contains(.,' Status ')]
+    Switch To Status Tab
     Click Element Through Tooltips    //button[contains(.,'Neu')]
 
 Fill out details
@@ -110,10 +111,10 @@ Add FDHZ data package
     Click Element Through Tooltips      //button[contains(@aria-label,'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.')]
     Click Element Through Tooltips      //list-data-package-component//md-select[1]
     Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'FDZ-DZHW Datenpaket')]
-    set focus to element                name=analysisDataPackagesAnalyzedDataPackage_0
-    Run Keyword And Ignore Error        Click Element Through Tooltips     //md-virtual-repeat-container//span[text()='DZHW-Absolventenpanel 2005']
+    Input Text                          xpath=//input[@name = 'analysisDataPackagesAnalyzedDataPackage_0']    DZHW-Absolventenpanel 2005
+    Run Keyword And Ignore Error        Click Element Through Tooltips     (//md-virtual-repeat-container//span[text()='DZHW-Absolventenpanel 2005'])[1]   #//md-virtual-repeat-container//span[text()='DZHW-Absolventenpanel 2005']
     Click Element Through Tooltips      //fdz-data-package-component//md-select[@name='analysisDataPackagesAnalyzedDataPackageVersion_0']
-    Click Element Through Tooltips      //md-select-menu//md-option[contains(., '1.0.2')]
+    Click Element Through Tooltips      //md-select-menu//md-optgroup[@label="Verfügbare Versionen"]//md-option[1]
     Click Element Through Tooltips      //fdz-data-package-component//md-select[@name='analysisDataPackagesAnalyzedDataPackageAccessWay_0']
     Click Element Through Tooltips      //md-select-menu//md-option[contains(., 'CUF: Download')]
 
