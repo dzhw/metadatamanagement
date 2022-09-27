@@ -4,7 +4,7 @@
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
-[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg)](https://app.saucelabs.com/u/andydaniel)
+[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg?cachebuster=1234)](https://app.saucelabs.com/u/andydaniel)
 # Metadatamanagement (MDM)
 
 The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
@@ -78,7 +78,7 @@ auto-refreshes when files change on your hard drive.
     mvn
     grunt
 
-If you run the backend on your machine for the first time or you have restored a mongodb dump then you need to setup the elasticsearch indices. Therefore go to http://localhost:8080/de/health and sign in with `localuser` and password `herlichwillkommen`. Then click the red button 'reindex'. Reindexing can take up to 1 hour.
+If you run the backend on your machine for the first time or you have restored a mongodb dump then you need to setup the elasticsearch indices. Therefore go to http://localhost:8080/de/health and sign in with `localuser` and password `herzlichwillkommen`. Then click the red button 'reindex'. Reindexing can take up to 1 hour.
 
 In order for all external services to work on your local machine, you need to set the following environment variables:
 ```

@@ -34,6 +34,10 @@ angular.module('metadatamanagementApp').config(
           'title': {
             'maxlength': 'The title of the attachment must not contain more than 2048 characters.',
             'not-empty': 'The titel of the attachment must not be empty.'
+          },
+          'doi': {
+            'size': 'The DOI must be shorter then 512 characters.',
+            'pattern': 'The DOI-Url should match the following pattern: https://doi.org/<id>'
           }
         },
         'hint': {
@@ -44,14 +48,16 @@ angular.module('metadatamanagementApp').config(
           'description': {
             'de': 'Please enter a description for the file in German.',
             'en': 'Please enter a description for the file in English.'
-          }
+          },
+          'doi': 'Please enter the DOI as URL (Example: https://doi.org/10.21249/DZHW:gra2009:2.0.0).',
         },
         'label': {
           'description': 'Description',
           'file': 'File',
           'type': 'Type',
           'language': 'Document Language',
-          'title': 'Title'
+          'title': 'Title',
+          'doi': 'DOI',
         },
         'tooltip': {
           'cancel': 'Click to close this dialog without saving.',
