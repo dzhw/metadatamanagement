@@ -116,6 +116,10 @@ angular.module('metadatamanagementApp')
                 }).indexOf(x.login) < 0 &&
                   _.includes(x.authorities, roleInternal);
               });
+              // filter out deactivated users
+              results = results.filter(function(x) {
+                return x.activated == true;
+              })
               ctrl.searchCache['text_' + search] = results;
               deferred.resolve(ctrl.searchCache['text_' + search]);
             });
