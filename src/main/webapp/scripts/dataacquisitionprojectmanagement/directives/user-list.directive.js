@@ -118,8 +118,8 @@ angular.module('metadatamanagementApp')
               });
               // filter out deactivated users
               results = results.filter(function(x) {
-                return x.activated == true;
-              })
+                return x.activated === true;
+              });
               ctrl.searchCache['text_' + search] = results;
               deferred.resolve(ctrl.searchCache['text_' + search]);
             });
