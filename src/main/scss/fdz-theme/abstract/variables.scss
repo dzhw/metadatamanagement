@@ -2,6 +2,10 @@
 
 $content-width: 1000px;
 
+// revert checkbox size to 20px (was changed to 18px in angular-material 1.2)
+$checkbox-width: 20px !default;
+$checkbox-height: $checkbox-width !default;
+
 // Brand color palettes RGBA
 $brand-primary: rgba(255, 255, 255, 0.87);
 $brand-primary-026: rgba(255, 255, 255, 0.26);

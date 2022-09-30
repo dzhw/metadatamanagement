@@ -78,7 +78,7 @@ auto-refreshes when files change on your hard drive.
     mvn
     grunt
 
-If you run the backend on your machine for the first time or you have restored a mongodb dump then you need to setup the elasticsearch indices. Therefore go to http://localhost:8080/de/health and sign in with `localuser` and password `herlichwillkommen`. Then click the red button 'reindex'. Reindexing can take up to 1 hour.
+If you run the backend on your machine for the first time or you have restored a mongodb dump then you need to setup the elasticsearch indices. Therefore go to http://localhost:8080/de/health and sign in with `localuser` and password `herzlichwillkommen`. Then click the red button 'reindex'. Reindexing can take up to 1 hour.
 
 In order for all external services to work on your local machine, you need to set the following environment variables:
 ```
