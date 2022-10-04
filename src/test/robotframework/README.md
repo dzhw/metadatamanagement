@@ -91,7 +91,7 @@ There are some projects and datasets that need to be available in the testing en
 - `cmp2014` 
 - `gra2005` 
 - `conceptproject[BROWSER]`
-- `fileuploadproject` 
+- `fileuploadproject` (The project needs to contain a survey which is validly filled with every necessary input. Additionaly it has to have exactly one attachment.)
 - `testanalysispackage`
 - Concept `Roll Back Concept [BROWSER] De` with one previous version with the title "Roll Back Concept [BROWSER] De_Rollback"
 - Concept `Referenced Concept [BROWSER] De`, which needs to be referenced in at least one instrument.
