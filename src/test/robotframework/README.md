@@ -1,17 +1,19 @@
-# E2E Test mit dem RobotFramework
+# E2E Test with the Robot Framework
 
-# Ausführen der Tests
+# Execution of Tests
 
-## Tests lokal ausführen
+## Run tests locally
 
-In der Datei `common_variables.yaml` muss der Parameter `website` angepasst werden.
-Für eine lokale Ausführung ist `website: http://localhost:8080/de/start` notwendig.
-Für die Ausführung auf der Entwicklungsinstanz ist `website: https://dev.metadata.fdz.dzhw.eu/de/start` zu verwenden.
+In the file `common_variables.yaml` the parameter `website` must be adjusted.
 
-## Ausführen ganzer Test Suites
+For local execution use `website: http://localhost:8080/de/start`
 
-Es gibt drei Suites, die die unterschiedlichen Rollen des MDM abbilden. Beispielhaft sind hier die notwendigen
-Befehle ausgeführt, die die Tests in Chrome für die jeweilige Rolle starten.
+For execution on the development instance use `website: https://dev.metadata.fdz.dzhw.eu/de/start`
+
+## Run complete test suites
+
+There are three test suites that map the different roles of MDM. As an example, 
+below are the necessary commands that launch the tests in Chrome for the respective role.
 
 - Publisher
   ``` shell
@@ -26,61 +28,62 @@ Befehle ausgeführt, die die Tests in Chrome für die jeweilige Rolle starten.
   robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v BROWSER:chrome --include publicuserNOTfirefoxonly ./src/test/robotframework
   ```
 
-## Einzelne Tests ausführen
+## Run single test
 
-Parameter `-t` erlaubt es einen Test Case Namen anzugeben. Der Parameter kann mehrfach verwendet werden.
+Parameter `-t` allows to specify a test case name. The parameter can be used multiple times.
 
 ``` shell
 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v BROWSER:chrome --include publisherNOTfirefoxonly -t CreateAnalysisPackage ./src/test/robotframework
 ```
 
-Mit dem Parameter `-s` kann eine ganze Test Suite angegeben werden. Es werden alle darin enthaltenen Tests ausgeführt.
+The parameter `-s` can be used to specify an entire test suite. All tests contained will be executed.
 
 ``` shell
 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v BROWSER:chrome --include publisherNOTfirefoxonly -s conceptmanagement ./src/test/robotframework
 ```
 
-Die Namen von Test Cases und Test Suites müssen immer zusammengeschrieben werden und sind case-INsensitiv.
+Names of test cases and test suite have to be written as one word and are case-INsensitive.
 
-Zu beachten ist auch, dass beim einzelnen Ausführen von Test Cases der Setup/Teardown Prozess der zugehörigen Test Suite
-nicht ausgeführt wird.
+It should also be noted that when running test cases individually, the setup/teardown process of the associated Test Suite
+is not executed.
 
-## Breakpoints setzen
+## Add break points
 
-Im Test kann folegen Zeile eingefügt werden, um einen Breakpoint zu setzen.
+Add the following line to the test code to add a break point.
 
 ```robot
 Evaluate    pdb.Pdb(stdout=sys.__stdout__).set_trace()    modules=sys, pdb
 ```
 
-Mit `continue` in der Console kann der Test forgesetzt werden
+Type `continue` in the terminal to continue the execution.
 
 ## Reports
 
-Die Logs und Reporte der ausgeführten Test sind im Projektverzeichnis unter `/target/test/robotframework/logs` zu finden.
-Mit dem Parameter `-d` kann ein anderes Verzeichnis für das Ablegen der Reporte angegeben werden.
+The logs and reports of the executed tests can be found in the project directory under `/target/test/robotframework/logs`.
+The parameter `-d` can be used to specify a different directory for storing the reports.
 
-## Übersicht Testprojekte
+## Overview of the test projects
 
-### Im Test angelegte Projekte (temporäre Projekte)
+### Temporary projects (created during test)
 
-Für unterschiedliche Test Suites in den Tests werden Testprojekte angelegt. Gelegentlich wurden diese durch das
-Fehlschlagen von Tests nicht gelöscht. Vor dem neuen Ausführen der Tests es es notwendig diese Projekte
-zu löschen. Alle zu löschenden Projekte beinhalten den Ausdruck `temprobot`
+Temporary test projects are created for different test suites. 
+Occasionally these were not deleted due to failure of tests.
+Temporary projects must not exist before executing the test, or the test will fail.
+Temporary projects contain the expression `temprobot`.
 
 - `temprobotcheckaccess[BROWSER]`
 - `temprobotassignroles[BROWSER]`
 - `temprobotdeleteroles[BROWSER]`
-- `atemprobotcheckicons[BROWSER]`
+- `atemprobotcheckicons[BROWSER]` (needs an `a` at the beginning because of sorting)
 - `tempdatapackage[BROWSER]`
 - `tempanalysis[BROWSER]`
 
-Der Common-Teardown-Prozess (hinterlegt in `./__init__.robot`) wurde so angepasst, dass die aufgeführten Projekte gelöscht werden, sollten sie noch
-vorhanden sein.
+The common teardown process (filed in `./__init__.robot`) deletes all of these projects if
+they still exist at the end of the execution.
 
-### Notwendige Projekte
+### Required projects and datasets
 
-Projekte und Daten, die zwingend im Datenstand vorhanden sein müssen:
+There are some projects and datasets that need to be available in the testing environment:
 
 - `robotprojectrelease4[BROWSER]` 
 - `robotproject4[BROWSER]` 
@@ -90,21 +93,22 @@ Projekte und Daten, die zwingend im Datenstand vorhanden sein müssen:
 - `conceptproject[BROWSER]`
 - `fileuploadproject` 
 - `testanalysispackage`
-- Konzept `Roll Back Concept [BROWSER] De` mit einer Vorgängerversion, die den Titel "Roll Back Concept [BROWSER] De_Rollback"
-- Konzept `Referenced Concept [BROWSER] De`, welches in einem Instrument referenziert werden muss (im Dump bspw. `cmp2014`)
+- Concept `Roll Back Concept [BROWSER] De` with one previous version with the title "Roll Back Concept [BROWSER] De_Rollback"
+- Concept `Referenced Concept [BROWSER] De`, which needs to be referenced in at least one instrument.
 
-Die Projekte müssen nicht nur angelegt sein, sondern auch die entsprechenden Daten enthalten.
+The projects must not only be created, but also contain the necessary data (see [MongoDB dump](#mongodb-dump))
 
-Im Common-Setup vor dem Start der Tests wird überprüft, ob die aufgeführten Projekte (nicht die Konzepte) vorhanden sind. Ist das nicht 
-der Fall wird der gesamte Testdurchlauf abgebrochen.
+The common setup process checks if the listed projects (not the concepts) do exist.
+If they don't the execution is canceled.
 
-### Infos zu verwendeten Daten in Tests
+### Info on used data in tests
 
-Wo notwendig wurde die Test Suite mit Metadaten unter dem Stichwort "Info on data" versehen. Dort ist der Name des 
-verwendeten Testprojektes angegeben und ob es nach Ablauf des Tests gelöscht wird oder nicht. Diese Angaben werden auch 
-im Log des Tests hinterlegt.
+Tests using test projects and data are labeled with the additional metadata keyword `info on data`. 
+There you can find the name of the used test project and whether it is temporary or not.
+This information is also visible in the test logs.
 
-### MongoDB-Dump
+### MongoDB dump
 
-Für das lokale Ausführen der Tests kann der Dump unter `https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20220926_metadatamanagement_e2e.zip` verwendet werden. Dieser enthält alle
-notwendigen Projekte und Daten.
+A database dump with all required data can be downloaded 
+under `https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20220926_metadatamanagement_e2e.zip` to enable
+the local execution of tests.
