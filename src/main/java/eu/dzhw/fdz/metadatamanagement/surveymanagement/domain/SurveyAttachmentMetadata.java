@@ -134,6 +134,19 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   private Integer indexInSurvey;
 
   /**
+   * The doi of the attachment.
+   *
+   * Must not contain more than 512 characters.
+   *
+   * Must match the pattern of a doi-url https://doi.org/{id}
+   */
+  @Size(max = StringLengths.MEDIUM, message = "attachment.error.doi.size")
+  @Pattern(
+    message = "survey-management.error.survey-attachment-metadata.filename.not-valid",
+    regexp = Patterns.DOI)
+  private String doi;
+
+  /**
    * Generate the id of this attachment from the surveyId and the fileName.
    */
   public void generateId() {
