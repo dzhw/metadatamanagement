@@ -55,7 +55,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -261,6 +261,64 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
           is("data-set-management.error.data-set-attachment-metadata.description.i18n-string-not-empty")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithMissingDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
+      .buildDataSetAttachmentMetadata("projectid", 1);
+    dataSetAttachmentMetadata.setDoi(null);
+
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
+      .file(attachment)
+      .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithValidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
+      .buildDataSetAttachmentMetadata("projectid", 1);
+    dataSetAttachmentMetadata.setDoi("https://doi.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
+      .file(attachment)
+      .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithInvalidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
+      .buildDataSetAttachmentMetadata("projectid", 1);
+    dataSetAttachmentMetadata.setDoi("https://invalid.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
+      .file(attachment)
+      .file(metadata))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", is("data-set-management.error.data-set-attachment-metadata.filename.not-valid")));
   }
 
   @Test
