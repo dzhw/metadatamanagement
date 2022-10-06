@@ -151,8 +151,8 @@ public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObj
    */
   @Size(max = StringLengths.MEDIUM, message = "attachment.error.doi.size")
   @Pattern(
-    message = "instrument-management.error.instrument-attachment-metadata.filename.not-valid",
-    regexp = Patterns.DOI)
+      message = "instrument-management.error.instrument-attachment-metadata.filename.not-valid",
+      regexp = Patterns.DOI)
   private String doi;
 
   /**

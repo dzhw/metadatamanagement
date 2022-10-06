@@ -144,8 +144,8 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
    */
   @Size(max = StringLengths.MEDIUM, message = "attachment.error.doi.size")
   @Pattern(
-    message = "data-set-management.error.data-set-attachment-metadata.filename.not-valid",
-    regexp = Patterns.DOI)
+      message = "data-set-management.error.data-set-attachment-metadata.filename.not-valid",
+      regexp = Patterns.DOI)
   private String doi;
 
   /**
