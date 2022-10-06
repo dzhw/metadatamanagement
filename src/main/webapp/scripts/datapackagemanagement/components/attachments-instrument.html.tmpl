@@ -32,6 +32,8 @@
               {{'data-package-management.detail.label.attachments.language' | translate }}
             </md-tooltip>
           </th>
+          <th>DOI
+          </th>
           <th>{{'data-package-management.detail.label.attachments.file' | translate }}
             <md-tooltip hide-gt-xs md-direction="right">
               {{'data-package-management.detail.label.attachments.file' | translate }}
@@ -44,6 +46,17 @@
           <td display-i18n-string="row.type"></td>
           <td class="fdz-text-block" display-i18n-string="row.description" ></td>
           <td>{{row.language | displayIsoLanguage: $ctrl.lang}}&nbsp</td>
+          <td>
+            <a target="_blank" rel="noopener noreferrer" href="{{row.doi}}" ng-if="row.doi">
+              <md-icon md-font-set="material-icons" class="ng-scope material-icons md-primary" role="img">link</md-icon>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{row.doi}}
+              </md-tooltip>
+              <a ng-if="!row.doi" aria-disabled>
+                <md-icon md-font-set="material-icons" class="ng-scope material-icons" role="img">link_off</md-icon>
+              </a> 
+            </a> 
+          </td>
           <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank" fdz-track-download>{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
