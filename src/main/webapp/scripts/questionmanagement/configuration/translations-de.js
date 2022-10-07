@@ -193,7 +193,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'edit': {
-          'all-questions-deleted-toast': 'Alle Fragen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+          'all-questions-deleted-toast': 'Alle Fragen des Datenaufnahmeprojekts "{{id}}" wurden gelöscht.'
         }
       }
       //jscs:enable

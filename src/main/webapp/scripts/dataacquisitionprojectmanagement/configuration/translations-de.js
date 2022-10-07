@@ -5,9 +5,9 @@ angular.module('metadatamanagementApp').config(
     var translations = {
       //jscs:disable
       'data-acquisition-project-management': {
-        'name': 'Name des Datenaufbereitungsprojektes',
+        'name': 'Name des Datenaufnahmeprojektes',
         'release': {
-          'version': 'Version des Datenaufbereitungsprojektes',
+          'version': 'Version des Datenaufnahmeprojektes',
           'pin-to-start-page': 'Datenpaket auf Startseite anzeigen',
           'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.',
           'confirmed': {
@@ -19,27 +19,27 @@ angular.module('metadatamanagementApp').config(
           'confirm-hint': 'Markieren Sie dieses Kästchen, wenn sie das Projekt wirklich auf diesem System freigeben wollen!'
         },
         'home': {
-          'title': 'Datenaufbereitungsprojekte',
-          'createLabel': 'Neues Datenaufbereitungsprojekt anlegen',
-          'releaseLabel': 'Das Datenaufbereitungsprojekt "{{ id }}" freigeben',
+          'title': 'Datenaufnahmeprojekte',
+          'createLabel': 'Neues Datenaufnahmeprojekt anlegen',
+          'releaseLabel': 'Das Datenaufnahmeprojekt "{{ id }}" freigeben',
           'dialog-tooltip': {
-            'create-ok': 'Klicken, um das Datenaufbereitungsprojekt zu erzeugen',
+            'create-ok': 'Klicken, um das Datenaufnahmeprojekt zu erzeugen',
             'create-cancel': 'Klicken, um den Dialog zu schließen ohne ein Projekt anzulegen',
             'release-ok': 'Klicken, um das Projekt freizugeben',
             'release-cancel': 'Klicken, um den Dialog zu schließen ohne das Projekt freizugeben'
           }
         },
         'delete': {
-          'question': 'Sind Sie sicher, dass Sie das Datenaufbereitungsprojekt "{{ name }}" löschen möchten?'
+          'question': 'Sind Sie sicher, dass Sie das Datenaufnahmeprojekt "{{ name }}" löschen möchten?'
         },
         'log-messages': {
           'data-acquisition-project': {
-            'saved': 'Datenaufbereitungsprojekt "{{ id }}" wurde erfolgreich gespeichert!',
+            'saved': 'Datenaufnahmeprojekt "{{ id }}" wurde erfolgreich gespeichert!',
             'server-error': 'Ein Fehler ist auf dem Server aufgetreten: ',
             'delete-title': 'Projekt "{{ id }}" löschen?',
             'delete': 'Möchten Sie wirklich das Projekt "{{ id }}" löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.',
-            'deleted-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" wurde erfolgreich gelöscht.',
-            'deleted-not-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" konnte nicht gelöscht werden!',
+            'deleted-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" wurde erfolgreich gelöscht.',
+            'deleted-not-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" konnte nicht gelöscht werden!',
             'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein.',
             'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
@@ -63,13 +63,13 @@ angular.module('metadatamanagementApp').config(
               'unauthorized': 'Projekte dürfen nur durch Publisher angelegt werden.'
             },
             'id': {
-              'not-empty': 'Der Name des Datenaufbereitungsprojekts darf nicht leer sein!',
+              'not-empty': 'Der Name des Datenaufnahmeprojekts darf nicht leer sein!',
               'pattern': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
               'size': 'Die Maximallänge des Names ist 32 Zeichen.',
-              'exists': 'Es gibt bereits ein Datenaufbereitungsprojekt mit diesem Namen.'
+              'exists': 'Es gibt bereits ein Datenaufnahmeprojekt mit diesem Namen.'
             },
             'has-been-released-before': {
-              'not-null': 'Es muss angegeben sein, ob ein des Datenaufbereitungsprojekts schon einmal veröffentlicht wurde oder nicht.'
+              'not-null': 'Es muss angegeben sein, ob ein des Datenaufnahmeprojekts schon einmal veröffentlicht wurde oder nicht.'
             }
           },
           'configuration': {

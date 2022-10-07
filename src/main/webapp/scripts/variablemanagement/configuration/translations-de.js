@@ -309,7 +309,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
           'edit': {
-            'all-variables-deleted-toast': 'Alle Variablen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+            'all-variables-deleted-toast': 'Alle Variablen des Datenaufnahmeprojekts "{{id}}" wurden gelöscht.'
           }
       }
       //jscs:enable
