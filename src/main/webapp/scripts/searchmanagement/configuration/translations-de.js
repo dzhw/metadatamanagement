@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').config(
           'cart': 'In den Warenkorb legen',
           'data-packages-info': 'Datenpakete enthalten Scientific Use Files und/oder Campus Use Files, die für eine breite Nutzung in Wissenschaft bzw. Lehre vorgesehen sind.',
           'analysis-packages-info': 'Analysepakete enthalten Analyseskripte und Analysedaten, die zur Erstellung einer spezifischen Publikation verwendet wurden und ermöglichen damit deren Replikation.',
-          'related-publications-info': 'Publikationen enthalten bibliografische Informationen zu Veröffentlichungen, die die referenzierten Daten- und Analysepakete verwenden'
+          'related-publications-info': 'Publikationen enthalten bibliografische Informationen zu Veröffentlichungen, die die Daten aus referenzierten Daten- und Analysepakete verwenden'
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',
