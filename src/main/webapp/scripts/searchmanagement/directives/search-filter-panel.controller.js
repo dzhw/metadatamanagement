@@ -7,6 +7,10 @@ angular.module('metadatamanagementApp')
     '$element', 'CleanJSObjectService', '$mdSelect',
     function($scope, SearchHelperService, $timeout,
       $element, CleanJSObjectService, $mdSelect) {
+
+      var irrelevantFiltersMapping = {
+        "related_publications": ["year", "language"]
+      };
       var elasticSearchTypeChanged = false;
       var searchParamsFilterChanged = false;
       $scope.filtersCollapsed = false;
@@ -31,7 +35,6 @@ angular.module('metadatamanagementApp')
             displayAvailableFilters.push(filter);
           }
         });
-
         return displayAvailableFilters;
       };
 
@@ -39,6 +42,7 @@ angular.module('metadatamanagementApp')
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchHelperService.getAvailableFilters(
           $scope.currentElasticsearchType);
+        removeIrrelevantFilter();
         $scope.displayAvailableFilters = createDisplayAvailableFilterList(
           $scope.availableFilters);
         $scope.availableHiddenFilters = _.intersection(
@@ -131,5 +135,23 @@ angular.module('metadatamanagementApp')
         var minHeight = (56 * $scope.selectedFilters.length) + 'px';
         return {'min-height': minHeight};
       };
+
+      /**
+       * Function to remove the filters that are irrelevant for the search panel.
+       */
+      var removeIrrelevantFilter = function() {
+        var availableFiltersCopy = $scope.availableFilters;
+        var irrelevantFilters = irrelevantFiltersMapping[$scope.currentElasticsearchType];
+        if (irrelevantFilters){
+          for (var filter of irrelevantFilters){
+            var i = availableFiltersCopy.indexOf(filter);
+            if (i > -1){
+              availableFiltersCopy.splice(i, 1);
+            }
+          }
+          $scope.availableFilters = availableFiltersCopy
+        }
+        
+      }
     }
   ]);

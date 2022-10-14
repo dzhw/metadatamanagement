@@ -367,14 +367,29 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
     };
 
+    /**
+     * Function stripping the version number from a filter value.
+     * This is only relevant for queries for related publications and concepts.
+     * @param {*} filter object with filter name as key and a value
+     * @returns filter object with value without version
+     */
     var stripVersionSuffixFromFilters = function(filter) {
       var strippedFilter = {};
       _.forEach(_.keys(filter), function(index) {
-        var match = filter[index].match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
-        if (match !== null) {
-          strippedFilter[index] = filter[index].substr(0, match.index);
+        
+        var tempFilterValue;
+        // in queries from the sidebar filter[index] will be an array with one element
+        if (Array.isArray(filter[index])){
+          tempFilterValue = filter[index][0].toString();
         } else {
-          strippedFilter[index] = filter[index];
+          // queries from the search filter panel will not be an array
+          tempFilterValue = filter[index].toString();
+        }
+        var match = tempFilterValue.match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
+        if (match !== null) {
+          strippedFilter[index] = tempFilterValue.substr(0, match.index);
+        } else {
+          strippedFilter[index] = tempFilterValue;
         }
       });
       return strippedFilter;
@@ -430,11 +445,26 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
       });
       applyFetchLatestShadowCopyFilter(query, elasticsearchType);
-
       return query;
     };
 
     return {
+      /**
+       * Function creating elastic search query based on input parameters and returning request results.
+       * @param {*} queryterm the term to search for
+       * @param {*} pageNumber the current page number
+       * @param {*} dataAcquisitionProjectId the id of the currently selected project
+       * @param {*} filter active filters from the sidebar or filter panel selection
+       * @param {*} elasticsearchType the type of data to search for (e.g. concepts)
+       * @param {*} pageSize the number of results per page
+       * @param {*} idsToExclude ids that should be excluded from search
+       * @param {*} aggregations a list of fields aggregations should be created for
+       * @param {*} newFilters filter objects created from the url parameters
+       * @param {*} sortCriteria option for sorting
+       * @param {*} enforceReleased true if search applies only to released data else false
+       * @param {*} additionalSearchIndex an array of strings with the name of additional indices (relevant for public user search)
+       * @returns 
+       */
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
                        aggregations, newFilters, sortCriteria,
@@ -546,6 +576,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         var filterToUse;
 
+        // strip version number from filter values for publications & concepts
         if (_.includes(['related_publications', 'concepts'],
           elasticsearchType)) {
           filterToUse = stripVersionSuffixFromFilters(filter);
@@ -618,19 +649,33 @@ angular.module('metadatamanagementApp').service('SearchDao',
           applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
             filterToUse);
-          if (additionalSearchIndex) {
-            var query2 = createAdditionalSearchQueryForPublicUsers(
-              queryterm, additionalSearchIndex);
+
+          // additionalSearchIndex is a list with one or more indices
+          // queries are created and added for each of them
+          if (additionalSearchIndex && additionalSearchIndex.length > 0) {
             var header1 = {
               index: query.index,
               preference: query.preference
             };
-            var header2 = {
-              index: query2.index,
-              preference: query2.preference
-            };
+
+            var bodylist = [];
+            bodylist.push(header1);
+            bodylist.push(query.body);
+
+            var additionalQuery;
+            var additionalHeader;
+            for (var index of additionalSearchIndex) {
+              additionalQuery = createAdditionalSearchQueryForPublicUsers(
+                queryterm, index);
+              additionalHeader = {
+                index: additionalQuery.index,
+                preference: additionalQuery.preference
+              };
+              bodylist.push(additionalHeader);
+              bodylist.push(additionalQuery.body);
+            }
             return ElasticSearchClient.msearch({
-              body: [header1, query.body, header2, query2.body]
+              body: bodylist
             });
           } else {
             return ElasticSearchClient.search(query);
