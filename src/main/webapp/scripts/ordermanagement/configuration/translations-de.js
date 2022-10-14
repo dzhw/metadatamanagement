@@ -121,6 +121,7 @@ angular.module('metadatamanagementApp').config(
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-tooltip': 'Klicken, um weitere Informationen zu Datenpaketen zu erhalten.',
           'analysis-package-tooltip': 'Klicken, um weitere Informationen zu Analysepaketen zu erhalten.',
+          'related-publications-tooltip': 'Klicken, um weitere Informationen zu Publikationen zu erhalten.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'

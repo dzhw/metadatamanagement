@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp').config(
         'packages': {
           'label': 'What are you searching for?',
           'data-packages': 'Data Packages (SUFs, CUFs)',
-          'analysis-packages': 'Analysis Packages (Scripts)'
+          'analysis-packages': 'Analysis Packages (Scripts)',
+          'publications': 'Publications'
         },
         'delete-messages': {
           'delete-variables-title': 'Replace all Variables?',
@@ -28,7 +29,8 @@ angular.module('metadatamanagementApp').config(
         },
         'search-result': {
           'dataPackageSearch': 'Search "{{ searchQuery }}" in Data Package',
-          'analysisPackageSearch': 'Search "{{ searchQuery }}" in Analysis Package'
+          'analysisPackageSearch': 'Search "{{ searchQuery }}" in Analysis Package',
+          'relatedPublicationsSearch': 'Search "{{ searchQuery }}" in Publications'
         },
         'detail': {
           'search': 'Data Search',
@@ -38,7 +40,8 @@ angular.module('metadatamanagementApp').config(
           'access-way': 'Access Way',
           'cart': 'Add to shopping cart',
           'data-packages-info': 'Data packages contain Scientific Use Files and/or Campus Use Files that are intended for broad use in science or teaching.',
-          'analysis-packages-info': 'Analysis packages contain analysis scripts and analysis data that were used to create a specific publication and thus enable its replication.'
+          'analysis-packages-info': 'Analysis packages contain analysis scripts and analysis data that were used to create a specific publication and thus enable its replication.',
+          'related-publications-info': 'Publications contain bibliographic information on publications that use the listed data and analysis packages.'
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',

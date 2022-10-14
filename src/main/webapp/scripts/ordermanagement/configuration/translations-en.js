@@ -121,6 +121,7 @@ angular.module('metadatamanagementApp').config(
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
           'data-package-tooltip': 'Click to get more information about data packages',
           'analysis-package-tooltip': 'Click to get more information about analysis packages',
+          'related-publications-tooltip': 'Click to get more information about publications',
           'analysis-package-version-tooltip': 'Click to get more information about versions of analysis packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
         },
