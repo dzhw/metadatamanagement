@@ -299,7 +299,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .file(metadata))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
-        is("survey-management.error.survey-attachment-metadata.filename.not-valid")));
+        is("attachment.error.doi.pattern")));
   }
 
   @Test

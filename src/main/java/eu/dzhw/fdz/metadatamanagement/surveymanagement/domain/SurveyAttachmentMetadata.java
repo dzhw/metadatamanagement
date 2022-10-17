@@ -142,7 +142,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
    */
   @Size(max = StringLengths.MEDIUM, message = "attachment.error.doi.size")
   @Pattern(
-      message = "survey-management.error.survey-attachment-metadata.filename.not-valid",
+      message = "attachment.error.doi.pattern",
       regexp = Patterns.DOI)
   private String doi;
 

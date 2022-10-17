@@ -320,7 +320,7 @@ public class DataPackageAttachmentResourceTest extends AbstractTest {
       .perform(MockMvcRequestBuilders.multipart("/api/data-packages/attachments").file(attachment)
         .file(metadata))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", is("data-package-management.error.data-package-attachment-metadata.filename.not-valid")));
+      .andExpect(jsonPath("$.errors[0].message", is("attachment.error.doi.pattern")));
   }
 
   @Test

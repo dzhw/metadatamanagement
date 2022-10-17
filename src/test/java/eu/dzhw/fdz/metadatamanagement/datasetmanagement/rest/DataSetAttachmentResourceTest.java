@@ -318,7 +318,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", is("data-set-management.error.data-set-attachment-metadata.filename.not-valid")));
+      .andExpect(jsonPath("$.errors[0].message", is("attachment.error.doi.pattern")));
   }
 
   @Test
