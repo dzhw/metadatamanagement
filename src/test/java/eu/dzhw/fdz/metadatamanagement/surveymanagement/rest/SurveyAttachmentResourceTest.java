@@ -48,16 +48,16 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private SurveyRepository surveyRepository;
-  
+
   @Autowired
   private SurveyAttachmentService surveyAttachmentService;
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -221,7 +221,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("survey-management.error.survey-attachment-metadata.language.not-supported")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithMissingDescription() throws Exception {
@@ -242,7 +242,66 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("survey-management.error.survey-attachment-metadata.description.i18n-string-not-empty")));
   }
-  
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithMissingDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
+      .buildSurveyAttachmentMetadata("projectid", 1);
+    surveyAttachmentMetadata.setDoi(null);
+
+    MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/attachments")
+      .file(attachment)
+      .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithValidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
+      .buildSurveyAttachmentMetadata("projectid", 1);
+    surveyAttachmentMetadata.setDoi("https://doi.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/attachments")
+      .file(attachment)
+      .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithInvalidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
+      .buildSurveyAttachmentMetadata("projectid", 1);
+    surveyAttachmentMetadata.setDoi("https://invalid.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/attachments")
+      .file(attachment)
+      .file(metadata))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message",
+        is("attachment.error.doi.pattern")));
+  }
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithSurvey() throws Exception {
@@ -253,7 +312,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
     mockMvc.perform(put("/api/surveys/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
@@ -266,11 +325,11 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
-    
+
     // delete the survey with the given id
     mockMvc.perform(delete("/api/surveys/" + survey.getId()))
       .andExpect(status().isNoContent());
-    
+
     // check if attachment has been deleted as well
     mockMvc.perform(
         get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
