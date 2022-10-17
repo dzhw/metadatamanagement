@@ -90,12 +90,12 @@ angular.module('metadatamanagementApp').config(
           'closeDialogTemporarily': 'Jetzt nicht!'
         },
         'tooltips': {
-          'create-project': 'Klicken, um ein neues Datenaufbereitungsprojekt zu erzeugen.',
-          'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
+          'create-project': 'Klicken, um ein neues Datenaufnahmeprojekt zu erzeugen.',
+          'delete-project': 'Klicken, um das ausgewählte Datenaufnahmeprojekt mit allen verknüpften Daten zu löschen.',
           'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer:innen freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'cockpit-project': 'Klicken, um zum Projektcockpit zu gehen.',
-          'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
+          'post-validation': 'Klicken, um das ausgewählte Datenaufnahmeprojekt zu validieren.',
           'files': {
             'download': 'Klicken, um die Datei "{{filename}}" herunterzuladen'
           },
@@ -144,8 +144,8 @@ angular.module('metadatamanagementApp').config(
           'show-german-pages': 'Seiten              auf Deutsch anzeigen',
           'entities': {
             'main': 'Entitäten',
-            'rdcProject': 'Datenaufbereitungsprojekte:',
-            'current-project': 'Aktuelles Datenaufbereitungsprojekt',
+            'rdcProject': 'Datenaufnahmeprojekte:',
+            'current-project': 'Aktuelles Datenaufnahmeprojekt',
             'select-project': 'Projekt auswählen',
             'unknown-project': 'Kein Projekt gefunden!'
           },
@@ -398,40 +398,40 @@ angular.module('metadatamanagementApp').config(
           },
           'confirm-delete-all-questions': {
             'title': 'Alle Fragen des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Fragen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'content': 'Wollen Sie wirklich alle Fragen des Datenaufnahmeprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-data-packages': {
             'title': 'Datenpaket des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich das Datenpaket des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'content': 'Wollen Sie wirklich das Datenpaket des Datenaufnahmeprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-analysis-packages': {
             'title': 'Analysepaket des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich das Analysepaket des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'content': 'Wollen Sie wirklich das Analysepaket des Datenaufnahmeprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-variables': {
             'title': 'Alle Variablen des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Variablen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'content': 'Wollen Sie wirklich alle Variablen des Datenaufnahmeprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-instruments': {
             'title': 'Alle Instrumente des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Instrumente des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'content': 'Wollen Sie wirklich alle Instrumente des Datenaufnahmeprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-surveys': {
             'title': 'Alle Erhebungen des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Erhebungen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'content': 'Wollen Sie wirklich alle Erhebungen des Datenaufnahmeprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-data-sets': {
             'title': 'Alle Datensätze des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Datensätze des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'content': 'Wollen Sie wirklich alle Datensätze des Datenaufnahmeprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-publications': {
             'title': 'Alle Publikationen von dem Datenpaket des Projektes "{{ id }}" entfernen?',
-            'content': 'Wollen Sie wirklich alle Publikationen von dem Datenpaket des Datenaufbereitungsprojekts "{{ id }}" entfernen?'
+            'content': 'Wollen Sie wirklich alle Publikationen von dem Datenpaket des Datenaufnahmeprojekts "{{ id }}" entfernen?'
           },
-          'confirm-deactivate-user-with-assigned-projects': {
-            'title': 'Nutzer:in mit zugewiesenen Projekten deaktivieren?',
-            'content': 'Wenn Sie die/den Nutzer:in deaktivieren wird sie/er aus den folgenden Projekten entfernt: \n\n {{ projects }}'
-          }
+           'confirm-deactivate-user-with-assigned-projects': {
+             'title': 'Nutzer:in mit zugewiesenen Projekten deaktivieren?',
+             'content': 'Wenn Sie die/den Nutzer:in deaktivieren wird sie/er aus den folgenden Projekten entfernt: \n\n {{ projects }}'
+           }
         },
         'people': {
           'edit': {

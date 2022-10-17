@@ -164,7 +164,7 @@ angular.module('metadatamanagementApp').config(
               'min': 'Die Bruttostichprobe muss größer oder gleich der Nettostichprobe sein. Sie darf auch leer sein.',
               'invalid-number': 'Geben Sie eine gültige Zahl (kleiner als 2.147.483.648) ein.'
             },
-            'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
+            'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufnahmeprojektes sein!',
             'number': {
               'not-null': 'Die Nummer der Erhebung darf nicht leer sein!'
             },
@@ -271,7 +271,7 @@ angular.module('metadatamanagementApp').config(
             },
             'survey-number': 'Wählen Sie eine freie Nummer für die neue Erhebung aus.'
           },
-          'all-surveys-deleted-toast': 'Alle Erhebungen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+          'all-surveys-deleted-toast': 'Alle Erhebungen des Datenaufnahmeprojekts "{{id}}" wurden gelöscht.'
         },
         'sample-type-picker': {
           'label': 'Stichprobenverfahren',
