@@ -14,6 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.util.Optional;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,12 +62,18 @@ public class UserResourceTest extends AbstractTest {
   @Autowired
   private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
+  @Autowired
+  private DataAcquisitionProjectRepository acquisitionProjectRepository;
+
+  @Autowired
+  private DataAcquisitionProjectCrudHelper crudHelper;
+
   private MockMvc restUserMockMvc;
 
   @BeforeEach
   public void setup() {
     UserResource userResource =
-        new UserResource(userRepository, authorityRepository, tokenStore, userService);
+        new UserResource(userRepository, authorityRepository, tokenStore, userService, acquisitionProjectRepository, crudHelper);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
         .setCustomArgumentResolvers(pageableArgumentResolver).build();
   }

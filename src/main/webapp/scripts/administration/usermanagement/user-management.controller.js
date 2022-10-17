@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').controller('UserManagementController',
   function($scope, UserResource, ParseLinks, $state,
     PageMetadataService, BreadcrumbService, $mdDialog, $uibModal,
-    DataAcquisitionProjectRepositoryClient, SimpleMessageToastService) {
+    DataAcquisitionProjectRepositoryClient, CommonDialogsService) {
     PageMetadataService.setPageTitle('user-management.home.title');
     $scope.users = [];
     $scope.page = 0;
@@ -46,10 +46,22 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
                   });
                 } else {
                   var projectIds = joinProjectIds(projects);
-                  SimpleMessageToastService.openAlertMessageToast(
-                    'user-management.error.user.must-not-be-deactivated', {
-                      projectIds: projectIds});
-                  user.activated = true;
+                  CommonDialogsService.showConfirmDialog(
+                    'global.common-dialogs' +
+                    '.confirm-deactivate-user-with-assigned-projects.title',
+                    {},
+                    'global.common-dialogs' +
+                    '.confirm-deactivate-user-with-assigned-projects.content',
+                    {projects: projectIds},
+                    null
+                  ).then(function success() {
+                      UserResource.update(user, function() {
+                        $scope.loadAll();
+                      });
+                    }, function error() {
+                      user.activated = true;
+                    }
+                  );
                 }
               }).catch(function() {
                 user.activated = true;
