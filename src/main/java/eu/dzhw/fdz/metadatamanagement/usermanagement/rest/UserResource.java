@@ -84,19 +84,18 @@ public class UserResource {
       userRepository.save(user);
       // remove deactivated users from assigned projects
       if (!user.isActivated()) {
+        String login = user.getLogin();
         List<DataAcquisitionProject> projects =
             acquisitionProjectRepository
               .findAllByConfigurationPublishersContainsOrConfigurationDataProvidersContainsAndShadowIsFalse(
-                user.getLogin(), user.getLogin());
+                login, login);
         for (DataAcquisitionProject p : projects) {
-          List<String> dp = p.getConfiguration().getDataProviders();
-          if (dp.contains(user.getLogin())) {
-            dp.remove(user.getLogin());
-          }
-          List<String> pl = p.getConfiguration().getPublishers();
-          if (pl.contains(user.getLogin())) {
-            pl.remove(user.getLogin());
-          }
+          List<String> dataProviders = p.getConfiguration().getDataProviders();
+          dataProviders.remove(login);
+          p.getConfiguration().setDataProviders(dataProviders);
+          List<String> publishers = p.getConfiguration().getPublishers();
+          publishers.remove(login);
+          p.getConfiguration().setPublishers(publishers);
           crudHelper.saveMaster(p);
         }
       }
