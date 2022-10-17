@@ -110,11 +110,15 @@ angular.module('metadatamanagementApp')
             }).$promise.then(function(result) {
               ctrl.currentPromise = null;
               var results = result.filter(function(x) {
-                // filter out already added users
+                // filter already added users
                 return ctrl.activeUsers.map(function(u) {
                   return u.login;
                 }).indexOf(x.login) < 0 &&
                   _.includes(x.authorities, roleInternal);
+              });
+              // filter deactivated users
+              results = results.filter(function(x) {
+                return x.activated === true;
               });
               ctrl.searchCache['text_' + search] = results;
               deferred.resolve(ctrl.searchCache['text_' + search]);

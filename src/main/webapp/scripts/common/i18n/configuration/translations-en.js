@@ -427,6 +427,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-all-publications': {
             'title': 'Remove all publications from the data package of project "{{ id }}"?',
             'content': 'Do you really want to remove all publications from the Data Package of Data Acquisition Project "{{ id }}"?'
+          },
+          'confirm-deactivate-user-with-assigned-projects': {
+            'title': 'Deactivate user with assigned projects?',
+            'content': 'If you deactivate the user she/he will be removed from the following projects: \n\n {{ projects }}'
           }
         },
         'people': {

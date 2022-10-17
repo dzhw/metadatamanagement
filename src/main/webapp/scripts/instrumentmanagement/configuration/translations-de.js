@@ -118,9 +118,9 @@ angular.module('metadatamanagementApp').config(
               'valid': 'Der Typ des Instruments muss einer der folgenden sein: PAPI, CAPI, CATI, CAWI'
             },
             'data-acquisition-project-id': {
-              'not-empty': 'Die ID des Datenaufbereitungsprojektes darf nicht leer sein!'
+              'not-empty': 'Die ID des Datenaufnahmeprojektes darf nicht leer sein!'
             },
-            'instrument.unique-instrument-number': 'Die Nummer eines Erhebungsinstruments muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
+            'instrument.unique-instrument-number': 'Die Nummer eines Erhebungsinstruments muss eindeutig innerhalb eines Datenaufnahmeprojektes sein!',
             'survey-numbers.not-empty': 'Die Liste der Erhebungen darf nicht leer sein!',
             'number': {
               'not-null': 'Die Nummer des Erhebungsinstruments darf nicht leer sein!'
@@ -193,7 +193,7 @@ angular.module('metadatamanagementApp').config(
             },
             'instrument-number': 'Wählen Sie eine freie Nummer für das neue Instrument aus.'
           },
-          'all-instruments-deleted-toast': 'Alle Instrumente des Datenaufbereitungsprojekt "{{id}}" wurden gelöscht.'
+          'all-instruments-deleted-toast': 'Alle Instrumente des Datenaufnahmeprojekt "{{id}}" wurden gelöscht.'
         }
       }
       //jscs:enable

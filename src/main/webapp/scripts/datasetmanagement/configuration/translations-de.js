@@ -267,7 +267,7 @@ angular.module('metadatamanagementApp').config(
                 'data-formats': 'Geben Sie die Datenformate an, in denen der Subdatensatz verfügbar ist.'
               }
             },
-            'all-data-sets-deleted-toast': 'Alle Datensätze des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+            'all-data-sets-deleted-toast': 'Alle Datensätze des Datenaufnahmeprojekts "{{id}}" wurden gelöscht.'
           },
           'create-report': {
             'title': 'Datensatzreport erzeugen',
