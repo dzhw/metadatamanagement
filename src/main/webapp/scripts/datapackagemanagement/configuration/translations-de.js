@@ -321,7 +321,7 @@ angular.module('metadatamanagementApp').config(
               }
             }
           },
-          'all-data-packages-deleted-toast': 'Das Datenpaket des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.'
+          'all-data-packages-deleted-toast': 'Das Datenpaket des Datenaufnahmeprojekts "{{id}}" wurde gelöscht.'
         },
         'tag-editor': {
           'label': {
