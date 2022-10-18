@@ -376,7 +376,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
     var stripVersionSuffixFromFilters = function(filter) {
       var strippedFilter = {};
       _.forEach(_.keys(filter), function(index) {
-        
+
         var tempFilterValue;
         // in queries from the sidebar filter[index] will be an array with one element
         if (Array.isArray(filter[index])){
@@ -462,8 +462,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
        * @param {*} newFilters filter objects created from the url parameters
        * @param {*} sortCriteria option for sorting
        * @param {*} enforceReleased true if search applies only to released data else false
-       * @param {*} additionalSearchIndex an array of strings with the name of additional indices (relevant for public user search)
-       * @returns 
+       * @param {*} additionalSearchIndex an array of strings with the names of additional indices (relevant for public user search)
+       * @returns seach result
        */
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
