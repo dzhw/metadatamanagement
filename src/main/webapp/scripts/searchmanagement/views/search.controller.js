@@ -365,8 +365,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     function createPublicationsFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
       var dataPackageFilter = {
-        'year': data['year'].buckets,
-        'language': data['language'].buckets
+        'year': data.year.buckets,
+        'language': data.language.buckets
       };
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
@@ -375,8 +375,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       totalHitsInAdditionalIndex) {
       var totalHits = {};
       totalHits[$scope.searchParams.type] = totalHitsInCurrentIndex;
-      for (var index in $scope.searchParams.additionalSearchIndex){
-        totalHits[$scope.searchParams.additionalSearchIndex[index]] = totalHitsInAdditionalIndex[index];
+      for (var index in $scope.searchParams.additionalSearchIndex) {
+        totalHits[$scope.searchParams.additionalSearchIndex[index]] =
+          totalHitsInAdditionalIndex[index];
       }
       // totalHits[$scope.searchParams.additionalSearchIndex] =
       //   totalHitsInAdditionalIndex;
@@ -395,12 +396,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     /**
-     * Searches and processes the results. 
+     * Searches and processes the results.
      * The authentification status determines the type of search.
      */
     $scope.search = function() {
-      // Public users search in multiple indices at the same time 
-      // additionals indices need to be set according to the currently selected search type
+      // Public users search in multiple indices at the same time
+      // additional indices need to be set according to the currently
+      // selected search type
       // aggregations need to be read from mapping
       var aggregation = null;
       $scope.searchParams.additionalSearchIndex = null;
@@ -408,13 +410,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.searchFilterMapping = $scope.searchParams.filter;
         aggregation = searchFilterAggregations[$scope.searchParams.type];
         if ($scope.searchParams.type === 'data_packages') {
-          $scope.searchParams.additionalSearchIndex = ['analysis_packages','related_publications'];
+          $scope.searchParams.additionalSearchIndex = [
+            'analysis_packages','related_publications'];
         }
         if ($scope.searchParams.type === 'analysis_packages') {
-          $scope.searchParams.additionalSearchIndex = ['data_packages','related_publications'];
+          $scope.searchParams.additionalSearchIndex = [
+            'data_packages','related_publications'];
         }
         if ($scope.searchParams.type === 'related_publications') {
-          $scope.searchParams.additionalSearchIndex = ['data_packages','analysis_packages'];
+          $scope.searchParams.additionalSearchIndex = [
+            'data_packages','analysis_packages'];
         }
       }
       var projectId = _.get($scope, 'currentProject.id');
@@ -442,9 +447,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           var totalHitsInAdditionalIndex = [];
           if ($scope.searchParams.additionalSearchIndex) {
             for (var index in $scope.searchParams.additionalSearchIndex) {
-              totalHitsInAdditionalIndex.push(data.responses[+index+1].hits.total.value);
+              totalHitsInAdditionalIndex
+                .push(data.responses[+index + 1].hits.total.value);
             }
-            
+
             data = data.responses[0];
           }
           if ($scope.searchParams.type === 'data_packages') {

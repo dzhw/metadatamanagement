@@ -1,4 +1,4 @@
-/* global _*/
+/* global _ */
 /* Author: Daniel Katzberg */
 'use strict';
 
@@ -370,16 +370,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
     /**
      * Function stripping the version number from a filter value.
      * This is only relevant for queries for related publications and concepts.
+
      * @param {*} filter object with filter name as key and a value
-     * @returns filter object with value without version
+     * @returns {*} filter object with value without version
      */
     var stripVersionSuffixFromFilters = function(filter) {
       var strippedFilter = {};
       _.forEach(_.keys(filter), function(index) {
 
         var tempFilterValue;
-        // in queries from the sidebar filter[index] will be an array with one element
-        if (Array.isArray(filter[index])){
+        // in queries from the sidebar
+        // filter[index] will be an array with one element
+        if (Array.isArray(filter[index])) {
           tempFilterValue = filter[index][0].toString();
         } else {
           // queries from the search filter panel will not be an array
@@ -451,6 +453,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
     return {
       /**
        * Function creating elastic search query based on input parameters and returning request results.
+
        * @param {*} queryterm the term to search for
        * @param {*} pageNumber the current page number
        * @param {*} dataAcquisitionProjectId the id of the currently selected project
@@ -463,7 +466,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
        * @param {*} sortCriteria option for sorting
        * @param {*} enforceReleased true if search applies only to released data else false
        * @param {*} additionalSearchIndex an array of strings with the names of additional indices (relevant for public user search)
-       * @returns seach result
+       * @returns {*} seach result
        */
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
@@ -662,8 +665,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
             bodylist.push(header1);
             bodylist.push(query.body);
 
-            //var additionalQuery;
-            //var additionalHeader;
             for (var i = 0; i < additionalSearchIndex.length; i++) {
               var index = additionalSearchIndex[i];
               var additionalQuery = createAdditionalSearchQueryForPublicUsers(

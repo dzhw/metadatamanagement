@@ -1,4 +1,5 @@
 /* global _, document */
+
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -9,7 +10,7 @@ angular.module('metadatamanagementApp')
       $element, CleanJSObjectService, $mdSelect) {
 
       var irrelevantFiltersMapping = {
-        "related_publications": ["year", "language"]
+        'related_publications': ['year', 'language']
       };
       var elasticSearchTypeChanged = false;
       var searchParamsFilterChanged = false;
@@ -141,18 +142,18 @@ angular.module('metadatamanagementApp')
        */
       var removeIrrelevantFilter = function() {
         var availableFiltersCopy = $scope.availableFilters;
-        var irrelevantFilters = irrelevantFiltersMapping[$scope.currentElasticsearchType];
-        if (irrelevantFilters){
-          for (var i = 0; i < irrelevantFilters.length; i++){
-            filter = irrelevantFilters[i];
+        var irrelevantFilters = irrelevantFiltersMapping[
+          $scope.currentElasticsearchType];
+        if (irrelevantFilters) {
+          for (var i = 0; i < irrelevantFilters.length; i++) {
+            var filter = irrelevantFilters[i];
             var filterIndex = availableFiltersCopy.indexOf(filter);
-            if (filterIndex > -1){
+            if (filterIndex > -1) {
               availableFiltersCopy.splice(filterIndex, 1);
             }
           }
-          $scope.availableFilters = availableFiltersCopy
+          $scope.availableFilters = availableFiltersCopy;
         }
-
-      }
+      };
     }
   ]);

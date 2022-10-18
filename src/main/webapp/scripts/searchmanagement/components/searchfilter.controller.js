@@ -1,4 +1,5 @@
 /* global _ */
+
 (function() {
   'use strict';
 
@@ -127,12 +128,13 @@
       });
     }
 
-    // 
     /**
      * Updates the search filter mapping and the search parameters when menu-toggle was clicked
+
      * @param {*} item the filter item/value (e.g. 'fr')
      * @param {*} prop the filter property (e.g. 'language')
      */
+
     function toggleFilterItem(item, prop) {
       readSearchParamsFromLocation();
       if ($ctrl.searchFilterMapping &&

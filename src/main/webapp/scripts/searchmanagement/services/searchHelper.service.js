@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp').factory(
           attribute: 'year',
           i18n: true,
           min_doc_count: 1,
-          orderByKey: "desc"
+          orderByKey: 'desc'
         }
       }
     };
@@ -808,11 +808,12 @@ angular.module('metadatamanagementApp').factory(
               }
             };
 
-            if (aggregationConfig.orderByKey){
-              aggregation.terms.order = {"_key": aggregationConfig.orderByKey};
+            if (aggregationConfig.orderByKey) {
+              aggregation.terms.order = {'_key': aggregationConfig.orderByKey};
             }
 
-            if (aggregationConfig.i18n && elasticsearchType != "related_publications") {
+            if (aggregationConfig.i18n &&
+              elasticsearchType !== 'related_publications') {
               aggregation.terms.field = aggregationConfig.attribute +
               '.' + currentLanguage;
             } else {
