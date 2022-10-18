@@ -662,12 +662,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
             bodylist.push(header1);
             bodylist.push(query.body);
 
-            var additionalQuery;
-            var additionalHeader;
-            for (var index of additionalSearchIndex) {
-              additionalQuery = createAdditionalSearchQueryForPublicUsers(
+            //var additionalQuery;
+            //var additionalHeader;
+            for (var i = 0; i < additionalSearchIndex.length; i++) {
+              var index = additionalSearchIndex[i];
+              var additionalQuery = createAdditionalSearchQueryForPublicUsers(
                 queryterm, index);
-              additionalHeader = {
+              var additionalHeader = {
                 index: additionalQuery.index,
                 preference: additionalQuery.preference
               };

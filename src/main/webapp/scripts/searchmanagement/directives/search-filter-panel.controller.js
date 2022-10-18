@@ -143,15 +143,16 @@ angular.module('metadatamanagementApp')
         var availableFiltersCopy = $scope.availableFilters;
         var irrelevantFilters = irrelevantFiltersMapping[$scope.currentElasticsearchType];
         if (irrelevantFilters){
-          for (var filter of irrelevantFilters){
-            var i = availableFiltersCopy.indexOf(filter);
-            if (i > -1){
-              availableFiltersCopy.splice(i, 1);
+          for (var i = 0; i < irrelevantFilters.length; i++){
+            filter = irrelevantFilters[i];
+            var filterIndex = availableFiltersCopy.indexOf(filter);
+            if (filterIndex > -1){
+              availableFiltersCopy.splice(filterIndex, 1);
             }
           }
           $scope.availableFilters = availableFiltersCopy
         }
-        
+
       }
     }
   ]);
