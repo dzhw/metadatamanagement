@@ -51,7 +51,7 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
   /**
    * The id of the {@link DataSet} to which this attachment belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message =
@@ -61,7 +61,7 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
   /**
    * The id of the {@link DataAcquisitionProject} to which the {@link DataSet} of this attachment
    * belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message =
@@ -70,7 +70,7 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
   /**
    * A description for this attachment.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
   @NotNull(message =
@@ -83,7 +83,7 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
   /**
    * The title of the attachment in the language of the attachment.
-   * 
+   *
    * Must not be empty and must not contain more than 2048 characters.
    */
   @NotEmpty(message =
@@ -94,7 +94,7 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
   /**
    * The language of the attachments content.
-   * 
+   *
    * Must not be empty and must be specified as ISO 639 language code.
    */
   @NotNull(message =
@@ -105,7 +105,7 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
   /**
    * The filename of the attachment.
-   * 
+   *
    * Must not be empty and must contain only (german) alphanumeric characters and "_" and "-" and
    * ".".
    */
@@ -118,7 +118,7 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
   /**
    * The number of the {@link DataSet} to which this attachment belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message =
@@ -128,12 +128,25 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
   /**
    * The index in the {@link DataSet} of this attachment. Used for sorting the attachments of this
    * {@link DataSet}.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message =
       "data-set-management.error.data-set-attachment-metadata.index-in-data-set.not-null")
   private Integer indexInDataSet;
+
+  /**
+   * The doi of the attachment.
+   *
+   * Must not contain more than 512 characters.
+   *
+   * Must match the pattern of a doi-url https://doi.org/{id}
+   */
+  @Size(max = StringLengths.MEDIUM, message = "attachment.error.doi.size")
+  @Pattern(
+      message = "attachment.error.doi.pattern",
+      regexp = Patterns.DOI)
+  private String doi;
 
   /**
    * Generate the id of this attachment from the dataSetId and the fileName.

@@ -7,11 +7,12 @@
 version: "3.1"
 services:
   app:
-    image: dzhw/metadatamanagement:latest
+    image: local/dzhw/metadatamanagement:latest-local-minified
     environment:
       - SPRING_PROFILES_ACTIVE=local,minified
       - SPRING_DATA_MONGODB_HOST=mongodb
-      - METADATAMANAGEMENT_ELASTICSEARCH-CLIENT_URL=http://elasticsearch:9200
+      - METADATAMANAGEMENT_ELASTICSEARCHANGULARCLIENT_URL=http://elasticsearch:9200
+      - SPRING_ELASTICSEARCH_REST_URIS_0=http://elasticsearch:9200
       - SPRING_MAIL_HOST=maildev
       - SPRING_MAIL_PORT=25
       - METADATAMANAGEMENT_DARA_ENDPOINT=${DARA_ENDPOINT}
@@ -23,4 +24,4 @@ services:
       - mongodb
       - elasticsearch
       - maildev
-      - identity-provider
+      - identity_provider

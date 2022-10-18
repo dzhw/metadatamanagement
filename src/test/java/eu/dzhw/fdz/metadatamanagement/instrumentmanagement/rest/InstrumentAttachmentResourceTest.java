@@ -246,6 +246,64 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithMissingDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    InstrumentAttachmentMetadata instrumentAttachmentMetadata =
+      UnitTestCreateDomainObjectUtils.buildInstrumentAttachmentMetadata("projectid", 1);
+    instrumentAttachmentMetadata.setDoi(null);
+
+    MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
+
+    mockMvc
+      .perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments").file(attachment)
+        .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithValidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    InstrumentAttachmentMetadata instrumentAttachmentMetadata =
+      UnitTestCreateDomainObjectUtils.buildInstrumentAttachmentMetadata("projectid", 1);
+    instrumentAttachmentMetadata.setDoi("https://doi.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
+
+    mockMvc
+      .perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments").file(attachment)
+        .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithInvalidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    InstrumentAttachmentMetadata instrumentAttachmentMetadata =
+      UnitTestCreateDomainObjectUtils.buildInstrumentAttachmentMetadata("projectid", 1);
+    instrumentAttachmentMetadata.setDoi("https://invalid.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
+
+    mockMvc
+      .perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments").file(attachment)
+        .file(metadata))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", is("attachment.error.doi.pattern")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithInstrument() throws Exception {
     Instrument instrument =
         UnitTestCreateDomainObjectUtils.buildInstrument("projectid", "projectid-sy1");

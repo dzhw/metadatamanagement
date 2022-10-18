@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').config(
 
           'doi': {
             'size': 'Die DOI muss kurzer als 512 Zeichen sein.',
-            'pattern': 'Die DOI-Url sollte nach folgendem Muster eingegtragen werden: https://doi.org/<id>'
+            'pattern': 'Die DOI-Url sollte nach folgendem Muster eingetragen werden: https://doi.org/<id>'
           }
         },
         'hint': {

@@ -49,6 +49,15 @@ mongock:
   change-logs-scan-package:
     - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
     - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs
+  # necessary config due to mongock upgrade from 4.1.x to 4.3.x
+  # see: https://github.com/mongock/mongock/issues/294
+  mongo-db:
+    write-concern:
+      w: majority
+      w-timeout-ms: 300000
+      journal: false
+    read-concern: local
+    read-preference: primary
     
 logging:
     level:
