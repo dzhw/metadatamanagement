@@ -364,12 +364,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     function createPublicationsFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
-      console.log("FILTER", data)
       var dataPackageFilter = {
         'year': data['year'].buckets,
         'language': data['language'].buckets
       };
-      console.log(dataPackageFilter);
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
 
