@@ -194,8 +194,17 @@ try {
         if (code) {
           Auth.authorize(code).then(function() {
             init();
-          }, function() {
+          }, function(error) {
+            // @todo  display some error message
+            console.log(error);
+            console.log($location.search());
             init();
+            $state.go('start', {
+              lang: LanguageService.getCurrentInstantly(),
+              data: {
+                authenticationError: true
+              }
+            });
           });
         } else {
           Auth.init().then(function() {

@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp').factory(
   'Principal',
   function Principal($q, AuthServiceProvider, $rootScope, $sessionStorage,
-                     WelcomeDialogService, $state, LanguageService, $injector) {
+                     WelcomeDialogService, $state, LanguageService, $injector,
+                     $http) {
 
     if (AuthServiceProvider.hasToken()) {
       $rootScope.identity = AuthServiceProvider.idTokenInfo();
@@ -12,9 +13,19 @@ angular.module('metadatamanagementApp').factory(
 
     //@todo: save welcome dialog state in dpl
     var displayWelcomeDialog = function() {
+      var tokenInfo = AuthServiceProvider.idTokenInfo();
+      return !tokenInfo.welcome_dialog_deactivated;
       /*return _identity &&
         _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
         !identity.welcomeDialogDeactivated;*/
+    };
+    var deactivateWelcomeDialogIDP = function(hideDialog) {
+      if (hideDialog &&
+          !AuthServiceProvider.idTokenInfo().welcome_dialog_deactivated) {
+        var url =
+            'api/users/deactivatedWelcomeDialog?deactivatedWelcomeDialog=true';
+        return $http.patch(url);
+      }
     };
 
     return {
@@ -87,6 +98,7 @@ angular.module('metadatamanagementApp').factory(
               AuthServiceProvider.idTokenInfo().preferred_username)
               .then(function(hideWelcomeDialog) {
                 if (hideWelcomeDialog) {
+                  deactivateWelcomeDialogIDP(hideWelcomeDialog);
                   //_identity.welcomeDialogDeactivated = true;
                   //@todo: save state in dpl user profile
                 }
