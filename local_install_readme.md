@@ -14,6 +14,10 @@
 * optional:
     * `docker-compose exec identity_provider apt update`
     * `docker-compose exec identity_provider apt install less vim`
+* also optional: update container
+    * `docker pull sanduhrs/identity-provider:latest`
+    * `docker-compose rm identity_provider`
+    * `docker-compose up identity_provider`
 * finish idp installation:
     * use sqlite (lazy me)
     * create roles: http://localhost:8082/admin/people/roles
@@ -44,15 +48,25 @@
             * `ROLE_RELEASE_MANAGER`
     * create clients: http://localhost:8082/admin/config/services/consumer
         * `mdm_frontend`
+            * client id: any you like
             * user: `resource_server`
             * confidential: `true`
             * 3rd party: `true`
             * redirect: `http://localhost:8080`
         * `report_task`
+            * client id: any you like
             * user: `taskuser`
             * confidential: `true`
             * 3rd party: `false`
             * scopes: `ROLE_TASK_USER`
+        * `mdm_frontend_pkce`
+            * client id: any you like
+            * user: `resource_server`
+            * **DON'T SET ANY SECRET** (otherwise refresh token will not work)
+            * confidential: `false`
+            * pkce: `true`
+            * 3rd party: `true`
+            * redirect: `http://localhost:8080`
     * ensure claim `welcome_dialog_deactivated` is available for openid (workaround)
         * http://localhost:8082/admin/structure/claims
         * disable the claim `welcome_dialog_deactivated`
@@ -63,30 +77,15 @@
         * Label: `preferred_username`
         * Type: `private`
         * Field name: `Name`
-* fix jwt issuer:
-    * `docker-compose exec identity_provider bash`
-    * `vim /opt/drupal/web/modules/contrib/simple_oauth_claims/simple_oauth_claims.module`
-        * add `, '/'` to rtrim() calls on lines 35 and 63
-        * alternatively use `sed` (if `vim` hasn't been installed in this container):
-            * `sed -i "s#\['iss'\] = rtrim((new Url('<front>'))->setAbsolute()->toString())#['iss'] = rtrim((new Url('<front>'))->setAbsolute()->toString(), '/')#g" /opt/drupal/web/modules/contrib/simple_oauth_claims/simple_oauth_claims.module`
-    * clear drupal cache: http://localhost:8082/admin/config/development/performance
-* fix jwt bearer validation:
-    * `docker-compose exec identity_provider bash`
-    * `vim /opt/drupal/vendor/league/oauth2-server/src/AuthorizationValidators/BearerTokenValidator.php`
-        * change `'scopes'` to `'scope'` for getClaim() call on line 104
-        * alternatively use `sed` (if `vim` hasn't been installed in this container):
-            * `sed -i "s#\$token->getClaim('scopes')#\$token->getClaim('scope')#g" /opt/drupal/vendor/league/oauth2-server/src/AuthorizationValidators/BearerTokenValidator.php`
-    * clear drupal cache: http://localhost:8082/admin/config/development/performance
-
-### cause of the jwt issuer problem
-
-* spring security fetches the openid configuration of the idp via `http://localhost:8082/.well-known/openid-configuration`
-* the value of `issuer` in that document must match the configured issuer uri (configured either directly using the spring property `spring.security.oauth2.resourceserver.jwt.issuer-uri` or indirectly from the environment variable `RESOURCE_SERVER_ISSUER_URI`)
-* the value of `issuer` in the openid configuration is set using `rtrim((new Url('<front>'))->setAbsolute()->toString(), '/')` in `web/modules/contrib/openid_connect_discovery/src/Controller/OpenidConnectDiscoveryController.php`
-    * trailing slashes are trimmed
-* the jwt issuer claim is set using `rtrim((new Url('<front>'))->setAbsolute()->toString())` in `web/modules/contrib/simple_oauth_claims/simple_oauth_claims.module`
-    * trailing whitespaces are trimmed
-* the system route `<front>` points to `/`, which is why the token issuer differs from the config issuer
+    * create an undetermined claim called `iss` (will be added as an access token claim)
+        * http://localhost:8082/admin/structure/claims
+        * Label: `iss`
+            * alternatively use `Issuer` as label and edit the machine name to be `iss`
+        * Type: `undetermined`
+        * Field name: any
+* claims might be missing in tokens after the drupal cache has been cleared
+    * just disable and enable them to fix this
+    * http://localhost:8082/admin/structure/claims
 
 ## mongodb
 
@@ -97,17 +96,21 @@
 * `git checkout sso`
 * environment variables:
     * `JAVA_HOME=/home/<me>/.sdkman/candidates/java/15.0.2.hs-adpt`
-    * `RESOURCE_SERVER_ISSUER_URI="http://localhost:8082"`
+    * `RESOURCE_SERVER_ISSUER_URI="http://localhost:8082/"`
     * `USER_API_ENDPOINT="http://localhost:8082"`
     * `USER_API_USERNAME=resource_server` (actual username on idp)
     * `USER_API_PASSWORD=123` (password chosen for user `resource_server`)
     * `CLIENT_ID_LOCAL=64208774-4b2d-4703-9ea5-1de6c975ae44` (uuid of consumer/client `mdm_frontend`)
     * `CLIENT_SECRET_LOCAL=456` (secret chosen for consumer/client `mdm_frontend`)
-    * `ISSUER_LOCAL="http://localhost:8082"`
+    * `ISSUER_LOCAL="http://localhost:8082/"`
 * build frontend:
-    * `CLIENT_ID_LOCAL=64208774-4b2d-4703-9ea5-1de6c975ae44 CLIENT_SECRET_LOCAL=456 ISSUER_LOCAL="http://localhost:8082" grunt buildlocal`
+    * `CLIENT_ID_LOCAL=64208774-4b2d-4703-9ea5-1de6c975ae44 CLIENT_SECRET_LOCAL=456 ISSUER_LOCAL="http://localhost:8082/" grunt buildlocal`
 * build backend:
     * `JAVA_HOME=/home/jana/.sdkman/candidates/java/15.0.2.hs-adpt mvn verify`
 * run backend:
     * `JAVA_HOME=/home/jana/.sdkman/candidates/java/15.0.2.hs-adpt RESOURCE_SERVER_ISSUER_URI="http://localhost:8082/" USER_API_ENDPOINT="http://localhost:8082" USER_API_USERNAME=resource_server USER_API_PASSWORD=123 mvn`
+* use PKCE:
+    * `CLIENT_ID_LOCAL=64208774-4b2d-4703-9ea5-1de6c975ae44` (uuid of consumer/client `mdm_frontend_pkce`)
+    * `CLIENT_SECRET_LOCAL=` (consumer/client `mdm_frontend_pkce` must not have a secret set)
+
 

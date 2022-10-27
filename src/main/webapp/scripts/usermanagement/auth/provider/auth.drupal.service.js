@@ -9,15 +9,18 @@ angular
       var config = null;
       if (AuthProperties && AuthProperties.hasOwnProperty('issuer') &&
         AuthProperties.issuer.indexOf('http') !== -1) {
+        var authApiBase = AuthProperties.issuer.endsWith('/') ?
+            AuthProperties.issuer : AuthProperties.issuer + '/';
         config = {
           clientId: AuthProperties.clientId,
           clientSecret: AuthProperties.clientSecret,
+          issuer: AuthProperties.issuer,
           redirectUri: $location.protocol() + '://' + $location.host() +
             ($location.port() ? ':' + $location.port() : ''),
-          authUrl: AuthProperties.issuer + '/oauth/authorize',
-          tokenUrl: AuthProperties.issuer + '/oauth/token',
-          userInfo: AuthProperties.issuer + '/oauth/userinfo',
-          logout: AuthProperties.issuer + '/user/logout',
+          authUrl: authApiBase + 'oauth/authorize',
+          tokenUrl: authApiBase + 'oauth/token',
+          userInfo: authApiBase + 'oauth/userinfo',
+          logout: authApiBase + 'user/logout',
           scope: 'openid email profile role_admin ' +
             'role_data_provider role_publisher role_release_manager'
         };
@@ -30,6 +33,24 @@ angular
         }
         return false;
       };
+      var validateToken = function(token) {
+        if (!token) {
+          return false;
+        }
+        var tokenInfo = decodeToken(token);
+        if (!tokenInfo || !tokenInfo.hasOwnProperty('aud') ||
+            tokenInfo.aud !== config.clientId ||
+            !tokenInfo.hasOwnProperty('iss') ||
+            tokenInfo.iss !== config.issuer) {
+          return false;
+        }
+        return true;
+      };
+      // @todo  generate verifier
+      var codeVerifier = 'abcde12345abcde12345abcde12345abcde12345abcde12345';
+      //var codeChallenge = $window.btoa(codeVerifier);
+      // @todo  implement encryption
+      var codeChallenge = codeVerifier;
       return {
         login: function(silent) {
           var deferred = $q.defer();
@@ -42,7 +63,9 @@ angular
               '&redirect_uri=' +
               encodeURIComponent(config.redirectUri) +
               '&state=' + 'auth' +
-              '&scope=' + encodeURIComponent(config.scope);
+              '&scope=' + encodeURIComponent(config.scope) +
+              '&code_challenge=' + encodeURIComponent(codeChallenge) +
+              '&code_challenge_method=plain';
 
             silent = false;
 
@@ -74,7 +97,7 @@ angular
         isLoggedInSso: function() {
           var deferred = $q.defer();
           if (config) {
-            var url = AuthProperties.issuer + '/user/login?_format=json';
+            var url = authApiBase + '/user/login?_format=json';
             $http.get(
               url,
               {
@@ -119,17 +142,30 @@ angular
               'code=' + encodeURIComponent(code) +
               '&grant_type=authorization_code' +
               '&redirect_uri=' + encodeURIComponent(config.redirectUri) +
-              '&client_id=' + encodeURIComponent(config.clientId);
+              '&client_id=' + encodeURIComponent(config.clientId) +
+              '&code_verifier=' + encodeURIComponent(codeVerifier);
 
             $http.post(
               config.tokenUrl,
               data, {
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded',
-                  'Accept': 'application/json'
+                  'Accept': 'application/json'/*,
+                  'Authorization': 'Basic ' + $window.btoa(config.clientId +
+                      ':' + config.clientSecret)*/
                 }
               }).then(
               function(response) {
+                if (!response.data.hasOwnProperty('access_token') ||
+                    !validateToken(response.data.access_token)) {
+                  deferred.reject('missing or invalid access token');
+                  return;
+                }
+                if (!response.data.hasOwnProperty('id_token') ||
+                    !validateToken(response.data.id_token)) {
+                  deferred.reject('missing or invalid id token');
+                  return;
+                }
                 localStorageService.set('tokens', response.data);
                 deferred.resolve();
               },
@@ -195,8 +231,8 @@ angular
               'grant_type=refresh_token' +
               '&refresh_token=' +
               localStorageService.get('tokens').refresh_token +
-              '&client_id=' + encodeURIComponent(config.clientId) +
-              '&client_secret=' + encodeURIComponent(config.clientSecret);
+              '&client_id=' + encodeURIComponent(config.clientId)/* +
+              '&client_secret=' + encodeURIComponent(config.clientSecret)*/;
             $http.post(
               config.tokenUrl,
               data, {
@@ -207,6 +243,18 @@ angular
               }).then(
               function(response) {
                 $rootScope.$broadcast('stop-ignoring-401');
+                if (!response.data.hasOwnProperty('access_token') ||
+                    !validateToken(response.data.access_token)) {
+                  localStorageService.remove('tokens');
+                  deferred.reject('missing or invalid access token');
+                  return;
+                }
+                if (!response.data.hasOwnProperty('id_token') ||
+                    !validateToken(response.data.id_token)) {
+                  localStorageService.remove('tokens');
+                  deferred.reject('missing or invalid id token');
+                  return;
+                }
                 localStorageService.set('tokens', response.data);
                 deferred.resolve();
               },
