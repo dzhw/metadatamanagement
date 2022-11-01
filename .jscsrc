@@ -2,7 +2,7 @@
 	"preset": "google",
 	"requireSemicolons": true,
 	"requireDotNotation": false,
-	"maximumLineLength": 80,
+	"maximumLineLength":  { "value": 80, "allExcept": [ "comments" ] },
 	"requireCamelCaseOrUpperCaseIdentifiers": {"ignoreProperties": true},
 	"excludeFiles": ["src/main/webapp/scripts/app/app.constants.js"]
 }
