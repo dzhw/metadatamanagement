@@ -112,7 +112,7 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
 
   /**
    * Additional details required to generate a citation hint for Method Reports.
-   * 
+   *
    * Can be null for other attachment types than method reports. Can also be null for legacy method
    * reports.
    */
@@ -156,6 +156,19 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
       message = "data-package-management.error.data-package-attachment-metadata.language."
           + "not-supported")
   private String language;
+
+  /**
+   * The doi of the attachment.
+   *
+   * Must not contain more than 512 characters.
+   * 
+   * Must match the pattern of a doi-url https://doi.org/{id}
+   */
+  @Size(max = StringLengths.MEDIUM, message = "attachment.error.doi.size")
+  @Pattern(
+        message = "data-package-management.error.data-package-attachment-metadata.filename.not-valid",
+        regexp = Patterns.DOI)
+  private String doi;
 
   /**
    * Generate the id of this attachment from the dataPackageId and the fileName.
