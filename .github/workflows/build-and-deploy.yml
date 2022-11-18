@@ -45,10 +45,11 @@ jobs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
     - name: Install Grunt globally
       run: npm install -g grunt-cli
-    - name: Get branch name
-      uses: nelonoel/branch-name@v1.0.1
+    - name: Extract branch name
+      shell: bash
+      run: echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
     - name: Build with Maven and deploy with AWS CLI
-      run: ./deploy/build-and-deploy.sh unused ${BRANCH_NAME}
+      run: ./deploy/build-and-deploy.sh unused ${{ env.BRANCH }}
       env:
         REPO_GITHUB_USERNAME: ${{ secrets.REPO_GITHUB_USERNAME }}
         REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
