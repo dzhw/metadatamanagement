@@ -46,10 +46,11 @@ jobs:
       shell: bash
       #run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       run: echo "{branch}={$(echo ${GITHUB_REF#refs/heads/})}" >> $GITHUB_OUTPUT
-      id: extract_branch
+    - name: Echo branche name
+      run: echo ${{ GITHUB_OUTPUT }}
     - name: Build with Maven
       #run: ./deploy/build.sh unused ${BRANCH_NAME}
-      run: ./deploy/build.sh unused ${{ steps.extract_branch.outputs.branch }}
+      run: ./deploy/build.sh unused ${{ GITHUB_OUTPUT }}
       env:
         REPO_GITHUB_USERNAME: ${{ secrets.REPO_GITHUB_USERNAME }}
         REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
