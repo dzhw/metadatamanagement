@@ -12,6 +12,8 @@ angular.module('metadatamanagementApp').controller(
     };
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
+    $scope.canSwitchViews = Principal.canSwitchViews;
+    $scope.isProvider = Principal.isProvider;
 
     //Set Languages
     $scope.changeLanguage = function(languageKey) {
@@ -37,6 +39,14 @@ angular.module('metadatamanagementApp').controller(
       }
       MessageBus.remove('searchFilter');
     };
+    $scope.activateProviderView = function(active) {
+      if (active) {
+        Principal.activateProviderView();
+      } else {
+        Principal.deactivateProviderView();
+      }
+      
+    }
     $scope.productsCount = ShoppingCartService.count();
     $scope.$on('shopping-cart-changed',
       function(event, count) { // jshint ignore:line
