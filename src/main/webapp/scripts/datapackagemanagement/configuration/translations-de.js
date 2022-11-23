@@ -293,6 +293,12 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
               'en': 'Geben Sie eine Beschreibung des Datenpakets auf Englisch ein.'
             },
+            'consent': {
+              'part1': 'Bitte beachten! Die in dieses Feld eingegebenen Texte werden unter einer cc0 1.0 Lizenz über den da|ra-Dienst (',
+              'link1': 'https://www.da-ra.de/',
+              'part2': ') veröffentlicht. Mit der Eingabe und dem Abspeichern stimmen Sie den entsprechenden Lizenzbedingungen zu. Weitere Informationen zu den Lizenzbedingungen finden Sie unter ',
+              'link2': 'https://creativecommons.org/publicdomain/zero/1.0/'
+            },
             'project-contributors': {
               'first-name': 'Geben Sie den Vornamen der Projektmitarbeiter:in ein.',
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Projektmitarbeiter:in ein.',

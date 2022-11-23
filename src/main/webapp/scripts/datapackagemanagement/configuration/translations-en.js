@@ -291,6 +291,12 @@ angular.module('metadatamanagementApp').config(
               'de': 'Enter a description of this data package in German.',
               'en': 'Enter a description of this data package in English.'
             },
+            'consent': {
+              'part1': 'Please note! The texts entered in this field are published under a cc0 1.0 license via the da|ra service (',
+              'link1': 'https://www.da-ra.de/',
+              'part2': '). By entering and saving, you agree to the corresponding license terms. For more information on the license terms, please visit ',
+              'link2': 'https://creativecommons.org/publicdomain/zero/1.0/'
+            },
             'project-contributors': {
               'first-name': 'Enter the first name of this project member.',
               'middle-name': 'If available enter the middle-name of this project member.',
