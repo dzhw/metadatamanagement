@@ -76,7 +76,7 @@
               <md-not-found>
                 {{'search-management.filter.study-series-filter.not-found' | translate}}
               </md-not-found>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.studySeriesDe.$dirty && !dataPackageForm.studySeriesDe.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.studySeries.de == null || ctrl.dataPackage.studySeries.de == ''">
                 {{'data-package-management.edit.hints.study-series.de' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm.studySeriesDe.$error">
@@ -110,7 +110,7 @@
               <md-not-found>
                 {{'search-management.filter.study-series-filter.not-found' | translate}}
               </md-not-found>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.studySeriesEn.$dirty && !dataPackageForm.studySeriesEn.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.studySeries.en == null || ctrl.dataPackage.studySeries.en == ''">
                 {{'data-package-management.edit.hints.study-series.en' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm.studySeriesEn.$error">
@@ -156,7 +156,7 @@
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" name="annotationsDe" ng-model="ctrl.dataPackage.annotations.de"
                         rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.annotationsDe.$dirty && !dataPackageForm.annotationsDe.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.annotations.de == null || ctrl.dataPackage.annotations.de == ''">
                 {{'data-package-management.edit.hints.annotations.de' | translate}}
               </div>
               <div class="fdz-input-hint">
@@ -180,7 +180,7 @@
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" name="annotationsEn" ng-model="ctrl.dataPackage.annotations.en"
                         rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.annotationsEn.$dirty && !dataPackageForm.annotationsEn.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.annotations.en == null || ctrl.dataPackage.annotations.en == ''">
                 {{'data-package-management.edit.hints.annotations.en' | translate}}
               </div>
               <div class="fdz-input-hint">
@@ -581,7 +581,7 @@
                      ng-model="link.displayText.de" autocomplete="off">
               <div
                 class="fdz-input-hint"
-                ng-if="!dataPackageForm['linkDisplayTextDe_' + $index].$dirty && !dataPackageForm['linkDisplayTextDe_' + $index].$touched">
+                ng-if="link.displayText.de == null || link.displayText.de == ''">
                 {{ 'data-package-management.edit.hints.additional-links.display-text.de' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm['linkDisplayTextDe_' + $index].$error">
@@ -596,7 +596,7 @@
                      ng-model="link.displayText.en" autocomplete="off">
               <div
                 class="fdz-input-hint"
-                ng-if="!dataPackageForm['linkDisplayTextEn_' + $index].$dirty && !dataPackageForm['linkDisplayTextEn_' + $index].$touched">
+                ng-if="link.displayText.en == null || link.displayText.en == ''">
                 {{ 'data-package-management.edit.hints.additional-links.display-text.en' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm['linkDisplayTextEn_' + $index].$error">
