@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('ProjectOverviewController', function($stateParams, $state,
       DataAcquisitionProjectCollectionResource, BreadcrumbService,
-      PageMetadataService) {
+      PageMetadataService, DataAcquisitionProjectRepositoryClient, Principal) {
     var ctrl = this;
     var sort = $stateParams.sort ? $stateParams.sort : 'id,asc';
     var limit = $stateParams.limit ? $stateParams.limit : 20;
@@ -26,6 +26,7 @@ angular.module('metadatamanagementApp')
         ctrl.pagination.itemsPerPage = data.page.size;
         ctrl.pagination.selectedPageNumber = data.page.number + 1;
         ctrl.pagination.itemsPerPage = data.page.size;
+        ctrl.setUserProjects();
       });
     };
 
@@ -45,6 +46,27 @@ angular.module('metadatamanagementApp')
     ctrl.openProjectCockpit = function(projectId) {
       $state.go('project-cockpit', {id: projectId});
     };
+
+    /**
+     * function to get all projects of a user and add them as list to ctrl.userProjects
+     */
+    ctrl.setUserProjects = function() {
+      Principal.identity().then(function(account) {
+        switch (account.login) {
+          case "dataprovider":
+            DataAcquisitionProjectRepositoryClient
+            .findByIdLikeOrderByIdAsc('').then(function(result) {
+              ctrl.userProjects = result.data
+            });
+            break;
+          case "publisher":
+            ctrl.userProjects = ctrl.overview.data
+            break;
+          default:
+            ctrl.userProjects = []
+        }
+      });
+    }
 
     init();
   });
