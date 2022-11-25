@@ -7,22 +7,10 @@ angular.module('metadatamanagementApp').factory(
                      WelcomeDialogService) {
     var _identity;
     var _authenticated = false;
-    
-    // Attribut, ob der View gewechselt werden kann
-    var _canSwitchViews = false;
-    // Attribut ob provider view aktiv oder nicht
-    var _providerViewActive = false;
 
     var displayWelcomeDialog = function(identity) {
       return _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
         !identity.welcomeDialogDeactivated;
-    };
-
-    var allowViewSwitch = function(identity) {
-      if (identity !== null){
-        return _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1;
-      }
-      return false;
     };
 
     return {
@@ -55,12 +43,6 @@ angular.module('metadatamanagementApp').factory(
       authenticate: function(identity) {
         _identity = identity;
         _authenticated = identity !== null;
-        if (allowViewSwitch(_identity)){
-          _canSwitchViews = true;
-        } else {
-          _canSwitchViews = false;
-        }
-        _providerViewActive = false;
       },
       identity: function(force) {
         var deferred = $q.defer();
@@ -86,15 +68,6 @@ angular.module('metadatamanagementApp').factory(
             $rootScope.$broadcast('stop-ignoring-401');
             _identity = account.data;
             _authenticated = true;
-            if (allowViewSwitch(_identity)){
-              _canSwitchViews = true;
-            } else {
-              _canSwitchViews = false;
-            }
-            // activate provider view for all authenticated users
-            if (_.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') === -1){
-              _providerViewActive = true;
-            }
             if (displayWelcomeDialog(_identity)) {
               WelcomeDialogService.display(_identity.login)
                 .then(function(hideWelcomeDialog) {
@@ -121,18 +94,6 @@ angular.module('metadatamanagementApp').factory(
       },
       loginName: function() {
         return _identity && _identity.login;
-      },
-      canSwitchViews: function() {
-        return _canSwitchViews;
-      },
-      activateProviderView: function() {
-        _providerViewActive = true;
-      },
-      deactivateProviderView: function() {
-        _providerViewActive = false;
-      },
-      isProvider: function() {
-        return _providerViewActive;
       }
     };
   });

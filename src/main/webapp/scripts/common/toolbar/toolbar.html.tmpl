@@ -17,7 +17,7 @@
           {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
         </md-tooltip>
       </md-button>
-      <md-button ng-if="!isProvider()" class="fdz-logo"
+      <md-button ng-if="!isAuthenticated()" class="fdz-logo"
                  ui-sref="start" rel="home">
         <img alt="{{'global.rdc-alt-text'|translate}}"
              src="assets/images/FDZ_Logo_With_Mag.svg">
@@ -26,7 +26,7 @@
           {{'global.menu.back-to-start'|translate}}
         </md-tooltip>
       </md-button>
-      <md-button ng-if="isProvider()"
+      <md-button ng-if="isAuthenticated()"
                  class="fdz-logo"
                  ui-sref="search"
                  ui-sref-opts="{reload: true, notify: true}"
@@ -38,33 +38,7 @@
           {{'global.menu.back-to-search'|translate}}
         </md-tooltip>
       </md-button>
-      <!-- Buttons to switch from oder to provider view -->
-      <md-button
-        ng-if="canSwitchViews()"
-        id="switchToProvider"
-        ui-sref="search"
-        ui-sref-opts="{reload: true, notify: true}"
-        ng-click="activateProviderView(true)">
-        <md-tooltip md-autohide="true" md-direction="left"
-                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'global.toolbar.buttons.switch-to-provider-view-tooltip' | translate}}
-        </md-tooltip>
-        {{'global.toolbar.buttons.switch-to-provider-view' | translate}}
-      </md-button>
-      <md-button
-        ng-if="canSwitchViews()"
-        id="switchToOrder"
-        ui-sref="search"
-        ui-sref-opts="{reload: true, notify: true}"
-        ng-click="activateProviderView(false)">
-        <md-tooltip md-autohide="true" md-direction="left"
-                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'global.toolbar.buttons.switch-to-order-view-tooltip' | translate}}
-        </md-tooltip>
-        {{'global.toolbar.buttons.switch-to-order-view' | translate}}
-      </md-button>
     </div>
-    <span ng-if="isProvider()">AKTIVE</span>
     <div>
       <md-button
         class="md-icon-button"
@@ -119,7 +93,7 @@
       </md-button>
       <md-button
         class="md-icon-button"
-        ng-if="!productsCount && !isProvider()"
+        ng-if="!productsCount && !isAuthenticated()"
         ui-sref="shoppingCart">
         <md-icon md-font-set="material-icons">shopping_cart</md-icon>
         <md-tooltip
@@ -131,7 +105,7 @@
       <md-button
         class="md-icon-button md-accent"
         id="shoppingCartButton"
-        ng-if="productsCount  && !isProvider()"
+        ng-if="productsCount  && !isAuthenticated()"
         ui-sref="shoppingCart">
         <!--        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"-->
         <md-icon class="" md-font-set="material-icons">shopping_cart</md-icon>

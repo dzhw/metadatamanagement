@@ -60,11 +60,7 @@ angular.module('metadatamanagementApp').config(
             'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',
             'logs-tooltip': 'Klicken, um Loglevel zu ändern',
             'settings-tooltip': 'Klicken, um Ihre Kontoeigenschaften zu bearbeiten',
-            'password-tooltip': 'Klicken, um Ihr Passwort zu ändern',
-            'switch-to-provider-view': 'Daten übergeben',
-            'switch-to-provider-view-tooltip': 'Klicken, um zur Ansicht für Datengeber:innen zu gelangen',
-            'switch-to-order-view': 'Daten bestellen',
-            'switch-to-order-view-tooltip': 'Klicken, um zur Bestellansicht zu gelangen'
+            'password-tooltip': 'Klicken, um Ihr Passwort zu ändern'
           },
           'released': 'Freigegeben',
           'not-released': 'Nicht freigegeben'
