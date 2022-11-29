@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp')
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
+      ctrl.hasBeenReleasedBefore = false;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         surveysCount: 0,
@@ -88,6 +89,7 @@ angular.module('metadatamanagementApp')
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
+            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -181,4 +183,42 @@ angular.module('metadatamanagementApp')
             });
         });
       };
+
+      ctrl.showOrderButton = function() {
+        return ctrl.hasBeenReleasedBefore && 
+          ctrl.dataPackage.release != undefined;
+      };
+
+      ctrl.orderDataPackage = function() {
+        MessageBus.set('onDataPackageChange',
+            {
+              masterId: ctrl.dataPackage.masterId,
+              version: ctrl.dataPackage.release.version
+            });
+        console.log("Ordering");
+        $rootScope.dataPackage = ctrl.dataPackage;
+        $mdDialog.show({
+          controller: 'OrderDataPackageDialogController',
+          controllerAs: 'ctrl',
+          templateUrl: 'scripts/datapackagemanagement/' +
+            'views/order-data-package-dialog.html.tmpl',
+          clickOutsideToClose: true,
+          fullscreen: true,
+          targetEvent: event
+        }).then(function(result) {
+          console.log(result);
+          // DataPackageOverviewResource.startGeneration({
+          //   dataPackageId: ctrl.dataPackage.id,
+          //   version: result.version,
+          //   languages: result.languages}).$promise.then(function() {
+          //     SimpleMessageToastService.openSimpleMessageToast(
+          //       'data-package-management.detail.' +
+          //         'overview-generation-started-toast');
+          //   });
+        });
+      };
+
+      $scope.$watch('dataPackage', function(newValue) {
+        $scope.$broadcast('currentDataPackage', newValue);
+      });
     });

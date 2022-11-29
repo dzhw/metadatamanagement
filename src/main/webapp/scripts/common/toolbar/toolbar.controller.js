@@ -63,4 +63,20 @@ angular.module('metadatamanagementApp').controller(
         $state.current.name !== 'register' &&
         $state.current.name !== 'login';
     });
+
+    $scope.isDataProvider = function() {
+      return Principal.hasAuthority('ROLE_DATA_PROVIDER');
+    };
+
+    $scope.showEmptyCart = function() {
+      return (!$scope.productsCount && !$scope.isAuthenticated()) ||
+        (!$scope.productsCount && $scope.isAuthenticated() &&
+        $scope.isDataProvider());
+    };
+
+    $scope.showFullCart = function() {
+      return ($scope.productsCount  && !$scope.isAuthenticated()) ||
+        ($scope.productsCount && $scope.isAuthenticated() &&
+        $scope.isDataProvider());
+    };
   });

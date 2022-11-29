@@ -121,7 +121,8 @@ angular.module('metadatamanagementApp').config(
           'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
           'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen.',
           'generate-datapackage-overview-tooltip': 'Klicken, um eine Übersicht über dieses Datenpaket als PDF zu erstellen.',
-          'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.'
+          'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
+          'order-datapackage-tooltip': 'Klicken, um dieses Datenpaket zu bestellen.'
         },
         'log-messages': {
           'data-package': {
@@ -357,6 +358,13 @@ angular.module('metadatamanagementApp').config(
           'tooltip': {
             'cancel': 'Klicken, um das Erzeugen der Datenpaketübersicht abzubrechen.',
             'ok': 'Klicken, um das Erzeugen der Datenpaketübersicht zu starten.'
+          }
+        },
+        'order-data-package': {
+          'title': 'Datenpaket bestellen',
+          'tooltip': {
+            'cancel': 'Klicken, um den Bestellvorgang abzubrechen.',
+            'ok': 'Klicken, um das Datenpaket dem Warenkorb hinzuzufügen.'
           }
         }
       }
