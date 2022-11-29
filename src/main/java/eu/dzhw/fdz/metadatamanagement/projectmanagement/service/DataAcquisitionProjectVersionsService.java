@@ -63,7 +63,7 @@ public class DataAcquisitionProjectVersionsService extends
 
   /**
    * Get the last saved release for the given project id.
-   * 
+   *
    * @param id the id of the data acquisition project.
    * @return the last saved release or null
    */
@@ -73,7 +73,7 @@ public class DataAcquisitionProjectVersionsService extends
 
   /**
    * Get the previous release of a data acquisition project. The release before currentRelease.
-   * 
+   *
    * @param id the id of the data acquisition project.
    * @param currentRelease get the release saved before this release, if null will return the
    *        current release
@@ -111,7 +111,7 @@ public class DataAcquisitionProjectVersionsService extends
    * @param noBeta boolean indicating if beta release shall be skipped or not
    * @return List of all releases (max 100 entries).
    */
-  public List<Release> findAllReleases(String id, boolean noBeta) {
+  public List<Release> findAllReleases(String id, boolean noBeta, boolean onlyNotHiddenVersions) {
     // Find all version changes
     List<Shadow<Release>> shadows =
         javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
@@ -120,16 +120,27 @@ public class DataAcquisitionProjectVersionsService extends
     if (shadows.isEmpty()) {
       return new ArrayList<>();
     } else {
-      return shadows.stream().map(shadow -> shadow.get())
-          .filter(release -> isAvailable(id, release) && (!noBeta || Version
-              .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))))
+      if (onlyNotHiddenVersions) {
+        // return only not-hidden versions (for all users)
+        return shadows.stream().map(shadow -> shadow.get())
+          .filter(release -> checkNotHidden(id, release) && (!noBeta || Version
+            .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))))
           .collect(Collectors.toList());
+      }
+
+      // return all hidden and not-hidden versions for authenticated users and
+      // only not-hidden versions for public users
+      return shadows.stream().map(shadow -> shadow.get())
+        .filter(release -> isAvailable(id, release) && (!noBeta || Version
+          .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))))
+        .collect(Collectors.toList());
+
     }
   }
 
   /**
    * Check if the released shadow has not been hidden for public users.
-   * 
+   *
    * @param id masterId of the project
    * @param release the release containing the version of the shadow
    * @return false if the shadow is hidden and the current user is a public user
@@ -140,5 +151,17 @@ public class DataAcquisitionProjectVersionsService extends
           .eq(id + "-" + release.getVersion()).and(projectNotHidden));
     }
     return true;
+  }
+
+  /**
+   * Check if the released shadow is hidden. Only return not hidden shadows.
+   *
+   * @param id masterId of the project
+   * @param release the release containing the version of the shadow
+   * @return false if the shadow is hidden
+   */
+  private boolean checkNotHidden(String id, Release release) {
+    return super.repository.exists(QDataAcquisitionProject.dataAcquisitionProject.id
+      .eq(id + "-" + release.getVersion()).and(projectNotHidden));
   }
 }
