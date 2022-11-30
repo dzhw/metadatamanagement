@@ -274,7 +274,7 @@
     $ctrl.onGoToShoppingCart = function() {
       $scope.$emit('goToShoppingCartCloseDialog', true);
     };
-  };
+  }
 
   angular
     .module('metadatamanagementApp')

@@ -1,15 +1,15 @@
-/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('OrderAnalysisPackageDialogController', function($scope, $mdDialog,
+  .controller('OrderAnalysisPackageDialogController', function($scope,
+    $mdDialog,
     $rootScope, MessageBus) {
     $scope.bowser = $rootScope.bowser;
     var ctrl = this;
     ctrl.german = true;
     ctrl.onGoToShoopingCart = MessageBus;
 
-    $scope.$on('currentAnalysisPackage', function(event, value) {
+    $scope.$on('currentAnalysisPackage', function(value) {
       $scope.analysisPackage = value;
     });
 

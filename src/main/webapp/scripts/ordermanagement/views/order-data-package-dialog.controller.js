@@ -1,4 +1,3 @@
-/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -9,7 +8,7 @@ angular.module('metadatamanagementApp')
     ctrl.german = true;
     ctrl.onGoToShoopingCart = MessageBus;
 
-    $scope.$on('currentDataPackage', function(event, value) {
+    $scope.$on('currentDataPackage', function(value) {
       $scope.dataPackage = value;
     });
 

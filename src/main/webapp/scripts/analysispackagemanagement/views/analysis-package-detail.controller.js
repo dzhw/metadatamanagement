@@ -217,8 +217,8 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.showOrderButton = function() {
-        return ctrl.hasBeenReleasedBefore && 
-          ctrl.analysisPackage.release != undefined;
+        return ctrl.hasBeenReleasedBefore &&
+          ctrl.analysisPackage.release !== undefined;
       };
 
       ctrl.orderAnalysisPackage = function() {
@@ -234,8 +234,7 @@ angular.module('metadatamanagementApp')
           templateUrl: 'scripts/ordermanagement/' +
             'views/order-analysis-package-dialog.html.tmpl',
           clickOutsideToClose: true,
-          fullscreen: true,
-          targetEvent: event
+          fullscreen: true
         });
       };
     });
