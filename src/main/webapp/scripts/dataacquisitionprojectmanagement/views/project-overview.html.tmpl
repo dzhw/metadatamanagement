@@ -9,7 +9,7 @@
         </md-card-header-text>
       </md-card-header>
       <!-- Check if currently any projects are assigned to currently logged in user -->
-      <div ng-switch="ctrl.userProjects.length > 0">
+      <div ng-switch="ctrl.overview.data.length > 0">
         <!-- user with projects -->
         <md-card-content ng-switch-when="true" card="pa0">
           <table class="table-striped table-hover" fdz-table>
@@ -49,7 +49,7 @@
             </thead>
             <tbody>
             <tr ng-click="ctrl.openProjectCockpit(dataAcquisitionProject.id)"
-                ng-repeat="dataAcquisitionProject in ctrl.userProjects">
+                ng-repeat="dataAcquisitionProject in ctrl.overview.data">
               <td class="fdz-table-data-vertical-middle">
                 {{::dataAcquisitionProject.id}}
                 <md-tooltip md-autohide="true" md-direction="top"
@@ -96,7 +96,6 @@
             </tr>
             </tbody>
           </table>
-          <!-- TODO: PAGINATION WON'T UPDATE DEPENDING ON USER-->
           <div layout="column" layout-align="start center">
             <ul boundary-link-numbers="true"
                 class="pagination-sm"

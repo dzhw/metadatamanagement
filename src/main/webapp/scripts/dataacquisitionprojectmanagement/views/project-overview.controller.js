@@ -25,8 +25,18 @@ angular.module('metadatamanagementApp')
         ctrl.pagination.totalItems = data.page.totalElements;
         ctrl.pagination.itemsPerPage = data.page.size;
         ctrl.pagination.selectedPageNumber = data.page.number + 1;
-        ctrl.pagination.itemsPerPage = data.page.size;
-        ctrl.setUserProjects();
+
+        Principal.identity().then(function(account) {
+          if (account.login == "dataprovider") {
+            DataAcquisitionProjectRepositoryClient
+            .findByIdLikeOrderByIdAsc('', page, 2).then(function(result) {
+              ctrl.overview.data = result.data.dataAcquisitionProjects
+              ctrl.pagination.totalItems = result.data.page.totalElements; // TODO: Wird nicht korrekt vom backend zurück gegeben?
+              ctrl.pagination.itemsPerPage = result.data.page.size;
+              ctrl.pagination.selectedPageNumber = result.data.page.number + 1;
+            });
+          }
+        });
       });
     };
 
@@ -46,27 +56,6 @@ angular.module('metadatamanagementApp')
     ctrl.openProjectCockpit = function(projectId) {
       $state.go('project-cockpit', {id: projectId});
     };
-
-    /**
-     * function to get all projects of a user and add them as list to ctrl.userProjects
-     */
-    ctrl.setUserProjects = function() {
-      Principal.identity().then(function(account) {
-        switch (account.login) {
-          case "dataprovider":
-            DataAcquisitionProjectRepositoryClient
-            .findByIdLikeOrderByIdAsc('').then(function(result) {
-              ctrl.userProjects = result.data
-            });
-            break;
-          case "publisher":
-            ctrl.userProjects = ctrl.overview.data
-            break;
-          default:
-            ctrl.userProjects = []
-        }
-      });
-    }
 
     init();
   });
