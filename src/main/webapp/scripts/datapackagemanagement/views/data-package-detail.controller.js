@@ -195,26 +195,15 @@ angular.module('metadatamanagementApp')
               masterId: ctrl.dataPackage.masterId,
               version: ctrl.dataPackage.release.version
             });
-        console.log("Ordering");
         $rootScope.dataPackage = ctrl.dataPackage;
         $mdDialog.show({
           controller: 'OrderDataPackageDialogController',
           controllerAs: 'ctrl',
-          templateUrl: 'scripts/datapackagemanagement/' +
+          templateUrl: 'scripts/ordermanagement/' +
             'views/order-data-package-dialog.html.tmpl',
           clickOutsideToClose: true,
           fullscreen: true,
           targetEvent: event
-        }).then(function(result) {
-          console.log(result);
-          // DataPackageOverviewResource.startGeneration({
-          //   dataPackageId: ctrl.dataPackage.id,
-          //   version: result.version,
-          //   languages: result.languages}).$promise.then(function() {
-          //     SimpleMessageToastService.openSimpleMessageToast(
-          //       'data-package-management.detail.' +
-          //         'overview-generation-started-toast');
-          //   });
         });
       };
 

@@ -16,7 +16,8 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope, ScriptAttachmentResource,
              $timeout, $document,
              OutdatedVersionNotifier, AnalysisPackageSearchService, $log,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker,
+             $mdDialog) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -43,6 +44,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       var activeProject;
       var bowser = $rootScope.bowser;
+      ctrl.hasBeenReleasedBefore = false;
 
       ctrl.dataPackageList = {
         dataPackage: {
@@ -144,6 +146,7 @@ angular.module('metadatamanagementApp')
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
+            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -211,5 +214,28 @@ angular.module('metadatamanagementApp')
 
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
+      };
+
+      ctrl.showOrderButton = function() {
+        return ctrl.hasBeenReleasedBefore && 
+          ctrl.analysisPackage.release != undefined;
+      };
+
+      ctrl.orderAnalysisPackage = function() {
+        MessageBus.set('onAnalysisPackageChange',
+            {
+              masterId: ctrl.analysisPackage.masterId,
+              version: ctrl.analysisPackage.release.version
+            });
+        $rootScope.analysisPackage = ctrl.analysisPackage;
+        $mdDialog.show({
+          controller: 'OrderDataPackageDialogController',
+          controllerAs: 'ctrl',
+          templateUrl: 'scripts/ordermanagement/' +
+            'views/order-analysis-package-dialog.html.tmpl',
+          clickOutsideToClose: true,
+          fullscreen: true,
+          targetEvent: event
+        });
       };
     });

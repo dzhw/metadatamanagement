@@ -112,7 +112,8 @@ angular.module('metadatamanagementApp').config(
           'beta-release-no-doi': 'Dieses Analysepaket hat noch keine DOI.',
           'publications-for-data-package': 'Publikationen zu diesem Analysepaket',
           'page-description': '{{ description }}',
-          'title': 'Analysepaket (Skripte): {{ title }}'
+          'title': 'Analysepaket (Skripte): {{ title }}',
+          'order-analysispackage-tooltip': 'Klicken, um dieses Analysepaket zu bestellen.'
         },
         'edit': {
           'add-analysis-data-tooltip': 'Klicken, um weitere Analysedaten zu diesem Analysepaket hinzuzufügen.',
@@ -446,6 +447,13 @@ angular.module('metadatamanagementApp').config(
             'access-way': {
               'not-empty': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
             }
+          }
+        },
+        'order-analysis-package': {
+          'title': 'Analysepaket bestellen',
+          'tooltip': {
+            'cancel': 'Klicken, um den Bestellvorgang abzubrechen.',
+            'ok': 'Klicken, um das Analysepaket dem Warenkorb hinzuzufügen.'
           }
         }
       }

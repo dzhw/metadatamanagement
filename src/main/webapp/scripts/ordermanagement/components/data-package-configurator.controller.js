@@ -52,11 +52,6 @@
     }];
 
     function init() {
-      // console.log("init", $ctrl);
-      // if ($ctrl.dataPackage == null){
-      //   $ctrl.dataPackage = $rootScope.dataPackage;
-      // }
-      console.log($ctrl.dataPackage);
       var search = $location.search();
       if (search['access-way']) {
         $ctrl.selectedAccessWay = search['access-way'];
@@ -80,19 +75,13 @@
         .$promise
         .then(
         function(releases) {
-          console.log('RELEASES', releases);
           $ctrl.releases = releases;
-          //console.log(ctrl.dataPackage);
           if (releases.length === 0) {
             $ctrl.noFinalRelease = true;
           }
           loadAccessWays(id);
         });
     }
-
-    // $ctrl.removeHiddenVersions = function(releases){
-    //   console.log(ctrl.dataPackage);
-    // }
 
     function loadDataPackage(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
@@ -282,7 +271,7 @@
       }
     };
 
-    $ctrl.onGoToShoppingCart = function($event) {
+    $ctrl.onGoToShoppingCart = function() {
       $scope.$emit('goToShoppingCartCloseDialog', true);
     };
   };

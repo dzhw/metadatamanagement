@@ -122,7 +122,7 @@ angular.module('metadatamanagementApp').config(
           'tag-tooltip': 'Click to search for data packages with this tag',
           'generate-datapackage-overview-tooltip': 'Click to generate an overview of this data package as a PDF.',
           'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
-          'order-datapackage-tooltip': 'Click to order this data package'
+          'order-datapackage-tooltip': 'Click to order this data package.'
         },
         'log-messages': {
           'data-package': {
@@ -356,10 +356,10 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'order-data-package': {
-          'title': 'Datenpaket bestellen',
+          'title': 'Order data package',
           'tooltip': {
-            'cancel': 'Click to cancel the ordering process',
-            'ok': 'Click to add the data package to your cart'
+            'cancel': 'Click to cancel the ordering process.',
+            'ok': 'Click to add the data package to your cart.'
           }
         }
       }

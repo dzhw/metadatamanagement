@@ -220,6 +220,10 @@
         $ctrl.analysisPackage, $event
       );
     };
+
+    $ctrl.onGoToShoppingCart = function() {
+      $scope.$emit('goToShoppingCartCloseDialog', true);
+    };
   }
 
   angular

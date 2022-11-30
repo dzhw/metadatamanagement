@@ -112,7 +112,8 @@ angular.module('metadatamanagementApp').config(
           'beta-release-no-doi': 'This analysis package has no DOI yet.',
           'publications-for-analysis-package': 'Publications related to this Analysis Package',
           'page-description': '{{ description }}',
-          'title': 'Analysis Package (Scripts): {{ title }}'
+          'title': 'Analysis Package (Scripts): {{ title }}',
+          'order-analysispackage-tooltip': 'click to order this analysis package.'
         },
         'edit': {
           'add-analysis-data-tooltip': 'Click to add analysis data to this analysis package.',
@@ -443,6 +444,13 @@ angular.module('metadatamanagementApp').config(
             'access-way': {
               'not-empty': 'The access way of the data package must not be empty!'
             }
+          }
+        },
+        'order-analysis-package': {
+          'title': 'Order analysis package',
+          'tooltip': {
+            'cancel': 'Click to cancel the ordering process.',
+            'ok': 'Click to add the analysis package to your cart.'
           }
         }
       }
