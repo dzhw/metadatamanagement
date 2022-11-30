@@ -356,7 +356,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'order-data-package': {
-          'title': 'Order data package',
+          'title': 'Order Data Package',
           'tooltip': {
             'cancel': 'Click to cancel the ordering process.',
             'ok': 'Click to add the data package to your cart.'

@@ -447,7 +447,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'order-analysis-package': {
-          'title': 'Order analysis package',
+          'title': 'Order Analysis Package',
           'tooltip': {
             'cancel': 'Click to cancel the ordering process.',
             'ok': 'Click to add the analysis package to your cart.'
