@@ -102,7 +102,7 @@ public class DataAcquisitionProjectResourceController extends
     Map<String, Object> pageMap = new HashMap<>();
 
     pageMap.put("size", pageProjects.getSize());
-    pageMap.put("totalElements", pageProjects.getTotalElements());  // TODO: wrong value?
+    pageMap.put("totalElements", pageProjects.getTotalElements());
     pageMap.put("totalPages", pageProjects.getTotalPages());
     pageMap.put("number", pageProjects.getNumber());
 

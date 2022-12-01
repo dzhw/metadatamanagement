@@ -47,7 +47,7 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
     List<DataAcquisitionProject> list = mongoTemplate.find(query, DataAcquisitionProject.class);
 
     return PageableExecutionUtils.getPage(list, pageable,
-      () -> mongoTemplate.count(query, DataAcquisitionProject.class));
+      () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), DataAcquisitionProject.class));
   }
 
   @Override

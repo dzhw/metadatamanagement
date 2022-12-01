@@ -29,9 +29,9 @@ angular.module('metadatamanagementApp')
         Principal.identity().then(function(account) {
           if (account.login == "dataprovider") {
             DataAcquisitionProjectRepositoryClient
-            .findByIdLikeOrderByIdAsc('', page, 2).then(function(result) {
+            .findByIdLikeOrderByIdAsc('', page, limit).then(function(result) {
               ctrl.overview.data = result.data.dataAcquisitionProjects
-              ctrl.pagination.totalItems = result.data.page.totalElements; // TODO: Wird nicht korrekt vom backend zurück gegeben?
+              ctrl.pagination.totalItems = result.data.page.totalElements;
               ctrl.pagination.itemsPerPage = result.data.page.size;
               ctrl.pagination.selectedPageNumber = result.data.page.number + 1;
             });
