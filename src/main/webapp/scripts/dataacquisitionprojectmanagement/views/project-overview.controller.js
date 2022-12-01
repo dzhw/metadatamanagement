@@ -15,11 +15,11 @@ angular.module('metadatamanagementApp')
     var fetchData = function(page) {
       DataAcquisitionProjectRepositoryClient.findByIdLikeOrderByIdAsc('', page, limit).then(function(result) {
         ctrl.overview = {};
-        ctrl.overview.data = result.data.dataAcquisitionProjects
+        ctrl.overview.data = result.data.dataAcquisitionProjects;
         ctrl.pagination.totalItems = result.data.page.totalElements;
         ctrl.pagination.itemsPerPage = result.data.page.size;
         ctrl.pagination.selectedPageNumber = result.data.page.number + 1;
-      })
+      });
     };
 
     var init = function() {
