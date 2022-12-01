@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ProjectOverviewController', function($stateParams, $state,BreadcrumbService,
-      PageMetadataService, DataAcquisitionProjectRepositoryClient) {
+  .controller('ProjectOverviewController', function($stateParams, $state,
+    BreadcrumbService, PageMetadataService,
+    DataAcquisitionProjectRepositoryClient) {
     var ctrl = this;
     var limit = $stateParams.limit ? $stateParams.limit : 10;
 
@@ -13,7 +14,8 @@ angular.module('metadatamanagementApp')
     };
 
     var fetchData = function(page) {
-      DataAcquisitionProjectRepositoryClient.findByIdLikeOrderByIdAsc('', page, limit).then(function(result) {
+      DataAcquisitionProjectRepositoryClient
+      .findByIdLikeOrderByIdAsc('', page, limit).then(function(result) {
         ctrl.overview = {};
         ctrl.overview.data = result.data.dataAcquisitionProjects;
         ctrl.pagination.totalItems = result.data.page.totalElements;
