@@ -77,7 +77,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
-            <version>4.7.3</version>
+            <version>4.7.2</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -172,7 +172,7 @@
         <dependency>
             <groupId>org.danilopianini</groupId>
             <artifactId>gson-extras</artifactId>
-            <version>0.2.2</version>
+            <version>0.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
