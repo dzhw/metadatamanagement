@@ -11,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.projectio
 import eu.dzhw.fdz.metadatamanagement.common.domain.Country;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -73,7 +74,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   private List<AnalysisPackageNestedDocument> nestedAnalysisPackages = new ArrayList<>();
 
   private List<I18nString> nestedInstitutions = new ArrayList<>();
-  private List<I18nString> nestedSponsors = new ArrayList<>();
+  private List<Sponsor> nestedSponsors = new ArrayList<>();
 
   private Release release = null;
 

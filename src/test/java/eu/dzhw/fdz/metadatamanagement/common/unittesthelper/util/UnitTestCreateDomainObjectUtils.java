@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAtt
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
@@ -117,8 +118,7 @@ public class UnitTestCreateDomainObjectUtils {
     projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
         Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
-    List<I18nString> sponsors =
-        Arrays.asList(I18nString.builder().de("Sponsor De").en("Sponsor En").build());
+    List<Sponsor> sponsors = new ArrayList<>();
     List<Person> dataCurators = new ArrayList<>();
     dataCurators.add(buildPerson("Test", null, "ProjectContributors"));
 

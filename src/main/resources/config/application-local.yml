@@ -35,6 +35,11 @@ spring:
           - file:src/main/webapp/
           - classpath:public/
 
+mongock:
+    enabled: true
+    change-logs-scan-package:
+      - eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs
+
 logging:
     level:
       eu.dzhw.fdz.metadatamanagement: debug

@@ -4,6 +4,7 @@ import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
@@ -20,7 +21,7 @@ public interface AnalysisPackageSubDocumentProjection
 
   List<I18nString> getInstitutions();
 
-  List<I18nString> getSponsors();
+  List<Sponsor> getSponsors();
 
   List<Person> getAuthors();
 
