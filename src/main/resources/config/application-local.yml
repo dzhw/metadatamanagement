@@ -39,6 +39,7 @@ mongock:
     enabled: true
     change-logs-scan-package:
       - eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs
+      - eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.changelogs
 
 logging:
     level:

@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs;
+package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.changelogs;
 
 import org.bson.Document;
 
@@ -26,11 +26,11 @@ public class RecreateSponsorsChangeLog {
    *
    * @param db Mongo db client.
    */
-  @ChangeSet(order = "1", id = "recreateDataPackageSponsors", author = "cschwartze", runAlways = true)
+  @ChangeSet(order = "1", id = "recreateAnalysisPackageSponsors", author = "cschwartze", runAlways = true)
   public void recreateSponsors(MongoDatabase db) {
-    MongoCollection<Document> dataPackages = db.getCollection("data_packages");
+    MongoCollection<Document> analysisPackages = db.getCollection("analysis_packages");
     List results = new ArrayList<>();
-    dataPackages.find().into(results);
+    analysisPackages.find().into(results);
     results.forEach(res -> {
       Object id = ((Document) res).get("dataAcquisitionProjectId");
       List<Document> sponsors = ((Document) res).getList("sponsors", Document.class);
@@ -42,10 +42,10 @@ public class RecreateSponsorsChangeLog {
           newSponsors.add(newSponsor);
         });
         ((Document) res).append("sponsors", newSponsors);
-        if (dataPackages.findOneAndReplace(Filters.eq("dataAcquisitionProjectId", id), (Document) res) != null) {
-          log.info("Sponsors for data package " + id + " recreated.");
+        if (analysisPackages.findOneAndReplace(Filters.eq("dataAcquisitionProjectId", id), (Document) res) != null) {
+          log.info("Sponsors for analysis package " + id + " recreated.");
         } else {
-          log.warn("Sponsors for data package " + id + " could not recreated.");
+          log.warn("Sponsors for analysis package " + id + " could not recreated.");
         }
       }
     });

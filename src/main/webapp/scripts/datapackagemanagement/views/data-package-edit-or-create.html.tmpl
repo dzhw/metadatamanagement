@@ -409,19 +409,19 @@
                 </div>
               </div>
             </md-autocomplete>
-            </div>
-            <div layout="row" layout-align="start center">
-              <md-input-container flex="33" ng-style="{'margin-left': ctrl.dataPackage.sponsors.length > 1 ? '40px' : '0px'}" class="mt0">
-                <label>{{'data-package-management.edit.label.fundingRef' | translate}}</label>
-                <input name="sponsorFundingRef_{{$index}}" ng-model="ctrl.dataPackage.sponsors[$index].fundingRef" autocomplete="off">
-                <div
-                  class="fdz-input-hint"
-                  ng-if="!dataPackageForm['fundRef_' + $parent.$index].$dirty && !dataPackageForm['fundRef_' + $parent.$index].$touched">
-                  {{'data-package-management.edit.hints.sponsor.funding-ref' | translate}}
-                </div>
-              </md-input-container>
-            </div>
           </div>
+          <div layout="row" layout-align="start center">
+            <md-input-container flex="33" ng-style="{'margin-left': ctrl.dataPackage.sponsors.length > 1 ? '40px' : '0px'}" class="mt0">
+              <label>{{'data-package-management.edit.label.fundingRef' | translate}}</label>
+              <input name="sponsorFundingRef_{{$index}}" ng-model="ctrl.dataPackage.sponsors[$index].fundingRef" autocomplete="off">
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['fundRef_' + $parent.$index].$dirty && !dataPackageForm['fundRef_' + $parent.$index].$touched">
+                {{'data-package-management.edit.hints.sponsor.funding-ref' | translate}}
+              </div>
+            </md-input-container>
+          </div>
+        </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addSponsor()">

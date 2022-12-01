@@ -55,6 +55,7 @@ angular.module('metadatamanagementApp').config(
             'license': 'License',
             'scripts': 'Scripts',
             'sponsors': 'Sponsored by',
+            'fundingRef': 'Funding reference',
             'version': 'Version',
             'published-at': 'published at',
             'published': 'Published at',
@@ -177,6 +178,7 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',
+            'fundingRef': 'Funding reference',
             'version': 'Version',
             'script': {
               'used-language': 'Script Language',
@@ -235,7 +237,8 @@ angular.module('metadatamanagementApp').config(
             },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this analysis package.',
-              'en': 'Enter the English name of the sponsor of this analysis package.'
+              'en': 'Enter the English name of the sponsor of this analysis package.',
+              'funding-ref': 'Enter the funding reference of the sponsor of this analysis package.'
             },
             'title': {
               'de': 'Please enter the title of this analysis package in German.',
