@@ -35,7 +35,7 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
 
   @Override
   public Page<DataAcquisitionProject> findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(
-    String projectId, String dataProviderId, Pageable pageable) {
+      String projectId, String dataProviderId, Pageable pageable) {
     List<String> dataProviderIdValues = Collections.singletonList(dataProviderId);
     Criteria criteria = where("configuration.dataProviders")
         .in(dataProviderIdValues)

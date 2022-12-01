@@ -90,15 +90,13 @@ public class DataAcquisitionProjectResourceController extends
    */
   @GetMapping("/data-acquisition-projects/search/findByIdLikeOrderByIdAsc")
   public ResponseEntity<Map<String,Object>> findByIdLikeOrderByIdAsc(
-    @RequestParam(value = "id", required = false, defaultValue = "") String id,
-    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-    @RequestParam(value = "size", required = false, defaultValue = "20") Integer size) {
+      @RequestParam(value = "id", required = false, defaultValue = "") String id,
+      @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+      @RequestParam(value = "size", required = false, defaultValue = "20") Integer size) {
 
     Pageable pageable = PageRequest.of(page,size);
     Page<DataAcquisitionProject> pageProjects = projectManagementService.findByIdLikeOrderByIdAsc(id, pageable);
-    List<DataAcquisitionProject> projects = pageProjects.getContent();
 
-    Map<String, Object> response = new HashMap<>();
     Map<String, Object> pageMap = new HashMap<>();
 
     pageMap.put("size", pageProjects.getSize());
@@ -106,6 +104,8 @@ public class DataAcquisitionProjectResourceController extends
     pageMap.put("totalPages", pageProjects.getTotalPages());
     pageMap.put("number", pageProjects.getNumber());
 
+    Map<String, Object> response = new HashMap<>();
+    List<DataAcquisitionProject> projects = pageProjects.getContent();
     response.put("dataAcquisitionProjects", projects);
     response.put("page", pageMap);
 
