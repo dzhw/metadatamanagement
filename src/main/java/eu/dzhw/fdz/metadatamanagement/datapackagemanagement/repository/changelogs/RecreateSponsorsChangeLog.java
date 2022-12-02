@@ -31,9 +31,9 @@ public class RecreateSponsorsChangeLog {
     MongoCollection<Document> dataPackages = db.getCollection("data_packages");
     List results = new ArrayList<>();
     dataPackages.find().into(results);
-    results.forEach(res -> {
-      Object id = ((Document) res).get("dataAcquisitionProjectId");
-      List<Document> sponsors = ((Document) res).getList("sponsors", Document.class);
+    results.forEach(dataPckg -> {
+      Object id = ((Document) dataPckg).get("dataAcquisitionProjectId");
+      List<Document> sponsors = ((Document) dataPckg).getList("sponsors", Document.class);
       if (sponsors.get(0).keySet().contains("de")) {
         log.info("Recreate sponsors for " + id);
         List newSponsors = new ArrayList<>();
@@ -41,8 +41,9 @@ public class RecreateSponsorsChangeLog {
           Document newSponsor = Document.parse("{\"name\" : " + s.toJson() + ", \"fundingRef\" : null}");
           newSponsors.add(newSponsor);
         });
-        ((Document) res).append("sponsors", newSponsors);
-        if (dataPackages.findOneAndReplace(Filters.eq("dataAcquisitionProjectId", id), (Document) res) != null) {
+        ((Document) dataPckg).append("sponsors", newSponsors);
+        if (dataPackages.findOneAndReplace(
+                Filters.eq("dataAcquisitionProjectId", id), (Document) dataPckg) != null) {
           log.info("Sponsors for data package " + id + " recreated.");
         } else {
           log.warn("Sponsors for data package " + id + " could not recreated.");

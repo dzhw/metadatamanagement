@@ -378,7 +378,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         'zero_terms_query': 'ALL'
       };
 
-      console.log("EXCLUDEDSPONSORS:" + JSON.stringify(excludedSponsors));
+      console.log('EXCLUDEDSPONSORS:' + JSON.stringify(excludedSponsors));
       if (excludedSponsors && excludedSponsors.length > 0) {
         query.body.aggs.sponsors.aggs.filtered.filter.bool.must_not = [];
         excludedSponsors.forEach(function(sponsor) {
@@ -401,21 +401,21 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         SearchHelperService.addFilter(query);
       }
 
-	return ElasticSearchClient.search(query).then(function(result) {
+      return ElasticSearchClient.search(query).then(function(result) {
         var sponsors = [];
         var sponsorElement = {};
-		result.aggregations.sponsors.filtered.sponsorDe.buckets.forEach(
-		  function(bucket) {
-			  sponsorElement = {
+        result.aggregations.sponsors.filtered.sponsorDe.buckets.forEach(
+          function(bucket) {
+            sponsorElement = {
               'de': bucket.key,
               'en': bucket.sponsorEn.buckets[0].key
             };
-			sponsorElement.count = bucket.doc_count;
+            sponsorElement.count = bucket.doc_count;
             sponsors.push(sponsorElement);
-		  });
-		return sponsors;
-	});
-			};
+          });
+        return sponsors;
+      });
+    };
 
     var findInstitutions = function(searchText, filter, language,
                                     ignoreAuthorization, excludedInstitutions) {

@@ -620,7 +620,7 @@ angular.module('metadatamanagementApp')
 
       $scope.searchSponsors = function(searchText, language) {
         //Search Call to Elasticsearch
-	console.log("CURRENTSPONSORS: " + JSON.stringify(ctrl.currentSponsors));
+        console.log('CURRENTSPONSORS: ' + JSON.stringify(ctrl.currentSponsors));
         return DataPackageSearchService.findSponsors(searchText, {},
             language, true, ctrl.currentSponsors)
           .then(function(sponsors) {
