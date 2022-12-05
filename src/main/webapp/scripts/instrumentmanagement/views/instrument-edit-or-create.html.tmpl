@@ -86,7 +86,7 @@
               <label>{{'instrument-management.detail.label.subtitle' | translate}} ({{'global.in-german' |
                 translate}})</label>
               <input lang="de" md-maxlength="2048" md-no-asterisk name="subtitleDe" ng-model="ctrl.instrument.subtitle.de">
-              <div class="fdz-input-hint" ng-if="!instrumentForm.subtitleDe.$dirty && !instrumentForm.subtitleDe.$touched">{{'instrument-management.edit.hints.subtitle.de' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.instrument.subtitle.de == null || ctrl.instrument.subtitle.de == ''">{{'instrument-management.edit.hints.subtitle.de' | translate}}
               </div>
               <div multiple ng-messages="instrumentForm.subtitleDe.$error">
                 <div ng-message="md-maxlength">{{'instrument-management.error.instrument.subtitle.i18n-string-size' |
@@ -98,7 +98,7 @@
               <label>{{'instrument-management.detail.label.subtitle' | translate}} ({{'global.in-english' |
                 translate}})</label>
               <input lang="en" md-maxlength="2048" md-no-asterisk name="subtitleEn" ng-model="ctrl.instrument.subtitle.en">
-              <div class="fdz-input-hint" ng-if="!instrumentForm.subtitleEn.$dirty && !instrumentForm.subtitleEn.$touched">{{'instrument-management.edit.hints.subtitle.en' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.instrument.subtitle.en == null || ctrl.instrument.subtitle.en == ''">{{'instrument-management.edit.hints.subtitle.en' | translate}}
               </div>
               <div multiple ng-messages="instrumentForm.subtitleEn.$error">
                 <div ng-message="md-maxlength">{{'instrument-management.error.instrument.subtitle.i18n-string-size' |
@@ -159,7 +159,7 @@
               <label>{{'instrument-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe" ng-model="ctrl.instrument.annotations.de" rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!instrumentForm.annotationsDe.$dirty && !instrumentForm.annotationsDe.$touched">{{'instrument-management.edit.hints.annotations.de' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.instrument.annotations.de == null || ctrl.instrument.annotations.de == ''">{{'instrument-management.edit.hints.annotations.de' | translate}}
               </div>
               <div multiple ng-messages="instrumentForm.annotationsDe.$error">
                 <div ng-message="md-maxlength">{{'instrument-management.error.instrument.annotations.i18n-string-size' |
@@ -171,7 +171,7 @@
               <label>{{'instrument-management.detail.label.annotations' | translate}} ({{'global.in-english' |
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn" ng-model="ctrl.instrument.annotations.en" rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!instrumentForm.annotationsEn.$dirty && !instrumentForm.annotationsEn.$touched">{{'instrument-management.edit.hints.annotations.en' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.instrument.annotations.en == null || ctrl.instrument.annotations.en == ''">{{'instrument-management.edit.hints.annotations.en' | translate}}
               </div>
               <div multiple ng-messages="instrumentForm.annotationsEn.$error">
                 <div ng-message="md-maxlength">{{'instrument-management.error.instrument.annotations.i18n-string-size' |

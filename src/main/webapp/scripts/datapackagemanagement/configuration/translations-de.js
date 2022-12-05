@@ -183,7 +183,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'additional-links': {
-              'invalid-url': 'Die angegebene URL ist ungültig',
+              'invalid-url': 'Die angegebene URL ist ungültig (korrektes Beispiel: https://www.dzhw.eu)',
               'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
               'url-not-empty': 'Die URL darf nicht leer sein.',
               'display-text-size': 'Die Maximallänge des Anzeigetextes ist 512 Zeichen.'

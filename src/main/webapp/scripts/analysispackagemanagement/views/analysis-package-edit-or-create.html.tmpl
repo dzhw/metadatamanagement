@@ -43,7 +43,7 @@
                         ng-model="ctrl.analysisPackage.annotations.de"
                         rows="4"></textarea>
               <div class="fdz-input-hint"
-                   ng-if="!analysisPackageForm.annotationsDe.$dirty && !analysisPackageForm.annotationsDe.$touched">
+                   ng-if="ctrl.analysisPackage.annotations.de == null || ctrl.analysisPackage.annotations.de == ''">
                 {{'analysis-package-management.edit.hints.annotations.de' | translate}}
               </div>
               <div multiple
@@ -65,7 +65,7 @@
                         ng-model="ctrl.analysisPackage.annotations.en"
                         rows="4"></textarea>
               <div class="fdz-input-hint"
-                   ng-if="!analysisPackageForm.annotationsEn.$dirty && !analysisPackageForm.annotationsEn.$touched">
+                   ng-if="ctrl.analysisPackage.annotations.en == null || ctrl.analysisPackage.annotations.en == ''">
                 {{'analysis-package-management.edit.hints.annotations.en' | translate}}
               </div>
               <div multiple
@@ -395,7 +395,6 @@
                       tags="ctrl.analysisPackage.tags"></tag-editor>
         </md-card-content>
       </md-card>
-
       <url-component
         current-form="analysisPackageForm"
         content="ctrl.analysisPackage.additionalLinks"

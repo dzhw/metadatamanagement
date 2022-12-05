@@ -191,7 +191,7 @@
             <md-input-container flex="50" md-is-error="!surveyForm.grossSampleSize.$valid && (surveyForm.grossSampleSize.$dirty || surveyForm.grossSampleSize.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.grossSampleSize' | translate}}</label>
               <input min="{{ ctrl.survey.sampleSize || 0}}" max="2147483647" name="grossSampleSize" ng-model="ctrl.survey.grossSampleSize" step="1" type="number">
-              <div class="fdz-input-hint" ng-if="!surveyForm.grossSampleSize.$dirty && !surveyForm.grossSampleSize.$touched">{{'survey-management.edit.hints.grossSampleSize' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.survey.grossSampleSize == null || ctrl.survey.grossSampleSize == ''">{{'survey-management.edit.hints.grossSampleSize' | translate}}
               </div>
               <div multiple ng-messages="surveyForm.grossSampleSize.$error">
                 <div ng-message="step">{{'survey-management.error.survey.gross-sample-size.invalid-number' |
@@ -230,7 +230,7 @@
             <md-input-container flex="50" md-is-error="!surveyForm.responseRate.$valid && (surveyForm.responseRate.$dirty || surveyForm.responseRate.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.responseRate' | translate}} (in %)</label>
               <input max="100" min="0" name="responseRate" ng-model="ctrl.survey.responseRate" step="0.01" type="number">
-              <div class="fdz-input-hint" ng-if="!surveyForm.responseRate.$dirty && !surveyForm.responseRate.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.survey.responseRate == null || ctrl.survey.responseRate == ''">
                 {{'survey-management.edit.hints.responseRate' | translate}}
               </div>
               <div multiple ng-messages="surveyForm.responseRate.$error">
@@ -253,7 +253,7 @@
               <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe" ng-model="ctrl.survey.annotations.de" rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!surveyForm.annotationsDe.$dirty && !surveyForm.annotationsDe.$touched">{{'survey-management.edit.hints.annotations.de' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.survey.annotations.de == null || ctrl.survey.annotations.de == ''">{{'survey-management.edit.hints.annotations.de' | translate}}
               </div>
               <div multiple ng-messages="surveyForm.annotationsDe.$error">
                 <div ng-message="fdz-required">{{'survey-management.error.survey.annotations.i18n-string-not-empty' |
@@ -268,7 +268,7 @@
               <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-english' |
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn" ng-model="ctrl.survey.annotations.en" rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!surveyForm.annotationsEn.$dirty && !surveyForm.annotationsEn.$touched">{{'survey-management.edit.hints.annotations.en' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.survey.annotations.en == null || ctrl.survey.annotations.en == ''">{{'survey-management.edit.hints.annotations.en' | translate}}
               </div>
               <div multiple ng-messages="surveyForm.annotationsEn.$error">
                 <div ng-message="md-maxlength">{{'survey-management.error.survey.annotations.i18n-string-size' |
