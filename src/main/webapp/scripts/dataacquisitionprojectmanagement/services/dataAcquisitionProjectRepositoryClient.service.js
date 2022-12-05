@@ -2,12 +2,14 @@
 
 angular.module('metadatamanagementApp').factory(
   'DataAcquisitionProjectRepositoryClient', function($http) {
-    var findByIdLikeOrderByIdAsc = function(id) {
+    var findByIdLikeOrderByIdAsc = function(id, page, limit) {
       return $http({
         method: 'GET',
         url: '/api/data-acquisition-projects/search/findByIdLikeOrderByIdAsc',
         params: {
-          id: id
+          id: id,
+          page: page,
+          size: limit
         },
         transformResponse: function(data) {
           var response = angular.fromJson(data);

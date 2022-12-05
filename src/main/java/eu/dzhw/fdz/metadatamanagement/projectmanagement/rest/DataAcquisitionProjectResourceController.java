@@ -1,8 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 
 /**
  * Variable REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @RepositoryRestController
@@ -45,7 +50,7 @@ public class DataAcquisitionProjectResourceController extends
   /**
    * Project saving currently uses a special validator therefore we cannot directly override
    * {@link GenericDomainObjectResourceController#putDomainObject(DataAcquisitionProject)}.
-   * 
+   *
    * @param project The {@link DataAcquisitionProject} to be created.
    * @return The saved {@link DataAcquisitionProject}.
    */
@@ -58,7 +63,7 @@ public class DataAcquisitionProjectResourceController extends
   /**
    * Project saving currently uses a special validator therefore we cannot directly override
    * {@link GenericDomainObjectResourceController#postDomainObject(DataAcquisitionProject)}.
-   * 
+   *
    * @param project The {@link DataAcquisitionProject} to be created.
    * @return The created {@link DataAcquisitionProject}.
    */
@@ -84,10 +89,27 @@ public class DataAcquisitionProjectResourceController extends
    * Find projects by (partial) id.
    */
   @GetMapping("/data-acquisition-projects/search/findByIdLikeOrderByIdAsc")
-  public ResponseEntity<List<DataAcquisitionProject>> findByIdLikeOrderByIdAsc(
-      @RequestParam(value = "id", required = false, defaultValue = "") String id) {
-    List<DataAcquisitionProject> projects = projectManagementService.findByIdLikeOrderByIdAsc(id);
-    return ResponseEntity.ok(projects);
+  public ResponseEntity<Map<String,Object>> findByIdLikeOrderByIdAsc(
+      @RequestParam(value = "id", required = false, defaultValue = "") String id,
+      @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+      @RequestParam(value = "size", required = false, defaultValue = "20") Integer size) {
+
+    Pageable pageable = PageRequest.of(page,size);
+    Page<DataAcquisitionProject> pageProjects = projectManagementService.findByIdLikeOrderByIdAsc(id, pageable);
+
+    Map<String, Object> pageMap = new HashMap<>();
+
+    pageMap.put("size", pageProjects.getSize());
+    pageMap.put("totalElements", pageProjects.getTotalElements());
+    pageMap.put("totalPages", pageProjects.getTotalPages());
+    pageMap.put("number", pageProjects.getNumber());
+
+    Map<String, Object> response = new HashMap<>();
+    List<DataAcquisitionProject> projects = pageProjects.getContent();
+    response.put("dataAcquisitionProjects", projects);
+    response.put("page", pageMap);
+
+    return ResponseEntity.ok(response);
   }
 
   @Override

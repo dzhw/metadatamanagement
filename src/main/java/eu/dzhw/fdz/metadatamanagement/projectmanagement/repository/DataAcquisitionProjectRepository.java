@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -13,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 
 /**
  * Spring Data MongoDB repository for the data acquisitionProject entity.
- * 
+ *
  * @author Daniel Katzberg
  */
 @JaversSpringDataAuditable
@@ -22,8 +24,8 @@ public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
 
   @RestResource(exported = false)
-  List<DataAcquisitionProject> findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(
-      String id);
+  Page<DataAcquisitionProject> findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(
+      String id, Pageable pageable);
 
   @RestResource(exported = true)
   List<DataAcquisitionProject>
@@ -47,7 +49,7 @@ public interface DataAcquisitionProjectRepository
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> streamByIdAndShadowIsTrue(String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> findByMasterIdAndShadowIsTrue(String masterId);
 }
