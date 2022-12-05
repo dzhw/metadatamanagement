@@ -17,7 +17,11 @@
     rows="4"></textarea>
   <div
     class="fdz-input-hint"
-    ng-if="!$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$dirty && !$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$touched">
+    ng-if="(
+      (!$ctrl.notNull && ($ctrl.content.de == null || $ctrl.content.de == '')) ||
+      ($ctrl.notNull && !$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$dirty 
+        && !$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$touched)
+      )">
     {{$ctrl.translationKeyManagement + '.edit.hints.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.de' | translate}}
   </div>
   <div multiple
@@ -51,7 +55,11 @@
     rows="4"></textarea>
   <div
     class="fdz-input-hint"
-    ng-if="!$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$dirty && !$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$touched">
+    ng-if="(
+      (!$ctrl.notNull && ($ctrl.content.en == null || $ctrl.content.en == '')) ||
+      ($ctrl.notNull && !$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$dirty 
+        && !$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$touched)
+      )">
     {{$ctrl.translationKeyManagement + '.edit.hints.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.en' | translate}}
   </div>
   <div

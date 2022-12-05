@@ -28,7 +28,7 @@
                   rows="4"></textarea>
         <div
           class="fdz-input-hint"
-          ng-if="!$ctrl.currentForm[$ctrl.translationKeyName].$dirty && !$ctrl.currentForm[$ctrl.translationKeyName].$touched">
+          ng-if="$ctrl.content == null || $ctrl.content == ''">
           {{$ctrl.translationKeyPackage + '-management.edit.hints.' + $ctrl.translationKeyName | translate}}
         </div>
         <div

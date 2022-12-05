@@ -73,7 +73,8 @@
            md-maxlength="2000"
            ng-model="$ctrl.package.dataSourceUrl" autocomplete="off">
     <div class="fdz-input-hint"
-         ng-if="!$ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$touched">
+         ng-if="$ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$viewValue == null 
+          || $ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$viewValue == ''">
       {{ 'analysis-package-management.edit.hints.external-data-package.data-source-url' | translate}}
     </div>
     <div multiple
