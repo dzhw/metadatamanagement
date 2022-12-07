@@ -62,13 +62,6 @@
 
   <div class="fdz-fab-button-container" layout="column" layout-align="center end">
     <report-publications-component ng-if="!ctrl.isAuthenticated()"></report-publications-component>
-    <md-button class="md-accent md-fab" data-has-any-authority="ROLE_DATA_PROVIDER"
-               ng-click="ctrl.orderDataPackage()" ng-if="ctrl.showOrderButton()">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'data-package-management.detail.order-datapackage-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
-    </md-button>
     <md-button class="md-accent md-fab" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
                ng-click="ctrl.generateDataPackageOverview($event)" ng-if="!ctrl.projectIsCurrentlyReleased">
       <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

@@ -16,7 +16,8 @@
                                 DataPackageSearchService,
                                 DataPackageAccessWaysResource, $mdDialog,
                                 DataPackageCitationDialogService,
-                                CurrentDataPackageService) {
+                                CurrentDataPackageService,
+                                Principal) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -61,11 +62,11 @@
       }
       $ctrl.selectedVersion = $ctrl.dataPackageIdVersion.version;
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
-         $ctrl.dataPackageIdVersion.version);
+        $ctrl.dataPackageIdVersion.version);
       initReady = true;
     }
 
-    function loadVersion(dataAcquisitionProjectId, id) {
+    function loadVersion(dataAcquisitionProjectId, id) {      
       DataAcquisitionProjectReleasesResource.get(
         {
           id: ProjectReleaseService.stripVersionSuffix(
@@ -75,7 +76,7 @@
         .$promise
         .then(
         function(releases) {
-          $ctrl.releases = releases;
+          $ctrl.releases = releases;          
           if (releases.length === 0) {
             $ctrl.noFinalRelease = true;
           }
@@ -83,13 +84,31 @@
         });
     }
 
+    
+
     function loadDataPackage(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
         'concepts'];
-      DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
+      // wenn keine Version: Nutzer ist angemeldet, sieht aktuellen Bearbeitungsstand
+      if (version === undefined){
+        DataPackageSearchService.findDataPackageById(id, excludes)
+        .promise.then(function(res) {
+          $ctrl.dataPackage = res;
+          $rootScope.selectedDataPackage = res;
+          if ($ctrl.dataPackage) {
+            loadVersion($ctrl.dataPackageIdVersion.projectId, id);
+          }
+        }, function() {
+          $ctrl.dataPackage = null;
+          $rootScope.selectedDataPackage = null;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
           $ctrl.dataPackage = data;
           $rootScope.selectedDataPackage = data;
@@ -106,6 +125,8 @@
         }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
         });
+      }
+      
     }
 
     function loadAccessWays(id) {
@@ -131,6 +152,15 @@
           });
       });
       return _.uniq(dataFormats);
+    };
+
+    $ctrl.showBackToEditButton = function() {
+      return $ctrl.selectedVersion && Principal.hasAuthority('ROLE_DATA_PROVIDER');
+    };
+
+    // closes the order menu in the parent component
+    $ctrl.closeOrderMenu = function() {
+      MessageBus.set('onCloseOrderMenu', {open: false});
     };
 
     $ctrl.addToShoppingCart = function($event) {
@@ -221,8 +251,11 @@
       function() {
         var data = $ctrl.onDataPackageChange.get('onDataPackageChange', true);
         if (data) {
+          var versionFromUrl = $location.search().version;
           $ctrl.dataPackageIdVersion.masterId = data.masterId;
-          $ctrl.dataPackageIdVersion.version = data.version;
+          //$ctrl.dataPackageIdVersion.version = data.version;
+          $ctrl.dataPackageIdVersion.version = versionFromUrl;
+          $ctrl.dataPackageIdVersion.projectId = data.projectId;
           init();
         }
       }, true);

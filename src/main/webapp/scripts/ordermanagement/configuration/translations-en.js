@@ -136,6 +136,10 @@ angular.module('metadatamanagementApp').config(
           'title': 'Select an Access Way',
           'content': '<p style="margin-bottom: 0px;">There are up to four access ways for our data packages. These differ in terms of:</p><ol style="margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>the purpose of use (<strong>Campus Use File (CUF)</strong> for teaching vs. <strong>Scientific Use File (SUF)</strong> for research),</li><li>the degree of statistical anonymisation (stronger, moderate, lower) and</li><li>the technical way of data access (Download, Remote-Desktop, Onsite) combined with varying degrees of technical and organisational data security and control measures (lower, moderate, stronger).</li></ol><p style="margin-bottom: 0px;">The use of data for download means the least effort in the context of use and should be preferred. If the data package of this access way is <em>not</em> sufficient, the other access ways can also be chosen.</p><p style="margin-bottom: 0px;">Our data package configuration is divided into:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>CUF: Download</strong> for teaching purposes only; higher degree of statistical anonymity; for download after application approval</li><li><strong>SUF: Download</strong>  higher degree of statistical anonymity; for download after conclusion of contract</li><li><strong>SUF: Remote-Desktop</strong>  moderate statistical anonymisation level; access only via virtual desktops via Internet with technical checks after conclusion of contract</li><li><strong>SUF: On-Site</strong> low degree of statistical anonymity; access only on site at the FDZ-DZHW in Hanover with technical checks after conclusion of contract</li></ul><p>More information: <a href="https://www.fdz.dzhw.eu/en/data-usage">https://www.fdz.dzhw.eu/en/data-usage</a></p>'
         }
+      },
+      'order-menu': {
+        'back-to-project': 'Back to last editing state',
+        'back-to-project-tooltip': 'Click to return to the last editing state'
       }
       //jscs:enable
     };

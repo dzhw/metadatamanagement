@@ -178,6 +178,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.loadDataPackageForProject();
       $scope.loadAnalysisPackageForProject();
       $scope.search();
+      MessageBus.set('onDetailViewLoaded', {type: 'search'});
     };
 
     $scope.uploadVariables = function(files) {

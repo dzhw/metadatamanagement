@@ -86,6 +86,27 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       return deferred;
     };
 
+    var findDataPackageById = function (id, excludes) {
+      var query = {};
+      _.extend(query, createQueryObject(),
+        SearchHelperService.createDataPackageByIdQuery(id));
+      if (excludes) {
+        query.body._source = {
+          'excludes': excludes
+        };
+      }
+      var deferred = $q.defer();
+      ElasticSearchClient.search(query).then(function(result) {
+        if (result.hits.hits.length === 1) {
+          deferred.resolve(result.hits.hits[0]._source);
+        } else {
+          console.log("RESULTED IN MORE THAN 1")
+          return deferred.resolve(null);
+        }
+      }, deferred.reject);
+      return deferred;
+    }
+
     var findStudySeries = function(searchText, filter, language, type,
         queryterm, dataAcquisitionProjectId, ignoreAuthorization) {
       ignoreAuthorization = ignoreAuthorization || false;
@@ -619,6 +640,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
     return {
       findOneById: findOneById,
       findShadowByIdAndVersion: findShadowByIdAndVersion,
+      findDataPackageById: findDataPackageById,
       findStudySeries: findStudySeries,
       findSponsors: findSponsors,
       findInstitutions: findInstitutions,
