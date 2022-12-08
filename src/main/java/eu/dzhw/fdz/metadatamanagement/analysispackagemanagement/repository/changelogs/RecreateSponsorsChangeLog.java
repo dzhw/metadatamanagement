@@ -34,19 +34,24 @@ public class RecreateSponsorsChangeLog {
     results.forEach(analysisPckg -> {
       Object id = ((Document) analysisPckg).get("dataAcquisitionProjectId");
       List<Document> sponsors = ((Document) analysisPckg).getList("sponsors", Document.class);
-      if (sponsors.get(0).keySet().contains("de")) {
-        log.info("Recreate sponsors for " + id);
-        List newSponsors = new ArrayList<>();
-        sponsors.forEach(s -> {
-          Document newSponsor = Document.parse("{\"name\" : " + s.toJson() + ", \"fundingRef\" : null}");
-          newSponsors.add(newSponsor);
-        });
-        ((Document) analysisPckg).append("sponsors", newSponsors);
-        if (analysisPackages.findOneAndReplace(
-                Filters.eq("dataAcquisitionProjectId", id), (Document) analysisPckg) != null) {
-          log.info("Sponsors for analysis package " + id + " recreated.");
-        } else {
-          log.warn("Sponsors for analysis package " + id + " could not recreated.");
+      if (sponsors != null) {
+        if (sponsors.get(0).keySet().contains("de")) {
+          log.info("Recreate sponsors for " + id);
+          List newSponsors = new ArrayList<>();
+          sponsors.forEach(s -> {
+            Document newSponsor = Document.parse("{\"name\" : " + s.toJson() + ", \"fundingRef\" : null}");
+            newSponsors.add(newSponsor);
+          });
+          ((Document) analysisPckg).append("sponsors", newSponsors);
+          if (analysisPackages.findOneAndReplace(
+                  Filters.eq("dataAcquisitionProjectId", id), (Document) analysisPckg) != null) {
+            log.info("Sponsors for analysis package " + id + " recreated.");
+          } else {
+            log.warn("Sponsors for analysis package " + id + " could not recreated.");
+          }
+        }
+        if (sponsors.get(0).keySet().contains("name")) {
+          log.info("Sponsor data appears to have already been migrated for analysis package " + id + ".");
         }
       }
     });

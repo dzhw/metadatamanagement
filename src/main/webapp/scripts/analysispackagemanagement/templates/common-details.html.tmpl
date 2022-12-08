@@ -30,9 +30,6 @@
           <div class="md-secondary">
 	    <div style="white-space:pre-wrap" ng-repeat="sponsor in $ctrl.options.analysisPackage.sponsors"><ul style="margin-bottom:5px;padding-left:0px;list-style-type: none;"><li>{{sponsor.name[$ctrl.lang]}}<br ng-if="sponsor.fundingRef ? true : false" /><h5 ng-if="sponsor.fundingRef ? true : false" style="display:inline">{{'analysis-package-management.detail.label.fundingRef' | translate }}: </h5>{{sponsor.fundingRef}}</li></ul></div>
 	  </div>
-          <span
-            class="md-secondary" style="white-space: pre-wrap;"
-            ng-repeat="sponsor in $ctrl.options.analysisPackage.sponsors">{{sponsor[$ctrl.lang]}}{{!$last?'; ':''}}</span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.analysisPackage.projectContributors">
           <h5>{{'analysis-package-management.detail.label.projectContributors' | translate }}:</h5>
