@@ -119,6 +119,10 @@ angular.module('metadatamanagementApp').controller('SidenavController',
       function() {
         var data = $scope.detailViewLoaded.get('onDetailViewLoaded', true);
         if (data) {
+          // close order menu if the detail view type changed
+          if ($scope.detailViewType != data.type) {
+            $scope.isOrderMenuOpen = false;
+          }
           $scope.detailViewType = data.type;
         }
       }, true);

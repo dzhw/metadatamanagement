@@ -80,7 +80,7 @@
                     </md-tooltip>
                 </md-button>
                 <md-divider ng-show="!isOrderMenuOpen"></md-divider>
-                <li ng-show="isOrderMenuOpen">
+                <li ng-show="isOrderMenuOpen" ng-if="detailViewType === 'dataPackage'">
                   <fdz-data-package-configurator></fdz-data-package-configurator>
                 </li>
                 <md-divider></md-divider>

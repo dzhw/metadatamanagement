@@ -100,7 +100,6 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         if (result.hits.hits.length === 1) {
           deferred.resolve(result.hits.hits[0]._source);
         } else {
-          console.log("RESULTED IN MORE THAN 1")
           return deferred.resolve(null);
         }
       }, deferred.reject);

@@ -64,6 +64,7 @@
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
         $ctrl.dataPackageIdVersion.version);
       initReady = true;
+      console.log("init ready")
     }
 
     function loadVersion(dataAcquisitionProjectId, id) {      
@@ -92,7 +93,6 @@
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
         'concepts'];
-      // wenn keine Version: Nutzer ist angemeldet, sieht aktuellen Bearbeitungsstand
       if (version === undefined){
         DataPackageSearchService.findDataPackageById(id, excludes)
         .promise.then(function(res) {
@@ -155,6 +155,7 @@
     };
 
     $ctrl.showBackToEditButton = function() {
+      console.log($ctrl.selectedVersion);
       return $ctrl.selectedVersion && Principal.hasAuthority('ROLE_DATA_PROVIDER');
     };
 
@@ -203,6 +204,7 @@
     });
 
     $scope.$on('$destroy', function() {
+      console.log("destroy")
       CurrentDataPackageService.setCurrentDataPackage(null);
       unregisterTransitionHook();
     });
@@ -253,7 +255,6 @@
         if (data) {
           var versionFromUrl = $location.search().version;
           $ctrl.dataPackageIdVersion.masterId = data.masterId;
-          //$ctrl.dataPackageIdVersion.version = data.version;
           $ctrl.dataPackageIdVersion.version = versionFromUrl;
           $ctrl.dataPackageIdVersion.projectId = data.projectId;
           init();

@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope,
              $timeout, $document, DataPackageOverviewResource,
              OutdatedVersionNotifier, DataPackageSearchService, $log,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker, CurrentDataPackageService) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -196,30 +196,4 @@ angular.module('metadatamanagementApp')
             });
         });
       };
-
-      ctrl.showOrderButton = function() {
-        return ctrl.hasBeenReleasedBefore &&
-          ctrl.dataPackage.release !== undefined;
-      };
-
-      ctrl.orderDataPackage = function() {
-        MessageBus.set('onDataPackageChange',
-            {
-              masterId: ctrl.dataPackage.masterId,
-              version: ctrl.dataPackage.release.version
-            });
-        $rootScope.dataPackage = ctrl.dataPackage;
-        $mdDialog.show({
-          controller: 'OrderDataPackageDialogController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/ordermanagement/' +
-            'views/order-data-package-dialog.html.tmpl',
-          clickOutsideToClose: true,
-          fullscreen: true
-        });
-      };
-
-      $scope.$watch('dataPackage', function(newValue) {
-        $scope.$broadcast('currentDataPackage', newValue);
-      });
     });
