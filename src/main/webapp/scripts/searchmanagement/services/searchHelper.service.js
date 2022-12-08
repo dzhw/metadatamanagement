@@ -731,7 +731,7 @@ angular.module('metadatamanagementApp').factory(
       return query;
     };
 
-    var createDataPackageByIdQuery = function(id) {
+    var createMasterByIdQuery = function(id) {
       var query = {
         'body': {
           'query': {
@@ -916,7 +916,7 @@ angular.module('metadatamanagementApp').factory(
       getHiddenFilters: getHiddenFilters,
       createSortByCriteria: createSortByCriteria,
       createShadowByIdAndVersionQuery: createShadowByIdAndVersionQuery,
-      createDataPackageByIdQuery: createDataPackageByIdQuery,
+      createMasterByIdQuery: createMasterByIdQuery,
       addFilter: addFilter,
       addShadowCopyFilter: addShadowCopyFilter,
       addNestedShadowCopyFilter: addNestedShadowCopyFilter,
