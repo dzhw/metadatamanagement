@@ -445,13 +445,6 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'The access way of the data package must not be empty!'
             }
           }
-        },
-        'order-analysis-package': {
-          'title': 'Order Analysis Package',
-          'tooltip': {
-            'cancel': 'Click to cancel the ordering process.',
-            'ok': 'Click to add the analysis package to your cart.'
-          }
         }
       }
       //jscs:enable

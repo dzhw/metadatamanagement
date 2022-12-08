@@ -89,7 +89,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
     var findDataPackageById = function (id, excludes) {
       var query = {};
       _.extend(query, createQueryObject(),
-        SearchHelperService.createDataPackageByIdQuery(id));
+        SearchHelperService.createMasterByIdQuery(id));
       if (excludes) {
         query.body._source = {
           'excludes': excludes

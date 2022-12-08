@@ -69,6 +69,7 @@
               </md-button>
               <md-divider></md-divider>
             </li>
+            <!-- order option for data packages -->
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_DATA_PROVIDER" ng-if="detailViewType === 'dataPackage'">
                 <md-button class="fdz-navbar-menu-toggle" ui-sref-active="fdz-navbar-button-active" ng-click="toggleOrderMenu()">
                     <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
@@ -76,7 +77,7 @@
                     <md-icon ng-if="!isOrderMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isOrderMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'global.tooltips.navbar-project-overview' | translate}}
+                        {{'global.menu.order-menu.tooltip' | translate}}
                     </md-tooltip>
                 </md-button>
                 <md-divider ng-show="!isOrderMenuOpen"></md-divider>
@@ -85,6 +86,23 @@
                 </li>
                 <md-divider></md-divider>
             </li>
+            <!-- order option for analysis packages -->
+            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_DATA_PROVIDER" ng-if="detailViewType === 'analysisPackage'">
+              <md-button class="fdz-navbar-menu-toggle" ui-sref-active="fdz-navbar-button-active" ng-click="toggleOrderMenu()">
+                  <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+                  <span data-translate="global.menu.order-menu.analysis-package"></span>
+                  <md-icon ng-if="!isOrderMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+                  <md-icon ng-if="isOrderMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
+                  <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                      {{'global.menu.order-menu.tooltip' | translate}}
+                  </md-tooltip>
+              </md-button>
+              <md-divider ng-show="!isOrderMenuOpen"></md-divider>
+              <li ng-show="isOrderMenuOpen" ng-if="detailViewType === 'analysisPackage'">
+                <fdz-analysis-package-configurator></fdz-analysis-package-configurator>
+              </li>
+              <md-divider></md-divider>
+          </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_ADMIN">
                 <md-button class="fdz-navbar-button" ui-sref-active="fdz-navbar-button-active" ui-sref="project-overview" ng-click="close()">
                     <md-icon md-svg-src="assets/images/icons/format-list-checks.svg"></md-icon>

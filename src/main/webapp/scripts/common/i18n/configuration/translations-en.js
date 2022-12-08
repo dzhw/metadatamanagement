@@ -169,7 +169,8 @@ angular.module('metadatamanagementApp').config(
           },
           'order-menu': {
             'data-package': 'Order Data Package',
-            'analysis-package': 'Order Analysis Package'
+            'analysis-package': 'Order Analysis Package',
+            'tooltip': 'Click to show ordering options'
           },
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip the menu',

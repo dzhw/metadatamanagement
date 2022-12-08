@@ -448,13 +448,6 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
             }
           }
-        },
-        'order-analysis-package': {
-          'title': 'Analysepaket bestellen',
-          'tooltip': {
-            'cancel': 'Klicken, um den Bestellvorgang abzubrechen.',
-            'ok': 'Klicken, um das Analysepaket dem Warenkorb hinzuzufügen.'
-          }
         }
       }
       //jscs:enable

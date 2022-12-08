@@ -64,7 +64,6 @@
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
         $ctrl.dataPackageIdVersion.version);
       initReady = true;
-      console.log("init ready")
     }
 
     function loadVersion(dataAcquisitionProjectId, id) {      
@@ -155,11 +154,10 @@
     };
 
     $ctrl.showBackToEditButton = function() {
-      console.log($ctrl.selectedVersion);
       return $ctrl.selectedVersion && Principal.hasAuthority('ROLE_DATA_PROVIDER');
     };
 
-    // closes the order menu in the parent component
+    // triggers event to close the order menu in the parent component
     $ctrl.closeOrderMenu = function() {
       MessageBus.set('onCloseOrderMenu', {open: false});
     };
@@ -204,7 +202,6 @@
     });
 
     $scope.$on('$destroy', function() {
-      console.log("destroy")
       CurrentDataPackageService.setCurrentDataPackage(null);
       unregisterTransitionHook();
     });

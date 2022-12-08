@@ -151,12 +151,21 @@ angular.module('metadatamanagementApp')
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
           .check(result);
-
+        // trigger events for showing ordering options in the sidenav
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onAnalysisPackageChange',
             {
               masterId: result.masterId,
               version: result.release.version
+            });
+          MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
+        } else {
+          // set version to null (to prevent reloading a specific version) and add projectId instead
+          MessageBus.set('onAnalysisPackageChange',
+            {
+              masterId: result.masterId,
+              version: null,
+              projectId: result.dataAcquisitionProjectId
             });
           MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
         }
@@ -221,20 +230,7 @@ angular.module('metadatamanagementApp')
           ctrl.analysisPackage.release !== undefined;
       };
 
-      ctrl.orderAnalysisPackage = function() {
-        MessageBus.set('onAnalysisPackageChange',
-            {
-              masterId: ctrl.analysisPackage.masterId,
-              version: ctrl.analysisPackage.release.version
-            });
-        $rootScope.analysisPackage = ctrl.analysisPackage;
-        $mdDialog.show({
-          controller: 'OrderDataPackageDialogController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/ordermanagement/' +
-            'views/order-analysis-package-dialog.html.tmpl',
-          clickOutsideToClose: true,
-          fullscreen: true
-        });
+      ctrl.onGoToShoppingCart = function() {
+        $scope.$emit('goToShoppingCartCloseDialog', true);
       };
     });

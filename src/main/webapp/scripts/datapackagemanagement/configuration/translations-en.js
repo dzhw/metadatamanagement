@@ -354,13 +354,6 @@ angular.module('metadatamanagementApp').config(
             'cancel': 'Click to cancel the generation of the overview',
             'ok': 'Click to start the generation of the overview'
           }
-        },
-        'order-data-package': {
-          'title': 'Order Data Package',
-          'tooltip': {
-            'cancel': 'Click to cancel the ordering process.',
-            'ok': 'Click to add the data package to your cart.'
-          }
         }
       }
       //jscs:enable

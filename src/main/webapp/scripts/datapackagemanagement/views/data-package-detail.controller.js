@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope,
              $timeout, $document, DataPackageOverviewResource,
              OutdatedVersionNotifier, DataPackageSearchService, $log,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker, CurrentDataPackageService) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -137,7 +137,7 @@ angular.module('metadatamanagementApp')
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.dataPackage = result;
-          $scope.$broadcast('currentProjectChanged', result);
+          // $scope.$broadcast('currentProjectChanged', result);
           ctrl.loadAttachments();
 
           $timeout(function() {

@@ -359,13 +359,6 @@ angular.module('metadatamanagementApp').config(
             'cancel': 'Klicken, um das Erzeugen der Datenpaketübersicht abzubrechen.',
             'ok': 'Klicken, um das Erzeugen der Datenpaketübersicht zu starten.'
           }
-        },
-        'order-data-package': {
-          'title': 'Datenpaket bestellen',
-          'tooltip': {
-            'cancel': 'Klicken, um den Bestellvorgang abzubrechen.',
-            'ok': 'Klicken, um das Datenpaket dem Warenkorb hinzuzufügen.'
-          }
         }
       }
       //jscs:enable
