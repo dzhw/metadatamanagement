@@ -107,6 +107,7 @@ angular.module('metadatamanagementApp').config(
           'add-data-package-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'add-analysis-package-tooltip': 'Klicken, um das Analysepaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'choose-data-package-options': 'Klicken, um eine Variante dieses Datenpakets in den Warenkorb zu legen.',
+          'choose-analysis-package-options': 'Klicken, um eine Variante dieses Analysepaketes in den Warenkorb zu legen.',
           'open-cart': 'Zum Warenkorb',
           'checkout-tooltip': 'Klicken, um die Datenpakete zu bestellen.',
           'remove-all': 'Warenkorb leeren',
