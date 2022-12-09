@@ -90,8 +90,6 @@ angular.module('metadatamanagementApp')
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
             ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
-            
-          
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -99,20 +97,18 @@ angular.module('metadatamanagementApp')
         if (!ctrl.onlyQualitativeData) {
           ctrl.counts.variablesCount = 0;
         }
-        // trigger events for showing ordering options in the sidenav
+        // trigger MessageBus for showing ordering options in the sidenav
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.masterId,
-              version: result.release.version
+              masterId: result.masterId
             });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         } else {
-          // set version to null (to prevent reloading a specific version) and add projectId instead          
+          // set version to null (to prevent reloading a specific version)
           MessageBus.set('onDataPackageChange',
           {
             masterId: result.masterId,
-            version: null,
             projectId: result.dataAcquisitionProjectId
           });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});

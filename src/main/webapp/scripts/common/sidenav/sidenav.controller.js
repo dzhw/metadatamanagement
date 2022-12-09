@@ -42,9 +42,9 @@ angular.module('metadatamanagementApp').controller('SidenavController',
       $scope.isAdminMenuOpen = !$scope.isAdminMenuOpen;
     };
 
-    $scope.toggleOrderMenu = function() { 
+    $scope.toggleOrderMenu = function() {
       $scope.isOrderMenuOpen = !$scope.isOrderMenuOpen;
-    }
+    };
 
     $scope.close = function(timeout) {
       $timeout(function() {
@@ -120,7 +120,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
         var data = $scope.detailViewLoaded.get('onDetailViewLoaded', true);
         if (data) {
           // close order menu if the detail view type changed
-          if ($scope.detailViewType != data.type) {
+          if ($scope.detailViewType !== data.type) {
             $scope.isOrderMenuOpen = false;
           }
           $scope.detailViewType = data.type;
@@ -128,6 +128,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
       }, true);
 
     $scope.$watch(function() {
+      // listen for close triggers
       return $scope.onCloseOrderMenu;
     },
     function() {
@@ -135,5 +136,5 @@ angular.module('metadatamanagementApp').controller('SidenavController',
       if (data) {
         $scope.isOrderMenuOpen = data.open;
       }
-    }, true);    
+    }, true);
   });

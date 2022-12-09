@@ -116,7 +116,8 @@
             }
             loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);
             $ctrl.dataPackages.length = 0;
-            _.forEach($ctrl.analysisPackage.analysisDataPackages, function(item) {
+            _.forEach($ctrl.analysisPackage.analysisDataPackages,
+              function(item) {
               if (item.type === 'dataPackage') {
                 loadDataPackage(
                   item.dataPackageMasterId,
@@ -178,7 +179,8 @@
     });
 
     $ctrl.showBackToEditButton = function() {
-      return $ctrl.selectedVersion && Principal.hasAuthority('ROLE_DATA_PROVIDER');
+      return $ctrl.selectedVersion && Principal.hasAuthority(
+        'ROLE_DATA_PROVIDER');
     };
 
     // closes the order menu in the parent component
@@ -247,10 +249,6 @@
       AnalysisPackageCitationDialogService.showDialog(
         $ctrl.analysisPackage, $event
       );
-    };
-
-    $ctrl.onGoToShoppingCart = function() {
-      $scope.$emit('goToShoppingCartCloseDialog', true);
     };
   }
 

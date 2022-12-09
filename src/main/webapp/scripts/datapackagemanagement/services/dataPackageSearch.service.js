@@ -86,7 +86,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       return deferred;
     };
 
-    var findDataPackageById = function (id, excludes) {
+    var findDataPackageById = function(id, excludes) {
       var query = {};
       _.extend(query, createQueryObject(),
         SearchHelperService.createMasterByIdQuery(id));
@@ -104,7 +104,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         }
       }, deferred.reject);
       return deferred;
-    }
+    };
 
     var findStudySeries = function(searchText, filter, language, type,
         queryterm, dataAcquisitionProjectId, ignoreAuthorization) {

@@ -84,7 +84,7 @@
                 <li ng-show="isOrderMenuOpen" ng-if="detailViewType === 'dataPackage'">
                   <fdz-data-package-configurator></fdz-data-package-configurator>
                 </li>
-                <md-divider></md-divider>
+                <md-divider ng-show="isOrderMenuOpen"></md-divider>
             </li>
             <!-- order option for analysis packages -->
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_DATA_PROVIDER" ng-if="detailViewType === 'analysisPackage'">
@@ -101,8 +101,8 @@
               <li ng-show="isOrderMenuOpen" ng-if="detailViewType === 'analysisPackage'">
                 <fdz-analysis-package-configurator></fdz-analysis-package-configurator>
               </li>
-              <md-divider></md-divider>
-          </li>
+              <md-divider ng-show="isOrderMenuOpen"></md-divider>
+            </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_ADMIN">
                 <md-button class="fdz-navbar-button" ui-sref-active="fdz-navbar-button-active" ui-sref="project-overview" ng-click="close()">
                     <md-icon md-svg-src="assets/images/icons/format-list-checks.svg"></md-icon>

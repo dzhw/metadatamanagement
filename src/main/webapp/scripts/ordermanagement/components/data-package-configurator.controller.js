@@ -66,7 +66,7 @@
       initReady = true;
     }
 
-    function loadVersion(dataAcquisitionProjectId, id) {      
+    function loadVersion(dataAcquisitionProjectId, id) {
       DataAcquisitionProjectReleasesResource.get(
         {
           id: ProjectReleaseService.stripVersionSuffix(
@@ -76,7 +76,7 @@
         .$promise
         .then(
         function(releases) {
-          $ctrl.releases = releases;          
+          $ctrl.releases = releases;
           if (releases.length === 0) {
             $ctrl.noFinalRelease = true;
           }
@@ -84,15 +84,13 @@
         });
     }
 
-    
-
     function loadDataPackage(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
         'concepts'];
-      if (version === undefined){
+      if (version === undefined) {
         DataPackageSearchService.findDataPackageById(id, excludes)
         .promise.then(function(res) {
           $ctrl.dataPackage = res;
@@ -125,7 +123,6 @@
           $rootScope.$broadcast('stop-ignoring-404');
         });
       }
-      
     }
 
     function loadAccessWays(id) {
@@ -154,10 +151,11 @@
     };
 
     $ctrl.showBackToEditButton = function() {
-      return $ctrl.selectedVersion && Principal.hasAuthority('ROLE_DATA_PROVIDER');
+      return $ctrl.selectedVersion && Principal.hasAuthority(
+        'ROLE_DATA_PROVIDER');
     };
 
-    // triggers event to close the order menu in the parent component
+    // triggers MessageBus to close the order menu in the parent component
     $ctrl.closeOrderMenu = function() {
       MessageBus.set('onCloseOrderMenu', {open: false});
     };
@@ -300,10 +298,6 @@
         DataPackageCitationDialogService.showDialog($ctrl.selectedAccessWay,
             $ctrl.dataPackage, $event);
       }
-    };
-
-    $ctrl.onGoToShoppingCart = function() {
-      $scope.$emit('goToShoppingCartCloseDialog', true);
     };
   }
 
