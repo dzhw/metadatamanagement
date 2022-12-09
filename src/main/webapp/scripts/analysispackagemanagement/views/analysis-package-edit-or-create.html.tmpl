@@ -46,6 +46,14 @@
                    ng-if="ctrl.analysisPackage.annotations.de == null || ctrl.analysisPackage.annotations.de == ''">
                 {{'analysis-package-management.edit.hints.annotations.de' | translate}}
               </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+              </div>
               <div multiple
                    ng-messages="analysisPackageForm.annotationsDe.$error">
                 <div ng-message="md-maxlength">
@@ -67,6 +75,14 @@
               <div class="fdz-input-hint"
                    ng-if="ctrl.analysisPackage.annotations.en == null || ctrl.analysisPackage.annotations.en == ''">
                 {{'analysis-package-management.edit.hints.annotations.en' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
               </div>
               <div multiple
                    ng-messages="analysisPackageForm.annotationsEn.$error">
