@@ -375,12 +375,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       totalHitsInAdditionalIndex) {
       var totalHits = {};
       totalHits[$scope.searchParams.type] = totalHitsInCurrentIndex;
-      for (var index in $scope.searchParams.additionalSearchIndex) {
+      for (var index = 0;
+        index < $scope.searchParams.additionalSearchIndex.length; index++) {
         totalHits[$scope.searchParams.additionalSearchIndex[index]] =
           totalHitsInAdditionalIndex[index];
       }
-      // totalHits[$scope.searchParams.additionalSearchIndex] =
-      //   totalHitsInAdditionalIndex;
       MessageBus.set('onTotalHitsChange', totalHits);
     }
 
@@ -446,7 +445,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
         .then(function(data) {
           var totalHitsInAdditionalIndex = [];
           if ($scope.searchParams.additionalSearchIndex) {
-            for (var index in $scope.searchParams.additionalSearchIndex) {
+            for (var index = 0;
+              index < $scope.searchParams.additionalSearchIndex.length;
+              index++) {
               totalHitsInAdditionalIndex
                 .push(data.responses[+index + 1].hits.total.value);
             }

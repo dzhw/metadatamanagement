@@ -9,6 +9,8 @@ angular.module('metadatamanagementApp')
     function($scope, SearchHelperService, $timeout,
       $element, CleanJSObjectService, $mdSelect) {
 
+      /* filters that need to be removed because they sould only be visible
+      in the sidenav for public users */
       var irrelevantFiltersMapping = {
         'related_publications': ['year', 'language']
       };
@@ -43,6 +45,8 @@ angular.module('metadatamanagementApp')
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchHelperService.getAvailableFilters(
           $scope.currentElasticsearchType);
+        /* as this is the search panel for logged in users we need to remove some
+        filters that sould only be shown in the sidenav for public users */
         removeIrrelevantFilter();
         $scope.displayAvailableFilters = createDisplayAvailableFilterList(
           $scope.availableFilters);
@@ -141,18 +145,16 @@ angular.module('metadatamanagementApp')
        * Function to remove the filters that are irrelevant for the search panel.
        */
       var removeIrrelevantFilter = function() {
-        var availableFiltersCopy = $scope.availableFilters;
         var irrelevantFilters = irrelevantFiltersMapping[
           $scope.currentElasticsearchType];
         if (irrelevantFilters) {
           for (var i = 0; i < irrelevantFilters.length; i++) {
             var filter = irrelevantFilters[i];
-            var filterIndex = availableFiltersCopy.indexOf(filter);
+            var filterIndex = $scope.availableFilters.indexOf(filter);
             if (filterIndex > -1) {
-              availableFiltersCopy.splice(filterIndex, 1);
+              $scope.availableFilters.splice(filterIndex, 1);
             }
           }
-          $scope.availableFilters = availableFiltersCopy;
         }
       };
     }
