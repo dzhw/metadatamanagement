@@ -34,7 +34,9 @@ angular.module('metadatamanagementApp').config(
           'study-series': 'Studienreihen',
           'survey-data-types': 'Erhebungsdatentyp',
           'access-ways': 'Zugangswege',
-          'unavailable': 'Nicht vorhanden'
+          'unavailable': 'Nicht vorhanden',
+          'language': 'Sprache',
+          'year': 'Erscheinungsjahr'
         },
         'toolbar': {
           'buttons': {
