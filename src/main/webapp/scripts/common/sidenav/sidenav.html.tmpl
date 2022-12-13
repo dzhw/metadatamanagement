@@ -16,7 +16,7 @@
     <fdz-data-package-configurator
       ng-if="sidebarContent.configurator && detailViewType === 'dataPackage'"></fdz-data-package-configurator>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
-        <ul ng-if="isAuthenticated()" class="pa0 ma0 overflow-hidden">
+        <ul ng-if="isAuthenticated()" class="pa0 ma0">
           <li class="fdz-navbar-menu">
             <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
               <md-icon md-font-set="material-icons">supervisor_account</md-icon>
@@ -153,13 +153,13 @@
                 <md-divider></md-divider>
             </li>
         </ul>
-        <div layout="column" layout-align="start baseline" flex layout-padding>
-        <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
-          <img alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg" class="saucelabs_logo"/>
-          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-             Testing powered by Sauce Labs
-          </md-tooltip>
-        </a>
-      </div>
     </md-content>
+    <div layout="column" layout-align="start baseline" layout-padding>
+      <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
+        <img alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg" class="saucelabs_logo"/>
+        <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+           Testing powered by Sauce Labs
+        </md-tooltip>
+      </a>
+    </div>
 </md-sidenav>
