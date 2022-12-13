@@ -154,17 +154,13 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onAnalysisPackageChange',
             {
-              masterId: result.masterId//,
-              // version: result.release.version
+              masterId: result.masterId
             });
           MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
         } else {
-          // set version to null (to prevent reloading a specific version) and
-          // add projectId instead
           MessageBus.set('onAnalysisPackageChange',
             {
               masterId: result.masterId,
-              // version: null,
               projectId: result.dataAcquisitionProjectId
             });
           MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});

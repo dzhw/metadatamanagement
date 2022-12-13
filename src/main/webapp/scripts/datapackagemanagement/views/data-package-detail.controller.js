@@ -105,7 +105,6 @@ angular.module('metadatamanagementApp')
             });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         } else {
-          // set version to null (to prevent reloading a specific version)
           MessageBus.set('onDataPackageChange',
           {
             masterId: result.masterId,
@@ -133,7 +132,6 @@ angular.module('metadatamanagementApp')
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.dataPackage = result;
-          // $scope.$broadcast('currentProjectChanged', result);
           ctrl.loadAttachments();
 
           $timeout(function() {
