@@ -341,13 +341,13 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
                 'aggs': {
                   'sponsorDe': {
                     'terms': {
-                      'field': 'nestedSponsors.de',
+                      'field': 'nestedSponsors.name.de',
                       'size': 100
                     },
                     'aggs': {
                       'sponsorEn': {
                         'terms': {
-                          'field': 'nestedSponsors.en',
+                          'field': 'nestedSponsors.name.en',
                           'size': 100
                         }
                       }
@@ -371,21 +371,23 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       };
 
       query.body.aggs.sponsors.aggs.filtered.filter.bool.must[0].match
-        ['nestedSponsors.' + language + '.ngrams'] = {
+        ['nestedSponsors.name.' + language + '.ngrams'] = {
         'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
       };
 
+      console.log('EXCLUDEDSPONSORS:' + JSON.stringify(excludedSponsors));
       if (excludedSponsors && excludedSponsors.length > 0) {
         query.body.aggs.sponsors.aggs.filtered.filter.bool.must_not = [];
         excludedSponsors.forEach(function(sponsor) {
-          if (sponsor) {
+          console.log('SPONSOR:' + JSON.stringify(sponsor));
+          if (sponsor !== null) {
             query.body.aggs.sponsors.aggs.filtered.filter.bool.must_not
               .push({
               'term': {
-                'nestedSponsors.de': sponsor.de
+                'nestedSponsors.name.de': sponsor.name.de
               }
             });
           }
@@ -405,10 +407,10 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         var sponsorElement = {};
         result.aggregations.sponsors.filtered.sponsorDe.buckets.forEach(
           function(bucket) {
-            sponsorElement = {
+            sponsorElement = {'name': {
               'de': bucket.key,
               'en': bucket.sponsorEn.buckets[0].key
-            };
+            }};
             sponsorElement.count = bucket.doc_count;
             sponsors.push(sponsorElement);
           });

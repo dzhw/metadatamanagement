@@ -15,11 +15,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import lombok.extern.slf4j.Slf4j;
+
+import com.github.cloudyrock.spring.v5.EnableMongock;
 
 /**
  * Main class boostrapping the application.
@@ -27,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @EnableConfigurationProperties({MetadataManagementProperties.class, JHipsterProperties.class})
 @Slf4j
+@EnableMongock
+@EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs")
 public class Application {
   @Autowired
   private Environment env;

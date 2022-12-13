@@ -336,8 +336,9 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content>
-          <div id="move-sponsor-container" layout="row"
+          <div id="move-sponsor-container" layout="column"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
+            <div layout="row">
             <div>
               <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteSponsor($index)"
                          ng-if="ctrl.dataPackage.sponsors.length > 1">
@@ -352,12 +353,12 @@
                              md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512" md-input-name="sponsorDe_{{$index}}"
                              md-is-error="!dataPackageForm['sponsorDe_' + $index].$valid && (dataPackageForm['sponsorDe_' + $index].$dirty || dataPackageForm['sponsorDe_' + $index].$touched)"
-                             md-item-text="item.de"
-                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].de, 'de')"
+                             md-item-text="item.name.de"
+                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].name.de, 'de')"
                              md-match-case-insensitive="true" md-min-length="0"
                              md-no-cache="true"
                              md-require-match="false"
-                             md-search-text="ctrl.dataPackage.sponsors[$index].de"
+                             md-search-text="ctrl.dataPackage.sponsors[$index].name.de"
                              md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
                              ng-blur="ctrl.deleteCurrentSponsor($event)"
@@ -366,8 +367,8 @@
                              class="ms-flex mr8">
               <md-item-template>
                 <span class="md-title" md-highlight-flags="ig"
-                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].de"
-                      style="font-size: 14px;">{{item.de}}</span>
+                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].name.de"
+                      style="font-size: 14px;">{{item.name.de}}</span>
               </md-item-template>
               <md-not-found>
                 {{'search-management.filter.sponsor-filter.not-found' | translate}}
@@ -390,12 +391,12 @@
                              md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-english' | translate}})"
                              md-input-maxlength="512" md-input-name="sponsorEn_{{$index}}"
                              md-is-error="!dataPackageForm['sponsorEn_' + $index].$valid && (dataPackageForm['sponsorEn_' + $index].$dirty || dataPackageForm['sponsorEn_' + $index].$touched)"
-                             md-item-text="item.en"
-                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].en, 'en')"
+                             md-item-text="item.name.en"
+                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].name.en, 'en')"
                              md-match-case-insensitive="true" md-min-length="0"
                              md-no-cache="true"
                              md-require-match="false"
-                             md-search-text="ctrl.dataPackage.sponsors[$index].en"
+                             md-search-text="ctrl.dataPackage.sponsors[$index].name.en"
                              md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
                              ng-blur="ctrl.deleteCurrentSponsor($event)"
@@ -404,8 +405,8 @@
                              class="ms-flex">
               <md-item-template>
                 <span class="md-title" md-highlight-flags="ig"
-                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].en"
-                      style="font-size: 14px;">{{item.en}}</span>
+                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].name.en"
+                      style="font-size: 14px;">{{item.name.en}}</span>
               </md-item-template>
               <md-not-found>
                 {{'search-management.filter.sponsor-filter.not-found' | translate}}
@@ -425,6 +426,18 @@
               </div>
             </md-autocomplete>
           </div>
+          <div layout="row" layout-align="start center">
+            <md-input-container flex="33" ng-style="{'margin-left': ctrl.dataPackage.sponsors.length > 1 ? '40px' : '0px'}" class="mt0">
+              <label>{{'data-package-management.edit.label.fundingRef' | translate}}</label>
+              <input name="sponsorFundingRef_{{$index}}" ng-model="ctrl.dataPackage.sponsors[$index].fundingRef" autocomplete="off">
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['fundRef_' + $parent.$index].$dirty && !dataPackageForm['fundRef_' + $parent.$index].$touched">
+                {{'data-package-management.edit.hints.sponsor.funding-ref' | translate}}
+              </div>
+            </md-input-container>
+          </div>
+        </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addSponsor()">
