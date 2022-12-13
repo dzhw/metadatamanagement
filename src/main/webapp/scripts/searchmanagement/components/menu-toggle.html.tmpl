@@ -19,10 +19,25 @@
   ng-if="!$ctrl.collapsed">
   <li ng-repeat="item in $ctrl.options">
     <md-checkbox
+      ng-if="$ctrl.property === 'access-ways'"
       ng-checked="$ctrl.exists(item.key, $ctrl.property)"
       md-no-ink=""
       ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
-      {{ $ctrl.property === "access-ways" ? (item.key | displayAccessWay) : item.key }} ({{ item.doc_count }})
+      {{ (item.key | displayAccessWay) }} ({{ item.doc_count }})
+    </md-checkbox>
+    <md-checkbox
+      ng-if="$ctrl.property === 'language'"
+      ng-checked="$ctrl.exists(item.key, $ctrl.property)"
+      md-no-ink=""
+      ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
+      {{ (item.key | displayIsoLanguage) }} ({{ item.doc_count }})
+    </md-checkbox>
+    <md-checkbox
+      ng-if="$ctrl.property != 'language' && $ctrl.property != 'access-ways'"
+      ng-checked="$ctrl.exists(item.key, $ctrl.property)"
+      md-no-ink=""
+      ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
+      {{ item.key }} ({{ item.doc_count }})
     </md-checkbox>
   </li>
   <li ng-if="$ctrl.options.length === 0">{{'search-management.filter.no-record' | translate}}</li>

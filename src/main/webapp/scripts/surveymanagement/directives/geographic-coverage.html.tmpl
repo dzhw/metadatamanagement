@@ -35,7 +35,7 @@
         <md-input-container flex="grow" ng-class="{'mr10': isScreenGreaterSmall}">
             <label>{{'survey-management.geographic-coverage.label.description.de' | translate}}<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
             <textarea name="descriptionDe" ng-model="geographicCoverage.description.de" rows="4" md-maxlength="512" lang="de"></textarea>
-            <div ng-if="geographicCoverageForm.descriptionDe.$untouched" class="fdz-input-hint">
+            <div ng-if="geographicCoverage.description.de == null || geographicCoverage.description.de == ''" class="fdz-input-hint">
                 {{'survey-management.geographic-coverage.hints.description' | translate}}
             </div>
             <div ng-messages="geographicCoverageForm.descriptionDe.$error">
@@ -45,7 +45,7 @@
         <md-input-container flex="grow">
             <label>{{'survey-management.geographic-coverage.label.description.en' | translate}}<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
             <textarea name="descriptionEn" ng-model="geographicCoverage.description.en" rows="4" md-maxlength="512" lang="en"></textarea>
-            <div ng-if="geographicCoverageForm.descriptionEn.$untouched" class="fdz-input-hint">
+            <div ng-if="geographicCoverage.description.en == null || geographicCoverage.description.en == ''" class="fdz-input-hint">
                 {{'survey-management.geographic-coverage.hints.description' | translate}}
             </div>
             <div ng-messages="geographicCoverageForm.descriptionDe.$error">

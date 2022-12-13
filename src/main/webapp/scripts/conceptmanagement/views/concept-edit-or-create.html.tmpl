@@ -87,7 +87,7 @@
             <md-input-container flex="50" md-is-error="!conceptForm.doi.$valid && (conceptForm.doi.$dirty || conceptForm.doi.$touched)" class="ms-flex">
               <label>{{'concept-management.detail.label.doi' | translate}}</label>
               <input md-maxlength="512" name="doi" ng-model="ctrl.concept.doi">
-              <div class="fdz-input-hint" ng-if="!conceptForm.doi.$dirty && !conceptForm.doi.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.concept.doi == null || ctrl.concept.doi == ''">
                 {{'concept-management.edit.hints.doi' | translate}}
               </div>
               <div multiple ng-messages="conceptForm.doi.$error">
@@ -162,7 +162,7 @@
           <md-input-container md-is-error="!conceptForm.license.$valid && (conceptForm.license.$dirty || conceptForm.license.$touched)" class="ms-flex w-100">
             <label>{{'concept-management.detail.label.license-edit' | translate}}<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
             <textarea md-maxlength="1048576" name="license" ng-model="ctrl.concept.license" ng-trim="true" rows="4"></textarea>
-            <div class="fdz-input-hint" ng-if="!conceptForm.license.$dirty && !conceptForm.license.$touched">
+            <div class="fdz-input-hint" ng-if="ctrl.concept.license == null || ctrl.concept.license == ''">
               {{'concept-management.edit.hints.license' | translate}}
             </div>
             <div multiple ng-messages="conceptForm.license.$error">

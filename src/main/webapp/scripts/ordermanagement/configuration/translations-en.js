@@ -107,6 +107,7 @@ angular.module('metadatamanagementApp').config(
           'add-data-package-tooltip': 'Click to put the data package with the selected options into the shopping cart.',
           'add-analysis-package-tooltip': 'Click to put the analysis package with the selected options into the shopping cart.',
           'choose-data-package-options': 'Click to add a variant of this data package to the shopping cart.',
+          'choose-analysis-package-options': 'Click to add a variant of this analysis package to the shopping cart.',
           'open-cart': 'Go to shopping cart',
           'remove-all': 'Empty Shopping Cart',
           'remove-all-tooltip': 'Click to remove all packages from the shopping cart.',
@@ -121,6 +122,7 @@ angular.module('metadatamanagementApp').config(
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
           'data-package-tooltip': 'Click to get more information about data packages',
           'analysis-package-tooltip': 'Click to get more information about analysis packages',
+          'related-publications-tooltip': 'Click to get more information about publications',
           'analysis-package-version-tooltip': 'Click to get more information about versions of analysis packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
         },

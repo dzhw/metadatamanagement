@@ -107,6 +107,7 @@ angular.module('metadatamanagementApp').config(
           'add-data-package-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'add-analysis-package-tooltip': 'Klicken, um das Analysepaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'choose-data-package-options': 'Klicken, um eine Variante dieses Datenpakets in den Warenkorb zu legen.',
+          'choose-analysis-package-options': 'Klicken, um eine Variante dieses Analysepaketes in den Warenkorb zu legen.',
           'open-cart': 'Zum Warenkorb',
           'checkout-tooltip': 'Klicken, um die Datenpakete zu bestellen.',
           'remove-all': 'Warenkorb leeren',
@@ -121,6 +122,7 @@ angular.module('metadatamanagementApp').config(
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-tooltip': 'Klicken, um weitere Informationen zu Datenpaketen zu erhalten.',
           'analysis-package-tooltip': 'Klicken, um weitere Informationen zu Analysepaketen zu erhalten.',
+          'related-publications-tooltip': 'Klicken, um weitere Informationen zu Publikationen zu erhalten.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'

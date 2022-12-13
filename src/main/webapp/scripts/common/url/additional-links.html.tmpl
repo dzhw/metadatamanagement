@@ -58,7 +58,7 @@
                ng-model="link.displayText.de" autocomplete="off">
         <div
           class="fdz-input-hint"
-          ng-if="!$ctrl.currentForm['linkDisplayTextDe_' + $index].$dirty && !$ctrl.currentForm['linkDisplayTextDe_' + $index].$touched">
+          ng-if="link.displayText.de == null || link.displayText.de == ''">
           {{ 'analysis-package-management.edit.hints.additional-links.display-text.de' | translate}}
         </div>
         <div multiple
@@ -79,7 +79,7 @@
                ng-model="link.displayText.en" autocomplete="off">
         <div
           class="fdz-input-hint"
-          ng-if="!$ctrl.currentForm['linkDisplayTextEn_' + $index].$dirty && !$ctrl.currentForm['linkDisplayTextEn_' + $index].$touched">
+          ng-if="link.displayText.en == null || link.displayText.en == ''">
           {{ 'analysis-package-management.edit.hints.additional-links.display-text.en' | translate}}
         </div>
         <div multiple

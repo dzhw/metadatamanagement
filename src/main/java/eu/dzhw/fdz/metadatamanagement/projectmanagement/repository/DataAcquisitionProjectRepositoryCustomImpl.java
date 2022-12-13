@@ -7,10 +7,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -31,8 +34,8 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
   }
 
   @Override
-  public List<DataAcquisitionProject> findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(
-      String projectId, String dataProviderId) {
+  public Page<DataAcquisitionProject> findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(
+      String projectId, String dataProviderId, Pageable pageable) {
     List<String> dataProviderIdValues = Collections.singletonList(dataProviderId);
     Criteria criteria = where("configuration.dataProviders")
         .in(dataProviderIdValues)
@@ -40,9 +43,11 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
         .regex(projectId, "i")
         .and("shadow").is(false);
 
-    Query query = query(criteria).with(Sort.by(Sort.Direction.ASC, "_id"));
+    Query query = query(criteria).with(Sort.by(Sort.Direction.ASC, "_id")).with(pageable);
+    List<DataAcquisitionProject> list = mongoTemplate.find(query, DataAcquisitionProject.class);
 
-    return mongoTemplate.find(query, DataAcquisitionProject.class);
+    return PageableExecutionUtils.getPage(list, pageable,
+      () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), DataAcquisitionProject.class));
   }
 
   @Override

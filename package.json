@@ -44,7 +44,7 @@
     "highlightjs": "9.16.2",
     "hyphenator.js": "https://github.com/mnater/Hyphenator/archive/5.3.0.tar.gz",
     "jquery": "3.6.0",
-    "js-beautify": "1.14.1",
+    "js-beautify": "1.14.7",
     "js-xlsx": "0.8.22",
     "jsonformatter": "0.7.0",
     "jszip": "3.7.1",

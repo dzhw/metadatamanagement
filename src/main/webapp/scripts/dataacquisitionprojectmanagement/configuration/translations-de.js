@@ -243,7 +243,8 @@ angular.module('metadatamanagementApp').config(
             'previous': 'Klicken, um die vorherigen Projekte anzuzeigen',
             'next': 'Klicken, um die nächsten Projekte anzuzeigen',
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
-          }
+          },
+          'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen'
         },
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',

@@ -37,6 +37,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
         'tags',
         'sponsors',
         'institutions'
+      ],
+      related_publications: [
+        'year',
+        'language'
       ]
     };
     var getSelectedMetadataType = function() {
@@ -359,12 +363,24 @@ angular.module('metadatamanagementApp').controller('SearchController',
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
 
+    function createPublicationsFilterObject(data) {
+      if (Principal.isAuthenticated()) { return null; }
+      var dataPackageFilter = {
+        'year': data.year.buckets,
+        'language': data.language.buckets
+      };
+      MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
+    }
+
     function createTotalHitsObject(totalHitsInCurrentIndex,
       totalHitsInAdditionalIndex) {
       var totalHits = {};
       totalHits[$scope.searchParams.type] = totalHitsInCurrentIndex;
-      totalHits[$scope.searchParams.additionalSearchIndex] =
-        totalHitsInAdditionalIndex;
+      for (var index = 0;
+        index < $scope.searchParams.additionalSearchIndex.length; index++) {
+        totalHits[$scope.searchParams.additionalSearchIndex[index]] =
+          totalHitsInAdditionalIndex[index];
+      }
       MessageBus.set('onTotalHitsChange', totalHits);
     }
 
@@ -379,17 +395,31 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     //Search function
+    /**
+     * Searches and processes the results.
+     * The authentification status determines the type of search.
+     */
     $scope.search = function() {
+      // Public users search in multiple indices at the same time
+      // additional indices need to be set according to the currently
+      // selected search type
+      // aggregations need to be read from mapping
       var aggregation = null;
       $scope.searchParams.additionalSearchIndex = null;
       if (!Principal.isAuthenticated()) {
         $scope.searchFilterMapping = $scope.searchParams.filter;
         aggregation = searchFilterAggregations[$scope.searchParams.type];
         if ($scope.searchParams.type === 'data_packages') {
-          $scope.searchParams.additionalSearchIndex = 'analysis_packages';
+          $scope.searchParams.additionalSearchIndex = [
+            'analysis_packages','related_publications'];
         }
         if ($scope.searchParams.type === 'analysis_packages') {
-          $scope.searchParams.additionalSearchIndex = 'data_packages';
+          $scope.searchParams.additionalSearchIndex = [
+            'data_packages','related_publications'];
+        }
+        if ($scope.searchParams.type === 'related_publications') {
+          $scope.searchParams.additionalSearchIndex = [
+            'data_packages','analysis_packages'];
         }
       }
       var projectId = _.get($scope, 'currentProject.id');
@@ -414,15 +444,23 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.searchFilterMapping, $scope.options.sortObject.selected, false,
         $scope.searchParams.additionalSearchIndex)
         .then(function(data) {
-          var totalHitsInAdditionalIndex = 0;
+          var totalHitsInAdditionalIndex = [];
           if ($scope.searchParams.additionalSearchIndex) {
-            totalHitsInAdditionalIndex = data.responses[1].hits.total.value;
+            for (var index = 0;
+              index < $scope.searchParams.additionalSearchIndex.length;
+              index++) {
+              totalHitsInAdditionalIndex
+                .push(data.responses[+index + 1].hits.total.value);
+            }
+
             data = data.responses[0];
           }
           if ($scope.searchParams.type === 'data_packages') {
             createDataPackageFilterObject(data.aggregations);
-          } else {
+          } else if ($scope.searchParams.type === 'analysis_packages') {
             createAnalysisPackageFilterObject(data.aggregations);
+          } else {
+            createPublicationsFilterObject(data.aggregations);
           }
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;

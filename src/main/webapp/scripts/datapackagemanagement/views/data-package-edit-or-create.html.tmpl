@@ -76,7 +76,7 @@
               <md-not-found>
                 {{'search-management.filter.study-series-filter.not-found' | translate}}
               </md-not-found>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.studySeriesDe.$dirty && !dataPackageForm.studySeriesDe.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.studySeries.de == null || ctrl.dataPackage.studySeries.de == ''">
                 {{'data-package-management.edit.hints.study-series.de' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm.studySeriesDe.$error">
@@ -110,7 +110,7 @@
               <md-not-found>
                 {{'search-management.filter.study-series-filter.not-found' | translate}}
               </md-not-found>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.studySeriesEn.$dirty && !dataPackageForm.studySeriesEn.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.studySeries.en == null || ctrl.dataPackage.studySeries.en == ''">
                 {{'data-package-management.edit.hints.study-series.en' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm.studySeriesEn.$error">
@@ -156,8 +156,16 @@
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" name="annotationsDe" ng-model="ctrl.dataPackage.annotations.de"
                         rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.annotationsDe.$dirty && !dataPackageForm.annotationsDe.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.annotations.de == null || ctrl.dataPackage.annotations.de == ''">
                 {{'data-package-management.edit.hints.annotations.de' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
               </div>
               <div multiple ng-messages="dataPackageForm.annotationsDe.$error">
                 <div ng-message="md-maxlength">{{'data-package-management.error.data-package.annotations.i18n-string-size' |
@@ -172,8 +180,16 @@
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" name="annotationsEn" ng-model="ctrl.dataPackage.annotations.en"
                         rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!dataPackageForm.annotationsEn.$dirty && !dataPackageForm.annotationsEn.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.annotations.en == null || ctrl.dataPackage.annotations.en == ''">
                 {{'data-package-management.edit.hints.annotations.en' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
               </div>
               <div multiple ng-messages="dataPackageForm.annotationsEn.$error">
                 <div ng-message="md-maxlength">{{'data-package-management.error.data-package.annotations.i18n-string-size' |
@@ -320,8 +336,9 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content>
-          <div id="move-sponsor-container" layout="row"
+          <div id="move-sponsor-container" layout="column"
                ng-repeat="sponsor in ctrl.currentSponsors track by $index">
+            <div layout="row">
             <div>
               <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteSponsor($index)"
                          ng-if="ctrl.dataPackage.sponsors.length > 1">
@@ -336,12 +353,12 @@
                              md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512" md-input-name="sponsorDe_{{$index}}"
                              md-is-error="!dataPackageForm['sponsorDe_' + $index].$valid && (dataPackageForm['sponsorDe_' + $index].$dirty || dataPackageForm['sponsorDe_' + $index].$touched)"
-                             md-item-text="item.de"
-                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].de, 'de')"
+                             md-item-text="item.name.de"
+                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].name.de, 'de')"
                              md-match-case-insensitive="true" md-min-length="0"
                              md-no-cache="true"
                              md-require-match="false"
-                             md-search-text="ctrl.dataPackage.sponsors[$index].de"
+                             md-search-text="ctrl.dataPackage.sponsors[$index].name.de"
                              md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
                              ng-blur="ctrl.deleteCurrentSponsor($event)"
@@ -350,8 +367,8 @@
                              class="ms-flex mr8">
               <md-item-template>
                 <span class="md-title" md-highlight-flags="ig"
-                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].de"
-                      style="font-size: 14px;">{{item.de}}</span>
+                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].name.de"
+                      style="font-size: 14px;">{{item.name.de}}</span>
               </md-item-template>
               <md-not-found>
                 {{'search-management.filter.sponsor-filter.not-found' | translate}}
@@ -374,12 +391,12 @@
                              md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-english' | translate}})"
                              md-input-maxlength="512" md-input-name="sponsorEn_{{$index}}"
                              md-is-error="!dataPackageForm['sponsorEn_' + $index].$valid && (dataPackageForm['sponsorEn_' + $index].$dirty || dataPackageForm['sponsorEn_' + $index].$touched)"
-                             md-item-text="item.en"
-                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].en, 'en')"
+                             md-item-text="item.name.en"
+                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].name.en, 'en')"
                              md-match-case-insensitive="true" md-min-length="0"
                              md-no-cache="true"
                              md-require-match="false"
-                             md-search-text="ctrl.dataPackage.sponsors[$index].en"
+                             md-search-text="ctrl.dataPackage.sponsors[$index].name.en"
                              md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
                              md-selected-item-change="dataPackageForm.$setDirty()"
                              ng-blur="ctrl.deleteCurrentSponsor($event)"
@@ -388,8 +405,8 @@
                              class="ms-flex">
               <md-item-template>
                 <span class="md-title" md-highlight-flags="ig"
-                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].en"
-                      style="font-size: 14px;">{{item.en}}</span>
+                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].name.en"
+                      style="font-size: 14px;">{{item.name.en}}</span>
               </md-item-template>
               <md-not-found>
                 {{'search-management.filter.sponsor-filter.not-found' | translate}}
@@ -409,6 +426,18 @@
               </div>
             </md-autocomplete>
           </div>
+          <div layout="row" layout-align="start center">
+            <md-input-container flex="33" ng-style="{'margin-left': ctrl.dataPackage.sponsors.length > 1 ? '40px' : '0px'}" class="mt0">
+              <label>{{'data-package-management.edit.label.fundingRef' | translate}}</label>
+              <input name="sponsorFundingRef_{{$index}}" ng-model="ctrl.dataPackage.sponsors[$index].fundingRef" autocomplete="off">
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['fundRef_' + $parent.$index].$dirty && !dataPackageForm['fundRef_' + $parent.$index].$touched">
+                {{'data-package-management.edit.hints.sponsor.funding-ref' | translate}}
+              </div>
+            </md-input-container>
+          </div>
+        </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" class="mb12">
           <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addSponsor()">
@@ -460,6 +489,14 @@
               <div class="fdz-input-hint" ng-if="!dataPackageForm.descriptionDe.$dirty && !dataPackageForm.descriptionDe.$touched">
                 {{'data-package-management.edit.hints.description.de' | translate}}
               </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+              </div>
               <div multiple ng-messages="dataPackageForm.descriptionDe.$error">
                 <div ng-message="fdz-required">{{'data-package-management.error.data-package.description.i18n-string-not-empty' |
                   translate}}
@@ -478,6 +515,14 @@
                         name="descriptionEn" ng-model="ctrl.dataPackage.description.en" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!dataPackageForm.descriptionEn.$dirty && !dataPackageForm.descriptionEn.$touched">
                 {{'data-package-management.edit.hints.description.en' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
               </div>
               <div multiple ng-messages="dataPackageForm.descriptionEn.$error">
                 <div ng-message="fdz-required">{{'data-package-management.error.data-package.description.i18n-string-not-empty' |
@@ -549,7 +594,7 @@
                      ng-model="link.displayText.de" autocomplete="off">
               <div
                 class="fdz-input-hint"
-                ng-if="!dataPackageForm['linkDisplayTextDe_' + $index].$dirty && !dataPackageForm['linkDisplayTextDe_' + $index].$touched">
+                ng-if="link.displayText.de == null || link.displayText.de == ''">
                 {{ 'data-package-management.edit.hints.additional-links.display-text.de' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm['linkDisplayTextDe_' + $index].$error">
@@ -564,7 +609,7 @@
                      ng-model="link.displayText.en" autocomplete="off">
               <div
                 class="fdz-input-hint"
-                ng-if="!dataPackageForm['linkDisplayTextEn_' + $index].$dirty && !dataPackageForm['linkDisplayTextEn_' + $index].$touched">
+                ng-if="link.displayText.en == null || link.displayText.en == ''">
                 {{ 'data-package-management.edit.hints.additional-links.display-text.en' | translate}}
               </div>
               <div multiple ng-messages="dataPackageForm['linkDisplayTextEn_' + $index].$error">

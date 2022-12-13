@@ -61,6 +61,19 @@ angular.module('metadatamanagementApp').factory(
           i18n: true,
           min_doc_count: 1
         }
+      },
+      'related_publications': {
+        'language': {
+          attribute: 'language',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'year': {
+          attribute: 'year',
+          i18n: true,
+          min_doc_count: 1,
+          orderByKey: 'desc'
+        }
       }
     };
 
@@ -235,6 +248,8 @@ angular.module('metadatamanagementApp').factory(
         'study-series-en': 'dataPackages.studySeries.en',
         'data-package': 'dataPackageIds',
         'analysis-package': 'analysisPackageIds',
+        'language': 'language',
+        'year': 'year'
       },
       'concepts': {
         'data-package': 'dataPackages.id',
@@ -833,7 +848,13 @@ angular.module('metadatamanagementApp').factory(
                 min_doc_count: aggregationConfig.min_doc_count
               }
             };
-            if (aggregationConfig.i18n) {
+
+            if (aggregationConfig.orderByKey) {
+              aggregation.terms.order = {'_key': aggregationConfig.orderByKey};
+            }
+
+            if (aggregationConfig.i18n &&
+              elasticsearchType !== 'related_publications') {
               aggregation.terms.field = aggregationConfig.attribute +
               '.' + currentLanguage;
             } else {

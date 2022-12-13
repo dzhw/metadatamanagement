@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').config(
             'projectContributors': 'Project Contributors',
             'data-curators': 'Data Curation',
             'sponsors': 'Sponsored by',
+            'fundingRef': 'Funding reference',
             'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -227,6 +228,7 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',
+            'fundingRef': 'Funding reference',
             'location': 'Location',
             'additional-links': {
               'url': 'URL',
@@ -281,7 +283,8 @@ angular.module('metadatamanagementApp').config(
             },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this data package.',
-              'en': 'Enter the English name of the sponsor of this data package.'
+              'en': 'Enter the English name of the sponsor of this data package.',
+              'funding-ref': 'Enter the funding reference of the sponsor of this data package.'
             },
             'survey-design': 'Choose the survey design of this data package.',
             'annotations': {
@@ -291,6 +294,12 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'de': 'Enter a description of this data package in German.',
               'en': 'Enter a description of this data package in English.'
+            },
+            'consent': {
+              'part1': 'Please note! The texts entered in this field are published under a cc0 1.0 license via the da|ra service (',
+              'link1': 'https://www.da-ra.de/',
+              'part2': '). By entering and saving, you agree to the corresponding license terms. For more information on the license terms, please visit ',
+              'link2': 'https://creativecommons.org/publicdomain/zero/1.0/'
             },
             'project-contributors': {
               'first-name': 'Enter the first name of this project member.',

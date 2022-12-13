@@ -41,7 +41,7 @@
                  autocomplete="off">
           <div
             class="fdz-input-hint"
-            ng-if="!form[$ctrl.peopleId + 'MiddleName_' + $index].$dirty && !form[$ctrl.peopleId + 'MiddleName_' + $index].$touched">
+            ng-if="person.middleName == null || person.middleName == ''">
             {{ $ctrl.translationKeys.hints.middleName | translate}}
           </div>
           <div multiple ng-messages="form[$ctrl.peopleId + 'MiddleName_' + $index].$error">
