@@ -362,6 +362,17 @@
               </div>
             </md-input-container>
           </div>
+          <div layout="row" layout-align="start center">
+            <md-input-container flex="50" ng-style="{'margin-left': ctrl.analysisPackage.sponsors.length > 1 ? '40px' : '0px'}" class="mt0">
+              <label>{{'analysis-package-management.edit.label.fundingProgram' | translate}}</label>
+              <input name="sponsorFundingProgram_{{$index}}" ng-model="ctrl.analysisPackage.sponsors[$index].fundingProgram" autocomplete="off">
+              <div
+                class="fdz-input-hint"
+                ng-if="!analysisPackageForm['fundPrg_' + $parent.$index].$dirty && !analysisPackageForm['fundPrg_' + $parent.$index].$touched">
+                {{'analysis-package-management.edit.hints.sponsor.funding-prg' | translate}}
+              </div>
+            </md-input-container>
+          </div>
           </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" class="mb12">

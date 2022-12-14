@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp').config(
             'data-curators': 'Data Curation',
             'sponsors': 'Sponsored by',
             'fundingRef': 'Funding reference',
+            'fundingProgram': 'Associated funding program',
             'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -228,6 +229,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'sponsor': 'Sponsor',
             'fundingRef': 'Funding reference',
+            'fundingProgram': 'Associated funding program',
             'location': 'Location',
             'additional-links': {
               'url': 'URL',
@@ -283,7 +285,8 @@ angular.module('metadatamanagementApp').config(
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this data package.',
               'en': 'Enter the English name of the sponsor of this data package.',
-              'funding-ref': 'Enter the funding reference of the sponsor of this data package.'
+              'funding-ref': 'Enter the funding reference of the sponsor of this data package.',
+              'funding-prg': 'Enter the associated funding program.'
             },
             'survey-design': 'Choose the survey design of this data package.',
             'annotations': {

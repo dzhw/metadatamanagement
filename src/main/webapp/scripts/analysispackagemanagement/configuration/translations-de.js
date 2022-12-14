@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp').config(
             'scripts': 'Skripte',
             'sponsors': 'Gefördert von',
             'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
             'published-at': 'veröffentlicht am',
             'published': 'Veröffentlicht am',
@@ -181,6 +182,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
             'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
             'script': {
               'used-language': 'Skriptsprache',
@@ -241,7 +243,8 @@ angular.module('metadatamanagementApp').config(
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Analysepaket ein.',
               'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Analysepaket ein.',
-              'funding-ref': 'Geben Sie das Förderkennzeichen der Geldgeber:in für dieses Analysepaket ein.'
+              'funding-ref': 'Geben Sie das Förderkennzeichen der Geldgeber:in für dieses Analysepaket ein.',
+              'funding-prg': 'Geben Sie die zugehörige Förderlinie an.'
             },
             'title': {
               'de': 'Geben Sie den Titel des Analysepakets auf Deutsch ein.',
