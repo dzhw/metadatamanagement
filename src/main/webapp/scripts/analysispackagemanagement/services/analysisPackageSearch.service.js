@@ -68,10 +68,32 @@ angular.module('metadatamanagementApp')
         return deferred;
       };
 
+      // searches for shadow copy by id and version
       var findShadowByIdAndVersion = function(id, version, excludes) {
         var query = {};
         _.extend(query, createQueryObject(),
           SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+        if (excludes) {
+          query.body._source = {
+            'excludes': excludes
+          };
+        }
+        var deferred = $q.defer();
+        ElasticSearchClient.search(query).then(function(result) {
+          if (result.hits.hits.length === 1) {
+            deferred.resolve(result.hits.hits[0]._source);
+          } else {
+            return deferred.resolve(null);
+          }
+        }, deferred.reject);
+        return deferred;
+      };
+
+      // searches for master of analysis package with given id
+      var findAnalysisPackageById = function(id, excludes) {
+        var query = {};
+        _.extend(query, createQueryObject(),
+          SearchHelperService.createMasterByIdQuery(id));
         if (excludes) {
           query.body._source = {
             'excludes': excludes
@@ -520,6 +542,7 @@ angular.module('metadatamanagementApp')
       return {
         findOneById: findOneById,
         findShadowByIdAndVersion: findShadowByIdAndVersion,
+        findAnalysisPackageById: findAnalysisPackageById,
         findSponsors: findSponsors,
         findInstitutions: findInstitutions,
         findAnalysisPackageTitles: findAnalysisPackageTitles,

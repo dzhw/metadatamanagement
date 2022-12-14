@@ -113,7 +113,8 @@ angular.module('metadatamanagementApp').config(
           'beta-release-no-doi': 'This analysis package has no DOI yet.',
           'publications-for-analysis-package': 'Publications related to this Analysis Package',
           'page-description': '{{ description }}',
-          'title': 'Analysis Package (Scripts): {{ title }}'
+          'title': 'Analysis Package (Scripts): {{ title }}',
+          'order-analysispackage-tooltip': 'click to order this analysis package.'
         },
         'edit': {
           'add-analysis-data-tooltip': 'Click to add analysis data to this analysis package.',

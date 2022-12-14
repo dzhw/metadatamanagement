@@ -169,6 +169,11 @@ angular.module('metadatamanagementApp').config(
             'apidocs': 'API',
             'database': 'Database'
           },
+          'order-menu': {
+            'data-package': 'Datenpaket bestellen',
+            'analysis-package': 'Analysepaket bestellen',
+            'tooltip': 'Klicken, um die Bestellansicht zu öffnen'
+          },
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen des Menüs',
           'back-to-search': 'Klicken, um zur Suche zu gelangen',

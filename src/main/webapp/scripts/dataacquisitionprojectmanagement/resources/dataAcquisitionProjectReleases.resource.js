@@ -9,7 +9,9 @@ angular.module('metadatamanagementApp')
     function($resource) {
     return $resource(
       '/api/data-acquisition-projects/:id/releases', {
-      id: '@id'
+      id: '@id',
+      noBeta: true,
+      onlyNotHidden: true
     }, {
       'get': {
         method: 'GET',

@@ -65,8 +65,7 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: survey.dataPackage.masterId,
-              version: survey.release.version
+              masterId: survey.dataPackage.masterId
             });
         }
         BreadcrumbService.updateToolbarHeader({
