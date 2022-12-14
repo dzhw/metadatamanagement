@@ -43,4 +43,11 @@ public class Sponsor implements Serializable {
    * May be a number or a combination of numbers, letters and/or special characters.
    */
   private String fundingRef;
+  
+  /**
+   * The funding program.
+   * 
+   * May be a any description using letters and/or numbers.
+   */
+  private String fundingProgram;
 }

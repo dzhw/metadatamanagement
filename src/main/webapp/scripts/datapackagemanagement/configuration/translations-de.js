@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp').config(
             'data-curators': 'Datenkuratierung',
             'sponsors': 'Gefördert von',
             'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
@@ -229,6 +230,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
             'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'location': 'Ort',
             'additional-links': {
               'url': 'URL',
@@ -286,7 +288,8 @@ angular.module('metadatamanagementApp').config(
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Datenpaket ein.',
               'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Datenpaket ein.',
-              'funding-ref': 'Geben Sie das Förderkennzeichen der Geldgeber:in für dieses Datenpaket ein.'
+              'funding-ref': 'Geben Sie das Förderkennzeichen der Geldgeber:in für dieses Datenpaket ein.',
+              'funding-prg': 'Geben Sie die zugehörige Förderlinie an.'
             },
             'survey-design': 'Wählen Sie das Erhebungsdesign dieses Datenpakets aus.',
             'annotations': {

@@ -43,7 +43,7 @@
         <md-list-item ng-if="$ctrl.options.dataPackage.sponsors">
           <h5>{{'data-package-management.detail.label.sponsors' | translate }}:</h5>
 	  <div class="md-secondary">
-	    <div style="white-space:pre-wrap" ng-repeat="sponsor in $ctrl.options.dataPackage.sponsors"><ul style="margin-bottom:5px;padding-left:0px;list-style-type: none;"><li>{{sponsor.name[$ctrl.lang]}}<br ng-if="sponsor.fundingRef ? true : false" /><h5 ng-if="sponsor.fundingRef ? true : false" style="display:inline">{{'data-package-management.detail.label.fundingRef' | translate }}: </h5>{{sponsor.fundingRef}}</li></ul></div>
+	    <div style="white-space:pre-wrap" ng-repeat="sponsor in $ctrl.options.dataPackage.sponsors"><ul style="margin-bottom:5px;padding-left:0px;list-style-type: none;"><li>{{sponsor.name[$ctrl.lang]}}<br ng-if="sponsor.fundingRef ? true : false" /><h5 ng-if="sponsor.fundingRef ? true : false" style="display:inline">{{'data-package-management.detail.label.fundingRef' | translate }}: </h5>{{sponsor.fundingRef}}<br ng-if="sponsor.fundingProgram ? true : false" /><h5 ng-if="sponsor.fundingProgram ? true : false" style="display:inline">{{'data-package-management.detail.label.fundingProgram' | translate }}: </h5>{{sponsor.fundingProgram}}</li></ul></div>
 	  </div>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.projectContributors">
