@@ -27,8 +27,11 @@ spring:
         - ${vcap.services.elastic.credentials.sslUri}
 
 mongock:
-  enabled: false
-
+    enabled: true
+    change-logs-scan-package:
+        - eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs
+        - eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.changelogs
+            
 management:
   metrics:
     export:
