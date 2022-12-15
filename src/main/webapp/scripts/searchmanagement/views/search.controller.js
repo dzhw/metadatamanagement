@@ -376,10 +376,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       totalHitsInAdditionalIndex) {
       var totalHits = {};
       totalHits[$scope.searchParams.type] = totalHitsInCurrentIndex;
-      for (var index = 0;
-        index < $scope.searchParams.additionalSearchIndex.length; index++) {
-        totalHits[$scope.searchParams.additionalSearchIndex[index]] =
-          totalHitsInAdditionalIndex[index];
+      if ($scope.searchParams.additionalSearchIndex) {
+        for (var index = 0;
+          index < $scope.searchParams.additionalSearchIndex.length; index++) {
+          totalHits[$scope.searchParams.additionalSearchIndex[index]] =
+            totalHitsInAdditionalIndex[index];
+        }
       }
       MessageBus.set('onTotalHitsChange', totalHits);
     }
