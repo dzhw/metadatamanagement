@@ -1,6 +1,6 @@
 {
   "name": "Metadatamanagement",
-  "version": "1.0.118-SNAPSHOT",
+  "version": "1.0.119-SNAPSHOT",
   "description": "Data Search for Higher Education Research and Science Studies",
   "private": true,
   "dependencies": {
