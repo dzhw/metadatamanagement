@@ -104,7 +104,7 @@
     "node-sass": "^7.0.3",
     "phantomjs-prebuilt": "2.1.16",
     "requirejs": "2.3",
-    "snyk": "^1.733.0",
+    "snyk": "^1.1064.0",
     "sync-pom-version-to-package": "^1.6.1",
     "tar": "6.1.11",
     "time-grunt": "2.0.0",
