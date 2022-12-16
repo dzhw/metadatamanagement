@@ -93,7 +93,7 @@
       </md-button>
       <md-button
         class="md-icon-button"
-        ng-if="!productsCount && !isAuthenticated()"
+        ng-if="showEmptyCart()"
         ui-sref="shoppingCart">
         <md-icon md-font-set="material-icons">shopping_cart</md-icon>
         <md-tooltip
@@ -105,11 +105,9 @@
       <md-button
         class="md-icon-button md-accent"
         id="shoppingCartButton"
-        ng-if="productsCount  && !isAuthenticated()"
+        ng-if="showFullCart()"
         ui-sref="shoppingCart">
-        <!--        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"-->
         <md-icon class="" md-font-set="material-icons">shopping_cart</md-icon>
-        <!--            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>-->
         <md-tooltip
           md-autohide="true"
           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

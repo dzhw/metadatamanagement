@@ -34,7 +34,9 @@ angular.module('metadatamanagementApp').config(
           'study-series': 'Study Series',
           'survey-data-types': 'Survey Data Type',
           'access-ways': 'Access Ways',
-          'unavailable': 'Not available'
+          'unavailable': 'Not available',
+          'language': 'Language',
+          'year': 'Publication Year'
         },
         'toolbar': {
           'buttons': {
@@ -166,6 +168,11 @@ angular.module('metadatamanagementApp').config(
             'logs': 'Loglevel',
             'apidocs': 'API',
             'database': 'Database'
+          },
+          'order-menu': {
+            'data-package': 'Order Data Package',
+            'analysis-package': 'Order Analysis Package',
+            'tooltip': 'Click to show ordering options'
           },
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip the menu',

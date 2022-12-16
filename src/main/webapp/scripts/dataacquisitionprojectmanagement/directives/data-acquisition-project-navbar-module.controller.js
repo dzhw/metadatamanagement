@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp')
       ctrl.searchProjects = function(query) {
         return DataAcquisitionProjectRepositoryClient
           .findByIdLikeOrderByIdAsc(query).then(function(result) {
-            return result.data;
+            return result.data.dataAcquisitionProjects;
           });
       };
 

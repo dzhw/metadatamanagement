@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.13</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>eu.dzhw.fdz</groupId>
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
-            <version>4.4.2</version>
+            <version>4.7.2</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -172,7 +172,7 @@
         <dependency>
             <groupId>org.danilopianini</groupId>
             <artifactId>gson-extras</artifactId>
-            <version>0.2.2</version>
+            <version>0.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -196,7 +196,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.11</version>
+            <version>1.6.12</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -411,7 +411,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -424,7 +424,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -437,7 +437,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -450,7 +450,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -900,7 +900,7 @@
                         <configuration>
                             <repository>local/dzhw/${project.artifactId}</repository>
                             <tag>${project.version}-${project.activeProfiles[0].id}</tag>
-                            <registryUrl></registryUrl>
+                            <registryUrl/>
                             <buildArgs>
                                 <JAR_FILE>target/${project.build.finalName}.war</JAR_FILE>
                             </buildArgs>

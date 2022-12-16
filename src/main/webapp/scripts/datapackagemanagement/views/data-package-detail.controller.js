@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp')
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
+      ctrl.hasBeenReleasedBefore = false;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         surveysCount: 0,
@@ -88,6 +89,7 @@ angular.module('metadatamanagementApp')
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
+            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -95,12 +97,19 @@ angular.module('metadatamanagementApp')
         if (!ctrl.onlyQualitativeData) {
           ctrl.counts.variablesCount = 0;
         }
+        // trigger MessageBus for showing ordering options in the sidenav
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.masterId,
-              version: result.release.version
+              masterId: result.masterId
             });
+          MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
+        } else {
+          MessageBus.set('onDataPackageChange',
+          {
+            masterId: result.masterId,
+            projectId: result.dataAcquisitionProjectId
+          });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         }
 

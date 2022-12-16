@@ -93,7 +93,6 @@
               set-params="setCurrentSearchParams()"
               search-result-index="computeSearchResultIndex($index)"></analysispackage-search-result>
             <related-publication-search-result
-              ng-if="isAuthenticated()"
               ng-switch-when="related_publications"
               search-query="searchParams.query"
               search-result="result._source"

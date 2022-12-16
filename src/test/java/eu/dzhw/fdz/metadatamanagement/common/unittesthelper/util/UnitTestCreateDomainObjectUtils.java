@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAtt
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
@@ -117,8 +118,8 @@ public class UnitTestCreateDomainObjectUtils {
     projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
         Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
-    List<I18nString> sponsors =
-        Arrays.asList(I18nString.builder().de("Sponsor De").en("Sponsor En").build());
+    List<Sponsor> sponsors = new ArrayList<>();
+    sponsors.add(buildSponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build(), "xyz-123"));
     List<Person> dataCurators = new ArrayList<>();
     dataCurators.add(buildPerson("Test", null, "ProjectContributors"));
 
@@ -144,6 +145,8 @@ public class UnitTestCreateDomainObjectUtils {
 
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
+    List<Sponsor> sponsors = new ArrayList<>();
+    sponsors.add(buildSponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build(), "xyz-123"));
 
     List<Person> dataCurators = new ArrayList<>();
     dataCurators.add(buildPerson("Test", null, "Curators"));
@@ -153,7 +156,8 @@ public class UnitTestCreateDomainObjectUtils {
         .description(new I18nString("Description De", "Description En")).authors(authors)
         .scripts(List.of(Script.builder().softwarePackage("R").softwarePackageVersion("1.0.0")
             .title(new I18nString("de", "en")).uuid("1234").usedLanguage("de").build()))
-        .dataCurators(dataCurators).masterId(analysisPackageId).tags(tags).build();
+        .dataCurators(dataCurators).masterId(analysisPackageId).tags(tags)
+        .sponsors(sponsors).build();
 
     return analysisPackage;
 
@@ -503,6 +507,10 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Person buildPerson(String firstName, String middleName, String lastName) {
     return Person.builder().firstName(firstName).middleName(middleName).lastName(lastName).build();
+  }
+  
+  public static Sponsor buildSponsor(I18nString name, String fundingRef) {
+    return Sponsor.builder().name(name).fundingRef(fundingRef).build();
   }
 
   public static Concept buildConcept() {

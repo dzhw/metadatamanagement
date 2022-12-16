@@ -15,6 +15,8 @@ angular.module('metadatamanagementApp').config(
             'projectContributors': 'Projektmitarbeiter:innen',
             'data-curators': 'Datenkuratierung',
             'sponsors': 'Gefördert von',
+            'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
@@ -121,7 +123,8 @@ angular.module('metadatamanagementApp').config(
           'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
           'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen.',
           'generate-datapackage-overview-tooltip': 'Klicken, um eine Übersicht über dieses Datenpaket als PDF zu erstellen.',
-          'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.'
+          'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
+          'order-datapackage-tooltip': 'Klicken, um dieses Datenpaket zu bestellen.'
         },
         'log-messages': {
           'data-package': {
@@ -183,7 +186,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'additional-links': {
-              'invalid-url': 'Die angegebene URL ist ungültig',
+              'invalid-url': 'Die angegebene URL ist ungültig (korrektes Beispiel: https://www.dzhw.eu)',
               'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
               'url-not-empty': 'Die URL darf nicht leer sein.',
               'display-text-size': 'Die Maximallänge des Anzeigetextes ist 512 Zeichen.'
@@ -226,6 +229,8 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
+            'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'location': 'Ort',
             'additional-links': {
               'url': 'URL',
@@ -282,7 +287,9 @@ angular.module('metadatamanagementApp').config(
             },
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Datenpaket ein.',
-              'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Datenpaket ein.'
+              'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Datenpaket ein.',
+              'funding-ref': 'Geben Sie das Förderkennzeichen der Geldgeber:in für dieses Datenpaket ein.',
+              'funding-prg': 'Geben Sie die zugehörige Förderlinie an.'
             },
             'survey-design': 'Wählen Sie das Erhebungsdesign dieses Datenpakets aus.',
             'annotations': {
@@ -292,6 +299,12 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
               'en': 'Geben Sie eine Beschreibung des Datenpakets auf Englisch ein.'
+            },
+            'consent': {
+              'part1': 'Bitte beachten! Die in dieses Feld eingegebenen Texte werden unter einer cc0 1.0 Lizenz über den da|ra-Dienst (',
+              'link1': 'https://www.da-ra.de/',
+              'part2': ') veröffentlicht. Mit der Eingabe und dem Abspeichern stimmen Sie den entsprechenden Lizenzbedingungen zu. Weitere Informationen zu den Lizenzbedingungen finden Sie unter ',
+              'link2': 'https://creativecommons.org/publicdomain/zero/1.0/'
             },
             'project-contributors': {
               'first-name': 'Geben Sie den Vornamen der Projektmitarbeiter:in ein.',

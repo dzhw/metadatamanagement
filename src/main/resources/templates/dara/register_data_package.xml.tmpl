@@ -246,10 +246,10 @@
       <#list dataPackage.sponsors as sponsor>
       <fundingReference>
         <institution>
-          <#if sponsor.de??>
-            <institutionName>${sponsor.de}</institutionName>
+          <#if sponsor.name.de??>
+            <institutionName>${sponsor.name.de}</institutionName>
             <#else>
-            <institutionName>${sponsor.en}</institutionName>
+            <institutionName>${sponsor.name.en}</institutionName>
           </#if>
         </institution>
       </fundingReference>

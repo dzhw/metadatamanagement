@@ -15,6 +15,8 @@ angular.module('metadatamanagementApp').config(
             'projectContributors': 'Project Contributors',
             'data-curators': 'Data Curation',
             'sponsors': 'Sponsored by',
+            'fundingRef': 'Funding reference',
+            'fundingProgram': 'Associated funding program',
             'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -121,7 +123,8 @@ angular.module('metadatamanagementApp').config(
           'link-tooltip': 'Click to open the link in a new tab.',
           'tag-tooltip': 'Click to search for data packages with this tag',
           'generate-datapackage-overview-tooltip': 'Click to generate an overview of this data package as a PDF.',
-          'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.'
+          'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
+          'order-datapackage-tooltip': 'Click to order this data package.'
         },
         'log-messages': {
           'data-package': {
@@ -226,6 +229,8 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',
+            'fundingRef': 'Funding reference',
+            'fundingProgram': 'Associated funding program',
             'location': 'Location',
             'additional-links': {
               'url': 'URL',
@@ -280,7 +285,9 @@ angular.module('metadatamanagementApp').config(
             },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this data package.',
-              'en': 'Enter the English name of the sponsor of this data package.'
+              'en': 'Enter the English name of the sponsor of this data package.',
+              'funding-ref': 'Enter the funding reference of the sponsor of this data package.',
+              'funding-prg': 'Enter the associated funding program.'
             },
             'survey-design': 'Choose the survey design of this data package.',
             'annotations': {
@@ -290,6 +297,12 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'de': 'Enter a description of this data package in German.',
               'en': 'Enter a description of this data package in English.'
+            },
+            'consent': {
+              'part1': 'Please note! The texts entered in this field are published under a cc0 1.0 license via the da|ra service (',
+              'link1': 'https://www.da-ra.de/',
+              'part2': '). By entering and saving, you agree to the corresponding license terms. For more information on the license terms, please visit ',
+              'link2': 'https://creativecommons.org/publicdomain/zero/1.0/'
             },
             'project-contributors': {
               'first-name': 'Enter the first name of this project member.',

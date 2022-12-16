@@ -53,7 +53,7 @@
               <md-select name="format" ng-model="ctrl.dataSet.format" ng-model-options="{trackBy: '$value.de'}">
                 <md-option ng-repeat="format in ctrl.formats" ng-value="format">{{format[currentLanguage]}}</md-option>
               </md-select>
-              <div class="fdz-input-hint" ng-if="!dataSetForm.format.$dirty && !dataSetForm.format.$touched">
+              <div class="fdz-input-hint" ng-if="ctrl.dataSet.format == null || ctrl.dataSet.format == ''">
                 {{'data-set-management.edit.hints.format' | translate}}
               </div>
               <div multiple ng-messages="dataSetForm.format.$error">
@@ -113,7 +113,7 @@
               <label>{{'data-set-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe" ng-model="ctrl.dataSet.annotations.de" rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!dataSetForm.annotationsDe.$dirty && !dataSetForm.annotationsDe.$touched">{{'data-set-management.edit.hints.annotations.de' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.dataSet.annotations.de == null || ctrl.dataSet.annotations.de == ''">{{'data-set-management.edit.hints.annotations.de' | translate}}
               </div>
               <div multiple ng-messages="dataSetForm.annotationsDe.$error">
                 <div ng-message="md-maxlength">{{'data-set-management.error.data-set.annotations.i18n-string-size' |
@@ -125,7 +125,7 @@
               <label>{{'data-set-management.detail.label.annotations' | translate}} ({{'global.in-english' |
                 translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn" ng-model="ctrl.dataSet.annotations.en" rows="4"></textarea>
-              <div class="fdz-input-hint" ng-if="!dataSetForm.annotationsEn.$dirty && !dataSetForm.annotationsEn.$touched">{{'data-set-management.edit.hints.annotations.en' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.dataSet.annotations.en == null || ctrl.dataSet.annotations.en == ''">{{'data-set-management.edit.hints.annotations.en' | translate}}
               </div>
               <div multiple ng-messages="dataSetForm.annotationsEn.$error">
                 <div ng-message="md-maxlength">{{'data-set-management.error.data-set.annotations.i18n-string-size' |

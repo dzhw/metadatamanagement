@@ -107,6 +107,7 @@ angular.module('metadatamanagementApp').config(
           'add-data-package-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'add-analysis-package-tooltip': 'Klicken, um das Analysepaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'choose-data-package-options': 'Klicken, um eine Variante dieses Datenpakets in den Warenkorb zu legen.',
+          'choose-analysis-package-options': 'Klicken, um eine Variante dieses Analysepaketes in den Warenkorb zu legen.',
           'open-cart': 'Zum Warenkorb',
           'checkout-tooltip': 'Klicken, um die Datenpakete zu bestellen.',
           'remove-all': 'Warenkorb leeren',
@@ -121,6 +122,7 @@ angular.module('metadatamanagementApp').config(
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-tooltip': 'Klicken, um weitere Informationen zu Datenpaketen zu erhalten.',
           'analysis-package-tooltip': 'Klicken, um weitere Informationen zu Analysepaketen zu erhalten.',
+          'related-publications-tooltip': 'Klicken, um weitere Informationen zu Publikationen zu erhalten.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
@@ -137,6 +139,10 @@ angular.module('metadatamanagementApp').config(
           'title': 'Einen Zugangsweg auswählen',
           'content': '<p style="margin-bottom: 0px;">Für unsere Datenpakete gibt es bis zu vier Zugangswege. Diese unterscheiden sich hinsichtlich:</p><ol style="margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>des Nutzungszwecks (<strong>Campus Use File (CUF)</strong> für Lehre vs. <strong>Scientific Use File (SUF)</strong> für Forschung),</li><li>des Grades der statistischen Anonymisierung (stärker, moderat, geringer) und</li><li>des technischen Weges des Datenzugangs (Download, Remote-Desktop, Onsite) verbunden mit unterschiedlich starken technisch-organisatorischen Datensicherheits- und Kontrollmaßnahmen (geringer, moderat, stärker).</li></ol><p style="margin-bottom: 0px;">Die Nutzung der Daten zum Download bedeutet die geringsten Aufwände im Rahmen der Nutzung und sollte präferiert werden, sofern das Datenpaket dieses Zugangswegs für die Nutzung ausreicht. Sofern diese Daten <em>nicht</em> ausreichen, können ebenfalls die anderen Zugangswege gewählt werden.</p><p style="margin-bottom: 0px;">Unsere Datenpaketkonfiguration ist gegliedert in:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>CUF: Download</strong> nur für Lehrzwecke; stärkerer statistischer Anonymisierungsgrad; zum Download nach Antragsbewilligung</li><li><strong>SUF: Download</strong> stärkerer statistischer Anonymisierungsgrad; zum Download nach Vertragsabschluss</li><li><strong>SUF: Remote-Desktop</strong> moderater statistischer Anonymisierungsgrad; Zugang nur über virtuelle Desktops per Internet mit technischen Kontrollen nach Vertragsabschluss</li><li><strong>SUF: On-Site</strong> geringer statistischer Anonymisierungsgrad; Zugang nur vor Ort im FDZ-DZHW in Hannover mit technischen Kontrollen nach Vertragsabschluss</li></ul><p>Mehr Informationen: <a href="https://www.fdz.dzhw.eu/de/datennutzung">https://www.fdz.dzhw.eu/de/datennutzung</a></p>'
         }
+      },
+      'order-menu': {
+        'back-to-project': 'Zurück zum letzten Bearbeitungsstand',
+        'back-to-project-tooltip': 'Klicken, um zum letzten Bearbeitungsstand zurückzukehren'
       }
       //jscs:enable
     };

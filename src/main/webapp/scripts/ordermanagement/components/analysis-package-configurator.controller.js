@@ -17,7 +17,8 @@
                       AnalysisPackageSearchService,
                       CurrentAnalysisPackageService,
                       AnalysisPackageCitationDialogService,
-                      DataPackageSearchService
+                      DataPackageSearchService,
+                      Principal
   ) {
     var $ctrl = this;
     var initReady = false;
@@ -88,34 +89,51 @@
       var excludes = ['nested*', 'variables', 'questions',
         'surveys', 'instruments', 'relatedPublications',
         'concepts'];
-      AnalysisPackageSearchService
-        .findShadowByIdAndVersion(id, version, excludes)
-        .promise.then(function(data) {
-        $ctrl.analysisPackage = data;
-        $rootScope.selectedDataPackage = data;
-        CurrentAnalysisPackageService.setCurrentAnalysisPackage(data);
-        if ($ctrl.analysisPackage) {
-          if ($rootScope.bowser.compareVersions(['1.0.0', version]) === 1) {
-            $ctrl.noFinalRelease = true;
+      if (version === undefined) {
+        AnalysisPackageSearchService.findAnalysisPackageById(id, excludes)
+        .promise.then(function(res) {
+          $ctrl.analysisPackage = res;
+          $rootScope.selectedDataPackage = res;
+          if ($ctrl.analysisPackage) {
+            loadVersion($ctrl.analysisPackageIdVersion.projectId, id);
           }
-          loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);
-          $ctrl.dataPackages.length = 0;
-          _.forEach($ctrl.analysisPackage.analysisDataPackages, function(item) {
-            if (item.type === 'dataPackage') {
-              loadDataPackage(
-                item.dataPackageMasterId,
-                item.version,
-                item.accessWay
-              );
+        }, function() {
+          $ctrl.analysisPackage = null;
+          $rootScope.selectedDataPackage = null;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        AnalysisPackageSearchService
+          .findShadowByIdAndVersion(id, version, excludes)
+          .promise.then(function(data) {
+          $ctrl.analysisPackage = data;
+          $rootScope.selectedDataPackage = data;
+          CurrentAnalysisPackageService.setCurrentAnalysisPackage(data);
+          if ($ctrl.analysisPackage) {
+            if ($rootScope.bowser.compareVersions(['1.0.0', version]) === 1) {
+              $ctrl.noFinalRelease = true;
             }
-          });
-        }
-      }, function() {
-        $ctrl.analysisPackage = null;
-        $rootScope.selectedAnalysisPackage = null;
-      }).finally(function() {
-        $rootScope.$broadcast('stop-ignoring-404');
-      });
+            loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);
+            $ctrl.dataPackages.length = 0;
+            _.forEach($ctrl.analysisPackage.analysisDataPackages,
+              function(item) {
+              if (item.type === 'dataPackage') {
+                loadDataPackage(
+                  item.dataPackageMasterId,
+                  item.version,
+                  item.accessWay
+                );
+              }
+            });
+          }
+        }, function() {
+          $ctrl.analysisPackage = null;
+          $rootScope.selectedAnalysisPackage = null;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      }
     }
 
     $ctrl.addToShoppingCart = function() {
@@ -160,6 +178,16 @@
         trans.$to().name === 'conceptDetail';
     });
 
+    $ctrl.showBackToEditButton = function() {
+      return $ctrl.selectedVersion && Principal.hasAuthority(
+        'ROLE_DATA_PROVIDER');
+    };
+
+    // closes the order menu in the parent component
+    $ctrl.closeOrderMenu = function() {
+      MessageBus.set('onCloseOrderMenu', {open: false});
+    };
+
     $scope.$on('$destroy', function() {
       CurrentAnalysisPackageService.setCurrentAnalysisPackage(null);
       unregisterTransitionHook();
@@ -197,8 +225,10 @@
         var data = $ctrl.onAnalysisPackageChange
           .get('onAnalysisPackageChange', true);
         if (data) {
+          var versionFromUrl = $location.search().version;
           $ctrl.analysisPackageIdVersion.masterId = data.masterId;
-          $ctrl.analysisPackageIdVersion.version = data.version;
+          $ctrl.analysisPackageIdVersion.version = versionFromUrl;
+          $ctrl.analysisPackageIdVersion.projectId = data.projectId;
           init();
         }
       }, true);

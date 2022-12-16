@@ -1,3 +1,15 @@
+<div style="display: flex; align-items: center; justify-content: center;">
+  <md-button ng-if="$ctrl.showBackToEditButton()" class="md-small md-raised md-primary fdz-truncate-string" style="margin-top: 25px;padding-top: 7px; padding-right: 10px;" 
+  ui-sref="dataPackageDetail({id: $ctrl.dataPackageIdVersion.masterId.replace('$', ''), lang: $ctrl.lang})" 
+  ui-sref-opts="{inherit: false, reload: true, notify: true}" ng-click="$ctrl.closeOrderMenu()">
+      <md-icon md-font-set="material-icons">arrow_back</md-icon>
+      {{'order-menu.back-to-project' | translate}}
+      <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'order-menu.back-to-project-tooltip'|translate}}
+      </md-tooltip>
+  </md-button>
+</div>
+
 <md-card class="fdz-data-package" ng-if="$ctrl.dataPackage && $ctrl.dataPackageIdVersion.masterId && $ctrl.lang && $ctrl.accessWays && $ctrl.releases">
   <md-card-header>
     <md-card-header-text>
@@ -84,7 +96,7 @@
           <span>{{'search-management.detail.cart' | translate}}</span>
         </md-button>
         <md-button class="md-small md-raised md-primary fdz-truncate-string" ui-sref="shoppingCart"
-          ng-disabled="$ctrl.numberOfShoppingCartProducts === 0" style="padding-top: 10px">
+          ng-disabled="$ctrl.numberOfShoppingCartProducts === 0" style="padding-top: 10px" ng-click="$ctrl.onGoToShoppingCart()">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
           </md-tooltip>

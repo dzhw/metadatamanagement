@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * REST resource for getting previous versions of a {@link DataAcquisitionProject}.
- * 
+ *
  * @author René Reitmann
  */
 @RestController
@@ -29,15 +29,16 @@ public class DataAcquisitionProjectReleasesResource {
 
   /**
    * Get the last 100 releases of the data acquisition project.
-   * 
+   *
    * @param id The id of the project
-   * 
+   *
    * @return the last 100 releases of the data acquisition project.
    */
   @GetMapping("/data-acquisition-projects/{id}/releases")
   public ResponseEntity<?> findPreviousDataAcquisitionVersions(@PathVariable String id,
-      @RequestParam(name = "noBeta", defaultValue = "true") Boolean noBetaReleases) {
-    List<Release> releases = this.projectVersionsService.findAllReleases(id, noBetaReleases);
+      @RequestParam(name = "noBeta", defaultValue = "true") Boolean noBetaReleases,
+      @RequestParam(name = "onlyNotHidden", defaultValue = "false") Boolean onlyNotHiddenVersions) {
+    List<Release> releases = this.projectVersionsService.findAllReleases(id, noBetaReleases, onlyNotHiddenVersions);
 
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(releases);
   }

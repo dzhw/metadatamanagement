@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainO
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
@@ -160,18 +161,13 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
               + ".i18n-string-entire-not-empty") I18nString> institutions;
 
   /**
-   * The names of the sponsors which have sponsored the study or project from which this analysis
-   * package results.
-   *
-   * It can be empty but if present must be specified in German and English and it must not contain
-   * more than 512 characters.
+   * List of {@link Sponsor}s which have sponsored this data package.
+   * 
+   * Must not be empty.
    */
   @Valid
-  private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "analysis-package-management.error.analysis-package.sponsor.i18n-string-size") 
-      @I18nStringEntireNotEmpty(
-          message = "analysis-package-management.error.sponsor.institution"
-              + ".i18n-string-entire-not-empty") I18nString> sponsors;
+  @NotEmpty(message = "data-package-management.error.data-package.data-curators.not-empty")
+  private List<Sponsor> sponsors;  
 
   /**
    * The license of this analysis package. Markdown is supported.
