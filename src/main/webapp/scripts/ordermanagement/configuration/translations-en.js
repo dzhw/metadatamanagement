@@ -73,6 +73,7 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',
           'note': 'In case you have problems with the ordering process, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'maintenance-hint': 'On Wednesday, 25.01. and Thursday, 26.01. the order process will only be available to a limited extent due to maintenance work.',
           'analysis-package': {
             'citation': 'Cite Analysis Package'
           }
