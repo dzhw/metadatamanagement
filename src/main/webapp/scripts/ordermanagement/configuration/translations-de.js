@@ -74,6 +74,7 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
           'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.',
           'note': 'Wenn Sie Probleme mit dem Bestellprozess haben, wenden Sie sich bitte an <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'maintenance-hint': 'Am Mittwoch, 25.01 und Donnerstag, 26.01. steht der Bestellprozess aufgrund von Wartungsarbeiten nur eingeschränkt zur Verfügung.',
           'analysis-package': {
             'citation': 'Analysepaket zitieren'
           }
