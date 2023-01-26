@@ -30,6 +30,9 @@
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
+    // if setting to true: do not forget to update translation texts
+    $ctrl.showMaintenanceHint = true;
+
     function init() {
       $ctrl.selectedVersion = $ctrl.analysisPackageIdVersion.version;
       loadAnalysisPackage($ctrl.analysisPackageIdVersion.masterId,
