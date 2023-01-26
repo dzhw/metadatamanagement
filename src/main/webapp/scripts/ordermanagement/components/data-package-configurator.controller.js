@@ -29,6 +29,10 @@
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
+
+    // if setting to true: do not forget to update translation texts
+    $ctrl.showMaintenanceHint = true;
+
     $ctrl.exportFormats = [{
       format: 'oai_dc',
       label: 'Dublin Core'
