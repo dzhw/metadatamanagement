@@ -32,7 +32,7 @@
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
     // if setting to true: do not forget to update translation texts
-    $ctrl.showMaintenanceHint = true;
+    $ctrl.showMaintenanceHint = false;
 
     function init() {
       $ctrl.selectedVersion = $ctrl.analysisPackageIdVersion.version;
