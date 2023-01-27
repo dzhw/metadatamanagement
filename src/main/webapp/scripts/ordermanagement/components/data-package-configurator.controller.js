@@ -30,7 +30,7 @@
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
     // if setting to true: do not forget to update translation texts
-    $ctrl.showMaintenanceHint = true;
+    $ctrl.showMaintenanceHint = false;
 
     $ctrl.exportFormats = [{
       format: 'oai_dc',
