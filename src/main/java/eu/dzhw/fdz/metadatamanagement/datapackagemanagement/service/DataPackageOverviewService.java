@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -10,10 +11,12 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.amazonaws.transform.MapEntry;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.endpoint.web.Link;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -69,6 +72,8 @@ public class DataPackageOverviewService extends AbstractReportService {
     // Create Map for the template
     Map<String, Object> dataForTemplate = new HashMap<>();
     DataPackage dataPackage = dataPackageRepository.findById(dataPackageId).orElse(null);
+    // reformat title
+    dataPackage.reformatTitle();
     dataForTemplate.put("dataPackage", dataPackage);
     List<Survey> surveys =
         surveyRepository.findByDataPackageIdOrderBySerialNumberAscNumberAsc(dataPackageId);
@@ -148,6 +153,8 @@ public class DataPackageOverviewService extends AbstractReportService {
     List<DataSet> qualiDataSets = new ArrayList<>();
     List<DataSet> nonQualiDataSets = new ArrayList<>();
     for (DataSet dataSet : dataSets) {
+      // reformat description
+      dataSet.reformatDescription();
       boolean isQualiDataSet = true;
       for (String surveyId : dataSet.getSurveyIds()) {
         if (surveyMap.containsKey(surveyId)) {
