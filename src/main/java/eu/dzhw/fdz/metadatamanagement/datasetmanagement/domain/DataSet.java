@@ -84,7 +84,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this dataset belongs.
-   * 
+   *
    * The dataAcquisitionProjectId must not be empty.
    */
   @Indexed
@@ -93,7 +93,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * A short description of the dataset.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 2048
    * characters.
    */
@@ -106,7 +106,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * The number of the dataset.
-   * 
+   *
    * Must not be empty and must be unique within the {@link DataAcquisitionProject}.
    */
   @NotNull(message = "data-set-management.error.data-set.number.not-null")
@@ -114,7 +114,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * The format of the dataset.
-   * 
+   *
    * Must be one of {@link Format}.
    */
   @ValidFormat(message = "data-set-management.error.data-set.format.valid-format")
@@ -122,7 +122,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * The type of the dataset.
-   * 
+   *
    * Must be one of {@link DataSetTypes} and must not be empty.
    */
   @NotNull(message = "data-set-management.error.data-set.type.not-null")
@@ -131,7 +131,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * Arbitrary additional text for the dataset. Markdown is supported.
-   * 
+   *
    * Must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
@@ -141,7 +141,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   /**
    * List of numbers of {@link Survey}s of this {@link DataAcquisitionProject}. The dataset contains
    * results from these {@link Survey}s.
-   * 
+   *
    * Must contain at least one element.
    */
   @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
@@ -149,7 +149,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link OrderedDataPackage} to which this dataset belongs.
-   * 
+   *
    * Must not be empty.
    */
   @Indexed
@@ -159,7 +159,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   /**
    * List of ids of {@link Survey}s of this {@link DataAcquisitionProject}. The dataset contains
    * results from these {@link Survey}s.
-   * 
+   *
    * Must contain at least one element.
    */
   @Indexed
@@ -168,7 +168,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * List of {@link SubDataSet}s (concrete accessible files) within this dataset.
-   * 
+   *
    * Must contain at least one element. There must not be more than one {@link SubDataSet} per
    * {@link AccessWays}.
    */
@@ -189,6 +189,21 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   public DataSet(DataSet dataSet) {
     super();
     BeanUtils.copyProperties(dataSet, this);
+  }
+
+  /**
+   * Report generation will fail if description includes line breaks.
+   * Line breaks are replaced with spaces.
+   */
+  public void reformatDescription() {
+    I18nString description = new I18nString();
+    // replace line break with space
+    String de = this.getDescription().getDe().replace("\n", " ");
+    String en = this.getDescription().getEn().replace("\n", " ");
+    // sometimes the first replacement will lead to double spaces, gets cleaned up here
+    description.setDe(de.replace("  ", " "));
+    description.setEn(en.replace("  ", " "));
+    this.setDescription(description);
   }
 
   @Override
