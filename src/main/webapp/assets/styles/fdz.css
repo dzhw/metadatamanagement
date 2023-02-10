@@ -804,6 +804,8 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 
     .fdz-theme md-content .fdz-cc > * {
       max-width: 1000px;
       width: 100%; }
+      .fdz-theme md-consent .fdz-cc-wide > * {
+      max-width: 1200px;}
 
 /** Theme styles for mdDatepicker. */
 .fdz-theme .md-datepicker-input {
