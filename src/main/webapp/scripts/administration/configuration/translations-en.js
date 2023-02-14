@@ -48,6 +48,9 @@ angular.module('metadatamanagementApp').config(
             'name': 'Name',
             'level': 'Level'
           }
+        },
+        'usermanagement': {
+          'change-user-status': 'Change status'
         }
       }
       //jscs:enable

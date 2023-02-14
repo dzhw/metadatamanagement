@@ -12,11 +12,31 @@ angular.module('metadatamanagementApp').controller('EditUserController',
       $scope.languages = languages;
     });
 
+    $scope.showUserStatusConfirmation = false;
+
+    $scope.userAssignedProjects = [];
+    DataAcquisitionProjectRepositoryClient.findAssignedProjects(
+      $scope.user.login).then(function(response) {
+          $scope.userAssignedProjects = response.data;
+        });
+
+    /**
+     * Switches the user status to active if it has been deactivated before and vice versa
+     */
+    $scope.switchUserStatus = function() {
+      user.activated = !user.activated;
+      $scope.showUserStatusConfirmation = false;
+    };
+
+    $scope.hideUserStatusConfirmation = function() {
+      $scope.showUserStatusConfirmation = false;
+    };
+
     $scope.clear = function() {
       $uibModalInstance.dismiss('cancel');
     };
 
-    var userHasBeenActivated = user.activated;
+    // var userHasBeenActivated = user.activated;
     var userHasBeenPublisher =
       _.includes(user.authorities, 'ROLE_PUBLISHER');
     var userHasBeenDataProvider =
@@ -28,26 +48,11 @@ angular.module('metadatamanagementApp').controller('EditUserController',
       }), ', ');
     };
 
-    var checkIfUserCanBeDeactivated = function() {
-      var deferred = $q.defer();
-      if (userHasBeenActivated && !user.activated) {
-        DataAcquisitionProjectRepositoryClient.findAssignedProjects(
-            $scope.user.login).then(function(response) {
-                var projects = response.data;
-                if (projects.length === 0) {
-                  deferred.resolve();
-                } else {
-                  var projectIds = joinProjectIds(projects);
-                  SimpleMessageToastService.openAlertMessageToast(
-                    'user-management.error.user.must-not-be-deactivated', {
-                      projectIds: projectIds});
-                  deferred.reject();
-                }
-              }).catch(deferred.reject);
-      } else {
-        deferred.resolve();
-      }
-      return deferred.promise;
+    /**
+     * Handles display of confirm dialog for user status changes
+     */
+    $scope.changeUserStatus = function() {
+      $scope.showUserStatusConfirmation = true;
     };
 
     var checkIfUserCanBeLoosePublisherRole = function() {
@@ -100,7 +105,6 @@ angular.module('metadatamanagementApp').controller('EditUserController',
 
     $scope.save = function() {
       var promises = [];
-      promises.push(checkIfUserCanBeDeactivated());
       promises.push(checkIfUserCanBeLoosePublisherRole());
       promises.push(checkIfUserCanBeLooseDataProviderRole());
       $q.all(promises).then(function() {
