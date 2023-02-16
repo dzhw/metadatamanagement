@@ -131,7 +131,7 @@ angular.module('metadatamanagementApp').factory(
       deactivateProviderView: function() {
         _providerViewActive = false;
       },
-      isProvider: function() {
+      isProviderActive: function() {
         return _providerViewActive;
       }
     };
