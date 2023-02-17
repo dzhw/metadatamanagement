@@ -12,6 +12,10 @@ angular.module('metadatamanagementApp').factory(
     var _canSwitchViews = false;
     // Attribut ob provider view aktiv oder nicht
     var _providerViewActive = false;
+    var _showProjectCockpitInSidenav = false;
+    var _showAdminMenu = false;
+    var _showProjectOverview = false;
+    var _displayWelcomeDialog = false;
 
     var displayWelcomeDialog = function(identity) {
       return _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
@@ -24,6 +28,30 @@ angular.module('metadatamanagementApp').factory(
       }
       return false;
     };
+
+    var showProjectCockpitInSidenav = function(identity) {
+      if (identity !== null 
+        && (_.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 
+        || _.indexOf(identity.authorities, 'ROLE_PUBLISHER') !== -1)){
+        return true;
+      }
+      return false;
+    }
+
+    var showAdminMenu = function(identity) {
+      if (identity !== null){
+        return _.indexOf(identity.authorities, 'ROLE_ADMIN') !== -1;
+      }
+      return false;
+    }
+
+    var showProjectOverview = function(identity) {
+      if (identity !== null && (_.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 
+      || _.indexOf(identity.authorities, 'ROLE_PUBLISHER') !== -1)){
+        return true;
+      }
+      return false;
+    }
 
     return {
       isIdentityResolved: function() {
@@ -60,7 +88,17 @@ angular.module('metadatamanagementApp').factory(
         } else {
           _canSwitchViews = false;
         }
-        _providerViewActive = false;
+        // _providerViewActive = false;
+        // if (showProjectCockpitInSidenav(_identity)){
+        //   _showProjectCockpitInSidenav = true;
+        // } else {
+        //   _showProjectCockpitInSidenav = false;
+        // }
+        // // _showProjectCockpitInSidenav = showProjectCockpitInSidenav(_identity);
+        // _showAdminMenu = showAdminMenu(_identity);
+        // _showProjectOverview = showProjectOverview(_identity);
+        // _displayWelcomeDialog = displayWelcomeDialog(_identity);
+        // console.log("scope", _canSwitchViews, _displayWelcomeDialog, _showAdminMenu, _showProjectCockpitInSidenav, _showProjectOverview);
       },
       identity: function(force) {
         var deferred = $q.defer();
@@ -92,7 +130,13 @@ angular.module('metadatamanagementApp').factory(
               _canSwitchViews = false;
             }
             // activate provider view for all authenticated users
-            if (_.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') === -1){
+            // wenn nur Dataprovider und nix höheres: providerView = false
+            // wenn was höheres oder gar keiner: true
+            if (_.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') !== -1
+              && _.indexOf(_identity.authorities, 'ROLE_PUBLISHER') === -1
+              && _.indexOf(_identity.authorities, 'ROLE_ADMIN') === -1){
+              _providerViewActive = false;
+            } else {
               _providerViewActive = true;
             }
             if (displayWelcomeDialog(_identity)) {
@@ -104,17 +148,36 @@ angular.module('metadatamanagementApp').factory(
                   }
                 });
             }
+            if (showProjectCockpitInSidenav(_identity)){
+              _showProjectCockpitInSidenav = true;
+            } else {
+              _showProjectCockpitInSidenav = false;
+            }
+            // _showProjectCockpitInSidenav = showProjectCockpitInSidenav(_identity);
+            _showAdminMenu = showAdminMenu(_identity);
+            _showProjectOverview = showProjectOverview(_identity);
+            _displayWelcomeDialog = displayWelcomeDialog(_identity);
             return deferred.resolve(_identity);
           }).catch(function() {
             $rootScope.$broadcast('stop-ignoring-401');
             AuthServerProvider.deleteToken();
             _identity = null;
             _authenticated = false;
+            _canSwitchViews = false;
+            _providerViewActive = false;
+            _showAdminMenu = false;
+            _showProjectCockpitInSidenav = false;
+            _showProjectOverview = false;
             deferred.resolve(_identity);
           });
         } else {
           _identity = null;
           _authenticated = false;
+          _canSwitchViews = false;
+            _providerViewActive = false;
+            _showAdminMenu = false;
+            _showProjectCockpitInSidenav = false;
+            _showProjectOverview = false;
           deferred.resolve(_identity);
         }
         return deferred.promise;
@@ -133,6 +196,24 @@ angular.module('metadatamanagementApp').factory(
       },
       isProviderActive: function() {
         return _providerViewActive;
+      },
+      showProjectCockpitInSidenav() {
+        return _showProjectCockpitInSidenav;
+      },
+      displayWelcomeDialog() {
+        return _displayWelcomeDialog;
+      },
+      showProjectOverviewInSidenav() {
+        return _showProjectOverview;
+      },
+      showAdminMenuInSidenav() {
+        return _showAdminMenu;
+      },
+      isPublisher() {
+        return _.indexOf(_identity.authorities, 'ROLE_PUBLISHER') !== -1;
+      },
+      isAdmin() {
+        return _.indexOf(_identity.authorities, 'ROLE_ADMIN') !== -1;
       }
     };
   });

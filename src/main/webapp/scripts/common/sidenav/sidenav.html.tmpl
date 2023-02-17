@@ -1,76 +1,98 @@
-<md-sidenav md-component-id="SideNavBar" md-swipe-left="close(1)" md-is-locked-open="$mdMedia('gt-md') && show" id="SideNavBar" md-whiteframe="1" layout="column">
-        <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
-            {{'global.menu.skip-navigation'|translate}}
-            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'global.menu.skip-navigation-tooltip'|translate}}
-            </md-tooltip>
+<md-sidenav md-component-id="SideNavBar" md-swipe-left="close(1)" md-is-locked-open="$mdMedia('gt-md') && show"
+  id="SideNavBar" md-whiteframe="1" layout="column">
+  <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
+    {{'global.menu.skip-navigation'|translate}}
+    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+      {{'global.menu.skip-navigation-tooltip'|translate}}
+    </md-tooltip>
+  </md-button>
+  <md-content flex layout="column" role="navigation">
+    <ul class="pa0 ma0">
+      <li class="fdz-navbar-menu" ng-if="sidebarContent.account">
+        <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
+          <md-icon md-font-set="material-icons">supervisor_account</md-icon>
+          <span>{{'global.menu.account.main' | translate : '{username:"' + identity.login + '"}'}}</span>
+          <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+          <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
+          <md-tooltip md-direction="right" md-autohide="true"
+            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'global.toolbar.buttons.fdz-staff-area-tooltip.' + isAccountMenuOpen |translate}}
+          </md-tooltip>
         </md-button>
-    <fdz-data-package-search ng-if="sidebarContent.search"></fdz-data-package-search>
-    <fdz-search-detail ng-if="sidebarContent.detailSearch"></fdz-search-detail>
-    <fdz-search-filter
-      ng-if="sidebarContent.filter"
-      options="dataPackageFilter"
-      template-url="scripts/searchmanagement/components/searchfilter.html.tmpl"></fdz-search-filter>
-    <fdz-analysis-package-configurator
-      ng-if="sidebarContent.configurator && detailViewType === 'analysisPackage'"></fdz-analysis-package-configurator>
-    <fdz-data-package-configurator
-      ng-if="sidebarContent.configurator && detailViewType === 'dataPackage'"></fdz-data-package-configurator>
-    <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
-        <ul ng-if="isAuthenticated()" class="pa0 ma0">
-          <li class="fdz-navbar-menu">
-            <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
-              <md-icon md-font-set="material-icons">supervisor_account</md-icon>
-              <span>{{'global.menu.account.main' | translate : '{username:"' + identity.login + '"}'}}</span>
-              <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
-              <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-              <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'global.toolbar.buttons.fdz-staff-area-tooltip.' + isAccountMenuOpen |translate}}
+        <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
+          <li ng-switch-when="true">
+            <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button"
+              ng-click="close()">
+              <md-tooltip md-direction="right" md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.toolbar.buttons.settings-tooltip' | translate}}
               </md-tooltip>
+              <span data-translate="global.menu.account.settings">Settings</span>
             </md-button>
-            <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
-              <li ng-switch-when="true">
-                <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                  <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'global.toolbar.buttons.settings-tooltip' | translate}}
-                  </md-tooltip>
-                  <span data-translate="global.menu.account.settings">Settings</span>
-                </md-button>
-              </li>
-              <li ng-switch-when="true">
-                <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                  <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'global.toolbar.buttons.password-tooltip' | translate}}
-                  </md-tooltip>
-                  <span data-translate="global.menu.account.password">Password</span>
-                </md-button>
-              </li>
-              <li ng-switch-when="true">
-                <md-button ng-click="logout()" class="fdz-navbar-button">
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
-                    </md-tooltip>
-                    <span data-translate="global.toolbar.buttons.logout" data-translate-values="{username: identity.login}">Log out</span>
-                </md-button>
-              <li>
-            </ul>
-            <md-divider></md-divider>
           </li>
-            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
+          <li ng-switch-when="true">
+            <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button"
+              ng-click="close()">
+              <md-tooltip md-direction="right" md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.toolbar.buttons.password-tooltip' | translate}}
+              </md-tooltip>
+              <span data-translate="global.menu.account.password">Password</span>
+            </md-button>
+          </li>
+          <li ng-switch-when="true">
+            <md-button ng-click="logout()" class="fdz-navbar-button">
+              <md-tooltip md-direction="right" md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
+              </md-tooltip>
+              <span data-translate="global.toolbar.buttons.logout"
+                data-translate-values="{username: identity.login}">Log out</span>
+            </md-button>
+          <li>
+        </ul>
+        <md-divider></md-divider>
+      </li>
+      <li ng-if="sidebarContent.search">
+        <fdz-data-package-search></fdz-data-package-search>
+      </li>
+      <li ng-if="sidebarContent.detailSearch">
+        <fdz-search-detail></fdz-search-detail>
+      </li>
+      <li ng-if="sidebarContent.filter">
+        <fdz-search-filter options="dataPackageFilter"
+          template-url="scripts/searchmanagement/components/searchfilter.html.tmpl"></fdz-search-filter>
+      </li>
+      <li ng-if="sidebarContent.configurator && detailViewType === 'analysisPackage'">
+        <fdz-analysis-package-configurator></fdz-analysis-package-configurator>
+      </li>
+      <li ng-if="sidebarContent.configurator && detailViewType === 'dataPackage'">
+        <fdz-data-package-configurator></fdz-data-package-configurator>
+      </li>
+      </li>
+
+
+      <!-- <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
                 <project-navbar-module></project-navbar-module>
                 <md-divider></md-divider>
-            </li>
-            <li class="fdz-navbar-menu" ng-if="isDataProvider()" id="fdz-welcome-dialog-item">
-              <md-button class="fdz-navbar-button" ng-click="displayWelcomeDialog()">
-                <md-icon md-font-set="material-icons">help_outline</md-icon>
-                <span data-translate="global.menu.usage-info">Hinweise zur Nutzung</span>
-                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'global.tooltips.navbar-usage-info' | translate}}
-                </md-tooltip>
-              </md-button>
-              <md-divider></md-divider>
-            </li>
-            <!-- order option for data packages -->
-            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_DATA_PROVIDER" ng-if="detailViewType === 'dataPackage'">
+            </li> -->
+      <li class="fdz-navbar-menu" ng-if="sidebarContent.projectCockpit">
+        <project-navbar-module></project-navbar-module>
+        <md-divider></md-divider>
+      </li>
+      <li class="fdz-navbar-menu" ng-if="sidebarContent.welcomeDialog" id="fdz-welcome-dialog-item">
+        <md-button class="fdz-navbar-button" ng-click="displayWelcomeDialog()">
+          <md-icon md-font-set="material-icons">help_outline</md-icon>
+          <span data-translate="global.menu.usage-info">Hinweise zur Nutzung</span>
+          <md-tooltip md-direction="right" md-autohide="true"
+            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'global.tooltips.navbar-usage-info' | translate}}
+          </md-tooltip>
+        </md-button>
+        <md-divider></md-divider>
+      </li>
+      <!-- order option for data packages -->
+      <!-- <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_DATA_PROVIDER" ng-if="detailViewType === 'dataPackage'">
                 <md-button class="fdz-navbar-menu-toggle" ui-sref-active="fdz-navbar-button-active" ng-click="toggleOrderMenu()">
                     <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
                     <span data-translate="global.menu.order-menu.data-package"></span>
@@ -85,9 +107,9 @@
                   <fdz-data-package-configurator></fdz-data-package-configurator>
                 </li>
                 <md-divider ng-show="isOrderMenuOpen"></md-divider>
-            </li>
-            <!-- order option for analysis packages -->
-            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_DATA_PROVIDER" ng-if="detailViewType === 'analysisPackage'">
+            </li> -->
+      <!-- order option for analysis packages -->
+      <!-- <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_DATA_PROVIDER" ng-if="detailViewType === 'analysisPackage'">
               <md-button class="fdz-navbar-menu-toggle" ui-sref-active="fdz-navbar-button-active" ng-click="toggleOrderMenu()">
                   <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
                   <span data-translate="global.menu.order-menu.analysis-package"></span>
@@ -102,8 +124,8 @@
                 <fdz-analysis-package-configurator></fdz-analysis-package-configurator>
               </li>
               <md-divider ng-show="isOrderMenuOpen"></md-divider>
-            </li>
-            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_ADMIN, ROLE_DATA_PROVIDER">
+            </li> -->
+      <!-- <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_ADMIN, ROLE_DATA_PROVIDER">
                 <md-button class="fdz-navbar-button" ui-sref-active="fdz-navbar-button-active" ui-sref="project-overview" ng-click="close()">
                     <md-icon md-svg-src="assets/images/icons/format-list-checks.svg"></md-icon>
                     <span data-translate="global.menu.project-overview"></span>
@@ -112,54 +134,73 @@
                     </md-tooltip>
                 </md-button>
                 <md-divider></md-divider>
-            </li>
-            </li>
-            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
-                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
-                  <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                      {{'global.toolbar.buttons.administration-tooltip.' + isAdminMenuOpen | translate}}
-                  </md-tooltip>
-                  <md-icon md-font-set="material-icons">vpn_key</md-icon>
-                  <span data-translate="global.menu.admin.main"></span>
-                  <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
-                  <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-                </md-button>
-                <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
-                    <li>
-                        <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                              {{'global.toolbar.buttons.user-management-tooltip' | translate}}
-                          </md-tooltip>
-                          <span data-translate="global.menu.admin.user-management">User management</span>
-                        </md-button>
-                    </li>
-                    <li>
-                        <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                              {{'global.toolbar.buttons.health-tooltip' | translate}}
-                          </md-tooltip>
-                          <span data-translate="global.menu.admin.health">Health</span>
-                        </md-button>
-                    </li>
-                    <li>
-                        <md-button ui-sref="logs" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                              {{'global.toolbar.buttons.logs-tooltip' | translate}}
-                          </md-tooltip>
-                          <span data-translate="global.menu.admin.logs">Logs</span>
-                        </md-button>
-                    </li>
-                </ul>
-                <md-divider></md-divider>
-            </li>
+            </li> -->
+      <li class="fdz-navbar-menu" ng-if="sidebarContent.projectOverview">
+        <md-button class="fdz-navbar-button" ui-sref-active="fdz-navbar-button-active" ui-sref="project-overview"
+          ng-click="close()">
+          <md-icon md-svg-src="assets/images/icons/format-list-checks.svg"></md-icon>
+          <span data-translate="global.menu.project-overview"></span>
+          <md-tooltip md-direction="right" md-autohide="true"
+            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'global.tooltips.navbar-project-overview' | translate}}
+          </md-tooltip>
+        </md-button>
+        <md-divider></md-divider>
+      </li>
+      </li>
+      <li class="fdz-navbar-menu" ng-if="sidebarContent.admin">
+        <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
+          <md-tooltip md-direction="right" md-autohide="true"
+            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'global.toolbar.buttons.administration-tooltip.' + isAdminMenuOpen | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">vpn_key</md-icon>
+          <span data-translate="global.menu.admin.main"></span>
+          <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+          <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
+        </md-button>
+        <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
+          <li>
+            <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button"
+              ng-click="close()">
+              <md-tooltip md-direction="right" md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.toolbar.buttons.user-management-tooltip' | translate}}
+              </md-tooltip>
+              <span data-translate="global.menu.admin.user-management">User management</span>
+            </md-button>
+          </li>
+          <li>
+            <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button"
+              ng-click="close()">
+              <md-tooltip md-direction="right" md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.toolbar.buttons.health-tooltip' | translate}}
+              </md-tooltip>
+              <span data-translate="global.menu.admin.health">Health</span>
+            </md-button>
+          </li>
+          <li>
+            <md-button ui-sref="logs" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button"
+              ng-click="close()">
+              <md-tooltip md-direction="right" md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.toolbar.buttons.logs-tooltip' | translate}}
+              </md-tooltip>
+              <span data-translate="global.menu.admin.logs">Logs</span>
+            </md-button>
+          </li>
         </ul>
-    </md-content>
-    <div layout="column" layout-align="start baseline" layout-padding>
-      <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
-        <img alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg" class="saucelabs_logo"/>
-        <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-           Testing powered by Sauce Labs
-        </md-tooltip>
-      </a>
-    </div>
+        <md-divider></md-divider>
+      </li>
+    </ul>
+  </md-content>
+  <div layout="column" layout-align="start baseline" layout-padding>
+    <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
+      <img alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg" class="saucelabs_logo" />
+      <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        Testing powered by Sauce Labs
+      </md-tooltip>
+    </a>
+  </div>
 </md-sidenav>
