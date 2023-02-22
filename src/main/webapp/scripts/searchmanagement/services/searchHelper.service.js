@@ -662,8 +662,10 @@ angular.module('metadatamanagementApp').factory(
     };
 
     var addShadowCopyFilter = function(query, filter, enforceReleased) {
-      if (!enforceReleased && Principal.loginName()) {
+      if (!enforceReleased && Principal.loginName() && Principal.isProviderActive()) {
         applyOnlyMasterDataFilter(query, filter);
+      } else if (Principal.isProviderActive()){
+        applyShadowCopyFilter(query, filter);
       } else {
         applyShadowCopyFilter(query, filter);
       }
@@ -815,7 +817,7 @@ angular.module('metadatamanagementApp').factory(
           }
         };
 
-        if (!Principal.loginName()) {
+        if (!Principal.loginName() || !Principal.isProviderActive()) {
           var shadowCopyFilter = {
             'bool': {
               'must': [{

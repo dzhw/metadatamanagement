@@ -103,7 +103,7 @@ try {
             }, 1000);
           }
         });
-
+        
         $transitions.onSuccess({}, function(trans) {
           $rootScope.toStateName = trans.$to().name;
           $rootScope.sidebarContent = {
@@ -118,7 +118,7 @@ try {
             'admin': false
           };
           // nicht angemeldet auf Detail seite
-          if (!Principal.loginName() &&
+          if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('Detail') !== -1) {
             $rootScope.sidebarContent = {
               'search': false,
@@ -132,7 +132,7 @@ try {
               'admin': false
             };
             //nicht angemeldet
-          } else if (!Principal.loginName() &&
+          } else if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
               'search': true,
@@ -145,53 +145,64 @@ try {
               'projectOverview': false,
               'admin': false
             };
-          }
-          console.log(trans.$to().name);
-          console.log(Principal.isProviderActive())
+          } 
+          
           // angemeldet & suchansicht (hat eigene Searchbar)
-          if (Principal.loginName()) {
+          if (Principal.isAuthenticated() && Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
               'filter': false,
               'detailSearch': false,
               'configurator': false,
               'account': true,
-              'projectCockpit': Principal.showProjectCockpitInSidenav(), // unter Umständen TODO
-              'welcomeDialog': Principal.displayWelcomeDialog(), // unter Umständen
+              'projectCockpit': Principal.showProjectCockpitInSidenav(),
+              'welcomeDialog': Principal.displayWelcomeDialog(),
               'projectOverview': Principal.showProjectOverviewInSidenav(),
               'admin': Principal.showAdminMenuInSidenav()
-            };
+            } 
           // angemeldet & Order View
-          } 
-          if (Principal.loginName() && 
+          } else if (Principal.isAuthenticated() && !Principal.isProviderActive()){
+            $rootScope.sidebarContent = {
+              'search': true,
+              'filter': true,
+              'detailSearch': false,
+              'configurator': false,
+              'account': true,
+              'projectCockpit': false,
+              'welcomeDialog': false,
+              'projectOverview': false,
+              'admin': false
+            };
+          };
+          if (Principal.isAuthenticated() && 
             (trans.$to().name) === 'searchReleased'){
             $rootScope.sidebarContent = {
-              'search': true, // false auf Detail
-              'filter': true, // false auf Detail
-              'detailSearch': false, // true auf Detail
-              'configurator': false, // true auf Detail
-              'account': true,
+              'search': true,
+              'filter': true,
+              'detailSearch': false,
+              'configurator': false,
+              'account': false,
               'projectCockpit': false,
               'welcomeDialog': false,
               'projectOverview': false,
               'admin': false
             };
             // angemeldet in Detailseite über die Orderseite
-          } else if (Principal.loginName() && 
+          } else if (Principal.isAuthenticated() && 
           (trans.$to().name).indexOf('Detail') !== -1 && !Principal.isProviderActive()){
             $rootScope.sidebarContent = {
               'search': false, // false auf Detail
               'filter': false, // false auf Detail
               'detailSearch': true, // true auf Detail
               'configurator': true, // true auf Detail
-              'account': true,
+              'account': false,
               'projectCockpit': false,
               'welcomeDialog': false,
               'projectOverview': false,
               'admin': false
             };
           // angemeldet auf Detailseite aber als Bearbeiter
-          } else if (Principal.loginName() && 
+          } else if (Principal.isAuthenticated() && 
           (trans.$to().name).indexOf('Detail') !== -1 && Principal.isProviderActive()){
             $rootScope.sidebarContent = {
               'search': false, // false auf Detail
@@ -204,8 +215,7 @@ try {
               'projectOverview': Principal.showProjectOverviewInSidenav(),
               'admin': Principal.showAdminMenuInSidenav()
             };
-          } 
-          console.log("--------------- ROOT :",$rootScope.sidebarContent );
+          }
           // Remember previous state unless we've been redirected to login or
           // we've just
           // reset the state memory after logout. If we're redirected to
@@ -227,7 +237,6 @@ try {
             $state.get($rootScope.previousStateName) === null) {
             if (Principal.hasAnyAuthority(
               ['ROLE_DATA_PROVIDER']) && !Principal.isPublisher() && !Principal.isAdmin()){
-                console.log("This is a dataPROVIDER");
                 $state.go('searchReleased');
                 Principal.deactivateProviderView();
               } else {

@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     var addAdditionalShouldQueries = function(elasticsearchType, query,
                                               boolQuery) {
+      console.log("additional should queries search term", query);
       var queryTerms = query.split(' ');
       if (CleanJSObjectService.isNullOrEmpty(boolQuery.should)) {
         boolQuery.should = [];
@@ -643,16 +644,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
         SearchHelperService.addNewFilters(query, elasticsearchType,
           newFilters);
 
-        if (enforceReleased ||
-            Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+        // Bestellansicht -> m_search mit enforceRelease = true
+        if (!Principal.isProviderActive()){
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-            filterToUse, enforceReleased);
-          return ElasticSearchClient.search(query);
-        } else {
-          applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
-          applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-            filterToUse);
-
+            filterToUse, true);
           // additionalSearchIndex is a list with one or more indices
           // queries are created and added for each of them
           if (additionalSearchIndex && additionalSearchIndex.length > 0) {
@@ -681,6 +676,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
             });
           } else {
             return ElasticSearchClient.search(query);
+          }
+          
+        // Provideransicht
+        } else {
+          // only assigned data
+          if (!Principal.showAllData()){
+            applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
+            applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+              filterToUse);
+              return ElasticSearchClient.search(query);
+          // Publisher & Admin sehen alles (siehe PrincipalService)
+          } else { // TODO enforeRelease?????
+            applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+              filterToUse, enforceReleased);
+              return ElasticSearchClient.search(query);
           }
         }
       }

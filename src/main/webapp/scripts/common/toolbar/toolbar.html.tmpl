@@ -4,7 +4,7 @@
   </div>
 
   <nav class="md-toolbar-tools" layout="row">
-    <div>
+    <div flex="noshrink">
       <md-button
         ng-if="show"
         class="md-icon-button fdz-secondary"
@@ -26,7 +26,7 @@
           {{'global.menu.back-to-start'|translate}}
         </md-tooltip>
       </md-button>
-      <md-button ng-if="isAuthenticated() && isDataProvider() && !Principal.isPublisher() && !Principal.isAdmin()"
+      <md-button ng-if="isAuthenticated() && !isInitialProvider"
                  class="fdz-logo"
                  ui-sref="searchReleased"
                  ui-sref-opts="{reload: true, notify: true}"
@@ -37,8 +37,9 @@
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.menu.back-to-search'|translate}}
         </md-tooltip>
+        <span>Test</span>
       </md-button>
-      <md-button ng-if="isAuthenticated() && (!isDataProvider() || (isDataProvider && (Principal.isPublisher() || Principal.isAdmin())))"
+      <md-button ng-if="isAuthenticated() && isInitialProvider"
                  class="fdz-logo"
                  ui-sref="search"
                  ui-sref-opts="{reload: true, notify: true}"
@@ -49,34 +50,27 @@
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.menu.back-to-search'|translate}}
         </md-tooltip>
-      </md-button>
-      <!-- Buttons to switch from oder to provider view -->
-      <md-button
-        ng-if="canSwitchViews()"
-        id="switchToProvider"
-        ui-sref="search"
-        ui-sref-opts="{reload: true, notify: true}"
-        ng-click="activateProviderView(true)">
-        <md-tooltip md-autohide="true" md-direction="left"
-                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'global.toolbar.buttons.switch-to-provider-view-tooltip' | translate}}
-        </md-tooltip>
-        {{'global.toolbar.buttons.switch-to-provider-view' | translate}}
-      </md-button>
-      <md-button
-        ng-if="canSwitchViews()"
-        id="switchToOrder"
-        ui-sref="searchReleased"
-        ui-sref-opts="{reload: true, notify: true}"
-        ng-click="activateProviderView(false)">
-        <md-tooltip md-autohide="true" md-direction="left"
-                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'global.toolbar.buttons.switch-to-order-view-tooltip' | translate}}
-        </md-tooltip>
-        {{'global.toolbar.buttons.switch-to-order-view' | translate}}
-      </md-button>
+      </md-button>      
     </div>
-    <div>
+    <div flex="grow" >
+      <md-nav-bar ng-if="canSwitchViews()" class="md-primary" md-selected-nav-item="getInitialView" aria-label="view-switch">
+        <md-nav-item
+          name="providerView"
+          md-nav-sref="search"
+          sref-opts="{reload: true, notify: true}"
+          ng-click="switchProviderViewState(true)">
+          {{'global.toolbar.buttons.switch-to-provider-view' | translate}}
+        </md-nav-item>
+        <md-nav-item 
+          name="orderView"
+          md-nav-sref="searchReleased"
+          sref-opts="{reload: true, notify: true}"
+          ng-click="switchProviderViewState(false)">
+          {{'global.toolbar.buttons.switch-to-order-view' | translate}}
+        </md-nav-item>
+      </md-nav-bar>
+    </div>
+    <div flex="noshrink">
       <md-button
         class="md-icon-button"
         id="changeLanguageToEn"
@@ -130,7 +124,7 @@
       </md-button>
       <md-button
         class="md-icon-button"
-        ng-if="!productsCount && !isProviderViewActive()"
+        ng-if="!productsCount && (canSwitchViews() || !isAuthenticated())"
         ui-sref="shoppingCart">
         <md-icon md-font-set="material-icons">shopping_cart</md-icon>
         <md-tooltip
@@ -142,7 +136,7 @@
       <md-button
         class="md-icon-button md-accent"
         id="shoppingCartButton"
-        ng-if="productsCount  && !isProviderViewActive()"
+        ng-if="productsCount && (canSwitchViews() || !isAuthenticated())"
         ui-sref="shoppingCart">
         <md-icon class="" md-font-set="material-icons">shopping_cart</md-icon>
         <md-tooltip

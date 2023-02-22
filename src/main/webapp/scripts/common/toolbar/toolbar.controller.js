@@ -14,6 +14,14 @@ angular.module('metadatamanagementApp').controller(
     $scope.hasAuthority = Principal.hasAuthority;
     $scope.canSwitchViews = Principal.canSwitchViews;
     $scope.isProviderViewActive = Principal.isProviderActive;
+    $scope.getInitialView;
+    
+    $scope.isInitialProvider = function() {
+      if (Principal.isDataProvider() && !Principal.isAdmin() && !Principal.isPublisher()){
+        return false;
+      }
+      return true;
+    }
 
     //Set Languages
     $scope.changeLanguage = function(languageKey) {
@@ -39,7 +47,7 @@ angular.module('metadatamanagementApp').controller(
       }
       MessageBus.remove('searchFilter');
     };
-    $scope.activateProviderView = function(active) {
+    $scope.switchProviderViewState = function(active) {
       if (active) {
         Principal.activateProviderView();
       } else {
@@ -51,6 +59,11 @@ angular.module('metadatamanagementApp').controller(
     $scope.$on('shopping-cart-changed',
       function(event, count) { // jshint ignore:line
         $scope.productsCount = count;
+      });
+
+    $scope.$on('view-changed',
+      function(event, view) { // jshint ignore:line
+          $scope.getInitialView = view;
       });
 
     $scope.SearchResultNavigatorService = SearchResultNavigatorService;
@@ -89,4 +102,5 @@ angular.module('metadatamanagementApp').controller(
         ($scope.productsCount && $scope.isAuthenticated() &&
         $scope.isDataProvider());
     };
+    // $scope.init();
   });
