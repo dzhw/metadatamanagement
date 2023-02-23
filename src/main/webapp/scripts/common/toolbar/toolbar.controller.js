@@ -53,23 +53,8 @@ angular.module('metadatamanagementApp').controller(
      * Only users with assigned projects can switch to provider view.
      */
     $scope.switchToProviderView = function() {
-      if (Principal.isDataprovider() && !Principal.isPublisher() && !Principal.isAdmin()){
-        DataAcquisitionProjectRepositoryClient.findAssignedProjects(
-          Principal.loginName()).then(function(response) {
-              var projects = response.data;
-              if (projects.length === 0) {
-                SimpleMessageToastService.openAlertMessageToast('user-management.view-switch.alert.no-assigned-projects', {});
-                $scope.switchProviderViewState(false);
-                $state.go('searchReleased', {reload: true, notify: true});
-              } else {
-                $state.go('search', {reload: true, notify: true});
-                $scope.switchProviderViewState(true);
-              }
-            })
-        } else{
-          $state.go('search', {reload: true, notify: true});
-          $scope.switchProviderViewState(true);
-        }
+      $scope.switchProviderViewState(true);
+      $state.go('search', {reload: true, notify: true});
     }
     /**
      * Navigate to order view.

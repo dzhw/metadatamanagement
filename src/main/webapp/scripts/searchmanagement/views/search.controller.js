@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
            AnalysisPackageResource, DataPackageIdBuilderService,
            AnalysisPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
-           SimpleMessageToastService, $mdSidenav, $analytics) {
+           SimpleMessageToastService, $mdSidenav, $analytics,
+           DataAcquisitionProjectRepositoryClient, $q) {
 
     var queryChangedOnInit = true;
     var tabChangedOnInitFlag = true;
@@ -59,7 +60,24 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.isAuthenticated = Principal.isAuthenticated;
       $scope.hasAnyAuthority = Principal.hasAnyAuthority;
     });
-    // write the searchParams object to the location with the correct types
+    // check for projects
+    $scope.findProjects = function() {
+      if ($scope.isAuthenticated()){
+        DataAcquisitionProjectRepositoryClient.findAssignedProjects(
+          Principal.loginName()).then(function(response) {
+            var projects = response.data;
+            if (projects.length === 0) {
+              $scope.showNoProjectsCard = true;
+            }
+          }).catch(function() {
+            $scope.showNoProjectsCard = false;
+          });
+      } else {
+        $scope.showNoProjectsCard = false;
+      }
+      
+    }
+    $scope.findProjects();
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
@@ -145,6 +163,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     // init the controller and its scope objects
     var init = function() {
+      console.log("INIT");
       MessageBus.set('searchInit', {});
       $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser || Principal.isAuthenticated();

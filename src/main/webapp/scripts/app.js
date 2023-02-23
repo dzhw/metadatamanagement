@@ -42,8 +42,13 @@ try {
         $rootScope.sidebarContent = {
           'search': false,
           'filter': false,
-          'detailSearch': false,
-          'configurator': false
+          'detailSearch': true,
+          'configurator': true,
+          'account': false,
+          'projectCockpit': false,
+          'welcomeDialog': false,
+          'projectOverview': false,
+          'admin': false
         };
         //prevent default browser actions for drag and drop
         $window.addEventListener('dragover', function(e) {
@@ -181,7 +186,7 @@ try {
               'filter': true,
               'detailSearch': false,
               'configurator': false,
-              'account': false,
+              'account': true,
               'projectCockpit': false,
               'welcomeDialog': false,
               'projectOverview': false,
@@ -191,11 +196,11 @@ try {
           } else if (Principal.isAuthenticated() && 
           (trans.$to().name).indexOf('Detail') !== -1 && !Principal.isProviderActive()){
             $rootScope.sidebarContent = {
-              'search': false, // false auf Detail
-              'filter': false, // false auf Detail
-              'detailSearch': true, // true auf Detail
-              'configurator': true, // true auf Detail
-              'account': false,
+              'search': false,
+              'filter': false,
+              'detailSearch': true,
+              'configurator': true,
+              'account': true,
               'projectCockpit': false,
               'welcomeDialog': false,
               'projectOverview': false,
@@ -205,13 +210,13 @@ try {
           } else if (Principal.isAuthenticated() && 
           (trans.$to().name).indexOf('Detail') !== -1 && Principal.isProviderActive()){
             $rootScope.sidebarContent = {
-              'search': false, // false auf Detail
-              'filter': false, // false auf Detail
-              'detailSearch': false, // true auf Detail
-              'configurator': false, // true auf Detail
+              'search': false,
+              'filter': false,
+              'detailSearch': false,
+              'configurator': false,
               'account': true,
-              'projectCockpit': Principal.showProjectCockpitInSidenav(), // unter Umständen TODO
-              'welcomeDialog': Principal.displayWelcomeDialog(), // unter Umständen
+              'projectCockpit': Principal.showProjectCockpitInSidenav(),
+              'welcomeDialog': Principal.displayWelcomeDialog(),
               'projectOverview': Principal.showProjectOverviewInSidenav(),
               'admin': Principal.showAdminMenuInSidenav()
             };
@@ -233,6 +238,7 @@ try {
 
         $rootScope.back = function() {
           // If previous state is 'activate' or do not exist go to 'search'
+          console.log("BACK")
           if ($rootScope.previousStateName === 'activate' ||
             $state.get($rootScope.previousStateName) === null) {
             if (Principal.hasAnyAuthority(

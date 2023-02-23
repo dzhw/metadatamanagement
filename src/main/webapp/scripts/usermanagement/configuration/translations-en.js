@@ -180,7 +180,9 @@ angular.module('metadatamanagementApp').config(
         },
         'view-switch': {
           'alert': {
-            'no-assigned-projects': 'You are currently not assigned to a data provision project, please contact the FDZ-DZHW via datadesposit@dzhw.eu to clarify the further details of the data provision.'
+            'no-assigned-projects': {
+              'part1': 'You are currently not assigned to a data provision project, please contact the FDZ-DZHW via <a href="mailto:datadesposit@dzhw.eu">datadesposit@dzhw.eu</a> to clarify the further details of the data provision.'
+            }
           }
         }
       }
