@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').controller(
   'ToolbarController',
   function($scope, $rootScope, $mdSidenav, ShoppingCartService, Principal,
            SearchResultNavigatorService, LanguageService, Auth, $state,
-           MessageBus, $location, $timeout) {
+           MessageBus, $location, $timeout, SimpleMessageToastService, DataAcquisitionProjectRepositoryClient) {
     $scope.open = false;
     //Toggle Function
     $scope.toggleLeft = function() {
@@ -47,14 +47,44 @@ angular.module('metadatamanagementApp').controller(
       }
       MessageBus.remove('searchFilter');
     };
+    /**
+     * Before switching to provider view check if user has assigned projects.
+     * Only users with assigned projects can switch views.
+     */
+    $scope.switchToProviderView = function() {
+      if (Principal.isDataprovider() && !Principal.isPublisher() && !Principal.isAdmin()){
+        DataAcquisitionProjectRepositoryClient.findAssignedProjects(
+          Principal.loginName()).then(function(response) {
+              var projects = response.data;
+              if (projects.length === 0) {
+                SimpleMessageToastService.openAlertMessageToast('user-management.view-switch.alert.no-assigned-projects', {});
+                $scope.switchProviderViewState(false);
+                $state.go('searchReleased', {reload: true, notify: true});
+              } else {
+                $state.go('search', {reload: true, notify: true});
+                $scope.switchProviderViewState(true);
+              }
+            }).catch(
+              $state.go('searchReleased', {reload: true, notify: true})
+            );
+        }
+        $state.go('search', {reload: true, notify: true});
+        $scope.switchProviderViewState(true);
+    }
+    $scope.switchToOrderView = function() {
+      $state.go('searchReleased', {reload: true, notify: true});
+      $scope.switchProviderViewState(false);
+    };
     $scope.switchProviderViewState = function(active) {
       if (active) {
+        $scope.getInitialView = 'providerView';
         Principal.activateProviderView();
       } else {
+        $scope.getInitialView = 'orderView';
         Principal.deactivateProviderView();
       }
       
-    }
+    };
     $scope.productsCount = ShoppingCartService.count();
     $scope.$on('shopping-cart-changed',
       function(event, count) { // jshint ignore:line

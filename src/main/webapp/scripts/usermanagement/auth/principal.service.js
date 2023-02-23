@@ -229,7 +229,7 @@ angular.module('metadatamanagementApp').factory(
         return _.indexOf(_identity.authorities, 'ROLE_ADMIN') !== -1;
       },
       isDataprovider() {
-        return _.indexOf(_identity.authorities, 'ROLE_DATAPROVIDER') !== -1;
+        return _.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') !== -1;
       },
       showAllData() {
         if (_identity != null && (_.indexOf(_identity.authorities, 'ROLE_ADMIN') !== -1

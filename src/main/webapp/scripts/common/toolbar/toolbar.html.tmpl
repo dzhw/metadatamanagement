@@ -56,16 +56,12 @@
       <md-nav-bar ng-if="canSwitchViews()" class="md-primary" md-selected-nav-item="getInitialView" aria-label="view-switch">
         <md-nav-item
           name="providerView"
-          md-nav-sref="search"
-          sref-opts="{reload: true, notify: true}"
-          ng-click="switchProviderViewState(true)">
+          md-nav-click="switchToProviderView()">
           {{'global.toolbar.buttons.switch-to-provider-view' | translate}}
         </md-nav-item>
         <md-nav-item 
           name="orderView"
-          md-nav-sref="searchReleased"
-          sref-opts="{reload: true, notify: true}"
-          ng-click="switchProviderViewState(false)">
+          md-nav-click="switchToOrderView()">
           {{'global.toolbar.buttons.switch-to-order-view' | translate}}
         </md-nav-item>
       </md-nav-bar>
