@@ -26,24 +26,19 @@
           {{'global.menu.back-to-start'|translate}}
         </md-tooltip>
       </md-button>
-      <md-button ng-if="isAuthenticated() && !isInitialProvider"
+      <md-button ng-if="isAuthenticated() && !isInitialProvider()"
                  class="fdz-logo"
-                 ui-sref="searchReleased"
-                 ui-sref-opts="{reload: true, notify: true}"
-                 ng-click="resetQuery()">
+                 ng-click="goToOrderPage()">
         <img alt="{{'global.rdc-alt-text'|translate}}"
              src="assets/images/FDZ_Logo_With_Mag.svg">
         <md-tooltip md-autohide="true" md-direction="right"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.menu.back-to-search'|translate}}
         </md-tooltip>
-        <span>Test</span>
       </md-button>
-      <md-button ng-if="isAuthenticated() && isInitialProvider"
+      <md-button ng-if="isAuthenticated() && isInitialProvider()"
                  class="fdz-logo"
-                 ui-sref="search"
-                 ui-sref-opts="{reload: true, notify: true}"
-                 ng-click="resetQuery()">
+                 ng-click="goToProviderPage()">
         <img alt="{{'global.rdc-alt-text'|translate}}"
              src="assets/images/FDZ_Logo_With_Mag.svg">
         <md-tooltip md-autohide="true" md-direction="right"

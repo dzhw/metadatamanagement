@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').controller(
     $scope.current = localStorage.getItem('currentView');
     
     $scope.isInitialProvider = function() {
-      if (Principal.isDataProvider() && !Principal.isAdmin() && !Principal.isPublisher()){
+      if (Principal.isDataprovider() && !Principal.isAdmin() && !Principal.isPublisher()){
         return false;
       }
       return true;
@@ -38,6 +38,14 @@ angular.module('metadatamanagementApp').controller(
         reload: true
       });
     };
+    $scope.goToOrderPage = function() {
+      $scope.resetQuery();
+      $scope.switchToOrderView();
+    }
+    $scope.goToProviderPage = function() {
+      $scope.resetQuery();
+      $scope.switchToProviderView();
+    }
     $scope.resetQuery = function() {
       $rootScope.searchQuery = '';
       var searchParams = $location.search();
