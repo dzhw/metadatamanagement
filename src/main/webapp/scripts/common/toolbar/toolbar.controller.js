@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').controller(
     $scope.hasAuthority = Principal.hasAuthority;
     $scope.canSwitchViews = Principal.canSwitchViews;
     $scope.isProviderViewActive = Principal.isProviderActive;
-    $scope.getInitialView;
+    $scope.current = localStorage.getItem('currentView');
     
     $scope.isInitialProvider = function() {
       if (Principal.isDataProvider() && !Principal.isAdmin() && !Principal.isPublisher()){
@@ -48,8 +48,9 @@ angular.module('metadatamanagementApp').controller(
       MessageBus.remove('searchFilter');
     };
     /**
-     * Before switching to provider view check if user has assigned projects.
-     * Only users with assigned projects can switch views.
+     * Navigate to provider view. Before switching to provider view check if user 
+     * has assigned projects.
+     * Only users with assigned projects can switch to provider view.
      */
     $scope.switchToProviderView = function() {
       if (Principal.isDataprovider() && !Principal.isPublisher() && !Principal.isAdmin()){
@@ -64,26 +65,26 @@ angular.module('metadatamanagementApp').controller(
                 $state.go('search', {reload: true, notify: true});
                 $scope.switchProviderViewState(true);
               }
-            }).catch(
-              $state.go('searchReleased', {reload: true, notify: true})
-            );
+            })
+        } else{
+          $state.go('search', {reload: true, notify: true});
+          $scope.switchProviderViewState(true);
         }
-        $state.go('search', {reload: true, notify: true});
-        $scope.switchProviderViewState(true);
     }
+    /**
+     * Navigate to order view.
+     */
     $scope.switchToOrderView = function() {
-      $state.go('searchReleased', {reload: true, notify: true});
       $scope.switchProviderViewState(false);
+      $state.go('searchReleased', {reload: true, notify: true});
+      
     };
     $scope.switchProviderViewState = function(active) {
       if (active) {
-        $scope.getInitialView = 'providerView';
         Principal.activateProviderView();
       } else {
-        $scope.getInitialView = 'orderView';
         Principal.deactivateProviderView();
       }
-      
     };
     $scope.productsCount = ShoppingCartService.count();
     $scope.$on('shopping-cart-changed',
@@ -93,7 +94,7 @@ angular.module('metadatamanagementApp').controller(
 
     $scope.$on('view-changed',
       function(event, view) { // jshint ignore:line
-          $scope.getInitialView = view;
+          $scope.current = view;
       });
 
     $scope.SearchResultNavigatorService = SearchResultNavigatorService;
@@ -117,6 +118,12 @@ angular.module('metadatamanagementApp').controller(
         $state.current.name !== 'login';
     });
 
+    // $scope.$watch(function() {
+    //   return $scope.current;
+    // }, function() {
+    //   $scope.current = localStorage.getItem("currentView");
+    // });
+
     $scope.isDataProvider = function() {
       return Principal.hasAuthority('ROLE_DATA_PROVIDER');
     };
@@ -132,5 +139,4 @@ angular.module('metadatamanagementApp').controller(
         ($scope.productsCount && $scope.isAuthenticated() &&
         $scope.isDataProvider());
     };
-    // $scope.init();
   });

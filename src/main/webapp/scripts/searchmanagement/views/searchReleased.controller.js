@@ -2,13 +2,15 @@
 
 'use strict';
 
-/* The Controller for the search. It differs between tabs and a tab represent
-a result of a type like variable or dataSet and so on. */
+/* The Controller for searching released projects only as a logged in user. It is
+a copy of the SearchController handling all other searching options. As the other SearchController
+is linked to the authentification status of the user which prevented searching of orderable data
+as a logged in user this new SearchReleasedController was simplified to only serve this specifiy purpose.*/
 angular.module('metadatamanagementApp').controller('SearchReleasedController',
   function ($scope, Principal, $location, $state, SearchDao, MessageBus,
     VariableUploadService, ProjectUpdateAccessService,
     QuestionUploadService, RelatedPublicationUploadService,
-    CleanJSObjectService, CurrentProjectService, $timeout,
+    CleanJSObjectService, $timeout,
     PageMetadataService, BreadcrumbService, SearchHelperService,
     SearchResultNavigatorService, DataPackageResource,
     AnalysisPackageResource, DataPackageIdBuilderService,
@@ -16,13 +18,11 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     $rootScope, ProjectStatusScoringService, DeleteMetadataService,
     SimpleMessageToastService, $mdSidenav, $analytics) {
 
-    // ---------------------- COPY ---------------------------------------------
     var queryChangedOnInit = true;
     var tabChangedOnInitFlag = true;
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
-    var queryChangeIsBeingHandled = false;
 
     var searchFilterAggregations = {
       data_packages: [

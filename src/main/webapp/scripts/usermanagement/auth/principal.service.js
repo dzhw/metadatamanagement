@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').factory(
   'Principal',
   function Principal($q, AccountResource, AuthServerProvider, $rootScope,
-                     WelcomeDialogService, $location) {
+                     WelcomeDialogService, $sessionStorage) {
     var _identity;
     var _authenticated = false;
     
@@ -16,8 +16,6 @@ angular.module('metadatamanagementApp').factory(
     var _showAdminMenu = false;
     var _showProjectOverview = false;
     var _displayWelcomeDialog = false;
-    var _initialView;
-    var _isInitialView = true;
 
     var displayWelcomeDialog = function(identity) {
       return _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
@@ -83,30 +81,15 @@ angular.module('metadatamanagementApp').factory(
         return false;
       },
       authenticate: function(identity) {
-        
         _identity = identity;
         _authenticated = identity !== null;
         if (allowViewSwitch(_identity)){
           _canSwitchViews = true;
         } else {
           _canSwitchViews = false;
-        }
-        _providerViewActive = true;
-        if (identity != null){
-          _isInitialView = false;
-        }
-        
-        _initialView = "providerView";
-        // $rootScope.activeView = "provider";
-        if (_identity != null && _.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') !== -1
-              && _.indexOf(_identity.authorities, 'ROLE_PUBLISHER') === -1
-              && _.indexOf(_identity.authorities, 'ROLE_ADMIN') === -1){
-              _providerViewActive = false;
-              _initialView = "orderView";
-            } 
+        } 
         if (_identity == null){
-          _providerViewActive = false;
-          _initialView = "orderView";
+          localStorage.removeItem("currentView");
         }
       },
       identity: function(force) {
@@ -121,7 +104,6 @@ angular.module('metadatamanagementApp').factory(
         // if we have, reuse it by immediately resolving
         if (angular.isDefined(_identity)) {
           deferred.resolve(_identity);
-          _isInitialView = false;
           return deferred.promise;
         }
 
@@ -141,15 +123,24 @@ angular.module('metadatamanagementApp').factory(
             // activate provider view for all authenticated users
             // wenn nur Dataprovider und nix höheres: providerView = false
             // wenn was höheres oder gar keiner: true
+            if (localStorage.getItem('currentView') === null){
               if (_.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') !== -1
                 && _.indexOf(_identity.authorities, 'ROLE_PUBLISHER') === -1
                 && _.indexOf(_identity.authorities, 'ROLE_ADMIN') === -1){
                 _providerViewActive = false;
-                _initialView = "orderView";
+                localStorage.setItem('currentView', 'orderView');
               } else {
                 _providerViewActive = true;
-                _initialView = "providerView";
+                localStorage.setItem('currentView', 'providerView');
               }
+              $rootScope.$broadcast('view-changed', localStorage.getItem('currentView'));
+            } else if (localStorage.getItem('currentView') === "orderView"){
+              _providerViewActive = false;
+            } else if (localStorage.getItem('currentView') === "providerView"){
+              _providerViewActive = true;
+            }
+            $rootScope.$broadcast('view-changed', localStorage.getItem('currentView'));
+              
             if (displayWelcomeDialog(_identity)) {
               WelcomeDialogService.display(_identity.login)
                 .then(function(hideWelcomeDialog) {
@@ -167,7 +158,7 @@ angular.module('metadatamanagementApp').factory(
             _showAdminMenu = showAdminMenu(_identity);
             _showProjectOverview = showProjectOverview(_identity);
             _displayWelcomeDialog = displayWelcomeDialog(_identity);
-            $rootScope.$broadcast('view-changed', _initialView);
+            
             return deferred.resolve(_identity);
           }).catch(function() {
             $rootScope.$broadcast('stop-ignoring-401');
@@ -201,11 +192,13 @@ angular.module('metadatamanagementApp').factory(
       },
       activateProviderView: function() {
         _providerViewActive = true;
-        // $location.search('view', 'provider').replace();
+        localStorage.setItem('currentView', 'providerView');
+        $rootScope.$broadcast('view-changed', localStorage.getItem('currentView'));
       },
       deactivateProviderView: function() {
         _providerViewActive = false;
-        // $location.search('view', 'order').replace();
+        localStorage.setItem('currentView', 'orderView');
+        $rootScope.$broadcast('view-changed', localStorage.getItem('currentView'));
       },
       isProviderActive: function() {
         return _providerViewActive;
@@ -237,9 +230,6 @@ angular.module('metadatamanagementApp').factory(
           return true;
         }
         return false;
-      },
-      getInitialView() {
-        return _initialView;
       }
     };
   });
