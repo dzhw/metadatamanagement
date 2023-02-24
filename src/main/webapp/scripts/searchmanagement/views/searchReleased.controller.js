@@ -23,6 +23,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
+    var queryChangeIsBeingHandled = false;
 
     var searchFilterAggregations = {
       data_packages: [

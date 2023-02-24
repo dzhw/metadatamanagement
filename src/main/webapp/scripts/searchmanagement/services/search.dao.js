@@ -10,7 +10,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     var addAdditionalShouldQueries = function(elasticsearchType, query,
                                               boolQuery) {
-      console.log("additional should queries search term", query);
       var queryTerms = query.split(' ');
       if (CleanJSObjectService.isNullOrEmpty(boolQuery.should)) {
         boolQuery.should = [];
@@ -644,7 +643,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         SearchHelperService.addNewFilters(query, elasticsearchType,
           newFilters);
 
-        // Bestellansicht -> m_search mit enforceRelease = true
+        // order view -> m_search with enforceRelease = true
         if (!Principal.isProviderActive()){
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
             filterToUse, true);
@@ -678,7 +677,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             return ElasticSearchClient.search(query);
           }
           
-        // Provideransicht
+        // provider view
         } else {
           // only assigned data
           if (!Principal.showAllData()){
@@ -686,8 +685,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
             applyFetchLatestShadowCopyFilter(query, elasticsearchType,
               filterToUse);
               return ElasticSearchClient.search(query);
-          // Publisher & Admin sehen alles (siehe PrincipalService)
-          } else { // TODO enforeRelease?????
+          // all data
+          } else {
             applyFetchLatestShadowCopyFilter(query, elasticsearchType,
               filterToUse, enforceReleased);
               return ElasticSearchClient.search(query);

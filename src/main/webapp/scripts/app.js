@@ -122,7 +122,8 @@ try {
             'projectOverview': false,
             'admin': false
           };
-          // nicht angemeldet auf Detail seite
+          // configure sidenav according to auth status and route
+          // not authenticated & on detail page
           if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('Detail') !== -1) {
             $rootScope.sidebarContent = {
@@ -136,7 +137,7 @@ try {
               'projectOverview': false,
               'admin': false
             };
-            //nicht angemeldet
+            //not authenticated & on search page
           } else if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
@@ -152,7 +153,7 @@ try {
             };
           } 
           
-          // angemeldet & suchansicht (hat eigene Searchbar)
+          // authenticated & on search page (provider view)
           if (Principal.isAuthenticated() && Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
@@ -165,7 +166,7 @@ try {
               'projectOverview': Principal.showProjectOverviewInSidenav(),
               'admin': Principal.showAdminMenuInSidenav()
             } 
-          // angemeldet & Order View
+          //autheticated & on search page fore released datasets (order view)
           } else if (Principal.isAuthenticated() && !Principal.isProviderActive()){
             $rootScope.sidebarContent = {
               'search': true,
@@ -178,21 +179,7 @@ try {
               'projectOverview': false,
               'admin': false
             };
-          };
-          if (Principal.isAuthenticated() && 
-            (trans.$to().name) === 'searchReleased'){
-            $rootScope.sidebarContent = {
-              'search': true,
-              'filter': true,
-              'detailSearch': false,
-              'configurator': false,
-              'account': true,
-              'projectCockpit': false,
-              'welcomeDialog': false,
-              'projectOverview': false,
-              'admin': false
-            };
-            // angemeldet in Detailseite über die Orderseite
+          // authenticated & on detail page when in order view
           } else if (Principal.isAuthenticated() && 
           (trans.$to().name).indexOf('Detail') !== -1 && !Principal.isProviderActive()){
             $rootScope.sidebarContent = {
@@ -206,7 +193,7 @@ try {
               'projectOverview': false,
               'admin': false
             };
-          // angemeldet auf Detailseite aber als Bearbeiter
+          // authenticated & on detail page when in provider view
           } else if (Principal.isAuthenticated() && 
           (trans.$to().name).indexOf('Detail') !== -1 && Principal.isProviderActive()){
             $rootScope.sidebarContent = {
@@ -238,11 +225,9 @@ try {
 
         $rootScope.back = function() {
           // If previous state is 'activate' or do not exist go to 'search'
-          console.log("BACK")
           if ($rootScope.previousStateName === 'activate' ||
             $state.get($rootScope.previousStateName) === null) {
-            if (Principal.hasAnyAuthority(
-              ['ROLE_DATA_PROVIDER']) && !Principal.isPublisher() && !Principal.isAdmin()){
+            if (Principal.isDataprovider() && !Principal.isPublisher() && !Principal.isAdmin()){
                 $state.go('searchReleased');
                 Principal.deactivateProviderView();
               } else {

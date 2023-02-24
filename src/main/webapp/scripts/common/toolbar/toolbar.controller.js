@@ -16,6 +16,11 @@ angular.module('metadatamanagementApp').controller(
     $scope.isProviderViewActive = Principal.isProviderActive;
     $scope.current = localStorage.getItem('currentView');
     
+    /**
+     * By default users should start in provider view unless
+     * they are Dataproviders and nothing more.
+     * @returns 
+     */
     $scope.isInitialProvider = function() {
       if (Principal.isDataprovider() && !Principal.isAdmin() && !Principal.isPublisher()){
         return false;
@@ -38,10 +43,16 @@ angular.module('metadatamanagementApp').controller(
         reload: true
       });
     };
+    /**
+     * Reset Query and navigate to order view
+     */
     $scope.goToOrderPage = function() {
       $scope.resetQuery();
       $scope.switchToOrderView();
     }
+    /**
+     * Reset Query and navigate to provider view
+     */
     $scope.goToProviderPage = function() {
       $scope.resetQuery();
       $scope.switchToProviderView();
@@ -56,22 +67,25 @@ angular.module('metadatamanagementApp').controller(
       MessageBus.remove('searchFilter');
     };
     /**
-     * Navigate to provider view. Before switching to provider view check if user 
-     * has assigned projects.
-     * Only users with assigned projects can switch to provider view.
+     * Navigate to provider view and switch view state.
      */
     $scope.switchToProviderView = function() {
       $scope.switchProviderViewState(true);
       $state.go('search', {reload: true, notify: true});
     }
     /**
-     * Navigate to order view.
+     * Navigate to order view and switch view state.
      */
     $scope.switchToOrderView = function() {
       $scope.switchProviderViewState(false);
       $state.go('searchReleased', {reload: true, notify: true});
       
     };
+    /**
+     * Switch the view state. When active is true the provider
+     * view is active. 
+     * @param {} active 
+     */
     $scope.switchProviderViewState = function(active) {
       if (active) {
         Principal.activateProviderView();
@@ -111,25 +125,15 @@ angular.module('metadatamanagementApp').controller(
         $state.current.name !== 'login';
     });
 
-    // $scope.$watch(function() {
-    //   return $scope.current;
-    // }, function() {
-    //   $scope.current = localStorage.getItem("currentView");
-    // });
-
-    $scope.isDataProvider = function() {
-      return Principal.hasAuthority('ROLE_DATA_PROVIDER');
-    };
-
     $scope.showEmptyCart = function() {
       return (!$scope.productsCount && !$scope.isAuthenticated()) ||
         (!$scope.productsCount && $scope.isAuthenticated() &&
-        $scope.isDataProvider());
+        Principal.isDataprovider());
     };
 
     $scope.showFullCart = function() {
       return ($scope.productsCount  && !$scope.isAuthenticated()) ||
         ($scope.productsCount && $scope.isAuthenticated() &&
-        $scope.isDataProvider());
+        Principal.isDataprovider());
     };
   });

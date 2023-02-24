@@ -4,14 +4,15 @@
 angular.module('metadatamanagementApp').factory(
   'Principal',
   function Principal($q, AccountResource, AuthServerProvider, $rootScope,
-                     WelcomeDialogService, $sessionStorage) {
+                     WelcomeDialogService) {
     var _identity;
     var _authenticated = false;
     
-    // Attribut, ob der View gewechselt werden kann
+    // attribute if the user is allowed to switch views
     var _canSwitchViews = false;
-    // Attribut ob provider view aktiv oder nicht
+    // if the provider view is active relevant for routing in app.js
     var _providerViewActive;
+    // role dependent configs for sidenav
     var _showProjectCockpitInSidenav = false;
     var _showAdminMenu = false;
     var _showProjectOverview = false;
@@ -83,13 +84,13 @@ angular.module('metadatamanagementApp').factory(
       authenticate: function(identity) {
         _identity = identity;
         _authenticated = identity !== null;
-        if (allowViewSwitch(_identity)){
-          _canSwitchViews = true;
-        } else {
-          _canSwitchViews = false;
-        } 
+        _canSwitchViews = allowViewSwitch(_identity);
+        // when logging out remove current view from storage
+        // and deactivate provider view (relevant for searching!)
         if (_identity == null){
+          _providerViewActive = false;
           localStorage.removeItem("currentView");
+          // localStorage.setItem('currentView', 'orderView');
         }
       },
       identity: function(force) {
@@ -115,14 +116,11 @@ angular.module('metadatamanagementApp').factory(
             $rootScope.$broadcast('stop-ignoring-401');
             _identity = account.data;
             _authenticated = true;
-            if (allowViewSwitch(_identity)){
-              _canSwitchViews = true;
-            } else {
-              _canSwitchViews = false;
-            }
-            // activate provider view for all authenticated users
-            // wenn nur Dataprovider und nix höheres: providerView = false
-            // wenn was höheres oder gar keiner: true
+            _canSwitchViews = allowViewSwitch(_identity);
+            // after login activate initial view depending on role
+            // if dataprovider is highest role: order view
+            // anyone else: provider view
+            // broadcast view change for toolbar
             if (localStorage.getItem('currentView') === null){
               if (_.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') !== -1
                 && _.indexOf(_identity.authorities, 'ROLE_PUBLISHER') === -1
