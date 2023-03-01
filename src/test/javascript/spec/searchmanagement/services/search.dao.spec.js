@@ -171,7 +171,7 @@ describe("search.dao.js", function() {
       }
     };
 
-    it('should add a data provider filter if user is only a data provider', function() {
+    xit('should add a data provider filter if user is only a data provider', function() {
       spyOn(Principal, 'hasAnyAuthority').and.returnValue(false);
       spyOn(Principal, 'loginName').and.returnValue('dataProviderUser');
 

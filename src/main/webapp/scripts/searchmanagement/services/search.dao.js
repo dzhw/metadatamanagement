@@ -644,7 +644,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           newFilters);
 
         // order view -> m_search with enforceRelease = true
-        if (!Principal.isProviderActive()){
+        if (!Principal.isProviderActive()) {
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
             filterToUse, true);
           // additionalSearchIndex is a list with one or more indices
@@ -676,20 +676,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
           } else {
             return ElasticSearchClient.search(query);
           }
-          
+
         // provider view
         } else {
           // only assigned data
-          if (!Principal.showAllData()){
-            applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
+          if (!Principal.showAllData()) {
+            applyFetchDataWhereUserIsDataProviderFilter(query,
+              elasticsearchType);
             applyFetchLatestShadowCopyFilter(query, elasticsearchType,
               filterToUse);
-              return ElasticSearchClient.search(query);
+            return ElasticSearchClient.search(query);
           // all data
           } else {
             applyFetchLatestShadowCopyFilter(query, elasticsearchType,
               filterToUse, enforceReleased);
-              return ElasticSearchClient.search(query);
+            return ElasticSearchClient.search(query);
           }
         }
       }

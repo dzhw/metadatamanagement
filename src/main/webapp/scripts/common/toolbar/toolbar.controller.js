@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').controller(
   'ToolbarController',
   function($scope, $rootScope, $mdSidenav, ShoppingCartService, Principal,
            SearchResultNavigatorService, LanguageService, Auth, $state,
-           MessageBus, $location, $timeout, SimpleMessageToastService, DataAcquisitionProjectRepositoryClient) {
+           MessageBus, $location, $timeout) {
     $scope.open = false;
     //Toggle Function
     $scope.toggleLeft = function() {
@@ -14,19 +14,19 @@ angular.module('metadatamanagementApp').controller(
     $scope.hasAuthority = Principal.hasAuthority;
     $scope.canSwitchViews = Principal.canSwitchViews;
     $scope.isProviderViewActive = Principal.isProviderActive;
-    $scope.current = localStorage.getItem('currentView');
-    
+    $scope.current = localStorage.getItem('currentView'); // jshint ignore:line
+
     /**
      * By default users should start in provider view unless
      * they are Dataproviders and nothing more.
-     * @returns 
      */
     $scope.isInitialProvider = function() {
-      if (Principal.isDataprovider() && !Principal.isAdmin() && !Principal.isPublisher()){
+      if (Principal.isDataprovider() &&
+        !Principal.isAdmin() && !Principal.isPublisher()) {
         return false;
       }
       return true;
-    }
+    };
 
     //Set Languages
     $scope.changeLanguage = function(languageKey) {
@@ -49,14 +49,14 @@ angular.module('metadatamanagementApp').controller(
     $scope.goToOrderPage = function() {
       $scope.resetQuery();
       $scope.switchToOrderView();
-    }
+    };
     /**
      * Reset Query and navigate to provider view
      */
     $scope.goToProviderPage = function() {
       $scope.resetQuery();
       $scope.switchToProviderView();
-    }
+    };
     $scope.resetQuery = function() {
       $rootScope.searchQuery = '';
       var searchParams = $location.search();
@@ -72,19 +72,16 @@ angular.module('metadatamanagementApp').controller(
     $scope.switchToProviderView = function() {
       $scope.switchProviderViewState(true);
       $state.go('search', {reload: true, notify: true});
-    }
+    };
     /**
      * Navigate to order view and switch view state.
      */
     $scope.switchToOrderView = function() {
       $scope.switchProviderViewState(false);
       $state.go('searchReleased', {reload: true, notify: true});
-      
     };
     /**
-     * Switch the view state. When active is true the provider
-     * view is active. 
-     * @param {} active 
+     * Switch the view state. When active is true the provider view is active.
      */
     $scope.switchProviderViewState = function(active) {
       if (active) {
@@ -101,7 +98,7 @@ angular.module('metadatamanagementApp').controller(
 
     $scope.$on('view-changed',
       function(event, view) { // jshint ignore:line
-          $scope.current = view;
+        $scope.current = view;
       });
 
     $scope.SearchResultNavigatorService = SearchResultNavigatorService;

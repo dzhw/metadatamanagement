@@ -108,7 +108,7 @@ try {
             }, 1000);
           }
         });
-        
+
         $transitions.onSuccess({}, function(trans) {
           $rootScope.toStateName = trans.$to().name;
           $rootScope.sidebarContent = {
@@ -151,8 +151,8 @@ try {
               'projectOverview': false,
               'admin': false
             };
-          } 
-          
+          }
+
           // authenticated & on search page (provider view)
           if (Principal.isAuthenticated() && Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
@@ -165,9 +165,10 @@ try {
               'welcomeDialog': Principal.displayWelcomeDialog(),
               'projectOverview': Principal.showProjectOverviewInSidenav(),
               'admin': Principal.showAdminMenuInSidenav()
-            } 
+            };
           //autheticated & on search page fore released datasets (order view)
-          } else if (Principal.isAuthenticated() && !Principal.isProviderActive()){
+          } else if (Principal.isAuthenticated() &&
+            !Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': true,
               'filter': true,
@@ -180,8 +181,9 @@ try {
               'admin': false
             };
           // authenticated & on detail page when in order view
-          } else if (Principal.isAuthenticated() && 
-          (trans.$to().name).indexOf('Detail') !== -1 && !Principal.isProviderActive()){
+          } else if (Principal.isAuthenticated() &&
+            (trans.$to().name).indexOf('Detail') !== -1 &&
+            !Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
               'filter': false,
@@ -194,8 +196,9 @@ try {
               'admin': false
             };
           // authenticated & on detail page when in provider view
-          } else if (Principal.isAuthenticated() && 
-          (trans.$to().name).indexOf('Detail') !== -1 && Principal.isProviderActive()){
+          } else if (Principal.isAuthenticated() &&
+            (trans.$to().name).indexOf('Detail') !== -1 &&
+            Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
               'filter': false,
@@ -226,17 +229,17 @@ try {
         $rootScope.back = function() {
           // If previous state is 'activate' or do not exist go to 'search'
           if ($rootScope.previousStateName === 'activate' ||
-            $state.get($rootScope.previousStateName) === null) {
-            if (Principal.isDataprovider() && !Principal.isPublisher() && !Principal.isAdmin()){
-                $state.go('searchReleased');
-                Principal.deactivateProviderView();
-              } else {
-                $state.go('search', {
-                  lang: LanguageService.getCurrentInstantly()
-                });
-                Principal.activateProviderView();
-              }
-            
+              $state.get($rootScope.previousStateName) === null) {
+            if (Principal.isDataprovider() && !Principal.isPublisher() &&
+              !Principal.isAdmin()) {
+              $state.go('searchReleased');
+              Principal.deactivateProviderView();
+            } else {
+              $state.go('search', {
+                lang: LanguageService.getCurrentInstantly()
+              });
+              Principal.activateProviderView();
+            }
           } else {
             $state.go($rootScope.previousStateName,
               $rootScope.previousStateParams);

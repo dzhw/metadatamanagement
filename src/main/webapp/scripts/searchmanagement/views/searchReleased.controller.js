@@ -7,7 +7,7 @@ a copy of the SearchController handling all other searching options. As the othe
 is linked to the authentification status of the user which prevented searching of orderable data
 as a logged in user this new SearchReleasedController was simplified to only serve this specifiy purpose.*/
 angular.module('metadatamanagementApp').controller('SearchReleasedController',
-  function ($scope, Principal, $location, $state, SearchDao, MessageBus,
+  function($scope, Principal, $location, $state, SearchDao, MessageBus,
     VariableUploadService, ProjectUpdateAccessService,
     QuestionUploadService, RelatedPublicationUploadService,
     CleanJSObjectService, $timeout,
@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
         'language'
       ]
     };
-    var getSelectedMetadataType = function () {
+    var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
         .elasticSearchType;
     };
@@ -56,14 +56,13 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     PageMetadataService.setPageTitle('global.menu.search.title');
     PageMetadataService.setPageDescription('global.menu.search.description');
     //Check the login status
-    Principal.identity().then(function (account) { // DO WE NEED THAT????
+    Principal.identity().then(function(account) {
       $scope.account = account;
-      $scope.isAuthenticated = false; //MIMIC A PUBLIC USER
-      // $scope.hasAnyAuthority = Principal.hasAnyAuthority;
+      $scope.isAuthenticated = false; //pretend to be a public user
     });
 
     // write the searchParams object to the location with the correct types
-    var writeSearchParamsToLocation = function () {
+    var writeSearchParamsToLocation = function() {
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
       locationSearch.size = '' + $scope.options.pageObject.size;
@@ -98,7 +97,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     };
 
     // read the searchParams object from the location with the correct types
-    var readSearchParamsFromLocation = function () {
+    var readSearchParamsFromLocation = function() {
       var locationSearch = $location.search();
       if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
         $scope.options.pageObject.page = 1;
@@ -135,7 +134,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
         ]);
         $scope.searchParams.sortBy = locationSearch['sort-by'];
         var indexToSelect = _.findIndex($scope.tabs,
-          function (tab) {
+          function(tab) {
             return tab.elasticSearchType === locationSearch.type;
           });
         if (indexToSelect < 0) {
@@ -147,9 +146,9 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     };
 
     // init the controller and its scope objects
-    var init = function () {
+    var init = function() {
       MessageBus.set('searchInit', {});
-      $scope.tabs = _.filter($scope.tabs, function (tab) {
+      $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser;
       });
       $scope.searchResult = {};
@@ -177,27 +176,26 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       $scope.loadDataPackageForProject();
       $scope.loadAnalysisPackageForProject();
       $scope.search();
-      MessageBus.set('onDetailViewLoaded', { type: 'search' });
-    }
+      MessageBus.set('onDetailViewLoaded', {type: 'search'});
+    };
 
-    $scope.uploadVariables = function (files) {
+    $scope.uploadVariables = function(files) {
       VariableUploadService.uploadVariables(files,
         $scope.currentProject.id);
     };
 
-    $scope.uploadQuestions = function (files) {
+    $scope.uploadQuestions = function(files) {
       QuestionUploadService.uploadQuestions(files,
         $scope.currentProject.id);
     };
 
-    $scope.uploadRelatedPublications = function (file) {
+    $scope.uploadRelatedPublications = function(file) {
       if (Array.isArray(file)) {
         file = file[0];
       }
       RelatedPublicationUploadService.uploadRelatedPublications(file);
     };
 
-    //Information for the different tabs ------------------------------------- 
     var tabs = [{
       title: 'search-management.tabs.all',
       inputLabel: 'search-management.input-label.all',
@@ -312,9 +310,9 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     }];
 
     function createDataPackageFilterContent(data, prop) {
-      _.map(data.all.filtered[prop].buckets, function (val1, i1) {
+      _.map(data.all.filtered[prop].buckets, function(val1, i1) {
         data.all.filtered[prop].buckets[i1].doc_count = 0;
-        _.find(data[prop].buckets, function (val2, i2) {
+        _.find(data[prop].buckets, function(val2, i2) {
           if (val1.key === val2.key) {
             data.all.filtered[prop].buckets[i1].doc_count = data[prop]
               .buckets[i2].doc_count;
@@ -378,7 +376,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       MessageBus.set('onTotalHitsChange', totalHits);
     }
 
-    $scope.setCurrentSearchParams = function (projectId) {
+    $scope.setCurrentSearchParams = function(projectId) {
       if (!projectId) {
         projectId = _.get($scope, 'currentProject.id');
       }
@@ -393,7 +391,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
      * Searches and processes the results.
      * The authentification status determines the type of search.
      */
-    $scope.search = function () {
+    $scope.search = function() {
       // Public users search in multiple indices at the same time
       // additional indices need to be set according to the currently
       // selected search type
@@ -432,7 +430,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
         // })
         $scope.searchFilterMapping, $scope.options.sortObject.selected, false,
         $scope.searchParams.additionalSearchIndex)
-        .then(function (data) {
+        .then(function(data) {
           var totalHitsInAdditionalIndex = [];
           if ($scope.searchParams.additionalSearchIndex) {
             for (var index = 0;
@@ -463,13 +461,13 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
                 .elasticSearchType : 'all',
             $scope.options.pageObject.totalHits);
           //Count information by aggregations
-          $scope.tabs.forEach(function (tab) {
+          $scope.tabs.forEach(function(tab) {
             if ($scope.tabs[
               $scope.searchParams.selectedTabIndex].elasticSearchType ===
               undefined) {
               tab.count = 0;
               data.aggregations.countByType.buckets.forEach(
-                function (bucket) {
+                function(bucket) {
                   if (bucket.key === tab.elasticSearchType) {
                     // jscs:disable
                     tab.count = bucket.doc_count;
@@ -486,16 +484,16 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
           MessageBus.set('onStopSearch', {});
 
           // Safari fix
-          $timeout(function () {
+          $timeout(function() {
             angular.element('body').append('<div id=fdz-safari-fix></div>');
-            $timeout(function () {
+            $timeout(function() {
               angular.element('#fdz-safari-fix').remove();
             });
           }, 100);
-        }, function () {
+        }, function() {
           $scope.options.pageObject.totalHits = 0;
           $scope.searchResult = {};
-          $scope.tabs.forEach(function (tab) {
+          $scope.tabs.forEach(function(tab) {
             tab.count = null;
           });
           $scope.tabs[$scope.searchParams.selectedTabIndex].count = 0;
@@ -505,9 +503,9 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     };
 
     // watch for location changes not triggered by our code
-    $scope.$watchCollection(function () {
+    $scope.$watchCollection(function() {
       return $location.search();
-    }, function (newValue, oldValue) {
+    }, function(newValue, oldValue) {
       BreadcrumbService.updateToolbarHeader({
         'stateName': $state.current.name,
         'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
@@ -529,13 +527,13 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       }
     });
 
-    $scope.onPageChanged = function () {
+    $scope.onPageChanged = function() {
       writeSearchParamsToLocation();
       $scope.search();
     };
 
     // if (Principal.isAuthenticated()) {
-    $scope.$watch('searchParams.query', function () {
+    $scope.$watch('searchParams.query', function() {
       if (queryChangedOnInit) {
         queryChangedOnInit = false;
         return;
@@ -544,7 +542,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
         return;
       }
       queryChangeIsBeingHandled = true;
-      $timeout(function () {
+      $timeout(function() {
         $scope.options.pageObject.page = 1;
         delete $scope.searchParams.sortBy;
         writeSearchParamsToLocation();
@@ -554,7 +552,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     });
     // }
 
-    $scope.onSelectedTabChanged = function () {
+    $scope.onSelectedTabChanged = function() {
       $scope.tabs = tabs;
       $scope.options.sortObject.options = $scope.tabs[
         $scope.searchParams.selectedTabIndex].sortOptions;
@@ -562,7 +560,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       if (!selectedTabChangeIsBeingHandled) {
         //prevent multiple tab change handlers caused by logout
         selectedTabChangeIsBeingHandled = true;
-        $timeout(function () {
+        $timeout(function() {
           if (!tabChangedOnInitFlag) {
             $scope.searchParams.filter = SearchHelperService
               .removeIrrelevantFilters(
@@ -586,7 +584,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       }
     };
     //Refresh function for the refresh button
-    $scope.refresh = function () {
+    $scope.refresh = function() {
       $scope.search();
     };
 
@@ -597,22 +595,22 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
     // $scope.tabs = filterActiveTabs(tabs);
     $scope.tabs = tabs;
 
-    $scope.hideMobileKeyboard = function ($event) {
+    $scope.hideMobileKeyboard = function($event) {
       $event.target.querySelector('#query').blur();
     };
 
-    $scope.onFilterChanged = function () {
+    $scope.onFilterChanged = function() {
       $scope.options.pageObject.page = 1;
       writeSearchParamsToLocation();
       $scope.search();
     };
 
-    $scope.computeSearchResultIndex = function ($index) {
+    $scope.computeSearchResultIndex = function($index) {
       return $index + 1 +
         (($scope.options.pageObject.page - 1) * $scope.options.pageObject.size);
     };
 
-    $scope.loadDataPackageForProject = function () {
+    $scope.loadDataPackageForProject = function() {
       if ($scope.currentProject && !$scope.currentProject.release &&
         $scope.tabs[$scope.searchParams.selectedTabIndex]
           .elasticSearchType === 'data_packages') {
@@ -620,18 +618,18 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
         DataPackageResource.get({
           id: DataPackageIdBuilderService.buildDataPackageId(
             $scope.currentProject.id)
-        }).$promise.then(function (dataPackage) {
+        }).$promise.then(function(dataPackage) {
           $scope.currentDataPackage = dataPackage;
-        }).catch(function () {
+        }).catch(function() {
           $scope.currentDataPackage = undefined;
-        }).finally(function () {
+        }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
         });
       } else {
         $scope.currentDataPackage = undefined;
       }
     };
-    $scope.loadAnalysisPackageForProject = function () {
+    $scope.loadAnalysisPackageForProject = function() {
       if ($scope.currentProject && !$scope.currentProject.release &&
         $scope.tabs[$scope.searchParams.selectedTabIndex]
           .elasticSearchType === 'analysis_packages') {
@@ -639,11 +637,11 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
         AnalysisPackageResource.get({
           id: AnalysisPackageIdBuilderService.buildAnalysisPackageId(
             $scope.currentProject.id)
-        }).$promise.then(function (analysisPackage) {
+        }).$promise.then(function(analysisPackage) {
           $scope.currentAnalysisPackage = analysisPackage;
-        }).catch(function () {
+        }).catch(function() {
           $scope.currentAnalysisPackage = undefined;
-        }).finally(function () {
+        }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
         });
       } else {
@@ -651,7 +649,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       }
     };
 
-    $scope.setDropZoneDisabled = function () {
+    $scope.setDropZoneDisabled = function() {
       if (!$scope.tabs[$scope.searchParams.selectedTabIndex].uploadFunction) {
         $scope.isDropZoneDisabled = true;
         return;
@@ -678,13 +676,12 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       $scope.isDropZoneDisabled = false;
     };
 
-    $scope.getSentimentValue = function (tab) {
+    $scope.getSentimentValue = function(tab) {
       return ProjectStatusScoringService
         .scoreProjectStatus($scope.currentProject, tab);
     };
 
-
-    $scope.isUploadAllowed = function (type) {
+    $scope.isUploadAllowed = function(type) {
       if (bowser.msie) {
         SimpleMessageToastService.openAlertMessageToast('global.error.' +
           'browser-not-supported');
@@ -693,31 +690,31 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true);
     };
-    $scope.deleteAllDataPackages = function () {
+    $scope.deleteAllDataPackages = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject,
         'data_packages');
     };
-    $scope.deleteAllAnalysisPackages = function () {
+    $scope.deleteAllAnalysisPackages = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject,
         'analysis_packages');
     };
-    $scope.deleteAllQuestions = function () {
+    $scope.deleteAllQuestions = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
     };
-    $scope.deleteAllVariables = function () {
+    $scope.deleteAllVariables = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'variables');
     };
-    $scope.deleteAllInstruments = function () {
+    $scope.deleteAllInstruments = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject,
         'instruments');
     };
-    $scope.deleteAllSurveys = function () {
+    $scope.deleteAllSurveys = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');
     };
-    $scope.deleteAllDataSets = function () {
+    $scope.deleteAllDataSets = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
     };
-    $scope.navigateToCreateState = function (createState) {
+    $scope.navigateToCreateState = function(createState) {
       var type = getSelectedMetadataType();
       if (type === 'related_publications') {
         type = 'publications';
@@ -729,16 +726,15 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       if (ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true)) {
         ProjectUpdateAccessService.isPrerequisiteFulfilled(
-          $scope.currentProject, type).then(function () {
+          $scope.currentProject, type).then(function() {
             $state.go(createState);
           });
       }
     };
 
-    $scope.toggleSidenav = function () {
+    $scope.toggleSidenav = function() {
       $mdSidenav('SideNavBar').toggle();
     };
 
     init();
-
   });

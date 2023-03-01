@@ -662,9 +662,10 @@ angular.module('metadatamanagementApp').factory(
     };
 
     var addShadowCopyFilter = function(query, filter, enforceReleased) {
-      if (!enforceReleased && Principal.loginName() && Principal.isProviderActive()) {
+      if (!enforceReleased && Principal.loginName() &&
+        Principal.isProviderActive()) {
         applyOnlyMasterDataFilter(query, filter);
-      } else if (Principal.isProviderActive()){
+      } else if (Principal.isProviderActive()) {
         applyShadowCopyFilter(query, filter);
       } else {
         applyShadowCopyFilter(query, filter);
