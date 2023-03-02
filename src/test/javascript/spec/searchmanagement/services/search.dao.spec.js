@@ -171,14 +171,16 @@ describe("search.dao.js", function() {
       }
     };
 
-    xit('should add a data provider filter if user is only a data provider', function() {
+    it('should add a data provider filter if user is only a data provider', function() {
       spyOn(Principal, 'hasAnyAuthority').and.returnValue(false);
       spyOn(Principal, 'loginName').and.returnValue('dataProviderUser');
+      spyOn(Principal, 'isProviderActive').and.returnValue(true);
+      spyOn(Principal, 'showAllData').and.returnValue(false);
 
       SearchDao.search(undefined, page, dataAcquisitionProjectId, filter, elasticSearchType, pageSize);
 
       var generatedFilter = _.find(capturedQuery.body.query.bool.filter, predicate);
-
+      console.log(capturedQuery);
       expect(generatedFilter).toBeDefined();
     });
 

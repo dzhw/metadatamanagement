@@ -1640,7 +1640,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-theme md-nav-bar .md-nav-bar {
   background-color: transparent;
-  border-bottom: none;; }
+  border-color: rgba(0, 0, 0, 0.12); }
 
 .fdz-theme md-nav-bar .md-button._md-nav-button.md-unselected {
   color: rgba(0, 0, 0, 0.54); }
@@ -1672,7 +1672,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 .fdz-theme md-nav-bar.md-primary > .md-nav-bar {
   background-color: white; }
   .fdz-theme md-nav-bar.md-primary > .md-nav-bar .md-button._md-nav-button {
-    color: #7b8185; }
+    color: #e0f4fe; }
   .fdz-theme md-nav-bar.md-primary > .md-nav-bar .md-button._md-nav-button.md-active, .fdz-theme md-nav-bar.md-primary > .md-nav-bar .md-button._md-nav-button.md-focused {
     color: #0071bc; }
   .fdz-theme md-nav-bar.md-primary > .md-nav-bar .md-button._md-nav-button.md-focused {
