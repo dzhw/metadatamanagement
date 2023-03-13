@@ -181,7 +181,7 @@ angular.module('metadatamanagementApp').config(
         'view-switch': {
           'alert': {
             'no-assigned-projects': {
-              'part1': 'Ihnen ist derzeit kein Datenübergabeprojekt zugewiesen, bitte kontaktieren Sie das FDZ-DZHW über <a href="mailto:datadesposit@dzhw.eu">datadesposit@dzhw.eu</a>, um die weiteren Details der Übergabe zu klären.',
+              'part1': 'Ihnen ist derzeit kein Datenübergabeprojekt zugewiesen, bitte kontaktieren Sie das FDZ-DZHW über <a href="mailto:datadeposit@dzhw.eu">datadeposit@dzhw.eu</a>, um die weiteren Details der Übergabe zu klären.',
             }
           }
         }
