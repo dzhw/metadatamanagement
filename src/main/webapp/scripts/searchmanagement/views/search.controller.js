@@ -63,7 +63,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     // check for projects
     $scope.shouldShowNoProjectCard = function() {
       if ($scope.isAuthenticated() && Principal.isDataprovider()) {
-        console.log("is DP -> check projects")
         DataAcquisitionProjectRepositoryClient.findAssignedProjects(
           Principal.loginName()).then(function(response) {
             var projects = response.data;

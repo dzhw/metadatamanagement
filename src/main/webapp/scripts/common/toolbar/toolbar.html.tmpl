@@ -48,7 +48,7 @@
       </md-button>      
     </div>
     <div flex="grow" >
-      <md-nav-bar ng-if="canSwitchViews()" class="md-primary" md-selected-nav-item="current" aria-label="view-switch">
+      <md-nav-bar ng-if="isAuthenticated() && canSwitchViews()" class="md-primary" md-selected-nav-item="current" aria-label="view-switch">
         <md-nav-item
           name="providerView"
           md-nav-click="switchToProviderView()">
