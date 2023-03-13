@@ -61,22 +61,23 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.hasAnyAuthority = Principal.hasAnyAuthority;
     });
     // check for projects
-    $scope.findProjects = function() {
-      if ($scope.isAuthenticated()) {
+    $scope.shouldShowNoProjectCard = function() {
+      if ($scope.isAuthenticated() && Principal.isDataprovider()) {
+        console.log("is DP -> check projects")
         DataAcquisitionProjectRepositoryClient.findAssignedProjects(
           Principal.loginName()).then(function(response) {
             var projects = response.data;
             if (projects.length === 0) {
-              $scope.showNoProjectsCard = true;
+              return true;
             }
           }).catch(function() {
-            $scope.showNoProjectsCard = false;
+            return false;
           });
       } else {
-        $scope.showNoProjectsCard = false;
+        return false;
       }
     };
-    $scope.findProjects();
+    $scope.showNoProjectsCard = $scope.shouldShowNoProjectCard();
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
