@@ -69,7 +69,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (projects.length === 0) {
               $scope.showNoProjectsCard = true;
             }
-          }).catch(function() {
+          }).catch(function(result) {
+            console.log(
+              'Searching for assigned projects resulted in an error: ',
+              result);
             $scope.showNoProjectsCard = false;
           });
       } else {

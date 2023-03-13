@@ -66,7 +66,6 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
       locationSearch.size = '' + $scope.options.pageObject.size;
-      // if (Principal.isAuthenticated()) {
       try {
         locationSearch.type = $scope.tabs[
           $scope.searchParams.selectedTabIndex].elasticSearchType;
@@ -75,13 +74,6 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController',
         locationSearch.type = $scope.tabs[
           $scope.searchParams.selectedTabIndex].elasticSearchType;
       }
-      // } else {
-      // try {
-      //   locationSearch.type = $scope.searchParams.type;
-      // } catch (e) {
-      //   locationSearch.type = 'data_packages';
-      // }
-      // }
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
       }
