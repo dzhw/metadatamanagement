@@ -42,8 +42,13 @@ try {
         $rootScope.sidebarContent = {
           'search': false,
           'filter': false,
-          'detailSearch': false,
-          'configurator': false
+          'detailSearch': true,
+          'configurator': true,
+          'account': false,
+          'projectCockpit': false,
+          'welcomeDialog': false,
+          'projectOverview': false,
+          'admin': false
         };
         //prevent default browser actions for drag and drop
         $window.addEventListener('dragover', function(e) {
@@ -110,32 +115,100 @@ try {
             'search': false,
             'filter': false,
             'detailSearch': false,
-            'configurator': false
+            'configurator': false,
+            'account': false,
+            'projectCockpit': false,
+            'welcomeDialog': false,
+            'projectOverview': false,
+            'admin': false
           };
-          if (!Principal.loginName() &&
+          // configure sidenav according to auth status and route
+          // not authenticated & on detail page
+          if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('Detail') !== -1) {
             $rootScope.sidebarContent = {
               'search': false,
               'filter': false,
               'detailSearch': true,
-              'configurator': true
+              'configurator': true,
+              'account': false,
+              'projectCockpit': false,
+              'welcomeDialog': false,
+              'projectOverview': false,
+              'admin': false
             };
-          } else if (!Principal.loginName() &&
+            //not authenticated & on search page
+          } else if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
               'search': true,
               'filter': true,
               'detailSearch': false,
-              'configurator': false
+              'configurator': false,
+              'account': false,
+              'projectCockpit': false,
+              'welcomeDialog': false,
+              'projectOverview': false,
+              'admin': false
             };
           }
-          if (Principal.loginName() ||
-            (trans.$to().name).indexOf('start') !== -1) {
+
+          // authenticated & on search page (provider view)
+          if (Principal.isAuthenticated() && Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
               'filter': false,
               'detailSearch': false,
-              'configurator': false
+              'configurator': false,
+              'account': true,
+              'projectCockpit': Principal.showProjectCockpitInSidenav(),
+              'welcomeDialog': Principal.displayWelcomeDialog(),
+              'projectOverview': Principal.showProjectOverviewInSidenav(),
+              'admin': Principal.showAdminMenuInSidenav()
+            };
+          //autheticated & on search page fore released datasets (order view)
+          } else if (Principal.isAuthenticated() &&
+            !Principal.isProviderActive()) {
+            $rootScope.sidebarContent = {
+              'search': true,
+              'filter': true,
+              'detailSearch': false,
+              'configurator': false,
+              'account': true,
+              'projectCockpit': false,
+              'welcomeDialog': false,
+              'projectOverview': false,
+              'admin': false
+            };
+          // authenticated & on detail page when in order view
+          } else if (Principal.isAuthenticated() &&
+            (trans.$to().name).indexOf('Detail') !== -1 &&
+            !Principal.isProviderActive()) {
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': true,
+              'configurator': true,
+              'account': true,
+              'projectCockpit': false,
+              'welcomeDialog': false,
+              'projectOverview': false,
+              'admin': false
+            };
+          // authenticated & on detail page when in provider view
+          } else if (Principal.isAuthenticated() &&
+            (trans.$to().name).indexOf('Detail') !== -1 &&
+            Principal.isProviderActive()) {
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': false,
+              'configurator': false,
+              'account': true,
+              'projectCockpit': Principal.showProjectCockpitInSidenav(),
+              'welcomeDialog': Principal.displayWelcomeDialog(),
+              'projectOverview': Principal.showProjectOverviewInSidenav(),
+              'admin': Principal.showAdminMenuInSidenav()
             };
           }
           // Remember previous state unless we've been redirected to login or
@@ -156,10 +229,17 @@ try {
         $rootScope.back = function() {
           // If previous state is 'activate' or do not exist go to 'search'
           if ($rootScope.previousStateName === 'activate' ||
-            $state.get($rootScope.previousStateName) === null) {
-            $state.go('search', {
-              lang: LanguageService.getCurrentInstantly()
-            });
+              $state.get($rootScope.previousStateName) === null) {
+            if (Principal.isDataprovider() && !Principal.isPublisher() &&
+              !Principal.isAdmin()) {
+              $state.go('searchReleased');
+              Principal.deactivateProviderView();
+            } else {
+              $state.go('search', {
+                lang: LanguageService.getCurrentInstantly()
+              });
+              Principal.activateProviderView();
+            }
           } else {
             $state.go($rootScope.previousStateName,
               $rootScope.previousStateParams);

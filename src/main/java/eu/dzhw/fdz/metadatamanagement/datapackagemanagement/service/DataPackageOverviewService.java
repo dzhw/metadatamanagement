@@ -69,6 +69,8 @@ public class DataPackageOverviewService extends AbstractReportService {
     // Create Map for the template
     Map<String, Object> dataForTemplate = new HashMap<>();
     DataPackage dataPackage = dataPackageRepository.findById(dataPackageId).orElse(null);
+    // reformat title
+    dataPackage.reformatTitle();
     dataForTemplate.put("dataPackage", dataPackage);
     List<Survey> surveys =
         surveyRepository.findByDataPackageIdOrderBySerialNumberAscNumberAsc(dataPackageId);
@@ -148,6 +150,8 @@ public class DataPackageOverviewService extends AbstractReportService {
     List<DataSet> qualiDataSets = new ArrayList<>();
     List<DataSet> nonQualiDataSets = new ArrayList<>();
     for (DataSet dataSet : dataSets) {
+      // reformat description
+      dataSet.reformatDescription();
       boolean isQualiDataSet = true;
       for (String surveyId : dataSet.getSurveyIds()) {
         if (surveyMap.containsKey(surveyId)) {

@@ -62,7 +62,11 @@ angular.module('metadatamanagementApp').config(
             'health-tooltip': 'Click to check the availability of the external services',
             'logs-tooltip': 'Click to change loglevel',
             'settings-tooltip': 'Click to change your account details',
-            'password-tooltip': 'Click to change your password'
+            'password-tooltip': 'Click to change your password',
+            'switch-to-provider-view': 'Provide Data',
+            'switch-to-provider-view-tooltip': 'Click to submit data',
+            'switch-to-order-view': 'Order data',
+            'switch-to-order-view-tooltip': 'Click to order data'
           },
           'released': 'Released',
           'not-released': 'Not released'
@@ -436,9 +440,18 @@ angular.module('metadatamanagementApp').config(
             'content': 'Do you really want to remove all publications from the Data Package of Data Acquisition Project "{{ id }}"?'
           },
           'confirm-deactivate-user-with-assigned-projects': {
-            'title': 'Deactivate user with assigned projects?',
-            'content': 'If you deactivate the user she/he will be removed from the following projects: \n\n {{ projects }}'
-          }
+            'title': 'Deactivate user?',
+            'content-without-assigned-projects': 'Please confirm that you want to deactivate the user',
+            'content': 'If you deactivate the user she/he will be removed from the following projects: \n\n {{ projects }}',
+            'yes': 'Deactivate',
+            'no': 'Keep current status'
+          },
+          'confirm-activate-user': {
+           'title': 'Activate user?',
+           'content': 'Please confirm that you want to activate the user.',
+           'yes': 'Activate',
+           'no': 'Keep current status'
+         }
         },
         'people': {
           'edit': {

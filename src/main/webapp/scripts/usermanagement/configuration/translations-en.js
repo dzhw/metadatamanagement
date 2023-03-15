@@ -177,6 +177,13 @@ angular.module('metadatamanagementApp').config(
           'title': 'Welcome',
           'text-body': '<p>Dear {{username}},</p><p>we are pleased that you have decided to make your research data available to other researchers via our RDC. This system collects and publishes all information related to your research data (so-called metadata).</p><p>In the navigation menu on the left side you will find a list of all data acquisition projects to which you have been assigned as a data provider.</p><img src="/assets/images/welcome-dialog-project-chooser-en.png" class="fdz-welcome-dialog-image"/><p style="margin:10px 0px 0px 0px;">Simply select the project for which you want to provide metadata and click on the orange button "Project-Cockpit" <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> below the selected project.</p><p>The project can be assigned either to the publishers (RDC employees) or to you as a data provider. As soon as the project is <img src="/assets/images/welcome-dialog-assigned-en.png" alt="Assigned to Data Providers"/>, you will be notified and you can start to enter Metadata.</p><p>A detailed user documentation can be found here: <a href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">Documentation</a>.</p>',
           'do-not-show-again': 'Don\'t show this dialog again'
+        },
+        'view-switch': {
+          'alert': {
+            'no-assigned-projects': {
+              'part1': 'You are currently not assigned to a data provision project, please contact the FDZ-DZHW via <a href="mailto:datadeposit@dzhw.eu">datadeposit@dzhw.eu</a> to clarify the further details of the data provision.'
+            }
+          }
         }
       }
       //jscs:enable

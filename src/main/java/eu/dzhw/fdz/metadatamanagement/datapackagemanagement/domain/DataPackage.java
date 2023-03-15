@@ -205,7 +205,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * A list of additional links for the data package.
-   * 
+   *
    * May be empty.
    */
   @Valid
@@ -224,5 +224,20 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Override
   protected void setIdInternal(String id) {
     this.id = id;
+  }
+
+  /**
+   * Report generation will fail if title strings include line breaks, Line breaks are
+   * replaced with spaces.
+   */
+  public void reformatTitle() {
+    I18nString title = new I18nString();
+    // replace line break with space
+    String de = this.getTitle().getDe().replace("\n", " ");
+    String en = this.getTitle().getEn().replace("\n", " ");
+    // sometimes the first replacement will lead to double spaces, gets cleaned up here
+    title.setDe(de.replace("  ", " "));
+    title.setEn(en.replace("  ", " "));
+    this.setTitle(title);
   }
 }
