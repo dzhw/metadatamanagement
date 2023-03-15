@@ -4,7 +4,7 @@
 
     .md-button._md-nav-button {
       & {
-        color: $primary-100;
+        color: rgba(0, 0, 0, 0.38);
       }
 
       &.md-active, &.md-focused {
@@ -67,7 +67,7 @@
 
   .md-nav-bar {
     background-color: transparent;
-    border-color: $foreground-4;
+    border-bottom: none;
   }
 
   .md-button._md-nav-button {

@@ -643,16 +643,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
         SearchHelperService.addNewFilters(query, elasticsearchType,
           newFilters);
 
-        if (enforceReleased ||
-            Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+        // order view -> m_search with enforceRelease = true
+        if (!Principal.isProviderActive()) {
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-            filterToUse, enforceReleased);
-          return ElasticSearchClient.search(query);
-        } else {
-          applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
-          applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-            filterToUse);
-
+            filterToUse, true);
           // additionalSearchIndex is a list with one or more indices
           // queries are created and added for each of them
           if (additionalSearchIndex && additionalSearchIndex.length > 0) {
@@ -680,6 +674,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
               body: bodylist
             });
           } else {
+            return ElasticSearchClient.search(query);
+          }
+
+        // provider view
+        } else {
+          // only assigned data
+          if (!Principal.showAllData()) {
+            applyFetchDataWhereUserIsDataProviderFilter(query,
+              elasticsearchType);
+            applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+              filterToUse);
+            return ElasticSearchClient.search(query);
+          // all data
+          } else {
+            applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+              filterToUse, enforceReleased);
             return ElasticSearchClient.search(query);
           }
         }

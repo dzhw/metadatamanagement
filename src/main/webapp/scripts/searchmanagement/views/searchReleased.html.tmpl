@@ -1,0 +1,39 @@
+<div class="fdz-cc">
+  <div layout="column" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true"
+    ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
+    <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
+      <fdz-paginator options="options" on-update="onPageChanged(event = $event, option = $option)"
+        template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
+    </div>
+    <div>
+      <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in fdz-dp-search-container">
+        <datapackage-search-result bowser="bowser" current-language="currentLanguage" ng-switch-when="data_packages"
+          search-query="searchParams.query" search-result="result._source" set-params="setCurrentSearchParams()"
+          search-result-index="computeSearchResultIndex($index)"></datapackage-search-result>
+        <analysispackage-search-result bowser="bowser" current-language="currentLanguage"
+          ng-switch-when="analysis_packages" search-query="searchParams.query" search-result="result._source"
+          set-params="setCurrentSearchParams()"
+          search-result-index="computeSearchResultIndex($index)"></analysispackage-search-result>
+        <related-publication-search-result ng-switch-when="related_publications" search-query="searchParams.query"
+          search-result="result._source" current-language="currentLanguage" bowser="bowser"
+          search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>
+      </div>
+      <div class="fdz-no-result" ng-if="searchResult.length === 0">
+        <p>{{ 'search-management.no-results-text.all' | translate }}</p>
+      </div>
+      <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
+        <fdz-paginator options="options" on-update="onPageChanged(event = $event, option = $option)"
+          template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
+      </div>
+      <div class="fdz-fab-button-container" layout="column" layout-align="center end">
+        <report-publications-component></report-publications-component>
+        <md-button hide-gt-md class="md-fab md-raised md-accent" ng-click="toggleSidenav()">
+          <md-tooltip md-autohide="true" md-direction="left"
+            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'search-management.buttons.open-filter-panel' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">filter_alt</md-icon>
+        </md-button>
+      </div>
+    </div>
+  </div>
