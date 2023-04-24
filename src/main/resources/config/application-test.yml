@@ -61,7 +61,7 @@ metadatamanagement:
     username: ${vcap.services.dara.credentials.username}
     password: ${vcap.services.dara.credentials.password}
   dlp:
-    endpoint: https://test.dlp.codematix.de/{language}/form/data-usage-application
+    endpoint: https://stage.fdz.dzhw.eu/{language}/form/data-usage-application
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
