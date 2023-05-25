@@ -109,6 +109,7 @@ try {
           }
         });
 
+        
         $transitions.onSuccess({}, function(trans) {
           $rootScope.toStateName = trans.$to().name;
           $rootScope.sidebarContent = {
@@ -154,7 +155,8 @@ try {
           }
 
           // authenticated & on search page (provider view)
-          if (Principal.isAuthenticated() && Principal.isProviderActive()) {
+          if (Principal.isAuthenticated() && Principal.isProviderActive() &&
+          (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
               'search': false,
               'filter': false,
@@ -168,7 +170,8 @@ try {
             };
           //autheticated & on search page fore released datasets (order view)
           } else if (Principal.isAuthenticated() &&
-            !Principal.isProviderActive()) {
+            !Principal.isProviderActive() && 
+            (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
               'search': true,
               'filter': true,
