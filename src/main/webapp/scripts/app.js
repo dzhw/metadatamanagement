@@ -168,7 +168,7 @@ try {
               'projectOverview': Principal.showProjectOverviewInSidenav(),
               'admin': Principal.showAdminMenuInSidenav()
             };
-          //autheticated & on search page fore released datasets (order view)
+          //autheticated & on search page for released datasets (order view)
           } else if (Principal.isAuthenticated() &&
             !Principal.isProviderActive() && 
             (trans.$to().name).indexOf('search') !== -1) {
@@ -185,7 +185,7 @@ try {
             };
           // authenticated & on detail page when in order view
           } else if (Principal.isAuthenticated() &&
-            (trans.$to().name).indexOf('Detail') !== -1 &&
+            ((trans.$to().name).indexOf('Detail') !== -1 || (trans.$to().name).indexOf('Edit') !== -1) &&
             !Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
@@ -200,7 +200,7 @@ try {
             };
           // authenticated & on detail page when in provider view
           } else if (Principal.isAuthenticated() &&
-            (trans.$to().name).indexOf('Detail') !== -1 &&
+            ((trans.$to().name).indexOf('Detail') !== -1 || (trans.$to().name).indexOf('Edit') !== -1) &&
             Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
