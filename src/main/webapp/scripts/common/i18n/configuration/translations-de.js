@@ -440,9 +440,18 @@ angular.module('metadatamanagementApp').config(
             'content': 'Wollen Sie wirklich alle Publikationen von dem Datenpaket des Datenaufnahmeprojekts "{{ id }}" entfernen?'
           },
            'confirm-deactivate-user-with-assigned-projects': {
-             'title': 'Nutzer:in mit zugewiesenen Projekten deaktivieren?',
-             'content': 'Wenn Sie die/den Nutzer:in deaktivieren wird sie/er aus den folgenden Projekten entfernt: \n\n {{ projects }}'
-           }
+             'title': 'Nutzer:in deaktivieren?',
+             'content-without-assigned-projects': 'Bitte bestätigen Sie, dass Sie die/den Nutzer:in deaktivieren möchten.',
+             'content': 'Wenn Sie die/den Nutzer:in deaktivieren wird sie/er aus den folgenden Projekten entfernt: \n\n {{ projects }}',
+             'yes': 'Deaktivieren',
+             'no': 'Status beibehalten'
+           },
+           'confirm-activate-user': {
+            'title': 'Nutzer:in aktivieren?',
+            'content': 'Bitte bestätigen Sie, dass sie die/den Nutzer:in aktivieren möchten.',
+            'yes': 'Aktivieren',
+            'no': 'Status beibehalten'
+          }
         },
         'people': {
           'edit': {
