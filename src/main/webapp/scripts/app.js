@@ -109,7 +109,6 @@ try {
           }
         });
 
-        
         $transitions.onSuccess({}, function(trans) {
           $rootScope.toStateName = trans.$to().name;
           $rootScope.sidebarContent = {
@@ -170,7 +169,7 @@ try {
             };
           //autheticated & on search page for released datasets (order view)
           } else if (Principal.isAuthenticated() &&
-            !Principal.isProviderActive() && 
+            !Principal.isProviderActive() &&
             (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
               'search': true,
@@ -185,7 +184,8 @@ try {
             };
           // authenticated & on detail page when in order view
           } else if (Principal.isAuthenticated() &&
-            ((trans.$to().name).indexOf('Detail') !== -1 || (trans.$to().name).indexOf('Edit') !== -1) &&
+            ((trans.$to().name).indexOf('Detail') !== -1 ||
+            (trans.$to().name).indexOf('Edit') !== -1) &&
             !Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
@@ -200,7 +200,8 @@ try {
             };
           // authenticated & on detail page when in provider view
           } else if (Principal.isAuthenticated() &&
-            ((trans.$to().name).indexOf('Detail') !== -1 || (trans.$to().name).indexOf('Edit') !== -1) &&
+            ((trans.$to().name).indexOf('Detail') !== -1 ||
+            (trans.$to().name).indexOf('Edit') !== -1) &&
             Principal.isProviderActive()) {
             $rootScope.sidebarContent = {
               'search': false,
