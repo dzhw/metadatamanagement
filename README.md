@@ -106,7 +106,7 @@ these new files.
 
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
-# Big Thanks
+# Big Thanks 
 
 Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
 
