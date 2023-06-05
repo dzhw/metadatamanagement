@@ -7,13 +7,18 @@ terraform {
     key     = "terraform.tfstate"
     region  = "eu-central-1"
   }
+  required_providers {
+    aws = {
+      source  = "aws"
+      version = "~> 2.61"
+    }
+  }
 }
 
 # Specify the provider and access details
 provider "aws" {
   profile = "mdm"
   region  = "eu-central-1"
-  version = "~> 2.61"
 }
 
 data "aws_canonical_user_id" "current_user" {
