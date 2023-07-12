@@ -1,0 +1,116 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <table fdz-table>
+        <thead>
+        <tr>
+          <th>{{'variable-management.detail.label.statistics.value' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'variable-management.detail.label.statistics.value' | translate }}
+            </md-tooltip>
+          </th>
+          <th class="fdz-table-absorbing-column">{{'variable-management.detail.label.statistics.label' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'variable-management.detail.label.statistics.label' | translate }}
+            </md-tooltip>
+          </th>
+          <th>Missing
+          </th>
+          <th>{{'variable-management.detail.label.statistics.frequency' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'variable-management.detail.label.statistics.frequency' | translate }}
+            </md-tooltip>
+          </th>
+          <th>{{'variable-management.detail.label.statistics.valid-percent' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'variable-management.detail.label.statistics.valid-percent' | translate }}
+            </md-tooltip>
+          </th>
+          <th>{{'variable-management.detail.label.statistics.percent' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'variable-management.detail.label.statistics.percent' | translate }}
+            </md-tooltip>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-class="{'fdz-table-last-row':$last}" ng-hide="$ctrl.options.isRowHidden($index)"
+            ng-repeat-start="row in $ctrl.options.variable.distribution.validResponses">
+          <td ng-class="{'fdz-table-number' : $ctrl.options.variable.dataType.en === 'numeric', 'fdz-table-date': $ctrl.options.variable.dataType.en === 'date'}">
+            {{row.value | formatResponse: $ctrl.options.variable}}{{row.code | number:0}}&nbsp;
+          </td>
+          <td display-i18n-string="row.label"></td>
+          <td class="fdz-table-number">&nbsp;</td>
+          <td class="fdz-table-number">{{row.absoluteFrequency | number:0}}&nbsp;</td>
+          <td class="fdz-table-number">{{row.validRelativeFrequency | number:2}} %
+          </td>
+          <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
+          </td>
+        </tr>
+        <tr ng-click="$ctrl.options.toggleAllRowsVisible()" ng-hide="!$ctrl.options.notAllRowsVisible"
+            ng-if="$index === 4 && $ctrl.options.variable.distribution.validResponses.length > 10" ng-repeat-end>
+          <td ng-class="{'fdz-table-number' : $ctrl.options.variable.dataType.en === 'numeric'}">...</td>
+          <td>...</td>
+          <td class="fdz-table-number">...</td>
+          <td class="fdz-table-number">...&nbsp;</td>
+          <td class="fdz-table-number">...</td>
+          <td class="fdz-table-number">...</td>
+        </tr>
+        <tr ng-if="$ctrl.options.variable.distribution.validResponses.length > 0">
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td class="fdz-table-total-number">{{$ctrl.options.variable.distribution.totalValidAbsoluteFrequency | number:0}}&nbsp;
+          </td>
+          <td class="fdz-table-total-number">100 %</td>
+          <td class="fdz-table-total-number">{{$ctrl.options.variable.distribution.totalValidRelativeFrequency | number:2}} %
+          </td>
+        </tr>
+        <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat="row in $ctrl.options.variable.distribution.missings">
+          <td ng-class="{'fdz-table-number' : $ctrl.options.variable.dataType.en === 'numeric'}">{{row.code}}&nbsp;</td>
+          <td display-i18n-string="row.label"></td>
+          <td class="fdz-table-number">m</td>
+          <td class="fdz-table-number">{{row.absoluteFrequency | number:0}}&nbsp;</td>
+          <td class="fdz-table-number">&nbsp;</td>
+          <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td class="fdz-table-total-number">{{$ctrl.options.variable.distribution.totalAbsoluteFrequency | number:0}}&nbsp;</td>
+          <td class="fdz-table-total-number">&nbsp;</td>
+          <td class="fdz-table-total-number">100 %</td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="fdz-button-wrapper">
+        <md-button
+          class="md-icon-button md-primary md-button"
+          ng-click="$ctrl.options.toggleAllRowsVisible()"
+          ng-disabled="!$ctrl.options.variable.distribution.validResponses || $ctrl.options.variable.distribution.validResponses.length <= 10">
+          <md-tooltip
+            md-autohide="true"
+            md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001"
+            ng-hide="!$ctrl.options.variable.distribution.validResponses || $ctrl.options.variable.distribution.validResponses.length <= 10">
+            {{'variable-management.detail.show-complete-distribution-tooltip.' + $ctrl.options.notAllRowsVisible | translate }}
+          </md-tooltip>
+          <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg" ng-if="$ctrl.options.notAllRowsVisible"></md-icon>
+          <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg" ng-if="!$ctrl.options.notAllRowsVisible"></md-icon>
+        </md-button>
+      </div>
+    </md-card-content>
+  </div>
+</md-card>

@@ -1,0 +1,67 @@
+<md-card class="fdz-metadata-type-state-card mb8" ng-hide="ctrl.type === 'fake1' || ctrl.type === 'fake2' ||!ctrl.project.configuration.requirements[ctrl.type+'Required']">
+	<md-card-header>
+		<md-card-header-text class="pb8" layout="row" layout-align="space-between center" ng-if="ctrl.type.indexOf('fake') === -1">
+			<a ui-sref="search({type: ctrl.searchState})" class="md-headline" layout="row" layout-align="start center">
+				<span>{{'data-acquisition-project-management.project-cockpit.requirements.'+ctrl.type | translate}} ({{ctrl.counts[ctrl.searchState]}})</span>
+			</a>
+			<div ng-switch="ctrl.getSentimentValue(ctrl.type)">
+				<md-icon style="min-height: 28px; min-width: 28px;" ng-switch-when="0" md-svg-src="assets/images/icons/clipboard.svg" class="md-primary"></md-icon>
+				<md-icon style="min-height: 28px; min-width: 28px;" ng-switch-when="1" md-svg-src="assets/images/icons/clipboard-check.svg" class="md-primary"></md-icon>
+				<md-icon style="min-height: 28px; min-width: 28px;" ng-switch-when="2" md-svg-src="assets/images/icons/clipboard-double-check.svg" class="md-primary"></md-icon>
+			</div>
+		</md-card-header-text>
+	</md-card-header>
+	<md-divider></md-divider>
+	<md-card-content class="pt16">
+		<md-checkbox
+			ng-model="ctrl.project.configuration[ctrl.type+'State'].dataProviderReady"
+			ng-disabled="!((ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER') || (ctrl.isRequired() && ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER')) || ctrl.isProjectReleased()"
+		>
+			<md-tooltip ng-if="(!ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!ctrl.isRequired() && !ctrl.isProjectReleased()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
+			{{'data-acquisition-project-management.project-cockpit.label.ROLE_DATA_PROVIDER' | translate}}
+			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
+		</md-checkbox>
+		<md-checkbox
+			ng-model="ctrl.project.configuration[ctrl.type+'State'].publisherReady"
+			ng-disabled="!(ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER') || ctrl.isProjectReleased()"
+		>
+			<md-tooltip ng-if="ctrl.project.assigneeGroup !== 'PUBLISHER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!ctrl.isRequired() && !ctrl.isProjectReleased()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
+			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}
+			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
+		</md-checkbox>
+	</md-card-content>
+	<md-card-actions layout="row" layout-align="end center">
+		<div>
+			<md-button style="margin: 0 4px;" class="md-raised" ng-if="!!ctrl.delete" ng-click="ctrl.delete()" ng-disabled="!(ctrl.counts[ctrl.searchState]) || ctrl.isProjectReleased()">
+				<span>{{'data-acquisition-project-management.project-cockpit.config.delete' | translate}}</span>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{ctrl.deleteTooltip | translate}}</md-tooltip>
+			</md-button>
+			<md-button style="margin: 0 4px;" class="md-raised" ng-click="ctrl.edit(ctrl.searchState)" ng-disabled="!(ctrl.counts[ctrl.searchState]) || ctrl.isProjectReleased()" ng-if="ctrl.type !== 'variables' && ctrl.type !== 'questions' && ctrl.type !== 'dataPackages' && ctrl.type !== 'analysisPackages' && ctrl.type !== 'publications' && (ctrl.type !== 'concepts' || hasAuthority('ROLE_PUBLISHER'))">
+				<span>{{'data-acquisition-project-management.project-cockpit.config.edit' | translate}}</span>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{ctrl.editTooltip | translate}}</md-tooltip>
+			</md-button>
+			<md-button class="md-primary md-raised" ng-if="!!ctrl.createState" ng-click="ctrl.create()" ng-disabled="ctrl.isProjectReleased()">
+				<span>{{'data-acquisition-project-management.project-cockpit.config.' + ctrl.getModifyButtonLabel(ctrl.type) | translate}}</span>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001"> {{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
+			</md-button>
+			<md-button class="md-primary md-raised" ng-if="!!ctrl.uploadFunction" type="file" ngf-select="ctrl.uploadFunction($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!ctrl.isUploadAllowed(ctrl.type)" ng-disabled="ctrl.isProjectReleased()">
+				<span>{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}</span>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
+			</md-button>
+			<md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.project.configuration.requirements.dataPackagesRequired" target="_blank" href="{{'related-publication-management.report-publications.button.link' | translate:{dataPackageId: ctrl.dataPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
+				<span>{{'related-publication-management.report-publications.button.text' | translate}}</span>
+				<md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+		      {{'related-publication-management.report-publications.button.tooltip' | translate }}
+		    </md-tooltip>
+		  </md-button>
+      <md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.project.configuration.requirements.analysisPackagesRequired" target="_blank" href="{{'related-publication-management.report-publications.button.analysis-package.link' | translate:{analysisPackageId: ctrl.analysisPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
+        <span>{{'related-publication-management.report-publications.button.text' | translate}}</span>
+        <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'related-publication-management.report-publications.button.analysis-package.tooltip' | translate }}
+        </md-tooltip>
+      </md-button>
+		</div>
+	</md-card-actions>
+</md-card>

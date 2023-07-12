@@ -1,0 +1,44 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.type">
+          <h5>{{'data-set-management.detail.label.type' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.type" ></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.format">
+          <h5>{{'data-set-management.detail.label.format' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.format" ></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.languages && $ctrl.options.languages.length > 0">
+          <h5>{{'data-set-management.detail.label.languages' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="language in $ctrl.options.languages">{{(language | displayIsoLanguage: $ctrl.lang)}}{{$index + 1 !== $ctrl.options.languages.length ? ', ': ''}}</span>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.annotations">
+          <h5>{{'data-set-management.detail.label.annotations' | translate }}:</h5>
+          <p
+            class="md-secondary"
+            markdown-to-html="$ctrl.options.annotations | displayI18nString"></p>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

@@ -1,0 +1,49 @@
+<md-card class="fdz-package-filter">
+  <md-card-content>
+    <label for="searchPackageSwitch">{{'search-management.packages.label' | translate}}</label>
+    <div layout="row">
+    <md-radio-group class="mt8" layout="column" id="searchPackageSwitch" ng-model="$ctrl.dataPackageSearchFilter" ng-change="$ctrl.changePackageFilter()" aria-labelledby="{{'search-management.packages.label' | translate}}">
+      <md-radio-button value="data_packages" class="md-primary">{{'search-management.packages.data-packages' | translate}} ({{ $ctrl.totalHits.data_packages ? $ctrl.totalHits.data_packages : 0 }})</md-radio-button>
+      <md-radio-button value="analysis_packages" class="md-primary mt4">{{'search-management.packages.analysis-packages' | translate}} ({{ $ctrl.totalHits.analysis_packages ? $ctrl.totalHits.analysis_packages : 0 }})</md-radio-button>
+    </md-radio-group>
+    <div layout="column">
+    <md-button class="md-icon-button md-primary" ng-click="$ctrl.infoModal('data', $event)">
+      <md-icon>info</md-icon>
+      <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'shopping-cart.buttons.data-package-tooltip' | translate}}
+      </md-tooltip>
+    </md-button>
+      <md-button class="md-icon-button md-primary" ng-click="$ctrl.infoModal('analysis', $event)">
+        <md-icon>info</md-icon>
+        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.buttons.analysis-package-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
+    </div></div>
+  </md-card-content>
+</md-card>
+<md-card class="fdz-search-filter">
+  <md-card-header>
+    <md-card-header-text>
+      <span class="md-title">Filter</span>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <div class="fdz-button-wrapper">
+      <md-button class="md-primary" ng-click="$ctrl.clearFilter()">
+        {{ 'global.filter.clear-filter' | translate }}
+      </md-button>
+    </div>
+    <md-divider></md-divider>
+    <ul class="fdz-filter-menu-list">
+      <li ng-repeat="item in $ctrl.filterValues">
+        <fdz-menu-toggle
+          collapsed="item.collapsed"
+          name="item.name"
+          property="item.property"
+          options=$ctrl.dataPackageFilter[item.property]
+          template-url="scripts/searchmanagement/components/menu-toggle.html.tmpl"></fdz-menu-toggle>
+      </li>
+    </ul>
+  </md-card-content>
+</md-card>

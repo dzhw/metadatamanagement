@@ -1,0 +1,59 @@
+<md-card class="fdz-attachment">
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-subtitle">{{($ctrl.headline) | translate}}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content class="pt8">
+      <table fdz-table class="mh16 mb16">
+        <thead>
+        <tr>
+          <th class="fdz-table-third-absorbing-column">{{'data-package-management.detail.label.attachments.title' |
+            translate }}
+          </th>
+          <th class="fdz-table-half-absorbing-column">{{'data-package-management.detail.label.attachments.description' |
+            translate }}
+          </th>
+          <th>{{'data-package-management.detail.label.attachments.language' | translate }}
+          </th>
+          <th>DOI
+          </th>
+          <th>{{'data-package-management.detail.label.attachments.file' | translate }}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in $ctrl.options">
+          <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
+          <td class="fdz-text-block" display-i18n-string="row.description" ></td>
+          <td>{{row.language | displayIsoLanguage: $ctrl.lang}}</td>
+          <td>
+            <a target="_blank" rel="noopener noreferrer" href="{{row.doi}}" ng-if="row.doi">
+              <md-icon md-font-set="material-icons" class="ng-scope material-icons md-primary" role="img">link</md-icon>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{row.doi}}
+              </md-tooltip>
+              <a ng-if="!row.doi" aria-disabled>
+                <md-icon md-font-set="material-icons" class="ng-scope material-icons" role="img">link_off</md-icon>
+              </a> 
+            </a> 
+          </td>
+          <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank" fdz-track-download analytics-if="row.type.en === 'Method Report'" analytics-on="click" analytics-event="download-method-report" analytics-label="{{row.title}}" analytics-category="Downloads">{{row.fileName}}
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
+            </md-tooltip>
+          </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </md-card-content>
+  </div>
+</md-card>

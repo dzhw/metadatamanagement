@@ -1,0 +1,93 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.variable.name">
+          <h5>{{'variable-management.detail.label.name' | translate }}:</h5>
+          <span class="md-secondary">
+            {{$ctrl.options.variable.name}}{{$ctrl.options.variable.repeatedMeasurementIdentifier || $ctrl.options.variable.derivedVariablesIdentifier?' (': ''}}
+            <md-select ng-if="$ctrl.options.variable.derivedVariablesIdentifier" ng-model="selectedDerivedVariable" ng-change="$ctrl.options.onDerivedVariableSelected(selectedDerivedVariable)" ng-model-options="{trackBy: '$value.id'}" placeholder="{{'variable-management.detail.label.derived-variables' | translate}}" class="md-no-underline fdz-inline-select">
+               <md-option ng-value="{id: null, name: null}">{{'variable-management.detail.label.show-all-derived-variables' | translate}}</md-option>
+               <md-divider></md-divider>
+               <md-option ng-value="derivedVariable" ng-repeat="derivedVariable in $ctrl.options.derivedVariables">{{derivedVariable.name}}</md-option>
+             </md-select>
+            {{$ctrl.options.variable.repeatedMeasurementIdentifier && $ctrl.options.variable.derivedVariablesIdentifier?', ':''}}
+            <md-select ng-if="$ctrl.options.variable.repeatedMeasurementIdentifier" ng-model="selectedPanelVariable" ng-change="$ctrl.options.onPanelVariableSelected(selectedPanelVariable)" ng-model-options="{trackBy: '$value.id'}" placeholder="{{'variable-management.detail.label.repeated-measurement' | translate}}" class="md-no-underline fdz-inline-select">
+               <md-option ng-value="{id: null, name: null}">{{'variable-management.detail.label.show-all-repeated-measurements' | translate}}</md-option>
+               <md-divider></md-divider>
+               <md-option ng-value="repeatedMeasurementVariable" ng-repeat="repeatedMeasurementVariable in $ctrl.options.repeatedMeasurementVariables">{{repeatedMeasurementVariable.name}}</md-option>
+             </md-select>
+             {{$ctrl.options.variable.repeatedMeasurementIdentifier || $ctrl.options.variable.derivedVariablesIdentifier?')': ''}}
+           </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.label">
+          <h5>{{'variable-management.detail.label.label' | translate }}:</h5>
+          <span class="md-secondary" display-i18n-string="$ctrl.options.variable.label" ></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.dataType">
+          <h5>{{'variable-management.detail.label.data-type' | translate }}:</h5>
+          <span class="md-secondary" display-i18n-string="$ctrl.options.variable.dataType" ></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.scaleLevel">
+          <h5>{{'variable-management.detail.label.scale-level' | translate }}:</h5>
+          <span class="md-secondary" display-i18n-string="$ctrl.options.variable.scaleLevel" ></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.accessWays">
+          <h5>{{'variable-management.detail.label.access-ways' | translate }}:</h5>
+          <div class="md-secondary"><span ng-repeat="accessWay in $ctrl.options.variable.accessWays">{{accessWay | displayAccessWay}}{{!$last ? ', ':''}}</span></div>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.annotations">
+          <h5>{{'variable-management.detail.label.annotations' | translate }}:</h5>
+          <p class="md-secondary" markdown-to-html="$ctrl.options.variable.annotations | displayI18nString"></p>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.filterDetails.description">
+          <h5>{{'variable-management.detail.label.filter-description' | translate }}:</h5>
+          <p class="md-secondary" markdown-to-html="$ctrl.options.variable.filterDetails.description | displayI18nString"></p>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.filterDetails && $ctrl.options.variable.filterDetails.expression">
+          <h5 style="width: 100%;">{{'variable-management.detail.label.input-filter' | translate }} ({{$ctrl.options.variable.filterDetails.expressionLanguage}}):</h5>
+          <div class="fdz-code-container"
+          create-variable-links="{currentLanguage: $ctrl.lang, currentVariable: $ctrl.options.variable}"
+          hljs hljs-language="{{$ctrl.options.variable.filterDetails.expressionLanguage}}"
+          hljs-source="$ctrl.options.variable.filterDetails.expression"
+          ng-class="{'fdz-hidden-code': $ctrl.options.filterDetailsCodeToggleFlag}"
+          style="margin-top: 0.5em; width: 100%;"></div>
+          <div class="fdz-button-wrapper" style="width: 100%;">
+            <md-button
+            class="md-icon-button md-primary"
+            data-clipboard-text="{{$ctrl.options.variable.filterDetails.expression}}"
+            ng-click="$ctrl.options.openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')"
+            ngclipboard>
+            <md-icon md-font-library="material-icons">content_copy</md-icon>
+            <md-tooltip md-autohide="true" md-direction="top"
+            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'variable-management.detail.copy-complete-input-filter-tooltip' | translate}}
+          </md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button md-primary" ng-click="$ctrl.options.toggleFilterDetailsCode()">
+          <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"
+          ng-if="$ctrl.options.filterDetailsCodeToggleFlag"></md-icon>
+          <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg"
+          ng-if="!$ctrl.options.filterDetailsCodeToggleFlag"></md-icon>
+          <md-tooltip md-autohide="true" md-direction="top"
+          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'variable-management.detail.show-complete-input-filter-tooltip.' + $ctrl.options.filterDetailsCodeToggleFlag |
+          translate }}
+        </md-tooltip>
+      </md-button>
+    </md-list-item>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

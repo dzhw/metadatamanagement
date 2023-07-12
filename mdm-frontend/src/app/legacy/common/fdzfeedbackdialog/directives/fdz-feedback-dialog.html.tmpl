@@ -1,0 +1,45 @@
+<md-dialog aria-label="{{'global.feedback-dialog.toolbar-head' |translate}}" md-autofocus>
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+      <h2 class="fdz-truncate-string">{{"global.feedback-dialog.toolbar-head" |translate}}</h2>
+      <md-button class="md-icon-button" ng-click="closeDialog()">
+        <md-icon md-font-set="material-icons">clear</md-icon>
+        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{"global.dialog.tooltip.close" | translate}}
+        </md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-divider></md-divider>
+  <div class="md-dialog-content" layout="column">
+    <span>{{"global.feedback-dialog.content-body-feedback" | translate}}</span>
+    <span>
+            {{"global.feedback-dialog.content-body-via" | translate}}
+            <a ng-href="{{currentUrl()}}" target="_blank">
+                <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>GitHub
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{"global.tooltips.feedback-dialog.github" | translate}}
+                </md-tooltip>
+            </a>
+        </span>
+    <span>{{"global.feedback-dialog.content-body-via" | translate}}
+            <a ng-href="mailto:fdz-feedback@dzhw.eu?subject={{mailSubject}}&body={{mailBody}}">
+                <md-icon md-font-set="material-icons">email</md-icon>fdz-feedback@dzhw.eu
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{"global.tooltips.feedback-dialog.email" | translate}}
+                </md-tooltip>
+            </a>
+        </span>
+    <br>
+    <span>{{"global.feedback-dialog.content-body-thanks" | translate}}</span>
+  </div>
+  <md-dialog-actions style="padding: 0 1.5em 1em 0;">
+    <span flex></span>
+    <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
+      {{"global.buttons.close" | translate}}
+      <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{"global.dialog.tooltip.close" | translate}}
+      </md-tooltip>
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

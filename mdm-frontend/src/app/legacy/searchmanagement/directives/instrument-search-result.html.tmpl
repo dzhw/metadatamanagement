@@ -1,0 +1,48 @@
+<md-card class="fdz-search-result">
+  <md-card-header>
+    <md-card-header-text>
+      <div class="md-title">
+        <a ui-sref="instrumentDetail({id: searchResult.masterId.replace('$',''), 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})"
+           ui-sref-opts="{reload: true, notify: true}"
+           ng-click="setParams()">
+          <span display-i18n-string="searchResult.description"></span>
+        </a>
+        <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.cards.instrument-tooltip' | translate: {id: searchResult.masterId} }}
+      </md-tooltip>
+      </div>
+      <div class="md-subhead">
+        <div>{{searchResult.type}}</div>
+      </div>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <div display-i18n-string="searchResult.title" ></div>
+  </md-card-content>
+  <md-card-actions style="margin-bottom: -10px;"
+    data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+    ng-if="!projectIsCurrentlyReleased">
+    <md-button
+      class="md-primary md-small"
+      ng-click="instrumentEdit()">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-instrument-tooltip' | translate}}
+      </md-tooltip>
+      {{'global.entity.action.edit' | translate}}
+    </md-button>
+    <md-button
+      class="md-primary md-small"
+      ng-click="deleteInstrument(searchResult.id)">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.delete-instrument-tooltip' | translate}}
+      </md-tooltip>
+      {{'global.entity.action.delete' | translate}}
+    </md-button>
+  </md-card-actions>
+</md-card>

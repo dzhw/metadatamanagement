@@ -1,0 +1,69 @@
+<md-card class="fdz-search-result">
+  <md-card-header>
+    <md-card-header-text>
+      <div class="md-title">
+        <a ui-sref="surveyDetail({id:searchResult.masterId.replace('$',''), 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})"
+           ui-sref-opts="{reload: true, notify: true}"
+           ng-click="setParams()">
+          <span display-i18n-string="searchResult.title"></span>
+        </a>
+        <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'search-management.cards.survey-tooltip' | translate: {id: searchResult.masterId} }}
+        </md-tooltip>
+      </div>
+      <div class="md-subhead">
+        <div>
+          {{searchResult.dataType[currentLanguage]}}, <span display-i18n-string="searchResult.surveyMethod"></span>
+        </div>
+      </div>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <div layout="column" layout-gt-sm="row">
+      <div flex-gt-sm="50" layout="column"
+           ng-class="{'mr10': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
+        <div class="fdz-text-block" ng-if="searchResult.population.description">
+          <span class="b">{{'survey-management.detail.label.population' | translate }}:</span>
+          <span class="fdz-multiline-property" display-i18n-string="searchResult.population.description"
+                limit-to="256" remove-markdown="true"></span>
+        </div>
+      </div>
+      <div flex-gt-sm="50" layout="column">
+        <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.sample">
+          <span class="b">{{'survey-management.detail.label.sample' | translate }}:</span>
+          <span display-i18n-string="searchResult.sample" ></span>
+        </div>
+        <div ng-if="searchResult.fieldPeriod">
+          <span class="b">{{'survey-management.detail.label.field-period' | translate }}:</span>
+          <span>{{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}</span>
+        </div>
+      </div>
+    </div>
+  </md-card-content>
+  <md-card-actions style="margin-bottom: -10px;"
+    data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+    ng-if="!projectIsCurrentlyReleased">
+    <md-button
+      class="md-primary md-small"
+      ng-click="surveyEdit()">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-survey-tooltip' | translate}}
+      </md-tooltip>
+      {{'global.entity.action.edit' | translate}}
+    </md-button>
+    <md-button
+      class="md-primary md-small"
+      ng-click="deleteSurvey(searchResult.id)">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.delete-survey-tooltip' | translate}}
+      </md-tooltip>
+      {{'global.entity.action.delete' | translate}}
+    </md-button>
+  </md-card-actions>
+</md-card>

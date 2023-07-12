@@ -1,0 +1,164 @@
+<md-card id="related-objects">
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content class="pt0">
+      <md-tabs
+        class="pt0"
+        md-border-bottom
+        md-dynamic-height
+        md-selected="$ctrl.searchParams.selectedTabIndex">
+        <md-tab md-on-select="$ctrl.onSelectedTabChanged()" ng-disabled="tab.disabled" ng-repeat="tab in $ctrl.tabs">
+          <md-tab-label>
+            <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+            <md-tooltip md-autohide="true" md-direction="top"
+                        md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{tab.title+'-tooltip'|translate}}
+            </md-tooltip>
+          </md-tab-label>
+        </md-tab>
+      </md-tabs>
+      <div class="fdz-detail-search-container">
+        <form
+          class="fdz-search"
+          md-whiteframe="1"
+          ng-submit="$ctrl.hideMobileKeyboard($event)"
+          role="search">
+          <md-input-container class="fdz-search__input hide-validation-error" md-no-float>
+            <md-icon md-font-set="material-icons">search</md-icon>
+            <input
+              autocomplete="off"
+              id="detailSearchQuery"
+              md-select-on-focus
+              ng-model="$ctrl.searchParams.query"
+              ng-model-options="{debounce: 250}"
+              placeholder="{{'global.search-component.search' | translate}} ({{$ctrl.placeHolder | translate}})"
+              tabindex="0"
+              type="search">
+            <md-button
+              class="md-small md-primary"
+              ng-if="!$ctrl.searchParams.query">
+              {{'global.search-component.search' | translate}}
+            </md-button>
+            <md-button
+              class="md-small md-primary"
+              ng-if="$ctrl.searchParams.query"
+              ng-click="$ctrl.searchParams.query = ''">
+              {{'global.search-component.delete' | translate}}
+            </md-button>
+          </md-input-container>
+          <input ng-hide="true" type="submit">
+          <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
+        </form>
+        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['derived-variables-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.derived-variables' | translate}} {{'global.of' | translate}} {{$ctrl.searchParams.filter['derived-variables-identifier'].match('[-]([^-]*)$')[1]}}</span></div>
+        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['repeated-measurement-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.repeated-measurement' | translate}} {{'global.of' | translate}} {{$ctrl.searchParams.filter['repeated-measurement-identifier'].match('[-]([^-]*)$')[1]}}</span></div>
+        <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
+          <fdz-paginator  options="$ctrl.options"
+                          on-update="$ctrl.onPageChanged(event = $event, option = $option)"
+                          template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
+        </div>
+        <div class="flex fdz-detail-search-item-container">
+          <div ng-repeat="result in $ctrl.searchResult" ng-switch="result._index" class="fdz-fade-in">
+            <datapackage-search-result
+              ng-switch-when="data_packages"
+              search-result="result._source"
+              current-language="$ctrl.lang"
+              search-query="$ctrl.searchParams.query"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></datapackage-search-result>
+            <analysispackage-search-result
+              ng-switch-when="analysis_packages"
+              search-result="result._source"
+              current-language="$ctrl.lang"
+              search-query="$ctrl.searchParams.query"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></analysispackage-search-result>
+            <variable-search-result
+              ng-switch-when="variables"
+              search-result="result._source"
+              search-query="$ctrl.searchParams.query"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></variable-search-result>
+            <survey-search-result
+              ng-switch-when="surveys"
+              search-result="result._source"
+              search-query="$ctrl.searchParams.query"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              add-margin="$mdMedia('gt-$ctrl.sm')"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></survey-search-result>
+            <question-search-result
+              ng-switch-when="questions"
+              search-result="result._source"
+              search-query="$ctrl.searchParams.query"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></question-search-result>
+            <dataset-search-result
+              ng-switch-when="data_sets"
+              search-result="result._source"
+              search-query="$ctrl.searchParams.query"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              add-margin="$mdMedia('gt-$ctrl.sm')"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></dataset-search-result>
+            <related-publication-search-result
+              ng-switch-when="related_publications"
+              search-result="result._source"
+              search-query="$ctrl.searchParams.query"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></related-publication-search-result>
+            <instrument-search-result
+              ng-switch-when="instruments"
+              search-result="result._source"
+              search-query="$ctrl.searchParams.query"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></instrument-search-result>
+            <concept-search-result
+              ng-switch-when="concepts"
+              search-result="result._source"
+              search-query="$ctrl.searchParams.query"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              set-params="$ctrl.setCurrentSearchParams()"
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></concept-search-result>
+            <md-divider ng-if="!$last"></md-divider>
+          </div>
+          <div ng-if="!$ctrl.options.pageObject.totalHits" class="flex fdz-detail-search-item-container">
+            <md-card class="fdz-search-result">
+              <md-card-header>
+                <md-card-header-text>
+                  <span>{{ 'search-management.detail.noresult' | translate }}</span>
+                </md-card-header-text>
+              </md-card-header>
+            </md-card>
+          </div>
+      </div>
+      <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
+        <fdz-paginator  options="$ctrl.options"
+                        on-update="$ctrl.onPageChanged(event = $event, option = $option)"
+                        template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
+      </div>
+    </md-card-content>
+  </div>
+</md-card>

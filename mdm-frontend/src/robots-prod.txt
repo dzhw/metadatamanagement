@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /de/variables/
+Disallow: /en/variables/
+Sitemap: https://metadata.fdz.dzhw.eu/sitemap.xml

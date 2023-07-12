@@ -1,0 +1,805 @@
+<div class="fdz-cc">
+  <form name="dataPackageForm">
+    <div ng-if="ctrl.dataPackage.id">
+      <div layout="row" layout-margin class="mb0">
+        <h1 class="md-headline" ng-if="ctrl.createMode">
+          {{'data-package-management.edit.label.create-data-package' | translate}} <span class="label label-as-badge label-default">{{ctrl.dataPackage.id}}</span>
+        </h1>
+        <h1 class="md-headline" ng-if="!ctrl.createMode">
+          {{'data-package-management.edit.label.edit-data-package' | translate}} <span class="label label-as-badge label-default">{{ctrl.dataPackage.id}}</span>
+        </h1>
+      </div>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <div layout="column" layout-gt-sm="row" class="ms-flex">
+            <md-input-container flex="50"
+                                md-is-error="!dataPackageForm.titleDe.$valid && (dataPackageForm.titleDe.$dirty || dataPackageForm.titleDe.$touched)"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                class="ms-flex">
+              <label class="fdz-input-required">{{'data-package-management.detail.label.title' | translate}}
+                ({{'global.in-german' | translate}})</label>
+              <input fdz-required lang="de" md-maxlength="2048" md-no-asterisk name="titleDe"
+                     ng-model="ctrl.dataPackage.title.de" ng-trim="true">
+              <div class="fdz-input-hint" ng-if="!dataPackageForm.titleDe.$dirty && !dataPackageForm.titleDe.$touched">
+                {{'data-package-management.edit.hints.title.de' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm.titleDe.$error">
+                <div ng-message="fdz-required">{{'data-package-management.error.data-package.title.i18n-string-entire-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.title.i18n-string-size' | translate}}
+                </div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="50"
+                                md-is-error="!dataPackageForm.titleEn.$valid && (dataPackageForm.titleEn.$dirty || dataPackageForm.titleEn.$touched)"
+                                class="ms-flex">
+              <label class="fdz-input-required">{{'data-package-management.detail.label.title' | translate}}
+                ({{'global.in-english' | translate}})</label>
+              <input fdz-required lang="en" md-maxlength="2048" md-no-asterisk name="titleEn"
+                     ng-model="ctrl.dataPackage.title.en">
+              <div class="fdz-input-hint" ng-if="!dataPackageForm.titleEn.$dirty && !dataPackageForm.titleEn.$touched">
+                {{'data-package-management.edit.hints.title.en' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm.titleEn.$error">
+                <div ng-message="fdz-required">{{'data-package-management.error.data-package.title.i18n-string-entire-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.title.i18n-string-size' | translate}}
+                </div>
+              </div>
+            </md-input-container>
+          </div>
+          <div layout="column" layout-gt-sm="row">
+            <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
+                             md-floating-label="{{'data-package-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})"
+                             md-input-maxlength="512"
+                             md-input-name="studySeriesDe"
+                             md-is-error="!dataPackageForm.studySeriesDe.$valid && (dataPackageForm.studySeriesDe.$dirty dataPackageForm.studySeriesDe.$touched) "
+                             md-item-text="item.de"
+                             md-items="item in searchStudySeries(ctrl.dataPackage.studySeries.de, 'de')"
+                             md-match-case-insensitive="true" md-min-length="0"
+                             md-no-cache="true" md-require-match="false"
+                             md-search-text="ctrl.dataPackage.studySeries.de"
+                             md-select-on-match="true" md-selected-item="ctrl.currentStudySeries" ng-pattern="/^[^,]*$/"
+                             class="ms-flex">
+              <md-item-template>
+                <span class="md-title" md-highlight-flags="ig" md-highlight-text="ctrl.dataPackage.studySeries.de"
+                      style="font-size: 14px;">{{item.de}}</span>
+              </md-item-template>
+              <md-not-found>
+                {{'search-management.filter.study-series-filter.not-found' | translate}}
+              </md-not-found>
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.studySeries.de == null || ctrl.dataPackage.studySeries.de == ''">
+                {{'data-package-management.edit.hints.study-series.de' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm.studySeriesDe.$error">
+                <div ng-message="fdz-required">
+                  {{'data-package-management.error.data-package.study-series.i18n-string-entire-not-empty-optional' | translate}}
+                </div>
+                <div ng-message="pattern">
+                  {{'data-package-management.error.data-package.study-series.i18n-string-must-not-contain-comma' | translate}}
+                </div>
+                <div ng-message="maxlength">{{'data-package-management.error.data-package.study-series.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-autocomplete>
+            <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
+                             md-floating-label="{{'data-package-management.detail.label.studySeries' | translate}} ({{'global.in-english' | translate}})"
+                             md-input-maxlength="512"
+                             md-input-name="studySeriesEn"
+                             md-is-error="!dataPackageForm.studySeriesEn.$valid && (dataPackageForm.studySeriesEn.$dirty || dataPackageForm.studySeriesEn.$touched)"
+                             md-item-text="item.en"
+                             md-items="item in searchStudySeries(ctrl.dataPackage.studySeries.en, 'en')"
+                             md-match-case-insensitive="true" md-min-length="0"
+                             md-no-cache="true" md-require-match="false"
+                             md-search-text="ctrl.dataPackage.studySeries.en"
+                             md-select-on-match="true" md-selected-item="ctrl.currentStudySeries" ng-pattern="/^[^,]*$/"
+                             class="ms-flex">
+              <md-item-template>
+                <span class="md-title" md-highlight-flags="ig" md-highlight-text="ctrl.dataPackage.studySeries.en"
+                      style="font-size: 14px;">{{item.en}}</span>
+              </md-item-template>
+              <md-not-found>
+                {{'search-management.filter.study-series-filter.not-found' | translate}}
+              </md-not-found>
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.studySeries.en == null || ctrl.dataPackage.studySeries.en == ''">
+                {{'data-package-management.edit.hints.study-series.en' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm.studySeriesEn.$error">
+                <div ng-message="fdz-required">
+                  {{'data-package-management.error.data-package.study-series.i18n-string-entire-not-empty-optional' | translate}}
+                </div>
+                <div ng-message="pattern">
+                  {{'data-package-management.error.data-package.study-series.i18n-string-must-not-contain-comma' | translate}}
+                </div>
+                <div ng-message="maxlength">{{'data-package-management.error.data-package.study-series.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-autocomplete>
+          </div>
+          <div layout="column" layout-gt-sm="row">
+            <md-input-container flex="50"
+                                md-is-error="!dataPackageForm.surveyDesign.$valid && (dataPackageForm.surveyDesign.$dirty || dataPackageForm.surveyDesign.$touched)"
+                                class="ms-flex">
+              <label>{{'data-package-management.detail.label.surveyDesign' | translate}}</label>
+              <md-select name="surveyDesign" ng-model="ctrl.dataPackage.surveyDesign"
+                         ng-model-options="{trackBy: '$value.de'}"
+                         required>
+                <md-option ng-repeat="surveyDesign in ctrl.surveyDesigns" ng-value="surveyDesign">
+                  {{surveyDesign[currentLanguage]}}
+                </md-option>
+              </md-select>
+              <div class="fdz-input-hint" ng-if="!dataPackageForm.surveyDesign.$dirty && !dataPackageForm.surveyDesign.$touched">
+                {{'data-package-management.edit.hints.survey-design' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm.surveyDesign.$error">
+                <div ng-message="required">{{'data-package-management.error.data-package.survey-design.not-null' | translate}}</div>
+              </div>
+            </md-input-container>
+            <div flex="50"></div>
+          </div>
+          <div layout="column" layout-gt-sm="row">
+            <md-input-container flex="50"
+                                md-is-error="!dataPackageForm.annotationsDe.$valid && (dataPackageForm.annotationsDe.$dirty || dataPackageForm.annotationsDe.$touched)"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                class="ms-flex">
+              <label>{{'data-package-management.detail.label.annotations' | translate}} ({{'global.in-german' |
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
+              <textarea lang="de" md-maxlength="2048" name="annotationsDe" ng-model="ctrl.dataPackage.annotations.de"
+                        rows="4"></textarea>
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.annotations.de == null || ctrl.dataPackage.annotations.de == ''">
+                {{'data-package-management.edit.hints.annotations.de' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+              </div>
+              <div multiple ng-messages="dataPackageForm.annotationsDe.$error">
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.annotations.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="50"
+                                md-is-error="!dataPackageForm.annotationsEn.$valid && (dataPackageForm.annotationsEn.$dirty || dataPackageForm.annotationsEn.$touched)"
+                                class="ms-flex">
+              <label>{{'data-package-management.detail.label.annotations' | translate}} ({{'global.in-english' |
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
+              <textarea lang="en" md-maxlength="2048" name="annotationsEn" ng-model="ctrl.dataPackage.annotations.en"
+                        rows="4"></textarea>
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.annotations.en == null || ctrl.dataPackage.annotations.en == ''">
+                {{'data-package-management.edit.hints.annotations.en' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+              </div>
+              <div multiple ng-messages="dataPackageForm.annotationsEn.$error">
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.annotations.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-input-container>
+          </div>
+        </md-card-content>
+      </md-card>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'data-package-management.detail.label.institutions' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <div id="move-institution-container" layout="row"
+               ng-repeat="institution in ctrl.currentInstitutions track by $index">
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteInstitution($index)"
+                         ng-if="ctrl.dataPackage.institutions.length > 1">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-institution-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
+            <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
+                             md-floating-label="{{'data-package-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})"
+                             md-input-maxlength="512" md-input-name="institutionDe_{{$index}}"
+                             md-is-error="!dataPackageForm['institutionDe_' + $index].$valid && (dataPackageForm['institutionDe_' + $index].$dirty || dataPackageForm['institutionDe_' + $index].$touched)"
+                             md-item-text="item.de"
+                             md-items="item in searchInstitutions(ctrl.dataPackage.institutions[$index].de, 'de')"
+                             md-match-case-insensitive="true" md-min-length="0"
+                             md-no-cache="true"
+                             md-require-match="false"
+                             md-search-text="ctrl.dataPackage.institutions[$index].de"
+                             md-select-on-match="true" md-selected-item="ctrl.currentInstitutions[$index]"
+                             md-selected-item-change="dataPackageForm.$setDirty()"
+                             ng-blur="ctrl.deleteCurrentInstitution($event)"
+                             ng-focus="ctrl.setCurrentInstitution($index,$event)"
+                             ng-required="true"
+                             class="ms-flex mr8">
+              <md-item-template>
+                <span class="md-title" md-highlight-flags="ig"
+                      md-highlight-text="ctrl.dataPackage.institutions[$parent.$index].de"
+                      style="font-size: 14px;">{{item.de}}</span>
+              </md-item-template>
+              <md-not-found>
+                {{'search-management.filter.institution-filter.not-found' | translate}}
+              </md-not-found>
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['institutionDe_' + $parent.$index].$dirty && !dataPackageForm['institutionDe_' + $parent.$index].$touched">
+                {{'data-package-management.edit.hints.institution.de' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm['institutionDe_' + $parent.$index].$error">
+                <div ng-message="required">{{'data-package-management.error.data-package.institution.i18n-string-entire-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="maxlength">{{'data-package-management.error.data-package.institution.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-autocomplete>
+            <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
+                             md-floating-label="{{'data-package-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})"
+                             md-input-maxlength="512" md-input-name="institutionEn_{{$index}}"
+                             md-is-error="!dataPackageForm['institutionEn_' + $index].$valid && (dataPackageForm['institutionEn_' + $index].$dirty || dataPackageForm['institutionEn_' + $index].$touched)"
+                             md-item-text="item.en"
+                             md-items="item in searchInstitutions(ctrl.dataPackage.institutions[$index].en, 'en')"
+                             md-match-case-insensitive="true" md-min-length="0"
+                             md-no-cache="true"
+                             md-require-match="false"
+                             md-search-text="ctrl.dataPackage.institutions[$index].en"
+                             md-select-on-match="true" md-selected-item="ctrl.currentInstitutions[$index]"
+                             md-selected-item-change="dataPackageForm.$setDirty()"
+                             ng-blur="ctrl.deleteCurrentInstitution($event)"
+                             ng-focus="ctrl.setCurrentInstitution($index,$event)"
+                             ng-required="true"
+                             class="ms-flex">
+              <md-item-template>
+                <span class="md-title" md-highlight-flags="ig"
+                      md-highlight-text="ctrl.dataPackage.institutions[$parent.$index].en"
+                      style="font-size: 14px;">{{item.en}}</span>
+              </md-item-template>
+              <md-not-found>
+                {{'search-management.filter.institution-filter.not-found' | translate}}
+              </md-not-found>
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['institutionEn_' + $parent.$index].$dirty && !dataPackageForm['institutionEn_' + $parent.$index].$touched">
+                {{'data-package-management.edit.hints.institution.en' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm['institutionEn_' + $parent.$index].$error">
+                <div ng-message="required">{{'data-package-management.error.data-package.institution.i18n-string-entire-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="maxlength">{{'data-package-management.error.data-package.institution.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-autocomplete>
+          </div>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addInstitution()">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.add-institution-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-institution-up-button"
+                     ng-click="ctrl.moveCurrentInstitutionUp()"
+                     ng-disabled="ctrl.currentInstitutionIndex == null || ctrl.currentInstitutionIndex === 0">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.move-institution-up-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-institution-down-button"
+                     ng-click="ctrl.moveCurrentInstitutionDown()"
+                     ng-disabled="ctrl.currentInstitutionIndex == null || ctrl.currentInstitutionIndex === ctrl.dataPackage.institutions.length - 1">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.move-institution-down-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'data-package-management.detail.label.sponsors' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <div id="move-sponsor-container" layout="row"
+               ng-repeat="sponsor in ctrl.currentSponsors track by $index">
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteSponsor($index)"
+                         ng-if="ctrl.dataPackage.sponsors.length > 1">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-sponsor-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
+            <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
+                             md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-german' | translate}})"
+                             md-input-maxlength="512" md-input-name="sponsorDe_{{$index}}"
+                             md-is-error="!dataPackageForm['sponsorDe_' + $index].$valid && (dataPackageForm['sponsorDe_' + $index].$dirty || dataPackageForm['sponsorDe_' + $index].$touched)"
+                             md-item-text="item.de"
+                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].de, 'de')"
+                             md-match-case-insensitive="true" md-min-length="0"
+                             md-no-cache="true"
+                             md-require-match="false"
+                             md-search-text="ctrl.dataPackage.sponsors[$index].de"
+                             md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
+                             md-selected-item-change="dataPackageForm.$setDirty()"
+                             ng-blur="ctrl.deleteCurrentSponsor($event)"
+                             ng-focus="ctrl.setCurrentSponsor($index,$event)"
+                             ng-required="true"
+                             class="ms-flex mr8">
+              <md-item-template>
+                <span class="md-title" md-highlight-flags="ig"
+                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].de"
+                      style="font-size: 14px;">{{item.de}}</span>
+              </md-item-template>
+              <md-not-found>
+                {{'search-management.filter.sponsor-filter.not-found' | translate}}
+              </md-not-found>
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['sponsorDe_' + $parent.$index].$dirty && !dataPackageForm['sponsorDe_' + $parent.$index].$touched">
+                {{'data-package-management.edit.hints.sponsor.de' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm['sponsorDe_' + $parent.$index].$error">
+                <div ng-message="required">{{'data-package-management.error.data-package.sponsor.i18n-string-entire-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="maxlength">{{'data-package-management.error.data-package.sponsor.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-autocomplete>
+            <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
+                             md-floating-label="{{'data-package-management.edit.label.sponsor' | translate}} ({{'global.in-english' | translate}})"
+                             md-input-maxlength="512" md-input-name="sponsorEn_{{$index}}"
+                             md-is-error="!dataPackageForm['sponsorEn_' + $index].$valid && (dataPackageForm['sponsorEn_' + $index].$dirty || dataPackageForm['sponsorEn_' + $index].$touched)"
+                             md-item-text="item.en"
+                             md-items="item in searchSponsors(ctrl.dataPackage.sponsors[$index].en, 'en')"
+                             md-match-case-insensitive="true" md-min-length="0"
+                             md-no-cache="true"
+                             md-require-match="false"
+                             md-search-text="ctrl.dataPackage.sponsors[$index].en"
+                             md-select-on-match="true" md-selected-item="ctrl.currentSponsors[$index]"
+                             md-selected-item-change="dataPackageForm.$setDirty()"
+                             ng-blur="ctrl.deleteCurrentSponsor($event)"
+                             ng-focus="ctrl.setCurrentSponsor($index,$event)"
+                             ng-required="true"
+                             class="ms-flex">
+              <md-item-template>
+                <span class="md-title" md-highlight-flags="ig"
+                      md-highlight-text="ctrl.dataPackage.sponsors[$parent.$index].en"
+                      style="font-size: 14px;">{{item.en}}</span>
+              </md-item-template>
+              <md-not-found>
+                {{'search-management.filter.sponsor-filter.not-found' | translate}}
+              </md-not-found>
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['sponsorEn_' + $parent.$index].$dirty && !dataPackageForm['sponsorEn_' + $parent.$index].$touched">
+                {{'data-package-management.edit.hints.sponsor.en' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm['sponsorEn_' + $parent.$index].$error">
+                <div ng-message="required">{{'data-package-management.error.data-package.sponsor.i18n-string-entire-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="maxlength">{{'data-package-management.error.data-package.sponsor.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-autocomplete>
+          </div>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addSponsor()">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.add-sponsor-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-sponsor-up-button"
+                     ng-click="ctrl.moveCurrentSponsorUp()"
+                     ng-disabled="ctrl.currentSponsorIndex == null || ctrl.currentSponsorIndex === 0">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.move-sponsor-up-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-sponsor-down-button"
+                     ng-click="ctrl.moveCurrentSponsorDown()"
+                     ng-disabled="ctrl.currentSponsorIndex == null || ctrl.currentSponsorIndex === ctrl.dataPackage.sponsors.length - 1">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.move-sponsor-down-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'data-package-management.detail.description' | translate}}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <div layout="column" layout-gt-sm="row">
+            <md-input-container flex="50"
+                                md-is-error="!dataPackageForm.descriptionDe.$valid && (dataPackageForm.descriptionDe.$dirty || dataPackageForm.descriptionDe.$touched)"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                class="ms-flex mr8">
+              <label class="fdz-input-required">{{'data-package-management.detail.description' | translate}}
+                ({{'global.in-german' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
+              <textarea fdz-required lang="de" md-maxlength="2048" md-no-asterisk
+                        name="descriptionDe" ng-model="ctrl.dataPackage.description.de" rows="4"></textarea>
+              <div class="fdz-input-hint" ng-if="!dataPackageForm.descriptionDe.$dirty && !dataPackageForm.descriptionDe.$touched">
+                {{'data-package-management.edit.hints.description.de' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+              </div>
+              <div multiple ng-messages="dataPackageForm.descriptionDe.$error">
+                <div ng-message="fdz-required">{{'data-package-management.error.data-package.description.i18n-string-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.description.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="50"
+                                md-is-error="!dataPackageForm.descriptionEn.$valid && (dataPackageForm.descriptionEn.$dirty || dataPackageForm.descriptionEn.$touched)"
+                                class="ms-flex mr8">
+              <label class="fdz-input-required">{{'data-package-management.detail.description' | translate}}
+                ({{'global.in-english' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
+              <textarea fdz-required lang="en" md-maxlength="2048" md-no-asterisk
+                        name="descriptionEn" ng-model="ctrl.dataPackage.description.en" rows="4"></textarea>
+              <div class="fdz-input-hint" ng-if="!dataPackageForm.descriptionEn.$dirty && !dataPackageForm.descriptionEn.$touched">
+                {{'data-package-management.edit.hints.description.en' | translate}}
+              </div>
+              <div class="fdz-input-hint">
+                {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+                  translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+                  href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+                  target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+              </div>
+              <div multiple ng-messages="dataPackageForm.descriptionEn.$error">
+                <div ng-message="fdz-required">{{'data-package-management.error.data-package.description.i18n-string-not-empty' |
+                  translate}}
+                </div>
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.description.i18n-string-size' |
+                  translate}}
+                </div>
+              </div>
+            </md-input-container>
+          </div>
+        </md-card-content>
+      </md-card>
+      <edit-people-component people="ctrl.dataPackage.projectContributors" people-id="'projectContributors'" translation-keys="ctrl.translationKeysProjectContributers" current-form="dataPackageForm"></edit-people-component>
+      <edit-people-component people="ctrl.dataPackage.dataCurators" people-id="'dataCurators'" translation-keys="ctrl.translationKeysDataCurators" current-form="dataPackageForm"></edit-people-component>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'data-package-management.edit.label.tags' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <tag-editor require-german-tag="true" tag-search="ctrl.findTags(searchText, language)"
+                      tags="ctrl.dataPackage.tags"></tag-editor>
+        </md-card-content>
+      </md-card>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'data-package-management.detail.label.additional-links' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <div id="link-{{$index}}" layout="row"
+               ng-repeat="link in ctrl.dataPackage.additionalLinks track by $index">
+            <div>
+              <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteLink($index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.edit.delete-link-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </div>
+            <md-input-container flex="33" class="mr8"
+                                md-is-error="!dataPackageForm['linkUrl_' + $index].$valid && (dataPackageForm['linkUrl_' + $index].$dirty || dataPackageForm['linkUrl_' + $index].$touched)">
+              <label class="fdz-input-required">{{'data-package-management.edit.label.additional-links.url' | translate}}</label>
+              <input type="url" fdz-required md-no-asterisk name="linkUrl_{{$index}}" md-maxlength="2000"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-model="link.url" autocomplete="off">
+              <div
+                class="fdz-input-hint"
+                ng-if="!dataPackageForm['linkUrl_' + $index].$dirty && !dataPackageForm['linkUrl_' + $index].$touched">
+                {{ 'data-package-management.edit.hints.additional-links.url' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm['linkUrl_' + $index].$error">
+                <div ng-message="fdz-required">{{'data-package-management.error.data-package.additional-links.url-not-empty' | translate}}</div>
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.additional-links.url-size' | translate}}</div>
+                <div ng-message="url">{{'data-package-management.error.data-package.additional-links.invalid-url' | translate}}</div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="33" class="mr8"
+                                md-is-error="!dataPackageForm['linkDisplayTextDe_' + $index].$valid && (dataPackageForm['linkDisplayTextDe_' + $index].$dirty || dataPackageForm['linkDisplayTextDe_' + $index].$touched)">
+              <label>{{'data-package-management.edit.label.additional-links.display-text' | translate}} ({{'global.in-german' | translate}})</label>
+              <input md-no-asterisk name="linkDisplayTextDe_{{$index}}" md-maxlength="512"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-model="link.displayText.de" autocomplete="off">
+              <div
+                class="fdz-input-hint"
+                ng-if="link.displayText.de == null || link.displayText.de == ''">
+                {{ 'data-package-management.edit.hints.additional-links.display-text.de' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm['linkDisplayTextDe_' + $index].$error">
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.additional-links.display-text-size' | translate}}</div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="33" class="mr8"
+                                md-is-error="!dataPackageForm['linkDisplayTextEn_' + $index].$valid && (dataPackageForm['linkDisplayTextEn_' + $index].$dirty || dataPackageForm['linkDisplayTextEn_' + $index].$touched)">
+              <label>{{'data-package-management.edit.label.additional-links.display-text' | translate}} ({{'global.in-english' | translate}})</label>
+              <input md-no-asterisk name="linkDisplayTextEn_{{$index}}" md-maxlength="512"
+                     ng-blur="ctrl.deleteCurrentLink($index,$event)" ng-focus="ctrl.setCurrentLink($index,$event)"
+                     ng-model="link.displayText.en" autocomplete="off">
+              <div
+                class="fdz-input-hint"
+                ng-if="link.displayText.en == null || link.displayText.en == ''">
+                {{ 'data-package-management.edit.hints.additional-links.display-text.en' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm['linkDisplayTextEn_' + $index].$error">
+                <div ng-message="md-maxlength">{{'data-package-management.error.data-package.additional-links.display-text-size' | translate}}</div>
+              </div>
+            </md-input-container>
+          </div>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="begin center" class="mb12">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addLink()">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.add-link-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-link-up-button"
+                     ng-click="ctrl.moveCurrentLinkUp()"
+                     ng-disabled="ctrl.currentLinkIndex == null || ctrl.currentLinkIndex === 0">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.move-link-up-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-link-down-button"
+                     ng-click="ctrl.moveCurrentLinkDown()"
+                     ng-disabled="ctrl.currentLinkIndex == null || ctrl.currentLinkIndex === ctrl.dataPackage.additionalLinks.length - 1">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.edit.move-link-down-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </form>
+  <div>
+    <md-card class="mt0" ng-if="ctrl.dataPackage.id">
+      <md-card-header layout-align="center center">
+        <md-card-header-text class="pb">
+          <h2 class="md-title">{{'data-package-management.detail.attachments.table-title' | translate}}</h2>
+        </md-card-header-text>
+      </md-card-header>
+      <table fdz-table ng-if="!ctrl.createMode && ctrl.attachments && ctrl.attachments.length > 0">
+        <thead>
+        <tr>
+          <th>
+            &nbsp;
+          </th>
+          <th style="min-height: 40px;">
+            &nbsp;
+          </th>
+          <th style="min-height: 40px;">
+            &nbsp;
+          </th>
+          <th>{{'data-package-management.detail.label.attachments.type' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'data-package-management.detail.label.attachments.type' | translate }}
+            </md-tooltip>
+          </th>
+          <th class="fdz-table-half-absorbing-column">{{'data-package-management.detail.label.attachments.description' |
+            translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'data-package-management.detail.label.attachments.description' | translate }}
+            </md-tooltip>
+          </th>
+          <th class="fdz-table-half-absorbing-column">{{'data-package-management.detail.label.attachments.title' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'data-package-management.detail.label.attachments.title' | translate }}
+            </md-tooltip>
+          </th>
+          <th>{{'data-package-management.detail.label.attachments.language' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'data-package-management.detail.label.attachments.language' | translate }}
+            </md-tooltip>
+          </th>
+          <th>DOI
+          </th>
+          <th>{{'data-package-management.detail.label.attachments.file' | translate }}
+            <md-tooltip hide-gt-xs md-direction="right">
+              {{'data-package-management.detail.label.attachments.file' | translate }}
+            </md-tooltip>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}"
+            ng-click="ctrl.selectAttachment($index)"
+            ng-init="translationParams = {filename: row.fileName}"
+            ng-repeat="row in ctrl.attachments">
+          <td class="fdz-table-nowrap pr0">
+            <md-radio-group class="md-primary" ng-model="ctrl.currentAttachmentIndex">
+              <md-radio-button ng-value="$index" class="mb0">
+                <md-tooltip md-autohide="true" md-direction="right"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
+                </md-tooltip>
+              </md-radio-button>
+            </md-radio-group>
+          </td>
+          <td class="fdz-table-nowrap pa0">
+            <md-button class="md-primary md-icon-button ma0" ng-click="ctrl.editAttachment(row, $event)">
+              <md-tooltip md-autohide="true" md-direction="bottom"
+                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-package-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">mode_edit</md-icon>
+            </md-button>
+          </td>
+          <td class="fdz-table-nowrap ma0 pa0">
+            <md-button class="md-primary md-icon-button ma0" ng-click="ctrl.deleteAttachment(row, $index)">
+              <md-tooltip md-autohide="true" md-direction="bottom"
+                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-package-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">delete_forever</md-icon>
+            </md-button>
+          </td>
+          <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
+          <td class="fdz-text-block" display-i18n-string="row.description" ></td>
+          <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
+          <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
+          <td>
+            <a target="_blank" rel="noopener noreferrer" href="{{row.doi}}" ng-if="row.doi">
+              <md-icon md-font-set="material-icons" class="ng-scope material-icons md-primary" role="img">link</md-icon>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{row.doi}}
+              </md-tooltip>
+            </a> 
+            <a ng-if="!row.doi" aria-disabled>
+              <md-icon md-font-set="material-icons" class="ng-scope material-icons" role="img">link_off</md-icon>
+            </a> 
+          </td>
+          <td class="nowrap"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
+            </md-tooltip>
+          </a>&nbsp;
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <md-divider></md-divider>
+      <md-card-content ng-if="ctrl.createMode">
+        {{'data-package-management.detail.attachments.save-data-package-before-adding-attachment' | translate}}
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode"
+                       style="margin-top: 12px; margin-bottom: 12px;">
+        <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAttachment($event)">
+          <md-tooltip md-autohide="true" md-direction="bottom"
+                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'data-package-management.detail.attachments.add-attachment-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
+        <md-button class="md-primary md-raised md-icon-button"
+                   ng-click="ctrl.moveAttachmentUp()"
+                   ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === 0">
+          <md-tooltip md-autohide="true" md-direction="bottom"
+                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'data-package-management.detail.attachments.move-attachment-up-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+        </md-button>
+        <md-button
+          class="md-primary md-raised md-icon-button"
+          ng-click="ctrl.moveAttachmentDown()"
+          ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === ctrl.attachments.length - 1">
+          <md-tooltip md-autohide="true" md-direction="bottom"
+                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'data-package-management.detail.attachments.move-attachment-down-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+        </md-button>
+        <md-button class="md-accent md-raised md-icon-button" ng-click="ctrl.saveAttachmentOrder()"
+                   ng-disabled="!ctrl.attachmentOrderIsDirty">
+          <md-tooltip md-autohide="true" md-direction="bottom"
+                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'data-package-management.detail.attachments.save-attachment-order-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">save</md-icon>
+        </md-button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</div>
+<div class="fdz-fab-button-container" layout="column" ng-if="ctrl.dataPackage.id">
+  <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)"
+             ng-disabled="ctrl.createMode">
+    <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+      {{'data-package-management.edit.open-choose-previous-version-tooltip' | translate}}
+    </md-tooltip>
+    <md-icon md-font-set="material-icons" class="ml9">history</md-icon>
+  </md-button>
+  <md-button class="md-fab md-raised md-accent" ng-click="ctrl.saveDataPackage()" ng-disabled="!dataPackageForm.$dirty"
+             type="submit">
+    <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+      {{'data-package-management.edit.save-tooltip' | translate}}
+    </md-tooltip>
+    <md-icon md-font-set="material-icons">save</md-icon>
+  </md-button>
+</div>

@@ -1,0 +1,37 @@
+<li role="menuitem" ng-if="::boundaryLinks" ng-class="{disabled: noPrevious() || ngDisabled}" class="pagination-first">
+    <a href="" ng-click="selectPage(1, $event)" ng-disabled="noPrevious() || ngDisabled" uib-tabindex-toggle>
+    {{::getText('first')}}
+  </a>
+</li>
+<li role="menuitem" ng-if="::directionLinks" ng-class="{disabled: noPrevious() || ngDisabled}" class="pagination-prev">
+    <a href="" ng-click="selectPage(page - 1, $event)" ng-disabled="noPrevious() || ngDisabled" uib-tabindex-toggle>
+    {{::getText('previous')}}
+    <md-tooltip ng-if="!noPrevious()" md-direction="bottom" md-autohide="true" md-z-index="$parent.$parent.$parent.bowser.mobile || $parent.$parent.$parent.bowser.tablet ? -100 : 100" ng-switch="$parent.$parent.$parent.$state.current.name">
+      <span ng-switch-when="project-overview" translate="data-acquisition-project-management.project-overview.pagination.previous"></span>
+      <span ng-switch-default translate="global.tooltips.pager.previous"></span>
+    </md-tooltip>
+  </a>
+</li>
+<li role="menuitem" ng-repeat="page in pages track by $index" ng-class="{active: page.active, disabled: ngDisabled || (totalItems > 10000 && page.number > 1999)}" class="pagination-page">
+    <a href="" ng-click="(ngDisabled || (totalItems > 10000 && page.number > 1999)) || selectPage(page.number, $event)" ng-disabled="ngDisabled || page.active || (totalItems > 10000 && page.number > 1999)" tabindex="{{page.active?'-1':'0'}}">
+    {{page.text}}
+    <md-tooltip ng-if="!page.active && !(totalItems > 10000 && page.number > 1999)" md-direction="bottom" md-autohide="true" md-z-index="$parent.$parent.$parent.bowser.mobile || $parent.$parent.$parent.bowser.tablet ? -100 : 100" ng-switch="$parent.$parent.$parent.$state.current.name">
+      <span ng-switch-when="project-overview" translate="data-acquisition-project-management.project-overview.pagination.current" translate-values="{number: page.number}"></span>
+      <span ng-switch-default translate="global.tooltips.pager.current" translate-values="{number: page.number}"></span>
+    </md-tooltip>
+  </a>
+</li>
+<li role="menuitem" ng-if="::directionLinks" ng-class="{disabled: noNext() || ngDisabled || (totalItems > 10000 && page > 1998)}" class="pagination-next">
+    <a href="" ng-click="(noNext() || ngDisabled || (totalItems > 10000 && page > 1998)) || selectPage(page + 1, $event)" ng-disabled="noNext() || ngDisabled || (totalItems > 10000 && page > 1998)" uib-tabindex-toggle>
+    {{::getText('next')}}
+    <md-tooltip md-direction="bottom" ng-if="!noNext() && !(totalItems > 10000 && page > 1998)" md-autohide="true" md-z-index="$parent.$parent.$parent.bowser.mobile || $parent.$parent.$parent.bowser.tablet ? -100 : 100" ng-switch="$parent.$parent.$parent.$state.current.name">
+        <span ng-switch-when="project-overview" translate="data-acquisition-project-management.project-overview.pagination.next"></span>
+        <span ng-switch-default translate="global.tooltips.pager.next"></span>
+    </md-tooltip>
+  </a>
+</li>
+<li role="menuitem" ng-if="::boundaryLinks" ng-class="{disabled: noNext() || ngDisabled || totalItems > 10000}" class="pagination-last">
+    <a href="" ng-click="selectPage(totalPages, $event)" ng-disabled="noNext() || ngDisabled || totalItems > 10000" uib-tabindex-toggle>
+    {{::getText('last')}}
+  </a>
+</li>

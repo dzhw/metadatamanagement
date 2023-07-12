@@ -1,0 +1,51 @@
+<md-card class="pa0">
+	<md-autocomplete
+		flex
+		autocomplete="off"
+		ng-disabled="ctrl.disabled"
+		md-search-text="ctrl.searchText"
+		md-selected-item="ctrl.selectedUser"
+		md-selected-item-change="ctrl.selectedUserChanged(ctrl.selectedUser)"
+		md-items="user in ctrl.searchUsers(ctrl.searchText)"
+		md-item-text="user.login"
+		md-min-length="0"
+		md-delay="250"
+		placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
+		md-require-match="true"
+		md-no-cache="true"
+		style="margin-bottom: 2px; -ms-flex: auto;"
+		class="fdz-project-user-list"
+	>
+		<md-item-template>
+			<div layout="row">
+				<strong><span md-highlight-text="ctrl.searchText">{{user.login}}</span></strong>
+				&nbsp;
+				<span md-highlight-text="ctrl.searchText">({{user.email}})</span>
+			</div>
+		</md-item-template>
+		<md-not-found>
+			<span data-translate="data-acquisition-project-management.project-cockpit.search.no-users-found"></span>
+		</md-not-found>
+	</md-autocomplete>
+
+	<md-list ng-if="ctrl.activeUsers && ctrl.activeUsers.length" class="pa0">
+		<div ng-repeat="user in ctrl.activeUsers">
+			<md-list-item layout="row" class="pr0">
+				<div class="md-list-item-text">
+					<strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
+				</div>
+				<span flex></span>
+				<md-button ng-disabled="ctrl.disabled || !ctrl.canDeleteUser(user)" class="md-icon-button md-primary" ng-click="ctrl.removeUser(user, ctrl.group)">
+					<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img">delete_forever</md-icon>
+					<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+						{{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
+					</md-tooltip>
+				</md-button>
+			</md-list-item>
+			<md-divider ng-if=!$last></md-divider>
+		</div>
+	</md-list>
+	<div style="padding: 14px;" ng-if="!ctrl.activeUsers || !ctrl.activeUsers.length">
+		<i>{{'data-acquisition-project-management.project-cockpit.list.empty-data-provider' | translate}}</i>
+	</div>
+</md-card>

@@ -1,0 +1,101 @@
+<div class="fdz-cc">
+  <form name="editForm" ng-submit="save()" novalidate show-validation>
+    <div class="modal-header">
+      <button aria-hidden="true" class="close" data-dismiss="modal" ng-click="clear()" type="button">&times;</button>
+      <h4 class="modal-title" data-translate="user-management.home.createOrEditLabel" id="myUserLabel">
+        Create or edit a User</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label data-translate="global.field.id">ID</label>
+        <input class="form-control" name="id" ng-model="user.id" readonly type="text">
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': editForm.login.$invalid}">
+        <label data-translate="user-management.login.login">Login</label>
+        <input class="form-control" name="login" ng-maxlength="50" ng-model="user.login" readonly required type="text">
+
+        <div ng-show="editForm.login.$invalid">
+          <p class="help-block" data-translate="global.entity.validation.required"
+             ng-show="editForm.login.$error.required">
+            This field is required.
+          </p>
+
+          <p class="help-block" data-translate="global.entity.validation.maxlength"
+             data-translate-value-max="50" ng-show="editForm.login.$error.maxlength">
+            This field cannot be longer than 50 characters.
+          </p>
+        </div>
+      </div>
+      <div class="form-group" ng-class="{'has-error': editForm.firstName.$invalid}">
+        <label data-translate="user-management.first-name">FirstName</label>
+        <input class="form-control" name="firstName" ng-maxlength="50" ng-model="user.firstName" type="text">
+
+        <div ng-show="editForm.firstName.$invalid">
+          <p class="help-block" data-translate="global.entity.validation.maxlength"
+             data-translate-value-max="50" ng-show="editForm.firstName.$error.maxlength">
+            This field cannot be longer than 50 characters.
+          </p>
+        </div>
+      </div>
+      <div class="form-group" ng-class="{'has-error': editForm.lastName.$invalid}">
+        <label data-translate="user-management.last-name">LastName</label>
+        <input class="form-control" name="lastName" ng-maxlength="50" ng-model="user.lastName" type="text">
+
+        <div ng-show="editForm.lastName.$invalid">
+          <p class="help-block" data-translate="global.entity.validation.maxlength"
+             data-translate-value-max="50" ng-show="editForm.lastName.$error.maxlength">
+            This field cannot be longer than 50 characters.
+          </p>
+        </div>
+      </div>
+      <div class="form-group" ng-class="{'has-error': editForm.email.$invalid}">
+        <label data-translate="user-management.email">Email</label>
+        <input class="form-control" name="email" ng-maxlength="100" ng-model="user.email" required type="email">
+
+        <div ng-show="editForm.email.$invalid">
+          <p class="help-block" data-translate="global.entity.validation.required"
+             ng-show="editForm.email.$error.required">
+            This field is required.
+          </p>
+          <p class="help-block" data-translate="global.messages.validate.email.invalid"
+             ng-show="editForm.email.$error.email">
+            Your e-mail is invalid.
+          </p>
+          <p class="help-block" data-translate="global.entity.validation.maxlength"
+             data-translate-value-max="100" ng-show="editForm.email.$error.maxlength">
+            This field cannot be longer than 100 characters.
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="activated">
+          <input id="activated" ng-model="user.activated" type="checkbox">
+          <span data-translate="user-management.activated">Activated</span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label data-translate="user-management.langKey">LangKey</label>
+        <select class="form-control" name="langKey" ng-model="user.langKey"
+                ng-options="language as language for language in languages track by language"></select>
+      </div>
+
+      <div class="form-group">
+        <label data-translate="user-management.profiles">Profiles</label>
+        <select class="form-control" multiple name="authority" ng-model="user.authorities"
+                ng-options="authority for authority in authorities"></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" data-dismiss="modal" ng-click="clear()" type="button">
+        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;
+        <span data-translate="global.entity.action.cancel">Cancel</span>
+      </button>
+      <button class="btn btn-primary" ng-disabled="editForm.$invalid" type="submit">
+        <span class="glyphicon glyphicon-save"></span>&nbsp;
+        <span data-translate="global.entity.action.save">Save</span>
+      </button>
+    </div>
+  </form>
+</div>

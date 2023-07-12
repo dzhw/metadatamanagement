@@ -1,0 +1,49 @@
+<div ng-form="tagEditorForm" layout-gt-sm="row" layout="column">
+    <md-input-container flex-gt-sm="50" flex="100"
+                        ng-class="{'mr10': $mdMedia('gt-sm')}">
+        <label ng-class="{'fdz-input-required' : requireGermanTag}">{{'data-package-management.tag-editor.label.german-tags' | translate}}</label>
+        <md-chips ng-model="tags.de"
+                  ng-required="requireGermanTag"
+                  name="tagsDe"
+                  md-add-on-blur="true">
+            <md-autocomplete md-items="tag in searchTags(tagSearchTextDe, 'de')"
+                             md-search-text="tagSearchTextDe"
+                             md-item-text="tag"
+                             md-no-cache="true"
+                             md-min-length="0"
+                             placeholder="{{'data-package-management.tag-editor.placeholder' | translate}}">
+                <md-item-template>
+                    <span md-highlight-text="tagSearchTextDe" md-highlight-flags="ig">{{tag}}</span>
+                </md-item-template>
+            </md-autocomplete>
+        </md-chips>
+        <div ng-if="tagEditorForm.$dirty" ng-messages="tagEditorForm.tagsDe.$error">
+            <div ng-message="required">
+                {{'data-package-management.tag-editor.error.required' | translate}}
+            </div>
+        </div>
+    </md-input-container>
+    <md-input-container flex-gt-sm="50" flex="100">
+        <label ng-class="{'fdz-input-required' : requireEnglishTag}">{{'data-package-management.tag-editor.label.english-tags' | translate}}</label>
+        <md-chips ng-model="tags.en"
+                  ng-required="requireEnglishTag"
+                  name="tagsEn"
+                  md-add-on-blur="true">
+            <md-autocomplete md-items="tag in searchTags(tagSearchTextEn, 'en')"
+                             md-search-text="tagSearchTextEn"
+                             md-item-text="tag"
+                             md-no-cache="true"
+                             md-min-length="0"
+                             placeholder="{{'data-package-management.tag-editor.placeholder' | translate}}">
+                <md-item-template>
+                    <span md-highlight-text="tagSearchTextEn" md-highlight-flags="ig">{{tag}}</span>
+                </md-item-template>
+            </md-autocomplete>
+        </md-chips>
+        <div ng-if="tagEditorForm.$dirty" ng-messages="tagEditorForm.tagsEn.$error">
+          <div ng-message="required">
+            {{'data-package-management.tag-editor.error.required' | translate}}
+          </div>
+        </div>
+    </md-input-container>
+</div>
