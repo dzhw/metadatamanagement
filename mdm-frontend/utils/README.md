@@ -1,5 +1,5 @@
 # Utilities
-These NodeJS utilities were implemented to track down missing type annotations and add them automatically were possible.
+These NodeJS utilities were implemented to track down missing type annotations and add them automatically where possible.
 
 ## find-missing-type-annotation.js
 Searches for files that lack explicit type annotations.
