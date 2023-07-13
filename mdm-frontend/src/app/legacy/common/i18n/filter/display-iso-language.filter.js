@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').filter('displayIsoLanguage',
+angular.module('metadatamanagementApp').filter('displayIsoLanguage', ['isoLanguages', 'LanguageService',
 function(isoLanguages, LanguageService) {
     var languagesMap = isoLanguages;
 
@@ -16,7 +16,7 @@ function(isoLanguages, LanguageService) {
           }
         }
       };
-  }).constant('isoLanguages', {
+  }]).constant('isoLanguages', {
       'ab': {
           'en': 'Abkhazian',
           'de': 'Abchasisch'

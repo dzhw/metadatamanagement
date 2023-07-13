@@ -1,7 +1,7 @@
 /* global Hyphenator, _ */
 'use strict';
 
-angular.module('metadatamanagementApp').directive('fdzHyphenate',
+angular.module('metadatamanagementApp').directive('fdzHyphenate', ['$timeout', 
     function($timeout) {
         var link = function(scope, element) { // jshint unused:true
             // we have to wait until other directives have done its job
@@ -19,4 +19,5 @@ angular.module('metadatamanagementApp').directive('fdzHyphenate',
           restrict: 'A',
           link: link
         };
-      });
+      }]);
+

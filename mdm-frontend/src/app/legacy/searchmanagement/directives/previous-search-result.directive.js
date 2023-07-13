@@ -1,7 +1,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').directive('previousSearchResult',
+angular.module('metadatamanagementApp').directive('previousSearchResult', ['SearchResultNavigatorService', 'SearchTypeToDetailsStateMapper', '$state', 'Principal', 
   function(SearchResultNavigatorService, SearchTypeToDetailsStateMapper,
            $state, Principal) {
     return {
@@ -39,4 +39,5 @@ angular.module('metadatamanagementApp').directive('previousSearchResult',
         bowser: '='
       }
     };
-  });
+  }]);
+

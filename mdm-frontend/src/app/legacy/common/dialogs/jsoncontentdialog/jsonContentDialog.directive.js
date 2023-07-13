@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('jsonContentDialog', function($mdDialog) {
+  .directive('jsonContentDialog', ['$mdDialog',  function($mdDialog) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/common/dialogs/jsoncontentdialog/' +
@@ -43,4 +43,5 @@ angular.module('metadatamanagementApp')
         };
       }
     };
-  });
+  }]);
+

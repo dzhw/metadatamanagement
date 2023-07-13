@@ -5,7 +5,7 @@
  Directive which creates links to variable details pages on generation rules
  and filter expressions. Currently only STATA syntax is supported.
 */
-angular.module('metadatamanagementApp').directive('createVariableLinks',
+angular.module('metadatamanagementApp').directive('createVariableLinks', ['$timeout', '$compile', '$log', 'ProjectReleaseService', 
     function($timeout, $compile, $log, ProjectReleaseService) {
         var variableNameRegex = /([_A-Za-z][_A-Za-z0-9]{2,})/g;
         // STATA keywords, copied from highlightjs sources
@@ -104,4 +104,5 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
                 hljsLanguage: '@'
               }
           };
-      });
+      }]);
+

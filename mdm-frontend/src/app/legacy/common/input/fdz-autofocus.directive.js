@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').directive('fdzAutofocus',
+angular.module('metadatamanagementApp').directive('fdzAutofocus', ['$timeout', 
   function($timeout) {
         return {
             restrict: 'A',
@@ -22,4 +22,5 @@ angular.module('metadatamanagementApp').directive('fdzAutofocus',
               };
             }
           };
-      });
+      }]);
+

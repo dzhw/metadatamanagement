@@ -1,5 +1,5 @@
 'use strict';
-angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
+angular.module('metadatamanagementApp').directive('fdzUniqueConceptId', ['$q', '$log', 'ConceptResource', '$rootScope', 
   function($q, $log, ConceptResource, $rootScope) {
     return {
       require: 'ngModel',
@@ -39,4 +39,5 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
         };
       }
     };
-  });
+  }]);
+

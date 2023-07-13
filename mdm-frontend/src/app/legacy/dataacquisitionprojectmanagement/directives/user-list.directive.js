@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('userList', function(
+  .directive('userList', ['$q', 'UserResource', 'SimpleMessageToastService',  function(
     $q, UserResource, SimpleMessageToastService) {
     return {
       restrict: 'E',
@@ -206,4 +206,5 @@ angular.module('metadatamanagementApp')
         $scope.$on('project-saved', initializeOriginalUsersList);
       }
     };
-  });
+  }]);
+

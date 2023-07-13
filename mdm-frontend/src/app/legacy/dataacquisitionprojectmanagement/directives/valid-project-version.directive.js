@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('validProjectVersion', function($rootScope) {
+  .directive('validProjectVersion', ['$rootScope',  function($rootScope) {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -26,4 +26,5 @@ angular.module('metadatamanagementApp')
         };
       }
     };
-  });
+  }]);
+

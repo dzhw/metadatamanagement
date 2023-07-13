@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('metadataTypeStateCard',
+  .directive('metadataTypeStateCard', ['$state', 'ProjectStatusScoringService', 'ProjectUpdateAccessService', 'VariableUploadService', 'QuestionUploadService', 'DeleteMetadataService', 'SimpleMessageToastService', 'AnalysisPackageIdBuilderService', 
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
       VariableUploadService, QuestionUploadService, DeleteMetadataService,
       SimpleMessageToastService, AnalysisPackageIdBuilderService) {
@@ -219,4 +219,5 @@ angular.module('metadatamanagementApp')
         };
       }
     };
-  });
+  }]);
+

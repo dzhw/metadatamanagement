@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectDoesNotExist', function(DataAcquisitionProjectResource,
+  .directive('projectDoesNotExist', ['DataAcquisitionProjectResource', '$q', '$rootScope',  function(DataAcquisitionProjectResource,
       $q, $rootScope) {
     return {
         require: 'ngModel',
@@ -42,4 +42,5 @@ angular.module('metadatamanagementApp')
               };
           }
       };
-  });
+  }]);
+

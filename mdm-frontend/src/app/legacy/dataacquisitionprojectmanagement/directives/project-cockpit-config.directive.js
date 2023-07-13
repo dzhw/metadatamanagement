@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitConfig', function(Principal) {
+  .directive('projectCockpitConfig', ['Principal',  function(Principal) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -13,9 +13,9 @@ angular.module('metadatamanagementApp')
       },
       replace: true,
       controllerAs: 'ctrl',
-      controller: function($scope) {
+      controller: ['$scope', function($scope) {
         this.project = $scope.project;
-      },
+      }],
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
         var req = ctrl.project.configuration.requirements;
@@ -57,4 +57,5 @@ angular.module('metadatamanagementApp')
         };
       }
     };
-  });
+  }]);
+

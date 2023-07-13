@@ -15,7 +15,11 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         searchResultIndex: '=',
         setParams: '&'
       },
-      controller: function($scope, CommonDialogsService, SurveyResource,
+      controller: ['$scope', 'CommonDialogsService', 'SurveyResource',
+        'ElasticSearchAdminService', '$rootScope', 'SimpleMessageToastService',
+        'DataAcquisitionProjectResource', 'Principal', 'ProjectUpdateAccessService',
+        '$state', '$q', '$timeout', '$element', 'HighlightService',
+        function($scope, CommonDialogsService, SurveyResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
         $state, $q, $timeout, $element, HighlightService) {
@@ -73,6 +77,6 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         };
         $scope.isLoggedIn = Principal.loginName();
 
-      }
+      }]
     };
   });

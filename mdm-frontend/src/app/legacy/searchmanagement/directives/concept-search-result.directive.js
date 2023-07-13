@@ -14,7 +14,10 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
         searchResultIndex: '=',
         setParams: '&'
       },
-      controller: function($scope, CommonDialogsService, ConceptResource,
+      controller: ['$scope', 'CommonDialogsService', 'ConceptResource',
+        'ElasticSearchAdminService', '$rootScope', 'SimpleMessageToastService',
+        '$q', '$timeout', '$element', 'HighlightService', 'Principal',
+        function($scope, CommonDialogsService, ConceptResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         $q, $timeout, $element, HighlightService, Principal) {
 
@@ -70,6 +73,6 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
               {id: conceptId});
           }, handleError);
         };
-      }
+      }]
     };
   });

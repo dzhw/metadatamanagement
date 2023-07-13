@@ -1,7 +1,7 @@
 /* global _*/
 'use strict';
 
-angular.module('metadatamanagementApp').filter('filterTranslatedValues',
+angular.module('metadatamanagementApp').filter('filterTranslatedValues', ['$translate', 
   function($translate) {
   return function(input, searchTerm, translatePrefix) {
     if (!searchTerm) {
@@ -19,4 +19,5 @@ angular.module('metadatamanagementApp').filter('filterTranslatedValues',
     });
     return filteredInput;
   };
-});
+}]);
+

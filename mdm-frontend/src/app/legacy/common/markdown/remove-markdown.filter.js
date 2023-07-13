@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').filter('removeMarkdown',
+angular.module('metadatamanagementApp').filter('removeMarkdown', ['$showdown',
   function($showdown) {
   return function(text) {
     if (text) {
@@ -8,4 +8,4 @@ angular.module('metadatamanagementApp').filter('removeMarkdown',
     }
     return '';
   };
-});
+}]);

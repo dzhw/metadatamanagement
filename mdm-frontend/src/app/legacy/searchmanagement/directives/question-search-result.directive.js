@@ -14,7 +14,9 @@ angular.module('metadatamanagementApp').directive('questionSearchResult',
         searchResultIndex: '=',
         setParams: '&'
       },
-      controller: function($scope, Principal, $timeout, $element,
+      controller: ['$scope', 'Principal', '$timeout', '$element',
+        'HighlightService',
+        function($scope, Principal, $timeout, $element,
         HighlightService) {
         if ($scope.searchQuery) {
           $timeout(function() {
@@ -25,6 +27,6 @@ angular.module('metadatamanagementApp').directive('questionSearchResult',
         $scope.setCSRParams = function() {
           $scope.setCurrentSearchParams();
         };
-      }
+      }]
     };
   });

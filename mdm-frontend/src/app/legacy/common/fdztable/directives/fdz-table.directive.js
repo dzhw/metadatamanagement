@@ -1,7 +1,7 @@
 /* global _*/
 'use strict';
 
-angular.module('metadatamanagementApp').directive('fdzTable',
+angular.module('metadatamanagementApp').directive('fdzTable', ['$rootScope', '$timeout', 
   function($rootScope, $timeout) {
     var setLastRowStyle = function(element) {
       $timeout(function() {
@@ -47,4 +47,5 @@ angular.module('metadatamanagementApp').directive('fdzTable',
           });
         }
       };
-  });
+  }]);
+

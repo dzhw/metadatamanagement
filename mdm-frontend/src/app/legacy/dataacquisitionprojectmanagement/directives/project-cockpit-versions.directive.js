@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitVersions', function(Principal, CommonDialogsService,
+  .directive('projectCockpitVersions', ['Principal', 'CommonDialogsService', 'DataAcquisitionProjectShadowsResource', 'SimpleMessageToastService', 'DataAcquisitionProjectShadowsHideResource', '$timeout', 'DataAcquisitionProjectShadowsActionResource', 'DataAcquisitionProjectResource',  function(Principal, CommonDialogsService,
     DataAcquisitionProjectShadowsResource, SimpleMessageToastService,
     DataAcquisitionProjectShadowsHideResource, $timeout,
     DataAcquisitionProjectShadowsActionResource,
@@ -17,10 +17,10 @@ angular.module('metadatamanagementApp')
       },
       replace: true,
       controllerAs: 'ctrl',
-      controller: function($scope) {
+      controller: ['$scope', function($scope) {
         this.project = $scope.project;
         $scope.bowser = bowser;
-      },
+      }],
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
         $scope.$on('$destroy', function() {
@@ -149,4 +149,5 @@ angular.module('metadatamanagementApp')
         };
       }
     };
-  });
+  }]);
+

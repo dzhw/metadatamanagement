@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').directive('metadataStatus',
       },
       controllerAs: 'ctrl',
       bindToController: true,
-      controller: function(ProjectStatusScoringService) {
+      controller: ['ProjectStatusScoringService', function(ProjectStatusScoringService) {
         this.$onInit = function() {
           var requirements = _.get(this.project, 'configuration.requirements');
           this.displayStatus =  requirements &&
@@ -24,6 +24,6 @@ angular.module('metadatamanagementApp').directive('metadataStatus',
               .scoreProjectStatus(this.project, this.type);
           }
         };
-      }
+      }]
     };
   });

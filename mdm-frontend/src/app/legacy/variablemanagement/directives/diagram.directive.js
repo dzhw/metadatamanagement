@@ -2,7 +2,7 @@
 /* global _*/
 'use strict';
 
-angular.module('metadatamanagementApp').directive('diagram',
+angular.module('metadatamanagementApp').directive('diagram', ['$window', '$timeout', '$filter', 'Plotly', 
   function($window, $timeout, $filter, Plotly) {
     var link = function(scope, element) {
       scope.isNotLoaded = true;
@@ -133,4 +133,5 @@ angular.module('metadatamanagementApp').directive('diagram',
         variable: '='
       }
     };
-  });
+  }]);
+

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').directive('fdzOnload',
+angular.module('metadatamanagementApp').directive('fdzOnload', ['$parse', 
     function($parse) {
       return {
         restrict: 'A',
@@ -16,4 +16,5 @@ angular.module('metadatamanagementApp').directive('fdzOnload',
           });
         }
       };
-    });
+    }]);
+

@@ -6,7 +6,7 @@
 
 angular
   .module('metadatamanagementApp')
-  .directive('readElementSize', function($timeout, $window) {
+  .directive('readElementSize', ['$timeout', '$window',  function($timeout, $window) {
 
     function link($scope, element) {
       var container = element[0];
@@ -33,4 +33,5 @@ angular
       link: link,
       restrict: 'A'
     };
-  });
+  }]);
+

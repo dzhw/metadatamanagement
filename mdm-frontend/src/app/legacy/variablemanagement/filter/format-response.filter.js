@@ -1,7 +1,7 @@
 /* global _,$ */
 'use strict';
 
-angular.module('metadatamanagementApp').filter('formatResponse',
+angular.module('metadatamanagementApp').filter('formatResponse', ['$filter', 'LanguageService', 
   function($filter, LanguageService) {
     return function(value, variable, meanValue) {
 
@@ -40,4 +40,5 @@ angular.module('metadatamanagementApp').filter('formatResponse',
 
       return value;
     };
-  });
+  }]);
+

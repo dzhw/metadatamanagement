@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').directive('fdzTrackDownload',
+angular.module('metadatamanagementApp').directive('fdzTrackDownload', ['$analytics', '$rootScope', 
     function($analytics, $rootScope) {
         return {
           restrict: 'A',
@@ -15,4 +15,5 @@ angular.module('metadatamanagementApp').directive('fdzTrackDownload',
             });
           }
         };
-      });
+      }]);
+
