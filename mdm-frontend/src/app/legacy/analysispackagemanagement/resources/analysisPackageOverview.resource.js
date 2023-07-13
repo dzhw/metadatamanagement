@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AnalysisPackageOverviewResource', function($resource) {
+  .factory('AnalysisPackageOverviewResource', ['$resource',  function($resource) {
     return $resource(
       'api/analysis-packages/:analysisPackageId/overview/generate/:version', {
       dataPackageId: '@analysisPackageId',
@@ -12,4 +12,5 @@ angular.module('metadatamanagementApp')
         params: {languages: '@languages'}
       }
     });
-  });
+  }]);
+

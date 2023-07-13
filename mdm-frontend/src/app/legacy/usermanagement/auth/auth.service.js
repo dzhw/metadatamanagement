@@ -2,8 +2,7 @@
 
 angular
   .module('metadatamanagementApp')
-  .factory(
-    'Auth',
+  .factory('Auth', ['$rootScope', '$q', 'Principal', 'AuthServerProvider', 'AccountResource', 'RegisterResource', 'ActivateResource', 'PasswordResource', 'PasswordResetInitResource', 'PasswordResetFinishResource', 
     function Auth($rootScope, $q, Principal,
       AuthServerProvider, AccountResource, RegisterResource, ActivateResource,
       PasswordResource, PasswordResetInitResource,
@@ -112,4 +111,5 @@ angular
           }).$promise;
         }
       };
-    });
+    }]);
+

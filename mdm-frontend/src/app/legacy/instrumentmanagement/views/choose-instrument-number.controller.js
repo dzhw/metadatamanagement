@@ -2,7 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChooseInstrumentNumberController',
+  .controller('ChooseInstrumentNumberController', [
+  'availableInstrumentNumbers',
+  '$scope',
+  '$mdDialog',
     function(availableInstrumentNumbers, $scope, $mdDialog) {
       $scope.bowser = bowser;
       $scope.availableInstrumentNumbers = availableInstrumentNumbers;
@@ -14,4 +17,5 @@ angular.module('metadatamanagementApp')
           instrumentNumber: $scope.selectedInstrumentNumber
         });
       };
-    });
+    }]);
+

@@ -1,7 +1,7 @@
 /* global XLSX, FileReader */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ExcelReaderService',
+angular.module('metadatamanagementApp').service('ExcelReaderService', ['$q', 
   function($q) {
     this.readFileAsync = function(file, readAllSheets) {
       var deferred = $q.defer();
@@ -57,4 +57,5 @@ angular.module('metadatamanagementApp').service('ExcelReaderService',
       }
       return deferred.promise;
     };
-  });
+  }]);
+

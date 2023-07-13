@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('ActivationController',
+angular.module('metadatamanagementApp').controller('ActivationController', [
+  '$scope',
+  '$state',
+  '$stateParams',
+  'Auth',
+  'PageMetadataService',
+  'BreadcrumbService',
   function($scope, $state, $stateParams, Auth, PageMetadataService,
     BreadcrumbService) {
     PageMetadataService.setPageTitle('user-management.activate.title');
@@ -15,4 +21,5 @@ angular.module('metadatamanagementApp').controller('ActivationController',
     });
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

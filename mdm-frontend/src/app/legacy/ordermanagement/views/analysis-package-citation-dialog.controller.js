@@ -1,6 +1,16 @@
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('AnalysisPackageCitationDialogController',
+  .controller('AnalysisPackageCitationDialogController', [
+  '$mdDialog',
+  'SimpleMessageToastService',
+  'analysisPackage',
+  '$rootScope',
+  '$scope',
+  'AnalysisPackageCitationHintGenerator',
+  'FileSaver',
+  'Blob',
+  'EndOfLineService',
+  '$filter',
   function($mdDialog, SimpleMessageToastService, analysisPackage,
            $rootScope, $scope, AnalysisPackageCitationHintGenerator, FileSaver,
            Blob, EndOfLineService, $filter) {
@@ -43,4 +53,5 @@ angular.module('metadatamanagementApp')
       var fileName = bibtexKey + '.bib';
       FileSaver.saveAs(data, fileName);
     };
-  });
+  }]);
+

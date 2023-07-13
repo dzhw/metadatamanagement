@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('QuestionImageUploadService',
+angular.module('metadatamanagementApp').service('QuestionImageUploadService', ['Upload', '$q', '$http', 
   function(Upload, $q, $http) {
     var uploadImage = function(image, questionImageMetadata) {
       var deferred = $q.defer();
@@ -27,4 +27,5 @@ angular.module('metadatamanagementApp').service('QuestionImageUploadService',
       deleteAllImages: deleteAllImages,
       uploadImage: uploadImage
     };
-  });
+  }]);
+

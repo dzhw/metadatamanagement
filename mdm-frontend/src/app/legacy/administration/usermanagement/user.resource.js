@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('UserResource',
+angular.module('metadatamanagementApp').factory('UserResource', ['$resource', 
   function($resource) {
     return $resource('api/users/:login', {}, {
       'query': {
@@ -38,4 +38,5 @@ angular.module('metadatamanagementApp').factory('UserResource',
         isArray: true
       }
     });
-  });
+  }]);
+

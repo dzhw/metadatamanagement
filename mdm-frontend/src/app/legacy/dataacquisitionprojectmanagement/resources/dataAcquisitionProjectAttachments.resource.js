@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectAttachmentsResource',
+  .factory('DataAcquisitionProjectAttachmentsResource', ['$resource', 
     function($resource) {
     return $resource(
       '/api/data-acquisition-projects/:id/attachments', {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         method: 'GET'
       }
     });
-  });
+  }]);
+

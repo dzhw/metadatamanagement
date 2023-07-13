@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('JobLoggingService',
+angular.module('metadatamanagementApp').service('JobLoggingService', ['JobCompleteToastService', 'blockUI', 
   function(JobCompleteToastService, blockUI) {
     //init a new counts object which can be used in job.countsByObjectType
     var createNewCountsByObjectType = function() {
@@ -153,4 +153,5 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       finish: finish,
       cancel: cancel
     };
-  });
+  }]);
+

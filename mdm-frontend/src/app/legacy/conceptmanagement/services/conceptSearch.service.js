@@ -1,7 +1,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').factory('ConceptSearchService',
+angular.module('metadatamanagementApp').factory('ConceptSearchService', ['$q', 'ElasticSearchClient', 'SearchHelperService', 'CleanJSObjectService', 'LanguageService', 
   function($q, ElasticSearchClient, SearchHelperService, CleanJSObjectService,
     LanguageService) {
     var createQueryObject = function(type) {
@@ -213,4 +213,5 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
       findOneById: findOneById,
       findTags: findTags
     };
-  });
+  }]);
+

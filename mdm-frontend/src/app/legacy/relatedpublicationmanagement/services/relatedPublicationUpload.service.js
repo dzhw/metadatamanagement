@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .service('RelatedPublicationUploadService',
+  .service('RelatedPublicationUploadService', ['ExcelReaderService', 'RelatedPublicationBuilderService', 'RelatedPublicationRepositoryClient', 'JobLoggingService', '$q', 'ErrorMessageResolverService', 'ElasticSearchAdminService', '$rootScope', '$translate', '$mdDialog', 'RelatedPublicationResource', 
     function(ExcelReaderService, RelatedPublicationBuilderService,
       RelatedPublicationRepositoryClient, JobLoggingService, $q,
       ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
@@ -152,4 +152,5 @@ angular.module('metadatamanagementApp')
       return {
         uploadRelatedPublications: uploadRelatedPublications
       };
-    });
+    }]);
+

@@ -2,7 +2,7 @@
 
 /* Data Package Attachments Versions Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataPackageAttachmentVersionsResource', function($resource) {
+  .factory('DataPackageAttachmentVersionsResource', ['$resource',  function($resource) {
     return $resource(
       '/api/data-packages/:dataPackageId/attachments/:filename/versions', {
       dataPackageId: '@dataPackageId',
@@ -13,4 +13,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

@@ -1,7 +1,14 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller(
-  'HealthController',
+angular.module('metadatamanagementApp').controller('HealthController', [
+  '$scope',
+  'MonitoringService',
+  '$uibModal',
+  'ElasticSearchAdminService',
+  'PageMetadataService',
+  '$state',
+  'BreadcrumbService',
+  'SimpleMessageToastService',
   function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
     PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService) {
     PageMetadataService.setPageTitle('administration.health.title');
@@ -171,4 +178,5 @@ angular.module('metadatamanagementApp').controller(
     };
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

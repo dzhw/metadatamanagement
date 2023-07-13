@@ -2,7 +2,28 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('SurveyDetailController',
+  .controller('SurveyDetailController', [
+  'entity',
+  'LanguageService',
+  'CleanJSObjectService',
+  'PageMetadataService',
+  '$state',
+  'BreadcrumbService',
+  'MessageBus',
+  'SurveySearchService',
+  'SurveyAttachmentResource',
+  'Principal',
+  'SimpleMessageToastService',
+  'SearchResultNavigatorService',
+  'SurveyResponseRateImageUploadService',
+  'OutdatedVersionNotifier',
+  'DataAcquisitionProjectResource',
+  '$mdDialog',
+  'ProjectUpdateAccessService',
+  'CountryCodesResource',
+  '$stateParams',
+  'blockUI',
+  '$mdSidenav',
     function(entity, LanguageService, CleanJSObjectService,
              PageMetadataService, $state, BreadcrumbService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
@@ -150,4 +171,5 @@ angular.module('metadatamanagementApp')
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
-    });
+    }]);
+

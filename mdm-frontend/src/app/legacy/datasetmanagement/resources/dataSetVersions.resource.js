@@ -2,7 +2,7 @@
 
 /* DataSet Versions Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataSetVersionsResource', function($resource) {
+  .factory('DataSetVersionsResource', ['$resource',  function($resource) {
     return $resource('/api/data-sets/:id/versions', {
       id: '@id'
     }, {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataPackageOverviewResource', function($resource) {
+  .factory('DataPackageOverviewResource', ['$resource',  function($resource) {
     return $resource(
       'api/data-packages/:dataPackageId/overview/generate/:version', {
       dataPackageId: '@dataPackageId',
@@ -12,4 +12,5 @@ angular.module('metadatamanagementApp')
         params: {languages: '@languages'}
       }
     });
-  });
+  }]);
+

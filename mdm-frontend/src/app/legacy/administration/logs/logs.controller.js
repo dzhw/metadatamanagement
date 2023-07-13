@@ -1,6 +1,11 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('LogsController',
+angular.module('metadatamanagementApp').controller('LogsController', [
+  '$scope',
+  '$state',
+  'LogsResource',
+  'PageMetadataService',
+  'BreadcrumbService',
   function($scope, $state, LogsResource, PageMetadataService,
   BreadcrumbService) {
     PageMetadataService.setPageTitle('administration.logs.title');
@@ -16,4 +21,5 @@ angular.module('metadatamanagementApp').controller('LogsController',
     };
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

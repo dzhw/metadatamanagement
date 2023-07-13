@@ -2,7 +2,40 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('DataSetEditOrCreateController',
+  .controller('DataSetEditOrCreateController', [
+  'entity',
+  'PageMetadataService',
+  '$timeout',
+  '$state',
+  'BreadcrumbService',
+  'Principal',
+  'SimpleMessageToastService',
+  'CurrentProjectService',
+  'DataSetIdBuilderService',
+  'DataSetResource',
+  '$scope',
+  'SurveyIdBuilderService',
+  '$document',
+  'ElasticSearchAdminService',
+  '$mdDialog',
+  '$transitions',
+  'DataPackageResource',
+  'CommonDialogsService',
+  'LanguageService',
+  'AvailableDataSetNumbersResource',
+  'DataSetAttachmentResource',
+  '$q',
+  'DataPackageIdBuilderService',
+  'SearchDao',
+  'DataAcquisitionProjectResource',
+  '$rootScope',
+  'ProjectUpdateAccessService',
+  'AttachmentDialogService',
+  'DataSetAttachmentUploadService',
+  'DataSetAttachmentVersionsResource',
+  'ChoosePreviousVersionService',
+  'DataSetVersionsResource',
+  'DataFormatsResource',
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
@@ -607,4 +640,5 @@ angular.module('metadatamanagementApp')
       ];
 
       init();
-    });
+    }]);
+

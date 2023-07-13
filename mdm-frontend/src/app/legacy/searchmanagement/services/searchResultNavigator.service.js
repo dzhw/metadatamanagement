@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory(
-  'SearchResultNavigatorService',
+angular.module('metadatamanagementApp').factory('SearchResultNavigatorService', ['SearchDao', '$q', 'BreadcrumbService', 
   function(SearchDao, $q, BreadcrumbService) {
     var searchIndex = null;
     var lastSearchParams = {};
@@ -104,5 +103,5 @@ angular.module('metadatamanagementApp').factory(
       setSearchIndex: setSearchIndex,
       getSearchIndex: getSearchIndex
     };
-  }
-);
+  }]);
+

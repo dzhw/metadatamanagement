@@ -63,7 +63,10 @@
 
     angular
       .module('metadatamanagementApp')
-      .controller('listDataPackageController', Controller);
+      .controller('listDataPackageController', [
+      'LanguageService',
+      Controller
+    ]);
   }
 
 )

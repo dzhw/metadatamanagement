@@ -1,8 +1,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').factory(
-  'SearchHelperService',
+angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJSObjectService', 'Principal', 'LanguageService', 
   function(CleanJSObjectService, Principal, LanguageService) {
     var domainObjectFilterNames = ['data-package', 'analysis-package','survey',
       'data-set', 'instrument', 'variable', 'question'];
@@ -882,5 +881,5 @@ angular.module('metadatamanagementApp').factory(
       addAggregations: addAggregations,
       addNewFilters: addNewFilters
     };
-  }
-);
+  }]);
+

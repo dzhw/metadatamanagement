@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory(
-  'RelatedPublicationRepositoryClient', function($http) {
+angular.module('metadatamanagementApp').factory('RelatedPublicationRepositoryClient', ['$http',  function($http) {
     var findAll = function() {
       return $http({
         method: 'GET',
@@ -22,4 +21,5 @@ angular.module('metadatamanagementApp').factory(
     return {
       findAll: findAll
     };
-  });
+  }]);
+

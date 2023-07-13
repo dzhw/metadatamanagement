@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory(
-  'ElasticSearchAdminService',
+angular.module('metadatamanagementApp').factory('ElasticSearchAdminService', ['$http', 
   function($http) {
     return {
       recreateAllElasticsearchIndices: function() {
@@ -18,5 +17,5 @@ angular.module('metadatamanagementApp').factory(
           });
       }
     };
-  }
-);
+  }]);
+

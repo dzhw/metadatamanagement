@@ -80,5 +80,11 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('DataPackageSearchController', DataPackageSearchController);
+    .controller('DataPackageSearchController', [
+      '$scope',
+      '$location',
+      '$rootScope',
+      'MessageBus',
+      DataPackageSearchController
+    ]);
 })();

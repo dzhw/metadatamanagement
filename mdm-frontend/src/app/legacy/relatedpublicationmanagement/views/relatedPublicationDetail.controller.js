@@ -1,7 +1,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('RelatedPublicationDetailController',
+  .controller('RelatedPublicationDetailController', [
+  'entity',
+  'PageMetadataService',
+  '$state',
+  'BreadcrumbService',
+  'SearchResultNavigatorService',
+  'Principal',
+  '$stateParams',
+  '$mdSidenav',
     function(entity, PageMetadataService, $state, BreadcrumbService,
     SearchResultNavigatorService, Principal, $stateParams,
     $mdSidenav) {
@@ -38,4 +46,5 @@ angular.module('metadatamanagementApp')
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
-    });
+    }]);
+

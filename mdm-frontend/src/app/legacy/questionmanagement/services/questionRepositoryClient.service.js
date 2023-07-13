@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('QuestionRepositoryClient',
+angular.module('metadatamanagementApp').factory('QuestionRepositoryClient', ['$http', 
   function($http) {
     var findByDataAcquisitionProjectId = function(projectId) {
       return $http({
@@ -23,4 +23,5 @@ angular.module('metadatamanagementApp').factory('QuestionRepositoryClient',
     return {
       findByDataAcquisitionProjectId: findByDataAcquisitionProjectId
     };
-  });
+  }]);
+

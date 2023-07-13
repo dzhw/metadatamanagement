@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .service('GenericFilterOptionsSearchService',
+  .service('GenericFilterOptionsSearchService', ['SearchHelperService', 'LanguageService', 'ElasticSearchClient', 'CleanJSObjectService', 'Principal', 
   function(SearchHelperService, LanguageService, ElasticSearchClient,
            CleanJSObjectService, Principal) {
 
@@ -124,4 +124,5 @@ angular.module('metadatamanagementApp')
     return {
       findFilterOptions: findFilterOptions
     };
-  });
+  }]);
+

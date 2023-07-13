@@ -1,7 +1,16 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('EditUserController',
+angular.module('metadatamanagementApp').controller('EditUserController', [
+  '$scope',
+  '$uibModalInstance',
+  'user',
+  'UserResource',
+  'parent',
+  'LanguageService',
+  'SimpleMessageToastService',
+  'DataAcquisitionProjectRepositoryClient',
+  '$q',
   function($scope, $uibModalInstance,
     user, UserResource, parent, LanguageService, SimpleMessageToastService,
     DataAcquisitionProjectRepositoryClient, $q) {
@@ -110,4 +119,5 @@ angular.module('metadatamanagementApp').controller('EditUserController',
         });
       });
     };
-  });
+  }]);
+

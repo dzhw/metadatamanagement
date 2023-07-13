@@ -1,7 +1,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('UserMessageDialogController', function($scope, $mdDialog,
+  .controller('UserMessageDialogController', [
+  '$scope',
+  '$mdDialog',
+  'WebSocketService',
+  '$rootScope', function($scope, $mdDialog,
     WebSocketService, $rootScope) {
     $scope.bowser = $rootScope.bowser;
     $scope.message = {};
@@ -15,4 +19,5 @@ angular.module('metadatamanagementApp')
     $scope.sendMessageToAllUsers = function() {
       WebSocketService.sendMessageToAllUsers($scope.message);
     };
-  });
+  }]);
+

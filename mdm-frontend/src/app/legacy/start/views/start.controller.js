@@ -40,5 +40,14 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('StartController', StartController);
+    .controller('StartController', [
+      '$scope',
+      'LanguageService',
+      'Principal',
+      '$state',
+      'PageMetadataService',
+      'PinnedDataPackagesService',
+      'SearchDao',
+      StartController
+    ]);
 })();

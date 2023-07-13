@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .service('AnalysisPackageCitationHintGenerator',
+  .service('AnalysisPackageCitationHintGenerator', ['$interpolate', 'LanguageService', '$rootScope', 
     function($interpolate, LanguageService, $rootScope) {
       var Cite;
       if (!$rootScope.bowser.msie) {
@@ -122,4 +122,5 @@ angular.module('metadatamanagementApp')
         generateCitationHint: generateCitationHint,
         generateCitationHintForAttachment: generateCitationHintForAttachment
       };
-    });
+    }]);
+

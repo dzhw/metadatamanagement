@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('ConceptVersionsResource', function($resource) {
+  .factory('ConceptVersionsResource', ['$resource',  function($resource) {
     return $resource('/api/concepts/:id/versions', {
       id: '@id'
     }, {
@@ -10,4 +10,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

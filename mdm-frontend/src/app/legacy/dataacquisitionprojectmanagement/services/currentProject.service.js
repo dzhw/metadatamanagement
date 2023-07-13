@@ -1,6 +1,6 @@
 /* Author: Daniel Katzberg */
 'use strict';
-angular.module('metadatamanagementApp').service('CurrentProjectService',
+angular.module('metadatamanagementApp').service('CurrentProjectService', ['$rootScope', '$location', 'localStorageService', 'DataAcquisitionProjectResource', 
   function($rootScope, $location, localStorageService,
     DataAcquisitionProjectResource) {
 
@@ -55,4 +55,5 @@ angular.module('metadatamanagementApp').service('CurrentProjectService',
       setCurrentProject: setCurrentProject,
       getCurrentProject: getCurrentProject
     };
-  });
+  }]);
+

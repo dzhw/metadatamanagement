@@ -4,7 +4,26 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('QuestionDetailController',
+  .controller('QuestionDetailController', [
+  'entity',
+  '$state',
+  'BreadcrumbService',
+  'MessageBus',
+  'SimpleMessageToastService',
+  'QuestionSearchService',
+  'CleanJSObjectService',
+  'PageMetadataService',
+  '$rootScope',
+  'Principal',
+  'SearchResultNavigatorService',
+  'QuestionImageMetadataResource',
+  '$mdMenu',
+  '$timeout',
+  '$stateParams',
+  'OutdatedVersionNotifier',
+  'blockUI',
+  '$mdSidenav',
+  'ContainsOnlyQualitativeDataChecker',
     function(entity, $state, BreadcrumbService, MessageBus,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageMetadataService, $rootScope, Principal, SearchResultNavigatorService,
@@ -174,4 +193,5 @@ angular.module('metadatamanagementApp')
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
-    });
+    }]);
+

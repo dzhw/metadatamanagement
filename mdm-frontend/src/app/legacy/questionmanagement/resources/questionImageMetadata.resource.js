@@ -2,7 +2,7 @@
 
 /* Instrument Resource */
 angular.module('metadatamanagementApp')
-  .factory('QuestionImageMetadataResource', function($resource) {
+  .factory('QuestionImageMetadataResource', ['$resource',  function($resource) {
     return $resource('/api/questions/:id/images', {
       id: '@id'
     }, {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

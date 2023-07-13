@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(
+angular.module('metadatamanagementApp').config([
+  '$stateProvider',
+
   function($stateProvider) {
     $stateProvider.state('logs', {
       parent: 'admin',
@@ -15,4 +17,4 @@ angular.module('metadatamanagementApp').config(
         }
       }
     });
-  });
+  }]);

@@ -125,7 +125,17 @@
 
     angular
       .module('metadatamanagementApp')
-      .controller('dataPackageController', Controller);
+      .controller('dataPackageController', [
+      '$rootScope',
+      'SearchDao',
+      'LanguageService',
+      'CurrentDataPackageService',
+      'DataPackageSearchService',
+      'DataAcquisitionProjectReleasesResource',
+      'ProjectReleaseService',
+      'DataPackageAccessWaysResource',
+      Controller
+    ]);
   }
 
 )

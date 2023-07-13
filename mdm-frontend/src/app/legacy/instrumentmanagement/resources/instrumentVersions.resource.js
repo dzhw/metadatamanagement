@@ -2,7 +2,7 @@
 
 /* Instrument Versions Resource */
 angular.module('metadatamanagementApp')
-  .factory('InstrumentVersionsResource', function($resource) {
+  .factory('InstrumentVersionsResource', ['$resource',  function($resource) {
     return $resource('/api/instruments/:id/versions', {
       id: '@id'
     }, {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

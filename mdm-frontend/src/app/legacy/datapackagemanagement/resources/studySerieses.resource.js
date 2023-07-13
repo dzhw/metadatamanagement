@@ -2,11 +2,12 @@
 
 /* Study Serieses Resource */
 angular.module('metadatamanagementApp')
-  .factory('StudySeriesesResource', function($resource) {
+  .factory('StudySeriesesResource', ['$resource',  function($resource) {
     return $resource('/api/study-serieses', {}, {
       'get': {
         method: 'GET',
         isArray: true
       }
     });
-  });
+  }]);
+

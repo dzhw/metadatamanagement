@@ -18,7 +18,24 @@ try {
         'ng-showdown', 'swxSessionStorage', 'angulartics', 'angulartics.piwik'
       ])
 
-  .run(
+  .run([
+      '$rootScope',
+      '$location',
+      '$state',
+      'LanguageService',
+      'Auth',
+      'Principal',
+      'ENV',
+      'VERSION',
+      '$mdMedia',
+      '$transitions',
+      '$timeout',
+      '$window',
+      'WebSocketService',
+      '$urlRouter',
+      '$translate',
+      'MigrationService',
+      '$browser',
       function($rootScope, $location, $state, LanguageService, Auth, Principal,
         ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
         WebSocketService, $urlRouter, $translate, MigrationService, $browser) {
@@ -186,7 +203,7 @@ try {
             }
           });
         }, 1000);
-      })
+      }])
     .config(
       [
         "$stateProvider",
@@ -288,7 +305,7 @@ try {
         $showdownProvider.setOption('headerLevelStart', 6);
         $showdownProvider.setOption('requireSpaceBeforeHeadingText', true);
 
-        $provide.decorator('$state', function($delegate, $stateParams) {
+        $provide.decorator('$state', ['$delegate', '$stateParams', function($delegate, $stateParams) {
           $delegate.forceReload = function() {
               return $delegate.go($delegate.current, $stateParams, {
                   reload: true,
@@ -297,7 +314,7 @@ try {
                 });
             };
           return $delegate;
-        });
+        }]);
 
         if (ENV === 'local') {
           $analyticsProvider.developerMode(true);

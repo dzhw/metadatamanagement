@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service(
-  'ProjectReleaseService',
+angular.module('metadatamanagementApp').service('ProjectReleaseService', ['SimpleMessageToastService', 'DataAcquisitionProjectResource', 'CurrentProjectService', '$mdDialog', '$translate', '$state', 
   function(
     SimpleMessageToastService,
     DataAcquisitionProjectResource,
@@ -73,5 +72,5 @@ angular.module('metadatamanagementApp').service(
       unreleaseProject: unreleaseProject,
       stripVersionSuffix: stripVersionSuffix
     };
-  }
-);
+  }]);
+

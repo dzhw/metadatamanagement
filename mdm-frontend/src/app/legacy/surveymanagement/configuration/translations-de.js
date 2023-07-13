@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(
+angular.module('metadatamanagementApp').config([
+  '$translateProvider',
+
   function($translateProvider) {
     var translations = {
       //jscs:disable
@@ -329,4 +331,4 @@ angular.module('metadatamanagementApp').config(
       //jscs:enable
     };
     $translateProvider.translations('de', translations);
-  });
+  }]);

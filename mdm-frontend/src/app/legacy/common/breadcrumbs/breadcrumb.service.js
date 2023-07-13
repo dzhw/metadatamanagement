@@ -1,7 +1,7 @@
 /*global _*/
 'use strict';
 
-angular.module('metadatamanagementApp').factory('BreadcrumbService',
+angular.module('metadatamanagementApp').factory('BreadcrumbService', ['$rootScope', '$log', 'Principal', 
   function($rootScope, $log, Principal) {
     var isAuthenticated = Principal.isAuthenticated;
     var stripVersionSuffixAndDollar = function(id) {
@@ -680,4 +680,5 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       updateToolbarHeader: updateToolbarHeader,
       setCurrentSearchPage: setCurrentSearchPage
     };
-  });
+  }]);
+

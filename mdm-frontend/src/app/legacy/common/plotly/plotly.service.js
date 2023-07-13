@@ -1,7 +1,7 @@
 /* global Plotly*/
 'use strict';
 
-angular.module('metadatamanagementApp').factory('Plotly',
+angular.module('metadatamanagementApp').factory('Plotly', ['$rootScope', 'LanguageService', 
   function($rootScope, LanguageService) {
     var plotlyService = Plotly;
     var language = LanguageService.getCurrentInstantly();
@@ -17,4 +17,5 @@ angular.module('metadatamanagementApp').factory('Plotly',
         Plotly.setPlotConfig({locale: newLanguage});
       });
     return plotlyService;
-  });
+  }]);
+

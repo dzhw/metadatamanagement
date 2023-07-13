@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AnalysisPackageSearchService',
+  .factory('AnalysisPackageSearchService', ['$q', 'ElasticSearchClient', 'CleanJSObjectService', 'SearchHelperService', 'GenericFilterOptionsSearchService', 'LanguageService', 'AnalysisPackageIdBuilderService', 
     function($q, ElasticSearchClient, CleanJSObjectService, SearchHelperService,
              GenericFilterOptionsSearchService, LanguageService,
              AnalysisPackageIdBuilderService) {
@@ -527,4 +527,5 @@ angular.module('metadatamanagementApp')
         findSponsorFilterOptions: findSponsorFilterOptions,
         findTags: findTags
       };
-    });
+    }]);
+

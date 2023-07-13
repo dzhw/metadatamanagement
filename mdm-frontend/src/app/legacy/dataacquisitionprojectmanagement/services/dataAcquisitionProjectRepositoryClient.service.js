@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory(
-  'DataAcquisitionProjectRepositoryClient', function($http) {
+angular.module('metadatamanagementApp').factory('DataAcquisitionProjectRepositoryClient', ['$http',  function($http) {
     var findByIdLikeOrderByIdAsc = function(id, page, limit) {
       return $http({
         method: 'GET',
@@ -86,4 +85,5 @@ angular.module('metadatamanagementApp').factory(
       findAssignedProjectsAsDataProvider: findAssignedProjectsAsDataProvider,
       findByIdLikeOrderByIdAsc: findByIdLikeOrderByIdAsc
     };
-  });
+  }]);
+

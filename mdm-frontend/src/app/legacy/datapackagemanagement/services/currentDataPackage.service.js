@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('CurrentDataPackageService',
+angular.module('metadatamanagementApp').service('CurrentDataPackageService', ['$rootScope', 
   function($rootScope) {
 
     // the currently chosen data package (only public users)
@@ -22,4 +22,5 @@ angular.module('metadatamanagementApp').service('CurrentDataPackageService',
       setCurrentDataPackage: setCurrentDataPackage,
       getCurrentDataPackage: getCurrentDataPackage
     };
-  });
+  }]);
+

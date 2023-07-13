@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('CurrentAnalysisPackageService',
+angular.module('metadatamanagementApp').service('CurrentAnalysisPackageService', ['$rootScope', 
   function($rootScope) {
 
     // the currently chosen analysis package (only public users)
@@ -22,4 +22,5 @@ angular.module('metadatamanagementApp').service('CurrentAnalysisPackageService',
       setCurrentAnalysisPackage: setCurrentAnalysisPackage,
       getCurrentAnalysisPackage: getCurrentAnalysisPackage
     };
-  });
+  }]);
+

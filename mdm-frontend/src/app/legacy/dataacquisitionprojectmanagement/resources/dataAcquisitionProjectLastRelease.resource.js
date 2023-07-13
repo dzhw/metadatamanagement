@@ -5,7 +5,7 @@
 */
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectLastReleaseResource',
+  .factory('DataAcquisitionProjectLastReleaseResource', ['$resource', 
     function($resource) {
     return $resource(
       '/api/data-acquisition-projects/:id/releases/last', {
@@ -15,4 +15,5 @@ angular.module('metadatamanagementApp')
         method: 'GET'
       }
     });
-  });
+  }]);
+

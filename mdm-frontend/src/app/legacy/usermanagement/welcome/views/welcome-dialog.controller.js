@@ -1,6 +1,12 @@
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('WelcomeDialogController',
+  .controller('WelcomeDialogController', [
+  '$scope',
+  '$mdDialog',
+  'username',
+  'bowser',
+  'displayDeactivateDialogOption',
+  'currentLanguage',
   function($scope, $mdDialog, username, bowser, displayDeactivateDialogOption,
     currentLanguage) {
     $scope.bowser = bowser;
@@ -14,4 +20,5 @@ angular.module('metadatamanagementApp')
     $scope.closeDialog = function() {
       $mdDialog.hide($scope.data.doNotShowAgain);
     };
-  });
+  }]);
+

@@ -2,7 +2,7 @@
 
 /* Data Package Attachment Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataPackageAttachmentResource', function($resource,
+  .factory('DataPackageAttachmentResource', ['$resource', 'CleanJSObjectService',  function($resource,
                                                      CleanJSObjectService) {
     return $resource(
       '/api/data-packages/:dataPackageId/attachments/:fileName', {
@@ -46,4 +46,5 @@ angular.module('metadatamanagementApp')
           }
         }
       });
-  });
+  }]);
+

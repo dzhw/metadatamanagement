@@ -2,7 +2,28 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ConceptEditOrCreateController',
+  .controller('ConceptEditOrCreateController', [
+  'entity',
+  'PageMetadataService',
+  '$timeout',
+  '$state',
+  'BreadcrumbService',
+  'Principal',
+  'SimpleMessageToastService',
+  'ConceptResource',
+  'ConceptSearchService',
+  '$scope',
+  '$q',
+  'ElasticSearchAdminService',
+  '$transitions',
+  'CommonDialogsService',
+  'LanguageService',
+  'ConceptAttachmentUploadService',
+  'ConceptAttachmentResource',
+  'AttachmentDialogService',
+  'ConceptAttachmentVersionsResource',
+  'ChoosePreviousVersionService',
+  'ConceptVersionsResource',
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
@@ -387,4 +408,5 @@ angular.module('metadatamanagementApp')
       };
 
       init();
-    });
+    }]);
+

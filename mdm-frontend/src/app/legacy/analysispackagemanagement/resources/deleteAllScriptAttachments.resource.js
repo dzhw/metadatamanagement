@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DeleteAllScriptAttachmentsResource', function($resource) {
+  .factory('DeleteAllScriptAttachmentsResource', ['$resource',  function($resource) {
     return $resource(
       '/api/analysis-packages/:analysisPackageId' +
       '/scripts/attachments/', {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
           method: 'DELETE'
         }
       });
-  });
+  }]);
+

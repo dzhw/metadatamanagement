@@ -2,7 +2,12 @@
 /* Author Daniel Katzberg */
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('FdzFeedbackDialogController',
+  .controller('FdzFeedbackDialogController', [
+  '$scope',
+  '$mdDialog',
+  'bowser',
+  '$location',
+  '$translate',
   function($scope, $mdDialog, bowser, $location,
       $translate) {
     $scope.bowser = bowser;
@@ -66,4 +71,5 @@ angular.module('metadatamanagementApp')
     $scope.closeDialog = function() {
       $mdDialog.hide();
     };
-  });
+  }]);
+

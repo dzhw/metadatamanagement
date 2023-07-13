@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ProjectOverviewController', function($stateParams, $state,
+  .controller('ProjectOverviewController', [
+  '$stateParams',
+  '$state',
+  'BreadcrumbService',
+  'PageMetadataService',
+  'DataAcquisitionProjectRepositoryClient', function($stateParams, $state,
     BreadcrumbService, PageMetadataService,
     DataAcquisitionProjectRepositoryClient) {
     var ctrl = this;
@@ -42,4 +47,5 @@ angular.module('metadatamanagementApp')
     };
 
     init();
-  });
+  }]);
+

@@ -2,7 +2,32 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('AnalysisPackageDetailController',
+  .controller('AnalysisPackageDetailController', [
+  'entity',
+  'MessageBus',
+  'PageMetadataService',
+  'LanguageService',
+  'DataPackageSearchService',
+  '$state',
+  'BreadcrumbService',
+  'Principal',
+  'SimpleMessageToastService',
+  'SearchResultNavigatorService',
+  '$stateParams',
+  'AnalysisPackageAttachmentResource',
+  '$rootScope',
+  'DataAcquisitionProjectResource',
+  'ProjectUpdateAccessService',
+  '$scope',
+  'ScriptAttachmentResource',
+  '$timeout',
+  '$document',
+  'OutdatedVersionNotifier',
+  'AnalysisPackageSearchService',
+  '$log',
+  'blockUI',
+  '$mdSidenav',
+  'ContainsOnlyQualitativeDataChecker',
     function(entity,
              MessageBus,
              PageMetadataService,
@@ -212,4 +237,5 @@ angular.module('metadatamanagementApp')
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
-    });
+    }]);
+

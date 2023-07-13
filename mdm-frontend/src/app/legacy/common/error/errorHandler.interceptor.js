@@ -1,8 +1,7 @@
 /* @Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').factory(
-  'errorHandlerInterceptor',
+angular.module('metadatamanagementApp').factory('errorHandlerInterceptor', ['$q', '$rootScope', 
   function($q, $rootScope) {
     return {
       'responseError': function(response) {
@@ -28,4 +27,5 @@ angular.module('metadatamanagementApp').factory(
         return $q.reject(response);
       }
     };
-  });
+  }]);
+

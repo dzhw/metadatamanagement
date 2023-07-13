@@ -1,7 +1,33 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('DataPackageDetailController',
+  .controller('DataPackageDetailController', [
+  'entity',
+  'MessageBus',
+  'PageMetadataService',
+  'LanguageService',
+  '$state',
+  '$location',
+  '$mdDialog',
+  'BreadcrumbService',
+  'Principal',
+  'SimpleMessageToastService',
+  'SearchResultNavigatorService',
+  '$stateParams',
+  'DataAcquisitionProjectAttachmentsResource',
+  '$rootScope',
+  'DataAcquisitionProjectResource',
+  'ProjectUpdateAccessService',
+  '$scope',
+  '$timeout',
+  '$document',
+  'DataPackageOverviewResource',
+  'OutdatedVersionNotifier',
+  'DataPackageSearchService',
+  '$log',
+  'blockUI',
+  '$mdSidenav',
+  'ContainsOnlyQualitativeDataChecker',
     function(entity,
              MessageBus,
              PageMetadataService,
@@ -181,4 +207,5 @@ angular.module('metadatamanagementApp')
             });
         });
       };
-    });
+    }]);
+

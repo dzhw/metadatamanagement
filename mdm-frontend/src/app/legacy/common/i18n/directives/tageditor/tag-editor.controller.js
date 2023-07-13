@@ -2,7 +2,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('TagEditorController', function($scope, $mdMedia) {
+  .controller('TagEditorController', [
+  '$scope',
+  '$mdMedia', function($scope, $mdMedia) {
 
     var removeExistingTags = function(tags, language) {
       return _.difference(tags, $scope.tags[language]);
@@ -38,4 +40,5 @@ angular.module('metadatamanagementApp')
           return removeExistingTags(foundTags, language);
         });
     };
-  });
+  }]);
+

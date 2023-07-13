@@ -253,5 +253,12 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('SearchFilterController', SearchFilterController);
+    .controller('SearchFilterController', [
+      '$scope',
+      '$location',
+      'MessageBus',
+      '$timeout',
+      '$mdDialog',
+      SearchFilterController
+    ]);
 })();

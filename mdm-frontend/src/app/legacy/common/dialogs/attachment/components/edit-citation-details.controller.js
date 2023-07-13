@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('EditCitationDetailsController',
+  .controller('EditCitationDetailsController', [
+  '$scope',
+  '$rootScope',
     function($scope, $rootScope) {
       var $ctrl = this;
       $ctrl.currentYear = new Date().getFullYear();
@@ -13,5 +15,5 @@ angular.module('metadatamanagementApp')
         }
         $scope.form = $ctrl.currentForm;
       };
-    }
-  );
+    }]);
+

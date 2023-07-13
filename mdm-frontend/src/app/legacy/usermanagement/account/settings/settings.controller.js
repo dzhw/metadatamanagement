@@ -1,6 +1,13 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('SettingsController',
+angular.module('metadatamanagementApp').controller('SettingsController', [
+  '$scope',
+  'Principal',
+  '$state',
+  'BreadcrumbService',
+  'Auth',
+  'LanguageService',
+  'PageMetadataService',
   function($scope, Principal, $state, BreadcrumbService,
     Auth, LanguageService, PageMetadataService) {
     PageMetadataService.setPageTitle('global.menu.account.settings');
@@ -29,4 +36,5 @@ angular.module('metadatamanagementApp').controller('SettingsController',
     };
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

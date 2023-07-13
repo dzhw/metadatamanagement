@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('ActivateResource',
+angular.module('metadatamanagementApp').factory('ActivateResource', ['$resource', 
     function($resource) {
       return $resource('api/activate', {}, {
         'get': {
@@ -9,4 +9,5 @@ angular.module('metadatamanagementApp').factory('ActivateResource',
           isArray: false
         }
       });
-    });
+    }]);
+

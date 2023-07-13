@@ -2,7 +2,9 @@
 
 angular
   .module('metadatamanagementApp')
-  .config(
+  .config([
+  '$stateProvider',
+
     function($stateProvider) {
       $stateProvider
         .state('project-overview', {
@@ -45,7 +47,8 @@ angular
             }
           },
           resolve: {
-            projectDeferred: function($stateParams, $q,
+            projectDeferred: ['$stateParams', '$q', 'DataAcquisitionProjectResource', 'CurrentProjectService',
+              function($stateParams, $q,
                                       DataAcquisitionProjectResource,
                                       CurrentProjectService) {
               var deferred = $q.defer();
@@ -62,11 +65,11 @@ angular
                 deferred.reject();
               }
               return deferred;
-            }
+            }]
           },
           onEnter: function($timeout) {
             $timeout(function() {
             });
           }
         });
-    });
+    }]);

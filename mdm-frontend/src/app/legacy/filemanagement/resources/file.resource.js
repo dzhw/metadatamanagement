@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .service('FileResource', function($http) {
+  .service('FileResource', ['$http',  function($http) {
     this.download = function(fileName) {
       var url = '/public/files';
       if (fileName.lastIndexOf('/', 0) === 0) {
@@ -30,4 +30,5 @@ angular.module('metadatamanagementApp')
         responseType: 'arraybuffer'
       });
     };
-  });
+  }]);
+

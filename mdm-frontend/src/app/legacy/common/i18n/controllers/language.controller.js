@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller(
-  'LanguageController',
+angular.module('metadatamanagementApp').controller('LanguageController', [
+  '$scope',
+  'LanguageService',
   function($scope, LanguageService) {
     $scope.changeLanguage = function(languageKey) {
       LanguageService.setCurrent(languageKey);
@@ -10,7 +11,7 @@ angular.module('metadatamanagementApp').controller(
     LanguageService.getAll().then(function(languages) {
       $scope.languages = languages;
     });
-  }).filter('findLanguageFromKey', function() {
+  }]).filter('findLanguageFromKey', function() {
   return function(lang) {
     return {
       'ca': 'Català',

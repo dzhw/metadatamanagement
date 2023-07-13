@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('MonitoringService',
+angular.module('metadatamanagementApp').factory('MonitoringService', ['$http', 
   function($http) {
     return {
       checkHealth: function() {
@@ -9,4 +9,5 @@ angular.module('metadatamanagementApp').factory('MonitoringService',
         });
       }
     };
-  });
+  }]);
+

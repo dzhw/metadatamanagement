@@ -2,7 +2,29 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('DataSetDetailController',
+  .controller('DataSetDetailController', [
+  'entity',
+  'Principal',
+  'VariableSearchService',
+  'ProjectUpdateAccessService',
+  'DataSetSearchService',
+  'DataSetReportResource',
+  'PageMetadataService',
+  'LanguageService',
+  '$state',
+  'BreadcrumbService',
+  'CleanJSObjectService',
+  'SimpleMessageToastService',
+  'DataSetAttachmentResource',
+  'SearchResultNavigatorService',
+  'DataAcquisitionProjectResource',
+  'OutdatedVersionNotifier',
+  '$stateParams',
+  'blockUI',
+  '$mdDialog',
+  'MessageBus',
+  '$mdSidenav',
+  'ContainsOnlyQualitativeDataChecker',
     function(entity, Principal,
              VariableSearchService, ProjectUpdateAccessService,
              DataSetSearchService, DataSetReportResource, PageMetadataService,
@@ -142,4 +164,5 @@ angular.module('metadatamanagementApp')
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
-    });
+    }]);
+

@@ -2,7 +2,38 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('InstrumentEditOrCreateController',
+  .controller('InstrumentEditOrCreateController', [
+  'entity',
+  'PageMetadataService',
+  '$timeout',
+  '$state',
+  'BreadcrumbService',
+  'Principal',
+  'SimpleMessageToastService',
+  'CurrentProjectService',
+  'InstrumentIdBuilderService',
+  'InstrumentResource',
+  '$scope',
+  'SurveyIdBuilderService',
+  'AttachmentDialogService',
+  'ElasticSearchAdminService',
+  '$mdDialog',
+  '$transitions',
+  'DataPackageResource',
+  'CommonDialogsService',
+  'LanguageService',
+  'AvailableInstrumentNumbersResource',
+  'InstrumentAttachmentResource',
+  '$q',
+  'DataPackageIdBuilderService',
+  'SearchDao',
+  'DataAcquisitionProjectResource',
+  '$rootScope',
+  'ProjectUpdateAccessService',
+  'InstrumentAttachmentUploadService',
+  'InstrumentAttachmentVersionsResource',
+  'ChoosePreviousVersionService',
+  'InstrumentVersionsResource',
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, InstrumentIdBuilderService, InstrumentResource,
@@ -560,4 +591,5 @@ angular.module('metadatamanagementApp')
       ];
 
       init();
-    });
+    }]);
+

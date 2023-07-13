@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('PinnedDataPackagesService',
+angular.module('metadatamanagementApp').factory('PinnedDataPackagesService', ['$http', 
   function($http) {
     var getPinnedDataPackage = function() {
       return $http({
@@ -22,4 +22,5 @@ angular.module('metadatamanagementApp').factory('PinnedDataPackagesService',
     return {
       getPinnedDataPackage: getPinnedDataPackage
     };
-  });
+  }]);
+

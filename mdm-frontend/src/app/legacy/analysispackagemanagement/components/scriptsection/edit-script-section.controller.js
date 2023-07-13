@@ -320,7 +320,19 @@
 
     angular
       .module('metadatamanagementApp')
-      .controller('editScriptSectionController', Controller);
+      .controller('editScriptSectionController', [
+      '$scope',
+      'uuid',
+      'isoLanguages',
+      'LanguageService',
+      'CommonDialogsService',
+      '$mdDialog',
+      'SimpleMessageToastService',
+      'ScriptSoftwarePackagesResource',
+      'ScriptAttachmentUploadService',
+      'ScriptAttachmentResource',
+      Controller
+    ]);
   }
 
 )

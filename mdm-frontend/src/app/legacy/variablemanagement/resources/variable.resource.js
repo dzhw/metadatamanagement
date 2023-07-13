@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('VariableResource', function($resource) {
+  .factory('VariableResource', ['$resource',  function($resource) {
     return $resource('api/variables/:id', {
       id: '@id'
     }, {
@@ -15,4 +15,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE',
       }
     });
-  });
+  }]);
+

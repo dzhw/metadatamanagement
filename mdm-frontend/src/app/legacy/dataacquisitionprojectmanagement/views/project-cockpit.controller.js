@@ -1,7 +1,20 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('ProjectCockpitController',
+angular.module('metadatamanagementApp').controller('ProjectCockpitController', [
+  '$scope',
+  '$state',
+  '$location',
+  '$transitions',
+  'Principal',
+  'PageMetadataService',
+  'LanguageService',
+  'BreadcrumbService',
+  'CurrentProjectService',
+  'projectDeferred',
+  'CommonDialogsService',
+  'ProjectSaveService',
+  'blockUI',
   function($scope, $state, $location, $transitions, Principal,
            PageMetadataService, LanguageService, BreadcrumbService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
@@ -137,4 +150,5 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.loadComplete = true;
 
-  });
+  }]);
+

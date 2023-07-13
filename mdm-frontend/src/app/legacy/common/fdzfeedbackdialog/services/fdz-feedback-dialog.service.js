@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('FdzFeedbackDialogService',
+angular.module('metadatamanagementApp').service('FdzFeedbackDialogService', ['$mdDialog', '$rootScope', 
     function($mdDialog, $rootScope) {
       var showDialog = function() {
         $mdDialog.show({
@@ -19,4 +19,5 @@ angular.module('metadatamanagementApp').service('FdzFeedbackDialogService',
       return {
         showDialog: showDialog
       };
-    });
+    }]);
+

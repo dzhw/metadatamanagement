@@ -1,7 +1,13 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('UserConsentController',
+  .controller('UserConsentController', [
+  '$scope',
+  '$rootScope',
+  '$element',
+  'localStorageService',
+  'LanguageService',
+  '$timeout',
     function($scope, $rootScope, $element, localStorageService,
       LanguageService, $timeout) {
 
@@ -34,5 +40,5 @@ angular.module('metadatamanagementApp')
           $element[0].parentNode.removeChild($element[0]);
         }, 2000);
       };
-    }
-  );
+    }]);
+

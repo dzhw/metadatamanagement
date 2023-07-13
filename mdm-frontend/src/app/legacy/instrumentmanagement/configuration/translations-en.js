@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(function($translateProvider) {
+angular.module('metadatamanagementApp').config([
+  '$translateProvider',
+function($translateProvider) {
     var translations = {
         //jscs:disable
         'instrument-management': {
@@ -198,4 +200,4 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
         //jscs:enable
       };
     $translateProvider.translations('en', translations);
-  });
+  }]);

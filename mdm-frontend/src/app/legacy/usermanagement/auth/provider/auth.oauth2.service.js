@@ -2,8 +2,7 @@
 
 angular
   .module('metadatamanagementApp')
-  .factory(
-    'AuthServerProvider',
+  .factory('AuthServerProvider', ['$http', 'localStorageService', 'Base64', 
     function loginService($http, localStorageService, Base64) {
       return {
         login: function(credentials) {
@@ -52,4 +51,5 @@ angular
           //jscs:enable
         }
       };
-    });
+    }]);
+

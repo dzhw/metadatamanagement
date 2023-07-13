@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AnalysisPackageAttachmentVersionsResource', function($resource) {
+  .factory('AnalysisPackageAttachmentVersionsResource', ['$resource',  function($resource) {
     return $resource(
       '/api/analysis-packages/:analysisPackageId/' +
       'attachments/:filename/versions', {
@@ -13,4 +13,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

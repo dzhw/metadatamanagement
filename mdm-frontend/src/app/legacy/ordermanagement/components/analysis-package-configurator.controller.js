@@ -224,7 +224,23 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('AnalysisPackageConfiguratorController',
-      Controller);
+    .controller('AnalysisPackageConfiguratorController', [
+      '$scope',
+      '$rootScope',
+      '$location',
+      'DataAcquisitionProjectReleasesResource',
+      '$state',
+      '$mdDialog',
+      '$transitions',
+      'LanguageService',
+      'ProjectReleaseService',
+      'ShoppingCartService',
+      'MessageBus',
+      'AnalysisPackageSearchService',
+      'CurrentAnalysisPackageService',
+      'AnalysisPackageCitationDialogService',
+      'DataPackageSearchService',
+      Controller
+    ]);
 
 })();

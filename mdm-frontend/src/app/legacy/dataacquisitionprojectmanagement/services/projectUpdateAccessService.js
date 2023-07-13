@@ -1,8 +1,7 @@
 /* global _ */
 
 'use strict';
-angular.module('metadatamanagementApp').service(
-  'ProjectUpdateAccessService',
+angular.module('metadatamanagementApp').service('ProjectUpdateAccessService', ['CurrentProjectService', 'Principal', 'SimpleMessageToastService', '$log', '$q', 'SearchDao', 
   function(CurrentProjectService, Principal, SimpleMessageToastService,
     $log, $q, SearchDao) {
 
@@ -263,4 +262,5 @@ angular.module('metadatamanagementApp').service(
       isPrerequisiteFulfilled: isPrerequisiteFulfilled
     };
 
-  });
+  }]);
+

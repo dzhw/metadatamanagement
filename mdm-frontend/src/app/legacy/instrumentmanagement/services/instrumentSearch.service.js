@@ -1,7 +1,7 @@
 /* global  _*/
 'use strict';
 
-angular.module('metadatamanagementApp').factory('InstrumentSearchService',
+angular.module('metadatamanagementApp').factory('InstrumentSearchService', ['ElasticSearchClient', '$q', 'CleanJSObjectService', 'SearchHelperService', 'LanguageService', 
   function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
     LanguageService) {
     var createQueryObject = function(type) {
@@ -286,4 +286,5 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       countBy: countBy,
       findInstrumentDescriptions: findInstrumentDescriptions
     };
-  });
+  }]);
+

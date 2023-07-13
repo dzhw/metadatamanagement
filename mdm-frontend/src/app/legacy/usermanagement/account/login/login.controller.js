@@ -1,6 +1,14 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('LoginController',
+angular.module('metadatamanagementApp').controller('LoginController', [
+  '$rootScope',
+  '$scope',
+  '$state',
+  '$timeout',
+  'Auth',
+  'PageMetadataService',
+  'LanguageService',
+  'BreadcrumbService',
   function($rootScope, $scope, $state, $timeout, Auth, PageMetadataService,
     LanguageService, BreadcrumbService) {
     PageMetadataService.setPageTitle('user-management.login.title');
@@ -31,4 +39,5 @@ angular.module('metadatamanagementApp').controller('LoginController',
     };
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

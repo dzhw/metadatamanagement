@@ -1,7 +1,13 @@
 /* global _ */
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('InstitutionSearchFilterController',
+  .controller('InstitutionSearchFilterController', [
+  '$scope',
+  '$location',
+  '$q',
+  '$timeout',
+  'CurrentProjectService',
+  'DataPackageSearchService',
     function($scope, $location, $q, $timeout, CurrentProjectService,
              DataPackageSearchService) {
       // prevent institution changed events during init
@@ -167,4 +173,5 @@ angular.module('metadatamanagementApp')
         function() {
           init($scope.currentLanguage);
         });
-    });
+    }]);
+

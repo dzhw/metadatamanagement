@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('RequestResetController',
+angular.module('metadatamanagementApp').controller('RequestResetController', [
+  '$scope',
+  '$state',
+  'BreadcrumbService',
+  '$timeout',
+  'Auth',
+  'PageMetadataService',
   function($scope, $state, BreadcrumbService, $timeout, Auth,
     PageMetadataService) {
     PageMetadataService.setPageTitle('user-management.reset.request.title');
@@ -31,4 +37,5 @@ angular.module('metadatamanagementApp').controller('RequestResetController',
     };
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

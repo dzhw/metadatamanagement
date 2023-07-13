@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(
+angular.module('metadatamanagementApp').config([
+  '$stateProvider',
+
   function($stateProvider) {
     $stateProvider.state('password', {
       parent: 'account',
@@ -17,4 +19,4 @@ angular.module('metadatamanagementApp').config(
         }
       }
     });
-  });
+  }]);

@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(
+angular.module('metadatamanagementApp').config([
+  '$stateProvider',
+
   function($stateProvider) {
     $stateProvider.state('disclosure', {
       parent: 'site',
@@ -23,4 +25,4 @@ angular.module('metadatamanagementApp').config(
         });
       }
     });
-  });
+  }]);

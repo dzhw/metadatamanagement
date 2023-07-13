@@ -2,7 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChooseSurveyNumberController',
+  .controller('ChooseSurveyNumberController', [
+  'availableSurveyNumbers',
+  '$scope',
+  '$mdDialog',
     function(availableSurveyNumbers, $scope, $mdDialog) {
       $scope.bowser = bowser;
       $scope.availableSurveyNumbers = availableSurveyNumbers;
@@ -14,4 +17,5 @@ angular.module('metadatamanagementApp')
           surveyNumber: $scope.selectedSurveyNumber
         });
       };
-    });
+    }]);
+

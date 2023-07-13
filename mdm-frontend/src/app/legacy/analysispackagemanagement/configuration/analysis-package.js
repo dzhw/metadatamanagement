@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config([
+  '$stateProvider',
+  '$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
     var loadShadowCopy = function(AnalysisPackageSearchService,
         SimpleMessageToastService, id, version, excludes) {
       var loadLatestShadowCopyFallback = function() {
@@ -160,4 +163,4 @@ angular.module('metadatamanagementApp')
           }
         }
       });
-  });
+  }]);

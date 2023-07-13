@@ -1,6 +1,5 @@
 'use strict';
-angular.module('metadatamanagementApp').service(
-  'ScriptAttachmentUploadService',
+angular.module('metadatamanagementApp').service('ScriptAttachmentUploadService', ['Upload', '$q', '$http', 
   function(Upload, $q, $http) {
     var uploadScriptAttachment = function(file, metadata) {
         var deferred = $q.defer();
@@ -38,4 +37,5 @@ angular.module('metadatamanagementApp').service(
       uploadScriptAttachment: uploadScriptAttachment,
       deleteScriptAttachment: deleteAttachment
     };
-  });
+  }]);
+

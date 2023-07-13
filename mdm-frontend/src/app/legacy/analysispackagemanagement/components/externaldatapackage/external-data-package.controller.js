@@ -30,7 +30,10 @@
 
     angular
       .module('metadatamanagementApp')
-      .controller('externalDataPackageController', Controller);
+      .controller('externalDataPackageController', [
+      'LanguageService',
+      Controller
+    ]);
   }
 
 )

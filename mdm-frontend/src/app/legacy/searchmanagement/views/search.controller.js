@@ -4,7 +4,34 @@
 
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
-angular.module('metadatamanagementApp').controller('SearchController',
+angular.module('metadatamanagementApp').controller('SearchController', [
+  '$scope',
+  'Principal',
+  '$location',
+  '$state',
+  'SearchDao',
+  'MessageBus',
+  'VariableUploadService',
+  'ProjectUpdateAccessService',
+  'QuestionUploadService',
+  'RelatedPublicationUploadService',
+  'CleanJSObjectService',
+  'CurrentProjectService',
+  '$timeout',
+  'PageMetadataService',
+  'BreadcrumbService',
+  'SearchHelperService',
+  'SearchResultNavigatorService',
+  'DataPackageResource',
+  'AnalysisPackageResource',
+  'DataPackageIdBuilderService',
+  'AnalysisPackageIdBuilderService',
+  '$rootScope',
+  'ProjectStatusScoringService',
+  'DeleteMetadataService',
+  'SimpleMessageToastService',
+  '$mdSidenav',
+  '$analytics',
   function($scope, Principal, $location, $state, SearchDao, MessageBus,
            VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
@@ -780,4 +807,5 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     init();
-  });
+  }]);
+

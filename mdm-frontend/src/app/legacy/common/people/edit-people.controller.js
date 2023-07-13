@@ -2,7 +2,13 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('EditPeopleController',
+  .controller('EditPeopleController', [
+  '$scope',
+  '$rootScope',
+  '$timeout',
+  '$element',
+  'ORCIDSearchResource',
+  '$mdDialog',
     function($scope, $rootScope, $timeout, $element, ORCIDSearchResource,
              $mdDialog) {
       var $ctrl = this;
@@ -114,5 +120,5 @@ angular.module('metadatamanagementApp')
         delete $ctrl.people[personIndex].orcid;
         $ctrl.currentForm.$setDirty();
       };
-    }
-  );
+    }]);
+

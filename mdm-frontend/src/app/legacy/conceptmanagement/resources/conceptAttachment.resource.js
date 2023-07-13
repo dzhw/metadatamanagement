@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-.factory('ConceptAttachmentResource',
+.factory('ConceptAttachmentResource', ['$resource', 'CleanJSObjectService', 
   function($resource, CleanJSObjectService) {
       return $resource('/api/concepts/:conceptId/attachments/:fileName', {
         conceptId: '@conceptId',
@@ -44,4 +44,5 @@ angular.module('metadatamanagementApp')
           }
         }
       });
-    });
+    }]);
+

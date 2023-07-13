@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('DataPackageRepositoryClient',
+angular.module('metadatamanagementApp').factory('DataPackageRepositoryClient', ['$http', 
   function($http) {
     var findByDataAcquisitionProjectId = function(projectId) {
       return $http({
@@ -23,4 +23,5 @@ angular.module('metadatamanagementApp').factory('DataPackageRepositoryClient',
     return {
       findByDataAcquisitionProjectId: findByDataAcquisitionProjectId
     };
-  });
+  }]);
+

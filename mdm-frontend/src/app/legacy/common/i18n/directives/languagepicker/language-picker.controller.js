@@ -1,7 +1,10 @@
 /* globals _ */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('LanguagePickerController',
+angular.module('metadatamanagementApp').controller('LanguagePickerController', [
+  '$scope',
+  'LanguageResource',
+  'LanguageService',
   function($scope, LanguageResource, LanguageService) {
 
     $scope.languagesRequestPending = true;
@@ -38,4 +41,5 @@ angular.module('metadatamanagementApp').controller('LanguagePickerController',
       var language =  languageMap[languageCode];
       return language ? language.displayName : '';
     };
-  });
+  }]);
+

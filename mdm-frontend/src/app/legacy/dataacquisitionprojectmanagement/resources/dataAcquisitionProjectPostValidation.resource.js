@@ -5,7 +5,7 @@
 */
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectPostValidationResource', function($resource) {
+  .factory('DataAcquisitionProjectPostValidationResource', ['$resource',  function($resource) {
     return $resource('/api/data-acquisition-projects/:id/post-validate', {
       id: '@id',
       version: '@version'
@@ -14,4 +14,5 @@ angular.module('metadatamanagementApp')
         method: 'POST'
       }
     });
-  });
+  }]);
+

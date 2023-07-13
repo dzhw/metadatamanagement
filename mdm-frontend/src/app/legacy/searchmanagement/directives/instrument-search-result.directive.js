@@ -14,7 +14,11 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
         searchResultIndex: '=',
         setParams: '&'
       },
-      controller: function($scope, CommonDialogsService, InstrumentResource,
+      controller: ['$scope', 'CommonDialogsService', 'InstrumentResource',
+        'ElasticSearchAdminService', '$rootScope', 'SimpleMessageToastService',
+        'DataAcquisitionProjectResource', 'Principal', 'ProjectUpdateAccessService',
+        '$state', '$timeout', '$element', 'HighlightService',
+        function($scope, CommonDialogsService, InstrumentResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
         $state, $timeout, $element, HighlightService) {
@@ -65,6 +69,6 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
           }
         };
         $scope.isLoggedIn = Principal.loginName();
-      }
+      }]
     };
   });

@@ -1,7 +1,10 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('SampleTypePickerController',
+angular.module('metadatamanagementApp').controller('SampleTypePickerController', [
+  '$scope',
+  'LanguageService',
+  'SurveySampleTypeResource',
   function($scope, LanguageService, SurveySampleTypeResource) {
 
     var sampleTypes = null;
@@ -38,4 +41,5 @@ angular.module('metadatamanagementApp').controller('SampleTypePickerController',
       }]);
       $scope.isDisabled = false;
     });
-  });
+  }]);
+

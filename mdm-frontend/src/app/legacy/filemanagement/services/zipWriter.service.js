@@ -2,7 +2,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ZipWriterService',
+angular.module('metadatamanagementApp').service('ZipWriterService', ['FileReaderService', '$q', '$log', 
 function(FileReaderService, $q, $log) {
   var rootFolderNames;
   var allFiles;
@@ -88,4 +88,5 @@ function(FileReaderService, $q, $log) {
     });
     return deferred.promise;
   };
-});
+}]);
+

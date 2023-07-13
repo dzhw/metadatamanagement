@@ -1,7 +1,13 @@
 /* global _ */
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('SponsorSearchFilterController',
+  .controller('SponsorSearchFilterController', [
+  '$scope',
+  '$location',
+  '$q',
+  '$timeout',
+  'CurrentProjectService',
+  'DataPackageSearchService',
     function($scope, $location, $q, $timeout, CurrentProjectService,
              DataPackageSearchService) {
 
@@ -168,4 +174,5 @@ angular.module('metadatamanagementApp')
         function() {
           init($scope.currentLanguage);
         });
-    });
+    }]);
+

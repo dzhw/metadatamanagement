@@ -2,7 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChooseDataSetNumberController',
+  .controller('ChooseDataSetNumberController', [
+  'availableDataSetNumbers',
+  '$scope',
+  '$mdDialog',
     function(availableDataSetNumbers, $scope, $mdDialog) {
       $scope.bowser = bowser;
       $scope.availableDataSetNumbers = availableDataSetNumbers;
@@ -14,4 +17,5 @@ angular.module('metadatamanagementApp')
           dataSetNumber: $scope.selectedDataSetNumber
         });
       };
-    });
+    }]);
+

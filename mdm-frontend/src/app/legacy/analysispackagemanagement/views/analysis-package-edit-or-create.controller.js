@@ -3,7 +3,33 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('AnalysisPackageEditOrCreateController',
+  .controller('AnalysisPackageEditOrCreateController', [
+  'entity',
+  'PageMetadataService',
+  '$document',
+  '$timeout',
+  '$state',
+  'BreadcrumbService',
+  'Principal',
+  'SimpleMessageToastService',
+  'CurrentProjectService',
+  'AnalysisPackageIdBuilderService',
+  'AnalysisPackageResource',
+  '$scope',
+  'ElasticSearchAdminService',
+  '$transitions',
+  'CommonDialogsService',
+  'LanguageService',
+  'AnalysisPackageSearchService',
+  'AnalysisPackageAttachmentResource',
+  '$q',
+  'DataAcquisitionProjectResource',
+  'ProjectUpdateAccessService',
+  'AttachmentDialogService',
+  'AnalysisPackageAttachmentUploadService',
+  'AnalysisPackageAttachmentVersionsResource',
+  'ChoosePreviousVersionService',
+  'AnalysisPackageVersionsResource',
     function(entity, PageMetadataService, $document, $timeout,
              $state, BreadcrumbService, Principal, SimpleMessageToastService,
              CurrentProjectService, AnalysisPackageIdBuilderService,
@@ -776,4 +802,5 @@ angular.module('metadatamanagementApp')
       };
 
       init();
-    });
+    }]);
+

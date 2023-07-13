@@ -17,12 +17,12 @@ angular.module('metadatamanagementApp')
       replace: true,
       controllerAs: 'ctrl',
 
-      controller: function($scope) {
+      controller: ['$scope', function($scope) {
         this.group = $scope.group;
         this.isPublisher = $scope.isPublisher;
         this.project = $scope.project;
         $scope.bowser = bowser;
-      },
+      }],
       link: function($scope, elem, attrs, ctrl) { // jshint ignore:line
         ctrl.disabled = !ctrl.isPublisher &&
           ctrl.group === 'publishers';

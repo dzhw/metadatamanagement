@@ -1,7 +1,7 @@
 /* global _*/
 'use strict';
 
-angular.module('metadatamanagementApp').filter('displayI18nString',
+angular.module('metadatamanagementApp').filter('displayI18nString', ['LanguageService',
   function(LanguageService) {
   return function(i18nString) {
     var toBeDisplayed = '';
@@ -17,4 +17,4 @@ angular.module('metadatamanagementApp').filter('displayI18nString',
     }
     return toBeDisplayed;
   };
-});
+}]);

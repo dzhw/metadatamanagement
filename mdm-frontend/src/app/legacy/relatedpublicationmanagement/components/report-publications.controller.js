@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ReportPublicationsController',
+  .controller('ReportPublicationsController', [
+  '$scope',
+  '$sessionStorage',
+  '$rootScope',
+  'CurrentProjectService',
+  'Principal',
+  'CurrentDataPackageService',
+  'DataPackageIdBuilderService',
+  'CurrentAnalysisPackageService',
+  'AnalysisPackageIdBuilderService',
     function($scope, $sessionStorage, $rootScope, CurrentProjectService,
       Principal, CurrentDataPackageService, DataPackageIdBuilderService,
       CurrentAnalysisPackageService, AnalysisPackageIdBuilderService) {
@@ -65,5 +74,5 @@ angular.module('metadatamanagementApp')
         $sessionStorage.put('report-publication.hideSpeechBubble', true);
         $scope.hideSpeechBubble = true;
       };
-    }
-  );
+    }]);
+

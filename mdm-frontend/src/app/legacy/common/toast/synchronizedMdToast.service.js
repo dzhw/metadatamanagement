@@ -1,7 +1,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('SynchronizedMdToast',
+angular.module('metadatamanagementApp').service('SynchronizedMdToast', ['$mdToast', 
   function($mdToast) {
     // debounce frequent calls to $mdToast.show cause otherwise
     // toasts might overlap and cannot be closed anymore
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp').service('SynchronizedMdToast',
       show: debouncedShow,
       hide: $mdToast.hide
     };
-  });
+  }]);
+

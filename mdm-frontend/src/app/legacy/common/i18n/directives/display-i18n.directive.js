@@ -1,7 +1,8 @@
 /* global _*/
 'use strict';
 
-angular.module('metadatamanagementApp').directive('displayI18nString',
+angular.module('metadatamanagementApp').directive('displayI18nString', [
+    'LanguageService', '$filter', '$showdown',
     function(LanguageService, $filter, $showdown) {
         var link = function(scope, element) {
             var toBeDisplayed;
@@ -50,4 +51,4 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
               removeMarkdown: '='
             }
         };
-      });
+      }]);

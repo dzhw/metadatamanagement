@@ -2,7 +2,7 @@
 
 /* Data Package Versions Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataPackageVersionsResource', function($resource) {
+  .factory('DataPackageVersionsResource', ['$resource',  function($resource) {
     return $resource('/api/data-packages/:id/versions', {
       id: '@id'
     }, {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

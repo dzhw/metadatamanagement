@@ -16,7 +16,10 @@ angular.module('metadatamanagementApp').directive('analysispackageSearchResult',
       },
       controllerAs: '$ctrl',
       bindToController: true,
-      controller: function(DataAcquisitionProjectResource,
+      controller: ['DataAcquisitionProjectResource',
+        'Principal', 'ProjectUpdateAccessService', '$state', '$element', '$timeout',
+        'HighlightService',
+        function(DataAcquisitionProjectResource,
         Principal, ProjectUpdateAccessService, $state, $element, $timeout,
         HighlightService) {
         var ctrl = this;
@@ -52,6 +55,6 @@ angular.module('metadatamanagementApp').directive('analysispackageSearchResult',
           }
         };
         ctrl.isLoggedIn = Principal.loginName();
-      }
+      }]
     };
   });

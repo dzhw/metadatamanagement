@@ -1,7 +1,7 @@
 /* global document */
 'use strict';
 
-angular.module('metadatamanagementApp').factory('CommonDialogsService',
+angular.module('metadatamanagementApp').factory('CommonDialogsService', ['$mdDialog', '$translate', 
   function($mdDialog, $translate) {
     var translationPrefixDirty = 'global.common-dialogs.confirm-dirty.';
     var translationPrefixFileDelete =
@@ -97,4 +97,5 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
       showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog,
       showConfirmDeletionDialog: showConfirmDeletionDialog
     };
-  });
+  }]);
+

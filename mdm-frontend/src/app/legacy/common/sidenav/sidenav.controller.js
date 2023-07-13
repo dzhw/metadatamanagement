@@ -1,7 +1,18 @@
 /* Author Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('SidenavController',
+angular.module('metadatamanagementApp').controller('SidenavController', [
+  '$scope',
+  '$rootScope',
+  'Principal',
+  '$mdSidenav',
+  '$document',
+  '$timeout',
+  'LanguageService',
+  'Auth',
+  '$state',
+  'MessageBus',
+  'WelcomeDialogService',
   function($scope, $rootScope, Principal, $mdSidenav, $document, $timeout,
            LanguageService, Auth, $state, MessageBus,
            WelcomeDialogService) {
@@ -116,4 +127,5 @@ angular.module('metadatamanagementApp').controller('SidenavController',
           $scope.detailViewType = data.type;
         }
       }, true);
-  });
+  }]);
+

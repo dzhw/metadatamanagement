@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(
+angular.module('metadatamanagementApp').config([
+  '$stateProvider',
+
   function($stateProvider) {
     $stateProvider.state('health', {
       parent: 'admin',
@@ -16,4 +18,4 @@ angular.module('metadatamanagementApp').config(
         }
       }
     });
-  });
+  }]);

@@ -2,7 +2,7 @@
 
 /* Instrument Resource */
 angular.module('metadatamanagementApp')
-  .factory('InstrumentAttachmentResource', function($resource,
+  .factory('InstrumentAttachmentResource', ['$resource', 'CleanJSObjectService',  function($resource,
     CleanJSObjectService) {
     return $resource('/api/instruments/:instrumentId/attachments/:fileName', {
       instrumentId: '@instrumentId',
@@ -45,4 +45,5 @@ angular.module('metadatamanagementApp')
         }
       }
     });
-  });
+  }]);
+

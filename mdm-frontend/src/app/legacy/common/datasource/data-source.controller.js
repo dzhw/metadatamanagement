@@ -88,5 +88,10 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('dataSourceController', Controller);
+    .controller('dataSourceController', [
+      '$timeout',
+      '$document',
+      'LanguageService',
+      Controller
+    ]);
 })();

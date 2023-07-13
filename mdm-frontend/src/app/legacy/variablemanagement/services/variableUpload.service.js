@@ -2,7 +2,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('VariableUploadService',
+angular.module('metadatamanagementApp').service('VariableUploadService', ['VariableBuilderService', 'VariableRepositoryClient', 'JobLoggingService', 'ErrorMessageResolverService', '$q', 'FileReaderService', 'ElasticSearchAdminService', '$rootScope', '$translate', '$mdDialog', 'CleanJSObjectService', 'VariableResource', 
   function(VariableBuilderService, VariableRepositoryClient,
     JobLoggingService,
     ErrorMessageResolverService, $q, FileReaderService,
@@ -226,4 +226,5 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     return {
       uploadVariables: uploadVariables
     };
-  });
+  }]);
+

@@ -22,5 +22,11 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('BreadcrumbController', BreadcrumbController);
+    .controller('BreadcrumbController', [
+      'Principal',
+      '$state',
+      '$scope',
+      '$rootScope',
+      BreadcrumbController
+    ]);
 })();

@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp')
       },
       replace: true,
       controllerAs: 'ctrl',
-      controller: function($scope) {
+      controller: ['$scope', function($scope) {
         this.project = $scope.project;
         this.isAssignedDataProvider =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,
@@ -26,7 +26,7 @@ angular.module('metadatamanagementApp')
         this.isAssignedPublisher =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,
             this.project, 'publishers');
-      },
+      }],
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
 

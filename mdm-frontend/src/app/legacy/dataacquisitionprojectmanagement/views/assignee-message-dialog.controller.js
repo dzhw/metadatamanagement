@@ -1,6 +1,9 @@
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('AssigneeMessageDialogController', function($scope, $mdDialog,
+  .controller('AssigneeMessageDialogController', [
+  '$scope',
+  '$mdDialog',
+  'locals', function($scope, $mdDialog,
                                                           locals) {
     $scope.input = '';
     $scope.hide = $mdDialog.hide;
@@ -11,4 +14,5 @@ angular.module('metadatamanagementApp')
     $scope.confirm = function() {
       $mdDialog.hide($scope.input);
     };
-  });
+  }]);
+

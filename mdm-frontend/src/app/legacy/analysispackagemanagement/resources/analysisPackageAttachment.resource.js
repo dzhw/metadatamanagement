@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AnalysisPackageAttachmentResource', function($resource,
+  .factory('AnalysisPackageAttachmentResource', ['$resource', 'CleanJSObjectService',  function($resource,
                                                          CleanJSObjectService) {
     return $resource(
       '/api/analysis-packages/:analysisPackageId/attachments/:fileName', {
@@ -45,4 +45,5 @@ angular.module('metadatamanagementApp')
           }
         }
       });
-  });
+  }]);
+

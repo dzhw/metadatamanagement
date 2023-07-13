@@ -92,5 +92,10 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('urlController', Controller);
+    .controller('urlController', [
+      '$timeout',
+      '$document',
+      'LanguageService',
+      Controller
+    ]);
 })();

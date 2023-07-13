@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(function($stateProvider) {
+angular.module('metadatamanagementApp').config([
+  '$stateProvider',
+function($stateProvider) {
   $stateProvider.state('shoppingCart', {
     parent: 'site',
     reloadOnSearch: false,
@@ -23,14 +25,14 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
     },
     url: '/shopping-cart',
     resolve: {
-      order: function(ShoppingCartService, OrderResource) {
+      order: ['ShoppingCartService', 'OrderResource', function(ShoppingCartService, OrderResource) {
         var orderId = ShoppingCartService.getOrderId();
         if (orderId) {
           return OrderResource.get({id: orderId});
         } else {
           return null;
         }
-      }
+      }]
     }
   });
   $stateProvider.state('restoreShoppingCart', {
@@ -55,7 +57,7 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
     },
     url: '/shopping-cart/:id',
     resolve: {
-      order: function($state, $stateParams, OrderResource) {
+      order: ['$state', '$stateParams', 'OrderResource', function($state, $stateParams, OrderResource) {
         var order = OrderResource.get({id: $stateParams.id});
         order.$promise.then(null, function(error) {
           if (error.status === 404) {
@@ -63,7 +65,7 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
           }
         });
         return order;
-      }
+      }]
     }
   });
-});
+}]);

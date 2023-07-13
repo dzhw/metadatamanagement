@@ -1,7 +1,22 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
+  .controller('ReleaseProjectDialogController', [
+  '$scope',
+  '$mdDialog',
+  'project',
+  'SimpleMessageToastService',
+  'DataAcquisitionProjectResource',
+  'DaraReleaseResource',
+  '$rootScope',
+  'CurrentProjectService',
+  'DataAcquisitionProjectLastReleaseResource',
+  '$state',
+  '$translate',
+  'DataAcquisitionProjectPostValidationService',
+  'PinnedDataPackagesService',
+  'DataPackageIdBuilderService',
+  'ENV', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
     DataAcquisitionProjectLastReleaseResource, $state, $translate,
@@ -102,4 +117,5 @@ angular.module('metadatamanagementApp')
           .ok($translate.instant('global.buttons.ok')));
         });
     };
-  });
+  }]);
+

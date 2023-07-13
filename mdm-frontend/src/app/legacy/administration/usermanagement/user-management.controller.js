@@ -1,7 +1,17 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('UserManagementController',
+angular.module('metadatamanagementApp').controller('UserManagementController', [
+  '$scope',
+  'UserResource',
+  'ParseLinks',
+  '$state',
+  'PageMetadataService',
+  'BreadcrumbService',
+  '$mdDialog',
+  '$uibModal',
+  'DataAcquisitionProjectRepositoryClient',
+  'CommonDialogsService',
   function($scope, UserResource, ParseLinks, $state,
     PageMetadataService, BreadcrumbService, $mdDialog, $uibModal,
     DataAcquisitionProjectRepositoryClient, CommonDialogsService) {
@@ -107,4 +117,5 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
           fullscreen: true
         });
     };
-  });
+  }]);
+

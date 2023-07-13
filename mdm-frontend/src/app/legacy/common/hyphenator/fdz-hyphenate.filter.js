@@ -1,7 +1,7 @@
 /* global Hyphenator*/
 'use strict';
 
-angular.module('metadatamanagementApp').filter('fdzHyphenate',
+angular.module('metadatamanagementApp').filter('fdzHyphenate', ['LanguageService',
   function(LanguageService) {
   return function(string) {
       if (string && string !== '') {
@@ -11,4 +11,4 @@ angular.module('metadatamanagementApp').filter('fdzHyphenate',
         return string;
       }
     };
-});
+}]);

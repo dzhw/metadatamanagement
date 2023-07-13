@@ -3,7 +3,23 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController', function(entity,
+  .controller('VariableDetailController', [
+  'entity',
+  'MessageBus',
+  'VariableSearchService',
+  'Principal',
+  'SimpleMessageToastService',
+  'PageMetadataService',
+  'LanguageService',
+  'CleanJSObjectService',
+  '$state',
+  'BreadcrumbService',
+  'SearchResultNavigatorService',
+  'OutdatedVersionNotifier',
+  'VariableRepositoryClient',
+  '$stateParams',
+  'blockUI',
+  '$mdSidenav', function(entity,
     MessageBus,
     VariableSearchService, Principal,
     SimpleMessageToastService,
@@ -220,4 +236,5 @@ angular.module('metadatamanagementApp')
         });
       }
     };
-  });
+  }]);
+

@@ -2,7 +2,40 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('SurveyEditOrCreateController',
+  .controller('SurveyEditOrCreateController', [
+  'entity',
+  'PageMetadataService',
+  '$timeout',
+  '$state',
+  'BreadcrumbService',
+  'Principal',
+  'SimpleMessageToastService',
+  'CurrentProjectService',
+  'SurveyIdBuilderService',
+  'SurveyResource',
+  '$scope',
+  'ElasticSearchAdminService',
+  '$mdDialog',
+  '$transitions',
+  'DataPackageResource',
+  'CommonDialogsService',
+  'LanguageService',
+  'AvailableSurveyNumbersResource',
+  'SurveyAttachmentResource',
+  '$q',
+  'DataPackageIdBuilderService',
+  'moment',
+  'SurveyResponseRateImageUploadService',
+  'SurveySearchService',
+  '$log',
+  'DataAcquisitionProjectResource',
+  '$rootScope',
+  'ProjectUpdateAccessService',
+  'AttachmentDialogService',
+  'SurveyAttachmentUploadService',
+  'SurveyAttachmentVersionsResource',
+  'SurveyVersionsResource',
+  'ChoosePreviousVersionService',
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, SurveyIdBuilderService, SurveyResource, $scope,
@@ -596,4 +629,5 @@ angular.module('metadatamanagementApp')
           });
 
       init();
-    });
+    }]);
+

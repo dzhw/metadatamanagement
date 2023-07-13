@@ -1,6 +1,6 @@
 /* globals document */
 'use strict';
-angular.module('metadatamanagementApp').service('WelcomeDialogService',
+angular.module('metadatamanagementApp').service('WelcomeDialogService', ['$mdDialog', 'LanguageService', '$rootScope', 
   function($mdDialog, LanguageService, $rootScope) {
     var display = function(username, displayDeactivateDialogOption) {
       displayDeactivateDialogOption = angular
@@ -27,4 +27,5 @@ angular.module('metadatamanagementApp').service('WelcomeDialogService',
     return {
       display: display
     };
-  });
+  }]);
+

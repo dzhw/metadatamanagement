@@ -23,5 +23,10 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('footerController', FooterController);
+    .controller('footerController', [
+      '$scope',
+      '$rootScope',
+      'FdzFeedbackDialogService',
+      FooterController
+    ]);
 })();

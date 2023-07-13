@@ -1,7 +1,7 @@
 /* global FileReader, JSZip */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ZipReaderService', function(
+angular.module('metadatamanagementApp').service('ZipReaderService', ['$q',  function(
   $q) {
   this.readZipFileAsync = function(file) {
     var deferred = $q.defer();
@@ -18,4 +18,5 @@ angular.module('metadatamanagementApp').service('ZipReaderService', function(
     };
     return deferred.promise;
   };
-});
+}]);
+

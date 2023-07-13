@@ -1,7 +1,7 @@
 /* global _, document */
 'use strict';
 
-angular.module('metadatamanagementApp').service('QuestionUploadService',
+angular.module('metadatamanagementApp').service('QuestionUploadService', ['FileReaderService', 'QuestionResource', 'QuestionRepositoryClient', 'JobLoggingService', 'QuestionImageUploadService', 'CleanJSObjectService', 'ErrorMessageResolverService', '$q', 'ElasticSearchAdminService', '$rootScope', '$translate', '$mdDialog', 'QuestionIdBuilderService', 'DataPackageIdBuilderService', 'InstrumentIdBuilderService', 'Upload', '$timeout', 
   function(FileReaderService, QuestionResource, QuestionRepositoryClient,
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
@@ -571,4 +571,5 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     return {
       uploadQuestions: uploadQuestions
     };
-  });
+  }]);
+

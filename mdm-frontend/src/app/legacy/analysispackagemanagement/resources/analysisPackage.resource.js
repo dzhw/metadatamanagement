@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AnalysisPackageResource',
+  .factory('AnalysisPackageResource', ['$resource', 'CleanJSObjectService', 
     function($resource, CleanJSObjectService) {
       return $resource('/api/analysis-packages/:id', {
         id: '@id'
@@ -22,4 +22,5 @@ angular.module('metadatamanagementApp')
           method: 'DELETE'
         }
       });
-    });
+    }]);
+

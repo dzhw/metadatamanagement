@@ -1,7 +1,7 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').service('JobCompleteToastService',
+angular.module('metadatamanagementApp').service('JobCompleteToastService', ['SynchronizedMdToast', 
   function(SynchronizedMdToast) {
     var toastParent = angular.element('#toast-container');
 
@@ -25,4 +25,5 @@ angular.module('metadatamanagementApp').service('JobCompleteToastService',
       openJobCompleteToast: openJobCompleteToast
     };
 
-  });
+  }]);
+

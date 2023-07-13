@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('LogsResource',
+angular.module('metadatamanagementApp').factory('LogsResource', ['$resource', 
   function($resource) {
     return $resource('api/logs', {}, {
       'findAll': {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp').factory('LogsResource',
         method: 'PUT'
       }
     });
-  });
+  }]);
+

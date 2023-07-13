@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataSetResource', function($resource) {
+  .factory('DataSetResource', ['$resource',  function($resource) {
     return $resource('api/data-sets/:id', {
       id: '@id'
     }, {
@@ -15,4 +15,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE'
       }
     });
-  });
+  }]);
+

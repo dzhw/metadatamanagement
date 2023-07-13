@@ -3,7 +3,13 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('SearchDetailController', SearchDetailController);
+    .controller('SearchDetailController', [
+      '$rootScope',
+      '$state',
+      'LanguageService',
+      '$location',
+      SearchDetailController
+    ]);
 
   function SearchDetailController(
     $rootScope, $state, LanguageService, $location

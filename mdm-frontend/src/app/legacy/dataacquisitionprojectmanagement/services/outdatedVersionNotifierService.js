@@ -1,7 +1,7 @@
 /* globals _, bowser */
 'use strict';
 
-angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
+angular.module('metadatamanagementApp').service('OutdatedVersionNotifier', ['SimpleMessageToastService', '$document', '$mdToast', 'Principal', '$location', 
   function(SimpleMessageToastService, $document, $mdToast, Principal,
     $location) {
 
@@ -58,4 +58,5 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
     return {
       checkVersionAndNotify: checkVersionAndNotify
     };
-  });
+  }]);
+

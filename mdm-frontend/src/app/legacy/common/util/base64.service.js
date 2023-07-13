@@ -81,7 +81,7 @@ angular
           enc1 = enc2 = enc3 = enc4 = '';
         }
       };
-    }).factory('StorageService', function($window) {
+    }).factory('StorageService', ['$window',  function($window) {
     return {
 
       get: function(key) {
@@ -100,4 +100,5 @@ angular
         $window.localStorage.clear();
       }
     };
-  });
+  }]);
+

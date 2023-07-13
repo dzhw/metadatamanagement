@@ -2,7 +2,9 @@
 
 angular
   .module('metadatamanagementApp')
-  .config(
+  .config([
+  '$stateProvider',
+
     function($stateProvider) {
       $stateProvider
         .state(
@@ -35,4 +37,4 @@ angular
               }
             }
           });
-    });
+    }]);

@@ -1,7 +1,7 @@
 /* global FileReader*/
 'use strict';
 
-angular.module('metadatamanagementApp').service('FileReaderService', function(
+angular.module('metadatamanagementApp').service('FileReaderService', ['$q',  function(
   $q) {
   this.readAsText = function(file) {
     var deferred = $q.defer();
@@ -36,4 +36,5 @@ angular.module('metadatamanagementApp').service('FileReaderService', function(
 
     return deferred.promise;
   };
-});
+}]);
+

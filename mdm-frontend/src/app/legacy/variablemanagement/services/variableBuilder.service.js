@@ -1,7 +1,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('VariableBuilderService',
+angular.module('metadatamanagementApp').service('VariableBuilderService', ['VariableResource', 'CleanJSObjectService', 'DataSetIdBuilderService', 'QuestionIdBuilderService', 'SurveyIdBuilderService', 'DataPackageIdBuilderService', 'VariableIdBuilderService', 'InstrumentIdBuilderService', 
   function(VariableResource, CleanJSObjectService, DataSetIdBuilderService,
     QuestionIdBuilderService, SurveyIdBuilderService,
     DataPackageIdBuilderService, VariableIdBuilderService,
@@ -79,4 +79,5 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
     return {
       buildVariable: buildVariable
     };
-  });
+  }]);
+

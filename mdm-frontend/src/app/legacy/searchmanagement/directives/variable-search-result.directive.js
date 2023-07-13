@@ -14,7 +14,9 @@ angular.module('metadatamanagementApp').directive('variableSearchResult',
         searchResultIndex: '=',
         setParams: '&'
       },
-      controller: function($scope, Principal, HighlightService, $timeout,
+      controller: ['$scope', 'Principal', 'HighlightService', '$timeout',
+        '$element',
+        function($scope, Principal, HighlightService, $timeout,
          $element) {
         if ($scope.searchQuery) {
           $timeout(function() {
@@ -22,6 +24,6 @@ angular.module('metadatamanagementApp').directive('variableSearchResult',
           });
         }
         $scope.isLoggedIn = Principal.loginName();
-      }
+      }]
     };
   });

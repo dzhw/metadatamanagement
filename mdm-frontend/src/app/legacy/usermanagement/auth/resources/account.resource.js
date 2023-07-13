@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('AccountResource',
+angular.module('metadatamanagementApp').factory('AccountResource', ['$resource', 
     function AccountResource($resource) {
       return $resource('api/account', {}, {
         'get': {
@@ -15,4 +15,5 @@ angular.module('metadatamanagementApp').factory('AccountResource',
           }
         }
       });
-    });
+    }]);
+

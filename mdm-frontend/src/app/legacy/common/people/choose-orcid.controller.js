@@ -2,7 +2,13 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChooseORCIDController',
+  .controller('ChooseORCIDController', [
+  'firstName',
+  'lastName',
+  'orcidResponse',
+  '$mdDialog',
+  'LanguageService',
+  '$scope',
     function(firstName, lastName, orcidResponse, $mdDialog,
              LanguageService, $scope) {
       $scope.bowser = bowser;
@@ -21,4 +27,5 @@ angular.module('metadatamanagementApp')
           orcid: orcid
         });
       };
-    });
+    }]);
+

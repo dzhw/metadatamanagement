@@ -1,7 +1,7 @@
 /* global _*/
 'use strict';
 
-angular.module('metadatamanagementApp').factory('QuestionSearchService',
+angular.module('metadatamanagementApp').factory('QuestionSearchService', ['ElasticSearchClient', '$q', 'CleanJSObjectService', 'SearchHelperService', 'LanguageService', 
   function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
     LanguageService) {
     var createQueryObject = function(type) {
@@ -303,4 +303,5 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       findShadowByIdAndVersion: findShadowByIdAndVersion,
       findQuestionTitles: findQuestionTitles
     };
-  });
+  }]);
+

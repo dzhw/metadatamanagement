@@ -14,13 +14,15 @@ angular.module('metadatamanagementApp')
         searchResultIndex: '=',
         setParams: '&'
       },
-      controller: function($scope, HighlightService, $timeout,
+      controller: ['$scope', 'HighlightService', '$timeout',
+        '$element',
+        function($scope, HighlightService, $timeout,
          $element) {
         if ($scope.searchQuery) {
           $timeout(function() {
             HighlightService.apply($element[0], $scope.searchQuery);
           });
         }
-      }
+      }]
     };
   });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataSetAttachmentVersionsResource', function($resource) {
+  .factory('DataSetAttachmentVersionsResource', ['$resource',  function($resource) {
     return $resource(
       '/api/data-sets/:dataSetId/attachments/:filename/versions', {
       dataSetId: '@dataSetId',
@@ -12,4 +12,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

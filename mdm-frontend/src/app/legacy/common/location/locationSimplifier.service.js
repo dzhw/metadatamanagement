@@ -3,7 +3,7 @@
 
 angular
   .module('metadatamanagementApp')
-  .service('LocationSimplifier', function($q) {
+  .service('LocationSimplifier', ['$q',  function($q) {
     // we need to remove $ from the location for twitter autolinking
     this.removeDollarSign = function(state, stateParams, stateName) {
       if (_.endsWith(stateParams.id, '$')) {
@@ -23,4 +23,5 @@ angular
       }
       return id;
     };
-  });
+  }]);
+

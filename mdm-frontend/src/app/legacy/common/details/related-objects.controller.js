@@ -447,6 +447,19 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('RelatedObjectsController', RelatedObjectsController);
+    .controller('RelatedObjectsController', [
+      '$scope',
+      '$location',
+      'SearchDao',
+      '$timeout',
+      'SearchResultNavigatorService',
+      'CleanJSObjectService',
+      '$analytics',
+      'SearchHelperService',
+      '$transitions',
+      '$rootScope',
+      'PageMetadataService',
+      RelatedObjectsController
+    ]);
 
 })();

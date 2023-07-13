@@ -2,7 +2,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('JobCompleteToastController',
+  .controller('JobCompleteToastController', [
+  '$scope',
+  'SynchronizedMdToast',
+  '$mdDialog',
+  'resultMessage',
+  'translationParams',
     function($scope, SynchronizedMdToast, $mdDialog, resultMessage,
       translationParams) {
       $scope.resultMessage = resultMessage;
@@ -24,4 +29,5 @@ angular.module('metadatamanagementApp')
         $scope.closeToast();
       };
 
-    });
+    }]);
+

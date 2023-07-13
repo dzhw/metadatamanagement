@@ -1,8 +1,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service(
-  'ProjectSaveService',
+angular.module('metadatamanagementApp').service('ProjectSaveService', ['SimpleMessageToastService', 'DataAcquisitionProjectResource', 'CurrentProjectService', '$q', 
   function(
     SimpleMessageToastService,
     DataAcquisitionProjectResource,
@@ -79,5 +78,5 @@ angular.module('metadatamanagementApp').service(
         setSaving: setSaving,
         getSaving: getSaving
       };
-  }
-);
+  }]);
+

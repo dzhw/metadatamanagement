@@ -2,7 +2,14 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('SimpleMessageToastController',
+  .controller('SimpleMessageToastController', [
+  '$scope',
+  '$mdToast',
+  'messages',
+  'alert',
+  '$state',
+  'LanguageService',
+  '$rootScope',
     function($scope, $mdToast, messages, alert, $state, LanguageService,
       $rootScope) {
       var language = LanguageService.getCurrentInstantly();
@@ -18,4 +25,5 @@ angular.module('metadatamanagementApp')
       $scope.closeToast = function() {
         $mdToast.hide();
       };
-    });
+    }]);
+

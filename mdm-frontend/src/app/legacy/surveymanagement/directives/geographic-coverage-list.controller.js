@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('GeographicCoverageListController', function($scope) {
+  .controller('GeographicCoverageListController', [
+  '$scope', function($scope) {
 
     var updateModelCtrl = function() {
       if ($scope.ngModelCtrl) {
@@ -50,4 +51,5 @@ angular.module('metadatamanagementApp')
     $scope.moveItemDown = function(index) {
       swapListItems(index, index + 1);
     };
-  });
+  }]);
+

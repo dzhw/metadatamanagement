@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectCollectionResource', function($resource) {
+  .factory('DataAcquisitionProjectCollectionResource', ['$resource',  function($resource) {
     return $resource('/api/data-acquisition-projects', {
       page: 0,
       sort: 'id,asc',
@@ -23,4 +23,5 @@ angular.module('metadatamanagementApp')
         }
       }
     });
-  });
+  }]);
+

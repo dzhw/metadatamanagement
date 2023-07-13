@@ -3,7 +3,7 @@
 
 /* Concept Resource */
 angular.module('metadatamanagementApp')
-  .factory('ConceptResource', function($resource, CleanJSObjectService) {
+  .factory('ConceptResource', ['$resource', 'CleanJSObjectService',  function($resource, CleanJSObjectService) {
     return $resource('/api/concepts/:id', {
       id: '@id'
     }, {
@@ -23,4 +23,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE'
       }
     });
-  });
+  }]);
+

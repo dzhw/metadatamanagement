@@ -1,7 +1,14 @@
 /* globals _, bowser */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('AttachmentDialogController',
+angular.module('metadatamanagementApp').controller('AttachmentDialogController', [
+  'dialogConfig',
+  'isoLanguages',
+  'CommonDialogsService',
+  'LanguageService',
+  'SimpleMessageToastService',
+  '$scope',
+  '$mdDialog',
   function(dialogConfig, isoLanguages, CommonDialogsService, LanguageService,
             SimpleMessageToastService, $scope, $mdDialog) {
     $scope.bowser = bowser;
@@ -272,4 +279,5 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
         }
       }
     };
-  });
+  }]);
+

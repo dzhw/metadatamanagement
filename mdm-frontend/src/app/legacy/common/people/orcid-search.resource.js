@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('ORCIDSearchResource', function($resource) {
+  .factory('ORCIDSearchResource', ['$resource',  function($resource) {
     return $resource('https://pub.orcid.org/v3.0/expanded-search/?' +
       'q=family-name\::lastName+AND+given-names\::firstName', {
       firstName: '@firstName',
@@ -14,4 +14,5 @@ angular.module('metadatamanagementApp')
         }
       }
     });
-  });
+  }]);
+

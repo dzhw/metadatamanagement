@@ -2,7 +2,7 @@
 
 /* Instrument Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataSetAttachmentResource', function($resource,
+  .factory('DataSetAttachmentResource', ['$resource', 'CleanJSObjectService',  function($resource,
     CleanJSObjectService) {
     return $resource('/api/data-sets/:dataSetId/attachments/:fileName', {
       dataSetId: '@dataSetId',
@@ -45,4 +45,5 @@ angular.module('metadatamanagementApp')
         }
       }
     });
-  });
+  }]);
+

@@ -2,7 +2,7 @@
 /* @author Daniel Katzberg */
 
 angular.module('metadatamanagementApp')
-  .factory('RelatedPublicationResource', function($resource) {
+  .factory('RelatedPublicationResource', ['$resource',  function($resource) {
     return $resource('api/related-publications/:id', {
       id: '@id'
     }, {
@@ -16,4 +16,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE'
       }
     });
-  });
+  }]);
+

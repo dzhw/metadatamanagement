@@ -2,7 +2,14 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-    .controller('ChoosePreviousAttachmentVersionController',
+    .controller('ChoosePreviousAttachmentVersionController', [
+  'getAttachmentVersionsCallback',
+  'domainId',
+  'filename',
+  '$scope',
+  '$mdDialog',
+  'LanguageService',
+  '$translate',
         function(getAttachmentVersionsCallback, domainId, filename, $scope,
                  $mdDialog, LanguageService, $translate) {
 
@@ -64,4 +71,5 @@ angular.module('metadatamanagementApp')
           };
 
           $scope.getAttachmentVersions();
-        });
+        }]);
+

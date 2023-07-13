@@ -2,7 +2,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChoosePreviousVersionController',
+  .controller('ChoosePreviousVersionController', [
+  'getPreviousVersionsCallback',
+  'domainId',
+  'labels',
+  '$scope',
+  '$mdDialog',
+  'versionLabelAttribute',
+  'LanguageService',
+  '$translate',
     function(getPreviousVersionsCallback, domainId, labels, $scope, $mdDialog,
              versionLabelAttribute, LanguageService, $translate) {
       $scope.bowser = bowser;
@@ -75,4 +83,5 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.getVersions();
-    });
+    }]);
+

@@ -1,8 +1,7 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').service(
-    'DataPackageCitationDialogService',
+angular.module('metadatamanagementApp').service('DataPackageCitationDialogService', ['$mdDialog', 
     function($mdDialog) {
       var showDialog = function(accessWay, dataPackage,
         event) {
@@ -23,4 +22,5 @@ angular.module('metadatamanagementApp').service(
       return {
         showDialog: showDialog
       };
-    });
+    }]);
+

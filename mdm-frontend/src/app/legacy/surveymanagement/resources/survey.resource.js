@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('SurveyResource', function($resource, CleanJSObjectService) {
+  .factory('SurveyResource', ['$resource', 'CleanJSObjectService',  function($resource, CleanJSObjectService) {
     return $resource('/api/surveys/:id', {
       id: '@id'
     }, {
@@ -31,4 +31,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE'
       }
     });
-  });
+  }]);
+

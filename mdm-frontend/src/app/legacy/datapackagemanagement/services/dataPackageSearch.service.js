@@ -1,7 +1,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').factory('DataPackageSearchService',
+angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q', 'ElasticSearchClient', 'CleanJSObjectService', 'SearchHelperService', 'GenericFilterOptionsSearchService', 'LanguageService', 'DataPackageIdBuilderService', 
   function($q, ElasticSearchClient, CleanJSObjectService, SearchHelperService,
            GenericFilterOptionsSearchService, LanguageService,
            DataPackageIdBuilderService) {
@@ -627,4 +627,5 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       findSponsorFilterOptions: findSponsorFilterOptions,
       findTags: findTags
     };
-  });
+  }]);
+

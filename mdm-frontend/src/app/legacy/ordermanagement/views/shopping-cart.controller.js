@@ -1,7 +1,29 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('ShoppingCartController',
+angular.module('metadatamanagementApp').controller('ShoppingCartController', [
+  'PageMetadataService',
+  '$state',
+  'BreadcrumbService',
+  'ShoppingCartService',
+  '$scope',
+  'DataPackageResource',
+  'DataSetSearchService',
+  'AnalysisPackageResource',
+  'VariableSearchService',
+  'DataAcquisitionProjectReleasesResource',
+  '$q',
+  'OrderResource',
+  'LanguageService',
+  'SimpleMessageToastService',
+  'order',
+  '$window',
+  '$interval',
+  '$location',
+  '$transitions',
+  'ProjectReleaseService',
+  '$rootScope',
+  '$document',
   function(PageMetadataService, $state, BreadcrumbService,
            ShoppingCartService, $scope, DataPackageResource,
            DataSetSearchService, AnalysisPackageResource,
@@ -404,4 +426,5 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     } else {
       ctrl.init();
     }
-  });
+  }]);
+

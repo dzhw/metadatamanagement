@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('VariableRepositoryClient',
+angular.module('metadatamanagementApp').factory('VariableRepositoryClient', ['$http', 
   function($http) {
     var findByDataAcquisitionProjectId = function(projectId) {
       return $http({
@@ -73,4 +73,5 @@ angular.module('metadatamanagementApp').factory('VariableRepositoryClient',
       findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot:
         findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot
     };
-  });
+  }]);
+

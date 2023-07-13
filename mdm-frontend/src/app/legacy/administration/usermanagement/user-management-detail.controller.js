@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller(
-  'UserManagementDetailController',
+angular.module('metadatamanagementApp').controller('UserManagementDetailController', [
+  '$scope',
+  '$stateParams',
+  'UserResource',
+  'PageMetadataService',
+  '$translate',
+  '$state',
+  'BreadcrumbService',
   function($scope, $stateParams, UserResource, PageMetadataService, $translate,
     $state, BreadcrumbService) {
     $translate('user-management.detail.title').then(function(title) {
@@ -18,4 +24,5 @@ angular.module('metadatamanagementApp').controller(
     $scope.load($stateParams.login);
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('QuestionResource', function($resource) {
+  .factory('QuestionResource', ['$resource',  function($resource) {
     return $resource('api/questions/:id', {
       id: '@id'
     }, {
@@ -15,4 +15,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE',
       }
     });
-  });
+  }]);
+

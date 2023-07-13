@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('PasswordController',
+angular.module('metadatamanagementApp').controller('PasswordController', [
+  '$scope',
+  '$state',
+  'BreadcrumbService',
+  'Auth',
+  'Principal',
+  'PageMetadataService',
   function($scope, $state, BreadcrumbService, Auth, Principal,
     PageMetadataService) {
     PageMetadataService.setPageTitle('global.menu.account.password');
@@ -27,4 +33,5 @@ angular.module('metadatamanagementApp').controller('PasswordController',
     };
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-  });
+  }]);
+

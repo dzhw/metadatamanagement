@@ -3,8 +3,7 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').factory(
-  'HighlightService',
+angular.module('metadatamanagementApp').factory('HighlightService', ['$document', 
   function($document) {
     var hiliteTag = 'EM';
     var skipTags = new RegExp('^(?:' + hiliteTag + ')$');
@@ -203,5 +202,5 @@ angular.module('metadatamanagementApp').factory(
     return {
       apply: apply
     };
-  }
-);
+  }]);
+

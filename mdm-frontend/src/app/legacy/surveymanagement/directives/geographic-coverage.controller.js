@@ -2,7 +2,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('GeographicCoverageController', function($scope, $mdMedia, $log,
+  .controller('GeographicCoverageController', [
+  '$scope',
+  '$mdMedia',
+  '$log',
+  'CountryCodesResource',
+  'LanguageService', function($scope, $mdMedia, $log,
      CountryCodesResource, LanguageService) {
 
     var countries;
@@ -67,4 +72,5 @@ angular.module('metadatamanagementApp')
             });
         }
       });
-  });
+  }]);
+

@@ -1,7 +1,7 @@
 /* global  _*/
 'use strict';
 
-angular.module('metadatamanagementApp').factory('DataSetSearchService',
+angular.module('metadatamanagementApp').factory('DataSetSearchService', ['ElasticSearchClient', '$q', 'CleanJSObjectService', 'SearchHelperService', 'LanguageService', 'Principal', 
   function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
     LanguageService, Principal) {
     var createQueryObject = function(type) {
@@ -377,4 +377,5 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       findDataSetDescriptions: findDataSetDescriptions,
       findAccessWays: findAccessWays
     };
-  });
+  }]);
+

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .service('RelatedPublicationBuilderService',
+  .service('RelatedPublicationBuilderService', ['RelatedPublicationResource', 'CleanJSObjectService', 'RelatedPublicationIdBuilderService', 
     function(RelatedPublicationResource, CleanJSObjectService,
       RelatedPublicationIdBuilderService) {
       var getRelatedPublications = function(relatedPublications) {
@@ -52,4 +52,5 @@ angular.module('metadatamanagementApp')
       return {
         getRelatedPublications: getRelatedPublications
       };
-    });
+    }]);
+

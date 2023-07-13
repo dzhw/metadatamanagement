@@ -1,8 +1,15 @@
 /* Author Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').controller(
-  'JobProtocolDialogController', function(
+angular.module('metadatamanagementApp').controller('JobProtocolDialogController', [
+  '$scope',
+  '$mdDialog',
+  '$filter',
+  'JobLoggingService',
+  '$translate',
+  'FileSaver',
+  'Blob',
+  'EndOfLineService', function(
     $scope, $mdDialog, $filter, JobLoggingService, $translate, FileSaver, Blob,
       EndOfLineService) {
     $scope.job = JobLoggingService.getCurrentJob();
@@ -81,4 +88,5 @@ angular.module('metadatamanagementApp').controller(
         dateForFileName + '.txt';
       FileSaver.saveAs(data, fileName);
     };
-  });
+  }]);
+

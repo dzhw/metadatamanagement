@@ -2,7 +2,7 @@
 
 /* Instrument Resource */
 angular.module('metadatamanagementApp')
-  .factory('InstrumentResource', function($resource) {
+  .factory('InstrumentResource', ['$resource',  function($resource) {
     return $resource('/api/instruments/:id', {
       id: '@id'
     }, {
@@ -16,4 +16,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE'
       }
     });
-  });
+  }]);
+

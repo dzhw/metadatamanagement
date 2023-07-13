@@ -2,7 +2,7 @@
 
 /* Available DataSet Numbers Resource */
 angular.module('metadatamanagementApp')
-  .factory('AvailableDataSetNumbersResource', function($resource) {
+  .factory('AvailableDataSetNumbersResource', ['$resource',  function($resource) {
     return $resource(
       '/api/data-acquisition-projects/:id/available-data-set-numbers', {
       id: '@id'
@@ -12,4 +12,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

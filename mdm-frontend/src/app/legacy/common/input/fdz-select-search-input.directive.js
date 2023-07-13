@@ -6,7 +6,7 @@ function() {
     restrict: 'A',
     controllerAs: '$selectSearch',
     bindToController: {},
-    controller: function controller($element, $scope) {
+    controller: ['$element', '$scope', function controller($element, $scope) {
       this.$postLink = function $postLink() {
         var menu = $element.closest('.md-select-menu-container');
         $scope.$watch(function focusSearchCheck() {
@@ -55,6 +55,6 @@ function() {
           }
         });
       };
-    }
+    }]
   };
 });

@@ -3,7 +3,7 @@
 
 /* Data Package Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataPackageResource', function($resource, CleanJSObjectService) {
+  .factory('DataPackageResource', ['$resource', 'CleanJSObjectService',  function($resource, CleanJSObjectService) {
     return $resource('/api/data-packages/:id', {
       id: '@id'
     }, {
@@ -23,4 +23,5 @@ angular.module('metadatamanagementApp')
         method: 'DELETE'
       }
     });
-  });
+  }]);
+

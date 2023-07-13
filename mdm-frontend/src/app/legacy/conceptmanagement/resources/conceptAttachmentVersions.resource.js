@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('ConceptAttachmentVersionsResource', function($resource) {
+  .factory('ConceptAttachmentVersionsResource', ['$resource',  function($resource) {
     return $resource('/api/concepts/:conceptId/attachments/:filename/' +
     'versions', {
       dataPackageId: '@conceptId',
@@ -12,4 +12,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

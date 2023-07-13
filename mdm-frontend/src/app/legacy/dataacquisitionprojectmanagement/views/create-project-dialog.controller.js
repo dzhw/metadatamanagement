@@ -2,7 +2,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('CreateProjectDialogController', function($scope, $mdDialog,
+  .controller('CreateProjectDialogController', [
+  '$scope',
+  '$mdDialog',
+  '$rootScope',
+  'id', function($scope, $mdDialog,
     $rootScope, id) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = {id: id};
@@ -16,4 +20,5 @@ angular.module('metadatamanagementApp')
     $scope.ok = function(project) {
       $mdDialog.hide(project);
     };
-  });
+  }]);
+

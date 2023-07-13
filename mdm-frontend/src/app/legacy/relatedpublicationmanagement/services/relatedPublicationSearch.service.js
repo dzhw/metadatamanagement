@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('RelatedPublicationSearchService',
+  .factory('RelatedPublicationSearchService', ['ElasticSearchClient', '$q', 'CleanJSObjectService', 'SearchHelperService', 
     function(ElasticSearchClient, $q, CleanJSObjectService,
       SearchHelperService) {
       var createQueryObject = function(type) {
@@ -301,4 +301,5 @@ angular.module('metadatamanagementApp')
         findByInstrumentId: findByInstrumentId,
         findTitles: findTitles
       };
-    });
+    }]);
+

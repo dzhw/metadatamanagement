@@ -1,7 +1,7 @@
 'use strict';
 
 // service for updating the page title (used in toolbar and window.title)
-angular.module('metadatamanagementApp').factory('PageMetadataService',
+angular.module('metadatamanagementApp').factory('PageMetadataService', ['$rootScope', '$transitions', '$location', '$analytics', '$timeout', '$window', '$sce', 'LanguageService', '$filter', 
   function($rootScope, $transitions, $location, $analytics, $timeout, $window,
            $sce, LanguageService, $filter) {
     $transitions.onExit({}, function() {
@@ -359,4 +359,5 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
     };
 
     return exports;
-  });
+  }]);
+

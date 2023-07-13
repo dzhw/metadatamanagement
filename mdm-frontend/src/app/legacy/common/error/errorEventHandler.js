@@ -6,7 +6,14 @@ based on the Error Event.*/
 /* @Author Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').run(
+angular.module('metadatamanagementApp').run([
+  '$rootScope',
+  '$state',
+  'SimpleMessageToastService',
+  'PageMetadataService',
+  'LanguageService',
+  'Auth',
+  'Principal',
   function($rootScope, $state, SimpleMessageToastService, PageMetadataService,
            LanguageService, Auth, Principal) {
     var ignore404 = 0;
@@ -109,4 +116,4 @@ angular.module('metadatamanagementApp').run(
         });
       }
     });
-  });
+  }]);

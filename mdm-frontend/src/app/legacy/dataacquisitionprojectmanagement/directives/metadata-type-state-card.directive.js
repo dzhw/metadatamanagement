@@ -19,8 +19,9 @@ angular.module('metadatamanagementApp')
       replace: true,
       controllerAs: 'ctrl',
 
-      controller: function($scope, $rootScope, DataPackageIdBuilderService,
-        Principal) {
+      controller: [
+          '$scope', '$rootScope', 'DataPackageIdBuilderService', 'Principal',
+          function($scope, $rootScope, DataPackageIdBuilderService, Principal) {
         $scope.bowser = $rootScope.bowser;
         $scope.hasAuthority = Principal.hasAuthority;
         this.type = $scope.type;
@@ -132,7 +133,7 @@ angular.module('metadatamanagementApp')
             throw Error('wrong argument for group');
         }
         this.limit = this.limit || 0;
-      },
+      }],
 
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {

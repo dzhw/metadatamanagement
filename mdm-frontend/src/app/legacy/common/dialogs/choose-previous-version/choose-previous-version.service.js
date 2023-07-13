@@ -1,7 +1,7 @@
 /* globals _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ChoosePreviousVersionService',
+angular.module('metadatamanagementApp').service('ChoosePreviousVersionService', ['$mdDialog', 
     function($mdDialog) {
 
       var showDialog = function(dialogConfig, event) {
@@ -55,4 +55,5 @@ angular.module('metadatamanagementApp').service('ChoosePreviousVersionService',
       return {
         showDialog: showDialog
       };
-    });
+    }]);
+

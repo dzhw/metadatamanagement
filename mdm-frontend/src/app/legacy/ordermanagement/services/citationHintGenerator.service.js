@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('CitationHintGeneratorService',
+angular.module('metadatamanagementApp').service('CitationHintGeneratorService', ['$interpolate', 'LanguageService', '$filter', '$rootScope', 
 function($interpolate, LanguageService, $filter, $rootScope) {
   var Cite;
   if (!$rootScope.bowser.msie) {
@@ -133,4 +133,5 @@ function($interpolate, LanguageService, $filter, $rootScope) {
     generateCitationHint: generateCitationHint,
     generateCitationHintForAttachment: generateCitationHintForAttachment
   };
-});
+}]);
+

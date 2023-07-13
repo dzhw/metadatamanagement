@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config([
+  '$stateProvider',
+  '$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
     var stateName = 'relatedPublicationDetail';
     $urlRouterProvider.when('/de/publications/', '/de/error');
     $urlRouterProvider.when('/en/publications/', '/en/error');
@@ -41,4 +44,4 @@ angular.module('metadatamanagementApp')
           ]
         }
       });
-  });
+  }]);

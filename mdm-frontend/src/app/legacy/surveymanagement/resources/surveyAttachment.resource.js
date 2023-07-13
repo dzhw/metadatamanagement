@@ -2,7 +2,7 @@
 
 /* Survey Attachment Resource */
 angular.module('metadatamanagementApp')
-  .factory('SurveyAttachmentResource', function($resource,
+  .factory('SurveyAttachmentResource', ['$resource', 'CleanJSObjectService',  function($resource,
     CleanJSObjectService) {
     return $resource('/api/surveys/:surveyId/attachments/:fileName', {
       surveyId: '@surveyId',
@@ -45,4 +45,5 @@ angular.module('metadatamanagementApp')
         }
       }
     });
-  });
+  }]);
+

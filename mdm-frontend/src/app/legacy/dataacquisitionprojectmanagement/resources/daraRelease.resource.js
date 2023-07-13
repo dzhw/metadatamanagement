@@ -5,7 +5,7 @@
 */
 
 angular.module('metadatamanagementApp')
-  .factory('DaraReleaseResource', function($resource) {
+  .factory('DaraReleaseResource', ['$resource',  function($resource) {
     return $resource('/api/data-acquisition-projects/:id/release', {
       id: '@id'
     }, {
@@ -13,4 +13,5 @@ angular.module('metadatamanagementApp')
         method: 'POST'
       }
     });
-  });
+  }]);
+

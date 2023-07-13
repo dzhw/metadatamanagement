@@ -2,7 +2,7 @@
 
 /* Data Package AccessWays Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataPackageAccessWaysResource', function($resource) {
+  .factory('DataPackageAccessWaysResource', ['$resource',  function($resource) {
     return $resource('/api/data-packages/:id/access-ways', {
       id: '@id'
     }, {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

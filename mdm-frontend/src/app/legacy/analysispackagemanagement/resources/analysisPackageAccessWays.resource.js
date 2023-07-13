@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AnalysisPackageAccessWaysResource', function($resource) {
+  .factory('AnalysisPackageAccessWaysResource', ['$resource',  function($resource) {
     return $resource('/api/analysis-packages/:id/access-ways', {
       id: '@id'
     }, {
@@ -10,4 +10,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

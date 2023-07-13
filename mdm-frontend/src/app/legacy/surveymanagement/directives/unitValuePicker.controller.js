@@ -1,7 +1,10 @@
 /* globals _ */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('UnitValuePickerController',
+angular.module('metadatamanagementApp').controller('UnitValuePickerController', [
+  '$scope',
+  'LanguageService',
+  'UnitValuesResource',
   function($scope, LanguageService, UnitValuesResource) {
     var unitValues;
 
@@ -37,4 +40,5 @@ angular.module('metadatamanagementApp').controller('UnitValuePickerController',
             });
         }
       });
-  });
+  }]);
+

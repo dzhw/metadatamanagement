@@ -1,5 +1,5 @@
 'use strict';
-angular.module('metadatamanagementApp').factory('authInterceptor', function(
+angular.module('metadatamanagementApp').factory('authInterceptor', ['localStorageService',  function(
   localStorageService) {
   return {
     // Add authorization token to headers to all API requests
@@ -17,4 +17,5 @@ angular.module('metadatamanagementApp').factory('authInterceptor', function(
       return config;
     }
   };
-});
+}]);
+

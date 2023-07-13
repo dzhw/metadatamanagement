@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataSetReportResource', function($resource) {
+  .factory('DataSetReportResource', ['$resource',  function($resource) {
     return $resource('api/data-sets/:dataSetId/report/generate/:version', {
       dataSetId: '@dataSetId',
       version: '@version'
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         params: {languages: '@languages'}
       }
     });
-  });
+  }]);
+

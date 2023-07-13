@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('MigrationService',
+angular.module('metadatamanagementApp').service('MigrationService', ['VERSION', 'localStorageService', 'ShoppingCartService', 
   function(VERSION, localStorageService, ShoppingCartService) {
 
     var versionKey = 'version';
@@ -17,4 +17,5 @@ angular.module('metadatamanagementApp').service('MigrationService',
     return {
       migrate: migrate
     };
-  });
+  }]);
+

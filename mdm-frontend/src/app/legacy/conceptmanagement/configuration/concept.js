@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config([
+  '$stateProvider',
+  '$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
     var stateName = 'conceptDetail';
     $urlRouterProvider.when('/de/concepts/', '/de/error');
     $urlRouterProvider.when('/en/concepts/', '/en/error');
@@ -109,4 +112,4 @@ angular.module('metadatamanagementApp')
           }
         }
       });
-  });
+  }]);

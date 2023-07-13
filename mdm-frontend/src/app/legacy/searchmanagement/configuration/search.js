@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('metadatamanagementApp').config(
+angular.module('metadatamanagementApp').config([
+  '$stateProvider',
+
   function($stateProvider) {
     $stateProvider.state('search', {
       parent: 'site',
@@ -24,4 +26,4 @@ angular.module('metadatamanagementApp').config(
         }
       }
     });
-  });
+  }]);

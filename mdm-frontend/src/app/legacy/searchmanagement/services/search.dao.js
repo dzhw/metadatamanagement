@@ -2,7 +2,7 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').service('SearchDao',
+angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClient', 'CleanJSObjectService', 'Principal', 'LanguageService', 'DataPackageIdBuilderService', 'AnalysisPackageIdBuilderService', 'SearchHelperService', 'clientId', 
   function(ElasticSearchClient, CleanJSObjectService, Principal,
            LanguageService, DataPackageIdBuilderService,
            AnalysisPackageIdBuilderService,
@@ -638,4 +638,5 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
       }
     };
-  });
+  }]);
+

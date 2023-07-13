@@ -2,7 +2,7 @@
 
 /* Survey Versions Resource */
 angular.module('metadatamanagementApp')
-  .factory('SurveyVersionsResource', function($resource) {
+  .factory('SurveyVersionsResource', ['$resource',  function($resource) {
     return $resource('/api/surveys/:id/versions', {
       id: '@id'
     }, {
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

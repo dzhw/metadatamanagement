@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('SurveyAttachmentVersionsResource', function($resource) {
+  .factory('SurveyAttachmentVersionsResource', ['$resource',  function($resource) {
     return $resource('/api/surveys/:surveyId/attachments/:filename/versions', {
       surveyId: '@surveyId',
       filename: '@filename'
@@ -11,4 +11,5 @@ angular.module('metadatamanagementApp')
         isArray: true
       }
     });
-  });
+  }]);
+

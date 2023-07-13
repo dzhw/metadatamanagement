@@ -1,6 +1,6 @@
 'use strict';
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectShadowsResource',
+  .factory('DataAcquisitionProjectShadowsResource', ['$resource', 
     function($resource) {
     return $resource(
       '/api/data-acquisition-projects/:id/shadows', {
@@ -10,4 +10,5 @@ angular.module('metadatamanagementApp')
         method: 'GET'
       }
     });
-  });
+  }]);
+

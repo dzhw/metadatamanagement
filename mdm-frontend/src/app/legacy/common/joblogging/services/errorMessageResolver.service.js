@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
+angular.module('metadatamanagementApp').service('ErrorMessageResolverService', ['$rootScope', 
   function($rootScope) {
     var getErrorMessage = function(messageObj, domainObjectType,
       subObjectType,
@@ -62,4 +62,5 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
     return {
       getErrorMessage: getErrorMessage
     };
-  });
+  }]);
+

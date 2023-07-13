@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('CreateOverviewDialogController', function($scope, $mdDialog,
+  .controller('CreateOverviewDialogController', [
+  '$scope',
+  '$mdDialog',
+  '$rootScope', function($scope, $mdDialog,
     $rootScope) {
     $scope.bowser = $rootScope.bowser;
     var ctrl = this;
@@ -32,4 +35,5 @@ angular.module('metadatamanagementApp')
         languages: languages
       });
     };
-  });
+  }]);
+

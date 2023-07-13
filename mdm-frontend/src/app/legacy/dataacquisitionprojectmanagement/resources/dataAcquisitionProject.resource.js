@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectResource', function($resource, $rootScope) {
+  .factory('DataAcquisitionProjectResource', ['$resource', '$rootScope',  function($resource, $rootScope) {
     return $resource('/api/data-acquisition-projects/:id', {
       id: '@id'
     }, {
@@ -29,4 +29,5 @@ angular.module('metadatamanagementApp')
         }
       }
     });
-  });
+  }]);
+

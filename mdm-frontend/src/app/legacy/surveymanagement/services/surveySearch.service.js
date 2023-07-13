@@ -1,7 +1,7 @@
 /* global  _*/
 'use strict';
 
-angular.module('metadatamanagementApp').factory('SurveySearchService',
+angular.module('metadatamanagementApp').factory('SurveySearchService', ['ElasticSearchClient', '$q', 'LanguageService', 'SearchHelperService', 'CleanJSObjectService', 'GenericFilterOptionsSearchService', 'Principal', 
   function(ElasticSearchClient, $q, LanguageService, SearchHelperService,
            CleanJSObjectService, GenericFilterOptionsSearchService, Principal) {
       var createQueryObject = function(type) {
@@ -376,4 +376,5 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         findSurveyTitles: findSurveyTitles,
         findSurveyMethodFilterOptions: findSurveyMethodFilterOptions
       };
-    });
+    }]);
+

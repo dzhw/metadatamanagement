@@ -1,7 +1,13 @@
 /* global _ */
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('SurveyMethodSearchFilterController',
+  .controller('SurveyMethodSearchFilterController', [
+  '$scope',
+  '$location',
+  '$q',
+  '$timeout',
+  'CurrentProjectService',
+  'SurveySearchService',
     function($scope, $location, $q, $timeout, CurrentProjectService,
              SurveySearchService) {
       // prevent survey method changed events during init
@@ -167,4 +173,5 @@ angular.module('metadatamanagementApp')
         function() {
           init($scope.currentLanguage);
         });
-    });
+    }]);
+

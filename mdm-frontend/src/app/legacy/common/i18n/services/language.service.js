@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('LanguageService',
+angular.module('metadatamanagementApp').factory('LanguageService', ['$q', '$translate', '$location', '$rootScope', 'tmhDynamicLocale', 'LANGUAGES', 'amMoment', '$mdDateLocale', 'moment', 
   function($q, $translate, $location, $rootScope,
     tmhDynamicLocale, LANGUAGES, amMoment, $mdDateLocale, moment) {
     return {
@@ -68,6 +68,7 @@ angular.module('metadatamanagementApp').factory('LanguageService',
             $location.path(currentPath);
           }
         });
+
       },
 
       getAll: function() {
@@ -76,7 +77,7 @@ angular.module('metadatamanagementApp').factory('LanguageService',
         return deferred.promise;
       }
     };
-  })
+  }])
 
 /*
  * Languages codes are ISO_639-1 codes, see

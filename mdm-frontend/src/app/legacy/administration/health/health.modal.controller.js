@@ -1,6 +1,11 @@
 'use strict';
 
-angular.module('metadatamanagementApp').controller('HealthModalController',
+angular.module('metadatamanagementApp').controller('HealthModalController', [
+  '$scope',
+  '$uibModalInstance',
+  'currentHealth',
+  'baseName',
+  'subSystemName',
   function($scope, $uibModalInstance,
     currentHealth, baseName, subSystemName) {
 
@@ -11,4 +16,5 @@ angular.module('metadatamanagementApp').controller('HealthModalController',
     $scope.cancel = function() {
       $uibModalInstance.dismiss('cancel');
     };
-  });
+  }]);
+
