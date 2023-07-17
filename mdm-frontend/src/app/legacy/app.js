@@ -41,7 +41,7 @@ try {
         WebSocketService, $urlRouter, $translate, MigrationService, $browser) {
         // sometimes urlRouter does not load the state automatically on startup
         $urlRouter.sync();
-        // TODO does this work with the old client? --> WebSocketService.connect();
+        WebSocketService.connect();
         $rootScope.bowser = bowser;
         // set baseUrl in case someone needs absolute urls
         if (ENV === 'local') {
