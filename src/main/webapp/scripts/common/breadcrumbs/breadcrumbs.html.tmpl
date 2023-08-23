@@ -1,7 +1,7 @@
 <div class="fdz-breadcrumbs" ng-if="$ctrl.show">
   <div class="md-body-1" ng-repeat="item in $ctrl.items">
     <a ng-if="!$last && !item.notFound && item.state"
-       ui-sref="{{item.state}}" ng-attr-rel="{{item.state.indexOf('search') > -1 ? 'search': ($index === $ctrl.items.length - 2? 'parent' : undefined)}}">
+       ui-sref="{{item.state}}" ng-attr-rel="{{item.state === 'search' ? 'search': (item.state === 'searchReleased' ? 'searchReleased' : ($index === $ctrl.items.length - 2? 'parent' : undefined))}}">
       <span class="fdz-truncate-string" hide-xs>{{item.type | translate}}</span>
       <span class="fdz-truncate-string" hide-xs ng-if="item.tabName && $ctrl.isAuthenticated()">({{item.tabName | translate}})</span>
       <span class="fdz-truncate-string" hide-xs ng-if="item.id">{{item.id}}</span>

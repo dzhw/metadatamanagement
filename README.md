@@ -7,7 +7,7 @@
 [![Sauce Test Status](https://app.saucelabs.com/browser-matrix/andydaniel.svg?cachebuster=1234)](https://app.saucelabs.com/u/andydaniel)
 # Metadatamanagement (MDM)
 
-The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
+The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data. 
 
 # Developing the MDM system
 
@@ -106,7 +106,7 @@ these new files.
 
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
-# Big Thanks
+# Big Thanks 
 
 Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
 

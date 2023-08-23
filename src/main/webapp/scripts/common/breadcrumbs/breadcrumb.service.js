@@ -4,6 +4,7 @@
 angular.module('metadatamanagementApp').factory('BreadcrumbService',
   function($rootScope, $log, Principal) {
     var isAuthenticated = Principal.isAuthenticated;
+    var isProviderViewActive = Principal.isProviderActive;
     var stripVersionSuffixAndDollar = function(id) {
       if (!id) {
         return id;
@@ -170,12 +171,17 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       item: {
         'type': translationStringsMap.search.type,
         'tooltip': translationStringsMap.search.translateString,
-        'state': 'search({"page": 1, "size": 10})',
+        'state': isProviderViewActive() ? 'search({"page": 1, "size": 10})' :
+          'searchReleased({"page": 1, "size": 10})',
         'tabName': 'search-management.tabs.all',
         'iconType': translationStringsMap.search.iconType,
         'icon': translationStringsMap.search.icon
       },
       get: function() {
+        // reset item state according to view type
+        this.item.state = isProviderViewActive() || !isAuthenticated() ?
+          'search({"page": 1, "size": 10})' :
+          'searchReleased({"page": 1, "size": 10})';
         return _.cloneDeep(this.item);
       },
       set: function(item) {
