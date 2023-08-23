@@ -221,7 +221,9 @@ try {
           (trans.$to().name).indexOf('logs') !== -1 ||
           (trans.$to().name).indexOf('health') !== -1 ||
           (trans.$to().name).indexOf('settings') !== -1 ||
-          (trans.$to().name).indexOf('password') !== -1)
+          (trans.$to().name).indexOf('password') !== -1 ||
+          (trans.$to().name).indexOf('analysisPackageCreate') !== -1 ||
+          (trans.$to().name).indexOf('dataPackageCreate') !== -1)
           ) {
             $rootScope.sidebarContent = {
               'search': false,
