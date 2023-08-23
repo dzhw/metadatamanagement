@@ -222,13 +222,19 @@ angular.module('metadatamanagementApp').factory(
         return _showAdminMenu;
       },
       isPublisher() {
-        return _identity ? _.indexOf(_identity.authorities, 'ROLE_PUBLISHER') !== -1 : false;
+        return _identity ?
+          _.indexOf(_identity.authorities, 'ROLE_PUBLISHER') !== -1 :
+          false;
       },
       isAdmin() {
-        return _identity ? _.indexOf(_identity.authorities, 'ROLE_ADMIN') !== -1 : false;
+        return _identity ?
+          _.indexOf(_identity.authorities, 'ROLE_ADMIN') !== -1 :
+          false;
       },
       isDataprovider() {
-        return _identity ? _.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 : false;
+        return _identity ?
+          _.indexOf(_identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 :
+          false;
       },
       showAllData() {
         if (_identity != null &&
