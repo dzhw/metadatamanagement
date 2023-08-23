@@ -179,7 +179,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       },
       get: function() {
         // reset item state according to view type
-        this.item.state = isProviderViewActive() ?
+        this.item.state = isProviderViewActive() || !isAuthenticated() ?
           'search({"page": 1, "size": 10})' :
           'searchReleased({"page": 1, "size": 10})';
         return _.cloneDeep(this.item);

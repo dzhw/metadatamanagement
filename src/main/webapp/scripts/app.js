@@ -214,6 +214,26 @@ try {
               'projectOverview': Principal.showProjectOverviewInSidenav(),
               'admin': Principal.showAdminMenuInSidenav()
             };
+          } else if (Principal.isAuthenticated() &&
+          ((trans.$to().name).indexOf('project-cockpit') !== -1 ||
+          (trans.$to().name).indexOf('project-overview') !== -1 ||
+          (trans.$to().name).indexOf('user-management') !== -1 ||
+          (trans.$to().name).indexOf('logs') !== -1 ||
+          (trans.$to().name).indexOf('health') !== -1 ||
+          (trans.$to().name).indexOf('settings') !== -1 ||
+          (trans.$to().name).indexOf('password') !== -1)
+          ) {
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': false,
+              'configurator': false,
+              'account': true,
+              'projectCockpit': Principal.showProjectCockpitInSidenav(),
+              'welcomeDialog': Principal.displayWelcomeDialog(),
+              'projectOverview': Principal.showProjectOverviewInSidenav(),
+              'admin': Principal.showAdminMenuInSidenav()
+            };
           }
           // Remember previous state unless we've been redirected to login or
           // we've just
