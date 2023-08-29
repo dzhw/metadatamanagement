@@ -21,9 +21,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/manifest.json",
-              "src/robots.txt",
               "src/assets",
               {
                   "glob": "**/*.html.tmpl",
@@ -583,7 +581,37 @@
             ]
           },
           "configurations": {
-            "production": {
+            "dev": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "assets": [
+                {
+                  "glob": "robots.txt",
+                  "input": "src/environments/dev/",
+                  "output": "/"
+                }
+              ]
+            },
+            "test": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "assets": [
+                {
+                  "glob": "robots.txt",
+                  "input": "src/environments/test/",
+                  "output": "/"
+                }
+              ]
+            },
+            "prod": {
               "budgets": [
                 {
                   "type": "initial",
@@ -596,18 +624,17 @@
                   "maximumError": "4kb"
                 }
               ],
+              "assets": [
+                {
+                  "glob": "robots.txt",
+                  "input": "src/environments/prod/",
+                  "output": "/"
+                }
+              ],
               "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "prod"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
