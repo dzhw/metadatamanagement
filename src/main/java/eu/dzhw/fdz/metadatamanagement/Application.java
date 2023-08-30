@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.github.cloudyrock.spring.v5.EnableMongock;
 
 /**
- * Main class boostrapping the  application.
+ * Main class boostrapping the application.
  */
 @SpringBootApplication
 @EnableConfigurationProperties({MetadataManagementProperties.class, JHipsterProperties.class})

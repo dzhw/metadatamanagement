@@ -10,6 +10,7 @@
     function init() {
       Principal.identity().then(function() {
         $ctrl.isAuthenticated = Principal.isAuthenticated;
+        $ctrl.isProviderViewActive = Principal.isProviderActive;
       });
     }
 

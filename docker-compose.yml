@@ -1,7 +1,7 @@
 # start all external services for the metadatamanagement app
 # mongo and elasticsearch will be available on its default ports
 # docker-compose start
-version: "3.1"
+version: "3.10"
 services:
   mongodb:
     image: mongo:latest
@@ -21,6 +21,7 @@ services:
     environment:
       - discovery.type=single-node
     # ensure group has rwx on this directory
+    mem_limit: 512m
     volumes:
       - ./data/elasticsearch/data:/usr/share/elasticsearch/data
     ports:
