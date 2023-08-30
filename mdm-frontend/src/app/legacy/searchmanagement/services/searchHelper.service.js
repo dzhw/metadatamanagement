@@ -60,6 +60,19 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
           i18n: true,
           min_doc_count: 1
         }
+      },
+      'related_publications': {
+        'language': {
+          attribute: 'language',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'year': {
+          attribute: 'year',
+          i18n: true,
+          min_doc_count: 1,
+          orderByKey: 'desc'
+        }
       }
     };
 
@@ -234,6 +247,8 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         'study-series-en': 'dataPackages.studySeries.en',
         'data-package': 'dataPackageIds',
         'analysis-package': 'analysisPackageIds',
+        'language': 'language',
+        'year': 'year'
       },
       'concepts': {
         'data-package': 'dataPackages.id',
@@ -646,8 +661,11 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
     };
 
     var addShadowCopyFilter = function(query, filter, enforceReleased) {
-      if (!enforceReleased && Principal.loginName()) {
+      if (!enforceReleased && Principal.loginName() &&
+        Principal.isProviderActive()) {
         applyOnlyMasterDataFilter(query, filter);
+      } else if (Principal.isProviderActive()) {
+        applyShadowCopyFilter(query, filter);
       } else {
         applyShadowCopyFilter(query, filter);
       }
@@ -730,6 +748,47 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
       return query;
     };
 
+    var createMasterByIdQuery = function(id) {
+      var query = {
+        'body': {
+          'query': {
+            'constant_score': {
+              'filter':
+                {
+                  'bool': {
+                    'must': [
+                      {
+                        'term': {
+                          'masterId': id
+                        }
+                      },
+                      {
+                        'term': {
+                          'shadow': false
+                        }
+                      }
+                    ]
+                  }
+                }
+            }
+          }
+        }
+      };
+
+      if (!Principal.loginName()) {
+        query.body.query.constant_score.filter.bool.must.push({
+          'term': {
+            'hidden': false
+          }
+        });
+      }
+
+      _.set(query, 'body.query.constant_score.filter.bool.must_not.exists' +
+        '.field', 'successorId');
+
+      return query;
+    };
+
     var addNestedShadowCopyFilter = function(boolFilter, path, type) {
       var termFilter = {};
       if (type === 'concepts') {
@@ -758,7 +817,7 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
           }
         };
 
-        if (!Principal.loginName()) {
+        if (!Principal.loginName() || !Principal.isProviderActive()) {
           var shadowCopyFilter = {
             'bool': {
               'must': [{
@@ -791,7 +850,13 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
                 min_doc_count: aggregationConfig.min_doc_count
               }
             };
-            if (aggregationConfig.i18n) {
+
+            if (aggregationConfig.orderByKey) {
+              aggregation.terms.order = {'_key': aggregationConfig.orderByKey};
+            }
+
+            if (aggregationConfig.i18n &&
+              elasticsearchType !== 'related_publications') {
               aggregation.terms.field = aggregationConfig.attribute +
               '.' + currentLanguage;
             } else {
@@ -874,6 +939,7 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
       getHiddenFilters: getHiddenFilters,
       createSortByCriteria: createSortByCriteria,
       createShadowByIdAndVersionQuery: createShadowByIdAndVersionQuery,
+      createMasterByIdQuery: createMasterByIdQuery,
       addFilter: addFilter,
       addShadowCopyFilter: addShadowCopyFilter,
       addNestedShadowCopyFilter: addNestedShadowCopyFilter,

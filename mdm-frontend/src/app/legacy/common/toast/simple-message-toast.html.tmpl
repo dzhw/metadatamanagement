@@ -1,6 +1,6 @@
 <md-toast ng-class="{'md-accent': alert}">
   <div flex>
-    <p ng-repeat="elem in messages" class="mv8 mh0">
+    <p ng-repeat="elem in messages track by $index" class="mv8 mh0">
       <span data-translate="{{elem.messageId}}" data-translate-values="{{elem.messageParams}}"></span>
     </p>
   </div>

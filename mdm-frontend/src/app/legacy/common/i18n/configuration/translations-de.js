@@ -36,7 +36,9 @@ angular.module('metadatamanagementApp').config([
           'study-series': 'Studienreihen',
           'survey-data-types': 'Erhebungsdatentyp',
           'access-ways': 'Zugangswege',
-          'unavailable': 'Nicht vorhanden'
+          'unavailable': 'Nicht vorhanden',
+          'language': 'Sprache',
+          'year': 'Erscheinungsjahr'
         },
         'toolbar': {
           'buttons': {
@@ -62,7 +64,11 @@ angular.module('metadatamanagementApp').config([
             'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',
             'logs-tooltip': 'Klicken, um Loglevel zu ändern',
             'settings-tooltip': 'Klicken, um Ihre Kontoeigenschaften zu bearbeiten',
-            'password-tooltip': 'Klicken, um Ihr Passwort zu ändern'
+            'password-tooltip': 'Klicken, um Ihr Passwort zu ändern',
+            'switch-to-provider-view': 'Daten übergeben',
+            'switch-to-provider-view-tooltip': 'Klicken, um zur Ansicht für Datengeber:innen zu gelangen',
+            'switch-to-order-view': 'Daten bestellen',
+            'switch-to-order-view-tooltip': 'Klicken, um zur Bestellansicht zu gelangen'
           },
           'released': 'Freigegeben',
           'not-released': 'Nicht freigegeben'
@@ -168,6 +174,11 @@ angular.module('metadatamanagementApp').config([
             'logs': 'Loglevel',
             'apidocs': 'API',
             'database': 'Database'
+          },
+          'order-menu': {
+            'data-package': 'Datenpaket bestellen',
+            'analysis-package': 'Analysepaket bestellen',
+            'tooltip': 'Klicken, um die Bestellansicht zu öffnen'
           },
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen des Menüs',
@@ -431,9 +442,18 @@ angular.module('metadatamanagementApp').config([
             'content': 'Wollen Sie wirklich alle Publikationen von dem Datenpaket des Datenaufnahmeprojekts "{{ id }}" entfernen?'
           },
            'confirm-deactivate-user-with-assigned-projects': {
-             'title': 'Nutzer:in mit zugewiesenen Projekten deaktivieren?',
-             'content': 'Wenn Sie die/den Nutzer:in deaktivieren wird sie/er aus den folgenden Projekten entfernt: \n\n {{ projects }}'
-           }
+             'title': 'Nutzer:in deaktivieren?',
+             'content-without-assigned-projects': 'Bitte bestätigen Sie, dass Sie die/den Nutzer:in deaktivieren möchten.',
+             'content': 'Wenn Sie die/den Nutzer:in deaktivieren wird sie/er aus den folgenden Projekten entfernt: \n\n {{ projects }}',
+             'yes': 'Deaktivieren',
+             'no': 'Status beibehalten'
+           },
+           'confirm-activate-user': {
+            'title': 'Nutzer:in aktivieren?',
+            'content': 'Bitte bestätigen Sie, dass sie die/den Nutzer:in aktivieren möchten.',
+            'yes': 'Aktivieren',
+            'no': 'Status beibehalten'
+          }
         },
         'people': {
           'edit': {

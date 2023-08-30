@@ -30,7 +30,10 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier', ['Sim
       if (Principal.loginName() && item.shadow) {
         var version = _.get(item, 'release.version');
         // var href = createMasterRef(item);
-        showLoggedInUserMessage(item.masterId, version, item.hidden);
+        // prevent notification when in order view (data will always be older version)
+        if (Principal.isProviderActive()) {
+          showLoggedInUserMessage(item.masterId, version, item.hidden);
+        }
       } else if (item.shadow && angular.isDefined(item.successorId)) {
         fetchFn().promise.then(function(result) {
           var oldVersion = _.get(item, 'release.version');

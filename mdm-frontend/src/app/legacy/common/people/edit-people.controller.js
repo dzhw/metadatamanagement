@@ -101,6 +101,7 @@ angular.module('metadatamanagementApp')
               'choose-orcid.html.tmpl',
             clickOutsideToClose: false,
             fullscreen: true,
+            multiple: true,
             locals: {
               firstName: firstName,
               lastName: lastName,

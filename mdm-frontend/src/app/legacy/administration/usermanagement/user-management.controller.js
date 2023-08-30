@@ -44,15 +44,28 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
 
     $scope.setActive = function(user, isActivated) {
       var userHasBeenActivated = user.activated;
-      user.activated = isActivated;
 
-      if (userHasBeenActivated && !user.activated) {
+      if (userHasBeenActivated && !isActivated) {
         DataAcquisitionProjectRepositoryClient.findAssignedProjects(
             user.login).then(function(response) {
                 var projects = response.data;
                 if (projects.length === 0) {
-                  UserResource.update(user, function() {
-                    $scope.loadAll();
+                  CommonDialogsService.showConfirmDialog(
+                    'global.common-dialogs' +
+                    '.confirm-deactivate-user-with-assigned-projects.title',
+                    {},
+                    'global.common-dialogs' +
+                    '.confirm-deactivate-user-with-assigned-projects' +
+                    '.content-without-assigned-projects',
+                    {},
+                    null
+                  ).then(function success() {
+                    user.activated = isActivated;
+                    UserResource.update(user, function() {
+                      $scope.loadAll();
+                    });
+                  }, function error() {
+                    user.activated = true;
                   });
                 } else {
                   var projectIds = joinProjectIds(projects);
@@ -65,6 +78,7 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
                     {projects: projectIds},
                     null
                   ).then(function success() {
+                      user.activated = isActivated;
                       UserResource.update(user, function() {
                         $scope.loadAll();
                       });
@@ -77,8 +91,21 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
                 user.activated = true;
               });
       } else {
-        UserResource.update(user, function() {
-          $scope.loadAll();
+        CommonDialogsService.showConfirmDialog(
+          'global.common-dialogs' +
+          '.confirm-activate-user.title',
+          {},
+          'global.common-dialogs' +
+          '.confirm-activate-user.content',
+          {},
+          null
+        ).then(function success() {
+          user.activated = isActivated;
+          UserResource.update(user, function() {
+            $scope.loadAll();
+          });
+        }, function error() {
+          user.activated = false;
         });
       }
     };

@@ -50,6 +50,9 @@ angular.module('metadatamanagementApp').config([
             'name': 'Name',
             'level': 'Stufe'
           }
+        },
+        'usermanagement': {
+          'change-user-status': 'Status ändern'
         }
       }
       //jscs:enable

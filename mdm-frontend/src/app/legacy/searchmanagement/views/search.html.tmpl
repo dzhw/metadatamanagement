@@ -1,6 +1,9 @@
 <div class="fdz-cc">
-<div layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
-  <div ng-if="isAuthenticated()">
+    <md-card ng-if="showNoProjectsCard">
+        <span translate="user-management.view-switch.alert.no-assigned-projects.part1"></span>
+    </md-card>
+<div layout="column" ng-if="!showNoProjectsCard" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
+    <div ng-if="isAuthenticated()">
     <md-card class="pa0 db">
         <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
             <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
@@ -93,7 +96,6 @@
               set-params="setCurrentSearchParams()"
               search-result-index="computeSearchResultIndex($index)"></analysispackage-search-result>
             <related-publication-search-result
-              ng-if="isAuthenticated()"
               ng-switch-when="related_publications"
               search-query="searchParams.query"
               search-result="result._source"
@@ -268,5 +270,6 @@
         <md-icon md-font-set="material-icons">filter_alt</md-icon>
       </md-button>
     </div>
+</div>
 </div>
 </div>

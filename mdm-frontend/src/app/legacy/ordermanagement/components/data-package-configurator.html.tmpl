@@ -84,7 +84,7 @@
           <span>{{'search-management.detail.cart' | translate}}</span>
         </md-button>
         <md-button class="md-small md-raised md-primary fdz-truncate-string" ui-sref="shoppingCart"
-          ng-disabled="$ctrl.numberOfShoppingCartProducts === 0" style="padding-top: 10px">
+          ng-disabled="$ctrl.numberOfShoppingCartProducts === 0" style="padding-top: 10px" ng-click="$ctrl.onGoToShoppingCart()">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
           </md-tooltip>
@@ -119,6 +119,10 @@
     <span ng-if="$ctrl.noFinalRelease">
       {{'shopping-cart.detail.no-final-release' | translate}}
     </span>
+    <!-- maintenance hint -->
+    <div ng-if="$ctrl.showMaintenanceHint" style="margin-bottom: 10px; margin-top: 10px;">
+      {{'shopping-cart.detail.maintenance-hint' | translate}}
+    </div>
     <span translate="shopping-cart.detail.note">
     </span>
   </md-card-footer>

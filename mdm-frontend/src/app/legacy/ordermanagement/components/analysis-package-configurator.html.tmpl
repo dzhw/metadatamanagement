@@ -1,3 +1,4 @@
+
 <md-card class="fdz-data-package" ng-if="$ctrl.analysisPackage && $ctrl.analysisPackageIdVersion.masterId && $ctrl.lang && $ctrl.releases">
   <md-card-header>
     <md-card-header-text>
@@ -81,6 +82,10 @@
     <span ng-if="$ctrl.noFinalRelease">
       {{'shopping-cart.detail.no-final-release' | translate}}
     </span>
+    <!-- maintenance hint -->
+    <div ng-if="$ctrl.showMaintenanceHint" style="margin-bottom: 10px; margin-top: 10px;">
+      {{'shopping-cart.detail.maintenance-hint' | translate}}
+    </div>
     <span translate="shopping-cart.detail.note">
     </span>
   </md-card-footer>
