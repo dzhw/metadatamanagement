@@ -24,6 +24,9 @@ jobs:
       with:
         path: ~/.m2
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Install MDM Maven plugin
+      shell: bash
+      run: mvn -f maven-plugin/pom.xml install
     - name: Set up node 16
       uses: actions/setup-node@v3
       with:
