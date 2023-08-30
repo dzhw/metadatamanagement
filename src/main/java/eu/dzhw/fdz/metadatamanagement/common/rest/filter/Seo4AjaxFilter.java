@@ -12,11 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -45,9 +43,6 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
   private static final String ESCAPED_FRAGMENT_QUERY_PARAM = "_escaped_fragment_=";
 
   private String siteToken;
-
-  @Autowired
-  private Environment env;
 
   private String regexpBots =
       ".*(bot|spider|pinterest|crawler|archiver|flipboard|mediapartners|facebookexternalhit|quora|"
