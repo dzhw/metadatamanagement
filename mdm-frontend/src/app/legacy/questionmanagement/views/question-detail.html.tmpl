@@ -1,0 +1,73 @@
+<div ng-if="ctrl.question.id">
+  <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
+  <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
+  <div class="fdz-cc">
+    <div>
+      <div class="fdz-detail">
+        <div class="fdz-detail__header">
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline">{{'question-management.detail.label.question' |
+              translate}} {{ctrl.question.number}}: <span display-i18n-string="ctrl.instrument.description" ng-if='ctrl.instrument'></span></h1>
+            <json-content-dialog
+              class="mb0"
+              content="ctrl.question"
+              header-title="ctrl.instrument ? ctrl.instrument.description : ''"
+              ng-if="ctrl.enableJsonView">
+            </json-content-dialog>
+          </div>
+        </div>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.question"
+          template-url="scripts/questionmanagement/templates/common-details.html.tmpl"></fdz-detail>
+        <md-divider ng-if="ctrl.imageLanguages.length > 0"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.imageLanguages.length > 0"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/questionmanagement/templates/image.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.predecessors"
+          template-url="scripts/questionmanagement/templates/previous-question.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.successors"
+          template-url="scripts/questionmanagement/templates/next-question.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.question.technicalRepresentation"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.question.technicalRepresentation"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/questionmanagement/templates/technical-representation.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          id="ctrl.question.id"
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
+      </div>
+    </div>
+  </div>
+  <div class="fdz-fab-button-container" layout="column" layout-align="center end">
+    <report-publications-component ng-if="!ctrl.isAuthenticated()"></report-publications-component>
+    <md-button hide-gt-md class="md-fab md-raised md-accent" ng-if="!ctrl.isAuthenticated()"
+               ng-click="ctrl.toggleSidenav()">
+      <md-tooltip md-autohide="true" md-direction="left"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'shopping-cart.buttons.choose-data-package-options' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+    </md-button>
+  </div>
+</div>

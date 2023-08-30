@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="{{currentLanguage}}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#006AB2">
+  <meta name="fragment" content="!">
+  <base href="/">
+  <title data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}"
+         data-translate-default="Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies">
+    Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies</title>
+  <meta property="og:title" content="{{pageTitleKey | translate : pageTitleParams | limitTo : 95}}" />
+  <meta ng-if="pageDescriptionKey" property="og:description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown | limitTo: 290}}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{canonicalHref}}" />
+  <meta property="og:image" content="{{baseUrl + '/assets/images/FDZ_Logo_With_Mag.png' | trustAsResourceUrl}}" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:locale" content="{{currentLanguage}}" />
+  <meta property="og:locale:alternate" content="{{currentLanguage === 'de'?'en':'de'}}" />
+  <meta property="og:site_name" content="{{'global.rdc' | translate}}" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@fdz_dzhw" />
+  <meta name="apple-mobile-web-app-title" content="Metadatamanagement">
+  <link rel="shortcut icon" type="image/png" href="{{baseUrl + '/assets/images/webapp/144-Gesamte-App.png' | trustAsResourceUrl}}">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/57-Gesamte-App.png' | trustAsResourceUrl}}" sizes="57x57">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/72-Gesamte-App.png' | trustAsResourceUrl}}" sizes="72x72">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/76-Gesamte-App.png' | trustAsResourceUrl}}" sizes="76x76">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/114-Gesamte-App.png' | trustAsResourceUrl}}" sizes="114x114">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/120-Gesamte-App.png' | trustAsResourceUrl}}" sizes="120x120">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/144-Gesamte-App.png' | trustAsResourceUrl}}" sizes="144x144">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/152-Gesamte-App.png' | trustAsResourceUrl}}" sizes="152x152">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/180-Gesamte-App.png' | trustAsResourceUrl}}" sizes="180x180">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/196-Gesamte-App.png' | trustAsResourceUrl}}" sizes="196x196">
+  <link ng-if="canonicalHref" rel="canonical" ng-href="{{canonicalHref}}" />
+  <link ng-if="previousUiSref" rel="prev" ui-sref="{{previousUiSref}}" />
+  <link ng-if="nextUiSref" rel="next" ui-sref="{{nextUiSref}}" />
+  <meta ng-if="pageDescriptionKey" name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
+  <link ng-if="dublinCoreMetadata" rel="schema.DC" href="http://purl.org/dc/elements/1.1/" >
+  <meta ng-if="dublinCoreMetadata" name="DC.Type" content="{{dublinCoreMetadata.type}}" >
+  <meta ng-if="dublinCoreMetadata.title.en" name="DC.Title" lang="en" content="{{dublinCoreMetadata.title.en}}" >
+  <meta ng-if="dublinCoreMetadata.title.de" name="DC.Title" lang="de" content="{{dublinCoreMetadata.title.de}}" >
+  <meta ng-if="dublinCoreMetadata.coverage.period" name="DC.Coverage" content="{{dublinCoreMetadata.coverage.period.start | date:'yyyy-MM-dd' }} - {{dublinCoreMetadata.coverage.period.end | date:'yyyy-MM-dd'}}" >
+  <meta ng-if="dublinCoreMetadata.coverage.countries" name="DC.Coverage" ng-repeat-start="country in dublinCoreMetadata.coverage.countries" lang="de" content="{{country.de}}" >
+  <meta ng-if="dublinCoreMetadata.coverage.countries" name="DC.Coverage" ng-repeat-end="" lang="en" content="{{country.en}}" >
+  <meta ng-if="dublinCoreMetadata.date" name="DC.Date" content="{{dublinCoreMetadata.date | date:'yyyy-MM-dd' }}" >
+  <meta ng-if="dublinCoreMetadata.rights.en" name="DC.Rights" lang="en" content="{{dublinCoreMetadata.rights.en}}" >
+  <meta ng-if="dublinCoreMetadata.rights.de" name="DC.Rights" lang="de" content="{{dublinCoreMetadata.rights.de}}" >
+  <meta ng-if="dublinCoreMetadata.identifier" name="DC.Identifier" content="{{dublinCoreMetadata.identifier}}" >
+  <meta ng-if="dublinCoreMetadata.publisher" name="DC.Publisher" content="{{dublinCoreMetadata.publisher}}" >
+  <meta ng-if="dublinCoreMetadata.description.en" name="DC.Description" lang="en" content="{{dublinCoreMetadata.description.en | removeMarkdown}}" >
+  <meta ng-if="dublinCoreMetadata.description.de" name="DC.Description" lang="de" content="{{dublinCoreMetadata.description.de | removeMarkdown}}" >
+  <meta ng-if="dublinCoreMetadata.languages" ng-repeat="language in dublinCoreMetadata.languages" name="DC.Language" content="{{language}}" >
+  <meta ng-if="dublinCoreMetadata.subjects" ng-repeat="subject in dublinCoreMetadata.subjects.de" name="DC.Subject" lang="de" content="{{subject}}" >
+  <meta ng-if="dublinCoreMetadata.subjects" ng-repeat="subject in dublinCoreMetadata.subjects.en" name="DC.Subject" lang="en" content="{{subject}}" >
+  <meta ng-if="dublinCoreMetadata.creators" ng-repeat="creator in dublinCoreMetadata.creators" name="DC.Creator" content="{{creator.lastName}}, {{creator.firstName}}{{creator.middleName?' '+creator.middleName:''}}" >
+  <meta ng-if="dublinCoreMetadata.contributors" ng-repeat="institution in dublinCoreMetadata.institutions" name="DC.Creator" content="{{institution}}" >
+  <meta ng-if="dublinCoreMetadata.contributors" ng-repeat="contributor in dublinCoreMetadata.contributors" name="DC.Contributor" content="{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName?' '+contributor.middleName:''}}" >
+  <script ng-if="schemaOrgMetadata" type="application/ld+json" ng-bind-html="schemaOrgMetadata">
+  </script>
+  <!-- seo4Ajax setting -->
+  <script>window.willCallOnCaptureReady = true;</script>
+  <!-- Matomo/Piwik -->
+  <script type="text/javascript">
+    var _paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['enableHeartBeatTimer']);
+    (function() {
+      // disable tracking on localhost and for seo4ajax clients
+      if (document.domain === 'localhost' || window.onCaptureReady) {
+        delete window._paq;
+        return;
+      };
+      if (document.referrer) {
+        _paq.push(['setReferrerUrl', document.referrer]);
+      }
+      var u="//webstat.dzhw.eu/piwik/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      if (document.domain === 'dev.metadata.fdz.dzhw.eu') {
+        _paq.push(['setSiteId', '31']);
+      } else if (document.domain === 'test.metadata.fdz.dzhw.eu') {
+        _paq.push(['setSiteId', '32']);
+      } else {
+        _paq.push(['setSiteId', '33']);
+      }
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo/Piwik Code -->
+
+</head>
+
+<body data-layout="column" class="fdz-theme">
+<!--<body>-->
+<div class="fdz-splash" data-ng-cloak>
+  <div class="fdz-bootstrap-error">
+    <div class="fdz-no-js">
+      <p>The app could not be started successfully!</p>
+      <p><a href="https://browsehappy.com/">Upgrade or use a different browser</a> to experience this app.</p>
+    </div>
+  </div>
+  <noscript style="display: table-header-group;">
+    <div class="fdz-no-js">
+      <p>For any functionality of this app it is necessary to enable JavaScript!</p>
+      <p>Here are the <a href="https://www.enable-javascript.com/" target="_blank">
+        instructions how to enable JavaScript in your web browser</a>.</p>
+    </div>
+    <!-- Matomo/Piwik track no javascript users -->
+    <p><img src="//webstat.dzhw.eu/piwik/piwik.php?idsite=31&amp;rec=1" style="border:0;" alt="" /></p>
+  </noscript>
+  <div class="fdz-app-title">
+    <img alt="Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung" src="assets/images/FDZ_Logo_With_Mag.svg">
+    <progress></progress>
+  </div>
+</div>
+<div
+  class="toast-wrapper"
+  data-layout="column">
+  <div data-flex id="toast-container"></div>
+</div>
+<header>
+  <fdz-toolbar></fdz-toolbar>
+</header>
+<main data-flex data-layout="row" data-ng-cloak data-block-ui="main" class="block-ui-main">
+  <fdz-sidenav data-ng-cloak></fdz-sidenav>
+  <md-content data-md-scroll-y data-layout="column" flex class="fdz-theme content-center" data-ng-cloak>
+    <div id="top"></div>
+    <fdz-breadcrumbs items="toolbarHeaderItems"></fdz-breadcrumbs>
+    <div data-flex="noshrink" data-layout="column" class="fdz-content" tabindex="-1">
+      <ui-view name="content" data-flex="noshrink" tabindex="-1" data-layout="column"></ui-view>
+      <fdz-footer lang="currentLanguage"></fdz-footer>
+    </div>
+  </md-content>
+</main>
+<user-consent-component></user-consent-component>
+
+</body>
+
+</html>

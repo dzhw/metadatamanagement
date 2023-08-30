@@ -1,0 +1,45 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'variable-management.detail.label.generation-details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button class="md-card-collapsible-button" aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item>
+          <h5>{{'variable-management.detail.label.generation-details-description' | translate }}:</h5>
+          <p class="md-secondary" markdown-to-html="$ctrl.options.variable.generationDetails.description | displayI18nString"></p>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.generationDetails.rule">
+          <h5 style="width: 100%">{{'variable-management.detail.label.generation-details-rule' | translate }}
+            ({{$ctrl.options.variable.generationDetails.ruleExpressionLanguage}}):
+          </h5>
+          <div class="fdz-code-container" create-variable-links="{currentLanguage: $ctrl.lang, currentVariable: $ctrl.options.variable}" hljs hljs-language="{{$ctrl.options.variable.generationDetails.ruleExpressionLanguage}}"
+            hljs-source="$ctrl.options.variable.generationDetails.rule" ng-class="{'fdz-hidden-code': $ctrl.options.generationCodeToggleFlag}" style="margin-top: 0.5em; width: 100%"></div>
+          <div class="fdz-button-wrapper" style="width: 100%;">
+            <md-button class="md-icon-button md-primary" data-clipboard-text="{{$ctrl.options.variable.generationDetails.rule}}"
+              ng-click="$ctrl.options.openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')" ngclipboard>
+              <md-icon md-font-library="material-icons">content_copy</md-icon>
+              <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'variable-management.detail.copy-complete-rule-tooltip' | translate}}
+              </md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button md-primary" ng-click="$ctrl.options.toggleGenerationCode()">
+              <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg" ng-if="$ctrl.options.generationCodeToggleFlag"></md-icon>
+              <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg" ng-if="!$ctrl.options.generationCodeToggleFlag"></md-icon>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'variable-management.detail.show-complete-rule-tooltip.' + $ctrl.options.generationCodeToggleFlag | translate }}
+              </md-tooltip>
+            </md-button>
+          </div>
+        </md-list-item>
+      </md-list>
+  </div>
+  </md-card-content>
+  </div>
+</md-card>

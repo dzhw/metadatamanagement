@@ -1,0 +1,69 @@
+<div ng-if="ctrl.dataSet.id">
+  <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
+  <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
+  <div class="fdz-cc">
+    <div>
+      <div class="fdz-detail">
+        <div class="fdz-detail__header">
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline" display-i18n-string="ctrl.dataSet.description" ></h1>
+            <json-content-dialog
+              class="mb0" content="ctrl.dataSet"
+              header-title="ctrl.dataSet.description" ng-if="ctrl.enableJsonView"></json-content-dialog>
+          </div>
+        </div>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.dataSet"
+          template-url="scripts/datasetmanagement/templates/common-details.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/datasetmanagement/templates/sub-datasets.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          ng-if="ctrl.attachments"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.attachments"
+          template-url="scripts/datasetmanagement/templates/attachments.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          id="ctrl.dataSet.id"
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
+      </div>
+    </div>
+  </div>
+  <div class="fdz-fab-button-container" layout="column" layout-align="center end">
+    <report-publications-component ng-if="!ctrl.isAuthenticated()"></report-publications-component>
+    <md-button class="md-accent md-fab" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+               ng-click="ctrl.generateDataSetReport($event)" ng-if="!ctrl.projectIsCurrentlyReleased">
+      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'data-set-management.detail.generate-dataset-report-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">picture_as_pdf</md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-accent" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+               ng-click="ctrl.dataSetEdit()" ng-if="!ctrl.projectIsCurrentlyReleased">
+      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-data-set-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+    </md-button>
+    <md-button hide-gt-md class="md-fab md-raised md-accent" ng-if="!ctrl.isAuthenticated()"
+               ng-click="ctrl.toggleSidenav()">
+      <md-tooltip md-autohide="true" md-direction="left"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'shopping-cart.buttons.choose-data-package-options' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+    </md-button>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="fdz-paginator">
+  <md-input-container class="fdz-paginator__container fdz-show">
+    <span class="fdz-paginator__label">{{'global.pagination.sort'|translate}}</span>
+    <md-select
+      aria-label="{{'global.pagination.sort'|translate}}"
+      class="fdz-paginator__select"
+      ng-change="$ctrl.onUpdate({$event: '', $option: $ctrl.options})"
+      ng-disabled="$ctrl.options.sortObject.options.length <= 1"
+      ng-model="$ctrl.options.sortObject.selected">
+      <md-option
+        ng-repeat="item in $ctrl.options.sortObject.options"
+        ng-selected="$ctrl.options.sortObject.selected == item"
+        ng-value="item">{{'global.sort.' + item | translate}}
+      </md-option>
+    </md-select>
+  </md-input-container>
+  <div class="fdz-paginator__container">
+    <md-input-container class="fdz-paginator__container">
+      <span class="fdz-paginator__label">{{'global.pagination.items'|translate}}</span>
+      <md-select
+        aria-label="{{'global.pagination.items'|translate}}"
+        class="fdz-paginator__select"
+        ng-change="$ctrl.pageSize()"
+        ng-disabled="$ctrl.options.pageObject.options.length <= 1"
+        ng-model="$ctrl.options.pageObject.size">
+        <md-option
+          ng-repeat="item in $ctrl.options.pageObject.options"
+          ng-selected="$ctrl.options.pageObject.size == item"
+          ng-value="item">{{item}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <md-input-container class="fdz-paginator__container">
+      <span class="fdz-paginator__label">{{$ctrl.options.pageObject.size*($ctrl.options.pageObject.page-1)+1}} - {{$ctrl.calculateCurrentPage()}} {{'global.pagination.of'|translate}} {{$ctrl.options.pageObject.totalHits}}</span>
+      <md-button
+        class="fdz-paginator__button"
+        ng-if="$ctrl.options.pageObject.page <= 1 || $ctrl.options.pageObject.page - 1 >= ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)" disabled="true">
+        <md-icon
+          class="md-primary"
+          md-font-set="material-icons">keyboard_arrow_left
+        </md-icon>
+      </md-button>
+      <md-button
+        class="fdz-paginator__button" rel="prev"
+        ui-sref="({page: $ctrl.options.pageObject.page - 1})"
+        ng-if="$ctrl.options.pageObject.page > 1 && $ctrl.options.pageObject.page - 1 < ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)">
+        <md-icon
+          class="md-primary"
+          md-font-set="material-icons">keyboard_arrow_left
+        </md-icon>
+      </md-button>
+      <md-button
+        class="fdz-paginator__button" rel="next"
+        ui-sref="({page: $ctrl.options.pageObject.page + 1})"
+        ng-if="$ctrl.options.pageObject.page < ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)">
+        <md-icon
+          class="md-primary"
+          md-font-set="material-icons">keyboard_arrow_right
+        </md-icon>
+      </md-button>
+      <md-button
+        class="fdz-paginator__button" disabled="true"
+        ng-if="$ctrl.options.pageObject.page >= ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)">
+        <md-icon
+          class="md-primary"
+          md-font-set="material-icons">keyboard_arrow_right
+        </md-icon>
+      </md-button>
+    </md-input-container>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<md-card class="fdz-search-result">
+  <md-card-header>
+    <md-card-header-text>
+      <a
+        ui-sref="variableDetail({'id': searchResult.masterId.replace('$',''), 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', lang: currentLanguage})"
+        ui-sref-opts="{reload: true, notify: true, inherit: false}"
+        ng-click="setParams()">
+        <div class="md-title">
+          <span display-i18n-string="searchResult.label"></span>
+        </div>
+      </a>
+      <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.cards.variable-tooltip' | translate: {id: searchResult.masterId} }}
+      </md-tooltip>
+      <div class="md-subhead">
+        <div>{{searchResult.name}} ({{searchResult.dataType[currentLanguage]}},
+          {{searchResult.scaleLevel[currentLanguage]}})
+        </div>
+      </div>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <div layout="row">
+      <div flex layout="column">
+        <span
+          class="b">{{'data-package-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
+        <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
+          <span display-i18n-string="survey.title"></span>
+        </div>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>

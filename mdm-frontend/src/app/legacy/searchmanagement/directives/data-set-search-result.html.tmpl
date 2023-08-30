@@ -1,0 +1,70 @@
+<md-card class="fdz-search-result">
+  <md-card-header>
+    <md-card-header-text>
+      <a
+        ui-sref="dataSetDetail({id: searchResult.masterId.replace('$',''), 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', dataset: searchResult.id})"
+        ui-sref-opts="{reload: true, notify: true}"
+        ng-click="setParams()">
+        <div class="md-title">
+          <span display-i18n-string="searchResult.description"></span>
+        </div>
+      </a>
+        <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'search-management.cards.data-set-tooltip' | translate: {id: searchResult.masterId} }}
+        </md-tooltip>
+        <div class="md-subhead">
+          <div display-i18n-string="searchResult.type"></div>
+        </div>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <div layout="column" layout-gt-sm="row">
+      <div flex-gt-sm="50" layout="column"
+           ng-class="{'mr10': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
+        <span
+          class="b">{{'data-package-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
+        <div layout="column">
+          <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
+            <span display-i18n-string="survey.title"></span>
+          </div>
+        </div>
+      </div>
+      <div flex-gt-sm="50" layout="column">
+        <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.accessWays">
+          <span class="b">{{'data-package-management.detail.label.data-set.accessWays' | translate }}:</span>
+          <span ng-repeat="accessWay in searchResult.accessWays">{{accessWay | displayAccessWay}}{{!$last? ', ': ''}}</span>
+        </div>
+        <div ng-if="searchResult.maxNumberOfObservations">
+          <span class="b">{{(searchResult.type.en !== 'Spell Data'?'data-package-management.detail.label.data-set.maxNumberOfObservations':'data-package-management.detail.label.data-set.maxNumberOfEpisodes')| translate }} (max.):&nbsp;</span>
+          <span>{{searchResult.maxNumberOfObservations | number: 0}}</span>
+        </div>
+      </div>
+    </div>
+  </md-card-content>
+  <md-card-actions style="margin-bottom: -10px;"
+    data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+    ng-if="!projectIsCurrentlyReleased">
+    <md-button
+      class="md-primary md-small"
+      ng-click="dataSetEdit({id: searchResult.id})">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-data-set-tooltip' | translate}}
+      </md-tooltip>
+      {{'global.entity.action.edit' | translate}}
+    </md-button>
+    <md-button
+      class="md-primary md-small"
+      ng-click="deleteDataSet(searchResult.id)">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.delete-data-set-tooltip' | translate}}
+      </md-tooltip>
+      {{'global.entity.action.delete' | translate}}
+    </md-button>
+  </md-card-actions>
+</md-card>

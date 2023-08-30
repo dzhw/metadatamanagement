@@ -1,0 +1,10 @@
+<md-button
+  class="md-accent md-fab fdz-previous-search-result"
+  ng-if="goToPreviousSearchResult"
+  ng-click="goToPreviousSearchResult()"
+  shortcut="ctrl-37">
+    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.previous-search-result-tooltip' | translate : { id: previousSearchResult.masterId ? previousSearchResult.masterId : previousSearchResult.id, index: previousSearchResultIndex } }}
+    </md-tooltip>
+    <md-icon md-font-set="material-icons">navigate_before</md-icon>
+</md-button>

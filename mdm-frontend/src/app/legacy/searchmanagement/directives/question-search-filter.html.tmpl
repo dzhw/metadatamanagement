@@ -1,0 +1,24 @@
+<div ng-form="questionFilterForm" layout="row" layout-align="center center">
+    <md-autocomplete fdz-autofocus="!currentSearchParams.filter.question" md-delay="250" class="fdz-search-filter-component" md-input-name="questionFilter" md-floating-label="{{'search-management.filter.floating-label.question' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentQuestion"
+      md-selected-item-change="onSelectionChanged(currentQuestion)" md-search-text="searchText" md-items="item in searchQuestions(searchText)" md-item-text="('question-management.detail.label.question' | translate) + ' ' + item.number + ': ' + (item.questionText | displayI18nString ) + ' (' + item.masterId + ')'"
+      md-clear-button="true" md-no-cache="true" md-menu-class="fdz-search-filter-items" md-select-on-focus="true">
+        <md-item-template>
+            <span class="item-title fdz-truncate-string">
+              <strong md-highlight-text="searchText" md-highlight-flags="ig">{{'question-management.detail.label.question' | translate}} {{item.number}}: {{(item.questionText | displayI18nString)}}</strong>
+              <span class="label label-as-badge label-default" md-highlight-text="searchText" md-highlight-flags="ig">{{item.masterId}}</span>
+            </span>
+            <span class="item-metadata">{{'search-management.tabs.' + type + '-found' | translate:'{number:' + item.count + '}':'messageformat'}}</span>
+        </md-item-template>
+        <md-not-found>
+          <span class="item-title fdz-truncate-string">
+            <strong>{{'search-management.filter.question-filter.not-found' | translate}}</strong>
+          </span>
+          <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:0}':'messageformat'}}</span>
+        </md-not-found>
+        <div ng-messages="questionFilterForm.questionFilter.$error">
+            <div ng-message="md-require-match">
+                {{'search-management.filter.question-filter.no-valid-selected' | translate}}
+            </div>
+        </div>
+    </md-autocomplete>
+</div>

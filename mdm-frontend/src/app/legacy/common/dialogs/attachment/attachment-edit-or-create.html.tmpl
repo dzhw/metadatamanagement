@@ -1,0 +1,153 @@
+<md-dialog aria-label="{{(ctrl.createMode?ctrl.labels.createTitle.key:ctrl.labels.editTitle.key) | translate:ctrl.titleParams }}" flex="75" layout="column">
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+      <h2 class="fdz-truncate-string">
+        <span ng-if="ctrl.isCreateMode">{{ctrl.labels.createTitle.key | translate:ctrl.labels.createTitle.params}}</span>
+        <span ng-if="!ctrl.isCreateMode">{{ctrl.labels.editTitle.key | translate:ctrl.labels.editTitle.params}}</span>
+      </h2>
+      <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+        <md-icon md-font-set="material-icons">clear</md-icon>
+        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+          {{'attachment.tooltip.cancel' | translate }}
+        </md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-divider></md-divider>
+  <form name="attachmentForm">
+    <md-content>
+      <md-card ngf-drop="ctrl.upload($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-select="ctrl.upload($file)" class="pointer">
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'global.cards.file' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <div layout="column">
+            <md-input-container class="pa0 ms-flex" md-is-error="!attachmentForm.filename.$valid && (attachmentForm.filename.$dirty || attachmentForm.filename.$touched)">
+              <label>{{'attachment.label.file' | translate }}</label>
+              <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/" required ng-model="ctrl.attachmentMetadata.fileName" name="filename" class="pointer" style="border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
+              <div ng-if="!attachmentForm.filename.$dirty && !attachmentForm.filename.$touched" class="fdz-input-hint">{{ctrl.labels.hints.file.key | translate:ctrl.labels.hints.file.params}}</div>
+              <div ng-messages="attachmentForm.filename.$error" multiple>
+                <div ng-message="required">{{'attachment.error.filename.not-empty' | translate}}</div>
+                <div ng-message="unique">{{'attachment.error.filename.not-unique' | translate}}</div>
+                <div ng-message="valid">{{'attachment.error.filename.not-valid' | translate}}</div>
+                <div ng-message="pattern">{{'attachment.error.filename.pattern' | translate}}</div>
+              </div>
+            </md-input-container>
+            <div layout="column" layout-align="center end">
+              <md-button class="md-primary md-raised md-icon-button ma8" type="file" ngf-select="ctrl.upload($file)">
+                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'attachment.tooltip.change-file' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">attach_file</md-icon>
+              </md-button>
+            </div>
+          </div>
+        </md-card-content>
+      </md-card>
+      <md-card>
+        <md-card-header>
+          <md-card-header-text>
+            <h2 class="md-title">{{'global.cards.metadata' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <div layout-gt-sm="row" layout="column" ng-if="ctrl.attachmentTypes">
+            <md-input-container flex="50" class="ms-flex" style="margin-bottom: 42px;" md-is-error="!attachmentForm.type.$valid && (attachmentForm.type.$dirty || attachmentForm.type.$touched)">
+              <label>{{'attachment.label.type' | translate}}</label>
+              <md-select required ng-model="ctrl.attachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type" ng-change="ctrl.onTypeChanged()">
+                <md-option ng-value="type" ng-repeat="type in ctrl.attachmentTypes">{{type[ctrl.currentLanguage]}}</md-option>
+              </md-select>
+              <div ng-if="!attachmentForm.type.$dirty && !attachmentForm.type.$touched" class="fdz-input-hint">{{'attachment.hint.type' | translate}}</div>
+              <div ng-messages="attachmentForm.type.$error" multiple>
+                <div ng-message="required">{{'attachment.error.type.not-null' | translate}}</div>
+              </div>
+            </md-input-container>
+            <div flex="50"></div>
+          </div>
+          <div layout-gt-sm="row" layout="column">
+            <md-autocomplete required flex="50" class="ms-flex" md-input-name="language2" md-floating-label="{{'attachment.label.language' | translate}}" md-require-match="true" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage"
+                             md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[ctrl.currentLanguage]" md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()"
+                             md-is-error="!attachmentForm.language2.$valid && (attachmentForm.language2.$dirty || attachmentForm.language2.$touched)">
+              <md-item-template>
+                <span class="md-title" style="font-size: 14px;">{{item.displayLanguage[ctrl.currentLanguage]}}</span>
+              </md-item-template>
+              <md-not-found>
+                {{'attachment.error.language.not-found' | translate}}
+              </md-not-found>
+              <div ng-if="!attachmentForm.language2.$dirty && !attachmentForm.language2.$touched" class="fdz-input-hint">{{'attachment.hint.language' | translate}}</div>
+              <div ng-messages="attachmentForm.language2.$error" multiple>
+                <div ng-message="required">{{'attachment.error.language.not-null' | translate}}</div>
+                <div ng-message="md-require-match">{{'attachment.error.language.not-valid' | translate}}</div>
+              </div>
+            </md-autocomplete>
+            <div flex="50"></div>
+          </div>
+          <div layout="row" ng-if="ctrl.excludedMetadataFields.indexOf('title') === -1">
+            <md-input-container flex class="ms-flex mr8" md-is-error="!attachmentForm.title.$valid && (attachmentForm.title.$dirty || attachmentForm.title.$touched)">
+              <label class="fdz-input-required">{{'attachment.label.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]?ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]:'?'}})</label>
+              <textarea fdz-required rows="4" md-maxlength="2048" ng-model="ctrl.attachmentMetadata.title" name="title"></textarea>
+              <div ng-if="!attachmentForm.title.$dirty && !attachmentForm.title.$touched" class="fdz-input-hint">{{'attachment.hint.title' | translate}}</div>
+              <div ng-messages="attachmentForm.title.$error" multiple>
+                <div ng-message="md-maxlength">{{'attachment.error.title.maxlength' | translate}}</div>
+                <div ng-message="fdz-required">{{'attachment.error.title.not-empty' | translate}}</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div layout-gt-sm="row" layout="column">
+            <md-input-container flex="50" class="ms-flex" md-is-error="!attachmentForm.descriptionDe.$valid && (attachmentForm.descriptionDe.$dirty || attachmentForm.descriptionDe.$touched)">
+              <label class="fdz-input-required">{{'attachment.label.description' | translate}} ({{'global.in-german' | translate}})</label>
+              <input fdz-required="!ctrl.attachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.attachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
+              <div ng-if="!attachmentForm.descriptionDe.$dirty && !attachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'attachment.hint.description.de' | translate}}</div>
+              <div ng-messages="attachmentForm.descriptionDe.$error" multiple>
+                <div ng-message="fdz-required">{{'attachment.error.description.i18n-string-not-empty' | translate}}</div>
+                <div ng-message="md-maxlength">{{'attachment.error.description.i18n-string-size' | translate}}</div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="50" class="ms-flex" md-is-error="!attachmentForm.descriptionEn.$valid && (attachmentForm.descriptionEn.$dirty || attachmentForm.descriptionEn.$touched)">
+              <label class="fdz-input-required">{{'attachment.label.description' | translate}} ({{'global.in-english' | translate}})</label>
+              <input fdz-required="!ctrl.attachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.attachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
+              <div ng-if="!attachmentForm.descriptionEn.$dirty && !attachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'attachment.hint.description.en' | translate}}</div>
+              <div ng-messages="attachmentForm.descriptionEn.$error" multiple>
+                <div ng-message="fdz-required">{{'attachment.error.description.i18n-string-not-empty' | translate}}</div>
+                <div ng-message="md-maxlength">{{'attachment.error.description.i18n-string-size' | translate}}</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div flex="100" flex-gt-sm="50" layout="column" layout-gt-sm="row" class="ms-flex">
+            <md-input-container flex="50" class="ms-flex" md-is-error="!attachmentForm.doi.$valid && (attachmentForm.doi.$dirty || attachmentForm.doi.$touched)">
+              <label>{{'attachment.label.doi' | translate}}</label>
+              <input ng-pattern="/^https:\/\/doi.org\/?([_A-Za-z0-9äöüÄÖÜß\-\/\:.]{2,}$)/" md-maxlength="512" name="doi" ng-model="ctrl.attachmentMetadata.doi">
+              <div class="fdz-input-hint" ng-if="ctrl.attachmentMetadata.doi == null || ctrl.attachmentMetadata.doi == ''">
+                {{'attachment.hint.doi' | translate}}
+              </div>
+              <div multiple ng-messages="attachmentForm.doi.$error">
+                <div ng-message="md-maxlength">{{'attachment.error.doi.size' | translate}}</div>
+                <div ng-message="pattern">{{'attachment.error.doi.pattern' | translate}}</div>
+              </div>
+            </md-input-container>
+          </div>
+        </md-card-content>
+      </md-card>
+      <edit-people-component ng-if="ctrl.attachmentMetadata.type.en === 'Method Report' && ctrl.attachmentMetadata.citationDetails" people="ctrl.attachmentMetadata.citationDetails.authors" people-id="'authors'" translation-keys="ctrl.translationKeys" current-form="attachmentForm"></edit-people-component>
+      <edit-citation-details-component ng-if="ctrl.attachmentMetadata.type.en === 'Method Report'" citation-details="ctrl.attachmentMetadata.citationDetails" current-form="attachmentForm" selected-language="ctrl.selectedLanguage.code"></edit-citation-details-component>
+    </md-content>
+    <div class="fdz-fab-button-container" layout="column">
+      <md-button ng-if="!ctrl.isCreateMode" class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'attachment.tooltip.previous-version' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons" class="ml9">history</md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveAttachment()" ng-disabled="!attachmentForm.$dirty">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'attachment.tooltip.save' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">save</md-icon>
+      </md-button>
+    </div>
+  </form>
+</md-dialog>

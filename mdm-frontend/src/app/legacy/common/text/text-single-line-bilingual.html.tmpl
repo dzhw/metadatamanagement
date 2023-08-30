@@ -1,0 +1,68 @@
+<md-input-container flex="50"
+                    md-is-error="!$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$valid && ($ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$dirty || $ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$touched)"
+                    ng-class="{'mr10': $mdMedia('gt-sm')}"
+                    class="ms-flex mr8">
+  <label
+    ng-class="$ctrl.notNull ? 'fdz-input-required' : ''">{{$ctrl.translationKeyManagement + '.detail.label.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName | translate}}
+    ({{'global.in-german' | translate}})
+  </label>
+  <input
+    ng-attr-fdz-required="{{($ctrl.notNull) ? true : false}}"
+    lang="de"
+    md-maxlength="$ctrl.maxLength"
+    md-no-asterisk
+    name="{{$ctrl.controlName}}De_{{$ctrl.index}}"
+    ng-model="$ctrl.content.de"
+    rows="4"></input>
+  <div
+    class="fdz-input-hint"
+    ng-if="!$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$dirty && !$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$touched">
+    {{$ctrl.translationKeyManagement + '.edit.hints.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.de' | translate}}
+  </div>
+  <div multiple
+       ng-messages="$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$error">
+    <div
+      ng-if="$ctrl.notNull"
+      ng-message="fdz-required">
+      {{$ctrl.translationKeyManagement + '.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-not-empty' | translate}}
+    </div>
+    <div
+      ng-message="md-maxlength">
+      {{$ctrl.translationKeyManagement + '.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-size' | translate}}
+    </div>
+  </div>
+</md-input-container>
+<md-input-container flex="50" component
+                    md-is-error="!$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$valid && ($ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$dirty || $ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$touched)"
+                    class="ms-flex mr8">
+  <label
+    ng-class="$ctrl.notNull ? 'fdz-input-required' : ''">{{$ctrl.translationKeyManagement + '.detail.label.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName | translate}}
+    ({{'global.in-english' | translate}})
+  </label>
+  <input
+    ng-attr-fdz-required="{{($ctrl.notNull) ? true : false}}"
+    lang="en"
+    md-maxlength="$ctrl.maxLength"
+    md-no-asterisk
+    name="{{$ctrl.controlName}}En_{{$ctrl.index}}"
+    ng-model="$ctrl.content.en"
+    rows="4"></input>
+  <div
+    class="fdz-input-hint"
+    ng-if="!$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$dirty && !$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$touched">
+    {{$ctrl.translationKeyManagement + '.edit.hints.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.en' | translate}}
+  </div>
+  <div
+    multiple
+    ng-messages="$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$error">
+    <div
+      ng-if="$ctrl.notNull"
+      ng-message="fdz-required">
+      {{$ctrl.translationKeyManagement + '.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-not-empty' | translate}}
+    </div>
+    <div
+      ng-message="md-maxlength">
+      {{$ctrl.translationKeyManagement + '.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-size' | translate}}
+    </div>
+  </div>
+</md-input-container>

@@ -1,0 +1,45 @@
+<div class="fdz-cc">
+  <div flex layout="column" ng-if="!initializing">
+
+    <div layout="row" layout-margin class="mb0">
+      <h1 class="md-headline fdz-truncate-string mbo" id="top">
+        {{'data-acquisition-project-management.project-cockpit.header' | translate}} <span
+        class="label label-as-badge label-default">{{project.id}}</span></h1>
+    </div>
+    <div class="layout-margin" ng-if="!project">
+      <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
+    </div>
+
+    <md-card flex ng-cloak ng-if="project" class="pa0">
+      <md-tabs md-border-bottom md-dynamic-height md-selected="selectedTab.index">
+        <md-tab md-on-select="onTabSelect('status')">
+          <md-tab-label>
+            <md-icon md-font-set="material-icons">info</md-icon>
+            {{'data-acquisition-project-management.project-cockpit.tabs.status' | translate}}
+          </md-tab-label>
+          <md-tab-body class="md-padding">
+            <project-cockpit-status project="project"></project-cockpit-status>
+          </md-tab-body>
+        </md-tab>
+        <md-tab md-on-select="onTabSelect('config')">
+          <md-tab-label>
+            <md-icon md-font-set="material-icons">settings</md-icon>
+            {{'data-acquisition-project-management.project-cockpit.tabs.config' | translate}}
+          </md-tab-label>
+          <md-tab-body class="md-padding">
+            <project-cockpit-config project="project"></project-cockpit-config>
+          </md-tab-body>
+        </md-tab>
+        <md-tab md-on-select="onTabSelect('versions')">
+          <md-tab-label>
+            <md-icon md-font-set="material-icons">history</md-icon>
+            {{'data-acquisition-project-management.project-cockpit.tabs.versions' | translate}}
+          </md-tab-label>
+          <md-tab-body class="md-padding">
+            <project-cockpit-versions project="project"></project-cockpit-versions>
+          </md-tab-body>
+        </md-tab>
+      </md-tabs>
+    </md-card>
+  </div>
+</div>

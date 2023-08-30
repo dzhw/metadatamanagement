@@ -1,0 +1,79 @@
+<md-dialog
+  aria-label="{{'data-acquisition-project-management.home.releaseLabel' | translate:'{id:\'' + project.id + '\'}'}}"
+  class="md-inline-form" flex="50">
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+      <div flex>
+        <h2 class="fdz-truncate-string">
+          <span>{{'data-acquisition-project-management.home.releaseLabel' | translate:'{id:"' + project.id + '"}'}}</span>
+        </h2>
+      </div>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-font-set="material-icons">clear</md-icon>
+        <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+          {{'data-acquisition-project-management.home.dialog-tooltip.release-cancel' | translate }}
+        </md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-divider></md-divider>
+  <form flex layout="column" layout-align="space-between stretch" name="releaseForm" class="ms-flex">
+    <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">
+      <md-input-container class="md-block" md-is-error="!releaseForm.version.$valid">
+        <label>{{'data-acquisition-project-management.release.version' | translate}}</label>
+        <input autocomplete="off" data-md-autofocus data-md-maxlength="32"
+               data-md-no-asterisk name="version" ng-model="release.version"
+               ng-pattern="/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/"
+               required translate-attr="{'title':'global.entity.validation.required'}"
+               valid-project-version="lastVersion">
+        <div data-md-auto-hide="false" data-multiple ng-messages="releaseForm.version.$error">
+          <div ng-message="required">{{'data-acquisition-project-management.error.release.version.not-empty' |
+            translate}}
+          </div>
+          <div ng-message="md-maxlength">{{'data-acquisition-project-management.error.release.version.size' |
+            translate}}
+          </div>
+          <div ng-message="pattern">{{'data-acquisition-project-management.error.release.version.pattern' | translate
+            }}
+          </div>
+          <div ng-message="valid-project-version">
+            {{'data-acquisition-project-management.error.release.version.not-parsable-or-not-incremented' |
+            translate:'{lastVersion: "' + lastVersion + '"}' }}
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container ng-if="!project.configuration.requirements.analysisPackagesRequired" class="md-block">
+        <md-checkbox name="pinToStartPage" ng-model="release.pinToStartPage"
+                     style="margin: 0 18px 0 0">
+          {{'data-acquisition-project-management.release.pin-to-start-page' | translate }}
+        </md-checkbox>
+        <div class="fdz-input-hint">
+          {{'data-acquisition-project-management.release.pin-to-start-page-hint' | translate}}
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" md-is-error="!releaseForm.releaseConfirmed.$valid">
+        <md-checkbox required name="releaseConfirmed" ng-model="releaseConfirmed"
+                     style="margin: 0 18px 0 0">
+          {{'data-acquisition-project-management.release.confirmed.' + ENV | translate }}
+        </md-checkbox>
+        <div class="fdz-input-hint">
+          {{'data-acquisition-project-management.release.confirm-hint' | translate}}
+        </div>
+      </md-input-container>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
+      <md-button class="md-raised" ng-click="cancel()">
+        <span>{{'global.entity.action.cancel' | translate}}</span>
+        <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+          {{'data-acquisition-project-management.home.dialog-tooltip.release-cancel' | translate }}
+        </md-tooltip>
+      </md-button>
+      <md-button class="md-raised" ng-click="ok(release)" ng-disabled="releaseForm.$invalid" type="submit">
+        <span>{{'global.entity.action.ok' | translate}}</span>
+        <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+          {{'data-acquisition-project-management.home.dialog-tooltip.release-ok' | translate }}
+        </md-tooltip>
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,58 @@
+<md-dialog aria-label="{{'global.joblogging.protocol-dialog.title' | translate}}">
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center" class="pr0">
+      <div>
+        <h2 style="margin-right: 1em;">
+          <span>{{'global.joblogging.protocol-dialog.title' | translate}}</span>
+        </h2>
+      </div>
+      <div>
+                <span hide-sm hide-xs>
+                  <span class="label label-as-badge label-success" style="margin-right: 1em;">{{'global.joblogging.protocol-dialog.success' | translate}}:
+                      {{job.successes || 0}}</span>
+                    <span class="label label-as-badge label-warning" style="margin-right: 1em;">{{'global.joblogging.protocol-dialog.warning' | translate}}:
+                      {{job.warnings || 0}}</span>
+                    <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
+                      {{job.errors || 0}}</span>
+                </span>
+        <md-button class="md-icon-button" ng-click="closeDialog()">
+          <md-icon md-font-set="material-icons">clear</md-icon>
+          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'global.dialog.tooltip.close' | translate}}
+          </md-tooltip>
+        </md-button>
+      </div>
+    </div>
+  </md-toolbar>
+  <md-divider></md-divider>
+  <md-dialog-content>
+    <div>
+      <ul style="list-style: none; padding: 0;">
+        <li ng-class="{'fdz-log-error-text': logMessage.type ==='error', 'fdz-log-warning-text': logMessage.type ==='warning'}" ng-repeat="logMessage in job.logMessages track by $index"
+            style="margin: 1em;">
+          {{logMessage.message | translate:logMessage.translationParams }}
+          <ul ng-show="logMessage.subMessages.length > 0" style="list-style-type: square;">
+            <li ng-repeat="subMessage in logMessage.subMessages">{{subMessage.message | translate:
+              subMessage.translationParams }}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button class="md-raised" ng-click="saveProtocol()">
+      {{'global.buttons.save' | translate}}
+      <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'global.dialog.tooltip.save' | translate}}
+      </md-tooltip>
+    </md-button>
+    <md-button class="md-raised" ng-click="closeDialog()">
+      {{'global.buttons.close' | translate}}
+      <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'global.dialog.tooltip.close' | translate}}
+      </md-tooltip>
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

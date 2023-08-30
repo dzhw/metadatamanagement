@@ -1,0 +1,10 @@
+<md-button
+  class="md-accent md-fab fdz-next-search-result"
+  ng-if="goToNextSearchResult"
+  ng-click="goToNextSearchResult()"
+  shortcut="ctrl-39">
+    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.next-search-result-tooltip' | translate : { id: nextSearchResult.masterId ? nextSearchResult.masterId : nextSearchResult.id, index: nextSearchResultIndex } }}
+    </md-tooltip>
+    <md-icon md-font-set="material-icons">navigate_next</md-icon>
+</md-button>

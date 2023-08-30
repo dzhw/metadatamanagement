@@ -1,0 +1,75 @@
+<md-dialog aria-label="{{'global.people.edit.orcid-search.title' | translate:{firstName: firstName ? firstName : '*', lastName: lastName ? lastName : '*'} }}" layout="column" class="ms-flex" flex="50">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span>{{'global.people.edit.orcid-search.title' | translate:{firstName: firstName ? firstName : '*', lastName: lastName ? lastName : '*'} }}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'global.people.edit.orcid-search.cancel-tooltip' | translate}}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+  <md-divider></md-divider>
+    <md-dialog-content layout-padding flex layout="column" class="ms-flex">
+        <p ng-if="orcidResponse && orcidResponse['num-found'] > 0" class="ma0">{{'global.people.edit.orcid-search.results-found-text' | translate:{firstName: firstName ? firstName : '*', lastName: lastName ? lastName : '*'} }}</p>
+        <table fdz-table ng-if="orcidResponse && orcidResponse['num-found'] > 0" class="w-100 ms-flex" flex>
+            <thead>
+                <tr>
+                    <th style="max-width: 600px;">ORCID
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            ORCID
+                        </md-tooltip>
+                    </th>
+                    <th>{{'global.people.edit.label.first-name' | translate}}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'global.people.edit.label.first-name' | translate}}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'global.people.edit.label.last-name' | translate}}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'global.people.edit.label.last-name' | translate}}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'global.people.edit.orcid-search.institutions' | translate}}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'global.people.edit.orcid-search.institutions' | translate}}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'global.people.edit.orcid-search.select' | translate}}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'global.people.edit.orcid-search.select' | translate}}
+                        </md-tooltip>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="result in orcidResponse['expanded-result']">
+                    <td class="fdz-table-nowrap" style="max-width: 600px;"><a href="https://orcid.org/{{result['orcid-id']}}" target="_blank"><img alt="ORCID logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/> {{result['orcid-id']}}</a></td>
+                    <td class="fdz-table-nowrap">{{result['given-names']}}</td>
+                    <td class="fdz-table-nowrap">{{result['family-names']}}</td>
+                    <td>{{result['institution-name'] && result['institution-name'].length ? result['institution-name'].join(', '): '&nbsp;'}}</td>
+                    <td style="padding: 0px;"><md-button style="margin: 0px;" class="md-primary" ng-click="select(result['orcid-id'])" md-autofocus="$first">
+                        <span>{{'global.people.edit.orcid-search.select-orcid' | translate}}</span>
+                        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                          {{'global.people.edit.orcid-search.select-tooltip' | translate}}
+                        </md-tooltip>
+                    </md-button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="!orcidResponse || orcidResponse['num-found'] === 0" flex class="ms-flex">
+            <span>{{'global.people.edit.orcid-search.no-results-found-text' | translate:{firstName: firstName ? firstName : '*', lastName: lastName ? lastName : '*'} }}</span>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="padding-right: 1em;">
+        <md-button class="md-raised" ng-click="closeDialog()">
+            <span>{{'global.entity.action.cancel' | translate}}</span>
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+              {{'global.people.edit.orcid-search.cancel-tooltip' | translate}}
+            </md-tooltip>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

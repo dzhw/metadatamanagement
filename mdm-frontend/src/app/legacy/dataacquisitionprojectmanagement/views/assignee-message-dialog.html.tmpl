@@ -1,0 +1,40 @@
+<md-dialog flex="75">
+  <form name="assigneeGroupMessageForm">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 class="fdz-truncate-string"
+            data-translate="data-acquisition-project-management.project-cockpit.message-dialog.title"
+            data-translate-values="{recipient: recipient}" flex>
+          Dialog title
+        </h2>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon
+            aria-label="{{'data-acquisition-project-management.project-cockpit.message-dialog.cancel' | translate}}">
+            close
+          </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-divider></md-divider>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <p data-translate="data-acquisition-project-management.project-cockpit.message-dialog.description"
+           data-translate-values="{recipient: recipient}">Description</p>
+        <md-input-container class="w-100">
+          <label>{{'data-acquisition-project-management.project-cockpit.message-dialog.label' | translate}}</label>
+          <textarea md-maxlength="2048" name="assigneeMessage" ng-model="input"
+                    required rows="4">
+                    </textarea>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button class="md-raised" ng-click="cancel()">
+        {{'data-acquisition-project-management.project-cockpit.message-dialog.cancel' | translate}}
+      </md-button>
+      <md-button class="md-raised md-primary" ng-click="confirm()" ng-disabled="assigneeGroupMessageForm.$invalid">
+        {{'data-acquisition-project-management.project-cockpit.message-dialog.confirm' | translate}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

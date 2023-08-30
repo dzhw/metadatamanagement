@@ -1,0 +1,119 @@
+<div class="fdz-cc">
+  <div class="container">
+    <h2 class="md-headline fdz-bootstrap-headline">
+      <span data-translate="user-management.detail.title">User</span>
+      "{{user.login}}"</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th data-translate="global.entity.detail.field">Field</th>
+          <th data-translate="global.entity.detail.value">Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <span data-translate="user-management.login.login">Login</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.login}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.first-name">FirstName</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.firstName}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.last-name">LastName</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.lastName}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.email">Email</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.email}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.activated">Activated</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.activated}}">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span data-translate="user-management.langKey">LangKey</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.langKey}}">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span data-translate="user-management.createdBy">CreatedBy</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.createdBy}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.createdDate">CreatedDate</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text"
+                   value="{{user.createdDate | date:'dd/MM/yy HH:mm' }}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.lastModifiedBy">LastModifiedBy</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text" value="{{user.lastModifiedBy}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.lastModifiedDate">LastCreatedDate</span>
+          </td>
+          <td>
+            <input class="input-sm form-control" readonly type="text"
+                   value="{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span data-translate="user-management.profiles">Profiles</span>
+          </td>
+          <td>
+            <ul class="list-unstyled">
+              <li ng-repeat="authority in user.authorities">
+                <span>{{authority}}</span>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn btn-info" type="submit" ui-sref="user-management">
+      <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="global.entity.action.back">
+            Back</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<md-card layout="column"
+         class="ms-flex" style="flex: 1;">
+  <md-card-header>
+    <md-card-header-text class="md-header-text">
+      <h2 class="md-subtitle">{{ 'analysis-package-management.detail.label.custom-data-package.dataSources' | translate }}</h2>
+    </md-card-header-text>
+  </md-card-header>
+  <md-divider></md-divider>
+  <md-content class="pt16" style="background-color: #FFFFFF;">
+  <div id="url{{$ctrl.name}}-{{$index}}" layout="row"
+       ng-repeat="link in $ctrl.content track by $index">
+    <md-button class="md-primary md-icon-button"
+               ng-click="$ctrl.deleteLink()"
+               style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
+      <md-tooltip md-autohide="true" md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'analysis-package-management.edit.delete-link-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">delete_forever</md-icon>
+    </md-button>
+    <md-input-container flex="33" class="ml0 mr8"
+                        md-is-error="!$ctrl.currentForm['analysisDataPackagesUrl' + [$ctrl.index] + '_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesUrl' + [$ctrl.index] + '_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesUrl' + [$ctrl.index] + '_' + $index].$touched)">
+      <label>{{'analysis-package-management.edit.label.additional-links.url' | translate}}</label>
+      <input type="url"
+             fdz-required
+             name="analysisDataPackagesUrl{{$ctrl.index}}_{{$index}}"
+             md-maxlength="$ctrl.maxLength"
+             ng-blur="$ctrl.deleteCurrentLink($event)"
+             ng-focus="$ctrl.setCurrentLink($index,$event)"
+             ng-model="$ctrl.content[$index].url"
+             autocomplete="off">
+      <div class="fdz-input-hint"
+           ng-if="!$ctrl.currentForm['analysisDataPackagesUrl' + [$ctrl.index] + '_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesUrl' + [$ctrl.index] + '_' + $index].$touched">
+        {{ 'analysis-package-management.edit.hints.additional-links.url' | translate}}
+      </div>
+      <div multiple
+           ng-messages="$ctrl.currentForm['analysisDataPackagesUrl' + [$ctrl.index] + '_' + $index].$error">
+        <div ng-message="fdz-required">
+          {{'analysis-package-management.error.analysis-package.additional-links.url-not-empty' | translate}}
+        </div>
+        <div ng-message="md-maxlength">
+          {{'analysis-package-management.error.analysis-package.additional-links.url-size' | translate}}
+        </div>
+        <div ng-message="url">
+          {{'analysis-package-management.error.analysis-package.additional-links.invalid-url' | translate}}
+        </div>
+      </div>
+    </md-input-container>
+    <md-input-container flex="33" class="mr8"
+                        md-is-error="!$ctrl.currentForm['analysisDataPackagesDisplayTextDe' + $ctrl.index + '_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesDisplayTextDe' + $ctrl.index + '_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesDisplayTextDe' + $ctrl.index + '_' + $index].$touched)">
+      <label>{{'analysis-package-management.edit.label.additional-links.display-text' | translate}}
+        ({{'global.in-german' | translate}})</label>
+      <input md-no-asterisk
+             name="analysisDataPackagesDisplayTextDe{{$ctrl.index}}_{{$index}}"
+             md-maxlength="512"
+             ng-blur="$ctrl.deleteCurrentLink($event)"
+             ng-focus="$ctrl.setCurrentLink($index,$event)"
+             ng-model="$ctrl.content[$index].displayText.de"
+             autocomplete="off">
+      <div
+        class="fdz-input-hint"
+        ng-if="!$ctrl.currentForm['analysisDataPackagesDisplayTextDe' + $ctrl.index + '_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesDisplayTextDe' + $ctrl.index + '_' + $index].$touched">
+        {{ 'analysis-package-management.edit.hints.additional-links.display-text.de' | translate}}
+      </div>
+      <div multiple
+           ng-messages="$ctrl.currentForm['analysisDataPackagesDisplayTextDe' + $ctrl.index + '_' + $index].$error">
+        <div ng-message="md-maxlength">
+          {{'analysis-package-management.error.analysis-package.additional-links.display-text-size' | translate}}
+        </div>
+      </div>
+    </md-input-container>
+    <md-input-container flex="33" class="mr8"
+                        md-is-error="!$ctrl.currentForm['analysisDataPackagesDisplayTextEn' + $ctrl.index + '_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesDisplayTextEn' + $ctrl.index + '_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesDisplayTextEn' + $ctrl.index + '_' + $index].$touched)">
+      <label>{{'analysis-package-management.edit.label.additional-links.display-text' | translate}}
+        ({{'global.in-english' | translate}})</label>
+      <input md-no-asterisk
+             name="analysisDataPackagesDisplayTextEn{{$ctrl.index}}_{{$index}}"
+             md-maxlength="512"
+             ng-blur="$ctrl.deleteCurrentLink($event)"
+             ng-focus="$ctrl.setCurrentLink($index,$event)"
+             ng-model="$ctrl.content[$index].displayText.en"
+             autocomplete="off">
+      <div
+        class="fdz-input-hint"
+        ng-if="!$ctrl.currentForm['analysisDataPackagesDisplayTextEn' + $ctrl.index + '_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesDisplayTextEn' + $ctrl.index + '_' + $index].$touched">
+        {{ 'analysis-package-management.edit.hints.additional-links.display-text.en' | translate}}
+      </div>
+      <div multiple
+           ng-messages="$ctrl.currentForm['analysisDataPackagesDisplayTextEn' + $ctrl.index + '_' + $index].$error">
+        <div ng-message="md-maxlength">
+          {{'analysis-package-management.error.analysis-package.additional-links.display-text-size' | translate}}
+        </div>
+      </div>
+    </md-input-container>
+  </div>
+  </md-content>
+  <md-card-actions class="ma0 mt8">
+
+      <md-button class="md-primary md-raised md-icon-button ml6"
+                 ng-click="$ctrl.addLink()">
+        <md-tooltip md-autohide="true" md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'analysis-package-management.edit.add-url-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">add</md-icon>
+      </md-button>
+      <md-button class="md-primary md-raised md-icon-button"
+                 id="move-link-up-button"
+                 ng-click="$ctrl.moveCurrentLinkUp()"
+                 ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === 0">
+        <md-tooltip md-autohide="true" md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'analysis-package-management.edit.move-url-up-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+      </md-button>
+      <md-button class="md-primary md-raised md-icon-button"
+                 id="move-link-down-button"
+                 ng-click="$ctrl.moveCurrentLinkDown()"
+                 ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === $ctrl.content.length - 1">
+        <md-tooltip md-autohide="true" md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'analysis-package-management.edit.move-url-down-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+      </md-button>
+  </md-card-actions>
+</md-card>
