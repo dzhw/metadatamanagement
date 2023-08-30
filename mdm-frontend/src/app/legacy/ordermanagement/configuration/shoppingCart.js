@@ -17,12 +17,12 @@ function($stateProvider) {
         controllerAs: 'ctrl'
       }
     },
-    onEnter: function($document, $timeout) {
+    onEnter: ["$document", "$timeout", function($document, $timeout) {
       $timeout(function() {
         var top = $document.find('#top')[0];
         top.scrollIntoView();
       });
-    },
+    }],
     url: '/shopping-cart',
     resolve: {
       order: ['ShoppingCartService', 'OrderResource', function(ShoppingCartService, OrderResource) {
@@ -49,12 +49,12 @@ function($stateProvider) {
         controllerAs: 'ctrl'
       }
     },
-    onEnter: function($document, $timeout) {
+    onEnter: ["$document", "$timeout", function($document, $timeout) {
       $timeout(function() {
         var top = $document.find('#top')[0];
         top.scrollIntoView();
       });
-    },
+    }],
     url: '/shopping-cart/:id',
     resolve: {
       order: ['$state', '$stateParams', 'OrderResource', function($state, $stateParams, OrderResource) {

@@ -92,16 +92,16 @@ function($stateProvider, $urlRouterProvider) {
             controllerAs: 'ctrl'
           }
         },
-        onEnter: function($rootScope, $timeout) {
+        onEnter: ["$rootScope", "$timeout", function($rootScope, $timeout) {
           $timeout(function() {
             $rootScope.$broadcast('domain-object-editing-started');
           }, 500);
-        },
-        onExit: function($rootScope, $timeout) {
+        }],
+        onExit: ["$rootScope", "$timeout", function($rootScope, $timeout) {
           $timeout(function() {
             $rootScope.$broadcast('domain-object-editing-stopped');
           }, 500);
-        },
+        }],
         resolve: {
           entity: ['$stateParams', 'InstrumentResource',
             function($stateParams, InstrumentResource) {
@@ -128,18 +128,18 @@ function($stateProvider, $urlRouterProvider) {
             controllerAs: 'ctrl'
           }
         },
-        onEnter: function($rootScope, $timeout) {
+        onEnter: ["$rootScope", "$timeout", function($rootScope, $timeout) {
           $rootScope.$broadcast('start-ignoring-404');
           $timeout(function() {
             $rootScope.$broadcast('domain-object-editing-started');
           }, 500);
-        },
-        onExit: function($rootScope, $timeout) {
+        }],
+        onExit: ["$rootScope", "$timeout", function($rootScope, $timeout) {
           $rootScope.$broadcast('stop-ignoring-404');
           $timeout(function() {
             $rootScope.$broadcast('domain-object-editing-stopped');
           }, 500);
-        },
+        }],
         resolve: {
           entity: function() {
             return null;

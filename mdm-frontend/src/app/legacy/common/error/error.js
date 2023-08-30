@@ -10,9 +10,9 @@ angular.module('metadatamanagementApp').config(["$stateProvider",
           authorities: [],
           pageTitle: 'global.error.title'
         },
-        onEnter: function(BreadcrumbService) {
+        onEnter: ["BreadcrumbService", function(BreadcrumbService) {
           BreadcrumbService.updateToolbarHeader({'stateName': 'error'});
-        },
+        }],
         views: {
           'content@': {
             templateUrl: 'scripts/common/error/' +

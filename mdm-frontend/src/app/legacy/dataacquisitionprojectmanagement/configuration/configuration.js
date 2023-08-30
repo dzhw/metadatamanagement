@@ -67,9 +67,9 @@ angular
               return deferred;
             }]
           },
-          onEnter: function($timeout) {
+          onEnter: ["$timeout", function($timeout) {
             $timeout(function() {
             });
-          }
+          }]
         });
     }]);

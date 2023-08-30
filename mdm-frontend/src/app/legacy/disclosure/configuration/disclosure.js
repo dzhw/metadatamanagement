@@ -18,11 +18,11 @@ angular.module('metadatamanagementApp').config([
           controller: 'DisclosureController'
         }
       },
-      onEnter: function($document, $timeout) {
+      onEnter: ["$document", "$timeout", function($document, $timeout) {
         $timeout(function() {
           var top = $document.find('#top')[0];
           top.scrollIntoView();
         });
-      }
+      }]
     });
   }]);
