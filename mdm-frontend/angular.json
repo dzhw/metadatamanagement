@@ -597,6 +597,18 @@
               "sourceMap": true,
               "namedChunks": true,
               "assets": [
+                "src/manifest.json",
+                "src/assets",
+                {
+                    "glob": "**/*.html.tmpl",
+                    "input": "src/app/legacy",
+                    "output": "scripts/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/angular-i18n",
+                  "output": "node_modules/angular-i18n/"
+                },
                 {
                   "glob": "robots.txt",
                   "input": "src/environments/dev/",
@@ -612,6 +624,18 @@
               "sourceMap": true,
               "namedChunks": true,
               "assets": [
+                "src/manifest.json",
+                "src/assets",
+                {
+                    "glob": "**/*.html.tmpl",
+                    "input": "src/app/legacy",
+                    "output": "scripts/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/angular-i18n",
+                  "output": "node_modules/angular-i18n/"
+                },
                 {
                   "glob": "robots.txt",
                   "input": "src/environments/test/",
@@ -633,6 +657,18 @@
                 }
               ],
               "assets": [
+                "src/manifest.json",
+                "src/assets",
+                {
+                    "glob": "**/*.html.tmpl",
+                    "input": "src/app/legacy",
+                    "output": "scripts/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/angular-i18n",
+                  "output": "node_modules/angular-i18n/"
+                },
                 {
                   "glob": "robots.txt",
                   "input": "src/environments/prod/",
