@@ -35,15 +35,15 @@
               }
             ],
             "styles": [
-              "src/assets/styles/main.css",
-              "src/assets/styles/fdz.css",
-              "./node_modules/angular-material/angular-material.css",
-              "./node_modules/angular-block-ui/dist/angular-block-ui.css",
-              "./node_modules/highlightjs/styles/default.css",
-              "./node_modules/angular-jk-carousel/dist/jk-carousel.css",
-              "./node_modules/jsonformatter/dist/json-formatter.css",
-              "./node_modules/fdz-paginator/dest/fdz-paginator.css",
-              "src/styles.css"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/scss/main.scss",
+              "src/scss/fdz.scss",
+              { "input": "./node_modules/angular-material/angular-material.css", "bundleName": "vendor-styles"},
+              { "input": "./node_modules/angular-block-ui/dist/angular-block-ui.css", "bundleName": "vendor-styles"},
+              { "input": "./node_modules/highlightjs/styles/default.css", "bundleName": "vendor-styles"},
+              { "input": "./node_modules/angular-jk-carousel/dist/jk-carousel.css", "bundleName": "vendor-styles"},
+              { "input": "./node_modules/jsonformatter/dist/json-formatter.css", "bundleName": "vendor-styles"},
+              { "input": "./node_modules/fdz-paginator/dest/fdz-paginator.css", "bundleName": "vendor-styles"},
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
@@ -61,7 +61,7 @@
               "./node_modules/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js",
               "./node_modules/angular-translate-storage-cookie/angular-translate-storage-cookie.js",
               "./node_modules/angular-ui-router/release/angular-ui-router.js",
-              "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/ng-file-upload/dist/ng-file-upload.js",
               "./node_modules/elasticsearch-browser/elasticsearch.angular.js",
               "./node_modules/file-saver/FileSaver.js",

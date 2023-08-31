@@ -18,7 +18,7 @@ $state-danger-text: $brand-danger !default;
 $state-danger-bg: #F5D0D0 !default;
 $state-danger-border: $brand-danger !default;
 // bower:scss
-@import "../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+//@import "./../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -62,7 +62,7 @@ $state-danger-border: $brand-danger !default;
     display: inline-block;
     width: 347px;
     height: 497px;
-    background: url("../images/hipster.png") no-repeat center top;
+    background: url("../assets/images/hipster.png") no-repeat center top;
     background-size: contain;
 }
 
@@ -70,7 +70,7 @@ $state-danger-border: $brand-danger !default;
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .hipster {
-        background: url("../images/hipster2x.png") no-repeat center top;
+        background: url("../assets/images/hipster2x.png") no-repeat center top;
         background-size: contain;
     }
 }

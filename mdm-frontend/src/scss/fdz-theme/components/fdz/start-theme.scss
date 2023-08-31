@@ -86,7 +86,7 @@ $card-border-radius: 2px !default;
       // If you want to use text in the HTML element with the class .fdz-image use a HTML element with
       // position: absolute and specify top, bottom aso.
       position: relative;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/graduates-series.jpg);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../../assets/images/graduates-series.jpg);
       background-position-y: center;
       background-size: cover;
       background-repeat: no-repeat;
@@ -111,11 +111,11 @@ $card-border-radius: 2px !default;
     }
 
     .social-survey {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/social-survey.jpg);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../../assets/images/social-survey.jpg);
     }
 
     .school-leavers {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/school-leavers.jpg);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../../assets/images/school-leavers.jpg);
     }
   }
 }
