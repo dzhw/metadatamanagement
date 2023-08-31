@@ -6,12 +6,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.13</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.119-SNAPSHOT</version>
+    <version>2023.1.1</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -411,7 +411,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -424,7 +424,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -437,7 +437,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -450,7 +450,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -518,6 +518,20 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>eu.dzhw.fdz</groupId>
+                <artifactId>mdm-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>process-frontend-translations</goal>
+                            <goal>generate-frontend-constants</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Checkstyle and fail the build -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -542,6 +556,26 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>mdm-frontend/src/app/legacy/</directory>
+                            <includes>
+                                <include>app.constants.js</include>
+                            </includes>
+                        </fileset>
+                        <fileset>
+                            <directory>src/main/webapp/dist</directory>
+                        </fileset>
+                        <fileset>
+                            <directory>.tmp</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -642,27 +676,36 @@
                 <executions>
                     <execution>
                         <id>npm-install</id>
-                        <phase>generate-resources</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <executable>npm</executable>
                             <arguments>
+                                <argument>--prefix</argument>
+                                <argument>mdm-frontend</argument>
                                 <argument>install</argument>
                             </arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>create-java-source-code</id>
-                        <phase>generate-resources</phase>
+                        <id>ng-build</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>grunt</executable>
+                            <executable>npx</executable>
                             <arguments>
-                                <argument>createJavaSourceCodeFromTranslations</argument>
+                                <argument>--prefix</argument>
+                                <argument>mdm-frontend</argument>
+                                <argument>ng</argument>
+                                <argument>build</argument>
+                                <argument>--configuration</argument>
+                                <argument>${project.activeProfiles[0].id}</argument>
+                                <argument>--output-path</argument>
+                                <argument>../src/main/webapp/dist</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -791,42 +834,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>npm-install</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>npm</executable>
-                                    <arguments>
-                                        <argument>install</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>create-java-source-code</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>grunt</executable>
-                                    <arguments>
-                                        <argument>createJavaSourceCodeFromTranslations</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
             <properties>
                 <checkstyle.skip>true</checkstyle.skip>
                 <exec.skip>true</exec.skip>
@@ -841,43 +848,9 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>src/main/webapp/dist</directory>
-                                </fileset>
-                                <fileset>
-                                    <directory>.tmp</directory>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>3.3.1</version>
-                        <configuration>
-                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
                         <executions>
-                            <execution>
-                                <id>grunt-buildlocalminified</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>grunt</executable>
-                                    <arguments>
-                                        <argument>buildlocalminified</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
                             <execution>
                                 <id>unpack-fat-jar</id>
                                 <phase>install</phase>
@@ -914,141 +887,18 @@
             <id>dev</id>
             <build>
                 <finalName>metadatamanagement-dev</finalName>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>src/main/webapp/dist</directory>
-                                </fileset>
-                                <fileset>
-                                    <directory>.tmp</directory>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>grunt-builddev</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>grunt</executable>
-                                    <arguments>
-                                        <argument>builddev</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
         <profile>
             <id>test</id>
             <build>
                 <finalName>metadatamanagement-test</finalName>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>src/main/webapp/dist</directory>
-                                </fileset>
-                                <fileset>
-                                    <directory>.tmp</directory>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>grunt-buildtest</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>grunt</executable>
-                                    <arguments>
-                                        <argument>buildtest</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
         <profile>
             <id>prod</id>
             <build>
                 <finalName>metadatamanagement-prod</finalName>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>src/main/webapp/dist</directory>
-                                </fileset>
-                                <fileset>
-                                    <directory>.tmp</directory>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>grunt-buildprod</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>grunt</executable>
-                                    <arguments>
-                                        <argument>buildprod</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
     </profiles>

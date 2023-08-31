@@ -1,0 +1,121 @@
+$card-border-radius: 2px !default;
+
+.fdz-theme {
+  .fdz-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fdz-start {
+    position: relative;
+    color: $foreground-1;
+    background-color: $background-hue-1;
+    border-radius: $card-border-radius;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+    @include rwd(600) {
+      margin: 8px;
+    }
+
+    md-card {
+      box-shadow: none;
+    }
+
+    .fdz-link {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 14px;
+      padding: 16px;
+      a {
+        padding: 8px;
+      }
+      @include rwd(700) {
+        flex-direction: row;
+        justify-content: space-evenly;
+        font-size: 16px;
+        padding: 24px;
+      }
+      @include rwd(860) {
+        font-size: 20px;
+      }
+    }
+
+    .fdz-search {
+      margin-bottom: 8px;
+
+      @include rwd(600) {
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+  .fdz-start__header {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    padding: 8px;
+    @include rwd(600) {
+      padding: 16px;
+    }
+  }
+
+  .fdz-start__header-text {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    word-break: break-word;
+  }
+
+  .fdz-start__content {
+    padding: 0 16px 0px 16px;
+  }
+
+
+  .fdz-start__images {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 0 16px 16px 16px;
+    @include rwd (600) {
+      flex-flow: row;
+      justify-content: space-between;
+    }
+    .fdz-image {
+      // If you want to use text in the HTML element with the class .fdz-image use a HTML element with
+      // position: absolute and specify top, bottom aso.
+      position: relative;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../../assets/images/graduates-series.jpg);
+      background-position-y: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 0;
+      // padding-top: (img-height / img-width * container-width)
+      padding-top:  52.64%;
+      margin: 8px 8px 0px 8px;
+
+      @include rwd (600) {
+        padding-top:  20.64%;
+        margin: 0px 8px 0px 8px;
+      }
+
+      .fdz-image-text {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        color: white;
+        margin-right: 8px;
+      }
+    }
+
+    .social-survey {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../../assets/images/social-survey.jpg);
+    }
+
+    .school-leavers {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../../assets/images/school-leavers.jpg);
+    }
+  }
+}
