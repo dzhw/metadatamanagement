@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp').controller('SidenavController', [
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isAccountMenuOpen = false;
+    $scope.isOrderMenuOpen = false;
     $scope.logoutButtonDisabled = false;
     $scope.sidebarContent = $rootScope.sidebarContent;
     $scope.detailViewLoaded = MessageBus;
+    $scope.onCloseOrderMenu = MessageBus;
     $scope.detailViewType = '';
     $scope.show = false;
 
@@ -49,6 +51,10 @@ angular.module('metadatamanagementApp').controller('SidenavController', [
 
     $scope.toggleAdminMenu = function() {
       $scope.isAdminMenuOpen = !$scope.isAdminMenuOpen;
+    };
+
+    $scope.toggleOrderMenu = function() {
+      $scope.isOrderMenuOpen = !$scope.isOrderMenuOpen;
     };
 
     $scope.close = function(timeout) {
@@ -124,8 +130,23 @@ angular.module('metadatamanagementApp').controller('SidenavController', [
       function() {
         var data = $scope.detailViewLoaded.get('onDetailViewLoaded', true);
         if (data) {
+          // close order menu if the detail view type changed
+          if ($scope.detailViewType !== data.type) {
+            $scope.isOrderMenuOpen = false;
+          }
           $scope.detailViewType = data.type;
         }
       }, true);
+
+    $scope.$watch(function() {
+      // listen for close triggers
+      return $scope.onCloseOrderMenu;
+    },
+    function() {
+      var data = $scope.onCloseOrderMenu.get('onCloseOrderMenu', true);
+      if (data) {
+        $scope.isOrderMenuOpen = data.open;
+      }
+    }, true);
   }]);
 

@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').config([
         'packages': {
           'label': 'Wonach suchen Sie?',
           'data-packages': 'Datenpakete (SUFs, CUFs)',
-          'analysis-packages': 'Analysepakete (Skripte)'
+          'analysis-packages': 'Analysepakete (Skripte)',
+          'publications': 'Publikationen'
         },
         'delete-messages': {
           'delete-variables-title': 'Alle Variablen ersetzen?',
@@ -30,7 +31,8 @@ angular.module('metadatamanagementApp').config([
         },
         'search-result': {
           'dataPackageSearch': 'Suche "{{ searchQuery }}" im Datenpaket',
-          'analysisPackageSearch': 'Suche "{{ searchQuery }}" im Analysepaket'
+          'analysisPackageSearch': 'Suche "{{ searchQuery }}" im Analysepaket',
+          'relatedPublicationsSearch': 'Suche "{{ searchQuery }}" in Publikation'
         },
         'detail': {
           'search': 'Datensuche',
@@ -40,7 +42,8 @@ angular.module('metadatamanagementApp').config([
           'access-way': 'Zugangsweg',
           'cart': 'In den Warenkorb legen',
           'data-packages-info': 'Datenpakete enthalten Scientific Use Files und/oder Campus Use Files, die für eine breite Nutzung in Wissenschaft bzw. Lehre vorgesehen sind.',
-          'analysis-packages-info': 'Analysepakete enthalten Analyseskripte und Analysedaten, die zur Erstellung einer spezifischen Publikation verwendet wurden und ermöglichen damit deren Replikation.'
+          'analysis-packages-info': 'Analysepakete enthalten Analyseskripte und Analysedaten, die zur Erstellung einer spezifischen Publikation verwendet wurden und ermöglichen damit deren Replikation.',
+          'related-publications-info': 'Publikationen enthalten bibliografische Informationen zu Veröffentlichungen, die die Daten aus referenzierten Daten- und Analysepakete verwenden'
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',

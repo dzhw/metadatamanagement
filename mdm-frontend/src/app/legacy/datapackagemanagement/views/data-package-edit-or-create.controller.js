@@ -219,8 +219,10 @@ angular.module('metadatamanagementApp')
                         en: ''
                       }],
                       sponsors: [{
-                        de: '',
-                        en: ''
+                        name: {
+                          de: '',
+                          en: ''
+                        }
                       }]
                     });
                     ctrl.currentInstitutions = new Array(1);
@@ -592,8 +594,10 @@ angular.module('metadatamanagementApp')
             } else {
               ctrl.currentSponsors = new Array(1);
               ctrl.dataPackage.sponsors = [{
-                de: '',
-                en: ''
+                name: {
+                  de: '',
+                  en: ''
+                }
               }];
             }
             if (wrapper.isCurrentVersion) {
@@ -643,6 +647,7 @@ angular.module('metadatamanagementApp')
 
       $scope.searchSponsors = function(searchText, language) {
         //Search Call to Elasticsearch
+        console.log('CURRENTSPONSORS: ' + JSON.stringify(ctrl.currentSponsors));
         return DataPackageSearchService.findSponsors(searchText, {},
             language, true, ctrl.currentSponsors)
           .then(function(sponsors) {

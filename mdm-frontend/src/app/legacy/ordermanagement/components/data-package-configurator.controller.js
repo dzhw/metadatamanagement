@@ -16,7 +16,8 @@
                                 DataPackageSearchService,
                                 DataPackageAccessWaysResource, $mdDialog,
                                 DataPackageCitationDialogService,
-                                CurrentDataPackageService) {
+                                CurrentDataPackageService,
+                                Principal) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -28,6 +29,10 @@
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
+
+    // if setting to true: do not forget to update translation texts
+    $ctrl.showMaintenanceHint = false;
+
     $ctrl.exportFormats = [{
       format: 'oai_dc',
       label: 'Dublin Core'
@@ -61,7 +66,7 @@
       }
       $ctrl.selectedVersion = $ctrl.dataPackageIdVersion.version;
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
-         $ctrl.dataPackageIdVersion.version);
+        $ctrl.dataPackageIdVersion.version);
       initReady = true;
     }
 
@@ -89,7 +94,22 @@
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
         'concepts'];
-      DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
+      if (version === undefined) {
+        DataPackageSearchService.findDataPackageById(id, excludes)
+        .promise.then(function(res) {
+          $ctrl.dataPackage = res;
+          $rootScope.selectedDataPackage = res;
+          if ($ctrl.dataPackage) {
+            loadVersion($ctrl.dataPackageIdVersion.projectId, id);
+          }
+        }, function() {
+          $ctrl.dataPackage = null;
+          $rootScope.selectedDataPackage = null;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
           $ctrl.dataPackage = data;
           $rootScope.selectedDataPackage = data;
@@ -106,6 +126,7 @@
         }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
         });
+      }
     }
 
     function loadAccessWays(id) {
@@ -131,6 +152,16 @@
           });
       });
       return _.uniq(dataFormats);
+    };
+
+    $ctrl.showBackToEditButton = function() {
+      return $ctrl.selectedVersion && Principal.hasAuthority(
+        'ROLE_DATA_PROVIDER');
+    };
+
+    // triggers MessageBus to close the order menu in the parent component
+    $ctrl.closeOrderMenu = function() {
+      MessageBus.set('onCloseOrderMenu', {open: false});
     };
 
     $ctrl.addToShoppingCart = function($event) {
@@ -221,8 +252,10 @@
       function() {
         var data = $ctrl.onDataPackageChange.get('onDataPackageChange', true);
         if (data) {
+          var versionFromUrl = $location.search().version;
           $ctrl.dataPackageIdVersion.masterId = data.masterId;
-          $ctrl.dataPackageIdVersion.version = data.version;
+          $ctrl.dataPackageIdVersion.version = versionFromUrl;
+          $ctrl.dataPackageIdVersion.projectId = data.projectId;
           init();
         }
       }, true);
@@ -291,6 +324,7 @@
       '$mdDialog',
       'DataPackageCitationDialogService',
       'CurrentDataPackageService',
+      'Principal',
       DataPackageConfiguratorController
     ]);
 

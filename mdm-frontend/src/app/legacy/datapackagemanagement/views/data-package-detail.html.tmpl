@@ -77,7 +77,8 @@
       </md-tooltip>
       <md-icon md-font-set="material-icons">mode_edit</md-icon>
     </md-button>
-    <md-button hide-gt-md class="md-fab md-raised md-accent" ng-if="!ctrl.isAuthenticated()"
+    <!-- order button moves here if in mobile view -->
+    <md-button hide-gt-md class="md-fab md-raised md-accent"
                ng-click="ctrl.toggleSidenav()">
       <md-tooltip md-autohide="true" md-direction="left"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

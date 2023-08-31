@@ -17,6 +17,8 @@ angular.module('metadatamanagementApp').config([
             'projectContributors': 'Projektmitarbeiter:innen',
             'data-curators': 'Datenkuratierung',
             'sponsors': 'Gefördert von',
+            'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
@@ -123,7 +125,8 @@ angular.module('metadatamanagementApp').config([
           'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
           'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen.',
           'generate-datapackage-overview-tooltip': 'Klicken, um eine Übersicht über dieses Datenpaket als PDF zu erstellen.',
-          'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.'
+          'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
+          'order-datapackage-tooltip': 'Klicken, um dieses Datenpaket zu bestellen.'
         },
         'log-messages': {
           'data-package': {
@@ -228,6 +231,8 @@ angular.module('metadatamanagementApp').config([
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
+            'fundingRef': 'Förderkennzeichen',
+            'fundingProgram': 'Zugehörige Förderlinie',
             'location': 'Ort',
             'additional-links': {
               'url': 'URL',
@@ -284,7 +289,9 @@ angular.module('metadatamanagementApp').config([
             },
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Datenpaket ein.',
-              'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Datenpaket ein.'
+              'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Datenpaket ein.',
+              'funding-ref': 'Geben Sie das Förderkennzeichen der Geldgeber:in für dieses Datenpaket ein.',
+              'funding-prg': 'Geben Sie die zugehörige Förderlinie an.'
             },
             'survey-design': 'Wählen Sie das Erhebungsdesign dieses Datenpakets aus.',
             'annotations': {

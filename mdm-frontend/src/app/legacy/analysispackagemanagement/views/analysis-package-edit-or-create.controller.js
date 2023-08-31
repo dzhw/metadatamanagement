@@ -208,7 +208,12 @@ angular.module('metadatamanagementApp')
                       lastName: ''
                     }],
                     institutions: [],
-                    sponsors: [],
+                    sponsors: [{
+                      name: {
+                        de: '',
+                        en: ''
+                      }
+                    }],
                     scripts: [],
                     analysisDataPackages: []
                   });
@@ -599,7 +604,12 @@ angular.module('metadatamanagementApp')
               ctrl.currentSponsors = angular.copy(
                 ctrl.analysisPackage.sponsors);
             } else {
-              ctrl.currentSponsors = [];
+              ctrl.currentSponsors = [{
+                name: {
+                  de: '',
+                  en: ''
+                }
+              }];
             }
 
             $timeout(function() {

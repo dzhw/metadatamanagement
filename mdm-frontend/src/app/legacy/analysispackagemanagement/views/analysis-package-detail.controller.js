@@ -68,6 +68,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       var activeProject;
       var bowser = $rootScope.bowser;
+      ctrl.hasBeenReleasedBefore = false;
 
       ctrl.dataPackageList = {
         dataPackage: {
@@ -169,16 +170,23 @@ angular.module('metadatamanagementApp')
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
+            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
           .check(result);
-
+        // trigger MessageBus for showing ordering options in the sidenav
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onAnalysisPackageChange',
             {
+              masterId: result.masterId
+            });
+          MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
+        } else {
+          MessageBus.set('onAnalysisPackageChange',
+            {
               masterId: result.masterId,
-              version: result.release.version
+              projectId: result.dataAcquisitionProjectId
             });
           MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
         }
@@ -236,6 +244,11 @@ angular.module('metadatamanagementApp')
 
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
+      };
+
+      ctrl.showOrderButton = function() {
+        return ctrl.hasBeenReleasedBefore &&
+          ctrl.analysisPackage.release !== undefined;
       };
     }]);
 

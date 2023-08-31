@@ -24,6 +24,15 @@
       )">
     {{$ctrl.translationKeyManagement + '.edit.hints.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.de' | translate}}
   </div>
+  <div ng-if="$ctrl.translationKeyManagement == 'analysis-package-management' && $ctrl.translationKeyPackage == 'external-data-package' && 
+    ($ctrl.translationKeyName == 'description' || $ctrl.translationKeyName == 'annotations')" class="fdz-input-hint">
+    {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+      href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+      target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+      translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+      href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+      target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+  </div>
   <div multiple
        ng-messages="$ctrl.currentForm[$ctrl.controlName + 'De_' + $ctrl.index].$error">
     <div
@@ -61,6 +70,15 @@
         && !$ctrl.currentForm[$ctrl.controlName + 'En_' + $ctrl.index].$touched)
       )">
     {{$ctrl.translationKeyManagement + '.edit.hints.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.en' | translate}}
+  </div>
+  <div ng-if="$ctrl.translationKeyManagement == 'analysis-package-management' && $ctrl.translationKeyPackage == 'external-data-package' && 
+    ($ctrl.translationKeyName == 'description' || $ctrl.translationKeyName == 'annotations')" class="fdz-input-hint">
+    {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+      href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+      target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+      translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+      href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+      target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
   </div>
   <div
     multiple

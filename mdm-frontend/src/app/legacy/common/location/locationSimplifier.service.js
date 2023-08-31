@@ -10,7 +10,7 @@ angular
         var stateParamsCopy = angular.copy(stateParams);
         stateParamsCopy.id = stateParamsCopy.id.slice(
           0, stateParams.id.length - 1);
-        state.go(stateName, stateParamsCopy, {supercede: true});
+        state.go(stateName, stateParamsCopy, {reload: true, supercede: true});
         return $q.reject('Redirect to state without $');
       }
       return $q.resolve();

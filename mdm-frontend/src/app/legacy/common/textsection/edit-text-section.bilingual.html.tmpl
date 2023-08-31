@@ -33,6 +33,14 @@
           ng-if="!$ctrl.currentForm[$ctrl.translationKeyName + 'De'].$dirty && !$ctrl.currentForm[$ctrl.translationKeyName + 'De'].$touched">
           {{$ctrl.translationKeyPackage + '-management.edit.hints.' + $ctrl.translationKeyName + '.de' | translate}}
         </div>
+        <div ng-if="$ctrl.translationKeyPackage == 'analysis-package' && $ctrl.translationKeyName == 'description'" class="fdz-input-hint">
+          {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+            translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+        </div>
         <div multiple ng-messages="$ctrl.currentForm[$ctrl.translationKeyName + 'De'].$error">
           <div
             ng-if="$ctrl.notNull"
@@ -67,6 +75,14 @@
           class="fdz-input-hint"
           ng-if="!$ctrl.currentForm[$ctrl.translationKeyName+ 'En'].$dirty && !$ctrl.currentForm[$ctrl.translationKeyName+ 'En'].$touched">
           {{$ctrl.translationKeyPackage + '-management.edit.hints.' + $ctrl.translationKeyName + '.en' | translate}}
+        </div>
+        <div ng-if="$ctrl.translationKeyPackage == 'analysis-package' && $ctrl.translationKeyName == 'description'" class="fdz-input-hint">
+          {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+            translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
         </div>
         <div
           multiple

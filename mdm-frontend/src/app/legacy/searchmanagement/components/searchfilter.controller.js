@@ -5,7 +5,19 @@
   function SearchFilterController(
     $scope, $location, MessageBus, $timeout, $mdDialog
   ) {
+
+    // Configuration for available filter options
     var filterValueObject = {
+      related_publications: [
+        {
+          name: 'global.filter.language',
+          property: 'language', collapsed: false
+        },
+        {
+          name: 'global.filter.year',
+          property: 'year', collapsed: false
+        }
+      ],
       analysis_packages: [
         {
           name: 'global.filter.tags',
@@ -78,6 +90,10 @@
         $ctrl.dataPackageSearchFilter = $ctrl.searchParams.type;
         setFilterValues($ctrl.searchParams.type);
       }
+      if ($ctrl.searchParams.type === 'related_publications') {
+        $ctrl.dataPackageSearchFilter = $ctrl.searchParams.type;
+        setFilterValues($ctrl.searchParams.type);
+      }
       checkCollapsible();
       _.assign($ctrl.searchFilterMapping, $ctrl.searchParams.filter);
     }
@@ -110,6 +126,13 @@
         }
       });
     }
+
+    /**
+     * Updates the search filter mapping and the search parameters when menu-toggle was clicked
+
+     * @param {*} item the filter item/value (e.g. 'fr')
+     * @param {*} prop the filter property (e.g. 'language')
+     */
 
     function toggleFilterItem(item, prop) {
       readSearchParamsFromLocation();
@@ -200,7 +223,8 @@
     $ctrl.infoModal = function(type, $event) {
       var url = {
         data: 'data-package-info.html.tmpl',
-        analysis: 'analysis-package-info.html.tmpl'
+        analysis: 'analysis-package-info.html.tmpl',
+        publications: 'related-publications-info.html.tmpl'
       };
       $mdDialog.show({
         controller: 'dataPackageInfoController',

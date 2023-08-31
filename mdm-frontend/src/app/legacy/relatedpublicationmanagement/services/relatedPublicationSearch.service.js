@@ -61,7 +61,6 @@ angular.module('metadatamanagementApp')
         query.body.from = from;
         query.body.size = size;
         query.body._source = selectedAttributes;
-        query.body._source = selectedAttributes;
         query.body.query = {
           'bool': {
             'must': [{

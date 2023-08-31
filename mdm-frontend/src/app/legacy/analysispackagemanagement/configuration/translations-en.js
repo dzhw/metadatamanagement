@@ -57,6 +57,8 @@ angular.module('metadatamanagementApp').config([
             'license': 'License',
             'scripts': 'Scripts',
             'sponsors': 'Sponsored by',
+            'fundingRef': 'Funding reference',
+            'fundingProgram': 'Associated funding program',
             'version': 'Version',
             'published-at': 'published at',
             'published': 'Published at',
@@ -114,7 +116,8 @@ angular.module('metadatamanagementApp').config([
           'beta-release-no-doi': 'This analysis package has no DOI yet.',
           'publications-for-analysis-package': 'Publications related to this Analysis Package',
           'page-description': '{{ description }}',
-          'title': 'Analysis Package (Scripts): {{ title }}'
+          'title': 'Analysis Package (Scripts): {{ title }}',
+          'order-analysispackage-tooltip': 'click to order this analysis package.'
         },
         'edit': {
           'add-analysis-data-tooltip': 'Click to add analysis data to this analysis package.',
@@ -179,6 +182,8 @@ angular.module('metadatamanagementApp').config([
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',
+            'fundingRef': 'Funding reference',
+            'fundingProgram': 'Associated funding program',
             'version': 'Version',
             'script': {
               'used-language': 'Script Language',
@@ -237,7 +242,9 @@ angular.module('metadatamanagementApp').config([
             },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this analysis package.',
-              'en': 'Enter the English name of the sponsor of this analysis package.'
+              'en': 'Enter the English name of the sponsor of this analysis package.',
+              'funding-ref': 'Enter the funding reference of the sponsor of this analysis package.',
+              'funding-prg': 'Enter the associated funding program.'
             },
             'title': {
               'de': 'Please enter the title of this analysis package in German.',
