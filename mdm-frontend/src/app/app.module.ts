@@ -26,6 +26,6 @@ import { UpgradeModule } from '@angular/upgrade/static';
 export class AppModule implements DoBootstrap {
   constructor(private upgrade: UpgradeModule) { }
   ngDoBootstrap() {
-    this.upgrade.bootstrap(document.body, ['metadatamanagementApp'], { strictDi: true });
+    this.upgrade.bootstrap(document.documentElement, ['metadatamanagementApp'], { strictDi: true });
   }
 }
