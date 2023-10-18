@@ -297,6 +297,15 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
+    if (project.getRelease().getDoiPageLanguage() != null && project.getRelease().getDoiPageLanguage().equals("de")){
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/data-packages/" + dataPackage.getMasterId() +
+        "?version=" + project.getRelease().getVersion());
+    } else {
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/data-packages/" + dataPackage.getMasterId() +
+        "?version=" + project.getRelease().getVersion());
+    }
+
+
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
 
     // Get Surveys Information
@@ -392,6 +401,14 @@ public class DaraService {
     String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
     if (!analysisPackage.isHidden()) {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
+    }
+
+    if (project.getRelease().getDoiPageLanguage().equals("de")){
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/analysis-packages/" + analysisPackage.getMasterId() +
+        "?version=" + project.getRelease().getVersion());
+    } else {
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/analysis-packages/" + analysisPackage.getMasterId() +
+        "?version=" + project.getRelease().getVersion());
     }
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);

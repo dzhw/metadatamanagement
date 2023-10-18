@@ -337,7 +337,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     // now fake a shadow
     project.setId(project.getId() + "-1.0.0");
     project.setVersion(null);
-    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     analysisPackage.setId(analysisPackage.getId() + "-1.0.0");
     analysisPackage.setDataAcquisitionProjectId(project.getId());
@@ -371,7 +371,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     project.setId(project.getMasterId() + "-2.0.0");
     project.setSuccessorId(null);
     project.setVersion(null);
-    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     analysisPackage.setId(analysisPackage.getMasterId() + "-2.0.0");
     analysisPackage.setSuccessorId(null);
@@ -431,7 +431,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
             .availabilityType(CustomDataPackage.AVAILABLE_AVAILABILITY_TYPES.get(0))
             .accessWay(CustomDataPackage.AVAILABLE_ACCESS_WAYS.get(0)).build();
     analysisPackage.setAnalysisDataPackages(Lists.asList(customDataPackage, externalDataPackage));
-    
+
     // create the analysis package with the given id
     mockMvc.perform(put(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId())
         .content(TestUtil.convertObjectToJsonBytes(analysisPackage))

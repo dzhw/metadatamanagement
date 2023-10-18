@@ -308,7 +308,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     // now fake a shadow
     project.setId(project.getId() + "-1.0.0");
     project.setVersion(null);
-    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     dataPackage.setId(dataPackage.getId() + "-1.0.0");
     dataPackage.setDataAcquisitionProjectId(project.getId());
@@ -342,7 +342,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     project.setId(project.getMasterId() + "-2.0.0");
     project.setSuccessorId(null);
     project.setVersion(null);
-    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     dataPackage.setId(dataPackage.getMasterId() + "-2.0.0");
     dataPackage.setSuccessorId(null);
