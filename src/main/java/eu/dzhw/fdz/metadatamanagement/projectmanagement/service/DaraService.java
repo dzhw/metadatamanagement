@@ -403,7 +403,7 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
-    if (project.getRelease().getDoiPageLanguage().equals("de")) {
+    if (project.getRelease().getDoiPageLanguage() != null && project.getRelease().getDoiPageLanguage().equals("de")) {
       dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/analysis-packages/" + analysisPackage.getMasterId()
           + "?version=" + project.getRelease().getVersion());
     } else {
