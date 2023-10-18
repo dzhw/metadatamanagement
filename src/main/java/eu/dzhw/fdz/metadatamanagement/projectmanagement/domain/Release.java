@@ -67,6 +67,5 @@ public class Release implements Serializable {
   /**
    * A string indicating the language ("de" or "en") of the DOI landing page
    */
-  @NotNull
   private String doiPageLanguage;
 }
