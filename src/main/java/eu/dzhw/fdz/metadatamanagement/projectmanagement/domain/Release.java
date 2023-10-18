@@ -65,7 +65,7 @@ public class Release implements Serializable {
   private Boolean pinToStartPage;
 
   /**
-   * A string indicating the language ("de" or "en") of the DOI landing page
+   * A string indicating the language ("de" or "en") of the DOI landing page.
    */
   private String doiPageLanguage;
 }
