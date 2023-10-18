@@ -297,12 +297,12 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
-    if (project.getRelease().getDoiPageLanguage() != null && project.getRelease().getDoiPageLanguage().equals("de")){
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/data-packages/" + dataPackage.getMasterId() +
-        "?version=" + project.getRelease().getVersion());
+    if (project.getRelease().getDoiPageLanguage() != null && project.getRelease().getDoiPageLanguage().equals("de")) {
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/data-packages/" + dataPackage.getMasterId()
+          + "?version=" + project.getRelease().getVersion());
     } else {
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/data-packages/" + dataPackage.getMasterId() +
-        "?version=" + project.getRelease().getVersion());
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/data-packages/" + dataPackage.getMasterId()
+          + "?version=" + project.getRelease().getVersion());
     }
 
 
@@ -403,12 +403,12 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
-    if (project.getRelease().getDoiPageLanguage().equals("de")){
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/analysis-packages/" + analysisPackage.getMasterId() +
-        "?version=" + project.getRelease().getVersion());
+    if (project.getRelease().getDoiPageLanguage().equals("de")) {
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/analysis-packages/" + analysisPackage.getMasterId()
+          + "?version=" + project.getRelease().getVersion());
     } else {
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/analysis-packages/" + analysisPackage.getMasterId() +
-        "?version=" + project.getRelease().getVersion());
+      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/analysis-packages/" + analysisPackage.getMasterId()
+          + "?version=" + project.getRelease().getVersion());
     }
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
