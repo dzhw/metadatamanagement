@@ -10,6 +10,9 @@ angular.module('metadatamanagementApp').config([
         'name': 'Name des Datenaufnahmeprojektes',
         'release': {
           'version': 'Version des Datenaufnahmeprojektes',
+          'landing-page-de-title': 'Deutsch',
+          'landing-page-en-title': 'Englisch',
+          'landing-page-hint': 'Bitte wählen Sie die Sprache der DOI-Landingpage',
           'pin-to-start-page': 'Datenpaket auf Startseite anzeigen',
           'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.',
           'confirmed': {
