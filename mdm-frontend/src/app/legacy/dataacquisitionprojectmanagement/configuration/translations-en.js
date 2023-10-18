@@ -10,6 +10,9 @@ angular.module('metadatamanagementApp').config([
         'name': 'Name of the Data Acquisition Projects',
         'release': {
           'version': 'Version of the Data Acquisition Projects',
+          'landing-page-de-title': 'German',
+          'landing-page-en-title': 'English',
+          'landing-page-hint': 'Please select the language of the DOI landing page',
           'pin-to-start-page': 'Show Data Package on Start Page',
           'pin-to-start-page-hint': 'Check this box, if you want to show this data package on the start page.',
           'confirmed': {
