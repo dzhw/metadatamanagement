@@ -297,14 +297,11 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
-    if (project.getRelease().getDoiPageLanguage() != null && project.getRelease().getDoiPageLanguage().equals("de")) {
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/data-packages/" + dataPackage.getMasterId()
-          + "?version=" + project.getRelease().getVersion());
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
     } else {
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/data-packages/" + dataPackage.getMasterId()
-          + "?version=" + project.getRelease().getVersion());
+      dataForTemplate.put("projectURL", "en");
     }
-
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
 
@@ -403,12 +400,10 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
-    if (project.getRelease().getDoiPageLanguage() != null && project.getRelease().getDoiPageLanguage().equals("de")) {
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/de/analysis-packages/" + analysisPackage.getMasterId()
-          + "?version=" + project.getRelease().getVersion());
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
     } else {
-      dataForTemplate.put("projectURL", "https://metadata.fdz.dzhw.eu/en/analysis-packages/" + analysisPackage.getMasterId()
-          + "?version=" + project.getRelease().getVersion());
+      dataForTemplate.put("projectURL", "en");
     }
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
