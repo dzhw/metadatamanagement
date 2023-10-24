@@ -300,7 +300,7 @@ public class DaraService {
     if (project.getRelease().getDoiPageLanguage() != null) {
       dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
     } else {
-      dataForTemplate.put("projectURL", "en");
+      dataForTemplate.put("projectURLLanguage", "en");
     }
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
@@ -403,7 +403,7 @@ public class DaraService {
     if (project.getRelease().getDoiPageLanguage() != null) {
       dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
     } else {
-      dataForTemplate.put("projectURL", "en");
+      dataForTemplate.put("projectURLLanguage", "en");
     }
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
