@@ -23,7 +23,12 @@ angular.module('metadatamanagementApp').config([
               'description': 'Datenpaketbeschreibung',
               'annotations': 'Anmerkungen',
               'data-source': 'Datenquelle',
-              'data-source-url': 'Link zur Datenquelle'
+              'data-source-url': 'Link zur Datenquelle',
+              'license': {
+                'title': 'Lizenz des Datenpakets',
+                'show-license': 'Lizenz anzeigen',
+                'hide-license': 'Lizenz verbergen'
+              }
             },
             'custom-data-package': {
               'available-availability-type': 'Verfügbarer Zugangsstatus',
@@ -276,7 +281,8 @@ angular.module('metadatamanagementApp').config([
                 'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
                 'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
                 'none': 'nicht zugänglich.'
-              }
+              },
+              'license': 'Geben Sie hier die Lizenz des Datenpakets an.'
             },
             'custom-data-package': {
               'access-way': {
@@ -417,6 +423,9 @@ angular.module('metadatamanagementApp').config([
             },
             'availability-type': {
               'i18n-not-null': 'Der Zugangsstatus eines externen Datenpakets darf nicht leer sein!'
+            },
+            'license': {
+              'string-size': 'Die Maximallänge der Lizenz ist 1048576 Zeichen.'
             }
           },
           'custom-data-package': {

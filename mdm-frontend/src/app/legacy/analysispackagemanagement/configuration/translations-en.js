@@ -23,7 +23,12 @@ angular.module('metadatamanagementApp').config([
               'description': 'Data Package Description',
               'annotations': 'Annotations',
               'data-source': 'Data Source',
-              'data-source-url': 'Link of data source'
+              'data-source-url': 'Link of data source',
+              'license': {
+                'title': 'License of the Data Package',
+                'show-license': 'Show License',
+                'hide-license': 'Hide License'
+              }
             },
             'custom-data-package': {
               'available-availability-type': 'Available Availability Type',
@@ -273,7 +278,8 @@ angular.module('metadatamanagementApp').config([
                 'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
                 'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
                 'none': 'Not accessible.'
-              }
+              },
+              'license': 'Please enter the license information for this data package.'
             },
             'custom-data-package': {
               'access-way': {
@@ -409,11 +415,14 @@ angular.module('metadatamanagementApp').config([
             },
             'data-source-url': {
               'invalid-url': 'The provided URL is not valid.',
-              'url-size': 'The max length for URLs is 2000 chracters.',
+              'url-size': 'The max length for URLs is 2000 characters.',
               'url-not-empty': 'The URL must not be empty.'
             },
             'availability-type': {
               'i18n-not-null': 'The availability type of the external data package must not be empty!'
+            },
+            'license': {
+              'string-size': 'The max length for license information is 1048576 characters.'
             }
           },
           'custom-data-package': {
