@@ -19,7 +19,7 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
       <md-list
-        ng-repeat="item in $ctrl.options.analysisPackage.analysisDataPackages">
+        ng-repeat="item in $ctrl.options.analysisPackage.analysisDataPackages track by $index">
         <md-list-item ng-if="item.type" class="mb16">
           <h5>{{ 'analysis-package-management.detail.label.type-of-data' | translate}}:</h5>
           <span
@@ -91,23 +91,22 @@
         </md-list-item>
         <md-list-item ng-if="item.license">
           <h5>{{ 'analysis-package-management.detail.label.external-data-package.license.title' | translate}}:</h5>
-          <span ng-if="$ctrl.licenseCollapsed-{{item.}} == undefined || $ctrl.licenseCollapsed" 
-            class="md-secondary pre" 
-            style="display: flex; flex-direction: row;"
-            >
-            <a ng-click="$ctrl.licenseCollapsed = false">{{ 'analysis-package-management.detail.label.external-data-package.license.show-license' | translate }} <md-icon md-font-set="material-icons">
-              keyboard_arrow_down
-            </md-icon></a>
-          </span>
-          <span ng-if="$ctrl.licenseCollapsed != null && !$ctrl.licenseCollapsed" 
-            class="md-secondary pre"
-            style="display: flex; flex-direction: row;">
-            <a ng-click="$ctrl.licenseCollapsed = true">{{ 'analysis-package-management.detail.label.external-data-package.license.hide-license' | translate }} <md-icon md-font-set="material-icons">
-              keyboard_arrow_up
-            </md-icon></a></span>
-          <span ng-if="$ctrl.licenseCollapsed != null && !$ctrl.licenseCollapsed" class="md-secondary pre">{{item.license}}</span>
+            <div ng-if="expandLicenses[$index] == undefined || !expandLicenses[$index]"
+              >
+              <a ng-click="toggleLicenses($index)">{{ 'analysis-package-management.detail.label.external-data-package.license.show-license' | translate }} <md-icon md-font-set="material-icons">
+                keyboard_arrow_down
+              </md-icon></a>
+            </div>
+            <div>
+              <div ng-if="expandLicenses[$index] != null && expandLicenses[$index]" 
+                >
+                <a ng-click="toggleLicenses($index)">{{ 'analysis-package-management.detail.label.external-data-package.license.hide-license' | translate }} <md-icon md-font-set="material-icons">
+                  keyboard_arrow_up
+                </md-icon></a>
+              </div>
+              <span ng-if="expandLicenses[$index] != null && expandLicenses[$index]" class="pre">{{item.license}}</span>
+            </div>
         </md-list-item>
-
         <md-divider ng-if="!$last" class="mv16 mh0"></md-divider>
       </md-list>
     </md-card-content>
