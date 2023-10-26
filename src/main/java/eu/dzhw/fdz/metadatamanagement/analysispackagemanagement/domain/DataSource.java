@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 /**
  * {@link CustomDataPackage} maybe composed of several data sets coming form {@link DataSource}s
  * like this one.
- * 
+ *
  * @author René Reitmann
  */
 @NoArgsConstructor
@@ -34,7 +34,7 @@ public class DataSource implements Serializable {
   /**
    * The name of the data source where the data is stored must be specified here (e.g. name of the
    * institution/repository, private data storage).
-   * 
+   *
    * Must not be empty and must not contain more than 512 characters.
    */
   @NotNull(message = "analysis-package-management.error.data-source.not-null")
@@ -46,10 +46,19 @@ public class DataSource implements Serializable {
 
   /**
    * Optional url for the data source.
-   * 
+   *
    * If specified it must be a valid URL and not longer than 2000 characters.
    */
   @URL(message = "analysis-package-management.error.data-source-url" + ".invalid-url")
   @Size(max = 2000, message = "analysis-package-management.error.data-source-url.length")
   private String url;
+
+  /**
+   * The license of this data source. Markdown is supported.
+   *
+   * May be empty. Must not contain more than 1 MB characters.
+   */
+  @Size(max = StringLengths.X_LARGE,
+    message = "analysis-package-management.error.analysis-package.license.size")
+  private String license;
 }

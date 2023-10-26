@@ -7,8 +7,10 @@
   </md-card-header>
   <md-divider></md-divider>
   <md-content class="pt16" style="background-color: #FFFFFF;">
-  <div id="dataSource-{{$index}}" layout="row"
+  <div id="dataSource-{{$index}}" 
        ng-repeat="link in $ctrl.content track by $index">
+    <!-- <div ng-if="$index > 0" class="pb16"></div> -->
+    <div layout="row">
     <div>
       <md-button class="md-primary md-icon-button mt18 mh0 pl0"
                  ng-click="$ctrl.deleteLink()">
@@ -97,6 +99,18 @@
         </div>
       </div>
     </md-input-container>
+  </div>
+  <!-- LICENSE -->
+  <div class="mb16"> 
+    <edit-text-section-component bilingual="false"
+      name="license"
+      current-form="$ctrl.currentForm"
+      translation-key-package="analysis-package"
+      translation-key-name="custom-data-package.license.title"
+      max-length="1048576"
+      content="$ctrl.content[$index].license">
+    </edit-text-section-component>
+  </div>
   </div>
   </md-content>
   <md-card-actions class="ma0 mt8">

@@ -39,7 +39,12 @@ angular.module('metadatamanagementApp').config([
               'dataSources': 'Datenquellen',
               'data-source-url': 'Link zur Datenquelle',
               'access-way': 'Zugangsweg',
-              'available-access-ways': 'Verfügbare Zugangswege'
+              'available-access-ways': 'Verfügbare Zugangswege',
+              'license': {
+                'title': 'Lizenz der Datenquelle',
+                'show-license': 'Lizenz anzeigen',
+                'hide-license': 'Lizenz verbergen'
+              }
             },
             'attachments': {
               'title': 'Titel',
@@ -312,7 +317,8 @@ angular.module('metadatamanagementApp').config([
                 'none': 'nicht zugänglich.',
                 'accessible': 'Lorem ipsum...',
                 'not-accessible': 'Lorem ipsum...'
-              }
+              },
+              'license': 'Geben Sie hier die Lizenz der Datenquelle an.'
             },
             'analyzed-data-package': {
               'data-package': 'Geben Sie den Titel des FDZ-DZHW Datenpakets ein.',

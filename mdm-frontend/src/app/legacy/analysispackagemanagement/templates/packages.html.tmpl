@@ -70,7 +70,7 @@
         <md-list-item ng-if="item.dataSources && item.dataSources.length > 0">
           <h5>{{'analysis-package-management.detail.label.custom-data-package.dataSources' | translate }}:</h5>
           <ul class="md-secondary" style="list-style-type: none; margin: 0px; margin-block: 0px; padding-inline: 0px; padding: 0px;">
-            <li ng-repeat="link in item.dataSources">
+            <li ng-repeat="link in item.dataSources track by $index" class="mb8">
               <p ng-if="!link.url">{{ link.name | displayI18nString}}</p>
               <a ng-if="link.url" href="{{link.url}}" target="_blank">
                 {{ link.name ? (link.name | displayI18nString) : link.url}}
@@ -78,6 +78,18 @@
                   {{'analysis-package-management.detail.link-tooltip' | translate}}
                 </md-tooltip>
               </a>
+              <div ng-if="link.license">
+                <a ng-if="!showLicenseDataSource($index, link)" ng-click="toggleLicensesDataSources($index, link)">{{ 'analysis-package-management.detail.label.custom-data-package.license.show-license' | translate }} <md-icon md-font-set="material-icons">
+                  keyboard_arrow_down
+                </md-icon></a>
+                <div ng-if="showLicenseDataSource($index, link)">
+                  <a ng-click="toggleLicensesDataSources($index, link)">{{ 'analysis-package-management.detail.label.custom-data-package.license.hide-license' | translate }} <md-icon md-font-set="material-icons">
+                    keyboard_arrow_up
+                  </md-icon></a>
+                </div>
+                <span ng-if="showLicenseDataSource($index, link)" style="color: gray;">{{link.license}}</span>
+                
+              </div>
             </li>
           </ul>
         </md-list-item>
@@ -91,8 +103,7 @@
         </md-list-item>
         <md-list-item ng-if="item.license">
           <h5>{{ 'analysis-package-management.detail.label.external-data-package.license.title' | translate}}:</h5>
-            <div ng-if="expandLicenses[$index] == undefined || !expandLicenses[$index]"
-              >
+            <div ng-if="expandLicenses[$index] == undefined || !expandLicenses[$index]">
               <a ng-click="toggleLicenses($index)">{{ 'analysis-package-management.detail.label.external-data-package.license.show-license' | translate }} <md-icon md-font-set="material-icons">
                 keyboard_arrow_down
               </md-icon></a>
@@ -104,7 +115,7 @@
                   keyboard_arrow_up
                 </md-icon></a>
               </div>
-              <span ng-if="expandLicenses[$index] != null && expandLicenses[$index]" class="pre">{{item.license}}</span>
+              <span ng-if="expandLicenses[$index] != null && expandLicenses[$index]" class="pre" style="color: gray; border: 1px;">{{item.license}}</span>
             </div>
         </md-list-item>
         <md-divider ng-if="!$last" class="mv16 mh0"></md-divider>

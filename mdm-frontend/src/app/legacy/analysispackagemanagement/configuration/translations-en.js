@@ -39,7 +39,12 @@ angular.module('metadatamanagementApp').config([
               'dataSources': 'Data Sources',
               'data-source-url': 'Link of data source',
               'access-way': 'Access Way',
-              'available-access-ways': 'Available Access Ways'
+              'available-access-ways': 'Available Access Ways',
+              'license': {
+                'title': 'Lizenz der Datenquelle',
+                'show-license': 'Lizenz anzeigen',
+                'hide-license': 'Lizenz verbergen'
+              }
             },
             'attachments': {
               'title': 'Title',
@@ -447,7 +452,8 @@ angular.module('metadatamanagementApp').config([
             },
             'data-source': {
               'i18n-not-null': 'The data source of the custom data package must not be empty!'
-            }
+            },
+            'license': 'Geben Sie hier die Lizenz der Datenquelle an.'
           },
           'analyzed-data-package': {
             'data-package-master-id': {
