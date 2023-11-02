@@ -18,16 +18,18 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
     PageMetadataService.setPageTitle('user-management.home.title');
     $scope.users = [];
     $scope.page = 0;
+    $scope.searchFilter = null;
     $scope.loadAll = function() {
-      UserResource.query({
-        page: $scope.page,
-        //jscs:disable
-        per_page: 20
-          //jscs:enable
-      }, function(result, headers) {
-        $scope.links = ParseLinks.parse(headers('link'));
-        $scope.users = result;
-      });
+        UserResource.searchFilter({
+          searchFilter: $scope.searchFilter,
+          page: $scope.page,
+          //jscs:disable
+          per_page: 20
+            //jscs:enable
+        }, function(result, headers) {
+          $scope.links = ParseLinks.parse(headers('link'));
+          $scope.users = result;
+        });
     };
 
     $scope.loadPage = function(page) {
@@ -144,5 +146,15 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
           fullscreen: true
         });
     };
+
+    // $scope.hideMobileKeyboardAndSearch = function($event) {
+    //   $event.target.querySelector('#query').blur();
+    //   $scope.loadAll();
+    // };
+
+    $scope.hideMobileKeyboardAndSearch = function($event) {
+        $scope.loadAll();
+        $event.target.querySelector('#query').blur();
+      };
   }]);
 

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -36,4 +38,7 @@ public interface UserRepository extends MongoRepository<User, String> {
   Optional<User> findOneByLogin(String login);
 
   void deleteByEmail(String email);
+
+  Page<User> findByLoginContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String login, String email, String firstname, String lastname, Pageable pageable);
+
 }

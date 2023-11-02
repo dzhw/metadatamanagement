@@ -2,6 +2,14 @@
   <md-card>
     <md-card-content layout="column">
       <md-content style="background-color: white;" >
+        <form role="search" ng-submit="hideMobileKeyboardAndSearch($event)" class="pb8">
+            <md-input-container class="fdz-search-input">
+                <label data-translate="user-management.searchUsers"></label>
+                <md-icon md-font-set="material-icons">search</md-icon>
+                <input id="user-management-search" type="search" ng-model="searchFilter" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>
+            </md-input-container>
+            <input type="submit" ng-hide="true">
+        </form>
         <table class="table table-striped">
           <thead>
           <tr>
@@ -50,8 +58,9 @@
           </tr>
           </tbody>
         </table>
+        <div ng-show="!users || users.length == 0" data-translate="user-management.noUsersFound"></div>
         <nav>
-          <ul class="pagination">
+          <ul ng-show="users && users.length > 0" class="pagination">
             <li ng-click="loadPage(links['first'])" ng-show="links['first'] >= 0">
               <a>&lt;&lt;</a>
             </li>
