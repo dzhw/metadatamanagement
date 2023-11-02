@@ -147,12 +147,10 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
         });
     };
 
-    // $scope.hideMobileKeyboardAndSearch = function($event) {
-    //   $event.target.querySelector('#query').blur();
-    //   $scope.loadAll();
-    // };
-
     $scope.hideMobileKeyboardAndSearch = function($event) {
+        // reset page index
+        $scope.page = 0;
+        // restart search with given filter 
         $scope.loadAll();
         $event.target.querySelector('#query').blur();
       };

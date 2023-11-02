@@ -2,19 +2,20 @@
   <md-card>
     <md-card-content layout="column">
       <md-content style="background-color: white;" >
-        <form role="search" ng-submit="hideMobileKeyboardAndSearch($event)" class="pb8">
+        <form role="search" class="pb8">
             <md-input-container class="fdz-search-input">
                 <label data-translate="user-management.searchUsers"></label>
                 <md-icon md-font-set="material-icons">search</md-icon>
-                <input id="user-management-search" type="search" ng-model="searchFilter" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>
+                <input id="user-management-search" type="search" ng-model="searchFilter" ng-model-options="{debounce: 800}" ng-change="hideMobileKeyboardAndSearch($event)" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>
             </md-input-container>
-            <input type="submit" ng-hide="true">
         </form>
         <table class="table table-striped">
           <thead>
           <tr>
             <th data-translate="global.field.id">ID</th>
             <th data-translate="user-management.login.login">Login</th>
+            <th data-translate="user-management.first-name">First name</th>
+            <th data-translate="user-management.last-name">Last name</th>
             <th data-translate="user-management.email">Email</th>
             <th></th>
             <th data-translate="user-management.langKey">LangKey</th>
@@ -31,6 +32,8 @@
               <a ui-sref="user-management-detail({login:user.login})">{{user.id}}</a>
             </td>
             <td>{{user.login}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
             <td>{{user.email}}</td>
             <td>
               <span class="label label-danger pointer" data-translate="user-management.deactivated" ng-click="setActive(user, true)"
