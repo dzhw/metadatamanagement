@@ -39,6 +39,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
   void deleteByEmail(String email);
 
-  Page<User> findByLoginContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String login, String email, String firstname, String lastname, Pageable pageable);
+  @SuppressWarnings("checkstyle:LineLength")
+  Page<User> findByLoginContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+      String login, String email, String firstname, String lastname, Pageable pageable);
 
 }
