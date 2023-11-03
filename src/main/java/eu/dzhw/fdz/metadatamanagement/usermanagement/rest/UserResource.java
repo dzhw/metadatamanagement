@@ -133,9 +133,9 @@ public class UserResource {
     if (searchFilter == null || searchFilter.isEmpty()) {
       page = userRepository.findAll(pageable);
     } else {
-      page = userRepository
-        .findByLoginContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
-          searchFilter, searchFilter, searchFilter, searchFilter, pageable);
+      page = userRepository //CHECKSTYLE:OFF
+        .findByLoginContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase( //CHECKSTYLE:OFF
+          searchFilter, searchFilter, searchFilter, searchFilter, pageable); //CHECKSTYLE:OFF
     }
     List<ManagedUserDto> managedUserDtos = page.getContent().stream()
         .map(user -> new ManagedUserDto(user)).collect(Collectors.toList());
