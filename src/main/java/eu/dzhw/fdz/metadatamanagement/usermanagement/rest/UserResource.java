@@ -123,7 +123,7 @@ public class UserResource {
   /**
    * Get users filtered by usernames, email addresses, first name, or last name.
    */
-  @SuppressWarnings("checkstyle:LineLength")
+  @SuppressWarnings("checkstyle:linelength")
   @RequestMapping(value = "/users/findUserWithFilter", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(AuthoritiesConstants.ADMIN)
@@ -133,8 +133,8 @@ public class UserResource {
     if (searchFilter == null || searchFilter.isEmpty()) {
       page = userRepository.findAll(pageable);
     } else {
-      page = userRepository.
-        findByLoginContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+      page = userRepository
+        .findByLoginContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
           searchFilter, searchFilter, searchFilter, searchFilter, pageable);
     }
     List<ManagedUserDto> managedUserDtos = page.getContent().stream()
