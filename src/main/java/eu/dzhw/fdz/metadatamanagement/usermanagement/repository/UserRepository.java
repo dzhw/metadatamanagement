@@ -40,8 +40,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
   void deleteByEmail(String email);
 
-  @Query("{ $or: [ { 'login': { $regex: ?0, $options: 'i' } }, { 'email': { $regex: ?0, $options: 'i' } }," +
-    "{ 'firstName': { $regex: ?0, $options: 'i' } }, { 'lastName': { $regex: ?0, $options: 'i' } } ] }")
+  @Query("{ $or: [ { 'login': { $regex: ?0, $options: 'i' } }, { 'email': { $regex: ?0, $options: 'i' } },"
+      + "{ 'firstName': { $regex: ?0, $options: 'i' } }, { 'lastName': { $regex: ?0, $options: 'i' } } ] }")
   Page<User> findByLoginNameEmail(String searchTerm, Pageable pageable);
 
 }
