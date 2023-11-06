@@ -196,6 +196,10 @@ angular.module('metadatamanagementApp').config([
         'form': {
           'username': 'Username',
           'username-placeholder': 'Your username',
+          'firstname': 'First name',
+          'firstname-placeholder': 'Your first name',
+          'lastname': 'Last name',
+          'lastname-placeholder': 'Your last name',
           'newpassword': 'New password',
           'newpassword-placeholder': 'New password',
           'confirmpassword': 'New password confirmation',
