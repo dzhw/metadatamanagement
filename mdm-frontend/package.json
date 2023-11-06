@@ -1,6 +1,6 @@
 {
   "name": "mdm-frontend",
-  "version": "2023.1.2",
+  "version": "2023.2.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
