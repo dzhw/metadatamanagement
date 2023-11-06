@@ -27,9 +27,8 @@
   </md-card-content>
   <md-card-actions
     class="md-card-search-action"
-    ng-if="$ctrl.query && !$ctrl.isAuthenticated()">
+    ng-if="$ctrl.query">
     <a class="md-small md-primary"
-       ng-if="!$ctrl.isAuthenticated()"
        ui-sref="analysisPackageDetail({id: $ctrl.searchResult.masterId.replace('$',''), 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.query})">
       {{'search-management.search-result.analysisPackageSearch' | translate:{searchQuery: $ctrl.query} }}</a>
   </md-card-actions>
