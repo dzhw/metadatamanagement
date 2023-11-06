@@ -59,6 +59,6 @@ public class DataSource implements Serializable {
    * May be empty. Must not contain more than 1 MB characters.
    */
   @Size(max = StringLengths.X_LARGE,
-    message = "analysis-package-management.error.analysis-package.license.size")
+      message = "analysis-package-management.error.analysis-package.license.size")
   private String license;
 }

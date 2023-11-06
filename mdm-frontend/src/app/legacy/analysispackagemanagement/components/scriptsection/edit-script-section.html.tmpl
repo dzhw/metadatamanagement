@@ -286,6 +286,17 @@
           </div>
         </div>
       </div>
+      <!-- LICENSE -->
+      <div style="margin-left: 30px;">
+        <edit-text-section-component bilingual="false"
+          name="license"
+          current-form="$ctrl.currentForm"
+          translation-key-package="analysis-package"
+          translation-key-name="scripts-license.title"
+          max-length="1048576"
+          content="script.license">
+        </edit-text-section-component>
+      </div>
       <md-divider ng-if="!$ctrl.createMode && $ctrl.scripts.length -1 > $index"
                   style="margin: 24px 0 16px 0;"></md-divider>
     </div>

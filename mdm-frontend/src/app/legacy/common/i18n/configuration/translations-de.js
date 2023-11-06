@@ -381,6 +381,7 @@ angular.module('metadatamanagementApp').config([
         'common-dialogs': {
           'yes': 'Ja',
           'no': 'Nein',
+          'close': 'Schließen',
           'confirm-dirty': {
             'title': 'Änderungen verwerfern?',
             'content': 'Sie haben ungespeicherte Änderungen. Wollen Sie diese verwerfen?'
@@ -453,6 +454,9 @@ angular.module('metadatamanagementApp').config([
             'content': 'Bitte bestätigen Sie, dass sie die/den Nutzer:in aktivieren möchten.',
             'yes': 'Aktivieren',
             'no': 'Status beibehalten'
+          },
+          'info': {
+            'license': 'Lizenz'
           }
         },
         'people': {

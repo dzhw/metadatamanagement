@@ -41,9 +41,9 @@ angular.module('metadatamanagementApp').config([
               'access-way': 'Access Way',
               'available-access-ways': 'Available Access Ways',
               'license': {
-                'title': 'Lizenz der Datenquelle',
-                'show-license': 'Lizenz anzeigen',
-                'hide-license': 'Lizenz verbergen'
+                'title': 'License of the Data Source',
+                'show-license': 'Show license',
+                'hide-license': 'Hide license'
               }
             },
             'attachments': {
@@ -51,6 +51,11 @@ angular.module('metadatamanagementApp').config([
               'description': 'Description',
               'language': 'Document Language',
               'file': 'File'
+            },
+            'scripts-license': {
+              'title': 'Script License',
+              'show-license': 'Show license',
+              'hide-license': 'Hide license'
             },
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
@@ -89,7 +94,8 @@ angular.module('metadatamanagementApp').config([
             'title': 'Title',
             'software-package': 'Software Package',
             'language': 'Script Language',
-            'version': 'Version of Software Package',
+            'version': 'Version',
+            'license': 'License',
             'file': 'File',
             'file-must-be-ordered': 'The script is not available via direct download, please order the analysis package via the shopping cart.'
           },
@@ -118,6 +124,7 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',
           'link-tooltip': 'Click to open the link in a new tab.',
+          'license-tooltip': 'Click to display the complete license.',
           'tag-tooltip': 'Click to search for analysis packages with this tag',
           'not-found': 'The {{id}} references to an unknown Analysis Package.',
           'not-found-references': 'The id {{id}} has no References to Analysis Packages.',
@@ -250,6 +257,9 @@ angular.module('metadatamanagementApp').config([
             'script-attachment-metadata': {
               'filename': 'Choose a file which you want to attach to the script.'
             },
+            'scripts-license': {
+              'title': 'Please enter the license information for this script.'
+            },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this analysis package.',
               'en': 'Enter the English name of the sponsor of this analysis package.',
@@ -284,7 +294,9 @@ angular.module('metadatamanagementApp').config([
                 'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
                 'none': 'Not accessible.'
               },
-              'license': 'Please enter the license information for this data package.'
+              'license': {
+                'title': 'Please enter the license information for this data package.'
+              }
             },
             'custom-data-package': {
               'access-way': {
@@ -314,6 +326,9 @@ angular.module('metadatamanagementApp').config([
                 'none': 'Not accessible.',
                 'accessible': 'Lorem ipsum...',
                 'not-accessible': 'Lorem ipsum...'
+              },
+              'license': {
+                'title': 'Please enter the license information for this data source.'
               }
             },
             'analyzed-data-package': {
