@@ -438,6 +438,77 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       });
     };
 
+    var findApprovedUses = function(searchText, filter,
+      ignoreAuthorization) {
+        console.log("fooo");
+      ignoreAuthorization = ignoreAuthorization || false;
+      var query = createQueryObject();
+      var termFilters = createTermFilters(filter);
+      query.size = 0;
+      query.body = {
+        'aggs': {
+          'approvedUses': {
+            "terms": {
+              "field": "approvedUses"
+            },
+            'aggs': {
+              'filtered': {
+                'filter': {
+                  'bool': {
+                    'must': [{
+                      'match': {}
+                    }]
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      query.body.query = {
+        'bool': {
+          'filter': {
+            'term': {
+              'shadow': false
+            }
+          }
+        }
+      };
+
+      console.log("bar");
+      query.body.aggs.approvedUses.aggs.filtered.filter.bool.must[0].match
+        ['approvedUses'] = {
+        'query': searchText || '',
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      if (!ignoreAuthorization) {
+        SearchHelperService.addFilter(query);
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var approvedUses = [];
+        var approvedUsesElement = {};
+        result.aggregations.approvedUses.buckets.forEach(
+          function(bucket) {
+            // approvedUsesElement = {
+            //   'name': bucket.key
+            // };
+            approvedUsesElement = bucket.key;
+            // approvedUsesElement.count = bucket.doc_count;
+            approvedUses.push(approvedUsesElement);
+          });
+        return approvedUses;
+      });
+    };
+
     var findInstitutions = function(searchText, filter, language,
                                     ignoreAuthorization, excludedInstitutions) {
       ignoreAuthorization = ignoreAuthorization || false;
@@ -644,6 +715,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       findDataPackageById: findDataPackageById,
       findStudySeries: findStudySeries,
       findSponsors: findSponsors,
+      findApprovedUses: findApprovedUses,
       findInstitutions: findInstitutions,
       findDataPackageTitles: findDataPackageTitles,
       findInstitutionFilterOptions: findInstitutionFilterOptions,

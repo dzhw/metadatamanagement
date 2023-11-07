@@ -264,6 +264,10 @@ angular.module('metadatamanagementApp').config([
             'not-found': 'No existing study series found!',
             'no-valid-selected': 'No valid study series selected!'
           },
+          'approved-uses-filter': {
+            'not-found': 'No approved uses found!',
+            'no-valid-selected': 'No valid approved use selected!'
+          },
           'sponsor-filter': {
             'not-found': 'No existing sponsor found!',
             'no-valid-selected': 'No valid sponsor selected!'

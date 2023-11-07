@@ -194,7 +194,8 @@
             id: $ctrl.dataPackage.id,
             surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
             title: $ctrl.dataPackage.title,
-            remarksUserService: $ctrl.dataPackage.remarksUserService
+            remarksUserService: $ctrl.dataPackage.remarksUserService,
+            approvedUses: $ctrl.dataPackage.approvedUses
           }
         });
       }

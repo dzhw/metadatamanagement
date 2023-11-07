@@ -29,6 +29,7 @@ angular.module('metadatamanagementApp').config([
             'title': 'Title',
             'dataLanguages': 'Data available in',
             'tags': 'Tags',
+            'approvedUses': 'Approved purposes of use',
             'additional-links': 'Additional Links',
             'attachments': {
               'type': 'Type',
@@ -297,6 +298,8 @@ angular.module('metadatamanagementApp').config([
               'de': 'Enter additional annotations for this data package in German.',
               'en': 'Enter additional annotations for this data package in English.'
             },
+            'approved-uses': 'If available enter the approved uses for this data package.'
+            ,
             'description': {
               'de': 'Enter a description of this data package in German.',
               'en': 'Enter a description of this data package in English.'

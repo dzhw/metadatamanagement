@@ -126,6 +126,13 @@
             </li>
           </ul>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.approvedUses && $ctrl.options.dataPackage.approvedUses.length > 0">
+          <h5>{{'data-package-management.detail.label.approvedUses' | translate }}:</h5>
+          <p
+            class="md-secondary"
+            markdown-to-html="$ctrl.options.dataPackage.approvedUses"
+            ></p>
+        </md-list-item>
       </md-list>
     </md-card-content>
   </div>

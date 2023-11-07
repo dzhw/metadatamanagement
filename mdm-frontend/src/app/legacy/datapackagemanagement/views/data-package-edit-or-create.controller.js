@@ -165,6 +165,7 @@ angular.module('metadatamanagementApp')
           } else {
             CurrentProjectService.setCurrentProject(project);
             ctrl.dataPackage = dataPackage;
+            ctrl.currentApprovedUses = dataPackage.approvedUses;
             ctrl.currentStudySeries = dataPackage.studySeries;
             ctrl.remarksUserService = dataPackage.remarksUserService;
             ctrl.currentSponsors = angular.copy(
@@ -643,6 +644,16 @@ angular.module('metadatamanagementApp')
             studySeriesCache.language = language;
             studySeriesCache.searchResult = studySeries;
             return studySeries;
+          });
+      };
+
+      $scope.searchApprovedUses = function(searchText) {
+        //Search Call to Elasticsearch
+        console.log('CURRENTSPONSORS: ' + JSON.stringify(ctrl.currentSponsors));
+        return DataPackageSearchService.findApprovedUses(searchText, {},
+            true)
+          .then(function(approvedUses) {
+            return approvedUses;
           });
       };
 
