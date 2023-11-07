@@ -217,6 +217,12 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Indexed
   private String remarksUserService;
 
+  /**
+   * Arbitrary text with approved purposes of use for this dataPackage.
+   */
+  @Indexed
+  private String approvedUses;
+
   public DataPackage(DataPackage dataPackage) {
     super();
     BeanUtils.copyProperties(dataPackage, this);
