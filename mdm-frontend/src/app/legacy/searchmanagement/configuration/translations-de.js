@@ -263,6 +263,10 @@ angular.module('metadatamanagementApp').config([
             'not-found': 'Keine vorhandene Studienreihe gefunden!',
             'no-valid-selected': 'Keine gültige Studienreihe ausgewählt!'
           },
+          'approved-uses-filter': {
+            'not-found': 'Keine erlaubten Nutzungszwecke gefunden!',
+            'no-valid-selected': 'Keinen gültigen erlaubten Nuzungszweck ausgewählt!'
+          },
           'sponsor-filter': {
             'not-found': 'Kein vorhandener Sponsor gefunden!',
             'no-valid-selected': 'Kein gültiger Sponsor ausgewählt!'
