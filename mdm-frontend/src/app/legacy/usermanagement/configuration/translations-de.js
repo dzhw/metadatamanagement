@@ -95,16 +95,26 @@ angular.module('metadatamanagementApp').config([
             'validate': {
               'login': {
                 'required': 'Ihr Benutzer:innenname wird benötigt.',
-                'minlength': 'Ihr Benutzer:innenname muss mindestens 1 Zeichen lang sein',
-                'maxlength': 'Ihr Benutzer:innenname darf nicht länger als 50 Zeichen sein',
-                'pattern': 'Ihr Benutzer:innenname darf nur Kleinbuchstaben und Ziffern enthalten'
+                'minlength': 'Ihr Benutzer:innenname muss mindestens 1 Zeichen lang sein.',
+                'maxlength': 'Ihr Benutzer:innenname darf nicht länger als 50 Zeichen sein.',
+                'pattern': 'Ihr Benutzer:innenname darf nur Kleinbuchstaben und Ziffern enthalten.'
+              },
+              'firstname': {
+                'required': 'Ihr Vorname wird benötigt.',
+                'minlength': 'Ihr Vorname muss mindestens 1 Zeichen lang sein.',
+                'maxlength': 'Ihr Vorname darf nicht länger als 50 Zeichen sein.'
+              },
+              'lastname': {
+                'required': 'Ihr Nachname wird benötigt.',
+                'minlength': 'Ihr Nachname muss mindestens 1 Zeichen lang sein.',
+                'maxlength': 'Ihr Nachname darf nicht länger als 50 Zeichen sein.'
               }
             },
-            'success': '<strong>Registrierung gespeichert!</strong> Bitte überprüfen Sie ihre E-Mails für die Bestätigung.',
+            'success': '<strong>Registrierung gespeichert!</strong> Bitte überprüfen Sie Ihre E-Mails für die Bestätigung.',
             'error': {
               'fail': '<strong>Registrierung fehlgeschlagen!</strong> Bitte versuchen Sie es später nochmal.',
               'userexists': '<strong>Benutzer:innenname bereits vergeben!</strong> Bitte wählen Sie einen anderen aus.',
-              'emailexists': '<strong>E-mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus.'
+              'emailexists': '<strong>E-Mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus.'
             }
           }
         },
@@ -117,7 +127,7 @@ angular.module('metadatamanagementApp').config([
             'messages': {
               'info': 'Geben Sie die E-Mail Adresse ein, welche Sie bei der Registrierung verwendet haben.',
               'success': 'Eine E-Mail mit weiteren Instruktionen für das Zurücksetzen des Passworts wurde gesendet.',
-              'notfound': '<strong>Diese E-Mail Adresse existiert nicht!</strong> Überprüfen Sie ihre E-Mail Adresse und versuchen Sie es nochmal.'
+              'notfound': '<strong>Diese E-Mail Adresse existiert nicht!</strong> Überprüfen Sie Ihre E-Mail Adresse und versuchen Sie es nochmal.'
             }
           },
           'finish': {
@@ -146,7 +156,7 @@ angular.module('metadatamanagementApp').config([
           'messages': {
             'error': {
               'fail': '<strong>Es ist ein Fehler aufgetreten!</strong> Die Kontoänderungen konnten nicht gespeichert werden.',
-              'emailexists': '<strong>E-mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus.'
+              'emailexists': '<strong>E-Mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus.'
             },
             'success': '<strong>Kontoänderungen wurden gespeichert!</strong>',
             'validate': {

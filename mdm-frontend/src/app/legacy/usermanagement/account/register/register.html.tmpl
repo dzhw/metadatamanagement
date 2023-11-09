@@ -47,6 +47,36 @@
                         </p>
                     </div>
                 </div>
+                <div class="form-group" ng-class="{'has-error': form.firstname.$dirty && form.firstname.$invalid}">
+                    <label class="control-label" for="firstname" data-translate="global.form.firstname">First name</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="{{'global.form.firstname-placeholder' | translate}}" ng-model="registerAccount.firstName" ng-minlength=1 ng-maxlength=50 required>
+                    <div ng-show="form.firstname.$dirty && form.firstname.$invalid">
+                        <p class="help-block" ng-show="form.firstname.$error.required" data-translate="user-management.register.messages.validate.firstname.required">
+                            Your first name is required.
+                        </p>
+                        <p class="help-block" ng-show="form.firstname.$error.minlength" data-translate="user-management.register.messages.validate.firstname.minlength">
+                            Your first name is required to be at least 1 character.
+                        </p>
+                        <p class="help-block" ng-show="form.firstname.$error.maxlength" data-translate="user-management.register.messages.validate.firstname.maxlength">
+                            Your first name cannot be longer than 50 characters.
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.lastname.$dirty && form.lastname.$invalid}">
+                    <label class="control-label" for="lastname" data-translate="global.form.lastname">Last name</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="{{'global.form.lastname-placeholder' | translate}}" ng-model="registerAccount.lastName" ng-minlength=1 ng-maxlength=50 required>
+                    <div ng-show="form.lastname.$dirty && form.lastname.$invalid">
+                        <p class="help-block" ng-show="form.lastname.$error.required" data-translate="user-management.register.messages.validate.lastname.required">
+                            Your last name is required.
+                        </p>
+                        <p class="help-block" ng-show="form.lastname.$error.minlength" data-translate="user-management.register.messages.validate.lastname.minlength">
+                            Your last name is required to be at least 1 character.
+                        </p>
+                        <p class="help-block" ng-show="form.lastname.$error.maxlength" data-translate="user-management.register.messages.validate.lastname.maxlength">
+                            Your last name cannot be longer than 50 characters.
+                        </p>
+                    </div>
+                </div>
                 <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid}">
                     <label class="control-label" for="email" data-translate="global.form.email">E-mail</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="{{'global.form.email-placeholder' | translate}}" ng-model="registerAccount.email" ng-minlength=5 ng-maxlength=100 required>
