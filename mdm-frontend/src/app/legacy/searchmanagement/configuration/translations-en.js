@@ -197,7 +197,8 @@ angular.module('metadatamanagementApp').config([
             'study-series': 'By which study series do you want to filter?',
             'institution': 'By which institute do you want to filter?',
             'sponsor': 'By which sponsor do you want to filter?',
-            'survey-method': 'By which survey method do you want to filter?'
+            'survey-method': 'By which survey method do you want to filter?',
+            'approved-usage': 'By which approved usage do you want to filter?'
           },
           'input-label': {
             'data_packages': 'Select filters for Study Search...',
@@ -264,9 +265,9 @@ angular.module('metadatamanagementApp').config([
             'not-found': 'No existing study series found!',
             'no-valid-selected': 'No valid study series selected!'
           },
-          'approved-uses-filter': {
-            'not-found': 'No approved uses found!',
-            'no-valid-selected': 'No valid approved use selected!'
+          'approved-usage-filter': {
+            'not-found': 'No approved usage found!',
+            'no-valid-selected': 'No valid approved usage selected!'
           },
           'sponsor-filter': {
             'not-found': 'No existing sponsor found!',

@@ -215,7 +215,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    * Arbitrary text with approved purposes of use for this dataPackage.
    */
   @Indexed
-  private String approvedUses;
+  private String approvedUsage;
 
   public DataPackage(DataPackage dataPackage) {
     super();

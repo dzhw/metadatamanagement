@@ -38,7 +38,8 @@ angular.module('metadatamanagementApp').config([
           'access-ways': 'Zugangswege',
           'unavailable': 'Nicht vorhanden',
           'language': 'Sprache',
-          'year': 'Erscheinungsjahr'
+          'year': 'Erscheinungsjahr',
+          'approved-usage': 'Erlaubter Nutzungszweck'
         },
         'toolbar': {
           'buttons': {

@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config([
             'title': 'Titel',
             'dataLanguages': 'Daten verfügbar auf',
             'tags': 'Schlagwörter',
-            'approvedUses': 'Erlaubte Nutzungszwecke',
+            'approvedUsage': 'Erlaubter Nutzungszweck',
             'additional-links': 'Weiterführende Links',
             'attachments': {
               'type': 'Typ',
@@ -299,7 +299,7 @@ angular.module('metadatamanagementApp').config([
               'de': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Deutsch ein.',
               'en': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Englisch ein.'
             },
-            'approved-uses': 'Geben Sie, falls vorhanden, die erlaubten Nutzungszwecke ein.'
+            'approved-usage': 'Geben Sie, falls vorhanden, den erlaubten Nutzungszweck ein.'
             ,
             'description': {
               'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
