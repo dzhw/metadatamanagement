@@ -29,6 +29,8 @@ angular.module('metadatamanagementApp').config([
         'createdDate': 'Created date',
         'lastModifiedBy': 'Modified by',
         'lastModifiedDate': 'Modified date',
+        'searchUsers': 'Search users',
+        'noUsersFound': 'No users found',
         'error': {
           'authority': {
             'name': {
