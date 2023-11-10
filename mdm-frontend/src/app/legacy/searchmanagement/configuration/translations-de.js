@@ -159,6 +159,7 @@ angular.module('metadatamanagementApp').config([
           'publication-tooltip': 'Klicken, um die Publikation "{{id}}" anzuzeigen'
         },
         'filter': {
+          'approved-usage': 'Erlaubter Nutzungszweck',
           'no-record': 'Keine Daten erfasst.',
           'data-package': 'Datenpaket',
           'analysis-package': 'Analysepaket',
@@ -196,7 +197,8 @@ angular.module('metadatamanagementApp').config([
             'study-series': 'Nach welcher Studienreihe wollen Sie filtern?',
             'institution': 'Nach welchem Institut wollen Sie filtern?',
             'sponsor': 'Nach welchem Sponsor wollen Sie filtern?',
-            'survey-method': 'Nach welcher Erhebungsmethode wollen Sie filtern?'
+            'survey-method': 'Nach welcher Erhebungsmethode wollen Sie filtern?',
+            'approved-usage': 'Nach welchem erlaubten Nutzungszweck wollen Sie filtern?',
           },
           'input-label': {
             'data_packages': 'Filter für die Datenpaketsuche...',
@@ -263,7 +265,7 @@ angular.module('metadatamanagementApp').config([
             'not-found': 'Keine vorhandene Studienreihe gefunden!',
             'no-valid-selected': 'Keine gültige Studienreihe ausgewählt!'
           },
-          'approved-uses-filter': {
+          'approved-usage-filter': {
             'not-found': 'Keine erlaubten Nutzungszwecke gefunden!',
             'no-valid-selected': 'Keinen gültigen erlaubten Nuzungszweck ausgewählt!'
           },

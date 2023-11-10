@@ -165,7 +165,7 @@ angular.module('metadatamanagementApp')
           } else {
             CurrentProjectService.setCurrentProject(project);
             ctrl.dataPackage = dataPackage;
-            ctrl.currentApprovedUses = dataPackage.approvedUses;
+            ctrl.currentApprovedUsage = dataPackage.approvedUsage;
             ctrl.currentStudySeries = dataPackage.studySeries;
             ctrl.remarksUserService = dataPackage.remarksUserService;
             ctrl.currentSponsors = angular.copy(
@@ -647,13 +647,12 @@ angular.module('metadatamanagementApp')
           });
       };
 
-      $scope.searchApprovedUses = function(searchText) {
+      $scope.searchApprovedUsage = function(searchText) {
         //Search Call to Elasticsearch
-        console.log('CURRENTSPONSORS: ' + JSON.stringify(ctrl.currentSponsors));
-        return DataPackageSearchService.findApprovedUses(searchText, {},
+        return DataPackageSearchService.findApprovedUsage(searchText, {},
             true)
-          .then(function(approvedUses) {
-            return approvedUses;
+          .then(function(approvedUsage) {
+            return approvedUsage;
           });
       };
 

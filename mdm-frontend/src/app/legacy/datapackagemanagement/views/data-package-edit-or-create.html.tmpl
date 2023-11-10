@@ -155,26 +155,26 @@
           </div>
           <div layout="column" layout-gt-sm="row">
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
-                             md-floating-label="{{'data-package-management.detail.label.approvedUses' | translate}}"
+                             md-floating-label="{{'data-package-management.detail.label.approvedUsage' | translate}}"
                              md-input-maxlength="512"
-                             md-input-name="approvedUses"
-                             md-is-error="!dataPackageForm.approvedUses.$valid && (dataPackageForm.approvedUses.$dirty dataPackageForm.approvedUses.$touched) "
+                             md-input-name="approvedUsage"
+                             md-is-error="!dataPackageForm.approvedUsage.$valid && (dataPackageForm.approvedUsage.$dirty dataPackageForm.approvedUsage.$touched) "
                              md-item-text="item"
-                             md-items="item in searchApprovedUses(ctrl.dataPackage.approvedUses)"
+                             md-items="item in searchApprovedUsage(ctrl.dataPackage.approvedUsage)"
                              md-match-case-insensitive="true" md-min-length="0"
                              md-no-cache="true" md-require-match="false"
-                             md-search-text="ctrl.dataPackage.approvedUses"
-                             md-select-on-match="true" md-selected-item="ctrl.currentApprovedUses" ng-pattern="/^[^,]*$/"
+                             md-search-text="ctrl.dataPackage.approvedUsage"
+                             md-select-on-match="true" md-selected-item="ctrl.approvedUsage" ng-pattern="/^[^,]*$/"
                              class="ms-flex">
               <md-item-template>
-                <span class="md-title" md-highlight-flags="ig" md-highlight-text="ctrl.dataPackage.approvedUses"
+                <span class="md-title" md-highlight-flags="ig" md-highlight-text="ctrl.dataPackage.approvedUsage"
                       style="font-size: 14px;">{{item}}</span>
               </md-item-template>
               <md-not-found>
-                {{'search-management.filter.approved-uses-filter.not-found' | translate}}
+                {{'search-management.filter.approved-usage-filter.not-found' | translate}}
               </md-not-found>
-              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.approvedUses == null || ctrl.dataPackage.approvedUses == ''">
-                {{'data-package-management.edit.hints.approved-uses' | translate}}
+              <div class="fdz-input-hint" ng-if="ctrl.dataPackage.approvedUsage == null || ctrl.dataPackage.approvedUsage == ''">
+                {{'data-package-management.edit.hints.approved-usage' | translate}}
               </div>
             </md-autocomplete>
             <div flex="50"></div>

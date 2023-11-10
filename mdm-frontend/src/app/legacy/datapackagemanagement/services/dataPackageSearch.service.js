@@ -438,18 +438,17 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       });
     };
 
-    var findApprovedUses = function(searchText, filter,
+    var findApprovedUsage = function(searchText, filter,
       ignoreAuthorization) {
-        console.log("fooo");
       ignoreAuthorization = ignoreAuthorization || false;
       var query = createQueryObject();
       var termFilters = createTermFilters(filter);
       query.size = 0;
       query.body = {
         'aggs': {
-          'approvedUses': {
+          'approvedUsage': {
             "terms": {
-              "field": "approvedUses"
+              "field": "approvedUsage"
             },
             'aggs': {
               'filtered': {
@@ -477,8 +476,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       };
 
       console.log("bar");
-      query.body.aggs.approvedUses.aggs.filtered.filter.bool.must[0].match
-        ['approvedUses'] = {
+      query.body.aggs.approvedUsage.aggs.filtered.filter.bool.must[0].match
+        ['approvedUsage'] = {
         'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
@@ -494,18 +493,20 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       }
 
       return ElasticSearchClient.search(query).then(function(result) {
-        var approvedUses = [];
-        var approvedUsesElement = {};
-        result.aggregations.approvedUses.buckets.forEach(
+        var approvedUsage = [];
+        var approvedUsageElement = {};
+        result.aggregations.approvedUsage.buckets.forEach(
           function(bucket) {
-            // approvedUsesElement = {
+            //HIER EVTL. NOCHMAL ANSETZEN. BRAUCHT MAN DEN COUNT EVTL. FÜR DIE ANZAHL IN KLAMMERN BEIM FILTERN?
+
+            // approvedUsageElement = {
             //   'name': bucket.key
             // };
-            approvedUsesElement = bucket.key;
-            // approvedUsesElement.count = bucket.doc_count;
-            approvedUses.push(approvedUsesElement);
+            approvedUsageElement = bucket.key;
+            // approvedUsageElement.count = bucket.doc_count;
+            approvedUsage.push(approvedUsageElement);
           });
-        return approvedUses;
+        return approvedUsage;
       });
     };
 
@@ -715,7 +716,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       findDataPackageById: findDataPackageById,
       findStudySeries: findStudySeries,
       findSponsors: findSponsors,
-      findApprovedUses: findApprovedUses,
+      findApprovedUsage: findApprovedUsage,
       findInstitutions: findInstitutions,
       findDataPackageTitles: findDataPackageTitles,
       findInstitutionFilterOptions: findInstitutionFilterOptions,
