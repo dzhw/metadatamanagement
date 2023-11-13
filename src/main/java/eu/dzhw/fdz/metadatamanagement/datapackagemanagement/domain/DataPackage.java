@@ -211,6 +211,12 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Valid
   private List<I18nLink> additionalLinks;
 
+  /**
+   * Remarks for User Service config
+   */
+  @Indexed
+  private String remarksUserService;
+
   public DataPackage(DataPackage dataPackage) {
     super();
     BeanUtils.copyProperties(dataPackage, this);

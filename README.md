@@ -70,7 +70,7 @@ If you run the backend on your machine for the first time or you have restored a
 In order for all external services to work on your local machine, you need to set the following variables in `application-local.yml`:
 ```
 dara:
-    endpoint: "http://labs.da-ra.de/dara/"
+    endpoint: "https://labs.da-ra.de/dara/"
     username: {see s3://metadatamanagement-private/sensitive_variables.tf}
     password: {see s3://metadatamanagement-private/sensitive_variables.tf}
 ```

@@ -73,6 +73,9 @@ angular.module('metadatamanagementApp')
       };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+      ctrl.showRemarks = Principal
+        .hasAnyAuthority(['ROLE_PUBLISHER']);
+
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
