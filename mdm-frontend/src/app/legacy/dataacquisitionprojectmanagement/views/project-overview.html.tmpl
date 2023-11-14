@@ -8,6 +8,94 @@
           </h1>
         </md-card-header-text>
       </md-card-header>
+      <!-- Search/Filters -->
+      <div>
+        <md-card class="pa0 db">
+            <md-tabs md-selected="ctrl.selectedTabIndex" md-dynamic-height md-border-bottom>
+                <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged(tab)" ng-disabled="tab.disabled">
+                    <md-tab-label>
+                        <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+                      <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']) && tab.group !== 'concepts'" ng-switch="getSentimentValue(tab.group)">
+                                <span ng-switch-when="0">
+                                    <md-icon md-svg-src="assets/images/icons/clipboard.svg"></md-icon>
+                                </span>
+                                <span ng-switch-when="1">
+                                    <md-icon md-svg-src="assets/images/icons/clipboard-check.svg"></md-icon>
+                                </span>
+                                <span ng-switch-when="2">
+                                    <md-icon md-svg-src="assets/images/icons/clipboard-double-check.svg"></md-icon>
+                                </span>
+                            </span>
+                        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100001">{{tab.title+'-tooltip'|translate}}</md-tooltip>
+                    </md-tab-label>
+                </md-tab>
+            </md-tabs>
+            <!-- Search Bar -->
+            <form role="search" ng-submit="hideMobileKeyboard($event)">
+                <md-autocomplete class="ma8" md-search-text="ctrl.searchText" 
+                  md-selected-item="ctrl.selectedProject" 
+                  md-selected-item-change="ctrl.search()" 
+                  md-items="project in ctrl.searchProjects(ctrl.searchText)" 
+                  md-item-text="project.id"
+                  md-clear-button="!ctrl.projectChooserDisabled" 
+                  md-min-length="0" 
+                  md-delay="250" 
+                  placeholder="{{'global.menu.entities.search-project' | translate}}" 
+                  md-select-on-match="true" 
+                  md-no-cache="true">
+                    <md-item-template>
+                        <span md-highlight-text="ctrl.searchTerm">{{project.id}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: ctrl.searchText}"></span>
+                    </md-not-found>
+                </md-autocomplete>
+                <!-- ASSIGNED GROUP -->
+                <md-input-container flex class="ma8 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
+                  <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
+                  <label>Zugewiesen an</label>
+                  <md-select ng-model="ctrl.selectedAssignedGroup" ng-change="ctrl.search()">
+                      <md-option value="" ng-click="closeSelectMenu()"></md-option>
+                        <md-option value="DATA_PROVIDER" ng-click="closeSelectMenu()">Dataprovider</md-option>
+                        <md-option value="PUBLISHER" ng-click="closeSelectMenu()">Publisher</md-option>
+                  </md-select>
+                </md-input-container>
+                <!-- RELEASE STATE -->
+                <md-input-container flex class="ma8 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
+                  <label>Status</label>
+                  <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.search()">
+                    <md-content class="md-select-menu-ie11-fix">
+                        <md-option value="" ng-click="closeSelectMenu()"></md-option>
+                        <md-option value="released" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Freigegeben</md-option>
+                        <md-option value="un-released" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Nicht freigegeben</md-option>
+                    </md-content>
+                  </md-select>
+                </md-input-container>
+                <!-- Filters Datapackage -->
+                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma8 w-20">
+                  <label>Filter für Datenpakete</label>
+                  <md-select ng-model="ctrl.selectedFiltersDataPackage" multiple ng-change="ctrl.search()">
+                    <md-content class="md-select-menu-ie11-fix">
+                        <md-option value="variables" ng-click="closeSelectMenu()">Variablen</md-option>
+                        <md-option value="questions" ng-click="closeSelectMenu()">Fragen</md-option>
+                        <md-option value="publications" ng-click="closeSelectMenu()">Publikationen</md-option>
+                        <md-option value="concepts" ng-click="loseSelectMenu()">Konzepte</md-option>
+                    </md-content>
+                  </md-select>
+                </md-input-container>
+                <!-- Additional Info -->
+                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma8 w-20">
+                  <label>Zusatzangaben</label>
+                  <md-select ng-model="ctrl.selectedAdditionalInfo" ng-change="ctrl.search()">
+                      <md-option value="" ng-click="closeSelectMenu()"></md-option>
+                      <md-option value="true" ng-click="closeSelectMenu()">mit Zusatzangaben</md-option>
+                      <md-option value="false" ng-click="closeSelectMenu()">ohne Zusatzangaben</md-option>
+                  </md-select>
+                </md-input-container>
+            </form>
+            <!-- <md-progress-linear ng-if="!tabs[searchParams.selectedTabIndex].elasticSearchType" md-mode="indeterminate" ng-disabled="!ctrl.isSearching"></md-progress-linear> -->
+        </md-card>
+      </div>
       <!-- Check if currently any projects are assigned to currently logged in user -->
       <div ng-switch="ctrl.overview.data.length > 0">
         <!-- user with projects -->

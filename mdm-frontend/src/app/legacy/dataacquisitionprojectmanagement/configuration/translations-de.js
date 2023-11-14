@@ -74,7 +74,10 @@ angular.module('metadatamanagementApp').config([
               'exists': 'Es gibt bereits ein Datenaufnahmeprojekt mit diesem Namen.'
             },
             'has-been-released-before': {
-              'not-null': 'Es muss angegeben sein, ob ein des Datenaufnahmeprojekts schon einmal veröffentlicht wurde oder nicht.'
+              'not-null': 'Es muss angegeben sein, ob das Datenaufnahmeprojekts schon einmal veröffentlicht wurde oder nicht.'
+            },
+            'has-user-service-remarks': {
+              'not-null': 'Es muss angegeben sein, ob ein Datenaufnahmeprojekt Hinweise für den Nutzerservice enthält oder nicht.'
             }
           },
           'configuration': {

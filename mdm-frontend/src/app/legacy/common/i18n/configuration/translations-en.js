@@ -155,6 +155,7 @@ angular.module('metadatamanagementApp').config([
             'rdcProject': 'Data Acquisition Projects',
             'current-project': 'Current Data Acquisition Project',
             'select-project': 'Select Project',
+            'search-project': 'Search Project',
             'unknown-project': 'No project found!'
           },
           'search': {

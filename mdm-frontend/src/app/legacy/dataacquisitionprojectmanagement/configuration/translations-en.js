@@ -75,6 +75,9 @@ angular.module('metadatamanagementApp').config([
             },
             'has-been-released-before': {
               'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'
+            },
+            'has-user-service-remarks': {
+              'not-null': 'The information is missing, that a Data Acquisition Project has remarks for the user service.'
             }
           },
           'configuration': {
