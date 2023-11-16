@@ -109,7 +109,10 @@ public class OrderResource {
     Order entity = optional.get();
 
     // do not provide field remarksUserService to users without role PUBLISHER
-    if (!(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+    if (SecurityContextHolder.getContext() == null ||
+        SecurityContextHolder.getContext().getAuthentication() == null ||
+        SecurityContextHolder.getContext().getAuthentication().getAuthorities() == null ||
+        !(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
         .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER)))) {
       for (Product product : entity.getProducts()) {
         if (product != null && product.getDataPackage() != null) {
