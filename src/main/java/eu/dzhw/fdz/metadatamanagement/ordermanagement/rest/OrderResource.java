@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
 import java.time.ZoneId;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -14,7 +13,6 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -101,7 +99,6 @@ public class OrderResource {
    */
   @GetMapping("/api/orders/{id:.+}")
   @Operation(summary = "Get the current status of the order as it is stored in the MDM.")
-  @Secured(value = {AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<Order> findOrder(@PathVariable String id) {
     Optional<Order> optional = orderRepository.findById(id);
 
@@ -111,15 +108,15 @@ public class OrderResource {
 
     Order entity = optional.get();
 
-    Collection<?> g = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-    boolean b = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-      .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER));
     // do not provide field remarksUserService to users without role PUBLISHER
     if (!(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-      .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER)))) {
+        .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER)))) {
       for (Product product : entity.getProducts()) {
         if (product != null && product.getDataPackage() != null) {
           product.getDataPackage().setRemarksUserService(null);
+        }
+        if (product != null && product.getStudy() != null) {
+          product.getStudy().setRemarksUserService(null);
         }
       }
     }
@@ -128,7 +125,7 @@ public class OrderResource {
         .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
         .eTag(entity.getVersion().toString())
         .lastModified(
-            entity.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
+          entity.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
         .body(entity);
   }
 

@@ -212,7 +212,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   private List<I18nLink> additionalLinks;
 
   /**
-   * Remarks for User Service config
+   * Remarks for the User Service configuration.
    */
   @Indexed
   private String remarksUserService;
