@@ -57,5 +57,7 @@ jobs:
     - name: Build commit hash
       run: |
         export BUILD_COMMIT_HASH=$(git rev-parse HEAD)
+        pwd
+        ls
         echo $BUILD_COMMIT_HASH
         sed -i "s/\"buildHash\": \".*\"/\"buildHash\": \"$BUILD_COMMIT_HASH\"/" mdm-frontend/src/assets/config.json
