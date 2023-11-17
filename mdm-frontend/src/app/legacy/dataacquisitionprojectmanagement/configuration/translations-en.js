@@ -48,7 +48,7 @@ angular.module('metadatamanagementApp').config([
             'released-successfully': 'The projects metadata has been sent to da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
             'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No metadata has been sent to da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" can now be edited by assigned Publishers and Data Providers.',
-            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. An error occured during sending metadata to da|ra.',
+            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. The da|ra service for registering the doi is currently not available. Contact the administrator and try again later.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
             'unrelease': 'Do you really want to unrelease the project "{{ id }}" and edit its metadata?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',

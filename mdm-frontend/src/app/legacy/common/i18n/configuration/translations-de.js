@@ -454,7 +454,7 @@ angular.module('metadatamanagementApp').config([
            },
            'confirm-activate-user': {
             'title': 'Nutzer:in aktivieren?',
-            'content': 'Bitte bestätigen Sie, dass sie die/den Nutzer:in aktivieren möchten.',
+            'content': 'Bitte bestätigen Sie, dass Sie die/den Nutzer:in aktivieren möchten.',
             'yes': 'Aktivieren',
             'no': 'Status beibehalten'
           }
