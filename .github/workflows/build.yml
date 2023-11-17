@@ -54,3 +54,7 @@ jobs:
         status: ${{ job.status }}
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    - name: Build commit hash
+      run: |
+        export BUILD_COMMIT_HASH=$(git rev-parse HEAD)
+        sed -i "s/\"buildHash\": \".*\"/\"buildHash\": \"$BUILD_COMMIT_HASH\"/" ../../mdm-frontend/src/assets/config.json

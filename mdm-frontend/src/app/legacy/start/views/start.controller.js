@@ -7,6 +7,17 @@
     PageMetadataService.setPageTitle('start.data-search');
     PageMetadataService.setPageDescription('start.fdz-text');
 
+    // shpw version and build hash in console
+    fetch('./assets/config.json')
+      .then(response => response.json())
+      .then(data => {
+        console.log("VERSION", data.version); 
+        console.log("BUILD HASH", data.buildHash); 
+      })
+      .catch(error => {
+        console.error('There was a problem fetching the config json:', error);
+    });
+
     if (Principal.isAuthenticated()) {
       $state.go('search');
       return;
