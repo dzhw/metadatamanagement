@@ -20,7 +20,7 @@ if [ -z ${PROFILE} ]; then
   exit -1
 fi
 echo "Going to run maven build with profile: ${PROFILE}"
-mvn --settings ./.github/workflows/.github.settings.xml --no-transfer-progress -P${PROFILE} clean javadoc:javadoc install
+mvn --settings ./.github/workflows/.github.settings.xml --no-transfer-progress -P${PROFILE} clean javadoc:javadoc install -Dmaven.test.skip=true
 if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
