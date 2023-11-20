@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * This view implements the project overview table. The project
+ * overview is accessible for authenticated users with roles PUBLISHER or
+ * DATAPROVIDER. PUBLISHERs will get insights into
+ * all available data acquisition projects. DATAPROVIDERs can only see
+ * their assigned projects.
+ */
 angular.module('metadatamanagementApp')
   .controller('ProjectOverviewController', [
   '$stateParams',
@@ -7,126 +14,418 @@ angular.module('metadatamanagementApp')
   '$scope',
   '$mdSelect',
   'BreadcrumbService',
-  'PageMetadataService',
-  'DataAcquisitionProjectRepositoryClient', 'SearchDao', '$timeout', function($stateParams, $state, $scope, $mdSelect,
+  'PageMetadataService', 
+  'ElasticSearchClient', 'clientId', 'Principal', function($stateParams, $state, $scope, $mdSelect,
     BreadcrumbService, PageMetadataService,
-    DataAcquisitionProjectRepositoryClient, SearchDao, $timeout) {
+    ElasticSearchClient, clientId, Principal) {
     var ctrl = this;
-    var limit = $stateParams.limit ? $stateParams.limit : 10;
+    var stateParamsLimit = $stateParams.limit ? $stateParams.limit : 10;
 
     ctrl.pagination = {
       selectedPageNumber: $stateParams.page ? $stateParams.page : 1,
       totalItems: null,
-      itemsPerPage: 100
+      itemsPerPage: 10
     };
 
-    var fetchData = function(page) {
-      console.log("fetching ...")
-      DataAcquisitionProjectRepositoryClient
-      .findByIdLikeOrderByIdAsc('', page, limit).then(function(result) {
-        ctrl.overview = {};
-        ctrl.overview.data = result.data.dataAcquisitionProjects;
-        ctrl.pagination.totalItems = result.data.page.totalElements;
-        ctrl.pagination.itemsPerPage = result.data.page.size;
-        ctrl.pagination.selectedPageNumber = result.data.page.number + 1;
-      });
-    };
+    /**
+     * Method for searching data acquisition projects with selected filters
+     * @param {number} pageNumber current page index
+     * @param {number} limit maximum entries per page
+     */
+    var searchWithFilter = function(pageNumber, pageSize) {
+      var query = {};
+      query.preference = clientId;
+      query.index = "data_acquisition_projects";
+      query.body = {};
+      query.body.track_total_hits = true;
+      query.body._source = ['id', 'release', 'configuration', 'assigneeGroup'];
+      query.body.sort = [
+        "_score",
+        {
+            "id": {
+                "order": "asc"
+            }
+        }
+      ]
+      query.body.query = {
+        "bool": {
+          "must": [
+              {
+                  "match_all": {}
+              }
+          ],
+          "filter": [
+              {
+                  "bool": {
+                      "must": [
+                          {
+                              "term": {
+                                  "shadow": false
+                              }
+                          }
+                      ]
+                  }
+              }
+          ]
+        }
+      }
+      //define from
+      console.log(pageNumber, pageSize)
+      query.body.from = (pageNumber) * pageSize;
+      //define size
+      query.body.size = pageSize;
+
+      // dataproviders should only see assigned projects
+      if (Principal.isDataprovider()) {
+        var loginName = Principal.loginName();
+        var filter = {
+          "bool": {
+              "must": [
+                  {
+                    "term": {
+                      "configuration.dataProviders": loginName
+                    }
+                  }
+              ]
+          }
+        }
+        query.body.query.bool.filter.push(filter);
+      }
+
+      // tab filter
+      if (ctrl.currentTab && ctrl.currentTab.group) {
+        var requirement = "configuration.requirements.is" + ctrl.currentTab.group.charAt(0).toUpperCase() + ctrl.currentTab.group.slice(1)  + "Required"
+        var filter = {
+          "bool": {
+              "must": [
+                  {
+                      "term": {
+                          [requirement]: true
+                      }
+                  }
+              ]
+          }
+        }
+        query.body.query.bool.filter.push(filter);
+      }
+
+      // Project filter
+      if (ctrl.selectedProject) {
+        var filter = {
+          "bool": {
+              "must": [
+                  {
+                      "term": {
+                          "id": ctrl.selectedProject.id
+                      }
+                  }
+              ]
+          }
+        }
+        query.body.query.bool.filter.push(filter);
+      }
+
+      // zugewiesen an
+      if (ctrl.selectedAssignedGroup) {
+        var filter = {
+          "bool": {
+              "must": [
+                  {
+                    "term": {
+                        "assigneeGroup": ctrl.selectedAssignedGroup
+                    }
+                  }
+              ]
+          }
+        }
+        query.body.query.bool.filter.push(filter);
+      }
+
+      // Release status
+      if (ctrl.selectedReleaseState) {
+        var filterReleased = {
+          'bool': {
+              'must': [
+                  {
+                    'exists': {
+                      'field': 'release'
+                    }
+                  }
+              ]
+          }
+        }
+        var filterUnreleased = {
+          "bool": {
+              "must_not": [
+                {
+                  'exists': {
+                    'field': 'release'
+                  }
+                }
+              ]
+          }
+        }
+        ctrl.selectedReleaseState === "true" ? query.body.query.bool.filter.push(filterReleased) : query.body.query.bool.filter.push(filterUnreleased);
+      }
+
+      // Data package component filters
+      if (ctrl.selectedFiltersDataPackage && ctrl.selectedFiltersDataPackage.length > 0) {
+        for (var selectedFilter of ctrl.selectedFiltersDataPackage) {
+          var fieldName = 'configuration.requirements.is' + selectedFilter + 'Required';
+          var filter = {
+            'bool': {
+                'must': [
+                    {
+                      'term': {
+                        [fieldName]: true
+                      }
+                    }
+                ]
+            }
+          }
+          query.body.query.bool.filter.push(filter);
+        }
+      }
+
+      // additional user service remarks
+      if (ctrl.selectedAdditionalInfo) {
+        var filter = {
+          "bool": {
+              "must": [
+                  {
+                    "term": {
+                        "hasUserServiceRemarks": ctrl.selectedAdditionalInfo === "true" ? true : false
+                    }
+                  }
+              ]
+          }
+        }
+        query.body.query.bool.filter.push(filter);
+      }
+
+      return ElasticSearchClient.search(query);
+    }
+
+    /**
+     * Method to transform data from Elasticsearch into usable result entries
+     */
+    var readESData = function() {
+      var resultList = []
+      for (var entry of ctrl.esData) {
+        resultList.push(entry._source);
+      }
+      ctrl.overview = {};
+      ctrl.overview.data = resultList;
+    }
+
+    /**
+     * Method for querying available projects. Query is sensitive to currently selected
+     * tab and active user.
+     * @param {string} searchTerm search term the projects are searched by
+     * @returns a list of available projects
+     */
+    var searchProjectsById = function(searchTerm) {
+      var query = {};
+      query.preference = clientId;
+      query.index = "data_acquisition_projects";
+      query.body = {};
+      query.body.track_total_hits = true;
+      query.body._source = ['id', 'release', 'configuration', 'assigneeGroup'];
+      query.body.sort = [
+        "_score",
+        {
+            "id": {
+                "order": "asc"
+            }
+        }
+      ];
+      query.body.query = {
+        "bool": {
+          "must": [
+              {
+                  "match": {
+                    "id.ngrams": {
+                      "query": searchTerm || '',
+                      "operator": "AND",
+                      "minimum_should_match": "100%",
+                      "zero_terms_query": "ALL"
+                  }
+                  }
+              }
+          ],
+          "filter": [
+              {
+                  "bool": {
+                      "must": [
+                          {
+                              "term": {
+                                  "shadow": false
+                              }
+                          }
+                      ]
+                  }
+              }
+          ]
+        }
+      }
+
+      // dataproviders should only see assigned projects
+      if (Principal.isDataprovider()) {
+        var loginName = Principal.loginName();
+        var filter = {
+          "bool": {
+              "must": [
+                  {
+                    "term": {
+                      "configuration.dataProviders": loginName
+                    }
+                  }
+              ]
+          }
+        }
+        query.body.query.bool.filter.push(filter);
+      }
+
+      // only projects belonging to the currently selected tab are included
+      if (ctrl.currentTab && ctrl.currentTab.group) {
+        var requirement = "configuration.requirements.is" + ctrl.currentTab.group.charAt(0).toUpperCase() + ctrl.currentTab.group.slice(1)  + "Required"
+        var filter = {
+          "bool": {
+              "must": [
+                  {
+                      "term": {
+                          [requirement]: true
+                      }
+                  }
+              ]
+          }
+        }
+        query.body.query.bool.filter.push(filter);
+      }
+      //define from
+      query.body.from = 0;
+      //define size
+      query.body.size = 10000;
+      return ElasticSearchClient.search(query);
+    }
+
+    
 
     var init = function() {
+      ctrl.userHasProjects = false;
       PageMetadataService.setPageTitle('data-acquisition-project-' +
         'management.project-overview.header');
       BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
           name});
       var page = $stateParams.page ? $stateParams.page - 1 : 0;
-      fetchData(page);
+      
+      searchWithFilter(page, stateParamsLimit).then(function(result) {
+        ctrl.esData = result.hits.hits;
+        ctrl.totalHits = result.hits.total.value;
+        ctrl.pagination.selectedPageNumber = page;
+        ctrl.pagination.totalItems = result.hits.total.value;
+        ctrl.pagination.itemsPerPage = stateParamsLimit;
+        readESData();
+        if (ctrl.overview.data.length > 0) {
+          ctrl.userHasProjects = true;
+        }
+      });
+      
+      ctrl.currentTab = tabs[0];
       ctrl.selectedAssignedGroup = null;
       ctrl.selectedReleaseState = null;
       ctrl.selectedFiltersDataPackage = null;
       ctrl.selectedAdditionalInfo = null;
     };
 
+    /**
+     * Method for handling page changes. Every time a page is changed Elasticsearch is queried
+     * for the results of the current page.
+     */
     ctrl.onPageChange = function() {
-      console.log("Page change")
-      fetchData(ctrl.pagination.selectedPageNumber - 1);
+      searchWithFilter(ctrl.pagination.selectedPageNumber - 1, stateParamsLimit).then(function(result) {
+        ctrl.esData = result.hits.hits;
+        ctrl.totalHits = result.hits.total.value;
+        ctrl.pagination.totalItems = result.hits.total.value;
+        ctrl.pagination.itemsPerPage = stateParamsLimit;
+        readESData();
+      });
     };
 
+    /**
+     * Method for handling tab changes. Every time the tab is switched Elasticsearch is queried
+     * for selected tab. Previously active filters are reset.
+     * @param {*} tab the configuration object of the selected tab
+     */
+    ctrl.onSelectedTabChanged = function(tab) {
+      ctrl.currentTab = tab;
+      $scope.tabs = tabs;
+      // reset filters
+      ctrl.selectedProject = null;
+      ctrl.selectedAssignedGroup = null;
+      ctrl.selectedReleaseState = null;
+      ctrl.selectedFiltersDataPackage = null;
+      ctrl.selectedAdditionalInfo = null;
+      searchWithFilter(0, stateParamsLimit).then(function(result) {
+        ctrl.esData = result.hits.hits;
+        ctrl.totalHits = result.hits.total.value;
+        ctrl.pagination.selectedPageNumber = $stateParams.page ? $stateParams.page - 1 : 0;
+        ctrl.pagination.totalItems = result.hits.total.value;
+        ctrl.pagination.itemsPerPage = stateParamsLimit;
+        readESData();
+      });
+    };
+
+    /**
+     * Opens the project cockpit of the seleted project.
+     * @param {*} projectId 
+     */
     ctrl.openProjectCockpit = function(projectId) {
       $state.go('project-cockpit', {id: projectId});
     };
 
+    /**
+     * Closes the select menu.
+     */
     $scope.closeSelectMenu = function() {
       $mdSelect.hide();
     };
 
-    $scope.selectedAssignedGroup = null;
-
     /**
-     * Mehtod for handling changes of assignee filter
+     * Method for filtering the list of available data acquisition projects 
+     * according to the filter set. Available filters are:
+     *    - project id
+     *    - project type (all, data package or analysis package)
+     *    - assigned user group
+     *    - release state
+     *    - if variables, questions, publications an/or concepts are required (data packages only)
+     *    - if additional remarks for the user service are given (data packages only)
+     * Filtering is performed on cached data to avoid repeatedly querying the database.
      */
-    ctrl.onAssignedGroupFilterChange = function() {
-      console.log("CHANGE", ctrl.selectedAssignedGroup);
-      console.log(ctrl.overview.data)
-      ctrl.search();
-    }
-
-    // tolle Suchfunktion
     ctrl.search = function() {
-      DataAcquisitionProjectRepositoryClient
-        .findByIdLikeOrderByIdAsc("").then(function(result) {
-        var projectCache = result.data.dataAcquisitionProjects;
-        // todo- CACHE
-        projectCache = filterPackageType(projectCache);
-
-        if (ctrl.selectedProject) {
-          projectCache = [ctrl.selectedProject];
-        }
- 
-        if (ctrl.selectedAssignedGroup) {
-          projectCache = projectCache.filter(project => project.assigneeGroup === ctrl.selectedAssignedGroup);
-        }
-
-        if (ctrl.selectedReleaseState) {
-          projectCache = ctrl.selectedReleaseState === "released" ?
-            projectCache.filter((project) => project.release != undefined) :
-            projectCache = projectCache.filter((project) => project.release === undefined);
-        }
-
-        if (ctrl.selectedFiltersDataPackage.length > 0) {
-          console.log(ctrl.selectedFiltersDataPackage)
-          for (filter of ctrl.selectedFiltersDataPackage) {
-            console.log(filter)
-              projectCache = projectCache.filter(project => project.configuration
-              .requirements[filter + 'Required'] === true)
-          }
-        }
-
-        if (ctrl.selectedAdditionalInfo) {
-          // todo
-          projectCache = ctrl.selectedAdditionalInfo === "true" ?
-            projectCache.filter((project) => project.hasAdditionalInfo === true) :
-            projectCache.filter((project) => project.hasAdditionalInfo === false);
-        }
-
-        
-        
-        ctrl.overview.data = projectCache;
-      }) 
-    }
-
-    //Query for searching in project list
-    ctrl.searchProjects = function(query) {
-      return DataAcquisitionProjectRepositoryClient
-        .findByIdLikeOrderByIdAsc(query).then(function(result) {
-          return filterPackageType(result.data.dataAcquisitionProjects);
-        });
+      searchWithFilter(0, stateParamsLimit).then(function(result) {
+        ctrl.esData = result.hits.hits;
+        ctrl.totalHits = result.hits.total.value;
+        ctrl.pagination.selectedPageNumber = $stateParams.page ? $stateParams.page - 1 : 0;
+        ctrl.pagination.totalItems = result.hits.total.value;
+        ctrl.pagination.itemsPerPage = stateParamsLimit;
+        readESData();
+      });
     };
 
-    //Update the state for the current project
-    ctrl.onSelectedProjectChanged = function(project) {
-      ctrl.search();
+    // Query for collecting available data acquisition projects
+    ctrl.searchProjects = function(searchTerm) {
+      return searchProjectsById(searchTerm).then(function(result) {
+        var projectList = [];
+        for (var res of result.hits.hits) {
+          projectList.push(res._source)
+        }
+        console.log(projectList)
+        return projectList;
+      });
     };
 
-    //Information for the different tabs
+    // Information for the different tabs
     var tabs = [{
       title: 'search-management.tabs.all',
       inputLabel: 'search-management.input-label.all',
@@ -162,35 +461,8 @@ angular.module('metadatamanagementApp')
       group: 'analysisPackages',
       sortOptions: ['relevance', 'alphabetically', 'first-release-date']
     }];
-    $scope.tabs = tabs;
 
-    $scope.onSelectedTabChanged = function(tab) {
-      ctrl.currentTab = tab;
-      $scope.tabs = tabs;
-      // reset filters
-      ctrl.searchTerm = null;
-      ctrl.selectedAssignedGroup = null;
-      ctrl.selectedReleaseState = null;
-      ctrl.selectedFiltersDataPackage = null;
-      ctrl.selectedAdditionalInfo = null;
-      DataAcquisitionProjectRepositoryClient
-        .findByIdLikeOrderByIdAsc("").then(function(result) {
-          ctrl.overview.data = filterPackageType(result.data.dataAcquisitionProjects);
-      });
-    };
-
-    /**
-     * Method to filter relevant projects according to selected tab
-     */
-    var filterPackageType = function(results) {
-      if (ctrl.currentTab.group === "dataPackages") {
-        return results.filter(project => project.configuration.requirements.dataPackagesRequired === true);
-      } else if (ctrl.currentTab.group === "analysisPackages") {
-        return results.filter(project => project.configuration.requirements.analysisPackagesRequired === true);
-      } else {
-        return results;
-      }
-    }
+    $scope.tabs = tabs;    
 
     init();
   }]);

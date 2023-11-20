@@ -12,7 +12,7 @@
       <div>
         <md-card class="pa0 db">
             <md-tabs md-selected="ctrl.selectedTabIndex" md-dynamic-height md-border-bottom>
-                <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged(tab)" ng-disabled="tab.disabled">
+                <md-tab ng-repeat="tab in tabs" md-on-select="ctrl.onSelectedTabChanged(tab)" ng-disabled="tab.disabled">
                     <md-tab-label>
                         <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
                       <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']) && tab.group !== 'concepts'" ng-switch="getSentimentValue(tab.group)">
@@ -66,8 +66,8 @@
                   <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.search()">
                     <md-content class="md-select-menu-ie11-fix">
                         <md-option value="" ng-click="closeSelectMenu()"></md-option>
-                        <md-option value="released" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Freigegeben</md-option>
-                        <md-option value="un-released" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Nicht freigegeben</md-option>
+                        <md-option value="true" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Freigegeben</md-option>
+                        <md-option value="false" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Nicht freigegeben</md-option>
                     </md-content>
                   </md-select>
                 </md-input-container>
@@ -76,10 +76,10 @@
                   <label>Filter für Datenpakete</label>
                   <md-select ng-model="ctrl.selectedFiltersDataPackage" multiple ng-change="ctrl.search()">
                     <md-content class="md-select-menu-ie11-fix">
-                        <md-option value="variables" ng-click="closeSelectMenu()">Variablen</md-option>
-                        <md-option value="questions" ng-click="closeSelectMenu()">Fragen</md-option>
-                        <md-option value="publications" ng-click="closeSelectMenu()">Publikationen</md-option>
-                        <md-option value="concepts" ng-click="loseSelectMenu()">Konzepte</md-option>
+                        <md-option value="Variables">Variablen</md-option>
+                        <md-option value="Questions">Fragen</md-option>
+                        <md-option value="Publications">Publikationen</md-option>
+                        <md-option value="Concepts">Konzepte</md-option>
                     </md-content>
                   </md-select>
                 </md-input-container>
@@ -97,109 +97,112 @@
         </md-card>
       </div>
       <!-- Check if currently any projects are assigned to currently logged in user -->
-      <div ng-switch="ctrl.overview.data.length > 0">
+      <div ng-switch="ctrl.userHasProjects">
         <!-- user with projects -->
         <md-card-content ng-switch-when="true" card="pa0">
-          <table class="table-striped table-hover" fdz-table>
-            <thead class="">
-            <tr>
-              <th>{{'data-acquisition-project-management.project-overview.table.project-name' | translate}}</th>
-              <th>{{'data-acquisition-project-management.project-overview.table.release-version' | translate}}</th>
-              <th>{{'data-acquisition-project-management.project-overview.table.assigned-group' | translate}}</th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.data-package-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.analysis-package-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.surveys-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.instruments-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.data-sets-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.questions-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.variables-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.publications-status' | translate}}&nbsp;
-              </th>
-              <th class="fdz-project-status-overview-metadata-status-table-cell">
-                {{'data-acquisition-project-management.project-overview.table.concepts-status' | translate}}&nbsp;
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-click="ctrl.openProjectCockpit(dataAcquisitionProject.id)"
-                ng-repeat="dataAcquisitionProject in ctrl.overview.data">
-              <td class="fdz-table-data-vertical-middle">
-                {{::dataAcquisitionProject.id}}
-                <md-tooltip md-autohide="true" md-direction="top"
-                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'data-acquisition-project-management.project-overview.table.tooltip'| translate}}
-                </md-tooltip>
-              </td>
-              <td class="fdz-table-data-vertical-middle">{{::dataAcquisitionProject.release.version ?
-                dataAcquisitionProject.release.version :
-                ('data-acquisition-project-management.project-overview.table.unreleased' | translate)}}&nbsp;
-              </td>
-              <td class="fdz-table-data-vertical-middle" ng-switch="dataAcquisitionProject.assigneeGroup">
-                <span ng-switch-when="PUBLISHER">{{'data-acquisition-project-management.project-overview.table.publisher' | translate}}</span>
-                <span ng-switch-when="DATA_PROVIDER">{{'data-acquisition-project-management.project-overview.table.data-provider' | translate}}</span>
-                <span ng-switch-default>&nbsp;</span>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'dataPackages'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'analysisPackages'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'surveys'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'instruments'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'dataSets'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'questions'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'variables'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'publications'"></metadata-status>
-              </td>
-              <td class="fdz-table-data-vertical-middle">
-                <metadata-status project="dataAcquisitionProject" type="'concepts'"></metadata-status>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <div layout="column" layout-align="start center">
-            <ul boundary-link-numbers="true"
-                class="pagination-sm"
-                items-per-page="ctrl.pagination.itemsPerPage"
-                next-text="{{'global.pagination.next'|translate}}"
-                ng-change="ctrl.onPageChange()"
-                ng-model="ctrl.pagination.selectedPageNumber"
-                previous-text="{{'global.pagination.previous'|translate}}"
-                template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl"
-                total-items="ctrl.pagination.totalItems"
-                uib-pagination>
-            </ul>
+          <div ng-switch="ctrl.overview.data.length > 0">
+            <table ng-switch-when="true" class="table-striped table-hover" fdz-table>
+              <thead class="">
+              <tr>
+                <th>{{'data-acquisition-project-management.project-overview.table.project-name' | translate}}</th>
+                <th>{{'data-acquisition-project-management.project-overview.table.release-version' | translate}}</th>
+                <th>{{'data-acquisition-project-management.project-overview.table.assigned-group' | translate}}</th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.data-package-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.analysis-package-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.surveys-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.instruments-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.data-sets-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.questions-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.variables-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.publications-status' | translate}}&nbsp;
+                </th>
+                <th class="fdz-project-status-overview-metadata-status-table-cell">
+                  {{'data-acquisition-project-management.project-overview.table.concepts-status' | translate}}&nbsp;
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-click="ctrl.openProjectCockpit(dataAcquisitionProject.id)"
+                  ng-repeat="dataAcquisitionProject in ctrl.overview.data">
+                <td class="fdz-table-data-vertical-middle">
+                  {{::dataAcquisitionProject.id}}
+                  <md-tooltip md-autohide="true" md-direction="top"
+                              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{'data-acquisition-project-management.project-overview.table.tooltip'| translate}}
+                  </md-tooltip>
+                </td>
+                <td class="fdz-table-data-vertical-middle">{{::dataAcquisitionProject.release.version ?
+                  dataAcquisitionProject.release.version :
+                  ('data-acquisition-project-management.project-overview.table.unreleased' | translate)}}&nbsp;
+                </td>
+                <td class="fdz-table-data-vertical-middle" ng-switch="dataAcquisitionProject.assigneeGroup">
+                  <span ng-switch-when="PUBLISHER">{{'data-acquisition-project-management.project-overview.table.publisher' | translate}}</span>
+                  <span ng-switch-when="DATA_PROVIDER">{{'data-acquisition-project-management.project-overview.table.data-provider' | translate}}</span>
+                  <span ng-switch-default>&nbsp;</span>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'DataPackages'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'AnalysisPackages'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'Surveys'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'Instruments'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'DataSets'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'Questions'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'Variables'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'Publications'"></metadata-status>
+                </td>
+                <td class="fdz-table-data-vertical-middle">
+                  <metadata-status project="dataAcquisitionProject" type="'Concepts'"></metadata-status>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <div ng-switch-when="true" layout="column" layout-align="start center">
+              <ul boundary-link-numbers="true"
+                  class="pagination-sm"
+                  items-per-page="ctrl.pagination.itemsPerPage"
+                  next-text="{{'global.pagination.next'|translate}}"
+                  ng-change="ctrl.onPageChange()"
+                  ng-model="ctrl.pagination.selectedPageNumber"
+                  previous-text="{{'global.pagination.previous'|translate}}"
+                  template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl"
+                  total-items="ctrl.pagination.totalItems"
+                  uib-pagination>
+              </ul>
+            </div>
+            <span ng-switch-when="false" data-translate="data-acquisition-project-management.project-overview.no-search-results-msg"></span>
           </div>
         </md-card-content>
         <div ng-switch-when="false">
-          <!-- user without projects -->
+          <!-- user without projects or just no search results? -->
           <span data-translate="data-acquisition-project-management.project-overview.no-project-msg"></span>
         </div>
       </div>

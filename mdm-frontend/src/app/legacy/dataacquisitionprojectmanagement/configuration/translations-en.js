@@ -253,7 +253,8 @@ angular.module('metadatamanagementApp').config([
             'next': 'Click to show next projects',
             'current': 'Click to show projects on page {{number}}'
           },
-          'no-project-msg': 'There is no project assigned to your account'
+          'no-project-msg': 'There is no project assigned to your account',
+          'no-search-results-msg': 'No results'
         },
         'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). Choose the current version ({{newVersion}}) in the side menu.</a>',
         'version-not-found-alert': 'Your link refers to a version ({{oldVersion}}) of this page which does not exist. This is the current version ({{newVersion}}).',
