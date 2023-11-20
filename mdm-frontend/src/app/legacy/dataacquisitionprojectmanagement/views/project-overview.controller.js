@@ -20,6 +20,46 @@ angular.module('metadatamanagementApp')
     ElasticSearchClient, clientId, Principal) {
     var ctrl = this;
     var stateParamsLimit = $stateParams.limit ? $stateParams.limit : 10;
+    ctrl.userHasProjects = false;
+
+    // Configuration for tabs
+    var tabs = [{
+      title: 'search-management.tabs.all',
+      inputLabel: 'search-management.input-label.all',
+      elasticSearchType: undefined,
+      count: null,
+      acceptedFileUploadType: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: false,
+      noResultsText: 'search-management.no-results-text.all',
+      sortOptions: ['relevance']
+    }, {
+      title: 'search-management.tabs.data_packages',
+      inputLabel: 'search-management.input-label.data-packages',
+      elasticSearchType: 'data_packages',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.data-packages',
+      group: 'dataPackages',
+      sortOptions: ['relevance', 'alphabetically', 'survey-period',
+        'first-release-date']
+    }, {
+      title: 'search-management.tabs.analysis_packages',
+      inputLabel: 'search-management.input-label.analysis-packages',
+      elasticSearchType: 'analysis_packages',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.analysis-packages',
+      group: 'analysisPackages',
+      sortOptions: ['relevance', 'alphabetically', 'first-release-date']
+    }];
+    $scope.tabs = tabs; 
+    ctrl.currentTab = tabs[0];
 
     ctrl.pagination = {
       selectedPageNumber: $stateParams.page ? $stateParams.page : 1,
@@ -308,15 +348,18 @@ angular.module('metadatamanagementApp')
       return ElasticSearchClient.search(query);
     }
 
-    
-
     var init = function() {
-      ctrl.userHasProjects = false;
       PageMetadataService.setPageTitle('data-acquisition-project-' +
         'management.project-overview.header');
       BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
           name});
       var page = $stateParams.page ? $stateParams.page - 1 : 0;
+
+      ctrl.currentTab = tabs[0];
+      ctrl.selectedAssignedGroup = null;
+      ctrl.selectedReleaseState = null;
+      ctrl.selectedFiltersDataPackage = null;
+      ctrl.selectedAdditionalInfo = null;
       
       searchWithFilter(page, stateParamsLimit).then(function(result) {
         ctrl.esData = result.hits.hits;
@@ -328,13 +371,10 @@ angular.module('metadatamanagementApp')
         if (ctrl.overview.data.length > 0) {
           ctrl.userHasProjects = true;
         }
+        ctrl.currentTab.count = ctrl.pagination.totalItems;
       });
       
-      ctrl.currentTab = tabs[0];
-      ctrl.selectedAssignedGroup = null;
-      ctrl.selectedReleaseState = null;
-      ctrl.selectedFiltersDataPackage = null;
-      ctrl.selectedAdditionalInfo = null;
+      
     };
 
     /**
@@ -347,7 +387,9 @@ angular.module('metadatamanagementApp')
         ctrl.totalHits = result.hits.total.value;
         ctrl.pagination.totalItems = result.hits.total.value;
         ctrl.pagination.itemsPerPage = stateParamsLimit;
+        ctrl.currentTab.count = ctrl.pagination.totalItems;
         readESData();
+        
       });
     };
 
@@ -357,6 +399,7 @@ angular.module('metadatamanagementApp')
      * @param {*} tab the configuration object of the selected tab
      */
     ctrl.onSelectedTabChanged = function(tab) {
+      ctrl.currentTab.count = null;
       ctrl.currentTab = tab;
       $scope.tabs = tabs;
       // reset filters
@@ -371,7 +414,9 @@ angular.module('metadatamanagementApp')
         ctrl.pagination.selectedPageNumber = $stateParams.page ? $stateParams.page - 1 : 0;
         ctrl.pagination.totalItems = result.hits.total.value;
         ctrl.pagination.itemsPerPage = stateParamsLimit;
+        ctrl.currentTab.count = ctrl.pagination.totalItems;
         readESData();
+        
       });
     };
 
@@ -408,7 +453,9 @@ angular.module('metadatamanagementApp')
         ctrl.pagination.selectedPageNumber = $stateParams.page ? $stateParams.page - 1 : 0;
         ctrl.pagination.totalItems = result.hits.total.value;
         ctrl.pagination.itemsPerPage = stateParamsLimit;
+        ctrl.currentTab.count = ctrl.pagination.totalItems;
         readESData();
+        
       });
     };
 
@@ -421,46 +468,7 @@ angular.module('metadatamanagementApp')
         }
         return projectList;
       });
-    };
-
-    // Information for the different tabs
-    var tabs = [{
-      title: 'search-management.tabs.all',
-      inputLabel: 'search-management.input-label.all',
-      elasticSearchType: undefined,
-      count: null,
-      acceptedFileUploadType: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: false,
-      noResultsText: 'search-management.no-results-text.all',
-      sortOptions: ['relevance']
-    }, {
-      title: 'search-management.tabs.data_packages',
-      inputLabel: 'search-management.input-label.data-packages',
-      elasticSearchType: 'data_packages',
-      count: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.data-packages',
-      group: 'dataPackages',
-      sortOptions: ['relevance', 'alphabetically', 'survey-period',
-        'first-release-date']
-    }, {
-      title: 'search-management.tabs.analysis_packages',
-      inputLabel: 'search-management.input-label.analysis-packages',
-      elasticSearchType: 'analysis_packages',
-      count: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.analysis-packages',
-      group: 'analysisPackages',
-      sortOptions: ['relevance', 'alphabetically', 'first-release-date']
-    }];
-
-    $scope.tabs = tabs;    
+    };   
 
     init();
   }]);

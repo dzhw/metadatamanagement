@@ -1,7 +1,7 @@
 <div class="fdz-cc">
   <md-content layout="column" layout-align="start stretch">
     <md-card>
-      <md-card-header>
+      <md-card-header class="mb8">
         <md-card-header-text>
           <h1 class="md-headline fdz-truncate-string" id="top">
             {{'data-acquisition-project-management.project-overview.header' | translate}}
@@ -9,7 +9,7 @@
         </md-card-header-text>
       </md-card-header>
       <!-- Search/Filters -->
-      <div>
+      <div class="mb8">
         <md-card class="pa0 db">
             <md-tabs md-selected="ctrl.selectedTabIndex" md-dynamic-height md-border-bottom>
                 <md-tab ng-repeat="tab in tabs" md-on-select="ctrl.onSelectedTabChanged(tab)" ng-disabled="tab.disabled">
@@ -32,7 +32,7 @@
             </md-tabs>
             <!-- Search Bar -->
             <form role="search" ng-submit="hideMobileKeyboard($event)">
-                <md-autocomplete class="ma8" md-search-text="ctrl.searchText" 
+                <md-autocomplete class="ma8 mt16" md-search-text="ctrl.searchText" 
                   md-selected-item="ctrl.selectedProject" 
                   md-selected-item-change="ctrl.search()" 
                   md-items="project in ctrl.searchProjects(ctrl.searchText)" 
@@ -50,7 +50,7 @@
                     </md-not-found>
                 </md-autocomplete>
                 <!-- ASSIGNED GROUP -->
-                <md-input-container flex class="ma8 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
+                <md-input-container flex class="ma16 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
                   <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
                   <label>{{'data-acquisition-project-management.project-overview.filter-label.assigneeGroup' | translate}}</label>
                   <md-select ng-model="ctrl.selectedAssignedGroup" ng-change="ctrl.search()">
@@ -60,7 +60,7 @@
                   </md-select>
                 </md-input-container>
                 <!-- RELEASE STATE -->
-                <md-input-container flex class="ma8 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
+                <md-input-container flex class="ma16 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
                   <label>{{'data-acquisition-project-management.project-overview.filter-label.releaseState' | translate}}</label>
                   <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.search()">
                     <md-content class="md-select-menu-ie11-fix">
@@ -71,7 +71,7 @@
                   </md-select>
                 </md-input-container>
                 <!-- Filters Datapackage -->
-                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma8 w-20">
+                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma16 w-20">
                   <label>{{'data-acquisition-project-management.project-overview.filter-label.datapackage-filter' | translate}}</label>
                   <md-select ng-model="ctrl.selectedFiltersDataPackage" multiple ng-change="ctrl.search()">
                     <md-content class="md-select-menu-ie11-fix">
@@ -83,7 +83,7 @@
                   </md-select>
                 </md-input-container>
                 <!-- Additional Info -->
-                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma8 w-20">
+                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma16 w-20">
                   <label>{{'data-acquisition-project-management.project-overview.filter-label.userServiceRemarks' | translate}}</label>
                   <md-select ng-model="ctrl.selectedAdditionalInfo" ng-change="ctrl.search()">
                       <md-option value="" ng-click="closeSelectMenu()"></md-option>
@@ -92,7 +92,6 @@
                   </md-select>
                 </md-input-container>
             </form>
-            <!-- <md-progress-linear ng-if="!tabs[searchParams.selectedTabIndex].elasticSearchType" md-mode="indeterminate" ng-disabled="!ctrl.isSearching"></md-progress-linear> -->
         </md-card>
       </div>
       <!-- Check if currently any projects are assigned to currently logged in user -->
