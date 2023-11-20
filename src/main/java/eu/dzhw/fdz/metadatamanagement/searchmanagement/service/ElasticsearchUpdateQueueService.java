@@ -64,6 +64,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchD
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataAcquisitionProjectSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -81,7 +82,7 @@ import lombok.extern.slf4j.Slf4j;
  * Service which manages asynchronous Elasticsearch updates as a FIFO queue. Inserting an item into
  * the queue which already exists will remove the existing one and insert the new item at the end of
  * the queue.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -122,11 +123,11 @@ public class ElasticsearchUpdateQueueService {
 
   private final AnalysisPackageRepository analysisPackageRepository;
 
+  private final DataAcquisitionProjectRepository projectRepository;
+
   private final ElasticsearchDao elasticsearchDao;
 
   private final Gson gson;
-
-  private final DataAcquisitionProjectRepository projectRepository;
 
   private final DoiBuilder doiBuilder;
 
@@ -134,7 +135,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Attach one item to the queue.
-   * 
+   *
    * @param documentId The id of the document to be updated or deleted
    * @param documentType the type of the document to be updated or deleted
    * @param action delete or update
@@ -190,7 +191,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Execute locked items from the MongoDB Queue Repository.
-   * 
+   *
    * @param lockedItems A list of locked queues items.
    */
   private void executeQueueItemActions(List<ElasticsearchUpdateQueueItem> lockedItems) {
@@ -224,7 +225,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Adds a Deletes Action to the bulk builder.
-   * 
+   *
    * @param lockedItem a locked item.
    * @param request for building a delete action.
    * @return true if an action has been added to the request
@@ -236,7 +237,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Add a update / insert action to the bulk builder.
-   * 
+   *
    * @param lockedItem A locked item.
    * @param request The bulk builder for building update / insert actions.
    * @return true if an action has been added to the request
@@ -261,6 +262,8 @@ public class ElasticsearchUpdateQueueService {
         return addUpsertActionForConcept(lockedItem, request);
       case analysis_packages:
         return addUpsertActionForAnalysisPackage(lockedItem, request);
+      case data_acquisition_projects:
+        return addUpsertActionForDataAcquisitionProjects(lockedItem, request);
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
@@ -269,7 +272,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * This method creates for the analysis packages update / insert actions.
-   * 
+   *
    * @param lockedItem A locked item.
    * @param request A bulk builder for building the actions.
    */
@@ -306,6 +309,30 @@ public class ElasticsearchUpdateQueueService {
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * This method creates for the data acquisition project update / insert actions.
+   *
+   * @param lockedItem A locked item.
+   * @param request A bulk builder for building the actions.
+   */
+  private boolean addUpsertActionForDataAcquisitionProjects(ElasticsearchUpdateQueueItem lockedItem,
+                                                    BulkRequest request) {
+    DataAcquisitionProject project =
+      this.projectRepository.findById(lockedItem.getDocumentId()).orElse(null);
+    if (project != null) {
+      Release release = project.getRelease();
+      Configuration configuration = project.getConfiguration();
+      DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
+        project, release, configuration);
+
+      IndexRequest req = new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+        .source(gson.toJson(searchDocument), XContentType.JSON);
+      request.add(req);
       return true;
     }
     return false;
@@ -578,7 +605,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * This method creates for the variable repository update / insert actions.
-   * 
+   *
    * @param lockedItem A locked item.
    * @param request A bulk builder for building the actions.
    */
@@ -631,7 +658,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * This method creates for the question repository update / insert actions.
-   * 
+   *
    * @param lockedItem A locked item.
    * @param request A bulk builder for building the actions.
    */
@@ -678,7 +705,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * This method creates for the dataPackage repository update / insert actions.
-   * 
+   *
    * @param lockedItem A locked item.
    * @param request A bulk builder for building the actions.
    */
@@ -728,7 +755,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Process only the update queue items of the given type.
-   * 
+   *
    * @param type the type of items to be processed.
    */
   public void processQueueItems(ElasticsearchType type) {
@@ -752,7 +779,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Asynchronously attach the given documents to the update queue.
-   * 
+   *
    * @param streamProvider A closure returning a stream of {@link IdAndVersionProjection}s
    * @param type The {@link ElasticsearchType} of the documents.
    */
@@ -765,7 +792,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Asynchronously attach the given documents to the update queue.
-   * 
+   *
    * @param streamsProvider A closure returning a list of streams of {@link IdAndVersionProjection}s
    * @param type The {@link ElasticsearchType} of the documents.
    */
@@ -791,7 +818,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Asynchronously attach the given document to the update queue.
-   * 
+   *
    * @param idProvider A closure returning a {@link IdAndVersionProjection}
    * @param type The {@link ElasticsearchType} of the document.
    */

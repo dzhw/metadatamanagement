@@ -25,12 +25,13 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service which sets up all indices.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -55,8 +56,10 @@ public class ElasticsearchAdminService {
   private final DataPackageRepository dataPackageRepository;
 
   private final ConceptRepository conceptRepository;
-  
+
   private final AnalysisPackageRepository analysisPackageRepository;
+
+  private final DataAcquisitionProjectRepository projectRepository;
 
   private final ElasticsearchUpdateQueueService updateQueueService;
 
@@ -80,6 +83,7 @@ public class ElasticsearchAdminService {
       this.enqueueAllDataPackages();
       this.enqueueAllConcepts();
       this.enqueueAllAnalysisPackages();
+      this.enqueueAllDataAcquisitionProjects();
       updateQueueService.processAllQueueItems();
     } catch (Exception e) {
       log.error("Error during recreation of indices:", e);
@@ -96,7 +100,7 @@ public class ElasticsearchAdminService {
       });
     }
   }
-  
+
   private void enqueueAllAnalysisPackages() {
     try (Stream<IdAndVersionProjection> analysisPackages =
         analysisPackageRepository.streamAllIdAndVersionsBy()) {
@@ -188,8 +192,21 @@ public class ElasticsearchAdminService {
   }
 
   /**
+   * Load all data acquisition projects from mongo and enqueue them for updating.
+   */
+  private void enqueueAllDataAcquisitionProjects() {
+    try (Stream<IdAndVersionProjection> dataAcquisitionProjects =
+           projectRepository.streamAllIdAndVersionsBy()) {
+      dataAcquisitionProjects.forEach(project -> {
+        updateQueueService.enqueue(project.getId(),
+          ElasticsearchType.data_acquisition_projects, ElasticsearchUpdateQueueAction.UPSERT);
+      });
+    }
+  }
+
+  /**
    * Deletes and create an elasticsearch index.
-   * 
+   *
    * @param type name of the index (equals type for us).
    */
   private void recreateIndex(ElasticsearchType type) {
@@ -204,7 +221,7 @@ public class ElasticsearchAdminService {
 
   /**
    * Load Elasticsearch Index Settings.
-   * 
+   *
    * @return A JSON Representation of the Settings.
    */
   @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
@@ -221,7 +238,7 @@ public class ElasticsearchAdminService {
 
   /**
    * Load Elasticsearch Mapping of an index.
-   * 
+   *
    * @param type An elasticsearch type of an index.
    * @return A Json Representation of a Mapping
    */
@@ -240,7 +257,7 @@ public class ElasticsearchAdminService {
 
   /**
    * Get the number of all documents in elastic search.
-   * 
+   *
    * @return A long Value with the number of count documents.
    */
   public long countAllDocuments() {
