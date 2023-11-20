@@ -253,6 +253,12 @@ angular.module('metadatamanagementApp').config([
             'next': 'Click to show next projects',
             'current': 'Click to show projects on page {{number}}'
           },
+          'filter-label': {
+            'assigneeGroup': 'Assigned to',
+            'releaseState': 'Release state',
+            'datapackage-filter': 'Filter for data packages',
+            'userServiceRemarks': 'User service remarks'
+          },
           'no-project-msg': 'There is no project assigned to your account',
           'no-search-results-msg': 'No results'
         },

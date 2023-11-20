@@ -252,6 +252,12 @@ angular.module('metadatamanagementApp').config([
             'next': 'Klicken, um die nächsten Projekte anzuzeigen',
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           },
+          'filter-label': {
+            'assigneeGroup': 'Zugewiesen an',
+            'releaseState': 'Status',
+            'datapackage-filter': 'Filter für Datenpakete',
+            'userServiceRemarks': 'Zusatzangaben Nutzerservice'
+          },
           'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen',
           'no-search-results-msg': 'Keine Ergebnisse'
         },

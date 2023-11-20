@@ -37,7 +37,6 @@
                   md-selected-item-change="ctrl.search()" 
                   md-items="project in ctrl.searchProjects(ctrl.searchText)" 
                   md-item-text="project.id"
-                  md-clear-button="!ctrl.projectChooserDisabled" 
                   md-min-length="0" 
                   md-delay="250" 
                   placeholder="{{'global.menu.entities.search-project' | translate}}" 
@@ -53,7 +52,7 @@
                 <!-- ASSIGNED GROUP -->
                 <md-input-container flex class="ma8 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
                   <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
-                  <label>Zugewiesen an</label>
+                  <label>{{'data-acquisition-project-management.project-overview.filter-label.assigneeGroup' | translate}}</label>
                   <md-select ng-model="ctrl.selectedAssignedGroup" ng-change="ctrl.search()">
                       <md-option value="" ng-click="closeSelectMenu()"></md-option>
                         <md-option value="DATA_PROVIDER" ng-click="closeSelectMenu()">Dataprovider</md-option>
@@ -62,7 +61,7 @@
                 </md-input-container>
                 <!-- RELEASE STATE -->
                 <md-input-container flex class="ma8 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
-                  <label>Status</label>
+                  <label>{{'data-acquisition-project-management.project-overview.filter-label.releaseState' | translate}}</label>
                   <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.search()">
                     <md-content class="md-select-menu-ie11-fix">
                         <md-option value="" ng-click="closeSelectMenu()"></md-option>
@@ -73,7 +72,7 @@
                 </md-input-container>
                 <!-- Filters Datapackage -->
                 <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma8 w-20">
-                  <label>Filter für Datenpakete</label>
+                  <label>{{'data-acquisition-project-management.project-overview.filter-label.datapackage-filter' | translate}}</label>
                   <md-select ng-model="ctrl.selectedFiltersDataPackage" multiple ng-change="ctrl.search()">
                     <md-content class="md-select-menu-ie11-fix">
                         <md-option value="Variables">Variablen</md-option>
@@ -85,7 +84,7 @@
                 </md-input-container>
                 <!-- Additional Info -->
                 <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma8 w-20">
-                  <label>Zusatzangaben</label>
+                  <label>{{'data-acquisition-project-management.project-overview.filter-label.userServiceRemarks' | translate}}</label>
                   <md-select ng-model="ctrl.selectedAdditionalInfo" ng-change="ctrl.search()">
                       <md-option value="" ng-click="closeSelectMenu()"></md-option>
                       <md-option value="true" ng-click="closeSelectMenu()">mit Zusatzangaben</md-option>
