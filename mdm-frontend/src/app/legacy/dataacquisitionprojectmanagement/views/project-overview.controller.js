@@ -70,13 +70,12 @@ angular.module('metadatamanagementApp')
         }
       }
       //define from
-      console.log(pageNumber, pageSize)
       query.body.from = (pageNumber) * pageSize;
       //define size
       query.body.size = pageSize;
 
       // dataproviders should only see assigned projects
-      if (Principal.isDataprovider()) {
+      if (Principal.isDataprovider() && !Principal.isPublisher()) {
         var loginName = Principal.loginName();
         var filter = {
           "bool": {
@@ -270,7 +269,7 @@ angular.module('metadatamanagementApp')
       }
 
       // dataproviders should only see assigned projects
-      if (Principal.isDataprovider()) {
+      if (Principal.isDataprovider() && !Principal.isPublisher()) {
         var loginName = Principal.loginName();
         var filter = {
           "bool": {
@@ -420,7 +419,6 @@ angular.module('metadatamanagementApp')
         for (var res of result.hits.hits) {
           projectList.push(res._source)
         }
-        console.log(projectList)
         return projectList;
       });
     };
