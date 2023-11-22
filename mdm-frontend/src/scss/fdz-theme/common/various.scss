@@ -1,0 +1,114 @@
+
+// No js message
+.fdz-no-js {
+  position: absolute;
+  background-color: $brand-warning;
+  color: black !important;
+  animation: blinker 2s linear;
+  margin: 6px;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 26px;
+}
+
+.fdz-no-js p {
+  margin: 0px;
+}
+
+
+// Skip Navigation
+.fdz-skip-navigation {
+  position: absolute!important;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: -100;
+  display: block;
+  width: 95%;
+  margin: 0.5em;
+  -webkit-transition: opacity 0.30s linear;
+  transition: opacity 0.30s linear;
+}
+
+.fdz-skip-navigation:focus {
+  opacity: 0.9;
+  z-index: 60;
+}
+
+// Fade In
+.fdz-fade-in.ng-enter {
+  -webkit-transition: 1s;
+  transition: 1s;
+  opacity:0;
+}
+
+.fdz-fade-in.ng-enter-active {
+  opacity:1;
+}
+
+// Table row color
+.fdz-odd-row {
+  background-color: #f9f9f9;
+}
+
+// Project cockpit card
+.fdz-theme .fdz-metadata-type-state-card {
+  padding: 8px;
+  display: block;
+  min-width: 30%;
+  @media screen and (max-width: 1600px) {
+    min-width: 45%
+  }
+  md-card-header,
+  md-card-header-text {
+    justify-content: space-between;
+  }
+  .md-button {
+    min-width: 88px;
+  }
+
+  md-checkbox {
+    margin-bottom: 16px;
+    margin-right: 16px;
+  }
+
+}
+.fdz-theme .fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
+  visibility: hidden;
+  opacity: 0;
+  display: inherit!important;
+}
+
+project-cockpit-status {
+  display: block;
+  @media screen and (max-width: 960px) {
+    margin-bottom: 150px;
+  }
+}
+
+
+
+project-status-badge,
+release-status-badge {
+  display: inline-block;
+}
+
+project-status-badge > span, release-status-badge > span {
+  font-size: 1em !important;
+}
+
+.fdz-project-user-list + md-list md-list-item {
+  background: white;
+  animation: fade-highlight 1s ease-out;
+}
+
+.fdz-project-status-overview-metadata-status-table-cell {
+  min-height: 28px;
+}
+
+.fdz-theme md-dialog > md-toolbar {
+  padding: 0 8px;
+}
+.fdz-theme .md-dialog-content > h2 {
+  margin-bottom: 16px;
+}

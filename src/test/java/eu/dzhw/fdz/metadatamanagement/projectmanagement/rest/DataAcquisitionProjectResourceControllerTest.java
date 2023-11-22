@@ -40,7 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -118,7 +118,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", matcher))
         .andExpect(jsonPath("$.errors[1].message", matcher));
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void shouldCreateProjectsForAnalysisPackages()
@@ -308,8 +308,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     mockMvc
         .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc")
             .param("id", "TES"))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(1)))
-        .andExpect(jsonPath("$[0].id", equalTo(shouldBeFound.getId())));
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(2)))
+        .andExpect(jsonPath("$.dataAcquisitionProjects[0].id", equalTo(shouldBeFound.getId())));
   }
 
   @Test
@@ -336,9 +336,9 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     rdcProjectRepository.saveAll(Arrays.asList(projectA, projectB));
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(2)))
-        .andExpect(jsonPath("$[0].id", equalTo(projectA.getId())))
-        .andExpect(jsonPath("$[1].id", equalTo(projectB.getId())));
+        .andExpect(status().isOk()).andExpect(jsonPath("$.dataAcquisitionProjects.length()", equalTo(2)))
+        .andExpect(jsonPath("$.dataAcquisitionProjects[0].id", equalTo(projectA.getId())))
+        .andExpect(jsonPath("$.dataAcquisitionProjects[1].id", equalTo(projectB.getId())));
   }
 
   @Test
@@ -359,7 +359,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   /**
    * test the user implemented parts of save project
-   * 
+   *
    * @throws Exception
    */
   @Test

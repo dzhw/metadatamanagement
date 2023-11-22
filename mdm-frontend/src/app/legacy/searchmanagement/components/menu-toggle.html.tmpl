@@ -1,0 +1,44 @@
+<md-button ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+  <div flex layout="row">
+    {{ $ctrl.name | translate }}
+    <span flex></span>
+    <span aria-hidden="true" class="md-toggle-icon">
+      <md-icon
+        ng-if="!$ctrl.collapsed"
+        class="md-primary"
+        md-font-set="material-icons">keyboard_arrow_down</md-icon>
+      <md-icon
+        ng-if="$ctrl.collapsed"
+        class="md-primary"
+        md-font-set="material-icons">keyboard_arrow_up</md-icon>
+    </span>
+  </div>
+</md-button>
+<ul
+  class="fdz-filter-list"
+  ng-if="!$ctrl.collapsed">
+  <li ng-repeat="item in $ctrl.options">
+    <md-checkbox
+      ng-if="$ctrl.property === 'access-ways'"
+      ng-checked="$ctrl.exists(item.key, $ctrl.property)"
+      md-no-ink=""
+      ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
+      {{ (item.key | displayAccessWay) }} ({{ item.doc_count }})
+    </md-checkbox>
+    <md-checkbox
+      ng-if="$ctrl.property === 'language'"
+      ng-checked="$ctrl.exists(item.key, $ctrl.property)"
+      md-no-ink=""
+      ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
+      {{ (item.key | displayIsoLanguage) }} ({{ item.doc_count }})
+    </md-checkbox>
+    <md-checkbox
+      ng-if="$ctrl.property != 'language' && $ctrl.property != 'access-ways'"
+      ng-checked="$ctrl.exists(item.key, $ctrl.property)"
+      md-no-ink=""
+      ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
+      {{ item.key }} ({{ item.doc_count }})
+    </md-checkbox>
+  </li>
+  <li ng-if="$ctrl.options.length === 0">{{'search-management.filter.no-record' | translate}}</li>
+</ul>

@@ -1,0 +1,462 @@
+// bootstrap icons are not found when running locally
+$icon-font-path: "./fonts/";
+$brand-primary: #006AB2 !default;
+$brand-success: #28A745 !default;
+$brand-info: #028AA4 !default;
+$brand-warning: #F69F24 !default;
+$brand-danger: #C91630 !default;
+$state-success-text: $brand-success !default;
+$state-success-bg: #F0EFCE !default;
+$state-success-border: $brand-success !default;
+$state-info-text: $brand-info !default;
+$state-info-bg: #CCE8ED !default;
+$state-info-border: $brand-info !default;
+$state-warning-text: $brand-warning !default;
+$state-warning-bg: #FDECD3 !default;
+$state-warning-border: $brand-warning !default;
+$state-danger-text: $brand-danger !default;
+$state-danger-bg: #F5D0D0 !default;
+$state-danger-border: $brand-danger !default;
+// bower:scss
+//@import "./../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    img[src$=".svg"] {
+        width: 100%;
+    }
+}
+
+.fdz-block-ui-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.block-ui-container {
+    z-index: 100000;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.saucelabs_logo {
+    width: 100%;
+    height: 80px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.error {
+    color: $state-warning-bg;
+    background-color: $brand-danger;
+}
+
+.hipster {
+    display: inline-block;
+    width: 347px;
+    height: 497px;
+    background: url("../assets/images/hipster.png") no-repeat center top;
+    background-size: contain;
+}
+
+
+/* wait autoprefixer update to allow simple generation of high pixel density media query */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .hipster {
+        background: url("../assets/images/hipster2x.png") no-repeat center top;
+        background-size: contain;
+    }
+}
+
+
+
+/* start Password strength bar style */
+ul#strength {
+    display: inline;
+    list-style: none;
+    margin: 0 0 0 15px;
+    padding: 0;
+    vertical-align: 2px;
+}
+.point {
+  background: #ddd;
+  border-radius: 2px;
+  display: inline-block;
+  height: 5px;
+  margin-right: 1px;
+  width: 20px;
+}
+/* end Password strength bar style */
+
+/* Custom alerts for notification */
+.alerts .alert {
+    text-overflow: ellipsis;
+}
+
+.alert pre {
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+}
+/* end of Custom alerts for notification */
+
+/* disable links */
+.inactive {
+    pointer-events: none;
+    cursor: default;
+}
+
+.label-as-badge {
+    border-radius: 1em;
+    padding: 0.2em 0.6em;
+}
+
+.egg-confused {
+    position: absolute;
+    z-index: 999999;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+
+    img {
+        position: relative;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        bottom: -220px;
+        opacity: 0;
+        animation: move 5s forwards, show 5s forwards;
+    }
+
+    @keyframes move {
+      100% {
+        bottom: 0px;
+      }
+    }
+
+    @keyframes show {
+      100% {
+        opacity: 1;
+      }
+    }
+}
+
+.fdz-order-email {
+    display: none;
+    visibility: hidden;
+}
+
+.fdz-log-error-text {
+  color: $brand-danger;
+}
+
+.fdz-log-warning-text {
+  color: $brand-warning;
+}
+
+.md-table-pagination div div.label {
+  color: #757575;
+}
+
+
+.fdz-file-drop-accept {
+  background-color: $brand-success !important;
+}
+
+.fdz-file-drop-reject {
+  background-color: $brand-danger !important;
+}
+
+.fdz-released {
+  color: $brand-success;
+}
+
+.fdz-not-released {
+  color: $brand-danger;
+}
+
+.fdz-bootstrap-headline,
+md-dialog h2 {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.fdz-add-bottom-margin {
+  margin-bottom: 0.5em;
+}
+
+.js-plotly-plot .plotly .modebar {
+  z-index: 10 !important;
+}
+
+.fdz-content:focus {
+  background-color: rgba(158, 158, 158, 0.2) !important;
+  border: 1px solid $brand-warning !important;
+}
+
+.fdz-input-hint {
+  /* Position the hint */
+  position: relative;
+  clear: left;
+  padding-top: 5px;
+  /* Copy styles from ng-messages */
+  font-size: 12px;
+  line-height: 14px;
+  /* Set our own color */
+  color: grey;
+}
+
+.fdz-input-required:after {
+  content: ' *';
+  font-size: 13px;
+  vertical-align: top;
+}
+
+.md-input-focused .fdz-input-required:after {
+  color: $brand-danger;
+}
+
+.fdz-current-version {
+  background-color: $brand-success;
+  color: white;
+}
+
+.fdz-current-version:hover {
+  background-color: $brand-success !important;
+  opacity: 0.5;
+}
+
+.fdz-deleted-version {
+  background-color: $brand-danger;
+  color: white;
+  cursor: default;
+}
+
+.fdz-deleted-version:hover {
+  background-color: $brand-danger !important;
+  opacity: 0.5;
+}
+
+.md-dialog-backdrop {
+  z-index: 78;
+}
+
+.md-dialog-backdrop ~ .md-dialog-backdrop {
+  z-index: 79;
+}
+
+md-backdrop.md-dialog-backdrop {
+  z-index: 78;
+}
+
+.md-dialog-container {
+  z-index: 78;
+}
+
+.md-dialog-container ~ .md-dialog-container {
+  z-index: 80;
+}
+
+.jk-carousel .md-icon-button md-icon {
+  color: rgba(0,0,0,0.54) !important;
+}
+
+.jk-carousel .radio-buttons-container md-radio-button .md-off {
+  border-color: rgba(0,0,0,0.54) !important;
+}
+
+.highlight {
+  background-color: $brand-warning;
+  color: black !important;
+}
+
+.fdz-splash .fdz-bootstrap-error {
+  display: none;
+}
+
+@keyframes blinker {
+  0% {
+    opacity: 0;
+  }
+}
+
+.alert.alert-warning, .alert.alert-warning .alert-link,
+.alert.alert-danger, .alert.alert-danger .alert-link,
+.alert.alert-success, .alert.alert-success .alert-link {
+  color: black;
+}
+
+@media screen and (max-width: 1280px) {
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(247, 168, 57, 1);
+    min-height: 2em;
+    border-radius: 8px;
+  }
+
+  md-content, .md-virtual-repeat-scroller, tbody {
+    //overflow: overlay;
+  }
+}
+
+.md-chips-messages {
+  color: rgb(201,22,48);
+  position: relative;
+  order: 4;
+  overflow: hidden;
+}
+
+.md-chips-messages [ng-message] {
+  font-size: 12px;
+  line-height: 14px;
+  overflow: hidden;
+  margin-top: 0;
+  padding-top: 5px;
+}
+
+.fdz-no-select {
+  user-select: none;
+}
+
+.fdz-fullscreen-dialog {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.fdz-released {
+  color: #FFFFFF;
+  background-color: #00CC66;
+}
+
+.fdz-unreleased {
+  background-color: $brand-danger;
+}
+
+.fdz-welcome-dialog-image {
+  display: block;
+  margin: auto;
+  border: 2px solid $brand-primary;
+}
+
+@keyframes fade-highlight {
+  0% {
+    background: lighten($brand-primary, 50%);
+  }
+  100% {
+    background: white;
+  }
+}
+
+.fdz-error {
+  color: $brand-danger;
+}
+
+.container {
+  width: 325px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.container:before, .container:after {
+  display: table;
+  content: " "; }
+.container:after {
+  clear: both; }
+@media (min-width: 768px) {
+  .container {
+    width: 750px; } }
+@media (min-width: 992px) {
+  .container {
+    width: 970px; } }
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px; } }
+
+  // 300,400,500,700,400italic
+
+/* roboto-300 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local(''),
+       url('./fonts/roboto/roboto-v30-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('./fonts/roboto/roboto-v30-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-300italic - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 300;
+  src: local(''),
+       url('./fonts/roboto/roboto-v30-latin-300italic.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('./fonts/roboto/roboto-v30-latin-300italic.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-regular - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+       url('./fonts/roboto/roboto-v30-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('./fonts/roboto/roboto-v30-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-500 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: local(''),
+       url('./fonts/roboto/roboto-v30-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('./fonts/roboto/roboto-v30-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-700 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+       url('./fonts/roboto/roboto-v30-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('./fonts/roboto/roboto-v30-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./fonts/material-icon/materialicons.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

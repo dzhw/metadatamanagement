@@ -1,0 +1,110 @@
+.fdz-theme md-checkbox {
+  min-height: 25px;
+  .md-ripple {
+    color: $accent-A700;
+  }
+
+  // revert checkbox size to 20px (was changed to 18px in angular-material 1.2)
+  .md-icon, .md-container {
+    width: $checkbox-width;
+    height: $checkbox-height;
+  }
+
+  &.md-focused:not([disabled]) .md-container:before {
+    background-color: rgba(0, 0, 0, 0.12);
+    border-radius: 0px;
+  }
+
+  &.md-checked .md-ripple {
+    color: $background-600;
+  }
+
+  &.md-checked.md-focused .md-container {
+    background-color: $accent-color;
+  }
+
+  .md-ink-ripple {
+    color: $foreground-2;
+  }
+
+  &.md-checked .md-ink-ripple {
+    color: $accent-color;
+  }
+
+  &:not(.md-checked) .md-icon {
+    border-color: $foreground-2;
+  }
+
+  &.md-checked .md-icon {
+    background-color: $accent-color;
+  }
+
+  &.md-checked .md-icon:after {
+    border-color: $accent-contrast;
+  }
+
+  &:not([disabled]) {
+    &.md-primary {
+     @include checkbox-primary;
+    }
+
+    &.ng-invalid {
+      color: $warn-700;
+      &:not(.md-checked) .md-icon {
+        border-color: $warn-700;
+      }
+    }
+
+    &.md-warn {
+      .md-ripple {
+        color: $warn-color;
+      }
+
+      .md-ink-ripple {
+        color: $foreground-2;
+      }
+
+      &.md-checked .md-ink-ripple {
+        color: $foreground-2;
+      }
+
+      &:not(.md-checked) .md-icon {
+        border-color: $foreground-2;
+      }
+
+      &.md-checked .md-icon {
+        background-color: $warn-color;
+      }
+
+      &.md-checked.md-focused:not([disabled]) .md-container {
+        background-color: $warn-color;
+      }
+
+      &.md-checked .md-icon:after {
+        border-color: $background-200;
+      }
+    }
+  }
+
+  &[disabled] {
+    &:not(.md-checked) .md-icon {
+      border-color: $foreground-3;
+    }
+
+    &.md-checked .md-icon {
+      background-color: $foreground-3;
+    }
+
+    &.md-checked .md-icon:after {
+      border-color: $background-200;
+    }
+
+    .md-icon:after {
+      border-color: $foreground-3;
+    }
+
+    .md-label {
+      color: $foreground-3;
+    }
+  }
+}

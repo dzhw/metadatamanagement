@@ -97,10 +97,14 @@ public class DataSetReportService extends AbstractReportService {
       Map<String, Object> dataForTemplate, String dataSetId, String version) {
     // Get DataSet and check the valid result
     DataSet dataSet = this.dataSetRepository.findById(dataSetId).orElse(null);
+    // reformat description
+    dataSet.reformatDescription();
     DataPackage dataPackage;
 
     if (dataSet != null) {
       dataPackage = this.dataPackageRepository.findById(dataSet.getDataPackageId()).orElse(null);
+      // reformat title strings
+      dataPackage.reformatTitle();
     } else {
       dataPackage = null;
     }

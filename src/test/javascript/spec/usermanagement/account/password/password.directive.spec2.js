@@ -32,7 +32,7 @@ describe('Unit testing passwordStrengthBar', function() {
       $scope.$digest();
       var firstpointStyle =
       element.find('ul').children('li')[0].getAttribute('style');
-      expect(firstpointStyle).toContain('background-color: rgb(255, 0, 0)');
+      expect(firstpointStyle).toContain('background: rgb(255, 0, 0)');
     });
     it('Should change the first 2 points of the strength bar', function() {
       $scope.password = 'morethan5chars';
@@ -40,15 +40,15 @@ describe('Unit testing passwordStrengthBar', function() {
 
       var firstpointStyle =
       element.find('ul').children('li')[0].getAttribute('style');
-      expect(firstpointStyle).toContain('background-color: rgb(255, 153, 0)');
+      expect(firstpointStyle).toContain('background: rgb(255, 153, 0)');
 
       var secondpointStyle =
       element.find('ul').children('li')[1].getAttribute('style');
-      expect(secondpointStyle).toContain('background-color: rgb(255, 153, 0)');
+      expect(secondpointStyle).toContain('background: rgb(255, 153, 0)');
 
       var thirdpointStyle =
       element.find('ul').children('li')[2].getAttribute('style');
-      expect(thirdpointStyle).toContain('background-color: rgb(221, 221, 221)');
+      expect(thirdpointStyle).toContain('background: rgb(221, 221, 221)');
     });
     it('Should change the first 4 points of the strength bar', function() {
       $scope.password = 'morethan20chars_1234';
@@ -56,19 +56,19 @@ describe('Unit testing passwordStrengthBar', function() {
 
       var firstpointStyle =
       element.find('ul').children('li')[0].getAttribute('style');
-      expect(firstpointStyle).toContain('background-color: rgb(153, 255, 0)');
+      expect(firstpointStyle).toContain('background: rgb(153, 255, 0)');
 
       var secondpointStyle =
       element.find('ul').children('li')[1].getAttribute('style');
-      expect(secondpointStyle).toContain('background-color: rgb(153, 255, 0)');
+      expect(secondpointStyle).toContain('background: rgb(153, 255, 0)');
 
       var thirdpointStyle =
       element.find('ul').children('li')[2].getAttribute('style');
-      expect(thirdpointStyle).toContain('background-color: rgb(153, 255, 0)');
+      expect(thirdpointStyle).toContain('background: rgb(153, 255, 0)');
 
       var fourthpointStyle =
       element.find('ul').children('li')[3].getAttribute('style');
-      expect(fourthpointStyle).toContain('background-color: rgb(153, 255, 0)');
+      expect(fourthpointStyle).toContain('background: rgb(153, 255, 0)');
     });
     it('Should change the first five points of the strength bar', function() {
       $scope.password = 'morethan20chars_1234morethanAzm';
@@ -76,7 +76,7 @@ describe('Unit testing passwordStrengthBar', function() {
 
       var fifthpointStyle =
       element.find('ul').children('li')[4].getAttribute('style');
-      expect(fifthpointStyle).toContain('background-color: rgb(0, 255, 0)');
+      expect(fifthpointStyle).toContain('background: rgb(0, 255, 0)');
     });
     it('Should change all points of the strength bar', function() {
       $scope.password = 'morethan20chars_1234Amorethan20chars_1234A';
@@ -84,7 +84,7 @@ describe('Unit testing passwordStrengthBar', function() {
 
       var fifthpointStyle =
       element.find('ul').children('li')[4].getAttribute('style');
-      expect(fifthpointStyle).toContain('background-color: rgb(0, 255, 0)');
+      expect(fifthpointStyle).toContain('background: rgb(0, 255, 0)');
     });
   });
 });

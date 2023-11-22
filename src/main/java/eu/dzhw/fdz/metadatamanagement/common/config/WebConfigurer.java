@@ -1,7 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -33,16 +41,46 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
   @Autowired
   private Environment env;
 
+  /**
+   * Creates a list of all static frontend files from the top-level directory
+   * and maps them to a servlet pattern (e.g. index.html --> "/index.html").
+   * @param path the frontend directory path
+   * @return the list of all static files in the top-level directory mapped to a pattern
+   */
+  List<String> collectStaticFrontendFiles(String path) {
+    try (Stream<Path> files = Files.walk(new File(path).toPath(), 1)) {
+      return files
+        .filter(Files::isRegularFile)
+        .map(file -> "/" + file.getFileName().toString())
+        .peek(pattern -> log.debug(String.format("Adding '%s' to static resources filter", pattern)))
+        .collect(Collectors.toList());
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to find static frontend files", e);
+    }
+  }
+
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
+
     log.info("Web application configuration, using profiles: {}",
         Arrays.toString(env.getActiveProfiles()));
+
+    // determine whether the active profile is something other than the local non-minified one
+    boolean isNotLocal = env.acceptsProfiles(Profiles.of("!" + Constants.SPRING_PROFILE_LOCAL + " | ("
+        + Constants.SPRING_PROFILE_LOCAL + " & " + Constants.SPRING_PROFILE_MINIFIED + ")"));
+
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-    initCachingHttpHeadersFilter(servletContext, disps);
-    if (env.acceptsProfiles(Profiles.of("!" + Constants.SPRING_PROFILE_LOCAL + " | ("
-        + Constants.SPRING_PROFILE_LOCAL + " & " + Constants.SPRING_PROFILE_MINIFIED + ")"))) {
-      initStaticResourcesProductionFilter(servletContext, disps);
+
+    // create list of static file patterns if this is a non-local build
+    List<String> patterns = new ArrayList<>();
+    if (isNotLocal) {
+      patterns = this.collectStaticFrontendFiles("dist/");
+    }
+
+    initCachingHttpHeadersFilter(servletContext, disps, patterns);
+    if (isNotLocal) {
+      initStaticResourcesProductionFilter(servletContext, disps, patterns);
     }
     log.info("Web application fully configured");
   }
@@ -80,17 +118,16 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
    * Initializes the static resources production Filter.
    */
   private void initStaticResourcesProductionFilter(ServletContext servletContext,
-      EnumSet<DispatcherType> disps) {
+      EnumSet<DispatcherType> disps, List<String> patterns) {
     log.debug("Registering static resources production Filter");
     FilterRegistration.Dynamic staticResourcesProductionFilter = servletContext
         .addFilter("staticResourcesProductionFilter", new StaticResourcesProductionFilter());
 
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
-    staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.html");
-    staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/node_modules/*");
+    staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, patterns.toArray(new String[0]));
     staticResourcesProductionFilter.setAsyncSupported(true);
   }
 
@@ -98,20 +135,18 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
    * Initializes the caching HTTP Headers Filter.
    */
   private void initCachingHttpHeadersFilter(ServletContext servletContext,
-      EnumSet<DispatcherType> disps) {
+      EnumSet<DispatcherType> disps, List<String> patterns) {
     log.debug("Registering Caching HTTP Headers Filter");
     FilterRegistration.Dynamic cachingHttpHeadersFilter =
         servletContext.addFilter("cachingHttpHeadersFilter", new CachingHttpHeadersFilter());
 
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/*");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots.txt");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots-prod.txt");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots-test.txt");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/node_modules/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
+    if (!patterns.isEmpty()) {
+      cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, patterns.toArray(new String[0]));
+    }
     cachingHttpHeadersFilter.setAsyncSupported(true);
   }
 

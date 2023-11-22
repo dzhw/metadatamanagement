@@ -1,8 +1,6 @@
 ######################
 # Project Specific
 ######################
-/src/main/webapp/assets/styles/main.css
-/src/main/webapp/assets/styles/fonts
 /src/main/webapp/dist
 
 ######################

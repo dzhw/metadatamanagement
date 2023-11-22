@@ -1,0 +1,107 @@
+<md-card class="mb8">
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">
+        {{ $ctrl.translationKeyPackage + '-management.detail.label.' + $ctrl.translationKeyName | translate}}
+      </h2>
+    </md-card-header-text>
+  </md-card-header>
+  <md-divider></md-divider>
+  <md-card-content>
+    <div
+      layout="column"
+      layout-gt-sm="row">
+      <md-input-container flex="50"
+                          md-is-error="!$ctrl.currentForm[$ctrl.translationKeyName + 'De'].$valid && ($ctrl.currentForm[$ctrl.translationKeyName + 'De'].$dirty || $ctrl.currentForm[$ctrl.translationKeyName + 'De'].$touched)"
+                          ng-class="{'mr10': $mdMedia('gt-sm')}"
+                          class="ms-flex mr8">
+        <label
+          ng-class="$ctrl.notNull ? 'fdz-input-required' : ''">{{$ctrl.translationKeyPackage + '-management.detail.label.' + $ctrl.translationKeyName | translate}}
+          ({{'global.in-german' | translate}})
+          <md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon>
+        </label>
+        <textarea
+          ng-attr-fdz-required="{{($ctrl.notNull) ? true : false}}"
+          lang="de"
+          md-maxlength="$ctrl.notNull"
+          md-no-asterisk
+          name="{{$ctrl.translationKeyName}}De"
+          ng-model="$ctrl.content.de"
+          rows="4"></textarea>
+        <div
+          class="fdz-input-hint"
+          ng-if="!$ctrl.currentForm[$ctrl.translationKeyName + 'De'].$dirty && !$ctrl.currentForm[$ctrl.translationKeyName + 'De'].$touched">
+          {{$ctrl.translationKeyPackage + '-management.edit.hints.' + $ctrl.translationKeyName + '.de' | translate}}
+        </div>
+        <div ng-if="$ctrl.translationKeyPackage == 'analysis-package' && $ctrl.translationKeyName == 'description'" class="fdz-input-hint">
+          {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+            translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+        </div>
+        <div multiple ng-messages="$ctrl.currentForm[$ctrl.translationKeyName + 'De'].$error">
+          <div
+            ng-if="$ctrl.notNull"
+            ng-message="fdz-required">
+            {{$ctrl.translationKeyPackage + '-management.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-not-empty' |
+          translate}}
+          </div>
+          <div
+            ng-message="md-maxlength">
+            {{$ctrl.translationKeyPackage + '-management.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-size' |
+          translate}}
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container flex="50"component
+                          md-is-error="!$ctrl.currentForm[$ctrl.translationKeyName + 'En'].$valid && ($ctrl.currentForm[$ctrl.translationKeyName + 'En'].$dirty || $ctrl.currentForm[$ctrl.translationKeyName + 'En'].$touched)"
+                          class="ms-flex mr8">
+        <label
+          ng-class="$ctrl.notNull ? 'fdz-input-required' : ''">{{$ctrl.translationKeyPackage + '-management.detail.label.' + $ctrl.translationKeyName | translate}}
+          ({{'global.in-english' | translate}})
+          <md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon>
+        </label>
+        <textarea
+          ng-attr-fdz-required="{{($ctrl.notNull) ? true : false}}"
+          lang="en"
+          md-maxlength="2048"
+          md-no-asterisk
+          name="{{$ctrl.translationKeyName}}En"
+          ng-model="$ctrl.content.en"
+          rows="4"></textarea>
+        <div
+          class="fdz-input-hint"
+          ng-if="!$ctrl.currentForm[$ctrl.translationKeyName+ 'En'].$dirty && !$ctrl.currentForm[$ctrl.translationKeyName+ 'En'].$touched">
+          {{$ctrl.translationKeyPackage + '-management.edit.hints.' + $ctrl.translationKeyName + '.en' | translate}}
+        </div>
+        <div ng-if="$ctrl.translationKeyPackage == 'analysis-package' && $ctrl.translationKeyName == 'description'" class="fdz-input-hint">
+          {{'data-package-management.edit.hints.consent.part1' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link1' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link1' |
+            translate}}</a>{{'data-package-management.edit.hints.consent.part2' | translate}}<a
+            href="{{'data-package-management.edit.hints.consent.link2' | translate}}"
+            target="_blank">{{'data-package-management.edit.hints.consent.link2' | translate}}</a>
+        </div>
+        <div
+          multiple
+          ng-messages="$ctrl.currentForm[$ctrl.translationKeyName+ 'En'].$error">
+          <div
+            ng-if="$ctrl.notNull"
+            ng-message="fdz-required">
+            {{$ctrl.translationKeyPackage + '-management.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-not-empty' |
+          translate}}
+          </div>
+          <div
+            ng-message="md-maxlength">
+            {{$ctrl.translationKeyPackage + '-management.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.i18n-string-size' |
+          translate}}
+          </div>
+        </div>
+      </md-input-container>
+    </div>
+    </md-input-container>
+
+  </md-card-content>
+</md-card>

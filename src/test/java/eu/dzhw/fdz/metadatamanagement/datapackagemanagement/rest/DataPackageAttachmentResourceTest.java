@@ -267,6 +267,64 @@ public class DataPackageAttachmentResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithMissingDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataPackageAttachmentMetadata dataPackageAttachmentMetadata =
+      UnitTestCreateDomainObjectUtils.buildDataPackageAttachmentMetadata("projectid");
+    dataPackageAttachmentMetadata.setDoi(null);
+
+    MockMultipartFile metadata = new MockMultipartFile("dataPackageAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(dataPackageAttachmentMetadata));
+
+    mockMvc
+      .perform(MockMvcRequestBuilders.multipart("/api/data-packages/attachments").file(attachment)
+        .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithValidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataPackageAttachmentMetadata dataPackageAttachmentMetadata =
+      UnitTestCreateDomainObjectUtils.buildDataPackageAttachmentMetadata("projectid");
+    dataPackageAttachmentMetadata.setDoi("https://doi.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("dataPackageAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(dataPackageAttachmentMetadata));
+
+    mockMvc
+      .perform(MockMvcRequestBuilders.multipart("/api/data-packages/attachments").file(attachment)
+        .file(metadata))
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadAttachmentWithInvalidDOI() throws Exception {
+
+    MockMultipartFile attachment =
+      new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataPackageAttachmentMetadata dataPackageAttachmentMetadata =
+      UnitTestCreateDomainObjectUtils.buildDataPackageAttachmentMetadata("projectid");
+    dataPackageAttachmentMetadata.setDoi("https://invalid.org/1");
+
+    MockMultipartFile metadata = new MockMultipartFile("dataPackageAttachmentMetadata", "Blob",
+      "application/json", TestUtil.convertObjectToJsonBytes(dataPackageAttachmentMetadata));
+
+    mockMvc
+      .perform(MockMvcRequestBuilders.multipart("/api/data-packages/attachments").file(attachment)
+        .file(metadata))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", is("attachment.error.doi.pattern")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithDataPackage() throws Exception {
     DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage("projectid");
 

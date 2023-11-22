@@ -228,27 +228,73 @@
 		"sponsors": {
 			"type": "object",
 			"properties": {
-				"de": {
-					"type": "keyword",
-					"copy_to": "all",
-					"norms": false,
+				"fundingRef": {
+					"type": "text",
 					"fields": {
 						"ngrams": {
 							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
+							"norms": false,
+							"analyzer": "ngrams"
 						}
 					}
 				},
-				"en": {
-					"type": "keyword",
-					"copy_to": "all",
-					"norms": false,
-					"fields": {
-						"ngrams": {
-							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
+				"name": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"norms": false,
+									"analyzer": "ngrams"
+								}
+							}
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"norms": false,
+									"analyzer": "ngrams"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"nestedSponsors": {
+			"type": "nested",
+			"properties": {
+				"name": {
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						},
+						"en": {
+							"type": "keyword",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
 						}
 					}
 				}
@@ -284,33 +330,6 @@
 			}
 		},
 		"nestedInstitutions": {
-			"type": "nested",
-			"properties": {
-				"de": {
-					"type": "keyword",
-					"norms": false,
-					"fields": {
-						"ngrams": {
-							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
-						}
-					}
-				},
-				"en": {
-					"type": "keyword",
-					"norms": false,
-					"fields": {
-						"ngrams": {
-							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
-						}
-					}
-				}
-			}
-		},
-		"nestedSponsors": {
 			"type": "nested",
 			"properties": {
 				"de": {

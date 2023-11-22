@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
@@ -44,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class UserResource {
-  
+
   private final UserRepository userRepository;
 
   private final AuthorityRepository authorityRepository;
@@ -52,6 +55,10 @@ public class UserResource {
   private final MongoDbTokenStore tokenStore;
 
   private final UserService userService;
+
+  private final DataAcquisitionProjectRepository acquisitionProjectRepository;
+
+  private final DataAcquisitionProjectCrudHelper crudHelper;
 
   /**
    * Updates an existing User.
@@ -75,6 +82,23 @@ public class UserResource {
       managedUserDto.getAuthorities().stream()
           .forEach(authority -> authorities.add(authorityRepository.findById(authority).get()));
       userRepository.save(user);
+      // remove deactivated users from assigned projects
+      if (!user.isActivated()) {
+        String login = user.getLogin();
+        List<DataAcquisitionProject> projects =
+            acquisitionProjectRepository
+              .findAllByConfigurationPublishersContainsOrConfigurationDataProvidersContainsAndShadowIsFalse(
+                login, login);
+        for (DataAcquisitionProject p : projects) {
+          List<String> dataProviders = p.getConfiguration().getDataProviders();
+          dataProviders.remove(login);
+          p.getConfiguration().setDataProviders(dataProviders);
+          List<String> publishers = p.getConfiguration().getPublishers();
+          publishers.remove(login);
+          p.getConfiguration().setPublishers(publishers);
+          crudHelper.saveMaster(p);
+        }
+      }
       return ResponseEntity.ok()
           .body(new ManagedUserDto(userRepository.findById(managedUserDto.getId()).get()));
     }).orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));

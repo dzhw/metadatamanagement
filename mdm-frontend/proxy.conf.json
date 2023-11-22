@@ -1,0 +1,16 @@
+{
+    "/api": {
+        "target": "http://localhost:8080"
+    },
+    "/oauth": {
+        "target": "http://localhost:8080"
+    },
+    "/management": {
+        "target": "http://localhost:8080"
+    },
+    "/websocket": {
+        "target": "http://localhost:8080",
+        "ws": true
+    }
+}
+

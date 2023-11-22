@@ -1,0 +1,92 @@
+
+<md-card class="fdz-data-package" ng-if="$ctrl.analysisPackage && $ctrl.analysisPackageIdVersion.masterId && $ctrl.lang && $ctrl.releases">
+  <md-card-header>
+    <md-card-header-text>
+      <a ui-sref="analysisPackageDetail({id: $ctrl.analysisPackageIdVersion.masterId.replace('$', ''), version: $ctrl.analysisPackageIdVersion.version})" class="title">
+        {{$ctrl.analysisPackage.title[$ctrl.lang]}}
+      </a>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <md-list class="">
+      <md-list-item ng-if="$ctrl.analysisPackage.doi">
+        <h5>{{'data-package-management.detail.label.doi' | translate }}:</h5>
+        <span class="md-secondary">{{$ctrl.analysisPackage.doi}}</span>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.analysisPackage.release.firstDate">
+        <h5>{{'data-package-management.detail.label.published' | translate }}:</h5>
+        <span class="md-secondary">{{$ctrl.analysisPackage.release.firstDate + 'Z' | date:'mediumDate'}}</span>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.releases.length > 0">
+        <h5>{{'search-management.detail.version' | translate }}:</h5>
+        <div class="md-secondary">
+          <md-select class="md-accent" name="version" ng-model="$ctrl.selectedVersion" ng-disabled="$ctrl.disabled" aria-label="{{'search-management.detail.version' | translate }}">
+            <md-optgroup label="{{'shopping-cart.detail.label.available-versions' | translate}}">
+              <md-option ng-repeat="item in $ctrl.releases" ng-value="item.version">
+                {{item.version}}{{$first?' (' + ('shopping-cart.detail.label.current' | translate) + ')':''}}</md-option>
+            </md-optgroup>
+          </md-select>
+          <md-button class="md-icon-button md-primary" ng-click="$ctrl.showVersionHelp($event)">
+            <md-icon>info</md-icon>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'shopping-cart.buttons.analysis-package-version-tooltip' | translate}}
+            </md-tooltip>
+          </md-button>
+        </div>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.accessWays.length > 0">
+        <h5>{{'search-management.detail.access-way' | translate}}:</h5>
+        <div class="md-secondary">
+          <md-select class="md-accent" name="accessWay" ng-model="$ctrl.selectedAccessWay" aria-label="{{'search-management.detail.access-way' | translate}}">
+            <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
+              <md-option ng-repeat="item in $ctrl.accessWays" ng-value="item">{{item | displayAccessWay}}</md-option>
+            </md-optgroup>
+          </md-select>
+          <md-button class="md-icon-button md-primary" ng-click="$ctrl.showAccessWayHelp($event)">
+            <md-icon>info</md-icon>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'shopping-cart.buttons.data-package-access-way-tooltip' | translate}}
+            </md-tooltip>
+          </md-button>
+        </div>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.releases.length > 0" style="flex-flow: row; padding-right: 12px;">
+        <md-button class="md-small md-raised md-accent fdz-truncate-string" ng-click="$ctrl.addToShoppingCart($event)"
+          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible"
+          style="margin-right: 12px;" analytics-on="click" analytics-event="add-to-shopping-cart" analytics-label="{{'search-management.detail.cart' | translate}}" analytics-category="Bestellprozess">
+          <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'shopping-cart.buttons.add-analysis-package-tooltip' | translate}}
+          </md-tooltip>
+          <span>{{'search-management.detail.cart' | translate}}</span>
+        </md-button>
+        <md-button class="md-small md-raised md-primary fdz-truncate-string" ui-sref="shoppingCart"
+          ng-disabled="$ctrl.numberOfShoppingCartProducts === 0" style="padding-top: 10px">
+          <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
+          </md-tooltip>
+          <span>{{'shopping-cart.buttons.open-cart' | translate}}</span>
+        </md-button>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.releases.length > 0" style="flex-flow: row; padding-right: 12px;" class="md-no-proxy">
+        <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.openCitationDialog($event)"
+                   ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease" style="margin-right: 12px; margin-top: 0px;">
+          <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'shopping-cart.buttons.open-citation-tooltip' | translate}}
+          </md-tooltip>
+          <span>{{'shopping-cart.buttons.open-citation' | translate}}</span>
+        </md-button>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+  <md-card-footer style="padding-top: 0px;">
+    <span ng-if="$ctrl.noFinalRelease">
+      {{'shopping-cart.detail.no-final-release' | translate}}
+    </span>
+    <!-- maintenance hint -->
+    <div ng-if="$ctrl.showMaintenanceHint" style="margin-bottom: 10px; margin-top: 10px;">
+      {{'shopping-cart.detail.maintenance-hint' | translate}}
+    </div>
+    <span translate="shopping-cart.detail.note">
+    </span>
+  </md-card-footer>
+</md-card>

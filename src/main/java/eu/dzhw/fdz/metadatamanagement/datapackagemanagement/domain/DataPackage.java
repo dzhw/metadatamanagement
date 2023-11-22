@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainO
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmptyOptional;
@@ -150,17 +151,13 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   private I18nString studySeries;
 
   /**
-   * The names of the sponsors which have sponsored the study or project from which this data
-   * package results.
+   * List of {@link Sponsor}s which have sponsored this data package.
    *
-   * It must be specified in German and English and it must not contain more than 512 characters.
+   * Must not be empty.
    */
-  @NotEmpty(message = "data-package-management.error.data-package.sponsors.not-null")
-  private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "data-package-management.error.data-package.sponsor.i18n-string-size") 
-               @I18nStringEntireNotEmpty(
-      message = "data-package-management.error.sponsor.institution"
-              + ".i18n-string-entire-not-empty") I18nString> sponsors;
+  @Valid
+  @NotEmpty(message = "data-package-management.error.data-package.data-curators.not-empty")
+  private List<Sponsor> sponsors;
 
   /**
    * List of {@link Person}s which have performed this dataPackage.
@@ -208,7 +205,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * A list of additional links for the data package.
-   * 
+   *
    * May be empty.
    */
   @Valid
@@ -227,5 +224,20 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Override
   protected void setIdInternal(String id) {
     this.id = id;
+  }
+
+  /**
+   * Report generation will fail if title strings include line breaks, Line breaks are
+   * replaced with spaces.
+   */
+  public void reformatTitle() {
+    I18nString title = new I18nString();
+    // replace line break with space
+    String de = this.getTitle().getDe().replace("\n", " ");
+    String en = this.getTitle().getEn().replace("\n", " ");
+    // sometimes the first replacement will lead to double spaces, gets cleaned up here
+    title.setDe(de.replace("  ", " "));
+    title.setEn(en.replace("  ", " "));
+    this.setTitle(title);
   }
 }
