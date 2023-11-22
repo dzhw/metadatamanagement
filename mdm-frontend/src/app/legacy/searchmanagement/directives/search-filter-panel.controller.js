@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp')
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchHelperService.getAvailableFilters(
-          $scope.currentElasticsearchType);
+          $scope.currentElasticsearchType); // currentElasticsearchType --> e.g. "data_packages"
         /* as this is the search panel for logged in users we need to remove some
         filters that sould only be shown in the sidenav for public users */
         removeIrrelevantFilter();

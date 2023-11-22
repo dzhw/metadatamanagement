@@ -475,7 +475,6 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
         }
       };
 
-      console.log("bar");
       query.body.aggs.approvedUsage.aggs.filtered.filter.bool.must[0].match
         ['approvedUsage'] = {
         'query': searchText || '',
@@ -497,13 +496,11 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
         var approvedUsageElement = {};
         result.aggregations.approvedUsage.buckets.forEach(
           function(bucket) {
-            //HIER EVTL. NOCHMAL ANSETZEN. BRAUCHT MAN DEN COUNT EVTL. FÜR DIE ANZAHL IN KLAMMERN BEIM FILTERN?
-
-            // approvedUsageElement = {
-            //   'name': bucket.key
-            // };
-            approvedUsageElement = bucket.key;
-            // approvedUsageElement.count = bucket.doc_count;
+            approvedUsageElement = {
+              title: bucket.key,
+              count: bucket.doc_count
+            }
+            // approvedUsageElement = bucket.key;
             approvedUsage.push(approvedUsageElement);
           });
         return approvedUsage;

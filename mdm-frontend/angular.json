@@ -43,7 +43,7 @@
               { "input": "./node_modules/highlightjs/styles/default.css", "bundleName": "vendor-styles"},
               { "input": "./node_modules/angular-jk-carousel/dist/jk-carousel.css", "bundleName": "vendor-styles"},
               { "input": "./node_modules/jsonformatter/dist/json-formatter.css", "bundleName": "vendor-styles"},
-              { "input": "./node_modules/fdz-paginator/dest/fdz-paginator.css", "bundleName": "vendor-styles"},
+              { "input": "./node_modules/fdz-paginator/dest/fdz-paginator.css", "bundleName": "vendor-styles"}
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
@@ -476,6 +476,8 @@
               "src/app/legacy/searchmanagement/directives/instrument-search-filter.controller.js",
               "src/app/legacy/searchmanagement/directives/survey-search-filter.directive.js",
               "src/app/legacy/searchmanagement/directives/survey-search-filter.controller.js",
+              "src/app/legacy/searchmanagement/directives/approved-usage-search-filter.directive.js",
+              "src/app/legacy/searchmanagement/directives/approved-usage-search-filter.controller.js",
               "src/app/legacy/searchmanagement/directives/variable-search-filter.directive.js",
               "src/app/legacy/searchmanagement/directives/variable-search-filter.controller.js",
               "src/app/legacy/searchmanagement/directives/data-set-search-filter.directive.js",
