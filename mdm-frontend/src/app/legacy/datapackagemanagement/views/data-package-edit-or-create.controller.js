@@ -651,7 +651,11 @@ angular.module('metadatamanagementApp')
         return DataPackageSearchService.findApprovedUsage(searchText, {},
             true)
           .then(function(approvedUsage) {
-            return approvedUsage;
+            var approvedUsageItems = [];
+            for (const item of approvedUsage) {
+              approvedUsageItems.push(item.title);
+            }
+            return approvedUsageItems;
           });
       };
 
