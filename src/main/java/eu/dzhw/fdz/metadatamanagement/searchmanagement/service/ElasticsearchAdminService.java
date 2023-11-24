@@ -199,7 +199,7 @@ public class ElasticsearchAdminService {
            projectRepository.streamAllIdAndVersionsBy()) {
       dataAcquisitionProjects.forEach(project -> {
         updateQueueService.enqueue(project.getId(),
-          ElasticsearchType.data_acquisition_projects, ElasticsearchUpdateQueueAction.UPSERT);
+            ElasticsearchType.data_acquisition_projects, ElasticsearchUpdateQueueAction.UPSERT);
       });
     }
   }

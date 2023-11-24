@@ -327,13 +327,13 @@ public class ElasticsearchUpdateQueueService {
     if (project != null) {
       DataPackage dataPackage =
           this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
-      if (dataPackage != null &&
-        dataPackage.getRemarksUserService() != null &&
-        dataPackage.getRemarksUserService() != "") {
-          project.setHasUserServiceRemarks(true);
+      if (dataPackage != null
+          && dataPackage.getRemarksUserService() != null
+          && dataPackage.getRemarksUserService() != "") {
+        project.setHasUserServiceRemarks(true);
       }
       DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
-        project);
+          project);
 
       IndexRequest req = new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON);
