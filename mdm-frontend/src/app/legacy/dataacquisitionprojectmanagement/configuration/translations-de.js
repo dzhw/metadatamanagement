@@ -252,14 +252,36 @@ angular.module('metadatamanagementApp').config([
             'next': 'Klicken, um die nächsten Projekte anzuzeigen',
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           },
-          'filter-label': {
-            'assigneeGroup': 'Zugewiesen an',
-            'releaseState': 'Status',
-            'datapackage-filter': 'Filter für Datenpakete',
-            'userServiceRemarks': 'Zusatzangaben Nutzerservice'
+          'filter': {
+            'label': {
+              'assignee-group': 'Zugewiesen an',
+              'release-state': 'Status',
+              'datapackage-filter': 'Filter für Datenpakete',
+              'user-service-remarks': 'Zusatzangaben Nutzerservice'
+            },
+            'options': {
+              'assignee-group': {
+                'dataprovider': 'Datengeber:innen',
+                'publisher': 'Publisher'
+              },
+              'release-state': {
+                'released': 'Freigegeben',
+                'unreleased': 'Nicht freigegeben'
+              },
+              'datapackage-filter': {
+                'variables': 'Variablen',
+                'questions': 'Fragen',
+                'publications': 'Publikationen',
+                'concepts': 'Konzepte'
+              },
+              'user-service-remarks': {
+                'with-additional-info': 'mit Zusatzangaben',
+                'without-additional-info': 'ohne Zusatzangaben'
+              }
+            }
           },
-          'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen',
-          'no-search-results-msg': 'Keine Ergebnisse'
+          'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen.',
+          'no-search-results-msg': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.'
         },
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',

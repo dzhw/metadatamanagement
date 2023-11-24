@@ -10,8 +10,9 @@
       </md-card-header>
       <!-- Search/Filters -->
       <div class="mb8">
-        <md-card class="pa0 db">
-            <md-tabs md-selected="ctrl.selectedTabIndex" md-dynamic-height md-border-bottom>
+        <md-card class="pa0 ma0 db">
+            <div layout="row">
+              <md-tabs md-selected="ctrl.selectedTabIndex" md-dynamic-height md-border-bottom flex>
                 <md-tab ng-repeat="tab in tabs" md-on-select="ctrl.onSelectedTabChanged(tab)" ng-disabled="tab.disabled">
                     <md-tab-label>
                         <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
@@ -30,11 +31,19 @@
                     </md-tab-label>
                 </md-tab>
             </md-tabs>
+            <md-button class="md-icon-button w-5 mt8" ng-click="ctrl.onClearFilters()">
+              <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'search-management.filter.clear-filters-tooltip' | translate}}
+              </md-tooltip>
+              <md-icon class="ma0" md-svg-src="/assets/images/icons/filter-remove.svg"></md-icon>
+            </md-button>
+            </div>
+            
             <!-- Search Bar -->
             <form role="search" ng-submit="hideMobileKeyboard($event)">
-                <md-autocomplete class="ma8 mt16" md-search-text="ctrl.searchText" 
+                <md-autocomplete class="mh16 mt16 mb8" md-search-text="ctrl.searchText" 
                   md-selected-item="ctrl.selectedProject" 
-                  md-selected-item-change="ctrl.search()" 
+                  md-selected-item-change="ctrl.onFilterValueChanged()" 
                   md-items="project in ctrl.searchProjects(ctrl.searchText)" 
                   md-item-text="project.id"
                   md-min-length="0" 
@@ -50,57 +59,58 @@
                     </md-not-found>
                 </md-autocomplete>
                 <!-- ASSIGNED GROUP -->
-                <md-input-container flex class="ma16 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
-                  <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
-                  <label>{{'data-acquisition-project-management.project-overview.filter-label.assigneeGroup' | translate}}</label>
-                  <md-select ng-model="ctrl.selectedAssignedGroup" ng-change="ctrl.search()">
+                <md-input-container flex class="ma16 ml16 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
+                  <!-- <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon> -->
+                  <label>{{'data-acquisition-project-management.project-overview.filter.label.assignee-group' | translate}}</label>
+                  <md-select ng-model="ctrl.selectedAssignedGroup" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.assignee-group' | translate}}">
                       <md-option value="" ng-click="closeSelectMenu()"></md-option>
-                        <md-option value="DATA_PROVIDER" ng-click="closeSelectMenu()">Dataprovider</md-option>
-                        <md-option value="PUBLISHER" ng-click="closeSelectMenu()">Publisher</md-option>
+                        <md-option value="DATA_PROVIDER" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.assignee-group.dataprovider' | translate}}</md-option>
+                        <md-option value="PUBLISHER" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.assignee-group.publisher' | translate}}</md-option>
                   </md-select>
                 </md-input-container>
                 <!-- RELEASE STATE -->
                 <md-input-container flex class="ma16 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
-                  <label>{{'data-acquisition-project-management.project-overview.filter-label.releaseState' | translate}}</label>
-                  <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.search()">
+                  <label>{{'data-acquisition-project-management.project-overview.filter.label.release-state' | translate}}</label>
+                  <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.onFilterValueChanged()">
                     <md-content class="md-select-menu-ie11-fix">
                         <md-option value="" ng-click="closeSelectMenu()"></md-option>
-                        <md-option value="true" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Freigegeben</md-option>
-                        <md-option value="false" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">Nicht freigegeben</md-option>
+                        <md-option value="true" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.release-state.released' | translate}}</md-option>
+                        <md-option value="false" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.release-state.unreleased' | translate}}</md-option>
                     </md-content>
                   </md-select>
                 </md-input-container>
                 <!-- Filters Datapackage -->
-                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma16 w-20">
-                  <label>{{'data-acquisition-project-management.project-overview.filter-label.datapackage-filter' | translate}}</label>
-                  <md-select ng-model="ctrl.selectedFiltersDataPackage" multiple ng-change="ctrl.search()">
+                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma16 mr16 w-20">
+                  <label>{{'data-acquisition-project-management.project-overview.filter.label.datapackage-filter' | translate}}</label>
+                  <md-select ng-model="ctrl.selectedFiltersDataPackage" multiple ng-change="ctrl.onFilterValueChanged()">
                     <md-content class="md-select-menu-ie11-fix">
-                        <md-option value="Variables">Variablen</md-option>
-                        <md-option value="Questions">Fragen</md-option>
-                        <md-option value="Publications">Publikationen</md-option>
-                        <md-option value="Concepts">Konzepte</md-option>
+                        <md-option value="Variables">{{'data-acquisition-project-management.project-overview.filter.options.datapackage-filter.variables' | translate}}</md-option>
+                        <md-option value="Questions">{{'data-acquisition-project-management.project-overview.filter.options.datapackage-filter.questions' | translate}}</md-option>
+                        <md-option value="Publications">{{'data-acquisition-project-management.project-overview.filter.options.datapackage-filter.publications' | translate}}</md-option>
+                        <md-option value="Concepts">{{'data-acquisition-project-management.project-overview.filter.options.datapackage-filter.concepts' | translate}}</md-option>
                     </md-content>
                   </md-select>
                 </md-input-container>
                 <!-- Additional Info -->
                 <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma16 w-20">
-                  <label>{{'data-acquisition-project-management.project-overview.filter-label.userServiceRemarks' | translate}}</label>
-                  <md-select ng-model="ctrl.selectedAdditionalInfo" ng-change="ctrl.search()">
+                  <label>{{'data-acquisition-project-management.project-overview.filter.label.user-service-remarks' | translate}}</label>
+                  <md-select ng-model="ctrl.selectedAdditionalInfo" ng-change="ctrl.onFilterValueChanged()">
                       <md-option value="" ng-click="closeSelectMenu()"></md-option>
-                      <md-option value="true" ng-click="closeSelectMenu()">mit Zusatzangaben</md-option>
-                      <md-option value="false" ng-click="closeSelectMenu()">ohne Zusatzangaben</md-option>
+                      <md-option value="true" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.user-service-remarks.with-additional-info' | translate}}</md-option>
+                      <md-option value="false" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.user-service-remarks.without-additional-info' | translate}}</md-option>
                   </md-select>
                 </md-input-container>
             </form>
         </md-card>
+        <md-progress-linear md-mode="indeterminate" ng-disabled="!ctrl.isSearching"></md-progress-linear>
       </div>
       <!-- Check if currently any projects are assigned to currently logged in user -->
       <div ng-switch="ctrl.userHasProjects">
         <!-- user with projects -->
         <md-card-content ng-switch-when="true" card="pa0">
-          <div ng-switch="ctrl.overview.data.length > 0">
-            <table ng-switch-when="true" class="table-striped table-hover" fdz-table>
-              <thead class="">
+          <div ng-switch="ctrl.overview.data.length > 0" >
+            <table ng-switch-when="true" class="table-striped table-hover fdz-table-rotated">
+              <thead>
               <tr>
                 <th>{{'data-acquisition-project-management.project-overview.table.project-name' | translate}}</th>
                 <th>{{'data-acquisition-project-management.project-overview.table.release-version' | translate}}</th>
@@ -200,7 +210,6 @@
           </div>
         </md-card-content>
         <div ng-switch-when="false">
-          <!-- user without projects or just no search results? -->
           <span data-translate="data-acquisition-project-management.project-overview.no-project-msg"></span>
         </div>
       </div>
