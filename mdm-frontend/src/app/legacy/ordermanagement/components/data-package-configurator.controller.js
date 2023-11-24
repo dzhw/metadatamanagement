@@ -193,7 +193,8 @@
           dataPackage: {
             id: $ctrl.dataPackage.id,
             surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
-            title: $ctrl.dataPackage.title
+            title: $ctrl.dataPackage.title,
+            remarksUserService: $ctrl.dataPackage.remarksUserService
           }
         });
       }

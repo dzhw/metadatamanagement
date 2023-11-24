@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp').config([
             'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
+            'remarksUserService': 'Remarks for the User Service',
             'wave': 'Waves',
             'survey-data-type': 'Survey Data Type',
             'survey-period': 'Survey Period',
