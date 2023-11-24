@@ -323,18 +323,20 @@ public class ElasticsearchUpdateQueueService {
   private boolean addUpsertActionForDataAcquisitionProjects(ElasticsearchUpdateQueueItem lockedItem,
                                                     BulkRequest request) {
     DataAcquisitionProject project =
-      this.projectRepository.findById(lockedItem.getDocumentId()).orElse(null);
+        this.projectRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (project != null) {
       DataPackage dataPackage =
-        this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
-      if (dataPackage != null && dataPackage.getRemarksUserService() != null && dataPackage.getRemarksUserService() != "") {
-        project.setHasUserServiceRemarks(true);
+          this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+      if (dataPackage != null &&
+        dataPackage.getRemarksUserService() != null &&
+        dataPackage.getRemarksUserService() != "") {
+          project.setHasUserServiceRemarks(true);
       }
       DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
         project);
 
       IndexRequest req = new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-        .source(gson.toJson(searchDocument), XContentType.JSON);
+          .source(gson.toJson(searchDocument), XContentType.JSON);
       request.add(req);
       return true;
     }

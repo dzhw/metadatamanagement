@@ -97,7 +97,7 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
    * for data packages.
    */
   @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
-    + ".has-user-service-remarks.not-null")
+      + ".has-user-service-remarks.not-null")
   private Boolean hasUserServiceRemarks = false;
 
   /**
