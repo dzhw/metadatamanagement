@@ -1,9 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +21,6 @@ public class DataAcquisitionProjectSearchDocument extends DataAcquisitionProject
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
     new String[] {"nested*", "guiLabels"};
 
-//  private Release release = null;
-//  private Configuration configuration = null;
-
   private I18nString guiLabels = AnalysisPackageDetailsGuiLabels.GUI_LABELS;
   private I18nString completeTitle;
 
@@ -34,11 +29,8 @@ public class DataAcquisitionProjectSearchDocument extends DataAcquisitionProject
    *
    */
   @SuppressWarnings("CPD-START")
-  public DataAcquisitionProjectSearchDocument(DataAcquisitionProject project, Release release,
-                                       Configuration configuration) {
+  public DataAcquisitionProjectSearchDocument(DataAcquisitionProject project) {
     super(project);
-//    this.release = release;
-//    this.configuration = configuration;
 
     // titleString is required but as projects do not have titles we use the masterID here
     I18nString titleString = new I18nString();
