@@ -286,6 +286,7 @@ angular.module('metadatamanagementApp').config([
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
         'not-master-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}). ',
+        'no-order-allowed-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}), die nicht bestellbar ist. Wählen Sie eine bestellbare Version im Seitenmenü.',
         'current-version':'Hier geht es zur aktuellen Version!'
       }
       //jscs:enable

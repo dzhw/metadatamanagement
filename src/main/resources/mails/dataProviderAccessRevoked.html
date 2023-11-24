@@ -16,7 +16,10 @@
     </style>
 </head>
 <body>
-<p th:text="#{email.assignee-group-changed.greeting(${user.login})}">Dear</p>
+<p th:if="${user.firstName != null and user.firstName != ''} and ${user.lastName != null and user.lastName != ''}"
+   th:text="#{email.assignee-group-changed.greeting(${user.firstName}, ${user.lastName})}">Dear</p>
+<p th:if="${user.firstName == null or user.firstName == ''} or ${user.lastName == null or user.lastName == ''}"
+   th:text="#{email.assignee-group-changed.greetingLogin(${user.login})}">Dear</p>
 <p>
     <span th:text="#{email.data-provider-access-revoked.text1(${projectId})}">Project</span>
     <a th:href="@{|${baseUrl}/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>

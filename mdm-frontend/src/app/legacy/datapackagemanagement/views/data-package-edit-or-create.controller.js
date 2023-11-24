@@ -166,6 +166,7 @@ angular.module('metadatamanagementApp')
             CurrentProjectService.setCurrentProject(project);
             ctrl.dataPackage = dataPackage;
             ctrl.currentStudySeries = dataPackage.studySeries;
+            ctrl.remarksUserService = dataPackage.remarksUserService;
             ctrl.currentSponsors = angular.copy(
               ctrl.dataPackage.sponsors);
             ctrl.currentInstitutions = angular.copy(
