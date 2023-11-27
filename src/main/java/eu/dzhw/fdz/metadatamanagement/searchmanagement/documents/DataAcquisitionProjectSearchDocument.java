@@ -18,6 +18,8 @@ import lombok.ToString;
 @Setter
 public class DataAcquisitionProjectSearchDocument extends DataAcquisitionProject implements SearchDocumentInterface {
 
+  private static final long serialVersionUID = -3963249178909573557L;
+
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
     new String[] {"nested*", "guiLabels"};
 

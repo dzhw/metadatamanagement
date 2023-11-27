@@ -329,7 +329,7 @@ public class ElasticsearchUpdateQueueService {
           this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
       if (dataPackage != null
           && dataPackage.getRemarksUserService() != null
-          && dataPackage.getRemarksUserService() != "") {
+          && !dataPackage.getRemarksUserService().equals("")) {
         project.setHasUserServiceRemarks(true);
       }
       DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
