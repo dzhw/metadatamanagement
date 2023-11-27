@@ -67,6 +67,18 @@ angular.module('metadatamanagementApp').config([
           'change-file': 'Klicken, um eine Datei auszuwählen.',
           'previous-version': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
           'save': 'Klicken, um die Datei zu speichern.'
+        },
+        'predefined-content': {
+          'description': {
+            'method-report': {
+              'de': 'Der Bericht umfasst allgemeine Informationen zum Datenpaket.',
+              'en': 'The report includes general information on the data package.'
+            },
+            'release-notes': {
+              'de': 'Die Release Notes enthalten Informationen zur aktuellen Version und zu Veränderungen im Vergleich zu vorherigen Versionen.',
+              'en': 'The release notes contain information about the current version and changes compared to previous versions.'
+            }
+          }
         }
       }
       //jscs:enable
