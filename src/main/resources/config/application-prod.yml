@@ -27,7 +27,7 @@ spring:
         - ${vcap.services.elastic.credentials.sslUri}
 
 mongock:
-  enabled: false
+  enabled: true
 
 management:
   metrics:
