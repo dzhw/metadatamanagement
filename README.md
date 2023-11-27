@@ -67,11 +67,12 @@ Run `mvn` **first** to start the Spring backend and to **make sure** the fronten
 
 If you run the backend on your machine for the first time or you have restored a mongodb dump then you need to setup the elasticsearch indices. Therefore go to http://localhost:8080/de/health and sign in with `localuser` and password `herzlichwillkommen`. Then click the red button 'reindex'. Reindexing can take up to 1 hour.
 
-In order for all external services to work on your local machine, you need to set the following environment variables:
+In order for all external services to work on your local machine, you need to set the following variables in `application-local.yml`:
 ```
-DARA_ENDPOINT=http://labs.da-ra.de/dara/
-DARA_USERNAME={see s3://metadatamanagement-private/sensitive_variables.tf}
-DARA_PASSWORD={see s3://metadatamanagement-private/sensitive_variables.tf}
+dara:
+    endpoint: "https://labs.da-ra.de/dara/"
+    username: {see s3://metadatamanagement-private/sensitive_variables.tf}
+    password: {see s3://metadatamanagement-private/sensitive_variables.tf}
 ```
 
 If you want to build a docker image for the metadatamanagement server app you can run

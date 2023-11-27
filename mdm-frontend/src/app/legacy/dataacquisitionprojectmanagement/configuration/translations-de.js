@@ -10,6 +10,9 @@ angular.module('metadatamanagementApp').config([
         'name': 'Name des Datenaufnahmeprojektes',
         'release': {
           'version': 'Version des Datenaufnahmeprojektes',
+          'landing-page-de-title': 'Deutsch',
+          'landing-page-en-title': 'Englisch',
+          'landing-page-hint': 'Bitte wählen Sie die Sprache der DOI-Landingpage',
           'pin-to-start-page': 'Datenpaket auf Startseite anzeigen',
           'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.',
           'confirmed': {
@@ -251,6 +254,7 @@ angular.module('metadatamanagementApp').config([
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
         'not-master-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}). ',
+        'no-order-allowed-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}), die nicht bestellbar ist. Wählen Sie eine bestellbare Version im Seitenmenü.',
         'current-version':'Hier geht es zur aktuellen Version!'
       }
       //jscs:enable

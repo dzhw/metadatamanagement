@@ -102,6 +102,10 @@
           <span
             class="md-secondary">{{$ctrl.options.dataPackage.release?$ctrl.options.dataPackage.release.version + ' (' + ('data-package-management.detail.label.published-at' | translate) + ' ' + ($ctrl.options.dataPackage.release.firstDate + 'Z' | date:'mediumDate') + ')': ('data-package-management.detail.not-yet-released' | translate)}}</span>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.remarksUserService && $ctrl.options.showRemarks">
+          <h5>{{'data-package-management.detail.label.remarksUserService' | translate }}:</h5>
+          <span class="md-secondary">{{$ctrl.options.dataPackage.remarksUserService}}</span>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.annotations">
           <h5>{{'data-package-management.detail.label.annotations' | translate }}:</h5>
           <p

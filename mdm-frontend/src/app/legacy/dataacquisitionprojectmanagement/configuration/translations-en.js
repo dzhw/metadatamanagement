@@ -10,6 +10,9 @@ angular.module('metadatamanagementApp').config([
         'name': 'Name of the Data Acquisition Projects',
         'release': {
           'version': 'Version of the Data Acquisition Projects',
+          'landing-page-de-title': 'German',
+          'landing-page-en-title': 'English',
+          'landing-page-hint': 'Please select the language of the DOI landing page',
           'pin-to-start-page': 'Show Data Package on Start Page',
           'pin-to-start-page-hint': 'Check this box, if you want to show this data package on the start page.',
           'confirmed': {
@@ -252,6 +255,7 @@ angular.module('metadatamanagementApp').config([
         'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). Choose the current version ({{newVersion}}) in the side menu.</a>',
         'version-not-found-alert': 'Your link refers to a version ({{oldVersion}}) of this page which does not exist. This is the current version ({{newVersion}}).',
         'not-master-alert': 'This is a {{hidden?"<u>hidden</u>":""}} shadow copy ({{version}}). ',
+        'no-order-allowed-alert': 'This is a {{hidden?"<u>hidden</u>":""}} shadow copy ({{version}}) which is not orderable. Choose an available version in the side menu. ',
         'current-version': 'Click here to open the current version!'
       }
       //jscs:enable

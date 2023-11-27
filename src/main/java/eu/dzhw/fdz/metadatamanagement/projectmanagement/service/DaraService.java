@@ -297,6 +297,12 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
+    } else {
+      dataForTemplate.put("projectURLLanguage", "en");
+    }
+
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
 
     // Get Surveys Information
@@ -392,6 +398,12 @@ public class DaraService {
     String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
     if (!analysisPackage.isHidden()) {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
+    }
+
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
+    } else {
+      dataForTemplate.put("projectURLLanguage", "en");
     }
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
