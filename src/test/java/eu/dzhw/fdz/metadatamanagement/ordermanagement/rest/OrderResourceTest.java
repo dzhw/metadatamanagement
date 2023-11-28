@@ -77,7 +77,7 @@ public class OrderResourceTest extends AbstractTest {
 
     mockMvc.perform(get(UPDATE_ORDER_URL + order.getId())).andExpect(status().isOk())
         .andExpect(jsonPath("$.products.length()", is(1)))
-        .andExpect(jsonPath("$.products[0].study.title.de",
+        .andExpect(jsonPath("$.products[0].dataPackage.title.de",
             is(order.getProducts().get(0).getDataPackage().getTitle().getDe())));
 
     // now update as DLP
@@ -146,7 +146,7 @@ public class OrderResourceTest extends AbstractTest {
             "eu.dzhw.fdz.metadatamanagement.domain.validationorder-management.error."
             + "either-analysis-package-or-data-package")));
   }
-  
+
   @Test
   public void shouldFailToCreateOrderWithDataPackageAndWithAnalysisPackage()
       throws Exception {
@@ -164,7 +164,7 @@ public class OrderResourceTest extends AbstractTest {
             "eu.dzhw.fdz.metadatamanagement.domain.validationorder-management.error."
             + "either-analysis-package-or-data-package")));
   }
-  
+
   @Test
   public void shouldCreateOrderWithWithAnalysisPackage()
       throws Exception {
