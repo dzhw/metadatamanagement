@@ -228,6 +228,7 @@ angular.module('metadatamanagementApp').config([
             'middle-name': 'Middle Name',
             'last-name': 'Last Name',
             'tags': 'Tags (Keywords) for the Data Package',
+            'tagsElsst': 'ELSST Tags (Keywords) for the Data Package',
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',

@@ -133,6 +133,15 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
   private Tags tags;
 
   /**
+   * Keywords for the concept.
+   *
+   * Must not be empty.
+   */
+  @Valid
+  @NotNull(message = "concept-management.error.concept.tagsElsst.not-null")
+  private TagsElsst tagsElsst;
+
+  /**
    * The original languages of the definition of the concept as ISO 639 code.
    *
    * Must not be empty.

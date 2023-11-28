@@ -157,7 +157,8 @@ angular.module('metadatamanagementApp').config([
             'first-name': 'First Name',
             'middle-name': 'Middle Name',
             'last-name': 'Last Name',
-            'tags': 'Tags (Keywords) for this Concept'
+            'tags': 'Tags (Keywords) for this Concept',
+            'tagsElsst': 'Tags (ELSST keywords) for this Concept'
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this concept.',
           'save-tooltip': 'Click to save this concept.',

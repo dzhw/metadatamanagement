@@ -162,12 +162,12 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * List of {@link Sponsor}s which have sponsored this data package.
-   * 
+   *
    * Must not be empty.
    */
   @Valid
   @NotEmpty(message = "data-package-management.error.data-package.data-curators.not-empty")
-  private List<Sponsor> sponsors;  
+  private List<Sponsor> sponsors;
 
   /**
    * The license of this analysis package. Markdown is supported.
@@ -180,7 +180,7 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * A list of additional links for the analysis package.
-   * 
+   *
    * May be empty.
    */
   @Valid
@@ -188,7 +188,7 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * List of data packages used by the scripts in this analysis package.
-   * 
+   *
    * May be empty.
    */
   @Valid
@@ -196,7 +196,7 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * List of scripts which are part of the analysis package.
-   * 
+   *
    * At least one {@link Script} must be specified.
    */
   @Valid
@@ -211,6 +211,15 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
   @Valid
   @NotNull(message = "analysis-package-management.error.analysis-package.tags.not-null")
   private Tags tags;
+
+  /**
+   * ELSST keywords for the analysis package.
+   *
+   * Must not be empty.
+   */
+  @Valid
+  @NotNull(message = "analysis-package-management.error.analysis-package.tagsElsst.not-null")
+  private TagsElsst tagsElsst;
 
   public AnalysisPackage(AnalysisPackage analysisPackage) {
     super();

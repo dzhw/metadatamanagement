@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config([
             'title': 'Titel',
             'dataLanguages': 'Daten verfügbar auf',
             'tags': 'Schlagwörter',
+            'tagsElsst': 'ELSST Schlagwörter',
             'additional-links': 'Weiterführende Links',
             'attachments': {
               'type': 'Typ',
@@ -228,6 +229,7 @@ angular.module('metadatamanagementApp').config([
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
             'tags': 'Tags (Schlagwörter) zum Datenpaket',
+            'tagsElsst': 'ELSST Tags (Schlagwörter) zum Datenpaket',
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',

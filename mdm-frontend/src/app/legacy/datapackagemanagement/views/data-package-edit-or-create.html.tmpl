@@ -564,6 +564,18 @@
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
+            <h2 class="md-title">{{'data-package-management.edit.label.tagsElsst' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <tag-editor-elsst require-german-tag="true" tag-search="ctrl.findTagsElsst(searchText, language)"
+            tags="ctrl.dataPackage.tagsElsst"></tag-editor-elsst>
+        </md-card-content>
+      </md-card>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
             <h2 class="md-title">{{'data-package-management.detail.label.additional-links' | translate }}</h2>
           </md-card-header-text>
         </md-card-header>
