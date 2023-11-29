@@ -127,11 +127,39 @@
     </div>
   </md-input-container>
 </div>
-<edit-text-section-component bilingual="false"
-  name="analysisDataPackages"
-  current-form="$ctrl.currentForm"
-  translation-key-package="analysis-package"
-  translation-key-name="external-data-package.license.title"
-  max-length="1048576"
-  content="$ctrl.package.license">
-</edit-text-section-component>
+<div layout="row"
+     layout-gt-sm="row"
+     class="ms-flex">
+
+
+    <md-input-container flex="100"
+                        md-is-error="!$ctrl.currentForm[external-data-package-license].$valid && ($ctrl.currentForm[external-data-package-license].$dirty || $ctrl.currentForm[external-data-package-license].$touched)"
+                        ng-class="{'mr10': $mdMedia('gt-sm')}"
+                        class="ms-flex">
+        <label>{{'analysis-package' + '-management.detail.label.' + 'external-data-package.license.title' | translate}}
+        <md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon>
+        </label>
+        <textarea lang="de"
+                rows="10"
+                md-no-autogrow
+                ng-attr-fdz-required="false"
+                md-maxlength="1048576"
+                name="external-data-package-license"
+                ng-model="$ctrl.package.license">
+        </textarea>
+        <div
+        class="fdz-input-hint"
+        ng-if="$ctrl.package.license == null || $ctrl.package.license == ''">
+        {{'analysis-package-management.edit.hints.external-data-package.license.title' | translate}}
+        </div>
+        <div
+        multiple
+        ng-messages="$ctrl.currentForm['external-data-package-license'].$error">
+        <div
+            ng-message="md-maxlength">
+            {{'analysis-package-management.error.external-data-package.license.string-size' |
+        translate}}
+        </div>
+        </div>       
+     </md-input-container>
+</div>

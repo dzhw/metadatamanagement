@@ -76,7 +76,7 @@
         </md-list-item>
         <md-list-item ng-if="item.license">
           <h5>{{ 'analysis-package-management.detail.label.external-data-package.license.title' | translate}}:</h5>
-          <a ng-click="showLicenseInDialog(item.license)">{{ 'analysis-package-management.detail.label.external-data-package.license.show-license' | translate }}
+          <a ng-click="showLicenseInDialog(item.license, 'analysis-package-management.detail.label.external-data-package.license.title')">{{ 'analysis-package-management.detail.label.external-data-package.license.show-license' | translate }}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'analysis-package-management.detail.license-tooltip' | translate}}
             </md-tooltip>
@@ -113,7 +113,7 @@
                 <td class="mb16">
                   <span ng-if="!link.license">*</span>
                   <div ng-if="link.license">
-                    <a ng-click="showLicenseInDialog(link.license)">{{ 'analysis-package-management.detail.label.custom-data-package.license.show-license' | translate }}
+                    <a ng-click="showLicenseInDialog(link.license, 'analysis-package-management.detail.label.custom-data-package.license.title')">{{ 'analysis-package-management.detail.label.custom-data-package.license.show-license' | translate }}
                       <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'analysis-package-management.detail.license-tooltip' | translate}}
                       </md-tooltip>

@@ -85,11 +85,41 @@
         </md-input-container>
       </div>
       <!-- LICENSE -->
-      <div class="mb16" style="margin-left: 30px;">
-        <edit-text-section-component bilingual="false" name="license" current-form="$ctrl.currentForm"
-          translation-key-package="analysis-package" translation-key-name="custom-data-package.license.title"
-          max-length="1048576" content="$ctrl.content[$index].license">
-        </edit-text-section-component>
+      <div class="mb16" style="margin-left: 40px;">
+        <div layout="row"
+            layout-gt-sm="row"
+            class="ms-flex">
+            <md-input-container flex="100"
+                                md-is-error="!$ctrl.currentForm[data-source-license].$valid && ($ctrl.currentForm[data-source-license].$dirty || $ctrl.currentForm[data-source-license].$touched)"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                class="ms-flex">
+                <label>{{'analysis-package-management.detail.label.custom-data-package.license.title' | translate}}
+                <md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon>
+                </label>
+                <textarea lang="de"
+                        rows="10"
+                        md-no-autogrow
+                        ng-attr-fdz-required="false"
+                        md-maxlength="1048576"
+                        name="data-source-license"
+                        ng-model="$ctrl.content[$index].license">
+                </textarea>
+                <div
+                class="fdz-input-hint"
+                ng-if="$ctrl.content[$index].license == null || $ctrl.content[$index].license == ''">
+                {{'analysis-package-management.edit.hints.custom-data-package.license.title' | translate}}
+                </div>
+                <div
+                multiple
+                ng-messages="$ctrl.currentForm['data-source-license'].$error">
+                <div
+                    ng-message="md-maxlength">
+                    {{'analysis-package-management.error.custom-data-package.license.string-size' |
+                translate}}
+                </div>
+                </div>        
+            </md-input-container>
+        </div>
       </div>
     </div>
   </md-content>

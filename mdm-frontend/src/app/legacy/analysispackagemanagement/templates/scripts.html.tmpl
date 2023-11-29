@@ -38,7 +38,7 @@
           <td>
             <span ng-if="!row.license">*</span>
             <div ng-if="row.license">
-              <a ng-click="showLicenseInDialog(row.license)">{{ 'analysis-package-management.detail.label.scripts-license.show-license' | translate }}
+              <a ng-click="showLicenseInDialog(row.license, 'analysis-package-management.detail.label.scripts-license.title')">{{ 'analysis-package-management.detail.label.scripts-license.show-license' | translate }}
                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'analysis-package-management.detail.license-tooltip' | translate}}
                 </md-tooltip>
