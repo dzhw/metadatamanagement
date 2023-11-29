@@ -16,12 +16,12 @@ angular.module('metadatamanagementApp').config([
           'pin-to-start-page': 'Datenpaket auf Startseite anzeigen',
           'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.',
           'confirmed': {
-            'local': 'Dies ist ein lokales System. Sind sie sicher?',
-            'test': 'Dies ist das Test-System! Sind sie sicher?',
-            'dev': 'Dies ist das Dev-System! Sind sie sicher?',
-            'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind sie sicher?',
+            'local': 'Dies ist ein lokales System. Sind Sie sicher?',
+            'test': 'Dies ist das Test-System! Sind Sie sicher?',
+            'dev': 'Dies ist das Dev-System! Sind Sie sicher?',
+            'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind Sie sicher?',
           },
-          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn sie das Projekt wirklich auf diesem System freigeben wollen!'
+          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!'
         },
         'home': {
           'title': 'Datenaufnahmeprojekte',
@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').config([
             'deleted-not-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" konnte nicht gelöscht werden!',
             'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein.',
             'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
-            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
+            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Der da|ra-Service zur Registrierung der DOI ist aktuell nicht verfügbar. Kontaktieren Sie den Administrator (fdz-feedback@dzhw.eu) und versuchen Sie es später erneut.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt bearbeitet werden.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
             'unrelease': 'Möchten Sie wirklich die Freigabe zurücknehmen und die Metadaten des Projektes "{{ id }}" bearbeiten?',

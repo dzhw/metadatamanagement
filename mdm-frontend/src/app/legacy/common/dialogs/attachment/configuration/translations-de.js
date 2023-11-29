@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').config([
           }
         },
         'hint': {
-          'filename': 'Wählen Sie eine Datei aus, die sie hinzufügen wollen',
+          'filename': 'Wählen Sie eine Datei aus, die Sie hinzufügen wollen',
           'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
           'type': 'Wählen Sie den Typ der Datei aus.',
           'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
