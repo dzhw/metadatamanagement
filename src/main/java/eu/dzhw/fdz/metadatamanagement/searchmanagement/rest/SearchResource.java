@@ -117,7 +117,7 @@ public class SearchResource {
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String queryString = request.getQueryString();
     String path = completePath.replaceFirst("/api/search", "");
-    String url = connectionUrl + path;
+    String url = URLDecoder.decode(connectionUrl + path, "UTF-8");
     if (!StringUtils.isEmpty(queryString)) {
       url = url + "?" + URLDecoder.decode(queryString, "UTF-8");
     }
