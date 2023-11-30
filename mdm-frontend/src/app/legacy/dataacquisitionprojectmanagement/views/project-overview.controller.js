@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp')
     BreadcrumbService, PageMetadataService,
     ElasticSearchClient, Principal, dataAcquisitionProjectSearchService, $location, CleanJSObjectService) {
     var ctrl = this;
-    var stateParamsLimit = $stateParams.limit ? $stateParams.limit : 10;
+    var stateParamsLimit = $stateParams.size ? $stateParams.size : 10;
     ctrl.userHasProjects = false;
     ctrl.isSearching = false;
 
