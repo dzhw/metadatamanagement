@@ -5,7 +5,8 @@
  * overview is accessible for authenticated users with roles PUBLISHER or
  * DATAPROVIDER. PUBLISHERs will get insights into
  * all available data acquisition projects. DATAPROVIDERs can only see
- * their assigned projects.
+ * their assigned projects. Additionally, PUBLISHERS have access to the "additional user service remarks" filter
+ * and information.
  */
 angular.module('metadatamanagementApp')
   .controller('ProjectOverviewController', [
@@ -300,6 +301,33 @@ angular.module('metadatamanagementApp')
     ctrl.openProjectCockpit = function(projectId) {
       $state.go('project-cockpit', {id: projectId});
     };
+
+    /**
+     * Wether or not the filter for additional user service remarks
+     * should be displayed. Only users with role PUBLISHER are able to
+     * set the filter.
+     */
+    ctrl.shouldShowRemarksFilter = function() {
+      return Principal.isPublisher() && ctrl.currentTab.group === 'dataPackages';
+    }
+
+    /**
+     * Wether or not the information for additional user service remarks
+     * should be displayed. Only users with role PUBLISHER are able to
+     * view the information in the table.
+     */
+    ctrl.shouldShowRemarksInfo = function() {
+      return Principal.isPublisher();
+    }
+
+    /**
+     * Wether or not the project requires analysis packages.
+     * @param {*} project the project
+     * @returns true if the project required an analysis package else false
+     */
+    ctrl.isAnalysisPackage = function(project) {
+      return project.configuration.requirements.isAnalysisPackagesRequired;
+    }
 
     /**
      * Closes the select menu.

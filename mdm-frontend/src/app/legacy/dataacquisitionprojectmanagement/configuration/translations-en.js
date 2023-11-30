@@ -234,6 +234,7 @@ angular.module('metadatamanagementApp').config([
             'project-name': 'Project',
             'release-version': 'Current Version',
             'assigned-group': 'Assigned Group',
+            'user-service-remarks': 'Remarks for User Service',
             'data-package-status': 'Data Package',
             'analysis-package-status': 'Analysis Package',
             'surveys-status': 'Surveys',
@@ -246,6 +247,8 @@ angular.module('metadatamanagementApp').config([
             'publisher': 'Publisher',
             'data-provider': 'Data Provider',
             'unreleased': 'unreleased',
+            'not-available' : 'none',
+            'available': 'available',
             'tooltip': 'Click to open the project cockpit for this project'
           },
           'pagination': {

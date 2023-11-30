@@ -117,7 +117,6 @@ export class DataacquisitionprojectSearchService {
 
         // dataproviders should only see assigned data
         if (assignedProjectsOnly && loginName) {
-            console.log("Assigned only please")
             let assignedOnlyBase = {'configuration.dataProviders': loginName};
             let assignedOnlyFilter = this.createFilterFragment(QueryFragmentType.term, assignedOnlyBase);
             boolQuery.bool.filter?.push(assignedOnlyFilter);

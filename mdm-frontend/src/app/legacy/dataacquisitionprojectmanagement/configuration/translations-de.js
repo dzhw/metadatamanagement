@@ -233,6 +233,7 @@ angular.module('metadatamanagementApp').config([
             'project-name': 'Projekt',
             'release-version': 'Aktuelle Version',
             'assigned-group': 'Zugewiesene Gruppe',
+            'user-service-remarks': 'Bemerkungen User Service',
             'data-package-status': 'Datenpaket',
             'analysis-package-status': 'Analyse Paket',
             'surveys-status': 'Erhebungen',
@@ -245,6 +246,8 @@ angular.module('metadatamanagementApp').config([
             'publisher': 'Publisher',
             'data-provider': 'Datengeber:innen',
             'unreleased': 'nicht freigegeben',
+            'not-available' : 'keine',
+            'available': 'vorhanden',
             'tooltip': 'Klicken, um das Projekt-Cockpit dieses Projekts zu öffnen'
           },
           'pagination': {
@@ -257,7 +260,7 @@ angular.module('metadatamanagementApp').config([
               'assignee-group': 'Zugewiesen an',
               'release-state': 'Status',
               'datapackage-filter': 'Filter für Datenpakete',
-              'user-service-remarks': 'Zusatzangaben Nutzerservice'
+              'user-service-remarks': 'Bemerkungen Nutzerservice'
             },
             'options': {
               'assignee-group': {
@@ -275,8 +278,8 @@ angular.module('metadatamanagementApp').config([
                 'concepts': 'Konzepte'
               },
               'user-service-remarks': {
-                'with-additional-info': 'mit Zusatzangaben',
-                'without-additional-info': 'ohne Zusatzangaben'
+                'with-additional-info': 'Bemerkungen vorhanden',
+                'without-additional-info': 'keine Bemerkungen'
               }
             }
           },
