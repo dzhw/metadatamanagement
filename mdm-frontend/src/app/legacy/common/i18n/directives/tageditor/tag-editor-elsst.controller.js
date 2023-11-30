@@ -7,8 +7,8 @@ angular.module('metadatamanagementApp')
   '$mdMedia', 
   'DataPackageSearchService', 'ElsstSearchService', function($scope, $mdMedia, DataPackageSearchService, ElsstSearchService) {
 
-    // return all selectable tags that are available according to the search text and have not already selected
     var removeExistingTags = function(tags, language) {
+    // return all selectable tags that are available according to the search text and have not already selected
       if (!$scope.tags[language] || $scope.tags[language].length == 0) {
         $scope.tags = {
           de: [],
@@ -82,25 +82,28 @@ angular.module('metadatamanagementApp')
         });
     };
 
+    $scope.removeInvalidInput = function(chip, language) {
+      // prevent invalid input from being added as a chip
+      if (typeof chip === 'string') { 
+        $scope.tags[language].pop();
+      } 
+    };
+
     $scope.openLink = function(item, language) {
       var url = 'https://thesauri.cessda.eu/elsst-4/en/page/' + item.localname;
-
       if (language == 'de') {
         url += '?clang=de';
       }
-
       window.open(url, '_blank');
     }
 
-
     $scope.onChipRemoved = function(removedItem, language) {
-      // make sure that the translated version of the recently removed tag is also removed
-      var remLanguage = getOppositeLanguage(language);
-      if (!remLanguage) {
+      // make sure that the translated tag of the removed tag is removed as well
+      var oppositeLang = getOppositeLanguage(language);
+      if (!oppositeLang) {
         return;
       }
-
-      $scope.tags[remLanguage] = $scope.tags[remLanguage].filter(item => item.localname !== removedItem.localname);
+      $scope.tags[oppositeLang] = $scope.tags[oppositeLang].filter(item => item.localname !== removedItem.localname);
     }
 
     $scope.$mdMedia = $mdMedia;

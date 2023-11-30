@@ -89,7 +89,8 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',
           'tag-tooltip': 'Click to search for concepts with this tag',
-          'tags': 'Tags'
+          'tags': 'Tags',
+          'tagsElsst': 'ELSST Tags'
         },
         'log-messages': {
           'concept': {
@@ -158,7 +159,7 @@ angular.module('metadatamanagementApp').config([
             'middle-name': 'Middle Name',
             'last-name': 'Last Name',
             'tags': 'Tags (Keywords) for this Concept',
-            'tagsElsst': 'Tags (ELSST keywords) for this Concept'
+            'tagsElsst': 'ELSST Tags (keywords) for this Concept'
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this concept.',
           'save-tooltip': 'Click to save this concept.',

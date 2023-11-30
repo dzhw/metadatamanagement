@@ -6,7 +6,8 @@
                   ng-required="requireGermanTag"
                   name="tagsDe"
                   md-add-on-blur="true"
-                  md-on-remove="onChipRemoved($chip, 'de')">
+                  md-on-remove="onChipRemoved($chip, 'de')"
+                  md-on-add="removeInvalidInput($chip, 'de')">
             <md-autocomplete 
                 md-items="tag in searchTags(tagSearchTextDe, 'de')"
                 md-selected-item-change="selectedItemChange(tag, 'de')"
@@ -35,7 +36,8 @@
                   ng-required="requireEnglishTag"
                   name="tagsEn"
                   md-add-on-blur="true"
-                  md-on-remove="onChipRemoved($chip, 'en')">
+                  md-on-remove="onChipRemoved($chip, 'en')"
+                  md-on-add="removeInvalidInput($chip, 'en')">
             <md-autocomplete 
                 md-items="tag in searchTags(tagSearchTextEn, 'en')"
                 md-selected-item-change="selectedItemChange(tag, 'en')"

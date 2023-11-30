@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Elsst implements Serializable {
 
+  private static final long serialVersionUID = 72245732592890720L;
+
   /**
    * Preferred label, e.g. "PRÄSIDENTIELLE REGIERUNGSSYSTEME".
    */

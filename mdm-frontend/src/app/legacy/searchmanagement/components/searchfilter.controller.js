@@ -24,6 +24,10 @@
           property: 'tags', collapsed: false
         },
         {
+          name: 'global.filter.tagsElsst',
+          property: 'tagsElsst', collapsed: false
+        },
+        {
           name: 'global.filter.sponsors',
           property: 'sponsors', collapsed: false
         },
@@ -46,6 +50,10 @@
         {
           name: 'global.filter.tags',
           property: 'tags', collapsed: true
+        },
+        {
+          name: 'global.filter.tagsElsst',
+          property: 'tagsElsst', collapsed: true
         },
         {
           name: 'global.filter.access-ways',

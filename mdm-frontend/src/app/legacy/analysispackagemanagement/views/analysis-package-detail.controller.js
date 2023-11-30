@@ -65,6 +65,14 @@ angular.module('metadatamanagementApp')
           return [];
         }
       };
+      var getTagsElsst = function(analysisPackage) {
+        if (analysisPackage.tagsElsst) {
+          var language = LanguageService.getCurrentInstantly();
+          return analysisPackage.tagsElsst[language];
+        } else {
+          return [];
+        }
+      };
       var ctrl = this;
       var activeProject;
       var bowser = $rootScope.bowser;
@@ -223,6 +231,7 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.analysisPackageTags = getTags(result);
+        ctrl.analysisPackageTagsElsst = getTagsElsst(result);
 
       }, $log.error)
         .finally(blockUI.stop);

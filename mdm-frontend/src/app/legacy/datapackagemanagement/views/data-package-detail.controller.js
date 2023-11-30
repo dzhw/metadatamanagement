@@ -57,7 +57,7 @@ angular.module('metadatamanagementApp')
         }
       };
       var getTagsElsst = function(dataPackage) {
-        if (dataPackage.tags) {
+        if (dataPackage.tagsElsst) {
           var language = LanguageService.getCurrentInstantly();
           return dataPackage.tagsElsst[language];
         } else {
