@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('TagEditorElsstController', [
   '$scope',
-  '$mdMedia', 
+  '$mdMedia',
   'DataPackageSearchService', 'ElsstSearchService', function($scope, $mdMedia, DataPackageSearchService, ElsstSearchService) {
 
     var removeExistingTags = function(tags, language) {
@@ -63,17 +63,23 @@ angular.module('metadatamanagementApp')
       if (!item || !translateLang) {
         return;
       }
-      
+
       ElsstSearchService.findTagsElsstTranslation(item.prefLabel, language, translateLang)
         .then(function(response) {
           if (!response) {
             return;
           }
           for (var i = 0; i < response.length; i++) {
+            // in the other language, sometimes multiple tags are returned, add all of them   // TODO REMOVE SELBE ID ??
+            res = response[i];
+            if (res.altLabel && typeof res.altLabel == 'string') {
+              // sometimes altLabel is originally not given as array, but as string
+              res.altLabel = [altLabel];
+            }
             if ($scope.tags[translateLang].length == 0) {
-              $scope.tags[translateLang] = [response[i]];
+              $scope.tags[translateLang] = [res];
             } else {
-              $scope.tags[translateLang] = [...$scope.tags[translateLang], response[i]];
+              $scope.tags[translateLang] = [...$scope.tags[translateLang], res];
             }
           }
         })
@@ -84,9 +90,9 @@ angular.module('metadatamanagementApp')
 
     $scope.removeInvalidInput = function(chip, language) {
       // prevent invalid input from being added as a chip
-      if (typeof chip === 'string') { 
+      if (typeof chip === 'string') {
         $scope.tags[language].pop();
-      } 
+      }
     };
 
     $scope.openLink = function(item, language) {
@@ -104,6 +110,10 @@ angular.module('metadatamanagementApp')
         return;
       }
       $scope.tags[oppositeLang] = $scope.tags[oppositeLang].filter(item => item.localname !== removedItem.localname);
+
+      // also make sure that elements in this language with the same id (but with e.g. different altLabel)
+      // is removed as well
+      $scope.tags[language] = $scope.tags[language].filter(item => item.localname !== removedItem.localname);
     }
 
     $scope.$mdMedia = $mdMedia;

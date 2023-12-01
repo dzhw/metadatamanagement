@@ -935,8 +935,13 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
               }
             };
             if (filterConfig.i18n) {
-              filter.term[filterConfig.attribute + '.' + currentLanguage] =
-              filterValue;
+              if (filterConfig.attribute.includes("{}")) {
+                // add language to attribute by replacing the brackets, e.g. foo.{}.prefLabel = foo.de.prefLabel
+                filter.term[filterConfig.attribute.replace("{}", currentLanguage)] = filterValue;
+              } else {
+                // add language to attribute at the end, e.g. foo = foo.de
+                filter.term[filterConfig.attribute + '.' + currentLanguage] = filterValue;
+              }
             } else {
               filter.term[filterConfig.attribute] = filterValue;
             }
