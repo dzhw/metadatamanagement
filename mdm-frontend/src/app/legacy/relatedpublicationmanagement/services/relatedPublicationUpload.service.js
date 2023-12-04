@@ -105,8 +105,8 @@ angular.module('metadatamanagementApp')
         previouslyUploadedPublicationIds = {};
         JobLoggingService.start('related-publication');
         ExcelReaderService.readFileAsync(file).then(
-          function(relatedPublications) {
-            objects = RelatedPublicationBuilderService
+          async function(relatedPublications) {
+            objects = await RelatedPublicationBuilderService
             .getRelatedPublications(relatedPublications);
             upload();
           }, function() {
