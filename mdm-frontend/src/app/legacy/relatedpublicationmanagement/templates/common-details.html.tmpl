@@ -23,15 +23,15 @@
           <span
             class="md-secondary">{{$ctrl.options.title}}</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.journal">
-          <h5>{{'related-publication-management.detail.label.journal' | translate }}:</h5>
-          <span
-            class="md-secondary">{{$ctrl.options.journal}}</span>
-        </md-list-item>
         <md-list-item ng-if="$ctrl.options.year">
           <h5>{{'related-publication-management.detail.label.year' | translate }}:</h5>
           <span
             class="md-secondary">{{$ctrl.options.year}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.journal">
+          <h5>{{'related-publication-management.detail.label.journal' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.journal}}</span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.issue">
           <h5>{{'related-publication-management.detail.label.issue' | translate }}:</h5>
