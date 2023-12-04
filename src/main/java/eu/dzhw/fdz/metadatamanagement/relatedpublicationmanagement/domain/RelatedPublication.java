@@ -115,12 +115,12 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   private I18nString annotations;
 
   /**
-   * Name of journal
+   * Name of journal.
    */
   private String journal;
 
   /**
-   * Issue (Ausgabe) of journal
+   * Issue (Ausgabe) of journal.
    */
   private Integer issue;
 
