@@ -35,7 +35,13 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
         </md-button>
-        <md-button class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()" ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
+        <md-button ng-if="!ctrl.isEmbargoDateExpired()" class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()" ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
+            <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{ctrl.selectedProject.release?'global.tooltips.unrelease-project':'global.tooltips.prerelease-project' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">{{'more_time'}}</md-icon>
+        </md-button>
+        <md-button ng-if="ctrl.isEmbargoDateExpired()" class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()" ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{ctrl.selectedProject.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
             </md-tooltip>

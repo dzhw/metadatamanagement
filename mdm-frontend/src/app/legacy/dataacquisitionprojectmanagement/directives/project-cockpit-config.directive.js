@@ -55,6 +55,19 @@ angular.module('metadatamanagementApp')
           req.dataPackagesRequired = true;
           req.publicationsRequired = false;
         };
+
+        ctrl.removeEmbargoDate = function() {
+          ctrl.project.embargoDate = null;
+        }
+
+        /**
+         * Adds 12 hours to the date object toto prevent time zone changes from changing the date
+         */
+        ctrl.onEmbargoDateChanged = function() {
+          var embargoDate = new Date(ctrl.project.embargoDate);
+          embargoDate.setHours(12)
+          ctrl.project.embargoDate = embargoDate;
+        }
       }
     };
   }]);

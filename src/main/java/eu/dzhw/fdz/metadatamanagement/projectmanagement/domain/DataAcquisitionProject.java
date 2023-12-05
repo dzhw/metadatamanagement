@@ -31,6 +31,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
@@ -93,8 +94,13 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
   private Boolean hasBeenReleasedBefore;
 
   /**
+   * Attribute which holds information on the planned release date.
+   */
+  private Date embargoDate;
+
+  /**
    * A valid {@link Release} object.
-   * 
+   *
    * Null if the project is currently not released. The version of a {@link Release} must be a
    * syntactically correct according to semver (major.minor.patch) and must not be decreased.
    */
