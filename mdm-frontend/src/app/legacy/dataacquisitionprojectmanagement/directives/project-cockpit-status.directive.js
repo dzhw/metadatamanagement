@@ -161,6 +161,18 @@ angular.module('metadatamanagementApp')
           }
         };
 
+        /**
+         * Method to check wether there is an embargo date 
+         * and wether this date has expired.
+         */
+        ctrl.isEmbargoDateExpired = function() {
+          if (ctrl.project.embargoDate) {
+            var current = new Date();
+            return new Date(ctrl.project.embargoDate) < current;
+          }
+          return true;
+        }
+
       }
     };
   }]);

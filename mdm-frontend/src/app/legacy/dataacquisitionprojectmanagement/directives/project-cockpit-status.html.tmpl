@@ -4,7 +4,16 @@
 			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;" class="ma8">
 				<release-status-badge released="ctrl.project.release"></release-status-badge>
 				<div class="layout-row">
-					<md-button class="md-raised md-fab md-mini md-primary" ng-click="ctrl.toggleReleaseProject()" ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'">
+					<md-button ng-if="!ctrl.isEmbargoDateExpired()" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.toggleReleaseProject()" ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'">
+						<md-tooltip ng-if="ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							{{ctrl.project.release?'global.tooltips.unrelease-project':'global.tooltips.prerelease-project' | translate}}
+						</md-tooltip>
+						<md-tooltip ng-if="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							{{'data-acquisition-project-management.error.project-update-access.member-of-assigned-group' | translate}}
+						</md-tooltip>
+						<md-icon md-font-set="material-icons">{{'more_time'}}</md-icon>
+					</md-button>
+					<md-button ng-if="ctrl.isEmbargoDateExpired()" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.toggleReleaseProject()" ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'">
 						<md-tooltip ng-if="ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
 							{{ctrl.project.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
 						</md-tooltip>

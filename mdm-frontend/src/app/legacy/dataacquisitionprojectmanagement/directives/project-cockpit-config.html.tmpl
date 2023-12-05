@@ -10,6 +10,30 @@
 	</div>
 	</div>
 
+	<md-card>
+		<md-card-title class="pa0">
+			<md-card-title-text>
+				<span class="md-headline">
+					Release Einstellungen
+				</span>
+			</md-card-title-text>
+		</md-card-title>
+		<md-card-content>
+			<md-input-container>
+				<label>Embargo-Date</label>
+				<div class="layout-row">
+					<md-datepicker ng-model="ctrl.project.embargoDate" md-hide-icons="calendar" ng-change="ctrl.onEmbargoDateChanged()" md-open-on-focus></md-datepicker>
+					<md-button ng-disabled="ctrl.project.embargoDate === null" class="md-icon-button md-primary mb-16" ng-click="ctrl.removeEmbargoDate()">
+						<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img">delete_forever</md-icon>
+						<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							"Embargo-Date löschen"
+						</md-tooltip>
+					</md-button>
+				</div>
+			</md-input-container>
+		</md-card-content>
+	</md-card>
+
 	<md-card ng-if="ctrl.project.configuration.requirements">
 		<md-card-title class="pa0">
 			<md-card-title-text>

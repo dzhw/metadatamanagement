@@ -103,6 +103,7 @@ angular.module('metadatamanagementApp').config([
           'create-project': 'Klicken, um ein neues Datenaufnahmeprojekt zu erzeugen.',
           'delete-project': 'Klicken, um das ausgewählte Datenaufnahmeprojekt mit allen verknüpften Daten zu löschen.',
           'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer:innen freizugeben.',
+          'prerelease-project': 'Klicken, um das ausgewählte Projekt vorläufig freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'cockpit-project': 'Klicken, um zum Projektcockpit zu gehen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufnahmeprojekt zu validieren.',
