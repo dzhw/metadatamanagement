@@ -215,7 +215,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    * Shows if a dataPackage was transmitted via VerbundFDB.
    */
   @Indexed
-  private Boolean transmissionViaVerbundFDB = false;
+  private Boolean transmissionViaVerbundFdb = false;
 
   public DataPackage(DataPackage dataPackage) {
     super();

@@ -109,9 +109,9 @@
             markdown-to-html="$ctrl.options.dataPackage.annotations | displayI18nString"
             ></p>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.dataPackage.transmissionViaVerbundFDB != undefined && $ctrl.options.isPublisher()">
-          <h5>{{'data-package-management.detail.label.transmission-via-VerbundFDB' | translate }}:</h5>
-          <input type="checkbox" ng-model="$ctrl.options.dataPackage.transmissionViaVerbundFDB"
+        <md-list-item ng-if="$ctrl.options.dataPackage.transmissionViaVerbundFdb != undefined && $ctrl.options.isPublisher()">
+          <h5>{{'data-package-management.detail.label.transmission-via-VerbundFdb' | translate }}:</h5>
+          <input type="checkbox" ng-model="$ctrl.options.dataPackage.transmissionViaVerbundFdb"
            ng-true-value="true" ng-false-value="false" ng-disabled=true>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.additionalLinks && $ctrl.options.dataPackage.additionalLinks.length > 0">

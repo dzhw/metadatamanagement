@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp')
       var elasticSearchTypeChanged = false;
       var searchParamsFilterChanged = false;
       $scope.filtersCollapsed = false;
-      $scope.transmissionViaVerbundFDB = false;
+      $scope.transmissionViaVerbundFdb = false;
 
       var createDisplayAvailableFilterList = function(availableFilters) {
         var displayAvailableFilters = [];
@@ -97,7 +97,7 @@ angular.module('metadatamanagementApp')
             $scope.availableHiddenFilters, unselectedFilters);
           $scope.filterChangedCallback();
         }
-        $scope.transmissionViaVerbundFDB = $scope.currentSearchParams.filter['transmissionViaVerbundFDB'];
+        $scope.transmissionViaVerbundFdb = $scope.currentSearchParams.filter['transmissionViaVerbundFdb'];
       });
 
       $scope.$watch('currentSearchParams.filter', function() {
@@ -162,12 +162,12 @@ angular.module('metadatamanagementApp')
       /**
        * Function to set the value of transmissionViaVerbundFDB in the filter of currentSearchParams.
        */
-      $scope.onTransmissionViaVerbundFDBClick = function() {
-        $scope.transmissionViaVerbundFDB = !$scope.transmissionViaVerbundFDB
-        if ($scope.transmissionViaVerbundFDB) {
-          $scope.currentSearchParams.filter['transmissionViaVerbundFDB'] = true;
+      $scope.onTransmissionViaVerbundFdbClick = function() {
+        $scope.transmissionViaVerbundFdb = !$scope.transmissionViaVerbundFdb
+        if ($scope.transmissionViaVerbundFdb) {
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = true;
         } else {
-          $scope.currentSearchParams.filter['transmissionViaVerbundFDB'] = false;
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = false;
         }
         $scope.filterChangedCallback();
       }

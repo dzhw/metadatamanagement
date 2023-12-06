@@ -150,7 +150,7 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id',
-        'transmissionViaVerbundFDB': 'transmissionViaVerbundFDB'
+        'transmissionViaVerbundFdb': 'transmissionViaVerbundFdb'
       },
       'analysis_packages': {
         'related-publication': 'relatedPublications.id',

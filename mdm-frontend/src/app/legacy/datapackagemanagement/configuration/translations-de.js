@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config([
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
-            'transmission-via-VerbundFDB': 'Datenmeldung über den VerbundFDB',
+            'transmission-via-VerbundFdb': 'Datenmeldung über den VerbundFDB',
             'wave': 'Wellen',
             'survey-data-type': 'Erhebungsdatentyp',
             'survey-period': 'Erhebungszeitraum',
