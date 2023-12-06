@@ -148,6 +148,13 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
+            <md-input-container class="mv8" ng-if="ctrl.isPublisher()">
+              <md-checkbox ng-model="ctrl.dataPackage.transmissionViaVerbundFDB" name="dataPackage" class="mb0">
+                {{'data-package-management.detail.label.transmission-via-VerbundFDB' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </div>
+          <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50"
                                 md-is-error="!dataPackageForm.annotationsDe.$valid && (dataPackageForm.annotationsDe.$dirty || dataPackageForm.annotationsDe.$touched)"
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"

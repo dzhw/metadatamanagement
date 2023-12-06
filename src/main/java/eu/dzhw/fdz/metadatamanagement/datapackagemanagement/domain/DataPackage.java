@@ -211,6 +211,12 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Valid
   private List<I18nLink> additionalLinks;
 
+  /**
+   * Shows if a dataPackage was transmitted via VerbundFDB.
+   */
+  @Indexed
+  private Boolean transmissionViaVerbundFDB = false;
+
   public DataPackage(DataPackage dataPackage) {
     super();
     BeanUtils.copyProperties(dataPackage, this);

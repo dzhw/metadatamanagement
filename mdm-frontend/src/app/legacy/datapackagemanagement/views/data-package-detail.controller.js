@@ -216,5 +216,9 @@ angular.module('metadatamanagementApp')
             });
         });
       };
+
+      ctrl.isPublisher = function() {
+        return Principal.isPublisher();
+      };
     }]);
 
