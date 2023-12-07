@@ -23,6 +23,7 @@ angular.module('metadatamanagementApp').config([
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
             'remarksUserService': 'Bemerkungen für den User Service',
+            'externalDataPackage': 'DZHW-externes Datenpaket',
             'wave': 'Wellen',
             'survey-data-type': 'Erhebungsdatentyp',
             'survey-period': 'Erhebungszeitraum',
