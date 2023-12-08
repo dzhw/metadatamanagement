@@ -155,7 +155,7 @@ public class UnitTestCreateDomainObjectUtils {
         .dataAcquisitionProjectId(projectId).title(new I18nString("Title De", "Title En"))
         .description(new I18nString("Description De", "Description En")).authors(authors)
         .scripts(List.of(Script.builder().softwarePackage("R").softwarePackageVersion("1.0.0")
-            .title(new I18nString("de", "en")).uuid("1234").usedLanguage("de").build()))
+            .uuid("1234").usedLanguage("de").build()))
         .dataCurators(dataCurators).masterId(analysisPackageId).tags(tags)
         .sponsors(sponsors).build();
 
@@ -508,7 +508,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static Person buildPerson(String firstName, String middleName, String lastName) {
     return Person.builder().firstName(firstName).middleName(middleName).lastName(lastName).build();
   }
-  
+
   public static Sponsor buildSponsor(I18nString name, String fundingRef) {
     return Sponsor.builder().name(name).fundingRef(fundingRef).build();
   }
