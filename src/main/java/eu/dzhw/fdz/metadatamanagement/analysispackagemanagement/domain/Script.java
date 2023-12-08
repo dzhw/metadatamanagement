@@ -45,18 +45,6 @@ public class Script implements Serializable {
   private String uuid;
 
   /**
-   * The title of the script.
-   *
-   * It must be specified in German and English and it must not contain more than 2048 characters.
-   */
-  @NotNull(message = "analysis-package-management.error.script.title.not-null")
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "analysis-package-management.error.script.title.i18n-string-size")
-  @I18nStringEntireNotEmpty(
-      message = "analysis-package-management.error.script.title." + "i18n-string-entire-not-empty")
-  private I18nString title;
-
-  /**
    * The human language used for code comments as ISO 639 code.
    *
    * Must not be empty and must be a valid ISO 639 code.

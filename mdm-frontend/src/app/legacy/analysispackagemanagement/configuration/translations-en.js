@@ -76,9 +76,9 @@ angular.module('metadatamanagementApp').config([
           },
           'scripts': {
             'table-title': 'Scripts related to this Analysis Package',
-            'title': 'Title',
+            'filename': 'Filename',
             'software-package': 'Software Package',
-            'language': 'Script Language',
+            'language': 'Language of Commentaries',
             'version': 'Version of Software Package',
             'file': 'File',
             'file-must-be-ordered': 'The script is not available via direct download, please order the analysis package via the shopping cart.'
@@ -186,7 +186,7 @@ angular.module('metadatamanagementApp').config([
             'fundingProgram': 'Associated funding program',
             'version': 'Version',
             'script': {
-              'used-language': 'Script Language',
+              'used-language': 'Language of Commentaries',
               'software-package': 'Software Package',
               'software-package-version': 'Version of Software Package'
             },
@@ -229,10 +229,6 @@ angular.module('metadatamanagementApp').config([
             },
             'license': 'If no contract is signed we will need a license like cc-by-sa',
             'script': {
-              'title': {
-                'de': 'Please enter the title of this script in German.',
-                'en': 'Please enter the title of this script in English.'
-              },
               'used-language': 'Please indicate the language you used for the comments in the script.',
               'software-package': 'Please choose the software package the script is written for.',
               'software-package-version': 'Version of Software Package'
