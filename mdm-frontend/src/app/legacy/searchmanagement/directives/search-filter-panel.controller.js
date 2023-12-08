@@ -41,7 +41,6 @@ angular.module('metadatamanagementApp')
         
         // show filter externalDataPackage only to users with role publisher
         if (!Principal.isPublisher()) {
-          console.log("displayAvailableFilters before", displayAvailableFilters, Principal.isPublisher())
           displayAvailableFilters = displayAvailableFilters.filter(item => item !== "externalDataPackage");
         }
         
