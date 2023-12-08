@@ -3,15 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.javers.core.metamodel.annotation.ValueObject;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidSoftwarePackage;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import lombok.AllArgsConstructor;
@@ -22,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * A script which will be published with this {@link AnalysisPackage}.
- * 
+ *
  * @author René Reitmann
  */
 @NoArgsConstructor
@@ -38,7 +34,7 @@ public class Script implements Serializable {
   /**
    * Client side generated id of the script. Used to reference script attachments. Not unique in the
    * DB cause shadow copies of {@link AnalysisPackage}s do not changes this id.
-   * 
+   *
    * Must not be empty and must be unique within the {@link AnalysisPackage}.
    */
   @NotEmpty(message = "analysis-package-management.error.script.uuid.not-empty")
@@ -56,7 +52,7 @@ public class Script implements Serializable {
 
   /**
    * The software package in which this script was written.
-   * 
+   *
    * Must be one of {@link SoftwarePackages}.
    */
   @ValidSoftwarePackage(
@@ -65,7 +61,7 @@ public class Script implements Serializable {
 
   /**
    * The version of the software package in which this script was written.
-   * 
+   *
    * Must not be empty and must not contain more than 32 characters.
    */
   @NotEmpty(
