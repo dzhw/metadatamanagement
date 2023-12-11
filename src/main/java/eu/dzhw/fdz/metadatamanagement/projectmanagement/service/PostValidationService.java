@@ -119,6 +119,38 @@ public class PostValidationService {
     return errors;
   }
 
+  /**
+   * This method handles a reduced post validation of a project. Validation includes checks whether the
+   * project is defined and whether it includes a data package or an analysis packages.
+   *
+   * @param dataAcquisitionProjectId The id of the data acquisition project id.
+   * @return a list of all post validation errors.
+   */
+  public List<PostValidationMessageDto> postValidatePreRelease(String dataAcquisitionProjectId) {
+    List<PostValidationMessageDto> errors = new ArrayList<>();
+
+    Optional<DataAcquisitionProject> project = projectRepository.findById(dataAcquisitionProjectId);
+    if (!project.isPresent()) {
+      PostValidationMessageDto error = new PostValidationMessageDto(
+        "data-acquisition-project" + "-management.error.post-validation.no-project",
+        Collections.singletonList(dataAcquisitionProjectId));
+      return Collections.singletonList(error);
+    }
+
+    if (SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)) {
+      errors = postValidatePreReleaseProject(project.get(), errors);
+    }
+
+    if (project.get().getConfiguration().getRequirements().isDataPackagesRequired()) {
+      errors = this.postValidateDataPackages(errors, dataAcquisitionProjectId);
+    } else if (project.get().getConfiguration().getRequirements().isAnalysisPackagesRequired()) {
+      errors = this.postValidateAnalysisPackages(errors, dataAcquisitionProjectId,
+        false);
+    }
+
+    return errors;
+  }
+
   private List<PostValidationMessageDto> postValidateSurveys(List<PostValidationMessageDto> errors,
       String dataAcquisitionProjectId, boolean activateFullReleaseChecks) {
     try (Stream<Survey> surveys =
@@ -194,13 +226,55 @@ public class PostValidationService {
     return errors;
   }
 
+  /**
+   * This method handles a reduces validation of a data acquisition project for pre-releases.
+   * Checks include whether the project has an embargo date, and valid data for data packages or
+   * analysis packages.
+   * @param project
+   * @param errors
+   * @return
+   */
+  private List<PostValidationMessageDto> postValidatePreReleaseProject(DataAcquisitionProject project,
+                                                             List<PostValidationMessageDto> errors) {
+
+    Configuration configuration = project.getConfiguration();
+    Requirements requirements = configuration.getRequirements();
+    List<String> information = new ArrayList<>();
+
+    if (project.getEmbargoDate() == null) {
+      PostValidationMessageDto message = new PostValidationMessageDto(
+        "data-acquisition-project-management.error.post-validation.no-embargo-date",
+        Collections.singletonList(project.getId()));
+      errors.add(message);
+    }
+
+    if (isProjectStateInvalid(requirements.isDataPackagesRequired(),
+      configuration.getDataPackagesState())) {
+      information.add("dataPackages");
+    }
+
+    if (isProjectStateInvalid(requirements.isAnalysisPackagesRequired(),
+      configuration.getAnalysisPackagesState())) {
+      information.add("analysisPackages");
+    }
+
+    if (!information.isEmpty()) {
+      PostValidationMessageDto message = new PostValidationMessageDto(
+        "data-acquisition-project-management.error.post-validation.requirements-not-met",
+        information);
+      errors.add(message);
+    }
+
+    return errors;
+  }
+
   private boolean isProjectStateInvalid(boolean required, ProjectState projectState) {
     return required && (projectState == null || !projectState.isPublisherReady());
   }
 
   /**
    * This method checks all potential issues for dataPackage by post-validation.
-   * 
+   *
    * @param errors The list of known errors.
    * @param dataAcquisitionProjectId The project id.
    * @return The updated list of errors.
@@ -221,7 +295,7 @@ public class PostValidationService {
 
   /**
    * This method checks all potential issues for analysis package by post-validation.
-   * 
+   *
    * @param errors The list of known errors.
    * @param dataAcquisitionProjectId The project id.
    * @return The updated list of errors.
