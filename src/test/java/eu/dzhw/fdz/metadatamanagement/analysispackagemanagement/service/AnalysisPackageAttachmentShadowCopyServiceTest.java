@@ -60,7 +60,7 @@ public class AnalysisPackageAttachmentShadowCopyServiceTest extends AbstractTest
 
   @BeforeEach
   public void setup() {
-    release = new Release("1.0.0", LocalDateTime.now(), null, false, null);
+    release = new Release("1.0.0", LocalDateTime.now(), null, false, null, false);
 
     dataAcquisitionProject = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectForAnalysisPackages();
     dataAcquisitionProject.setId(PROJECT_ID);
