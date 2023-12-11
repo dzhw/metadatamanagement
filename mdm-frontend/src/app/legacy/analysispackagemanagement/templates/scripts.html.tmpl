@@ -25,7 +25,7 @@
         <tbody>
         <tr ng-repeat="row in $ctrl.options">
           <td>
-            {{row.attachment.fileName.substring(0, row.attachment.fileName.lastIndexOf('.'))}}
+            {{row.attachment.fileName}}
             </a><strong ng-if="!row.attachment">*</strong>  
             </td>
           <td>{{row.usedLanguage | displayIsoLanguage: $ctrl.lang}}</td>
