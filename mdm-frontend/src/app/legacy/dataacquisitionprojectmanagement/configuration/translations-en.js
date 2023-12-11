@@ -21,16 +21,21 @@ angular.module('metadatamanagementApp').config([
             'dev': 'This is the dev stage! Are you sure?',
             'prod': 'WARNING: This is the PRODUCTION stage! Are you sure?',
           },
-          'confirm-hint': 'Check this box if you really want to release this project on this system!'
+          'confirm-hint': 'Check this box if you really want to release this project on this system!',
+          'pre-release-hint': 'The project "{{id}}" has the embargo date {{date}} and can only be released preliminarily. Preliminarily released projects cannot be searched for or ordered in MDM. The preliminary release cannot be withdrawn until the final release. It is still possible to edit the project during preliminary release. After the embargo date has expired, the project can be released definitively in the version selected below.',
+          'release-action': 'Release',
+          'pre-release-action': 'Preliminarily release'
         },
         'home': {
           'title': 'Data Acquisition Projects',
           'createLabel': 'Create a new Data Acquisition Project',
           'releaseLabel': 'Release Data Acquisition Project "{{ id }}"',
+          'prereleaseLabel': 'Preliminarily Release Data Acquisition Project "{{ id }}"',
           'dialog-tooltip': {
             'create-ok': 'Click to create the Data Acquisition Project',
             'create-cancel': 'Click to close the dialog without creating a project',
             'release-ok': 'Click to release the project',
+            'pre-release-ok': 'Click to preliminarily release the project',
             'release-cancel': 'Click to close the dialog without releasing the project'
           }
         },
@@ -96,6 +101,8 @@ angular.module('metadatamanagementApp').config([
               'not-empty': 'The version must not be empty.',
               'pattern': 'The version must match the pattern "major.minor.patch" (e.g. "1.0.0").',
               'not-parsable-or-not-incremented': 'The version number must be at least as high as the last version. The previous version was "{{lastVersion}}".',
+              'no-major-version-change': 'The version number must be at least as high as the last version ("{{lastVersion}}"). It must be lower than the next major version ("{{nextMajorVersion}}").',
+              'no-major-version-change-from-zero': 'The version number must be lower than the next major version ("{{nextMajorVersion}}").',
               'size': 'The version must not contain more than 32 characters.'
             }
           },
@@ -104,6 +111,7 @@ angular.module('metadatamanagementApp').config([
             'project-has-no-analysisPackage': 'The Project with the RDC-ID {{ id }} has no analysis package.',
             'project-must-have-exactly-one-publication': 'The Project with the RDC-ID {{ id }} must contain exactly one publication.',
             'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.',
+            'no-embargo-date': 'Embargo date for project {{ id }} is missing.',
             'project-has-no-survey': 'The Project with the RDC-ID {{ id }} must contain at least one survey.',
             'project-has-no-data-set': 'The Project with the RDC-ID {{ id }} must contain at least one data set.'
           },
