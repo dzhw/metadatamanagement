@@ -23,7 +23,12 @@ angular.module('metadatamanagementApp').config([
               'description': 'Datenpaketbeschreibung',
               'annotations': 'Anmerkungen',
               'data-source': 'Datenquelle',
-              'data-source-url': 'Link zur Datenquelle'
+              'data-source-url': 'Link zur Datenquelle',
+              'license': {
+                'title': 'Lizenz des Datenpakets',
+                'show-license': 'Lizenz anzeigen',
+                'hide-license': 'Lizenz verbergen'
+              }
             },
             'custom-data-package': {
               'available-availability-type': 'Verfügbarer Zugangsstatus',
@@ -34,13 +39,23 @@ angular.module('metadatamanagementApp').config([
               'dataSources': 'Datenquellen',
               'data-source-url': 'Link zur Datenquelle',
               'access-way': 'Zugangsweg',
-              'available-access-ways': 'Verfügbare Zugangswege'
+              'available-access-ways': 'Verfügbare Zugangswege',
+              'license': {
+                'title': 'Lizenz der Datenquelle',
+                'show-license': 'Lizenz anzeigen',
+                'hide-license': 'Lizenz verbergen'
+              }
             },
             'attachments': {
               'title': 'Titel',
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
+            },
+            'scripts-license': {
+              'title': 'Lizenz des Skripts',
+              'show-license': 'Lizenz anzeigen',
+              'hide-license': 'Lizenz verbergen'
             },
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
@@ -80,6 +95,7 @@ angular.module('metadatamanagementApp').config([
             'software-package': 'Softwarepaket',
             'language': 'Skriptsprache',
             'version': 'Version des Softwarepakets',
+            'license': 'Lizenz',
             'file': 'Datei',
             'file-must-be-ordered': 'Das Skript ist nicht über einen direkten Download verfügbar, bitte bestellen Sie das Analysepaket über den Warenkorb.'
           },
@@ -108,6 +124,7 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen.',
           'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
+          'license-tooltip': 'Klicken, um die vollständige Lizenz anzusehen.',
           'tag-tooltip': 'Klicken, um Analysepakete mit diesem Tag zu suchen.',
           'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Analysepakete.',
@@ -243,6 +260,9 @@ angular.module('metadatamanagementApp').config([
             'script-attachment-metadata': {
               'filename': 'Wählen Sie eine Datei aus, die Sie dem Skript hinzufügen wollen.'
             },
+            'scripts-license': {
+              'title': 'Geben Sie hier die Lizenz des Skripts an.'
+            },
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Analysepaket ein.',
               'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Analysepaket ein.',
@@ -276,6 +296,9 @@ angular.module('metadatamanagementApp').config([
                 'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
                 'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
                 'none': 'nicht zugänglich.'
+              },
+              'license': {
+                'title': 'Geben Sie hier die Lizenz des Datenpakets an.'
               }
             },
             'custom-data-package': {
@@ -306,6 +329,9 @@ angular.module('metadatamanagementApp').config([
                 'none': 'nicht zugänglich.',
                 'accessible': 'Lorem ipsum...',
                 'not-accessible': 'Lorem ipsum...'
+              },
+              'license': {
+                'title': 'Geben Sie hier die Lizenz der Datenquelle an.'
               }
             },
             'analyzed-data-package': {
@@ -417,6 +443,9 @@ angular.module('metadatamanagementApp').config([
             },
             'availability-type': {
               'i18n-not-null': 'Der Zugangsstatus eines externen Datenpakets darf nicht leer sein!'
+            },
+            'license': {
+              'string-size': 'Die Maximallänge der Lizenz ist 1048576 Zeichen.'
             }
           },
           'custom-data-package': {

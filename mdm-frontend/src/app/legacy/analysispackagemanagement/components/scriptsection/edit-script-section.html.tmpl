@@ -286,6 +286,43 @@
           </div>
         </div>
       </div>
+      <!-- LICENSE -->
+      <div style="margin-left: 40px;">
+        <div layout="row"
+            layout-gt-sm="row"
+            class="ms-flex">
+          <md-input-container flex="100"
+                            md-is-error="!$ctrl.currentForm[script-license].$valid && ($ctrl.currentForm[script-license].$dirty || $ctrl.currentForm[script-license].$touched)"
+                            ng-class="{'mr10': $mdMedia('gt-sm')}"
+                            class="ms-flex">
+            <label>{{'analysis-package-management.detail.label.scripts-license.title' | translate}}
+            <md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon>
+            </label>
+            <textarea lang="de"
+                    rows="10"
+                    md-no-autogrow
+                    ng-attr-fdz-required="false"
+                    md-maxlength="1048576"
+                    name="script-license"
+                    ng-model="script.license">
+            </textarea>
+            <div
+              class="fdz-input-hint"
+              ng-if="script.license == null || script.license == ''">
+              {{'analysis-package-management.edit.hints.scripts-license.title' | translate}}
+            </div>
+            <div
+              multiple
+              ng-messages="$ctrl.currentForm['data-source-license'].$error">
+              <div
+                  ng-message="md-maxlength">
+                  {{'analysis-package-management.error.custom-data-package.license.string-size' |
+                  translate}}
+              </div>
+            </div>        
+          </md-input-container>
+        </div>
+      </div>
       <md-divider ng-if="!$ctrl.createMode && $ctrl.scripts.length -1 > $index"
                   style="margin: 24px 0 16px 0;"></md-divider>
     </div>

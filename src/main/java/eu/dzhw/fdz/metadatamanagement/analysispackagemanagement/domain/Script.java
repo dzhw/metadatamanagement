@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * A script which will be published with this {@link AnalysisPackage}.
- * 
+ *
  * @author René Reitmann
  */
 @NoArgsConstructor
@@ -38,7 +38,7 @@ public class Script implements Serializable {
   /**
    * Client side generated id of the script. Used to reference script attachments. Not unique in the
    * DB cause shadow copies of {@link AnalysisPackage}s do not changes this id.
-   * 
+   *
    * Must not be empty and must be unique within the {@link AnalysisPackage}.
    */
   @NotEmpty(message = "analysis-package-management.error.script.uuid.not-empty")
@@ -68,7 +68,7 @@ public class Script implements Serializable {
 
   /**
    * The software package in which this script was written.
-   * 
+   *
    * Must be one of {@link SoftwarePackages}.
    */
   @ValidSoftwarePackage(
@@ -77,7 +77,7 @@ public class Script implements Serializable {
 
   /**
    * The version of the software package in which this script was written.
-   * 
+   *
    * Must not be empty and must not contain more than 32 characters.
    */
   @NotEmpty(
@@ -86,4 +86,13 @@ public class Script implements Serializable {
       message = "analysis-package-management.error.script.software-package-version"
           + ".string-size")
   private String softwarePackageVersion;
+
+  /**
+   * The license of the script. Markdown is supported.
+   *
+   * May be empty. Must not contain more than 1 MB characters.
+   */
+  @Size(max = StringLengths.X_LARGE,
+      message = "analysis-package-management.error.analysis-package.license.size")
+  private String license;
 }
