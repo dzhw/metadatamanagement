@@ -385,6 +385,7 @@ angular.module('metadatamanagementApp').config([
         'common-dialogs': {
           'yes': 'Yes',
           'no': 'No',
+          'close': 'Close',
           'confirm-dirty': {
             'title': 'Discard Changes?',
             'content': 'There are unsaved changes. Do you want to discard these changes?'
@@ -457,7 +458,10 @@ angular.module('metadatamanagementApp').config([
            'content': 'Please confirm that you want to activate the user.',
            'yes': 'Activate',
            'no': 'Keep current status'
-         }
+         },
+         'info': {
+          'license': 'License'
+        }
         },
         'people': {
           'edit': {

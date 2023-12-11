@@ -48,16 +48,6 @@ public class Product implements Serializable {
    * The (partial) {@link OrderedDataPackage} of this product.
    *
    * Either this or analysisPackage must be present.
-   *
-   * @deprecated will be renamed to dataPackage in alignment with DLP
-   */
-  @Valid
-  private OrderedDataPackage study;
-
-  /**
-   * The (partial) {@link OrderedDataPackage} of this product.
-   *
-   * Either this or analysisPackage must be present.
    */
   @Valid
   private OrderedDataPackage dataPackage;
@@ -73,7 +63,7 @@ public class Product implements Serializable {
 
   /**
    * The access way to the {@link OrderedDataPackage} which the customer wants to have.
-   * 
+   *
    * It must not be empty if dataPackage is present.
    */
   private String accessWay;
@@ -86,8 +76,8 @@ public class Product implements Serializable {
   private String version;
 
   /**
-   * The available data formats of the {@link OrderedDataPackage}. 
-   * 
+   * The available data formats of the {@link OrderedDataPackage}.
+   *
    * It must not be empty if dataPackage is present.
    */
   private Set<DataFormat> dataFormats;

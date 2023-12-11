@@ -70,4 +70,13 @@ public class Script implements Serializable {
       message = "analysis-package-management.error.script.software-package-version"
           + ".string-size")
   private String softwarePackageVersion;
+
+  /**
+   * The license of the script. Markdown is supported.
+   *
+   * May be empty. Must not contain more than 1 MB characters.
+   */
+  @Size(max = StringLengths.X_LARGE,
+      message = "analysis-package-management.error.analysis-package.license.size")
+  private String license;
 }

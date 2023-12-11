@@ -23,7 +23,12 @@ angular.module('metadatamanagementApp').config([
               'description': 'Data Package Description',
               'annotations': 'Annotations',
               'data-source': 'Data Source',
-              'data-source-url': 'Link of data source'
+              'data-source-url': 'Link of data source',
+              'license': {
+                'title': 'License of the Data Package',
+                'show-license': 'Show License',
+                'hide-license': 'Hide License'
+              }
             },
             'custom-data-package': {
               'available-availability-type': 'Available Availability Type',
@@ -34,13 +39,23 @@ angular.module('metadatamanagementApp').config([
               'dataSources': 'Data Sources',
               'data-source-url': 'Link of data source',
               'access-way': 'Access Way',
-              'available-access-ways': 'Available Access Ways'
+              'available-access-ways': 'Available Access Ways',
+              'license': {
+                'title': 'License of the Data Source',
+                'show-license': 'Show license',
+                'hide-license': 'Hide license'
+              }
             },
             'attachments': {
               'title': 'Title',
               'description': 'Description',
               'language': 'Document Language',
               'file': 'File'
+            },
+            'scripts-license': {
+              'title': 'Script License',
+              'show-license': 'Show license',
+              'hide-license': 'Hide license'
             },
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
@@ -79,7 +94,8 @@ angular.module('metadatamanagementApp').config([
             'filename': 'Filename',
             'software-package': 'Software Package',
             'language': 'Language of Commentaries',
-            'version': 'Version of Software Package',
+            'version': 'Version',
+            'license': 'License',
             'file': 'File',
             'file-must-be-ordered': 'The script is not available via direct download, please order the analysis package via the shopping cart.'
           },
@@ -108,6 +124,7 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',
           'link-tooltip': 'Click to open the link in a new tab.',
+          'license-tooltip': 'Click to display the complete license.',
           'tag-tooltip': 'Click to search for analysis packages with this tag',
           'not-found': 'The {{id}} references to an unknown Analysis Package.',
           'not-found-references': 'The id {{id}} has no References to Analysis Packages.',
@@ -236,6 +253,9 @@ angular.module('metadatamanagementApp').config([
             'script-attachment-metadata': {
               'filename': 'Choose a file which you want to attach to the script.'
             },
+            'scripts-license': {
+              'title': 'Please enter the license information for this script.'
+            },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this analysis package.',
               'en': 'Enter the English name of the sponsor of this analysis package.',
@@ -269,6 +289,9 @@ angular.module('metadatamanagementApp').config([
                 'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
                 'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
                 'none': 'Not accessible.'
+              },
+              'license': {
+                'title': 'Please enter the license information for this data package.'
               }
             },
             'custom-data-package': {
@@ -299,6 +322,9 @@ angular.module('metadatamanagementApp').config([
                 'none': 'Not accessible.',
                 'accessible': 'Lorem ipsum...',
                 'not-accessible': 'Lorem ipsum...'
+              },
+              'license': {
+                'title': 'Please enter the license information for this data source.'
               }
             },
             'analyzed-data-package': {
@@ -405,11 +431,14 @@ angular.module('metadatamanagementApp').config([
             },
             'data-source-url': {
               'invalid-url': 'The provided URL is not valid.',
-              'url-size': 'The max length for URLs is 2000 chracters.',
+              'url-size': 'The max length for URLs is 2000 characters.',
               'url-not-empty': 'The URL must not be empty.'
             },
             'availability-type': {
               'i18n-not-null': 'The availability type of the external data package must not be empty!'
+            },
+            'license': {
+              'string-size': 'The max length for license information is 1048576 characters.'
             }
           },
           'custom-data-package': {
@@ -434,7 +463,8 @@ angular.module('metadatamanagementApp').config([
             },
             'data-source': {
               'i18n-not-null': 'The data source of the custom data package must not be empty!'
-            }
+            },
+            'license': 'Geben Sie hier die Lizenz der Datenquelle an.'
           },
           'analyzed-data-package': {
             'data-package-master-id': {
