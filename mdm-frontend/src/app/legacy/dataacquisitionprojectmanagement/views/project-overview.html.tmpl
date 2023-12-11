@@ -166,8 +166,7 @@
                 </td>
                 <td ng-if="ctrl.shouldShowRemarksInfo()" class="fdz-table-data-vertical-middle">
                   <span ng-if="dataAcquisitionProject.hasUserServiceRemarks && !ctrl.isAnalysisPackage(dataAcquisitionProject)">{{'data-acquisition-project-management.project-overview.table.available' | translate}}</span>
-                  <span ng-if="!dataAcquisitionProject.hasUserServiceRemarks && !ctrl.isAnalysisPackage(dataAcquisitionProject)">{{'data-acquisition-project-management.project-overview.table.not-available' | translate}}</span>
-                  <span ng-if="ctrl.isAnalysisPackage(dataAcquisitionProject)">&nbsp;</span>
+                  <span ng-if="!dataAcquisitionProject.hasUserServiceRemarks || ctrl.isAnalysisPackage(dataAcquisitionProject)">&nbsp;</span>
                 </td>
                 <td class="fdz-table-data-vertical-middle">
                   <metadata-status project="dataAcquisitionProject" type="'DataPackages'"></metadata-status>
