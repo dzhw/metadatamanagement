@@ -61,11 +61,11 @@ angular.module('metadatamanagementApp')
         }
 
         /**
-         * Adds 12 hours to the date object toto prevent time zone changes from changing the date
+         * Adds 3 hours to the date object to prevent daylight saving time changes from changing the date
          */
         ctrl.onEmbargoDateChanged = function() {
           var embargoDate = new Date(ctrl.project.embargoDate);
-          embargoDate.setHours(12)
+          embargoDate.setHours(3)
           ctrl.project.embargoDate = embargoDate;
         }
       }

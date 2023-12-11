@@ -22,6 +22,9 @@ angular.module('metadatamanagementApp').config([
             'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind Sie sicher?',
           },
           'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!',
+          'pre-release-hint': 'Das Projekt "{{id}}" ist mit dem Embargo-Datum {{date}} versehen und kann nur vorläufig freigegeben werden. Vorläufig freigegebene Projekte sind nicht in MDM such- oder bestellbar. Die vorläufige Freigabe kann bis zur endgültigen Freigabe nicht zurückgenommen werden. Die Bearbeitung des Projektes ist in der vorläufigen Freigabe weiterhin möglich. Nach Ablauf des Embargo-Datums kann das Projekt in der im Folgenden gewählten Version endgültig freigegeben werden.',
+          'release-action': 'Freigeben',
+          'pre-release-action': 'Vorläufig freigeben',
           'toTweet': "Auf X (ehemals Twitter) veröffentlichen. Der DOI-Link und die Version des Datenaufnahmeprojektes werden automatisch hinzugefügt.",
           'tweetTextLabel': "Tweet",
           'imagePath1': 'assets/images/thumb_twitter_fdz_1_de.jpg',
@@ -32,10 +35,12 @@ angular.module('metadatamanagementApp').config([
           'title': 'Datenaufnahmeprojekte',
           'createLabel': 'Neues Datenaufnahmeprojekt anlegen',
           'releaseLabel': 'Das Datenaufnahmeprojekt "{{ id }}" freigeben',
+          'prereleaseLabel': 'Das Datenaufnahmeprojekt "{{ id }}" vorläufig freigeben',
           'dialog-tooltip': {
             'create-ok': 'Klicken, um das Datenaufnahmeprojekt zu erzeugen',
             'create-cancel': 'Klicken, um den Dialog zu schließen ohne ein Projekt anzulegen',
             'release-ok': 'Klicken, um das Projekt freizugeben',
+            'pre-release-ok': 'Klicken, um das Projekt vorläufig freizugeben',
             'release-cancel': 'Klicken, um den Dialog zu schließen ohne das Projekt freizugeben'
           }
         },
@@ -104,6 +109,8 @@ angular.module('metadatamanagementApp').config([
               'not-empty': 'Die Version darf nicht leer sein.',
               'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
               'not-parsable-or-not-incremented': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version. Die letzte Version war "{{lastVersion}}".',
+              'no-major-version-change': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version ("{{lastVersion}}"). Sie muss kleiner sein als die nächste Major-Version ("{{nextMajorVersion}}").',
+              'no-major-version-change-from-zero': 'Die Versionsnummer muss kleiner sein als die nächste Major-Version ("{{nextMajorVersion}}").',
               'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
             },
             'tweet': {
@@ -116,6 +123,7 @@ angular.module('metadatamanagementApp').config([
             'project-has-no-analysisPackage': 'Das Projekt mit der FDZ-ID {{ id }} enthält kein Analysepaket.',
             'project-must-have-exactly-one-publication': 'Das Projekt mit der FDZ-ID {{ id }} muss genau eine Publikation enthalten.',
             'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.',
+            'no-embargo-date': 'Für das Projekt {{ id }} ist kein Embargo-Datum angegeben.',
             'project-has-no-survey': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens eine Erhebung enthalten.',
             'project-has-no-data-set': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens einen Datensatz enthalten.'
           },

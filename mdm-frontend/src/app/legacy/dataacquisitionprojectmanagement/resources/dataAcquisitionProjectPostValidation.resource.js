@@ -11,7 +11,12 @@ angular.module('metadatamanagementApp')
       version: '@version'
     }, {
       'postValidate': {
-        method: 'POST'
+        method: 'POST',
+        url: '/api/data-acquisition-projects/:id/post-validate'
+      },
+      'postValidatePreRelease': {
+        method: 'POST',
+        url: '/api/data-acquisition-projects/:id/post-validate-pre-release'
       }
     });
   }]);
