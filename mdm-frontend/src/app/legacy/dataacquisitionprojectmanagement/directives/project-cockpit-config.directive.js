@@ -27,8 +27,13 @@ angular.module('metadatamanagementApp')
         };
 
         var isProjectReleased = function() {
+          console.log("is released", $scope.project.release)
           return $scope.project.release;
         };
+
+        ctrl.isEmbargoDateDisabled = function() {
+          return $scope.project.release ? true : false;
+        }
 
         ctrl.isProjectRequirementsDisabled = function() {
           return isNotAssignedPublisher() || isProjectReleased();
