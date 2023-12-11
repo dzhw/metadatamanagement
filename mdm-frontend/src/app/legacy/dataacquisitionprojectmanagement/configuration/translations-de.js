@@ -77,7 +77,7 @@ angular.module('metadatamanagementApp').config([
               'not-null': 'Es muss angegeben sein, ob das Datenaufnahmeprojekts schon einmal veröffentlicht wurde oder nicht.'
             },
             'has-user-service-remarks': {
-              'not-null': 'Es muss angegeben sein, ob ein Datenaufnahmeprojekt Hinweise für den Nutzerservice enthält oder nicht.'
+              'not-null': 'Es muss angegeben sein, ob ein Datenaufnahmeprojekt Bemerkungen für den User Service enthält oder nicht.'
             }
           },
           'configuration': {
@@ -260,7 +260,7 @@ angular.module('metadatamanagementApp').config([
               'assignee-group': 'Zugewiesen an',
               'release-state': 'Status',
               'datapackage-filter': 'Filter für Datenpakete',
-              'user-service-remarks': 'Bemerkungen Nutzerservice'
+              'user-service-remarks': 'Bemerkungen User Service'
             },
             'options': {
               'assignee-group': {

@@ -260,14 +260,14 @@ angular.module('metadatamanagementApp').config([
             'assigneeGroup': 'Assigned to',
             'releaseState': 'Release state',
             'datapackage-filter': 'Filter for data packages',
-            'userServiceRemarks': 'User service remarks'
+            'userServiceRemarks': 'Remarks User Service'
           },
           'filter': {
             'label': {
               'assignee-group': 'Assigned to',
               'release-state': 'Release state',
               'datapackage-filter': 'Filter for data packages',
-              'user-service-remarks': 'User service remarks'
+              'user-service-remarks': 'Remarks User Service'
             },
             'options': {
               'assignee-group': {
