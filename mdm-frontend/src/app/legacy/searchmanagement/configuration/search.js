@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').config([
         '{repeated-measurement-identifier}{size}{sponsors}{sponsor-de}' +
         '{sponsor-en}{study-series}{survey-data-types}' +
         '{study-series-de}{study-series-en}{survey}{survey-method-de}' +
-        '{survey-method-en}{tags}{type}{variable}',
+        '{survey-method-en}{tags}{tagsElsst}{type}{variable}',
       reloadOnSearch: false,
       data: {
         authorities: []
@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp').config([
       '{repeated-measurement-identifier}{size}{sponsors}{sponsor-de}' +
       '{sponsor-en}{study-series}{survey-data-types}' +
       '{study-series-de}{study-series-en}{survey}{survey-method-de}' +
-      '{survey-method-en}{tags}{type}{variable}',
+      '{survey-method-en}{tags}{tagsElsst}{type}{variable}',
       reloadOnSearch: false,
       data: {
         authorities: ['ROLE_DATA_PROVIDER']

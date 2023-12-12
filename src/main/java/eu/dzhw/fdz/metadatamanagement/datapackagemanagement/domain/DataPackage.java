@@ -204,6 +204,13 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   private Tags tags;
 
   /**
+   * ELSST keywords for the dataPackage.
+   */
+  @Valid
+  @NotNull(message = "data-package-management.error.data-package.tagsElsst.not-null")
+  private TagsElsst tagsElsst;
+
+  /**
    * A list of additional links for the data package.
    *
    * May be empty.

@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').config([
           'concepts': 'Concepts',
           'institutions': 'Institutions',
           'tags': 'Tags',
+          'tags': 'ELSST Tags',
           'study-series': 'Study Series',
           'survey-data-types': 'Survey Data Type',
           'access-ways': 'Access Ways',

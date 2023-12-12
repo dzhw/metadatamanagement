@@ -32,6 +32,14 @@ angular.module('metadatamanagementApp')
           return [];
         }
       };
+      var getTagsElsst = function(concept) {
+        if (concept.tagsElsst) {
+          var language = LanguageService.getCurrentInstantly();
+          return concept.tagsElsst[language];
+        } else {
+          return [];
+        }
+      };
 
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -77,6 +85,7 @@ angular.module('metadatamanagementApp')
         ctrl.loadAttachments();
 
         ctrl.conceptTags = getTags(result);
+        ctrl.conceptTagsElsst = getTagsElsst(result);
       }, $log.error).finally(blockUI.stop);
 
       ctrl.conceptEdit = function() {

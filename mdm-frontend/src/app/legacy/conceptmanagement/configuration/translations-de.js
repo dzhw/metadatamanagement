@@ -82,7 +82,8 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
           'tag-tooltip': 'Klicken, um Konzepte mit diesem Tag zu suchen',
-          'tags': 'Tags'
+          'tags': 'Tags',
+          'tagsELSST': 'ELSST Tags'
         },
         'log-messages': {
           'concept': {
@@ -149,7 +150,8 @@ angular.module('metadatamanagementApp').config([
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlüsselwörter) zum Konzept'
+            'tags': 'Tags (Schlüsselwörter) zum Konzept',
+            'tagsElsst': 'ELSST Tags (Schlüsselwörter) zum Konzept'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Konzepts wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Konzept zu speichern.',

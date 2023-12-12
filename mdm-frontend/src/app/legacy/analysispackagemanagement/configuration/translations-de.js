@@ -80,6 +80,7 @@ angular.module('metadatamanagementApp').config([
             'generate-analysis-package-overview-tooltip': 'Klicken, um eine Übersicht über dieses Analysepaket als PDF zu erstellen.',
             'overview-generation-started-toast': 'Die Analysepaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
             'tags': 'Schlagwörter',
+            'tagsElsst': 'ELSST Schlagwörter',
             'title': 'Titel',
             'file': 'Datei',
             'save-file': 'Das Analysepaket muss erst gespeichert werden, bevor Skript Dateien hinzugefügt werden können.'
@@ -198,6 +199,7 @@ angular.module('metadatamanagementApp').config([
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
             'tags': 'Tags (Schlagwörter) zum Analysepaket',
+            'tagsElsst': 'ELSST Tags (Schlagwörter) zum Analysepaket',
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
