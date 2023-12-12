@@ -83,7 +83,7 @@ public class UnitTestCreateDomainObjectUtils {
 
     DataAcquisitionProject project =
         DataAcquisitionProject.builder().id(projectId).hasBeenReleasedBefore(false)
-            .configuration(configuration).assigneeGroup(AssigneeGroup.PUBLISHER).build();
+            .configuration(configuration).assigneeGroup(AssigneeGroup.PUBLISHER).hasUserServiceRemarks(false).build();
 
     project.setMasterId(projectId);
     return project;
@@ -508,7 +508,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static Person buildPerson(String firstName, String middleName, String lastName) {
     return Person.builder().firstName(firstName).middleName(middleName).lastName(lastName).build();
   }
-  
+
   public static Sponsor buildSponsor(I18nString name, String fundingRef) {
     return Sponsor.builder().name(name).fundingRef(fundingRef).build();
   }

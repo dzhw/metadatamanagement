@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').directive('metadataStatus',
         this.$onInit = function() {
           var requirements = _.get(this.project, 'configuration.requirements');
           this.displayStatus =  requirements &&
-            requirements[this.type + 'Required'];
+            requirements["is" + this.type + 'Required'];
 
           if (this.displayStatus) {
             this.score = ProjectStatusScoringService
