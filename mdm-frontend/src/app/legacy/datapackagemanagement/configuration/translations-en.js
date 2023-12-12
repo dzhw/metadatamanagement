@@ -7,6 +7,14 @@ angular.module('metadatamanagementApp').config([
     var translations = {
       //jscs:disable
       'data-package-management': {
+        'common': {
+          'approvedUsage': {
+            'scientificUse': 'scientific use',
+            'teachingPurposes':'teaching purposes',
+            'nonCommercialUse':'non-commercial use',
+            'commercialUse':'commercial use'
+          }
+        },
         'detail': {
           'label': {
             'studySeries': 'Study Series',
@@ -29,7 +37,8 @@ angular.module('metadatamanagementApp').config([
             'title': 'Title',
             'dataLanguages': 'Data available in',
             'tags': 'Tags',
-            'approvedUsage': 'Approved purpose of use',
+            'approvedUsageList': 'Allowed use cases',
+            'approvedUsage': 'Special restrictions for the data use',
             'additional-links': 'Additional Links',
             'attachments': {
               'type': 'Type',
@@ -298,8 +307,8 @@ angular.module('metadatamanagementApp').config([
               'de': 'Enter additional annotations for this data package in German.',
               'en': 'Enter additional annotations for this data package in English.'
             },
-            'approved-usage': 'If available enter the approved usage for this data package.'
-            ,
+            'approved-usage-list': 'If available enter the allowed use cases.',
+            'approved-usage': 'If available enter the special restrictions for the data use.',
             'description': {
               'de': 'Enter a description of this data package in German.',
               'en': 'Enter a description of this data package in English.'

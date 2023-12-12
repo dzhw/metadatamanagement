@@ -164,7 +164,7 @@ angular.module('metadatamanagementApp').config([
           'data-package': 'Datenpaket',
           'analysis-package': 'Analysepaket',
           'concept': 'Konzept',
-          'approvedUsage': 'Erlaubter Nutzungszweck',
+          'approvedUsage': 'Spezielle Beschränkungen für die Datennutzung',
           'data-set': 'Datensatz',
           'question': 'Frage',
           'related-publication': 'Publikation',

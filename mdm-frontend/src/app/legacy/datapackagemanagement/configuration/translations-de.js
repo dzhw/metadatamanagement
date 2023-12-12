@@ -7,6 +7,14 @@ angular.module('metadatamanagementApp').config([
     var translations = {
       //jscs:disable
       'data-package-management': {
+        'common': {
+          'approvedUsage': {
+            'scientificUse': 'Wissenschaftliche Nutzung',
+            'teachingPurposes':'Lehrzwecke',
+            'nonCommercialUse':'Nichtkommerzielle Nutzung',
+            'commercialUse':'Kommerzielle Nutzung'
+          }
+        },
         'detail': {
           'label': {
             'studySeries': 'Studienreihe',
@@ -29,7 +37,8 @@ angular.module('metadatamanagementApp').config([
             'title': 'Titel',
             'dataLanguages': 'Daten verfügbar auf',
             'tags': 'Schlagwörter',
-            'approvedUsage': 'Erlaubter Nutzungszweck',
+            'approvedUsageList': 'Erlaubte Nutzungszwecke',
+            'approvedUsage': 'Spezielle Beschränkungen für die Datennutzung',
             'additional-links': 'Weiterführende Links',
             'attachments': {
               'type': 'Typ',
@@ -300,8 +309,8 @@ angular.module('metadatamanagementApp').config([
               'de': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Deutsch ein.',
               'en': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Englisch ein.'
             },
-            'approved-usage': 'Geben Sie, falls vorhanden, den erlaubten Nutzungszweck ein.'
-            ,
+            'approved-usage-list': 'Geben Sie, falls vorhanden, die erlaubten Nutzungszwecke an.',
+            'approved-usage': 'Geben Sie, falls vorhanden, die spezielle Beschränkung für die Datennutzung an.',
             'description': {
               'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
               'en': 'Geben Sie eine Beschreibung des Datenpakets auf Englisch ein.'

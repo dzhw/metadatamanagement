@@ -223,6 +223,12 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Indexed
   private String approvedUsage;
 
+  /**
+   * A list of allowed use cases for the data-package.
+   * The items of that list are elements of the ApprovedUsageEnum (--> controlled vocabulary).
+   */
+  private ApprovedUsageEnum[] approvedUsageList;
+
   public DataPackage(DataPackage dataPackage) {
     super();
     BeanUtils.copyProperties(dataPackage, this);

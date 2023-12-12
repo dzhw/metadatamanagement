@@ -50,6 +50,18 @@ angular.module('metadatamanagementApp')
         {de: 'Release Notes', en: 'Release Notes'},
         {de: 'Sonstiges', en: 'Other'}
       ];
+      ctrl.approvedUsageList = [
+        "SCIENTIFIC_USE",
+        "TEACHING_PURPOSES",
+        "NON_COMMERCIAL_USE",
+        "COMMERCIAL_USE"
+      ];
+      ctrl.currentApprovedUsageList = {
+        "SCIENTIFIC_USE": false,
+        "TEACHING_PURPOSES": false,
+        "NON_COMMERCIAL_USE": false,
+        "COMMERCIAL_USE": false,
+      }
 
       var getDialogLabels = function() {
         return {
@@ -165,6 +177,9 @@ angular.module('metadatamanagementApp')
           } else {
             CurrentProjectService.setCurrentProject(project);
             ctrl.dataPackage = dataPackage;
+            for (usage of dataPackage.approvedUsageList) {
+              ctrl.currentApprovedUsageList[usage] = true;
+            }
             ctrl.currentApprovedUsage = dataPackage.approvedUsage;
             ctrl.currentStudySeries = dataPackage.studySeries;
             ctrl.remarksUserService = dataPackage.remarksUserService;
@@ -871,6 +886,28 @@ angular.module('metadatamanagementApp')
           ctrl.isInitializingStudySeries = false;
         }
       };
+
+      ctrl.onApprovedUsageListChanged = function() {
+        ctrl.dataPackage.approvedUsageList = [];
+        for (var usage in ctrl.currentApprovedUsageList) {
+          if (ctrl.currentApprovedUsageList[usage]) {
+            ctrl.dataPackage.approvedUsageList.push(usage);
+          }
+        }
+      }
+
+      ctrl.getTranslationPathFromApprovedUsageId = function(id) {
+        switch(id) {
+          case 'SCIENTIFIC_USE':
+            return "data-package-management.common.approvedUsage.scientificUse"
+          case 'TEACHING_PURPOSES':
+            return "data-package-management.common.approvedUsage.teachingPurposes"
+          case 'NON_COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.nonCommercialUse"
+          case 'COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.commercialUse"
+        }
+      }
 
       init();
     }]);

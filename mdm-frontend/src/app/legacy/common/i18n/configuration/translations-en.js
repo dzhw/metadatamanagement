@@ -39,7 +39,7 @@ angular.module('metadatamanagementApp').config([
           'unavailable': 'Not available',
           'language': 'Language',
           'year': 'Publication Year',
-          'approved-usage': 'Approved purpose of use'
+          'approved-usage': 'Special restrictions for the data use'
         },
         'toolbar': {
           'buttons': {

@@ -219,5 +219,18 @@ angular.module('metadatamanagementApp')
             });
         });
       };
+
+      ctrl.getTranslationPathFromApprovedUsageId = function(id) {
+        switch(id) {
+          case 'SCIENTIFIC_USE':
+            return "data-package-management.common.approvedUsage.scientificUse"
+          case 'TEACHING_PURPOSES':
+            return "data-package-management.common.approvedUsage.teachingPurposes"
+          case 'NON_COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.nonCommercialUse"
+          case 'COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.commercialUse"
+        }
+      }
     }]);
 

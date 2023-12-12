@@ -206,6 +206,16 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
+            <md-input-container flex="50" class="ms-flex">
+              <label>{{'data-package-management.detail.label.approvedUsageList' | translate}}</label>
+              <div class="col-sm-2" ng-repeat="usage in ctrl.approvedUsageList">
+                <md-checkbox ng-model="ctrl.currentApprovedUsageList[usage]" ng-change="ctrl.onApprovedUsageListChanged()">
+                  {{ ctrl.getTranslationPathFromApprovedUsageId(usage) | translate }}
+                </md-checkbox>
+              </div>
+            </md-input-container>
+          </div>
+          <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50"
                                 md-is-error="!dataPackageForm.annotationsDe.$valid && (dataPackageForm.annotationsDe.$dirty || dataPackageForm.annotationsDe.$touched)"
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"
