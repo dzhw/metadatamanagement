@@ -91,9 +91,9 @@ angular.module('metadatamanagementApp').config([
           },
           'scripts': {
             'table-title': 'Skripte zu diesem Analysepaket',
-            'title': 'Titel',
+            'filename': 'Dateiname',
             'software-package': 'Softwarepaket',
-            'language': 'Skriptsprache',
+            'language': 'Sprache der Kommentierungen',
             'version': 'Version des Softwarepakets',
             'license': 'Lizenz',
             'file': 'Datei',
@@ -205,7 +205,7 @@ angular.module('metadatamanagementApp').config([
             'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
             'script': {
-              'used-language': 'Skriptsprache',
+              'used-language': 'Sprache der Kommentierungen',
               'software-package': 'Softwarepaket',
               'software-package-version': 'Version des Softwarepakets'
             },
@@ -248,10 +248,6 @@ angular.module('metadatamanagementApp').config([
             },
             'license': 'Wenn kein Vertrag unterzeichnet wird, benötigen wir eine Lizenz wie cc-by-sa',
             'script': {
-              'title': {
-                'de': 'Geben Sie den Titel des Skripts auf Deutsch ein.',
-                'en': 'Geben Sie den Titel des Skripts auf Englisch ein.'
-              },
               'used-language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Skript verwendet haben.',
               'software-package': 'Bitte wählen Sie das Softwarepaket aus, für das dieses Skript geschrieben wurde.',
               'software-package-version': 'Version des Softwarepakets'

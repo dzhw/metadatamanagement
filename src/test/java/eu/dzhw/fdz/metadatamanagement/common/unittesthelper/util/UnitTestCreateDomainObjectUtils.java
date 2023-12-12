@@ -155,7 +155,7 @@ public class UnitTestCreateDomainObjectUtils {
         .dataAcquisitionProjectId(projectId).title(new I18nString("Title De", "Title En"))
         .description(new I18nString("Description De", "Description En")).authors(authors)
         .scripts(List.of(Script.builder().softwarePackage("R").softwarePackageVersion("1.0.0")
-            .title(new I18nString("de", "en")).uuid("1234").usedLanguage("de").build()))
+            .uuid("1234").usedLanguage("de").build()))
         .dataCurators(dataCurators).masterId(analysisPackageId).tags(tags)
         .sponsors(sponsors).build();
 

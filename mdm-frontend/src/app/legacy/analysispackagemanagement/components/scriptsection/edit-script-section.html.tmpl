@@ -59,60 +59,6 @@
             <input hidden
                    name="scriptsUuid_{{$index}}"
                    ng-model="script.uuid">
-            <md-input-container flex="50"
-                                class="ml0 mr8"
-                                md-is-error="!$ctrl.currentForm['scriptsTitleDe_' + $index].$valid && ($ctrl.currentForm['scriptsTitleDe_' + $index].$dirty || $ctrl.currentForm['scriptsTitleDe_' + $index].$touched)">
-              <label
-                class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}
-                ({{'global.in-german' | translate}})</label>
-              <input fdz-required
-                     md-no-asterisk
-                     name="scriptsTitleDe_{{$index}}"
-                     lang="de"
-                     md-maxlength="2048"
-                     ng-model="script.title.de">
-              <div class="fdz-input-hint"
-                   ng-if="!$ctrl.currentForm['scriptsTitleDe_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleDe_' + $index].$touched">
-                {{'analysis-package-management.edit.hints.script.title.de' | translate}}
-              </div>
-              <div multiple
-                   ng-messages="$ctrl.currentForm['scriptsTitleDe_' + $index].$error">
-                <div ng-message="fdz-required">
-                  {{'analysis-package-management.error.script.title.i18n-string-entire-not-empty' |
-                translate}}
-                </div>
-                <div ng-message="md-maxlength">
-                  {{'analysis-package-management.error.script.title.i18n-string-size' | translate}}
-                </div>
-              </div>
-            </md-input-container>
-            <md-input-container flex="50"
-                                class="mr8"
-                                md-is-error="!$ctrl.currentForm['scriptsTitleEn_' + $index].$valid && ($ctrl.currentForm['scriptsTitleEn_' + $index].$dirty || $ctrl.currentForm['scriptsTitleEn_' + $index].$touched)">
-              <label
-                class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}
-                ({{'global.in-english' | translate}})</label>
-              <input fdz-required
-                     md-no-asterisk
-                     name="scriptsTitleEn_{{$index}}"
-                     lang="de"
-                     md-maxlength="2048"
-                     ng-model="script.title.en">
-              <div class="fdz-input-hint"
-                   ng-if="!$ctrl.currentForm['scriptsTitleEn_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleEn_' + $index].$touched">
-                {{'analysis-package-management.edit.hints.script.title.en' | translate}}
-              </div>
-              <div multiple
-                   ng-messages="$ctrl.currentForm['scriptsTitleEn_' + $index].$error">
-                <div ng-message="fdz-required">
-                  {{'analysis-package-management.error.script.title.i18n-string-entire-not-empty' |
-                translate}}
-                </div>
-                <div ng-message="md-maxlength">
-                  {{'analysis-package-management.error.script.title.i18n-string-size' | translate}}
-                </div>
-              </div>
-            </md-input-container>
           </div>
           <div layout="row"
                layout-gt-sm="row"
