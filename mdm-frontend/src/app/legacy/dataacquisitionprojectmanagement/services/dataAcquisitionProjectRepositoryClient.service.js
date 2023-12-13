@@ -1,14 +1,30 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('DataAcquisitionProjectRepositoryClient', ['$http',  function($http) {
-    var findByIdLikeOrderByIdAsc = function(id, page, limit) {
+    var fetchAll = function() {
+      return $http({
+        method: 'GET',
+        url: '/api/data-acquisition-projects/search/findAll',
+        transformResponse: function(data) {
+          var response = angular.fromJson(data);
+          if (response._embedded &&
+              response._embedded.dataAcquisitionProjects) {
+            return response._embedded.dataAcquisitionProjects;
+          }
+          return response;
+        }
+      });
+    };  
+  
+    var findByIdLikeOrderByIdAsc = function(id, page, limit, packageType) {
       return $http({
         method: 'GET',
         url: '/api/data-acquisition-projects/search/findByIdLikeOrderByIdAsc',
         params: {
           id: id,
           page: page,
-          size: limit
+          size: limit,
+          type: packageType
         },
         transformResponse: function(data) {
           var response = angular.fromJson(data);
@@ -83,7 +99,8 @@ angular.module('metadatamanagementApp').factory('DataAcquisitionProjectRepositor
       findAssignedProjects: findAssignedProjects,
       findAssignedProjectsAsPublisher: findAssignedProjectsAsPublisher,
       findAssignedProjectsAsDataProvider: findAssignedProjectsAsDataProvider,
-      findByIdLikeOrderByIdAsc: findByIdLikeOrderByIdAsc
+      findByIdLikeOrderByIdAsc: findByIdLikeOrderByIdAsc,
+      fetchAll: fetchAll
     };
   }]);
 

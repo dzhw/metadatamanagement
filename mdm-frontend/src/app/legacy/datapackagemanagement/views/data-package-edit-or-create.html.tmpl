@@ -20,7 +20,6 @@
           <div layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50"
                                 md-is-error="!dataPackageForm.titleDe.$valid && (dataPackageForm.titleDe.$dirty || dataPackageForm.titleDe.$touched)"
-                                ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 class="ms-flex">
               <label class="fdz-input-required">{{'data-package-management.detail.label.title' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -68,7 +67,8 @@
                              md-no-cache="true" md-require-match="false"
                              md-search-text="ctrl.dataPackage.studySeries.de"
                              md-select-on-match="true" md-selected-item="ctrl.currentStudySeries" ng-pattern="/^[^,]*$/"
-                             class="ms-flex">
+                             class="ms-flex"
+                             ng-class="{'mr10': $mdMedia('gt-sm')}">
               <md-item-template>
                 <span class="md-title" md-highlight-flags="ig" md-highlight-text="ctrl.dataPackage.studySeries.de"
                       style="font-size: 14px;">{{item.de}}</span>
@@ -145,7 +145,13 @@
                 <div ng-message="required">{{'data-package-management.error.data-package.survey-design.not-null' | translate}}</div>
               </div>
             </md-input-container>
-            <div flex="50"></div>
+            <md-input-container flex="50" 
+                md-is-error="!dataPackageForm.remarksUserService.$valid && (dataPackageForm.remarksUserService.$dirty || dataPackageForm.remarksUserService.$touched)"       
+                class="ms-flex">
+              <label class="fdz-input">{{'data-package-management.detail.label.remarksUserService' | translate}}</label>
+              <input md-no-asterisk name="remarksUserService"
+                ng-model="ctrl.dataPackage.remarksUserService" ng-trim="true">  
+            </md-input-container>
           </div>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50"

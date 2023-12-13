@@ -43,7 +43,7 @@
               { "input": "./node_modules/highlightjs/styles/default.css", "bundleName": "vendor-styles"},
               { "input": "./node_modules/angular-jk-carousel/dist/jk-carousel.css", "bundleName": "vendor-styles"},
               { "input": "./node_modules/jsonformatter/dist/json-formatter.css", "bundleName": "vendor-styles"},
-              { "input": "./node_modules/fdz-paginator/dest/fdz-paginator.css", "bundleName": "vendor-styles"},
+              { "input": "./node_modules/fdz-paginator/dest/fdz-paginator.css", "bundleName": "vendor-styles"}
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
@@ -229,6 +229,9 @@
               "src/app/legacy/common/dialogs/choose-previous-version/configuration/translations-de.js",
               "src/app/legacy/common/dialogs/choose-previous-version/choose-previous-version.controller.js",
               "src/app/legacy/common/dialogs/choose-previous-version/choose-previous-version.service.js",
+              "src/app/legacy/common/dialogs/license/license-dialog.controller.js",
+              "src/app/legacy/common/dialogs/license/license-dialog.component.js",
+              "src/app/legacy/common/dialogs/license/license-dialog.service.js",
               "src/app/legacy/common/migration/services/migrationService.js",
               "src/app/legacy/common/i18n/directives/tageditor/tag-editor.directive.js",
               "src/app/legacy/common/i18n/directives/tageditor/tag-editor.controller.js",

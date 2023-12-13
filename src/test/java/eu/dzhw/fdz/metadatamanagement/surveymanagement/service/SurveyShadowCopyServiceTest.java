@@ -43,7 +43,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -53,7 +53,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
 
   @BeforeEach
   public void setUp() {
-    release = new Release("1.0.0", LocalDateTime.now(), null, false);
+    release = new Release("1.0.0", LocalDateTime.now(), null, false, null);
     DataAcquisitionProject unreleasedProject =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     unreleasedProject.setRelease(null);

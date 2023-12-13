@@ -117,8 +117,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService', ['OrderRe
         .stripVersionSuffix(normalizedProduct.dataAcquisitionProjectId);
 
       if (product.hasOwnProperty('dataPackage')) {
-        normalizedProduct.study.id = ProjectReleaseService
-          .stripVersionSuffix(normalizedProduct.study.id);
         normalizedProduct.dataPackage.id = ProjectReleaseService
           .stripVersionSuffix(normalizedProduct.dataPackage.id);
       } else {
@@ -171,7 +169,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService', ['OrderRe
           var removed = _.remove(order.products, function(productInOrder) {
             if (product.hasOwnProperty('dataPackage') &&
               productInOrder.hasOwnProperty('dataPackage')) {
-              return productInOrder.study.id === product.study.id &&
+              return productInOrder.dataPackage.id === product.dataPackage.id &&
                 productInOrder.version === product.version &&
                 productInOrder.accessWay === product.accessWay;
             }

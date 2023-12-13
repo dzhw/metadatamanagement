@@ -60,6 +60,13 @@
   <meta ng-if="dublinCoreMetadata.creators" ng-repeat="creator in dublinCoreMetadata.creators" name="DC.Creator" content="{{creator.lastName}}, {{creator.firstName}}{{creator.middleName?' '+creator.middleName:''}}" >
   <meta ng-if="dublinCoreMetadata.contributors" ng-repeat="institution in dublinCoreMetadata.institutions" name="DC.Creator" content="{{institution}}" >
   <meta ng-if="dublinCoreMetadata.contributors" ng-repeat="contributor in dublinCoreMetadata.contributors" name="DC.Contributor" content="{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName?' '+contributor.middleName:''}}" >
+  <script>
+    // IE unsupported warning
+    if (!!document.documentMode) {
+      window.alert("Internet Explorer is not supported!\nInternet Explorer wird nicht unterstützt!")
+      throw "IE not supported!";
+    }
+  </script>
   <script ng-if="schemaOrgMetadata" type="application/ld+json" ng-bind-html="schemaOrgMetadata">
   </script>
   <!-- seo4Ajax setting -->

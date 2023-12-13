@@ -155,6 +155,7 @@ angular.module('metadatamanagementApp').config([
             'rdcProject': 'Data Acquisition Projects',
             'current-project': 'Current Data Acquisition Project',
             'select-project': 'Select Project',
+            'search-project': 'Search by project ID',
             'unknown-project': 'No project found!'
           },
           'search': {
@@ -196,6 +197,10 @@ angular.module('metadatamanagementApp').config([
         'form': {
           'username': 'Username',
           'username-placeholder': 'Your username',
+          'firstname': 'First name',
+          'firstname-placeholder': 'Your first name',
+          'lastname': 'Last name',
+          'lastname-placeholder': 'Your last name',
           'newpassword': 'New password',
           'newpassword-placeholder': 'New password',
           'confirmpassword': 'New password confirmation',
@@ -381,6 +386,7 @@ angular.module('metadatamanagementApp').config([
         'common-dialogs': {
           'yes': 'Yes',
           'no': 'No',
+          'close': 'Close',
           'confirm-dirty': {
             'title': 'Discard Changes?',
             'content': 'There are unsaved changes. Do you want to discard these changes?'
@@ -453,7 +459,10 @@ angular.module('metadatamanagementApp').config([
            'content': 'Please confirm that you want to activate the user.',
            'yes': 'Activate',
            'no': 'Keep current status'
-         }
+         },
+         'info': {
+          'license': 'License'
+        }
         },
         'people': {
           'edit': {
