@@ -153,6 +153,13 @@
                 ng-model="ctrl.dataPackage.remarksUserService" ng-trim="true">  
             </md-input-container>
           </div>
+          <div layout="column" layout-gt-sm="row" style="margin-bottom: 18pt;">
+            <md-input-container flex="50" class="mv8" ng-if="ctrl.isPublisher()">
+                <md-checkbox ng-model="ctrl.dataPackage.externalDataPackage" name="dataPackage" class="mb0">
+                  {{'data-package-management.detail.label.externalDataPackage' | translate}}
+                </md-checkbox>
+              </md-input-container>
+          </div>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50"
                                 md-is-error="!dataPackageForm.annotationsDe.$valid && (dataPackageForm.annotationsDe.$dirty || dataPackageForm.annotationsDe.$touched)"

@@ -217,6 +217,12 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Indexed
   private String remarksUserService;
 
+  /**
+   * Shows if a data package is external.
+   */
+  @Indexed
+  private Boolean externalDataPackage = false;
+
   public DataPackage(DataPackage dataPackage) {
     super();
     BeanUtils.copyProperties(dataPackage, this);
