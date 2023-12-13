@@ -113,7 +113,7 @@
             markdown-to-html="$ctrl.options.dataPackage.annotations | displayI18nString"
             ></p>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.dataPackage.externalDataPackage != undefined && $ctrl.options.isPublisher()">
+        <md-list-item ng-if="$ctrl.options.dataPackage.externalDataPackage && $ctrl.options.isPublisher()">
             <h5>{{'data-package-management.detail.label.externalDataPackage' | translate }}:</h5>
             <input type="checkbox" ng-model="$ctrl.options.dataPackage.externalDataPackage"
              ng-true-value="true" ng-false-value="false" ng-disabled=true>
