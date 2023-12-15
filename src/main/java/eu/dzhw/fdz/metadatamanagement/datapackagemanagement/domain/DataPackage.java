@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -152,11 +153,8 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * List of {@link Sponsor}s which have sponsored this data package.
-   *
-   * Must not be empty.
    */
   @Valid
-  @NotEmpty(message = "data-package-management.error.data-package.data-curators.not-empty")
   private List<Sponsor> sponsors;
 
   /**
