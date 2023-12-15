@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
