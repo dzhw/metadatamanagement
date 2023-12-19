@@ -21,7 +21,9 @@ angular.module('metadatamanagementApp').config([
             'dev': 'This is the dev stage! Are you sure?',
             'prod': 'WARNING: This is the PRODUCTION stage! Are you sure?',
           },
-          'confirm-hint': 'Check this box if you really want to release this project on this system!'
+          'confirm-hint': 'Check this box if you really want to release this project on this system!',
+          'toTweet': "Publish on X (formerly Twitter). The Version of the Data Acquisition Projects will automatically be added.",
+          'tweetTextLabel': "Tweet"
         },
         'home': {
           'title': 'Data Acquisition Projects',
@@ -100,6 +102,10 @@ angular.module('metadatamanagementApp').config([
               'pattern': 'The version must match the pattern "major.minor.patch" (e.g. "1.0.0").',
               'not-parsable-or-not-incremented': 'The version number must be at least as high as the last version. The previous version was "{{lastVersion}}".',
               'size': 'The version must not contain more than 32 characters.'
+            },
+            'tweet': {
+              'not-empty': 'The text must not be empty.',
+              'size': 'The text must not contain more than 280 characters.'
             }
           },
           'post-validation': {

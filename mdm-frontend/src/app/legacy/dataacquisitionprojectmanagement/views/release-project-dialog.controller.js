@@ -16,12 +16,13 @@ angular.module('metadatamanagementApp')
   'DataAcquisitionProjectPostValidationService',
   'PinnedDataPackagesService',
   'DataPackageIdBuilderService',
+  'DataAcquisitionProjectTweetResource',
   'ENV', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
     DataAcquisitionProjectLastReleaseResource, $state, $translate,
     DataAcquisitionProjectPostValidationService, PinnedDataPackagesService,
-    DataPackageIdBuilderService, ENV) {
+    DataPackageIdBuilderService, DataAcquisitionProjectTweetResource, ENV) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     $scope.ENV = ENV;
@@ -46,6 +47,24 @@ angular.module('metadatamanagementApp')
               $scope.release.pinToStartPage = true;
             } else {
               $scope.release.pinToStartPage = false;
+            }
+
+            // set the default tweet placeholder text
+            $scope.release.toTweet = false;
+            $scope.release.tweetTextInput = "";
+            if (response.data && response.data.completeTitle && response.data.completeTitle.de 
+              && response.data.completeTitle.de.trim() != "") {
+              $scope.release.tweetTextInput += "Neue Daten wurden veröffentlicht! " + response.data.completeTitle.de;
+            }
+            if (response.data && response.data.completeTitle && response.data.completeTitle.en
+              && response.data.completeTitle.en != "") {
+              if ($scope.release.tweetTextInput && $scope.release.tweetTextInput.trim() != "") {
+                $scope.release.tweetTextInput += " / "; 
+              }
+              $scope.release.tweetTextInput += " New data has been released! " + response.data.completeTitle.en; 
+            }
+            if (response.data.doi) {
+              $scope.release.tweetTextInput += " https://doi.org/" + response.data.doi;
             }
           });
       }
@@ -92,6 +111,19 @@ angular.module('metadatamanagementApp')
                     CurrentProjectService.setCurrentProject(project);
                     $mdDialog.hide();
                     $state.forceReload();
+
+                    // tweet
+                    if (release.version) {
+                      $scope.release.tweetTextInput += " Version " + release.version;
+                    }
+                    console.debug("Tweet text: " + $scope.release.tweetTextInput);
+                    DataAcquisitionProjectTweetResource.createTweet($scope.release.tweetTextInput)
+                      .$promise.then(function(response) {
+                         console.debug("Tweet response:", response.response)
+                      })
+                      .catch(function(error) {
+                        console.error("Tweet error response:", error)
+                    });
                   });
               }).catch(function() {
                   delete project.release;
