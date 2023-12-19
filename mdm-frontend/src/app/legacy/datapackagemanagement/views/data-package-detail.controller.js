@@ -86,10 +86,13 @@ angular.module('metadatamanagementApp')
         publicationsCount: 0,
         conceptsCount: 0
       };
+
+      console.log(localStorage.getItem('currentView'))
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       ctrl.showRemarks = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER']);
+      ctrl.isOrderView = localStorage.getItem('currentView') === 'orderView';
 
       var bowser = $rootScope.bowser;
 

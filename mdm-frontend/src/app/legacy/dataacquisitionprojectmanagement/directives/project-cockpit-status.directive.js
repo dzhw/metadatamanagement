@@ -221,6 +221,9 @@ angular.module('metadatamanagementApp')
          * @returns 
          */
         ctrl.shouldDisplayReleaseTooltip = function() {
+          if (!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER') {
+            return false;
+          }
           if (!ctrl.project.release && ctrl.isEmbargoDateExpired()) {
             return true;
           }
@@ -236,6 +239,9 @@ angular.module('metadatamanagementApp')
          * @returns 
          */
         ctrl.shouldDisplayPreReleaseTooltip = function() {
+          if (!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER') {
+            return false;
+          }
           return !ctrl.project.release && !ctrl.isEmbargoDateExpired();
         };
 
@@ -245,6 +251,9 @@ angular.module('metadatamanagementApp')
          * @returns 
          */
         ctrl.shouldDisplayReleaseNotAllowedTooltip = function() {
+          if (!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER') {
+            return false;
+          }
           return ctrl.project.release && ctrl.project.release.isPreRelease && !ctrl.isEmbargoDateExpired();
         };
 
@@ -254,6 +263,9 @@ angular.module('metadatamanagementApp')
          * @returns 
          */
         ctrl.shouldDisplayUnreleaseTooltip = function() {
+          if (!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER') {
+            return false;
+          }
           return ctrl.project.release && !ctrl.project.release.isPreRelease;
         };
 
