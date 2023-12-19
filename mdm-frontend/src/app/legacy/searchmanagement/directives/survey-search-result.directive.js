@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             $scope.project = project;
-            $scope.projectIsCurrentlyReleased = (project.release != null);
+            $scope.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
           });
         }
 

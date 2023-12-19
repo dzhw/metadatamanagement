@@ -157,7 +157,7 @@ angular.module('metadatamanagementApp')
         DataAcquisitionProjectResource.get({
           id: dataPackage.dataAcquisitionProjectId
         }).$promise.then(function(project) {
-          if (project.release != null) {
+          if (project.release != null && !project.release.isPreRelease) {
             handleReleasedProject();
           } else if (!ProjectUpdateAccessService
               .isUpdateAllowed(project, 'dataPackages', true)) {
@@ -187,7 +187,7 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
+              (!CurrentProjectService.getCurrentProject().release || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                    .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                     'dataPackages', true)) {

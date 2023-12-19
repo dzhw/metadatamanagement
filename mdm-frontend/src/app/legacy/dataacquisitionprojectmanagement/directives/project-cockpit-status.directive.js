@@ -153,9 +153,19 @@ angular.module('metadatamanagementApp')
           setTypeCounts(ctrl.project.id);
         });
 
+        /**
+         * Method to toggle the release status of a project.
+         * If the project is not released yet it will release it.
+         * If the project is currently released but as a pre-release it will fully release it.
+         * If the project already is released it will unrelease it.
+         */
         ctrl.toggleReleaseProject = function() {
           if (ctrl.project.release) {
-            ProjectReleaseService.unreleaseProject(ctrl.project);
+            if (ctrl.isPreReleased()) {
+              ProjectReleaseService.releaseProject(ctrl.project);
+            } else {
+              ProjectReleaseService.unreleaseProject(ctrl.project);
+            }
           } else {
             ProjectReleaseService.releaseProject(ctrl.project);
           }
@@ -172,6 +182,115 @@ angular.module('metadatamanagementApp')
           }
           return true;
         }
+
+        /**
+         * Checks whether a project is fully released. Full releases are indicated
+         * with a release object being present but the 'isPreRelease' attribute being set to false.
+         * @returns true if the project is fully released else false
+         */
+        ctrl.isFullyReleased = function() {
+          return ctrl.project.release && !ctrl.project.release.isPreRelease ? true : false;
+        }
+
+        /**
+         * Checks whether a project is pre-released. Pre-releases are indicated
+         * with a release object being present but the 'isPreRelease' attribute being set to true.
+         * @returns true if the project is pre-released else false
+         */
+        ctrl.isPreReleased = function() {
+          return ctrl.project.release && ctrl.project.release.isPreRelease ? true : false;
+        }
+
+        // Methods for displaying buttons and tooltips ///////////////////
+
+        /**
+         * Checks whether the tooltip for disallowed user actions should be shown.
+         * Only assigned publishers are allowed to release projects. Releases are only allowed if 
+         * the project is assigned to the publisher group.
+         * @returns true if the user is allowed else false
+         */
+        ctrl.shouldDisplayUserNotAllowedTooltip = function() {
+          return !ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'
+        };
+
+        /**
+         * Checks whether the tooltip for regular releases should be shown.
+         * Regular releases are allowed if the the project is currently not released and there is no embargo date or the
+         * embargo date has expired. It is also allowed if the project is currently released but in a pre-release and the
+         * embargo date has expired.
+         * @returns 
+         */
+        ctrl.shouldDisplayReleaseTooltip = function() {
+          if (!ctrl.project.release && ctrl.isEmbargoDateExpired()) {
+            return true;
+          }
+          if (ctrl.project.release && ctrl.project.release.isPreRelease && ctrl.isEmbargoDateExpired()) {
+            return true;
+          }
+          return false;
+        };
+
+        /**
+         * Checks whether the tooltip for pre-releases should be shown.
+         * Pre-Releases are allowed if the project is currently not released and there is an unexpired embargo date.
+         * @returns 
+         */
+        ctrl.shouldDisplayPreReleaseTooltip = function() {
+          return !ctrl.project.release && !ctrl.isEmbargoDateExpired();
+        };
+
+        /**
+         * Checks whether the tooltip for disallowed release should be shown.
+         * Releases are not allowed if the project is currenlty pre-released and the mebargo date has not expired yet.
+         * @returns 
+         */
+        ctrl.shouldDisplayReleaseNotAllowedTooltip = function() {
+          return ctrl.project.release && ctrl.project.release.isPreRelease && !ctrl.isEmbargoDateExpired();
+        };
+
+        /**
+         * Checks whether the tooltip for unrelease action should be shown.
+         * Unreleases can only be triggert if the project is fully released.
+         * @returns 
+         */
+        ctrl.shouldDisplayUnreleaseTooltip = function() {
+          return ctrl.project.release && !ctrl.project.release.isPreRelease;
+        };
+
+        /**
+         * Checks whether the pre-release icon should be shown.
+         * Pre-Releases are only possible if the project is currently not released and the embargo date is set and has not expired.
+         */
+        ctrl.shouldDisplayPreReleaseIcon = function() {
+          return !ctrl.project.release && !ctrl.isEmbargoDateExpired();
+        }
+
+        /**
+         * Checks whether the regular release icon should be shown.
+         * Regular releases are possible if the project is currently not released and there is no embargo date or the embargo date has expired.
+         * Regular releases are also possible if the project is currently pre-released.
+         * @returns 
+         */
+        ctrl.shouldDisplayRegularReleaseIcon = function() {
+          if (!ctrl.project.release && ctrl.isEmbargoDateExpired()) {
+            return true;
+          }
+          // is pre-released and embargo date has expired
+          if (ctrl.project.release && ctrl.project.release.isPreRelease) {
+            return true;
+          }
+          return false;
+        }
+
+        /**
+         * Checks whether the unrelease icon should be shown.
+         * Unreleases are possible if the project is currently fully released.
+         * @returns 
+         */
+        ctrl.shouldDisplayUnreleaseIcon = function() {
+          return ctrl.project.release && !ctrl.project.release.isPreRelease;
+        }
+
 
       }
     };

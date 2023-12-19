@@ -6,26 +6,34 @@
         <md-list-item layout="row" class="pr0" ng-class="{'fdz-odd-row': $even}">
           <a ng-if="shadow.configuration.requirements.analysisPackagesRequired" ui-sref="analysisPackageDetail({id: 'ana-' + shadow.masterId, 'search-result-index': searchResultIndex, version: shadow.release.version})" class="md-list-item-text" style="color: black; margin-top: 3px;">
             <strong>{{('analysis-package-management.detail.label.version' | translate) + ' ' + shadow.release.version}}</strong>
-            <span>{{'(' + ('analysis-package-management.detail.label.published-at' | translate) + ' ' + (shadow.release.lastDate + 'Z' | date:'mediumDate') + ')'}}</span>
+            <span ng-if="!shadow.release.isPreRelease">{{'(' + ('analysis-package-management.detail.label.published-at' | translate) + ' ' + (shadow.release.lastDate + 'Z' | date:'mediumDate') + ')'}}</span>
+            <span ng-if="shadow.release.isPreRelease">{{'(' + ('analysis-package-management.detail.label.pre-published-at' | translate) + ' ' + (shadow.release.lastDate + 'Z' | date:'mediumDate') + ')'}}</span>
             <md-icon md-font-set="material-icons" class="material-icons" role="img" aria-hidden="true" style="color: black; font-size: 22px;">launch</md-icon>
           </a>
           <a ng-if="shadow.configuration.requirements.dataPackagesRequired" ui-sref="dataPackageDetail({id: 'stu-' + shadow.masterId, 'search-result-index': searchResultIndex, version: shadow.release.version})" class="md-list-item-text" style="color: black; margin-top: 3px;">
             <strong>{{('data-package-management.detail.label.version' | translate) + ' ' + shadow.release.version}}</strong>
-            <span>{{'(' + ('data-package-management.detail.label.published-at' | translate) + ' ' + (shadow.release.lastDate + 'Z' | date:'mediumDate') + ')'}}</span>
+            <span ng-if="!shadow.release.isPreRelease">{{'(' + ('data-package-management.detail.label.published-at' | translate) + ' ' + (shadow.release.lastDate + 'Z' | date:'mediumDate') + ')'}}</span>
+            <span ng-if="shadow.release.isPreRelease">{{'(' + ('data-package-management.detail.label.pre-published-at' | translate) + ' ' + (shadow.release.lastDate + 'Z' | date:'mediumDate') + ')'}}</span>
             <md-icon md-font-set="material-icons" class="material-icons" role="img" aria-hidden="true" style="color: black; font-size: 22px;">launch</md-icon>
           </a>
           <span flex></span>
           <md-progress-circular ng-if="shadow.inProgress" md-mode="indeterminate" md-diameter="25" style="margin-right: 15px;"></md-progress-circular>
-          <md-button ng-if="!shadow.hidden && !shadow.inProgress" ng-disabled="shadow.inProgress || !shadow.successorId || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.hide(shadow, $event)">
+          <md-button ng-if="!shadow.hidden && !shadow.inProgress && !shadow.release.isPreRelease" ng-disabled="shadow.inProgress || !shadow.successorId || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.hide(shadow, $event)">
             <md-icon md-font-set="material-icons" class="material-icons" role="img">visibility_on</md-icon>
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-acquisition-project-management.project-cockpit.versions.button.hide-shadow' | translate}}
             </md-tooltip>
           </md-button>
-          <md-button ng-if="shadow.hidden && !shadow.inProgress" ng-disabled="shadow.inProgress || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.unhide(shadow, $event)">
+          <md-button ng-if="shadow.hidden && !shadow.inProgress && !shadow.release.isPreRelease" ng-disabled="shadow.inProgress || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.unhide(shadow, $event)">
             <md-icon md-font-set="material-icons" class="material-icons" role="img">visibility_off</md-icon>
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-acquisition-project-management.project-cockpit.versions.button.unhide-shadow' | translate}}
+            </md-tooltip>
+          </md-button>
+          <md-button ng-if="shadow.release.isPreRelease" disabled class="md-icon-button md-primary">
+            <md-icon md-font-set="material-icons" class="material-icons" role="img">schedule</md-icon>
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-acquisition-project-management.project-cockpit.versions.button.pre-released' | translate: {date: shadow.embargoString} }}
             </md-tooltip>
           </md-button>
         </md-list-item>

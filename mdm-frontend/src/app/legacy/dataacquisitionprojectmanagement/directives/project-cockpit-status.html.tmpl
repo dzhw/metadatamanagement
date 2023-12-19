@@ -4,30 +4,34 @@
 			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;" class="ma8">
 				<release-status-badge released="ctrl.project.release"></release-status-badge>
 				<div class="layout-row">
-					<md-button ng-if="!ctrl.isEmbargoDateExpired()" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.toggleReleaseProject()" ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'">
-						<md-tooltip ng-if="ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-							{{ctrl.project.release?'global.tooltips.unrelease-project':'global.tooltips.prerelease-project' | translate}}
-						</md-tooltip>
-						<md-tooltip ng-if="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+					<md-button class="md-raised md-fab md-mini md-primary" ng-click="ctrl.toggleReleaseProject()" ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER' || (ctrl.project.release && ctrl.project.release.isPreRelease && !ctrl.isEmbargoDateExpired())">
+						<!-- tooltips -->
+						<md-tooltip ng-if="ctrl.shouldDisplayUserNotAllowedTooltip()" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
 							{{'data-acquisition-project-management.error.project-update-access.member-of-assigned-group' | translate}}
 						</md-tooltip>
-						<md-icon md-font-set="material-icons">{{'more_time'}}</md-icon>
-					</md-button>
-					<md-button ng-if="ctrl.isEmbargoDateExpired()" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.toggleReleaseProject()" ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'">
-						<md-tooltip ng-if="ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-							{{ctrl.project.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
+						<md-tooltip ng-if="ctrl.shouldDisplayReleaseTooltip()" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							{{'global.tooltips.release-project' | translate}}
 						</md-tooltip>
-						<md-tooltip ng-if="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-							{{'data-acquisition-project-management.error.project-update-access.member-of-assigned-group' | translate}}
+						<md-tooltip ng-if="ctrl.shouldDisplayPreReleaseTooltip()" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							{{'global.tooltips.prerelease-project' | translate}}
 						</md-tooltip>
-						<md-icon md-font-set="material-icons">{{ctrl.project.release?'stop_screen_share':'screen_share'}}</md-icon>
+						<md-tooltip ng-if="ctrl.shouldDisplayReleaseNotAllowedTooltip()" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							Diese Aktion ist nicht möglich, solange das Embargo-Datum nicht abgelaufen ist.
+						</md-tooltip>
+						<md-tooltip ng-if="ctrl.shouldDisplayUnreleaseTooltip()" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							{{'global.tooltips.unrelease-project' | translate}}
+						</md-tooltip>
+						<!-- icons -->
+						<md-icon ng-if="ctrl.shouldDisplayPreReleaseIcon()" md-font-set="material-icons">{{'more_time'}}</md-icon>
+						<md-icon ng-if="ctrl.shouldDisplayRegularReleaseIcon()" md-font-set="material-icons">{{'screen_share'}} </md-icon>>
+						<md-icon ng-if="ctrl.shouldDisplayUnreleaseIcon()" md-font-set="material-icons">{{'stop_screen_share'}}</md-icon>
 					</md-button>
 				</div>
 			</md-card>
 			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;" class="ma8">
 				<project-status-badge assignee-group="{{ctrl.project.assigneeGroup}}"></project-status-badge>
 				<div class="layout-row">
-					<md-button ng-if="!(ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup !== 'PUBLISHER')" ng-disabled="ctrl.project.release || !(ctrl.project.assigneeGroup === 'PUBLISHER' && ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup === 'DATA_PROVIDER' && ctrl.isAssignedDataProvider())" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.onSaveChangesAndAssign()">
+					<md-button ng-if="!(ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup !== 'PUBLISHER')" ng-disabled="(ctrl.project.release && !ctrl.project.release.isPreRelease) || !(ctrl.project.assigneeGroup === 'PUBLISHER' && ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup === 'DATA_PROVIDER' && ctrl.isAssignedDataProvider())" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.onSaveChangesAndAssign()">
 						<md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
 							{{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
 						</md-tooltip>

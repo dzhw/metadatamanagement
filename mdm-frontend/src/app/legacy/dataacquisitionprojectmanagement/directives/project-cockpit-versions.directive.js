@@ -61,6 +61,7 @@ angular.module('metadatamanagementApp')
             ctrl.page = page;
             ctrl.page.number++;
             ctrl.shadows.forEach(function(shadow) {
+              shadow.embargoString = shadow.embargoDate ? new Date(shadow.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
               DataAcquisitionProjectShadowsActionResource.get({
                 id: shadow.masterId,
                 version: shadow.release.version

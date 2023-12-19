@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             $scope.project = project;
-            $scope.projectIsCurrentlyReleased = (project.release != null);
+            $scope.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
           });
         }
         $scope.deleteDataSet = function(dataSetId) {
