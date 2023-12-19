@@ -61,6 +61,7 @@ angular.module('metadatamanagementApp').config([
             },
             'doi': 'DOI',
             'published-at': 'published at',
+            'pre-published-at': 'preliminarily published at',
             'published': 'Published at'
           },
           'embargo-warning': {
