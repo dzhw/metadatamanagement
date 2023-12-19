@@ -8,10 +8,22 @@
           <h1 class="md-headline" ng-if="localStorage.getItem('currentView') === 'orderView'">{{ 'data-package-management.detail.embargo-warning.title-order-view' | translate }}</h1>
           <h1 class="md-headline" ng-if="localStorage.getItem('currentView') != 'orderView'">{{ 'data-package-management.detail.embargo-warning.title-provider-view' | translate }}</h1>
         </md-card-header>
-        <md-card-content ng-if="localStorage.getItem('currentView') === 'orderView' && !isEmbargoDateExpired()">{{ 'data-package-management.detail.embargo-warning.content-order-view' | translate:{date: ctrl.embargoString} }}</md-card-content>
-        <md-card-content ng-if="localStorage.getItem('currentView') === 'orderView' && isEmbargoDateExpired()">{{ 'data-package-management.detail.embargo-warning.content-order-view-expired' | translate }}</md-card-content>
-        <md-card-content ng-if="localStorage.getItem('currentView') != 'orderView' && !isEmbargoDateExpired()">{{ 'data-package-management.detail.embargo-warning.content-provider-view' | translate:{date: ctrl.embargoString} }}</md-card-content>
-        <md-card-content ng-if="localStorage.getItem('currentView') != 'orderView' && isEmbargoDateExpired()">{{ 'data-package-management.detail.embargo-warning.content-provider-view-expired' | translate }}</md-card-content>
+        <md-card-content ng-if="ctrl.isOrderView && !isEmbargoDateExpired()" style="text-align: justify;">
+          <span  translate="data-package-management.detail.embargo-warning.content-order-view" translate-values="{date: ctrl.embargoString}">
+          </span>
+        </md-card-content>
+        <md-card-content ng-if="ctrl.isOrderView && isEmbargoDateExpired()">
+          <span translate="data-package-management.detail.embargo-warning.content-order-view-expired">
+          </span>
+        </md-card-content>
+        <md-card-content ng-if="!ctrl.isOrderView && !isEmbargoDateExpired()">
+          <span translate="data-package-management.detail.embargo-warning.content-provider-view" translate-values="{date: ctrl.embargoString}">
+          </span>
+        </md-card-content>
+        <md-card-content ng-if="!ctrl.isOrderView && isEmbargoDateExpired()">
+          <span translate="data-package-management.detail.embargo-warning.content-provider-view-expired">
+          </span>
+        </md-card-content>
       </md-card>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
