@@ -175,7 +175,7 @@ angular.module('metadatamanagementApp')
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
             ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;

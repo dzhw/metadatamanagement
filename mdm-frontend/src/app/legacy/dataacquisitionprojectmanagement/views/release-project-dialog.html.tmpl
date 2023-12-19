@@ -32,8 +32,8 @@
         <input autocomplete="off" data-md-autofocus data-md-maxlength="32"
                data-md-no-asterisk name="version" ng-model="release.version"
                ng-pattern="/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/"
-               required translate-attr="{'title':'global.entity.validation.required'}" is-pre-release="isPreRelease()"
-               valid-project-version="lastVersion">
+               required translate-attr="{'title':'global.entity.validation.required'}" has-embargo-date="project.embargoDate ? true : false"
+               valid-project-version="lastVersion" ng-disabled="release.isPreRelease">
         <div data-md-auto-hide="false" data-multiple ng-messages="releaseForm.version.$error">
           <div ng-message="required">{{'data-acquisition-project-management.error.release.version.not-empty' |
             translate}}
@@ -44,13 +44,13 @@
           <div ng-message="pattern">{{'data-acquisition-project-management.error.release.version.pattern' | translate
             }}
           </div>
-          <div ng-if="!isPreRelease()" ng-message="valid-project-version">
+          <div ng-if="!isPreRelease() && !project.embargoDate" ng-message="valid-project-version">
             {{'data-acquisition-project-management.error.release.version.not-parsable-or-not-incremented' |
             translate:'{lastVersion: "' + lastVersion + '"}' }}
           </div>
-          <div ng-if="isPreRelease() && !lastVersion" ng-message="valid-project-version">
-            {{'data-acquisition-project-management.error.release.version.no-major-version-change-from-zero' |
-            translate:{nextMajorVersion: getNextMajorVersion()} }}
+          <div ng-if="(isPreRelease() && !lastVersion) || (!isPreRelease() && project.embargoDate)" ng-message="valid-project-version">
+            {{'data-acquisition-project-management.error.release.version.no-beta-version' |
+            translate }}
           </div>
           <div ng-if="isPreRelease() && lastVersion" ng-message="valid-project-version">
             {{'data-acquisition-project-management.error.release.version.no-major-version-change' |
@@ -62,7 +62,7 @@
         <div class="fdz-input-hint">
           {{'data-acquisition-project-management.release.landing-page-hint' | translate}}
         </div>
-        <md-radio-group required name="doiPageLanguage" ng-model="release.doiPageLanguage" class="md-primary">
+        <md-radio-group required name="doiPageLanguage" ng-model="release.doiPageLanguage" class="md-primary" ng-disabled="release.isPreRelease">
           <md-radio-button value="de" class="md-primary mr20" style="color:black">
             {{'data-acquisition-project-management.release.landing-page-de-title' | translate }}
           </md-radio-button>

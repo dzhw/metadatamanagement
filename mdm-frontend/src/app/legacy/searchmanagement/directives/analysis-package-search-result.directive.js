@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').directive('analysispackageSearchResult',
               id: ctrl.searchResult.dataAcquisitionProjectId
             }).$promise.then(function(project) {
               ctrl.project = project;
-              ctrl.projectIsCurrentlyReleased = (project.release != null);
+              ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
             });
           }
         }

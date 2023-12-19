@@ -110,7 +110,7 @@ angular.module('metadatamanagementApp').config([
               'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
               'not-parsable-or-not-incremented': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version. Die letzte Version war "{{lastVersion}}".',
               'no-major-version-change': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version ("{{lastVersion}}"). Sie muss kleiner sein als die nächste Major-Version ("{{nextMajorVersion}}").',
-              'no-major-version-change-from-zero': 'Die Versionsnummer muss kleiner sein als die nächste Major-Version ("{{nextMajorVersion}}").',
+              'no-beta-version': 'Für das Projekt ist ein Embargo-Datum angegeben. Die Versionsnummer muss daher mindestens "1.0.0" sein.',
               'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
             },
             'tweet': {
@@ -133,6 +133,7 @@ angular.module('metadatamanagementApp').config([
             'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch die Publisher oder Datengeber:innen als "fertig" markiert wurden',
             'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer:innen freigegeben ist.',
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
+            'embargo-date-not-expired': 'Die Aktion ist nicht möglich, da das Embargo-Datum noch nicht abgelaufen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber:in zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
             'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.',
@@ -146,7 +147,8 @@ angular.module('metadatamanagementApp').config([
         },
         'releasestatusbadge': {
           'released': 'Freigegeben',
-          'unreleased': 'Nicht freigegeben'
+          'unreleased': 'Nicht freigegeben',
+          'pre-released': 'Vorläufig freigegeben'
         },
         'project-cockpit': {
           'title': 'Projekt-Cockpit ({{projectId}})',
@@ -240,7 +242,8 @@ angular.module('metadatamanagementApp').config([
             'unhiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten wieder für alle Benutzer:innen sichtbar sein!',
             'button': {
               'hide-shadow': 'Diese Version ist aktuell für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version zu verstecken!',
-              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!'
+              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!',
+              'pre-released': 'Diese Version unterliegt bis zum {{date}} einem Embargo durch die Datengeber:innen. Die Veröffentlichung kann erst nach diesem Datum erfolgen.'
             }
           }
         },
@@ -307,7 +310,11 @@ angular.module('metadatamanagementApp').config([
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
         'not-master-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}). ',
         'no-order-allowed-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}), die nicht bestellbar ist. Wählen Sie eine bestellbare Version im Seitenmenü.',
-        'current-version':'Hier geht es zur aktuellen Version!'
+        'current-version':'Hier geht es zur aktuellen Version!',
+        'embargo-alert-provider': 'Dieses Datenpaket unterliegt bis zum [Datum] einem Embargo. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
+        'embargo-alert-order': 'Dieses Datenpaket ist derzeit noch nicht bestellbar, da es bis zum [Datum] einem Embargo unterliegt. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte Kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
+        'expired-embargo-alert-provider': 'Dieses Datenpaket unterliegt bis zum [Datum] einem Embargo. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
+        'expired-embargo-alert-order': 'Dieses Datenpaket ist derzeit noch nicht bestellbar, da es sich noch in der Aufbereitung befindet. Kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.'
       }
       //jscs:enable
     };

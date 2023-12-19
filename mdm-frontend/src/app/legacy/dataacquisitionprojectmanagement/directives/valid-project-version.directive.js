@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Validator for project versions
+ */
 angular.module('metadatamanagementApp')
   .directive('validProjectVersion', ['$rootScope',  function($rootScope) {
     return {
@@ -7,7 +10,7 @@ angular.module('metadatamanagementApp')
       require: 'ngModel',
       scope: {
         validProjectVersion: '=',
-        isPreRelease: '='
+        hasEmbargoDate: '='
       },
       /* jshint -W098 */
       link: function(scope, element, attributes, ctrl) {
@@ -18,10 +21,11 @@ angular.module('metadatamanagementApp')
             return true;
           }
           // in case of pre-releases only allow minor and patch version changes
-          if (scope.isPreRelease) {
+          if (scope.hasEmbargoDate) {
             if (!scope.validProjectVersion) {
+              // do not allow versions < 1.0.0
               return $rootScope.bowser
-                .compareVersions(['1.0.0', modelValue]) === 1;
+                .compareVersions(['1.0.0', modelValue]) <= 0;
             } else {
               var major = scope.validProjectVersion.split(".")[0];
               var highestMajorVersion = +major + 1;
