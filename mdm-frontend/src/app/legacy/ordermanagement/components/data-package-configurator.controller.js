@@ -118,6 +118,10 @@
             if ($rootScope.bowser.compareVersions(['1.0.0', version]) === 1) {
               $ctrl.noFinalRelease = true;
             }
+            if ($ctrl.dataPackage.release && $ctrl.dataPackage.release.isPreRelease) {
+              // disable ordering on case of pre-release
+              $ctrl.noFinalRelease = true;
+            }
             loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
           }
         }, function() {

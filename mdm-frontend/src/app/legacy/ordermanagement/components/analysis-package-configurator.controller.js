@@ -117,6 +117,10 @@
             if ($rootScope.bowser.compareVersions(['1.0.0', version]) === 1) {
               $ctrl.noFinalRelease = true;
             }
+            if ($ctrl.analysisPackage.release && $ctrl.analysisPackage.release.isPreRelease) {
+              // disable ordering on case of pre-release
+              $ctrl.noFinalRelease = true;
+            }
             loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);
             $ctrl.dataPackages.length = 0;
             _.forEach($ctrl.analysisPackage.analysisDataPackages,
