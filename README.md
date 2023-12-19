@@ -94,6 +94,61 @@ these new files.
 
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
+
+## Tweet 
+
+#### Authentication
+When an analysis package or data package is released, the user can optionally post a message about 
+the release on X (formerly Twitter).
+
+To set this up, you need to have an X Developer Account (Free Access Level) and your projects' api 
+credentials `consumer key` and `consumer secret`. Be aware that the current [Free Access Level](https://developer.twitter.com/en/docs/twitter-api)
+is limited to 50 tweets/24h; 1,500 tweets/month; 1 environment; 1 project.
+
+Make your credentials `consumer key` and `consumer secret` accessible by the `application.yml` through
+`sensitive-variables.tf` just like other highly sensitive data. 
+
+```shell
+[application.yml]
+...
+tweet:
+  consumerkey: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  consumersecret: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  oauthtoken: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  oauthtokensecret: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  ...
+```
+
+Get your `oauth_token` and `oauth_token_secret` by following the three steps of the Postman
+Twitter examples: [Twitter OAuth 1.0a flow test](https://www.postman.com/twitter/workspace/twitter-s-public-workspace/request/9956214-5bd6ebb1-9d79-4456-a9a6-22ead4a41625).
+1. step `oauth/request_token`: 
+
+Execute the request with your consumer key and consumer secret from your Developer Account. 
+An `OAUTH_TOKEN¹` and `OAUTH_TOKEN_SECRET¹` will be returned.
+
+2. step `oauth/authorize`: 
+
+Visit `https://api.twitter.com/oauth/authorize?oauth_token={OAUTH_TOKEN¹}&oauth_token_secret={OAUTH_TOKEN_SECRET¹}&oauth_callback_confirmed=true` with `OAUTH_TOKEN¹` and `OAUTH_TOKEN_SECRET¹` from the first step,
+and authenticate your app.
+
+After being redirected to X, open the network, and copy the values for `oauth_token={OAUTH_TOKEN²}`
+and `oauth_token={OAUTH_VERIFIER²}` from this GET request
+```shell
+GET 'http://twitter.com/?oauth_token={OAUTH_TOKEN²}&oauth_verifier={OAUTH_VERIFIER²}`'
+```
+
+3. step `oauth/access_token`:
+
+Insert the `OAUTH_TOKEN²` and `OAUTH_VERIFIER²` from step 2 into the third request. If you are using Postman like
+the linked Twitter example, select `No Auth` instead of `OAuth 1.0`.
+```shell
+POST 'https://api.twitter.com/?oauth_token={OAUTH_TOKEN²}&oauth_verifier={OAUTH_VERIFIER²}' 
+```
+
+Add the returning `oauth_token` and `oauth_token_secret` to the `sensitive-variables.tf` as well. 
+
+For further details also see [Authentication OAuth FAQ](https://developer.twitter.com/en/docs/authentication/faq).
+
 # Big Thanks 
 
 Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]

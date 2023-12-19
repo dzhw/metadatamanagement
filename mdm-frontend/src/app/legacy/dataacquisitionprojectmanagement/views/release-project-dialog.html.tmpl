@@ -73,6 +73,29 @@
           {{'data-acquisition-project-management.release.confirm-hint' | translate}}
         </div>
       </md-input-container>
+      <!-- Tweet-->
+      <md-checkbox name="toTweet" ng-model="release.toTweet"
+            style="margin: 0 18px 0 0">
+        {{'data-acquisition-project-management.release.toTweet' | translate }}
+      </md-checkbox>
+      <md-input-container ng-disabled="!release.toTweet" class="md-block" md-is-error="release.toTweet && !releaseForm.tweetTextInput.$valid"
+        style="margin-top: 20pt;">
+        <label>{{'data-acquisition-project-management.release.tweetTextLabel' | translate}}</label>
+        <textarea rows="3"
+               autocomplete="off" data-md-autofocus data-md-maxlength="280"
+               data-md-no-asterisk name="tweetTextInput" ng-model="release.tweetTextInput"
+               required translate-attr="{'title':'global.entity.validation.required'}"
+               ng-disabled="!release.toTweet">
+        </textarea>
+        <div ng-if="release.toTweet" data-md-auto-hide="false" data-multiple ng-messages="releaseForm.tweetTextInput.$error">
+            <div ng-message="required">{{'data-acquisition-project-management.error.release.tweet.not-empty' |
+              translate}}
+            </div>
+            <div ng-message="md-maxlength">{{'data-acquisition-project-management.error.release.tweet.size' |
+              translate}}
+            </div>
+          </div>
+      </md-input-container>
     </md-dialog-content>
     <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
       <md-button class="md-raised" ng-click="cancel()">
