@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -35,39 +36,44 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
- * Create Tweet on X (former Twitter) about released data.
+ * Tweet service to create Tweet on X (former Twitter) about released data.
  */
 @Service
 public class TweetService {
 
-  public static Logger log = Utils.findLogger(TweetService.class);
+  public static final Logger log = Utils.findLogger(TweetService.class);
 
-  private final String CONSUMER_KEY;
-  private final String CONSUMER_SECRET;
-  private final String OAUTH_TOKEN;
-  private final String OAUTH_SECRET_TOKEN;
-  private final String ENDPOINT_URL;
-  private final String MEDIA_ENDPOINT_URL;
-  private final String VERSION = "1.0";
-  private final String IMAGE_PATH;
+  private final String consumerKey;
+  private final String consumerSecret;
+  private final String oauthToken;
+  private final String oauthSecretToken;
+  private final String endpointUrl;
+  private final String mediaEndpointUrl;
+  private final String version = "1.0";
+  private final String imagePath;
 
+  /**
+   * TweetService constructor.
+   *
+   * @param tweetProperties Tweet properties/ configurations
+   * @throws MalformedURLException MalformedURLException
+   */
   public TweetService(TweetProperties tweetProperties) throws MalformedURLException {
-    this.CONSUMER_KEY = tweetProperties.getConsumerkey();
-    this.CONSUMER_SECRET = tweetProperties.getConsumersecret();
-    this.OAUTH_TOKEN = tweetProperties.getOauthtoken();
-    this.OAUTH_SECRET_TOKEN = tweetProperties.getOauthtokensecret();
-    this.ENDPOINT_URL = tweetProperties.getEndpointurl();
-    this.MEDIA_ENDPOINT_URL = tweetProperties.getMediaendpointurl();
-    this.IMAGE_PATH = tweetProperties.getImagepath();
+    this.consumerKey = tweetProperties.getConsumerkey();
+    this.consumerSecret = tweetProperties.getConsumersecret();
+    this.oauthToken = tweetProperties.getOauthtoken();
+    this.oauthSecretToken = tweetProperties.getOauthtokensecret();
+    this.endpointUrl = tweetProperties.getEndpointurl();
+    this.mediaEndpointUrl = tweetProperties.getMediaendpointurl();
+    this.imagePath = tweetProperties.getImagepath();
   }
 
   /**
    * Posts a tweet on X (formerly Twitter).
    *
-   * For authorization parameter
-   * @see [Authorizing a request](https://developer.twitter.com/en/docs/authentication/oauth-1-0a/authorizing-a-request)
-   * and creating nonce and signature @see source 
-   * [TwitterOauthHeaderGenerator](https://github.com/smilep/twitter-play/blob/
+   * For authorization parameter @see [Authorizing a request]
+   * (https://developer.twitter.com/en/docs/authentication/oauth-1-0a/authorizing-a-request) and creating nonce and
+   * signature @see source [TwitterOauthHeaderGenerator](https://github.com/smilep/twitter-play/blob/
    * 6fca6dec72387882318dc62fd98dbcf70ce1467b/src/main/java/com/smilep/twitter/helper/TwitterOauthHeaderGenerator.java)
    *
    * @param tweetTextInput Tweet text to be posted
@@ -86,27 +92,27 @@ public class TweetService {
       MediaType mediaType = MediaType.parse("application/json");
       String content;
       if (imageId != null) {
-        content ="{\"text\": \"" + tweetTextInput + "\"," + "\"media\": {\"media_ids\": [\"" + imageId + "\"]}}";
+        content = "{\"text\": \"" + tweetTextInput + "\"," + "\"media\": {\"media_ids\": [\"" + imageId + "\"]}}";
       } else {
         content = "{\"text\": \"" + tweetTextInput + "\"}";
       }
       RequestBody body = RequestBody.create(mediaType, content);
-      String baseSignatureString = generateSignatureBaseString(HttpMethod.POST.name(), ENDPOINT_URL, nonce, timestamp,
-        new HashMap<>());
-      String signature = encryptUsingHmacSHA1(baseSignatureString);
+      String baseSignatureString = generateSignatureBaseString(HttpMethod.POST.name(), endpointUrl, nonce, timestamp,
+          new HashMap<>());
+      String signature = encryptUsingHmacSha1(baseSignatureString);
       Request request = new Request.Builder()
-        .url(ENDPOINT_URL)
-        .method("POST", body)
-        .addHeader("Content-Type", "application/json")
-        .addHeader("Authorization", "OAuth oauth_consumer_key=\"" + CONSUMER_KEY + "\"," +
-          "oauth_token=\"" + OAUTH_TOKEN + "\"," +
-          "oauth_signature_method=\"HMAC-SHA1\"," +
-          "oauth_timestamp=\"" + timestamp + "\"," +
-          "oauth_nonce=\"" + nonce + "\"," +
-          "oauth_version=\"" + VERSION + "\"," +
-          "oauth_signature=\"" + signature + "\"")
-        .build();
-      Response response = client.newCall(request).execute(); // current free access plan allows 50 tweets/24h
+          .url(endpointUrl)
+          .method("POST", body)
+          .addHeader("Content-Type", "application/json")
+          .addHeader("Authorization", "OAuth oauth_consumer_key=\"" + consumerKey + "\","
+            + "oauth_token=\"" + oauthToken + "\","
+            + "oauth_signature_method=\"HMAC-SHA1\","
+            + "oauth_timestamp=\"" + timestamp + "\","
+            + "oauth_nonce=\"" + nonce + "\","
+            + "oauth_version=\"" + version + "\","
+            + "oauth_signature=\"" + signature + "\"")
+          .build();
+      Response response = client.newCall(request).execute(); // current free access plan allows 50 requests/24h
       if (response.isSuccessful()) {
         log.error("Tweet successfully created " + response.code());
         return ResponseEntity.status(response.code()).body("Tweet successfully created " + response.code());
@@ -123,7 +129,7 @@ public class TweetService {
   /**
    * Uploads image file to X so that it can be referenced and posted when creating a tweet.
    *
-   * @param nonce Nonce
+   * @param nonce     Nonce
    * @param timestamp Timestamp
    * @return Media ID of the uploaded image file
    */
@@ -132,27 +138,27 @@ public class TweetService {
 
     Map<String, String> requestParams = new HashMap<>();
     requestParams.put("media_category", "tweet_image");
-    String baseSignatureString = generateSignatureBaseString(HttpMethod.POST.name(), MEDIA_ENDPOINT_URL, nonce,
-      timestamp, requestParams);
-    String signature = encryptUsingHmacSHA1(baseSignatureString);
+    String baseSignatureString = generateSignatureBaseString(HttpMethod.POST.name(), mediaEndpointUrl, nonce,
+        timestamp, requestParams);
+    String signature = encryptUsingHmacSha1(baseSignatureString);
 
     OkHttpClient client = new OkHttpClient().newBuilder().build();
-    File file = new File(IMAGE_PATH);
+    File file = new File(imagePath);
     RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-      .addFormDataPart("media", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"),
-        file))
-      .build();
+        .addFormDataPart("media", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"),
+          file))
+        .build();
     Request request = new Request.Builder()
-      .url(MEDIA_ENDPOINT_URL + "?media_category=tweet_image")
-      .method("POST", body)
-      .addHeader("Authorization", "OAuth oauth_consumer_key=\"" + CONSUMER_KEY + "\"," +
-        "oauth_token=\"" + OAUTH_TOKEN + "\"," +
-        "oauth_signature_method=\"HMAC-SHA1\"," +
-        "oauth_timestamp=\"" + timestamp + "\"," +
-        "oauth_nonce=\"" + nonce + "\"," +
-        "oauth_version=\"" + VERSION + "\"," +
-        "oauth_signature=\"" + signature + "\"")
-      .build();
+        .url(mediaEndpointUrl + "?media_category=tweet_image")
+        .method("POST", body)
+        .addHeader("Authorization", "OAuth oauth_consumer_key=\"" + consumerKey + "\","
+          + "oauth_token=\"" + oauthToken + "\","
+          + "oauth_signature_method=\"HMAC-SHA1\","
+          + "oauth_timestamp=\"" + timestamp + "\","
+          + "oauth_nonce=\"" + nonce + "\","
+          + "oauth_version=\"" + version + "\","
+          + "oauth_signature=\"" + signature + "\"")
+        .build();
     try {
       Response response = client.newCall(request).execute();
       if (response.isSuccessful() && response.body() != null) {
@@ -170,12 +176,12 @@ public class TweetService {
   }
 
   /**
-   * Generate base string to generate the value for oauth signature
+   * Generate base string to generate the value for oauth signature.
    *
-   * @param httpMethod HTTP Method, e.g. "POST"
-   * @param url Endpoint URL
-   * @param nonce Nonce
-   * @param timestamp Timestamp
+   * @param httpMethod    HTTP Method, e.g. "POST"
+   * @param url           Endpoint URL
+   * @param nonce         Nonce
+   * @param timestamp     Timestamp
    * @param requestParams Request parameter
    * @return Signature string
    */
@@ -183,19 +189,20 @@ public class TweetService {
                                              Map<String, String> requestParams) {
     Map<String, String> params = new HashMap<>();
     requestParams.forEach((key, value) -> params.put(encode(key), encode(value)));
-    params.put(encode("oauth_consumer_key"), encode(CONSUMER_KEY));
+    params.put(encode("oauth_consumer_key"), encode(consumerKey));
     params.put(encode("oauth_nonce"), encode(nonce));
     params.put(encode("oauth_signature_method"), encode("HMAC-SHA1"));
     params.put(encode("oauth_timestamp"), encode(timestamp));
-    params.put(encode("oauth_token"), encode(OAUTH_TOKEN));
-    params.put(encode("oauth_version"), encode(VERSION));
+    params.put(encode("oauth_token"), encode(oauthToken));
+    params.put(encode("oauth_version"), encode(version));
     Map<String, String> sortedParams = params.entrySet().stream().sorted(Map.Entry.comparingByKey())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue,
+        LinkedHashMap::new));
     StringBuilder base = new StringBuilder();
     sortedParams.forEach((key, value) -> base.append(key).append("=").append(value).append("&"));
     base.deleteCharAt(base.length() - 1);
 
-    return httpMethod.toUpperCase() + "&" + encode(url) + "&" + encode(base.toString());
+    return httpMethod.toUpperCase(Locale.ENGLISH) + "&" + encode(url) + "&" + encode(base.toString());
   }
 
   /**
@@ -204,8 +211,8 @@ public class TweetService {
    * @param input Input string to be encrypted
    * @return Encrypted string
    */
-  private String encryptUsingHmacSHA1(String input) {
-    String secret = encode(CONSUMER_SECRET) + "&" + encode(OAUTH_SECRET_TOKEN);
+  private String encryptUsingHmacSha1(String input) {
+    String secret = encode(consumerSecret) + "&" + encode(oauthSecretToken);
     byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
     SecretKey key = new SecretKeySpec(keyBytes, "HmacSHA1");
     Mac mac;
@@ -217,13 +224,13 @@ public class TweetService {
       return null;
     }
     byte[] signatureBytes = mac.doFinal(input.getBytes(StandardCharsets.UTF_8));
-    String encoded = new String(java.util.Base64.getEncoder().encode(signatureBytes));
+    String encoded = new String(java.util.Base64.getEncoder().encode(signatureBytes), StandardCharsets.UTF_8);
 
     return URLEncoder.encode(encoded, StandardCharsets.UTF_8);
   }
 
   /**
-   * Percentage encode String as per RFC 3986, Section 2.1
+   * Percentage encode String as per RFC 3986, Section 2.1.
    *
    * @param value Value to be encoded
    * @return Encoded value
@@ -243,7 +250,8 @@ public class TweetService {
         sb.append("%2A");
       } else if (focus == '+') {
         sb.append("%20");
-      } else if (focus == '%' && i + 1 < encoded.length() && encoded.charAt(i + 1) == '7' && encoded.charAt(i + 2) == 'E') {
+      } else if (focus == '%' && i + 1 < encoded.length() && encoded.charAt(i + 1) == '7'
+          && encoded.charAt(i + 2) == 'E') {
         sb.append('~');
         i += 2;
       } else {

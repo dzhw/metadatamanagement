@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * Tweet Properties.
+ */
 @ConfigurationProperties(prefix = "tweet", ignoreUnknownFields = false)
 @Getter
 @Setter
