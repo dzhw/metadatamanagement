@@ -150,6 +150,7 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id',
+        'approved-usage-list': 'approvedUsageList',
         'approved-usage': 'approvedUsage'
       },
       'analysis_packages': {

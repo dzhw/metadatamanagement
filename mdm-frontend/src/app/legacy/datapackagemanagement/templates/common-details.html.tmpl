@@ -128,9 +128,9 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.approvedUsageList && $ctrl.options.dataPackage.approvedUsageList.length > 0">
           <h5>{{'data-package-management.detail.label.approvedUsageList' | translate }}:</h5>
-          <p ng-repeat="usage in $ctrl.options.dataPackage.approvedUsageList">
-            {{ $ctrl.options.getTranslationPathFromApprovedUsageId(usage) | translate }}
-          </p>
+          <ul style="list-style: none; padding-left: 0;">
+            <li ng-repeat="usage in $ctrl.options.dataPackage.approvedUsageList">{{ $ctrl.options.getTranslationPathFromApprovedUsageId(usage) | translate }}</li>
+          </ul>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.approvedUsage && $ctrl.options.dataPackage.approvedUsage.length > 0">
           <h5>{{'data-package-management.detail.label.approvedUsage' | translate }}:</h5>

@@ -159,12 +159,12 @@ angular.module('metadatamanagementApp').config([
           'publication-tooltip': 'Klicken, um die Publikation "{{id}}" anzuzeigen'
         },
         'filter': {
-          'approved-usage': 'Erlaubter Nutzungszweck',
+          'approved-usage': 'Spezielle Beschränkungen für die Datennutzung',
+          'approved-usage-list': 'Erlaubte Nutzungszwecke',
           'no-record': 'Keine Daten erfasst.',
           'data-package': 'Datenpaket',
           'analysis-package': 'Analysepaket',
           'concept': 'Konzept',
-          'approvedUsage': 'Spezielle Beschränkungen für die Datennutzung',
           'data-set': 'Datensatz',
           'question': 'Frage',
           'related-publication': 'Publikation',
@@ -199,7 +199,8 @@ angular.module('metadatamanagementApp').config([
             'institution': 'Nach welchem Institut wollen Sie filtern?',
             'sponsor': 'Nach welchem Sponsor wollen Sie filtern?',
             'survey-method': 'Nach welcher Erhebungsmethode wollen Sie filtern?',
-            'approved-usage': 'Nach welchem erlaubten Nutzungszweck wollen Sie filtern?',
+            'approved-usage': 'Nach welchen speziellen Beschränkungen wollen Sie filtern?',
+            'approved-usage-list': 'Nach welchen erlaubten Nutzungszwecken wollen Sie filtern?',
           },
           'input-label': {
             'data_packages': 'Filter für die Datenpaketsuche...',
@@ -269,6 +270,10 @@ angular.module('metadatamanagementApp').config([
           'approved-usage-filter': {
             'not-found': 'Keine erlaubten Nutzungszwecke gefunden!',
             'no-valid-selected': 'Keinen gültigen erlaubten Nuzungszweck ausgewählt!'
+          },
+          'approved-usage-list-filter': {
+            'logic-switch': 'Alle Optionen zusammen',
+            'no-valid-provided': 'Ungültiger Nutzungszweck per URL-Parameter übergeben: '
           },
           'sponsor-filter': {
             'not-found': 'Kein vorhandener Sponsor gefunden!',

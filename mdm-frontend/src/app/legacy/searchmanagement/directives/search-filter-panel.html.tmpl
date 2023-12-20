@@ -52,6 +52,7 @@
         <sponsor-search-filter ng-if="selectedFilters.indexOf('sponsor-de') >= 0 || selectedFilters.indexOf('sponsor-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" sponsor-changed-callback="onOneFilterChanged()" bowser="bowser"></sponsor-search-filter>
         <survey-method-search-filter ng-if="selectedFilters.indexOf('survey-method-de') >= 0 || selectedFilters.indexOf('survey-method-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" survey-method-changed-callback="onOneFilterChanged()" bowser="bowser"></survey-method-search-filter>
         <approved-usage-search-filter ng-if="selectedFilters.indexOf('approved-usage') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" approved-usage-changed-callback="onOneFilterChanged" bowser="bowser"></approved-usage-search-filter>
+        <approved-usage-list-search-filter ng-if="selectedFilters.indexOf('approved-usage-list') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" approved-usage-list-changed-callback="onOneFilterChanged" bowser="bowser"></approved-usage-list-search-filter>
         <input type="submit" ng-hide="true">
     </form>
 </div>

@@ -478,6 +478,8 @@
               "src/app/legacy/searchmanagement/directives/survey-search-filter.controller.js",
               "src/app/legacy/searchmanagement/directives/approved-usage-search-filter.directive.js",
               "src/app/legacy/searchmanagement/directives/approved-usage-search-filter.controller.js",
+              "src/app/legacy/searchmanagement/directives/approved-usage-list-search-filter.directive.js",
+              "src/app/legacy/searchmanagement/directives/approved-usage-list-search-filter.controller.js",
               "src/app/legacy/searchmanagement/directives/variable-search-filter.directive.js",
               "src/app/legacy/searchmanagement/directives/variable-search-filter.controller.js",
               "src/app/legacy/searchmanagement/directives/data-set-search-filter.directive.js",

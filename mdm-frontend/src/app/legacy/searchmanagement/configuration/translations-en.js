@@ -160,11 +160,12 @@ angular.module('metadatamanagementApp').config([
           'concept-tooltip': 'Click to show concept "{{id}}"'
         },
         'filter': {
+          'approved-usage': 'Special restrictions for the data use',
+          'approved-usage-list': 'Allowed use cases',
           'no-record': 'No data recorded.',
           'data-package': 'Data Package',
           'analysis-package': 'Analysis Package',
           'concept': 'Concept',
-          'approvedUsage': 'Special restrictions for the data use',
           'data-set': 'Data Set',
           'question': 'Question',
           'related-publication': 'Publication',
@@ -199,7 +200,8 @@ angular.module('metadatamanagementApp').config([
             'institution': 'By which institute do you want to filter?',
             'sponsor': 'By which sponsor do you want to filter?',
             'survey-method': 'By which survey method do you want to filter?',
-            'approved-usage': 'By which approved usage do you want to filter?'
+            'approved-usage': 'By which special restrictions for the data use do you want to filter?',
+            'approved-usage-list': 'By which approved usage do you want to filter?',
           },
           'input-label': {
             'data_packages': 'Select filters for Study Search...',
@@ -269,6 +271,10 @@ angular.module('metadatamanagementApp').config([
           'approved-usage-filter': {
             'not-found': 'No approved usage found!',
             'no-valid-selected': 'No valid approved usage selected!'
+          },
+          'approved-usage-list-filter': {
+            'logic-switch': 'All options combined',
+            'no-valid-provided': 'Invalid approved usage specified via URL parameter: '
           },
           'sponsor-filter': {
             'not-found': 'No existing sponsor found!',
