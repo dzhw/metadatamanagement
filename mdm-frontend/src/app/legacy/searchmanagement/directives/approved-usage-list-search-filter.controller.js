@@ -6,14 +6,12 @@ angular.module('metadatamanagementApp')
     '$scope',
     function($scope) {
       
-      $scope.getApprovedUsageList = function() {
-        return [
-          "SCIENTIFIC_USE",
-          "TEACHING_PURPOSES",
-          "NON_COMMERCIAL_USE",
-          "COMMERCIAL_USE"
-        ];
-      }
+      $scope.approvedUsageListItems = [
+        "SCIENTIFIC_USE",
+        "TEACHING_PURPOSES",
+        "NON_COMMERCIAL_USE",
+        "COMMERCIAL_USE"
+      ];
 
       $scope.currentApprovedUsageList = {
         "SCIENTIFIC_USE": false,
@@ -22,15 +20,18 @@ angular.module('metadatamanagementApp')
         "COMMERCIAL_USE": false,
       }
 
-
-      $scope.useAndLogic = false;
+      // Indicator if an "and"-logic should be used to filter approved usages
+      $scope.useAndLogicApprovedUsage = false;
 
       // This is used in case a user provides an unsupported usage via url-param
       $scope.errorMsg = "";
 
+      /**
+       * Init method that reads the $scope.currentSearchParams.filter (from url-params)
+       * and sets local variables accordingly. If the search page is called with an url-param
+       * (e.g. "?approved-usage-list=SCIENTIFIC_USE"), $scope.currentSearchParams.filter is not empty
+       */
       var init = function() {
-        // if the search page is called with an url-param (e.g. "?approved-usage-list=SCIENTIFIC_USE"),
-        // $scope.currentSearchParams.filter is not empty
         if ($scope.currentSearchParams.filter &&
             $scope.currentSearchParams.filter["approved-usage-list"]) {
           var errors = "";
@@ -38,16 +39,18 @@ angular.module('metadatamanagementApp')
           for (const usage of usages) {
             if ($scope.currentApprovedUsageList.hasOwnProperty(usage)){
               $scope.currentApprovedUsageList[usage] = true;
-            } else if (usage == "useAndLogic" || usage == "useOrLogic"){
-              $scope.useAndLogic = usage == "useAndLogic" ? true : false;
             } else {
               errors += usage + " ";
             }
           }
+          $scope.useAndLogicApprovedUsage = $scope.currentSearchParams.filter["useAndLogicApprovedUsage"];
           $scope.errorMsg = errors;
         }
       };
 
+      /**
+       * Method that is been called when a checkbox, or the "useAndLogic"-switch is clicked.
+       */
       $scope.onApprovedUsageListChanged = function() {
         $scope.errorMsg = "";
         if (!$scope.currentSearchParams.filter) {
@@ -62,13 +65,22 @@ angular.module('metadatamanagementApp')
               usages += usage + "||"
             }
           }
-          // provide info about and/or-logic as last item
-          usages += $scope.useAndLogic == true ? "useAndLogic" : "useOrLogic";
+          usages = usages.slice(0, -2);
           $scope.currentSearchParams.filter["approved-usage-list"] = usages
+
+          // provide info about and/or-logic as "useAndLogicApprovedUsage" filter
+          $scope.currentSearchParams.filter["useAndLogicApprovedUsage"] = $scope.useAndLogicApprovedUsage;
         }        
         $scope.approvedUsageListChangedCallback();
       }
 
+      /**
+       * This method gets an approved usage id (e.g. 'SCIENTIFIC_USE')
+       * and returns the corresponding translation path.
+       * 
+       * @param {*} id id of the approved usage
+       * @returns path to the translation of the approved usage
+       */
       $scope.getTranslationPathFromApprovedUsageId = function(id) {
         switch(id) {
           case 'SCIENTIFIC_USE':
@@ -82,6 +94,11 @@ angular.module('metadatamanagementApp')
         }
       }
 
+      /**
+       * Method to check if at least one approved usage list element is selected or not.
+       * Returns true if no approved usage list element is selected.
+       * It at least one is selected, this method returns false.
+       */
       noApprovedUsageListSelected = function() {
         for (const usage in $scope.currentApprovedUsageList) {
           if ($scope.currentApprovedUsageList[usage]) {

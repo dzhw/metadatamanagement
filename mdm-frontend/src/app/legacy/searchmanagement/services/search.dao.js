@@ -650,8 +650,8 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
           };
 
           // check for logical combination AND or OR
-          var logic = usages.pop();
-          if (logic == 'useOrLogic') {
+          var useOrLogic = filterToUse["useAndLogicApprovedUsage"] ? false : true;
+          if (useOrLogic) {
             approvedUsageListFilter = {
               'bool': {
                 'should': []
@@ -660,13 +660,12 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
           }
 
           for (const usage of usages) {
-            console.log(usage);
             var term = {
               'term': {
                   'approvedUsageList': usage
               }
             }
-            if (logic == 'useOrLogic') {
+            if (useOrLogic) {
               approvedUsageListFilter.bool.should.push(term);
             } else {
               approvedUsageListFilter.bool.must.push(term);

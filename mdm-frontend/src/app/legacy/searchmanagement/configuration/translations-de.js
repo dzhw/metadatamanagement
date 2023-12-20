@@ -90,7 +90,8 @@ angular.module('metadatamanagementApp').config([
           'edit-concepts-tooltip': 'Klicken, um die vorhandenen Konzepte zu bearbeiten',
           'edit-publications-tooltip': 'Klicken, um Publikationen zum Datenpaket hinzuzufügen bzw. zu entfernen',
           'delete-publications-tooltip': 'Klicken, um alle Publikationen von dem Datenpaket des aktuellen Projektes zu entfernen',
-          'open-filter-panel': 'Klicken, um die Suchfilter anzuzeigen'
+          'open-filter-panel': 'Klicken, um die Suchfilter anzuzeigen',
+          'approved-usage-use-and-logic': 'Wenn eingeschaltet, werden ausschließlich Datenpakete angezeigt, denen alle ausgewählten erlaubten Nutzungszwecke zugewiesen sind.'
         },
         'input-label': {
           'all': 'Suchen Sie Datenpakete, Analysepakete, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',
@@ -272,7 +273,7 @@ angular.module('metadatamanagementApp').config([
             'no-valid-selected': 'Keinen gültigen erlaubten Nuzungszweck ausgewählt!'
           },
           'approved-usage-list-filter': {
-            'logic-switch': 'Alle Optionen zusammen',
+            'logic-switch': 'Alle Optionen kombiniert',
             'no-valid-provided': 'Ungültiger Nutzungszweck per URL-Parameter übergeben: '
           },
           'sponsor-filter': {

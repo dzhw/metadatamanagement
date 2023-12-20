@@ -27,7 +27,7 @@
       <md-icon ng-if="filtersCollapsed" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
       <md-icon ng-if="!filtersCollapsed" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
     </md-button>
-    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="selectedFilters = []" style="margin-right: 16px; margin-top: 16px;">
+    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="removeFilters()" style="margin-right: 16px; margin-top: 16px;">
         <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'search-management.filter.clear-filters-tooltip' | translate}}
         </md-tooltip>

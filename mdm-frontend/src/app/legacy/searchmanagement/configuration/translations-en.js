@@ -91,7 +91,8 @@ angular.module('metadatamanagementApp').config([
           'edit-concepts-tooltip': 'Click to edit the existing concepts',
           'edit-publications-tooltip': 'Click to add publications to the data package or to remove them',
           'delete-publications-tooltip': 'Click to remove all publications from the data package of the current project',
-          'open-filter-panel': 'Click to show the search filters'
+          'open-filter-panel': 'Click to show the search filters',
+          'approved-usage-use-and-logic': 'If switched on, only data packages, where all selected approved usages are assigned to, are displayed.'
         },
         'input-label': {
           'all': 'Search for Data Packages, Analysis Packages, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',

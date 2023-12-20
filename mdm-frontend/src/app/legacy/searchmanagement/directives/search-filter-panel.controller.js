@@ -141,6 +141,16 @@ angular.module('metadatamanagementApp')
       };
 
       /**
+       * Method to remove all selected Filters.
+       * It also removes the "useAndLogicApprovedUsage"-filter
+       * which is a special filter for the list of all approved usages.
+       */
+      $scope.removeFilters = function() {
+        $scope.selectedFilters = [];
+        delete $scope.currentSearchParams.filter.useAndLogicApprovedUsage;
+      }
+
+      /**
        * Function to remove the filters that are irrelevant for the search panel.
        */
       var removeIrrelevantFilter = function() {

@@ -180,6 +180,9 @@ angular.module('metadatamanagementApp').controller('SearchController', [
         if (locationSearch.type) {
           $scope.searchParams.type = locationSearch.type;
         }
+        if (locationSearch.useAndLogicApprovedUsage && typeof locationSearch.useAndLogicApprovedUsage === "string") {
+          locationSearch.useAndLogicApprovedUsage = locationSearch.useAndLogicApprovedUsage === "true";
+        }
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'size',
           'type', 'query', 'sort-by'
         ]);
