@@ -270,6 +270,9 @@
               "src/app/legacy/common/datasource/data-source.component.js",
               "src/app/legacy/common/datasource/data-source.controller.js",
               "src/app/legacy/common/session-storage/session-storage.service.js",
+              "src/app/legacy/common/embargo-warning/embargo-warning.directive.js",
+              "src/app/legacy/common/embargo-warning/configuration/translations-de.js",
+              "src/app/legacy/common/embargo-warning/configuration/translations-en.js",
 
               "src/app/legacy/filemanagement/resources/file.resource.js",
               "src/app/legacy/filemanagement/services/excelReader.service.js",
@@ -456,6 +459,7 @@
               "src/app/legacy/dataacquisitionprojectmanagement/directives/releaseStatusBadge.directive.js",
               "src/app/legacy/dataacquisitionprojectmanagement/directives/metadata-status.js",
               "src/app/legacy/dataacquisitionprojectmanagement/services/outdatedVersionNotifierService.js",
+              "src/app/legacy/dataacquisitionprojectmanagement/directives/releaseButton.directive.js",
 
               "src/app/legacy/searchmanagement/services/elasticSearch.client.service.js",
               "src/app/legacy/searchmanagement/services/search.dao.js",
