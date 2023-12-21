@@ -35,18 +35,7 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
         </md-button>
-        <md-button ng-if="!ctrl.isEmbargoDateExpired()" class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()" ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
-            <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{ctrl.selectedProject.release?'global.tooltips.unrelease-project':'global.tooltips.prerelease-project' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">{{'more_time'}}</md-icon>
-        </md-button>
-        <md-button ng-if="ctrl.isEmbargoDateExpired()" class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()" ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
-            <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{ctrl.selectedProject.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
-        </md-button>
+        <release-button ng-hide="!ctrl.selectedProject" project="ctrl.selectedProject" isAssignedDataProvider="ctrl.isAssignedDataProvider()" isAssignedPublisher="ctrl.isAssignedPublisher()"></release-button>
         <span flex></span>
         <md-button ui-sref="project-cockpit({id: ctrl.selectedProject.id})" class="md-raised md-icon-button md-accent" ng-click="close()" ng-disabled="!ctrl.selectedProject" style="margin-right: 0px;">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
