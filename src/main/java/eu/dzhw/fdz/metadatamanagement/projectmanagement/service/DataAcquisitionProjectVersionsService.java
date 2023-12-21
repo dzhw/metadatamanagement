@@ -82,7 +82,9 @@ public class DataAcquisitionProjectVersionsService extends
   public Release findPreviousRelease(String id, Release currentRelease) {
     try (Stream<Shadow<Release>> shadows = javers.findShadowsAndStream(
         QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-            .withChangedProperty("version").build());) {
+          .withChangedProperty("version")
+          .withChangedProperty("isPreRelease")
+          .build());) {
       if (currentRelease == null) {
         Optional<Shadow<Release>> optional = shadows.findFirst();
         if (optional.isPresent()) {

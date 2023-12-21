@@ -411,7 +411,7 @@ public class DaraService {
     dataForTemplate.put("dataPackage", dataPackage);
 
     // Add Availability Controlled
-    dataForTemplate.put("availabilityControlled", AVAILABILITY_CONTROLLED_DELIVERY);
+    dataForTemplate.put("availabilityControlled", AVAILABILITY_CONTROLLED_NOT_AVAILABLE);
 
     if (project.getRelease().getDoiPageLanguage() != null) {
       dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
@@ -521,7 +521,7 @@ public class DaraService {
     dataForTemplate.put("analysisPackage", analysisPackage);
 
     // Add Availability Controlled
-    dataForTemplate.put("availabilityControlled", AVAILABILITY_CONTROLLED_DELIVERY);
+    dataForTemplate.put("availabilityControlled", AVAILABILITY_CONTROLLED_NOT_AVAILABLE);
 
     if (project.getRelease().getDoiPageLanguage() != null) {
       dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
