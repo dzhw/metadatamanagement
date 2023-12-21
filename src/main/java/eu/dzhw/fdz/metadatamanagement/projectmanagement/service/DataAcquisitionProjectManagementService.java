@@ -230,6 +230,8 @@ public class DataAcquisitionProjectManagementService
 
       if (oldRelease == null && newRelease != null) {
         return true;
+      } else if (oldRelease != null && oldRelease.getIsPreRelease() && newRelease != null) {
+        return true;
       } else {
         return false;
       }
@@ -314,8 +316,15 @@ public class DataAcquisitionProjectManagementService
       throws IOException, TemplateException {
     switch (shadowCopyingEndedEvent.getAction()) {
       case CREATE:
+        // hint: releases after pre-releases do not count as rereleases at this point
         if (shadowCopyingEndedEvent.isRerelease()) {
           // do not send mails for rereleases
+          if (shadowCopyingEndedEvent.isReleaseAfterPreRelease()) {
+            // in case of a release after a pre-release update info on Dara
+            daraService
+              .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
+                + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
+          }
           return;
         }
         Version currentVersion = Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion());
