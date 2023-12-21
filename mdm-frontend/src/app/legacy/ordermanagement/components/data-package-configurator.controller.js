@@ -1,23 +1,42 @@
-/* global _ */
-(function() {
+/* globals _ */
+'use strict';
 
-  'use strict';
-
-  function DataPackageConfiguratorController($scope,
-                                $rootScope,
-                                $location,
-                                DataAcquisitionProjectReleasesResource,
-                                $state,
-                                $transitions,
-                                LanguageService,
-                                ProjectReleaseService,
-                                ShoppingCartService,
-                                MessageBus, $translate,
-                                DataPackageSearchService,
-                                DataPackageAccessWaysResource, $mdDialog,
-                                DataPackageCitationDialogService,
-                                CurrentDataPackageService,
-                                Principal) {
+  angular
+    .module('metadatamanagementApp')
+    .controller('DataPackageConfiguratorController', [
+      '$scope',
+      '$rootScope',
+      '$location',
+      'DataAcquisitionProjectReleasesResource',
+      '$state',
+      '$transitions',
+      'LanguageService',
+      'ProjectReleaseService',
+      'ShoppingCartService',
+      'MessageBus',
+      '$translate',
+      'DataPackageSearchService',
+      'DataPackageAccessWaysResource',
+      '$mdDialog',
+      'DataPackageCitationDialogService',
+      'CurrentDataPackageService',
+      'DataAcquisitionProjectResource',
+      '$q',
+        function ($scope,
+          $rootScope,
+          $location,
+          DataAcquisitionProjectReleasesResource,
+          $state,
+          $transitions,
+          LanguageService,
+          ProjectReleaseService,
+          ShoppingCartService,
+          MessageBus, $translate,
+          DataPackageSearchService,
+          DataPackageAccessWaysResource, $mdDialog,
+          DataPackageCitationDialogService,
+          CurrentDataPackageService,
+          DataAcquisitionProjectResource, $q) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -25,6 +44,7 @@
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onDataPackageChange = MessageBus;
     $ctrl.noFinalRelease = false;
+    $ctrl.isPreReleased = false;
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
@@ -80,8 +100,15 @@
         .$promise
         .then(
         function(releases) {
-          $ctrl.releases = releases;
-          if (releases.length === 0) {
+          var releaseList = [];
+          console.log(releases)
+          for (var release of releases) {
+            if (!release.isPreRelease) {
+              releaseList.push(release);
+            }
+          }
+          $ctrl.releases = releaseList;
+          if (releases.length === 0 || rel.length === 0) {
             $ctrl.noFinalRelease = true;
           }
           loadAccessWays(id);
@@ -120,8 +147,18 @@
             }
             if ($ctrl.dataPackage.release && $ctrl.dataPackage.release.isPreRelease) {
               // disable ordering on case of pre-release
-              $ctrl.noFinalRelease = true;
+              //$ctrl.noFinalRelease = true;
+              $ctrl.isPreReleased = true;
+              console.log("is pre-releases",$ctrl.dataPackage.dataAcquisitionProjectId)
+              
             }
+            DataAcquisitionProjectResource.get({
+              id: $ctrl.dataPackage.dataAcquisitionProjectId
+            }).$promise.then(function(project) {
+              console.log(project)
+              $ctrl.project = project
+              //$ctrl.embargoString = project.embargoDate ? new Date(project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
+            });
             loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
           }
         }, function() {
@@ -158,10 +195,10 @@
       return _.uniq(dataFormats);
     };
 
-    $ctrl.showBackToEditButton = function() {
-      return $ctrl.selectedVersion && Principal.hasAuthority(
-        'ROLE_DATA_PROVIDER');
-    };
+    // $ctrl.showBackToEditButton = function() {
+    //   return $ctrl.selectedVersion && Principal.hasAuthority(
+    //     'ROLE_DATA_PROVIDER');
+    // };
 
     // triggers MessageBus to close the order menu in the parent component
     $ctrl.closeOrderMenu = function() {
@@ -305,29 +342,16 @@
             $ctrl.dataPackage, $event);
       }
     };
-  }
 
-  angular
-    .module('metadatamanagementApp')
-    .controller('DataPackageConfiguratorController', [
-      '$scope',
-      '$rootScope',
-      '$location',
-      'DataAcquisitionProjectReleasesResource',
-      '$state',
-      '$transitions',
-      'LanguageService',
-      'ProjectReleaseService',
-      'ShoppingCartService',
-      'MessageBus',
-      '$translate',
-      'DataPackageSearchService',
-      'DataPackageAccessWaysResource',
-      '$mdDialog',
-      'DataPackageCitationDialogService',
-      'CurrentDataPackageService',
-      'Principal',
-      DataPackageConfiguratorController
-    ]);
-
-})();
+    /**
+       * Whether the embargo date has expired or not.
+       * @returns true if it has expired else false
+       */
+    $ctrl.isEmbargoDateExpired = function() {
+      if ($ctrl.dataPackage.embargoDate) {
+        var current = new Date();
+        return new Date($ctrl.dataPackage.embargoDate) < current;
+      }
+      return true;
+    }
+}]);

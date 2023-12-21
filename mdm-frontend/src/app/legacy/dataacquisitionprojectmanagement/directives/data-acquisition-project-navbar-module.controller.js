@@ -7,20 +7,26 @@ angular.module('metadatamanagementApp')
     'DataAcquisitionProjectRepositoryClient', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope', 'Principal', 'ProjectReleaseService',
-    '$state', 'LanguageService',
+    '$state', 'LanguageService', 'ProjectUpdateAccessService',
     function(CurrentProjectService,
              DataAcquisitionProjectPostValidationService,
              DataAcquisitionProjectRepositoryClient,
              DataAcquisitionProjectResource, $mdDialog,
              SimpleMessageToastService, $translate, ElasticSearchAdminService,
              $scope, Principal, ProjectReleaseService, $state,
-             LanguageService) {
+             LanguageService, ProjectUpdateAccessService) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
       ctrl.searchText = '';
       ctrl.selectedProject = CurrentProjectService.getCurrentProject();
+      ctrl.isAssignedDataProvider =
+        ProjectUpdateAccessService.isAssignedToProject.bind(null,
+          ctrl.selectedProject, 'dataProviders');
+      ctrl.isAssignedPublisher =
+        ProjectUpdateAccessService.isAssignedToProject.bind(null,
+          ctrl.selectedProject, 'publishers');
 
       function showErrorAlert(errorMsg) {
         SimpleMessageToastService

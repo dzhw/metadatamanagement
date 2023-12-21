@@ -104,7 +104,7 @@
   <div class="fdz-fab-button-container" layout="column" layout-align="center end">
     <report-publications-component ng-if="!ctrl.isAuthenticated()" analysis-package="true"></report-publications-component>  
     <md-button class="md-fab md-raised md-accent" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
-               ng-click="ctrl.analysisPackageEdit()" ng-if="!ctrl.projectIsCurrentlyReleased">
+               ng-click="ctrl.analysisPackageEdit()" ng-if="ctrl.shouldDisplayEditButton">
       <md-tooltip md-autohide="true" md-direction="left"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-analysis-package-tooltip' | translate}}

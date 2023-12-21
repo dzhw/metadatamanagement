@@ -87,12 +87,10 @@ angular.module('metadatamanagementApp')
         conceptsCount: 0
       };
 
-      console.log(localStorage.getItem('currentView'))
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       ctrl.showRemarks = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER']);
-      ctrl.isOrderView = localStorage.getItem('currentView') === 'orderView';
 
       var bowser = $rootScope.bowser;
 
@@ -148,12 +146,16 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
-            ctrl.shouldDisplayEditButton = !(project.release != null);
+            ctrl.shouldDisplayEditButton = localStorage.getItem('currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
+            ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
             ctrl.embargoDate = project.embargoDate;
+            ctrl.project = project;
             ctrl.embargoString = project.embargoDate ? new Date(project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
             ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
+            console.log("provider?", ctrl.projectId)
+            ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -307,7 +309,7 @@ angular.module('metadatamanagementApp')
       ctrl.isEmbargoDateExpired = function() {
         if (ctrl.dataPackage.embargoDate) {
           var current = new Date();
-          return new Date(ctrl.project.embargoDate) < current;
+          return new Date(ctrl.dataPackage.embargoDate) < current;
         }
         return true;
       }
