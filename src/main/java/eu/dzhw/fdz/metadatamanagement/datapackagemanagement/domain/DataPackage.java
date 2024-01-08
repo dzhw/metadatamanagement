@@ -227,7 +227,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    * A list of allowed use cases for the data-package.
    * The items of that list are elements of the ApprovedUsageEnum (--> controlled vocabulary).
    */
-  private ApprovedUsageEnum[] approvedUsageList;
+  private List<ApprovedUsageEnum> approvedUsageList;
 
   public DataPackage(DataPackage dataPackage) {
     super();

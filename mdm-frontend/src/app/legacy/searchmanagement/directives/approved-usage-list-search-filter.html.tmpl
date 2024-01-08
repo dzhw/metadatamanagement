@@ -1,10 +1,12 @@
-<div ng-form="approvedUsageListFilterForm" layout="row" layout-align="center center">
-  <label>{{'search-management.filter.floating-label.approved-usage-list' | translate}}</label>
-  <ul style="list-style: none; padding-left: 0;">
-      <md-checkbox ng-repeat="usage in approvedUsageListItems" ng-model="currentApprovedUsageList[usage]" ng-change="onApprovedUsageListChanged()">
-        {{ getTranslationPathFromApprovedUsageId(usage) | translate }}
-      </md-checkbox>
-  </ul>
+<div ng-form="approvedUsageListFilterForm" layout="row">
+  <label class="checkbox-label">{{'search-management.filter.floating-label.approved-usage-list' | translate}}</label>
+</div>
+<div ng-repeat="usage in approvedUsageListItems" layout="row">
+  <md-checkbox  ng-model="currentApprovedUsageList[usage]" ng-change="onApprovedUsageListChanged()">
+    {{ getTranslationPathFromApprovedUsageId(usage) | translate }}
+  </md-checkbox>
+</div>
+<div layout="row">
   <md-switch ng-model="useAndLogicApprovedUsage" aria-label="Use And-Logic" ng-change="onApprovedUsageListChanged()">
     <md-tooltip md-autohide="true" md-direction="bottom"
                 md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
