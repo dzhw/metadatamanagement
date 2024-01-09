@@ -86,3 +86,4 @@ tweet:
   endpointurl: "https://api.twitter.com/2/tweets"
   mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
   imagepath:  "./mdm-frontend/src/assets/images/social-survey.jpg"
+
