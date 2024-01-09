@@ -215,6 +215,12 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   private String remarksUserService;
 
   /**
+   * Shows if a dataPackage was transmitted via VerbundFDB.
+   */
+  @Indexed
+  private Boolean transmissionViaVerbundFdb = false;
+
+  /**
    * Shows if a data package is external.
    */
   @Indexed

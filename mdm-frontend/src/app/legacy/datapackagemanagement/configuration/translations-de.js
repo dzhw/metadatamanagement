@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp').config([
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
+            'transmission-via-VerbundFdb': 'Datenmeldung über den VerbundFDB',
             'remarksUserService': 'Bemerkungen für den User Service',
             'externalDataPackage': 'DZHW-externes Datenpaket',
             'wave': 'Wellen',
