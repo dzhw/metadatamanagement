@@ -74,17 +74,21 @@
         </div>
       </md-input-container>
       <!-- Tweet-->
-      <md-checkbox name="toTweet" ng-model="release.toTweet"
+      <md-input-container class="md-block">
+        <md-checkbox 
+            name="toTweet"
+            ng-model="release.toTweet"
             style="margin: 0 18px 0 0">
-        {{'data-acquisition-project-management.release.toTweet' | translate }}
-      </md-checkbox>
-      <md-input-container ng-disabled="!release.toTweet" class="md-block" md-is-error="release.toTweet && !releaseForm.tweetTextInput.$valid"
+            {{'data-acquisition-project-management.release.toTweet' | translate }}
+        </md-checkbox>
+      </md-input-container>
+      <md-input-container ng-disabled="!release.toTweet" class="md-block" md-is-error="!releaseForm.tweetTextInput.$valid"
         style="margin-top: 20pt;">
         <label>{{'data-acquisition-project-management.release.tweetTextLabel' | translate}}</label>
         <textarea rows="3"
                autocomplete="off" data-md-autofocus data-md-maxlength="280"
                data-md-no-asterisk name="tweetTextInput" ng-model="release.tweetTextInput"
-               required translate-attr="{'title':'global.entity.validation.required'}"
+               ng-required="release.toTweet" translate-attr="{'title':'global.entity.validation.required'}"
                ng-disabled="!release.toTweet">
         </textarea>
         <div ng-if="release.toTweet" data-md-auto-hide="false" data-multiple ng-messages="releaseForm.tweetTextInput.$error">

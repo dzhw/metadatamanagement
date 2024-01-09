@@ -171,7 +171,7 @@ public class TweetService {
       log.error("Could not upload media " + e);
     }
 
-    log.info("Media ID of the uploaded image " + file.getPath() + " " + file.getName() + ": " + mediaId);
+    log.info("Media ID of the uploaded image " + file.getPath() + ": " + mediaId);
     return mediaId;
   }
 
