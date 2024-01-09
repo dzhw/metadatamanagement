@@ -1057,6 +1057,9 @@
 				}
 			}
 		},
+    "transmissionViaVerbundFdb": {
+      "type": "boolean"
+    },
     "externalDataPackage": {
       "type": "boolean"
     }

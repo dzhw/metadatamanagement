@@ -182,6 +182,7 @@ angular.module('metadatamanagementApp').config([
           'sponsor-en': 'Sponsor',
           'survey-method-de': 'Survey Method',
           'survey-method-en': 'Survey Method',
+          'transmissionViaVerbundFdb': 'Data transmission via the VerbundFDB',
           'externalDataPackage': 'DZHW external data package',
           'floating-label': {
             'survey': 'By which survey do you want to filter?',

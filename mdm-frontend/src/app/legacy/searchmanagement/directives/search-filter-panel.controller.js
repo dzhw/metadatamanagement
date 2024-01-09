@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp')
       var elasticSearchTypeChanged = false;
       var searchParamsFilterChanged = false;
       $scope.filtersCollapsed = false;
+      $scope.transmissionViaVerbundFdb = false;
       $scope.externalDataPackage = false;
 
       var createDisplayAvailableFilterList = function(availableFilters) {
@@ -42,6 +43,7 @@ angular.module('metadatamanagementApp')
         // show filter externalDataPackage only to users with role publisher
         if (!Principal.isPublisher()) {
           displayAvailableFilters = displayAvailableFilters.filter(item => item !== "externalDataPackage");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "transmissionViaVerbundFdb");
         }
         
         return displayAvailableFilters;
@@ -103,6 +105,7 @@ angular.module('metadatamanagementApp')
             $scope.availableHiddenFilters, unselectedFilters);
           $scope.filterChangedCallback();
         }
+        $scope.transmissionViaVerbundFDB = $scope.currentSearchParams.filter['transmissionViaVerbundFdb'];
         $scope.externalDataPackage = $scope.currentSearchParams.filter['externalDataPackage'];
       });
 
@@ -168,6 +171,19 @@ angular.module('metadatamanagementApp')
       $scope.isPublisher = function() {
         return Principal.isPublisher();
       };
+
+      /**
+       * Function to set the value of transmissionViaVerbundFDB in the filter of currentSearchParams.
+       */
+       $scope.onTransmissionViaVerbundFdbClick = function() {
+        $scope.transmissionViaVerbundFdb = !$scope.transmissionViaVerbundFdb
+        if ($scope.transmissionViaVerbundFdb) {
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = true;
+        } else {
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = false;
+        }
+        $scope.filterChangedCallback();
+      }
 
       /**
        * Function to set the value of externalDataPackage in the filter of currentSearchParams.

@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp').config([
             'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
+            'transmission-via-VerbundFdb': 'Data transmission via the VerbundFDB',
             'remarksUserService': 'Remarks for the User Service',
             'externalDataPackage': 'DZHW external data package',
             'wave': 'Waves',
