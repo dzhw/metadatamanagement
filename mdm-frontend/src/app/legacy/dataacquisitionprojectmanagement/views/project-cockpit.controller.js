@@ -92,8 +92,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController', [
 
     $scope.changed = false;
 
-    $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
-      'ROLE_ADMIN']);
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
     $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);
     $scope.isAssignedToProject = false;
