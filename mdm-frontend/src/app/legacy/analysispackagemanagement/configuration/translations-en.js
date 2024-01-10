@@ -91,6 +91,7 @@ angular.module('metadatamanagementApp').config([
           },
           'scripts': {
             'table-title': 'Scripts related to this Analysis Package',
+            'title': 'Title',
             'filename': 'Filename',
             'software-package': 'Software Package',
             'language': 'Language of Commentaries',
@@ -246,6 +247,7 @@ angular.module('metadatamanagementApp').config([
             },
             'license': 'If no contract is signed we will need a license like cc-by-sa',
             'script': {
+              'title': 'Please enter the title of this script.',
               'used-language': 'Please indicate the language you used for the comments in the script.',
               'software-package': 'Please choose the software package the script is written for.',
               'software-package-version': 'Version of Software Package'

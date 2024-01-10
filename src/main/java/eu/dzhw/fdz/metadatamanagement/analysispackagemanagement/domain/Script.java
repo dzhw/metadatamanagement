@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import org.javers.core.metamodel.annotation.ValueObject;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidSoftwarePackage;
@@ -39,6 +41,15 @@ public class Script implements Serializable {
    */
   @NotEmpty(message = "analysis-package-management.error.script.uuid.not-empty")
   private String uuid;
+
+  /**
+   * The title of the script.
+   *
+   * It must not contain more than 2048 characters.
+   */
+  @Size(max = StringLengths.LARGE,
+    message = "analysis-package-management.error.script.title.size")
+  private String title;
 
   /**
    * The human language used for code comments as ISO 639 code.
