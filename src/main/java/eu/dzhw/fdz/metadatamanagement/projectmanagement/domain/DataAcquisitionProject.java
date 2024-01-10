@@ -94,6 +94,14 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
   private Boolean hasBeenReleasedBefore;
 
   /**
+   * Flag indicating whether this project has remarks for the user service. Can only be true
+   * for data packages.
+   */
+  @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
+      + ".has-user-service-remarks.not-null")
+  private Boolean hasUserServiceRemarks = false;
+
+  /**
    * Attribute which holds information on the planned release date.
    */
   private Date embargoDate;

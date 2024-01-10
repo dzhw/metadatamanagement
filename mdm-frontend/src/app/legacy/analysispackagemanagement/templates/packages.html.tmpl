@@ -19,7 +19,7 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
       <md-list
-        ng-repeat="item in $ctrl.options.analysisPackage.analysisDataPackages">
+        ng-repeat="item in $ctrl.options.analysisPackage.analysisDataPackages track by $index">
         <md-list-item ng-if="item.type" class="mb16">
           <h5>{{ 'analysis-package-management.detail.label.type-of-data' | translate}}:</h5>
           <span
@@ -65,22 +65,7 @@
         <md-list-item ng-if="item.availabilityType && item.type !== 'customDataPackage'">
           <h5>{{ 'analysis-package-management.detail.label.external-data-package.availability-type' | translate}}:</h5>
           <span class="md-secondary pre">{{item.availabilityType[$ctrl.lang]}}</span>
-        </md-list-item>
-
-        <md-list-item ng-if="item.dataSources && item.dataSources.length > 0">
-          <h5>{{'analysis-package-management.detail.label.custom-data-package.dataSources' | translate }}:</h5>
-          <ul class="md-secondary" style="list-style-type: none; margin: 0px; margin-block: 0px; padding-inline: 0px; padding: 0px;">
-            <li ng-repeat="link in item.dataSources">
-              <p ng-if="!link.url">{{ link.name | displayI18nString}}</p>
-              <a ng-if="link.url" href="{{link.url}}" target="_blank">
-                {{ link.name ? (link.name | displayI18nString) : link.url}}
-                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'analysis-package-management.detail.link-tooltip' | translate}}
-                </md-tooltip>
-              </a>
-            </li>
-          </ul>
-        </md-list-item>
+        </md-list-item>        
         <md-list-item ng-if="item.type === 'customDataPackage' && item.accessWay">
           <h5>{{ 'analysis-package-management.detail.label.custom-data-package.access-way' | translate}}:</h5>
           <span class="md-secondary pre">{{item.accessWay}}</span>
@@ -89,7 +74,56 @@
           <h5>{{ 'analysis-package-management.detail.label.custom-data-package.availability-type' | translate}}:</h5>
           <span class="md-secondary pre">{{item.availabilityType[$ctrl.lang]}}</span>
         </md-list-item>
-
+        <md-list-item ng-if="item.license">
+          <h5>{{ 'analysis-package-management.detail.label.external-data-package.license.title' | translate}}:</h5>
+          <a ng-click="showLicenseInDialog(item.license, 'analysis-package-management.detail.label.external-data-package.license.title')">{{ 'analysis-package-management.detail.label.external-data-package.license.show-license' | translate }}
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'analysis-package-management.detail.license-tooltip' | translate}}
+            </md-tooltip>
+          </a>
+        </md-list-item>
+        <md-list-item ng-if="item.dataSources && item.dataSources.length > 0" layout="row">
+          <h5>{{'analysis-package-management.detail.label.custom-data-package.dataSources' | translate }}:</h5>
+          <table fdz-table style="min-width: 40%; margin-left: -8px;">
+            <tbody>
+              <thead>
+                <tr>
+                  <th class="fdz-table-half-absorbing-column">
+                    <h5>
+                      {{'analysis-package-management.detail.label.custom-data-package.data-source' | translate }}
+                    </h5>
+                  </th>
+                  <th>
+                    <h5>
+                      {{'analysis-package-management.detail.label.custom-data-package.license.title' | translate }}
+                    </h5>
+                  </th>
+                </tr>
+                </thead>
+              <tr ng-repeat="link in item.dataSources track by $index">
+                <td class="mb16">
+                  <span ng-if="!link.url">{{ link.name | displayI18nString}}</span>
+                  <a ng-if="link.url" href="{{link.url}}" target="_blank">
+                    {{ link.name ? (link.name | displayI18nString) : link.url}}
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                      {{'analysis-package-management.detail.link-tooltip' | translate}}
+                    </md-tooltip>
+                  </a>
+                </td>
+                <td class="mb16">
+                  <span ng-if="!link.license">*</span>
+                  <div ng-if="link.license">
+                    <a ng-click="showLicenseInDialog(link.license, 'analysis-package-management.detail.label.custom-data-package.license.title')">{{ 'analysis-package-management.detail.label.custom-data-package.license.show-license' | translate }}
+                      <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'analysis-package-management.detail.license-tooltip' | translate}}
+                      </md-tooltip>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </md-list-item>
         <md-divider ng-if="!$last" class="mv16 mh0"></md-divider>
       </md-list>
     </md-card-content>

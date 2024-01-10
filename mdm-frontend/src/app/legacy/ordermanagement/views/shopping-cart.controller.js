@@ -74,9 +74,6 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController', [
       var suffixedProduct = _.cloneDeep(product);
       suffixedProduct.dataAcquisitionProjectId =
         product.dataAcquisitionProjectId + '-' + product.version;
-
-      suffixedProduct.study.id = product.study.id + '-' +
-        product.version;
       suffixedProduct.dataPackage.id = product.dataPackage.id + '-' +
         product.version;
       return suffixedProduct;
@@ -319,20 +316,14 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController', [
     var createDataPackageForOrder = function(product, order) {
       var completeProduct = {
         dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-        study: ctrl.dataPackages[product.study.id + '-' +
-        product.version],
         dataPackage: ctrl.dataPackages[product.dataPackage.id + '-' +
         product.version],
         accessWay: product.accessWay,
         version: product.version,
         dataFormats: product.dataFormats
       };
-      _.set(completeProduct, 'study.surveyDataTypes',
-        product.study.surveyDataTypes);
       _.set(completeProduct, 'dataPackage.surveyDataTypes',
         product.dataPackage.surveyDataTypes);
-      completeProduct.study.id = ProjectReleaseService
-        .stripVersionSuffix(completeProduct.study.id);
       completeProduct.dataPackage.id = ProjectReleaseService
         .stripVersionSuffix(completeProduct.dataPackage.id);
       order.products.push(completeProduct);

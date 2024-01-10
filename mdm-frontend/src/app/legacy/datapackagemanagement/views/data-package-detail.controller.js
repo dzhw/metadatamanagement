@@ -4,7 +4,7 @@
  * View implementing the detail page of a data package. The detail page
  * displays basic information about the data package and links to its components.
  * The view is accessible for all users but provides options to switch to
- * editing mode for PUBLISHERS and DATAPROVIDERS. It also offers the 
+ * editing mode for PUBLISHERS and DATAPROVIDERS. It also offers the
  * opportunity to generate the overview of the data package as a PDF file.
  */
 angular.module('metadatamanagementApp')
@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp')
 
       /**
        * Whether the data package is beta released (version < 1.0.0) or not.
-       * @param {*} dataPackage 
+       * @param {*} dataPackage
        * @returns true if it is a beta release else false
        */
       ctrl.isBetaRelease = function(dataPackage) {
@@ -146,7 +146,6 @@ angular.module('metadatamanagementApp')
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
             ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
-            console.log("provider?", ctrl.projectId)
             ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
           });
         }
@@ -241,7 +240,7 @@ angular.module('metadatamanagementApp')
 
       /**
        * Method to generate the data package overview as a PDF.
-       * @param {*} event 
+       * @param {*} event
        */
       ctrl.generateDataPackageOverview = function(event) {
         $mdDialog.show({
@@ -264,6 +263,10 @@ angular.module('metadatamanagementApp')
         });
       };
 
+      ctrl.isPublisher = function() {
+        return Principal.isPublisher();
+      };
+
       /**
        * Whether a warning about the embargo date of the project should be
        * displayed.
@@ -283,6 +286,6 @@ angular.module('metadatamanagementApp')
           return new Date(ctrl.dataPackage.embargoDate) < current;
         }
         return true;
-      }
+      };
     }]);
 

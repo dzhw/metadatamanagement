@@ -118,9 +118,6 @@ public class OrderResource {
         if (product != null && product.getDataPackage() != null) {
           product.getDataPackage().setRemarksUserService(null);
         }
-        if (product != null && product.getStudy() != null) {
-          product.getStudy().setRemarksUserService(null);
-        }
       }
     }
 

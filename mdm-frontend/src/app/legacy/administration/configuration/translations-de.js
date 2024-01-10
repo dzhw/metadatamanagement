@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config([
             'diskSpace': 'Festplattenplatz',
             'mail': 'Email',
             'mongo': 'MongoDB',
-            'elasticsearch': 'ElasticSearch',
+            'elasticsearch': 'Elasticsearch',
             'dara': 'Dara',
             'messageBroker': 'Message Broker (für Websockets)',
             'rabbit': 'RabbitMQ',
