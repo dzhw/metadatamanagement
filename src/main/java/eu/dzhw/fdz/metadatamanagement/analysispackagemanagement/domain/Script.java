@@ -48,7 +48,7 @@ public class Script implements Serializable {
    * It must not contain more than 2048 characters.
    */
   @Size(max = StringLengths.LARGE,
-    message = "analysis-package-management.error.script.title.size")
+      message = "analysis-package-management.error.script.title.size")
   private String title;
 
   /**
