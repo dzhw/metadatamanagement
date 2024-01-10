@@ -196,7 +196,7 @@ export class DataacquisitionprojectSearchService {
         projectType: String | null,
         assignedProjectsOnly: boolean,
         searchTerm: String | null,
-        loginName?: String) : Query {
+        loginName?: String | null) : Query {
         
         let boolQuery = this.createBoolQuery();
     

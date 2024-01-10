@@ -22,6 +22,8 @@
       'CurrentDataPackageService',
       'DataAcquisitionProjectResource',
       '$q',
+      'dataAcquisitionProjectSearchService',
+      'ElasticSearchClient',
         function ($scope,
           $rootScope,
           $location,
@@ -36,7 +38,7 @@
           DataPackageAccessWaysResource, $mdDialog,
           DataPackageCitationDialogService,
           CurrentDataPackageService,
-          DataAcquisitionProjectResource, $q) {
+          DataAcquisitionProjectResource, $q, dataAcquisitionProjectSearchService, ElasticSearchClient) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -90,6 +92,12 @@
       initReady = true;
     }
 
+    /**
+     * Method to load the list of available versions of the datapackage.
+     * 
+     * @param {*} dataAcquisitionProjectId the id of the data acquisition project
+     * @param {*} id the id of the data package
+     */
     function loadVersion(dataAcquisitionProjectId, id) {
       DataAcquisitionProjectReleasesResource.get(
         {
@@ -103,9 +111,7 @@
           var releaseList = [];
           console.log(releases)
           for (var release of releases) {
-            if (!release.isPreRelease) {
               releaseList.push(release);
-            }
           }
           $ctrl.releases = releaseList;
           if (releases.length === 0 || rel.length === 0) {
@@ -146,19 +152,32 @@
               $ctrl.noFinalRelease = true;
             }
             if ($ctrl.dataPackage.release && $ctrl.dataPackage.release.isPreRelease) {
-              // disable ordering on case of pre-release
-              //$ctrl.noFinalRelease = true;
+              // disable ordering in case of pre-release
               $ctrl.isPreReleased = true;
-              console.log("is pre-releases",$ctrl.dataPackage.dataAcquisitionProjectId)
-              
             }
+
+            // get project for embargo warning display (ToDo)
+            // var id = ProjectReleaseService.stripVersionSuffix(
+            //   $ctrl.dataPackage.dataAcquisitionProjectId
+            // );
+            // var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+            //   "dataPackages",
+            //   false, //all projects
+            //   id,
+            //   null);
+            // ElasticSearchClient.search(projectQuery).then(function(results) {
+            //   //todo
+            // });
+
+            // temporary solution, doesn't work for public users --------------------
             DataAcquisitionProjectResource.get({
               id: $ctrl.dataPackage.dataAcquisitionProjectId
             }).$promise.then(function(project) {
               console.log(project)
               $ctrl.project = project
-              //$ctrl.embargoString = project.embargoDate ? new Date(project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
             });
+            // end temporary ----------------------
+
             loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
           }
         }, function() {
@@ -194,11 +213,6 @@
       });
       return _.uniq(dataFormats);
     };
-
-    // $ctrl.showBackToEditButton = function() {
-    //   return $ctrl.selectedVersion && Principal.hasAuthority(
-    //     'ROLE_DATA_PROVIDER');
-    // };
 
     // triggers MessageBus to close the order menu in the parent component
     $ctrl.closeOrderMenu = function() {
@@ -257,6 +271,7 @@
       var search = $location.search();
       if (!newVal) { return; }
       if (newVal !== search.version) {
+        $ctrl.isPreReleased = false;
         search.version = $ctrl.selectedVersion;
         search.lang = $rootScope.currentLanguage;
         $state.go($state.current, search, {reload: true});
