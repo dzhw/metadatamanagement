@@ -72,5 +72,5 @@ public class Release implements Serializable {
   /**
    * Boolean which indicates whether this is a pre-release or not.
    */
-  private Boolean isPreRelease;
+  private Boolean isPreRelease = false;
 }
