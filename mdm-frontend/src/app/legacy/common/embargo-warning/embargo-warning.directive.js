@@ -10,8 +10,6 @@ angular.module('metadatamanagementApp')
         templateUrl: 'scripts/common/embargo-warning/' +
           'embargo-warning.html.tmpl',
         scope: {
-          //isEmbargoDateExpired: '&',
-          // dateString: '&',
           project: '='
         },
         replace: true,
@@ -21,7 +19,6 @@ angular.module('metadatamanagementApp')
           '$scope', '$rootScope',
           function ($scope, $rootScope) {
             $scope.isOrderView = localStorage.getItem('currentView') === 'orderView';
-            console.log($scope.project)
             this.project = $scope.project;
             this.dateString = this.project.embargoDate ? new Date(this.project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
           }],
