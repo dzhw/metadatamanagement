@@ -42,7 +42,8 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier', ['Sim
         var version = _.get(item, 'release.version');        
         // prevent notification when in order view (data will always be an older version than the current, unreleased version)
         // but allow notifications for hidden datasets
-        if (Principal.isProviderActive()) {
+        // prevent notification for pre-released projects (data will always be an older version than the current, unreleased version in provider view)
+        if (Principal.isProviderActive() && !item.release.isPreRelease) {
           showLoggedInUserMessage(item.masterId, version, item.hidden);
         } else {
           if (item.hidden) {
