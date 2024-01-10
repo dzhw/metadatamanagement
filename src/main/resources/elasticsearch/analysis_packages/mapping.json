@@ -172,7 +172,10 @@
 				},
 				"pinToStartPage": {
 					"type": "boolean"
-				}
+				},
+        "isPreRelease": {
+          "type": "boolean"
+        }
 			}
 		},
 		"tags": {

@@ -1062,9 +1062,13 @@
 				},
 				"pinToStartPage": {
 					"type": "boolean"
-				}
+				},
+        "isPreRelease": {
+          "type": "boolean"
+        }
 			}
 		},
+
 		"tags": {
 			"type": "object",
 			"properties": {
