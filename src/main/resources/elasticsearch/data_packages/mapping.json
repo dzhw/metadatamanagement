@@ -1078,6 +1078,12 @@
           "norms": false
         }
       }
+    },
+    "transmissionViaVerbundFdb": {
+      "type": "boolean"
+    },
+    "externalDataPackage": {
+      "type": "boolean"
     }
 	}
 }

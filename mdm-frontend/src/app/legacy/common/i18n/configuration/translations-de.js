@@ -156,6 +156,7 @@ angular.module('metadatamanagementApp').config([
             'rdcProject': 'Datenaufnahmeprojekte:',
             'current-project': 'Aktuelles Datenaufnahmeprojekt',
             'select-project': 'Projekt auswählen',
+            'search-project': 'Nach Projekt-ID suchen',
             'unknown-project': 'Kein Projekt gefunden!'
           },
           'search': {
@@ -386,6 +387,7 @@ angular.module('metadatamanagementApp').config([
         'common-dialogs': {
           'yes': 'Ja',
           'no': 'Nein',
+          'close': 'Schließen',
           'confirm-dirty': {
             'title': 'Änderungen verwerfern?',
             'content': 'Sie haben ungespeicherte Änderungen. Wollen Sie diese verwerfen?'
@@ -455,9 +457,12 @@ angular.module('metadatamanagementApp').config([
            },
            'confirm-activate-user': {
             'title': 'Nutzer:in aktivieren?',
-            'content': 'Bitte bestätigen Sie, dass sie die/den Nutzer:in aktivieren möchten.',
+            'content': 'Bitte bestätigen Sie, dass Sie die/den Nutzer:in aktivieren möchten.',
             'yes': 'Aktivieren',
             'no': 'Status beibehalten'
+          },
+          'info': {
+            'license': 'Lizenz'
           }
         },
         'people': {

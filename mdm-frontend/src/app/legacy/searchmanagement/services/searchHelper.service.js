@@ -151,7 +151,9 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id',
         'approved-usage-list': 'approvedUsageList',
-        'approved-usage': 'approvedUsage'
+        'approved-usage': 'approvedUsage',
+        'transmissionViaVerbundFdb': 'transmissionViaVerbundFdb',
+        'externalDataPackage': 'externalDataPackage'
       },
       'analysis_packages': {
         'related-publication': 'relatedPublications.id',

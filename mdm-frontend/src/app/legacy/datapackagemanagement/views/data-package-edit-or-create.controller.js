@@ -840,6 +840,10 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      ctrl.isPublisher = function() {
+        return Principal.isPublisher();
+      };
+      
       ctrl.onStudySeriesChanged = function() {
         //The fields of study series are undefined
         //at the moment of the first initial Call

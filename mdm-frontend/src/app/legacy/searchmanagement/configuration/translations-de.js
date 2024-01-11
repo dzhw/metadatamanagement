@@ -184,6 +184,8 @@ angular.module('metadatamanagementApp').config([
           'sponsor-en': 'Sponsor',
           'survey-method-de': 'Erhebungsmethode',
           'survey-method-en': 'Erhebungsmethode',
+          'transmissionViaVerbundFdb': 'Datenmeldung über den VerbundFDB',
+          'externalDataPackage': 'DZHW-externes Datenpaket',
           'floating-label': {
             'survey': 'Nach welcher Erhebung wollen Sie filtern?',
             'instrument': 'Nach welchem Instrument wollen Sie filtern?',

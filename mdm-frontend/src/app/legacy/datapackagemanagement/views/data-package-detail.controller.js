@@ -232,5 +232,9 @@ angular.module('metadatamanagementApp')
             return "data-package-management.common.approvedUsage.commercialUse"
         }
       }
+
+      ctrl.isPublisher = function() {
+        return Principal.isPublisher();
+      };
     }]);
 

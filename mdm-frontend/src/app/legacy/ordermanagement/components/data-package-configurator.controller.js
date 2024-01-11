@@ -185,11 +185,6 @@
           version: $ctrl.selectedVersion,
           dataFormats: extractDataFormats($ctrl.dataPackage,
             $ctrl.selectedAccessWay),
-          study: {
-            id: $ctrl.dataPackage.id,
-            surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
-            title: $ctrl.dataPackage.title
-          },
           dataPackage: {
             id: $ctrl.dataPackage.id,
             surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,

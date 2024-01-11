@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
     '$scope', 'SearchHelperService', '$timeout',
-    '$element', 'CleanJSObjectService', '$mdSelect',
+    '$element', 'CleanJSObjectService', '$mdSelect', 'Principal',
     function($scope, SearchHelperService, $timeout,
-      $element, CleanJSObjectService, $mdSelect) {
+      $element, CleanJSObjectService, $mdSelect, Principal) {
 
       /* filters that need to be removed because they sould only be visible
       in the sidenav for public users */
@@ -16,6 +16,8 @@ angular.module('metadatamanagementApp')
       var elasticSearchTypeChanged = false;
       var searchParamsFilterChanged = false;
       $scope.filtersCollapsed = false;
+      $scope.transmissionViaVerbundFdb = false;
+      $scope.externalDataPackage = false;
 
       var createDisplayAvailableFilterList = function(availableFilters) {
         var displayAvailableFilters = [];
@@ -37,6 +39,13 @@ angular.module('metadatamanagementApp')
             displayAvailableFilters.push(filter);
           }
         });
+        
+        // show filter externalDataPackage only to users with role publisher
+        if (!Principal.isPublisher()) {
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "externalDataPackage");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "transmissionViaVerbundFdb");
+        }
+        
         return displayAvailableFilters;
       };
 
@@ -96,6 +105,8 @@ angular.module('metadatamanagementApp')
             $scope.availableHiddenFilters, unselectedFilters);
           $scope.filterChangedCallback();
         }
+        $scope.transmissionViaVerbundFDB = $scope.currentSearchParams.filter['transmissionViaVerbundFdb'];
+        $scope.externalDataPackage = $scope.currentSearchParams.filter['externalDataPackage'];
       });
 
       $scope.$watch('currentSearchParams.filter', function() {
@@ -166,5 +177,35 @@ angular.module('metadatamanagementApp')
           }
         }
       };
+
+      $scope.isPublisher = function() {
+        return Principal.isPublisher();
+      };
+
+      /**
+       * Function to set the value of transmissionViaVerbundFDB in the filter of currentSearchParams.
+       */
+       $scope.onTransmissionViaVerbundFdbClick = function() {
+        $scope.transmissionViaVerbundFdb = !$scope.transmissionViaVerbundFdb
+        if ($scope.transmissionViaVerbundFdb) {
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = true;
+        } else {
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = false;
+        }
+        $scope.filterChangedCallback();
+      }
+
+      /**
+       * Function to set the value of externalDataPackage in the filter of currentSearchParams.
+       */
+      $scope.onExternalDataPackageClick = function() {
+        $scope.externalDataPackage = !$scope.externalDataPackage
+        if ($scope.externalDataPackage) {
+          $scope.currentSearchParams.filter['externalDataPackage'] = true;
+        } else {
+          $scope.currentSearchParams.filter['externalDataPackage'] = false;
+        }
+        $scope.filterChangedCallback();
+      }
     }
   ]);
