@@ -16,7 +16,6 @@
         <thead>
         <tr>
           <th class="fdz-table-third-absorbing-column">{{'analysis-package-management.detail.scripts.title' | translate }}</th>
-          <th class="fdz-table-third-absorbing-column">{{'analysis-package-management.detail.scripts.filename' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.language' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.software-package' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.version' | translate }}</th>
@@ -29,10 +28,6 @@
           <td>
             {{row.title}}
             </a><strong ng-if="!row.title">*</strong>  
-          </td>
-          <td>
-            {{row.attachment.fileName}}
-            </a><strong ng-if="!row.attachment">*</strong>  
           </td>
           <td>{{row.usedLanguage | displayIsoLanguage: $ctrl.lang}}</td>
           <td>{{row.softwarePackage}}</td>

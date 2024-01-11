@@ -92,7 +92,6 @@ angular.module('metadatamanagementApp').config([
           'scripts': {
             'table-title': 'Scripts related to this Analysis Package',
             'title': 'Title',
-            'filename': 'Filename',
             'software-package': 'Software Package',
             'language': 'Language of Commentaries',
             'version': 'Version',
