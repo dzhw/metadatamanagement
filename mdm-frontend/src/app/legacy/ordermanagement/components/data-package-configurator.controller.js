@@ -157,26 +157,23 @@
             }
 
             // get project for embargo warning display (ToDo)
-            // var id = ProjectReleaseService.stripVersionSuffix(
-            //   $ctrl.dataPackage.dataAcquisitionProjectId
-            // );
-            // var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
-            //   "dataPackages",
-            //   false, //all projects
-            //   id,
-            //   null);
-            // ElasticSearchClient.search(projectQuery).then(function(results) {
-            //   //todo
-            // });
-
-            // temporary solution, doesn't work for public users --------------------
-            DataAcquisitionProjectResource.get({
-              id: $ctrl.dataPackage.dataAcquisitionProjectId
-            }).$promise.then(function(project) {
-              console.log(project)
-              $ctrl.project = project
+            var id = ProjectReleaseService.stripVersionSuffix(
+              $ctrl.dataPackage.dataAcquisitionProjectId
+            );
+            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+              "dataPackages",
+              false, //all projects
+              id,
+              null);
+            ElasticSearchClient.search(projectQuery).then(function(results) {
+              //todo
+              console.log(results.hits.hits)
+              if (results.hits.hits.length === 1) {
+                $ctrl.project = results.hits.hits.source;
+              } else {
+                results.hits.hits.length < 1 ? console.error("No projects found") : console.error("Search resulted in more than one project being found.")
+              } 
             });
-            // end temporary ----------------------
 
             loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
           }
