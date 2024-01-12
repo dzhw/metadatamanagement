@@ -230,6 +230,9 @@ angular.module('metadatamanagementApp')
             return "data-package-management.common.approvedUsage.nonCommercialUse"
           case 'COMMERCIAL_USE':
             return "data-package-management.common.approvedUsage.commercialUse"
+          default:
+            console.log("ApprovedUsageId (" + id + ") unknown!");
+            return "unknown"
         }
       }
 

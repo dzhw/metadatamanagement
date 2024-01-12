@@ -40,10 +40,12 @@ angular.module('metadatamanagementApp')
           }
         });
         
-        // show filter externalDataPackage only to users with role publisher
+        // show filter only to users with role publisher
         if (!Principal.isPublisher()) {
           displayAvailableFilters = displayAvailableFilters.filter(item => item !== "externalDataPackage");
           displayAvailableFilters = displayAvailableFilters.filter(item => item !== "transmissionViaVerbundFdb");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "approved-usage");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "approved-usage-list");
         }
         
         return displayAvailableFilters;

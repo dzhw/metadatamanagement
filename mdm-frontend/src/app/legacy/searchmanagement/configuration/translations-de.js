@@ -271,7 +271,7 @@ angular.module('metadatamanagementApp').config([
             'no-valid-selected': 'Keine gültige Studienreihe ausgewählt!'
           },
           'approved-usage-filter': {
-            'not-found': 'Keine erlaubten Nutzungszwecke gefunden!',
+            'not-found': 'Noch keine Einträge für erlaubte Nutzungszwecke vorhanden!',
             'no-valid-selected': 'Keinen gültigen erlaubten Nuzungszweck ausgewählt!'
           },
           'approved-usage-list-filter': {

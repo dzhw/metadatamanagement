@@ -272,7 +272,7 @@ angular.module('metadatamanagementApp').config([
             'no-valid-selected': 'No valid study series selected!'
           },
           'approved-usage-filter': {
-            'not-found': 'No approved usage found!',
+            'not-found': 'No entries for approved usage available yet!',
             'no-valid-selected': 'No valid approved usage selected!'
           },
           'approved-usage-list-filter': {
