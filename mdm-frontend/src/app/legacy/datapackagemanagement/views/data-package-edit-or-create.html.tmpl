@@ -60,7 +60,7 @@
                              md-floating-label="{{'data-package-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512"
                              md-input-name="studySeriesDe"
-                             md-is-error="!dataPackageForm.studySeriesDe.$valid && (dataPackageForm.studySeriesDe.$dirty dataPackageForm.studySeriesDe.$touched) "
+                             md-is-error="!dataPackageForm.studySeriesDe.$valid && (dataPackageForm.studySeriesDe.$dirty || dataPackageForm.studySeriesDe.$touched) "
                              md-item-text="item.de"
                              md-items="item in searchStudySeries(ctrl.dataPackage.studySeries.de, 'de')"
                              md-match-case-insensitive="true" md-min-length="0"
@@ -165,7 +165,8 @@
                              md-no-cache="true" md-require-match="false"
                              md-search-text="ctrl.dataPackage.approvedUsage"
                              md-select-on-match="true" md-selected-item="ctrl.approvedUsage" ng-pattern="/^[^,]*$/"
-                             class="ms-flex">
+                             class="ms-flex"
+                             ng-class="{'mr10': $mdMedia('gt-sm')}">
               <md-item-template>
                 <span class="md-title" md-highlight-flags="ig" md-highlight-text="ctrl.dataPackage.approvedUsage"
                       style="font-size: 14px;">{{item}}</span>
