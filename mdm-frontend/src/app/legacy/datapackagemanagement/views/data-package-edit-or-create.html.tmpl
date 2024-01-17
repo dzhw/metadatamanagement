@@ -164,7 +164,8 @@
                              md-match-case-insensitive="true" md-min-length="0"
                              md-no-cache="true" md-require-match="false"
                              md-search-text="ctrl.dataPackage.approvedUsage"
-                             md-select-on-match="true" md-selected-item="ctrl.approvedUsage" ng-pattern="/^[^,]*$/"
+                             md-select-on-match="true" md-selected-item="ctrl.currentApprovedUsage" ng-pattern="/^[^,]*$/"
+                             md-selected-item-change="dataPackageForm.$setDirty()"
                              class="ms-flex"
                              ng-class="{'mr10': $mdMedia('gt-sm')}">
               <md-item-template>
