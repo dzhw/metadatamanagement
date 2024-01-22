@@ -1,3 +1,9 @@
-<span class="label label-as-badge" ng-class="{'fdz-released': released, 'fdz-unreleased': !released}">
-{{(released ? 'data-acquisition-project-management.releasestatusbadge.released' : 'data-acquisition-project-management.releasestatusbadge.unreleased') | translate}}
+<span ng-if="ctrl.isUnreleased()" class="label label-as-badge fdz-unreleased">
+    {{'data-acquisition-project-management.releasestatusbadge.unreleased' | translate}}
+</span>
+<span ng-if="ctrl.isFullyReleased()" class="label label-as-badge fdz-released">
+    {{'data-acquisition-project-management.releasestatusbadge.released' | translate}}
+</span>
+<span ng-if="ctrl.isPreReleased()" class="label label-as-badge fdz-prereleased">
+    {{'data-acquisition-project-management.releasestatusbadge.pre-released'| translate}}
 </span>

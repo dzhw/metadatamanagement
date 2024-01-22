@@ -152,15 +152,6 @@ angular.module('metadatamanagementApp')
         $scope.$on('deletion-completed', function() {
           setTypeCounts(ctrl.project.id);
         });
-
-        ctrl.toggleReleaseProject = function() {
-          if (ctrl.project.release) {
-            ProjectReleaseService.unreleaseProject(ctrl.project);
-          } else {
-            ProjectReleaseService.releaseProject(ctrl.project);
-          }
-        };
-
       }
     };
   }]);

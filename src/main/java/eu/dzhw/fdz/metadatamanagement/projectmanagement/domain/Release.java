@@ -68,4 +68,9 @@ public class Release implements Serializable {
    * A string indicating the language ("de" or "en") of the DOI landing page.
    */
   private String doiPageLanguage;
+
+  /**
+   * Boolean which indicates whether this is a pre-release or not.
+   */
+  private Boolean isPreRelease = false;
 }

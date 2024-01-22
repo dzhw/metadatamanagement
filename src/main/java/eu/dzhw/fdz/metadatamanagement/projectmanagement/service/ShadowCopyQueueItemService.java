@@ -137,21 +137,23 @@ public class ShadowCopyQueueItemService {
                   getPreviousReleaseVersion(dataAcquisitionProject, release);
               emitShadowCopyingStartedEvent(dataAcquisitionProject, release, previousReleaseVersion,
                   task.getAction());
+              // check if its a real re-release or a release after a pre-release
+              boolean isReleaseAfterPreRelease = existingShadow.isPresent() && existingShadow.get().getRelease().getIsPreRelease();
               emitShadowCopyingEndedEvent(dataAcquisitionProject, release, previousReleaseVersion,
-                  existingShadow.isPresent(), task.getAction());
+                existingShadow.isPresent(), task.getAction(), isReleaseAfterPreRelease);
               break;
             case HIDE:
             case UNHIDE:
               emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
                   task.getAction());
               emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, true,
-                  task.getAction());
+                  task.getAction(), false);
               break;
             case DELETE:
               emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
                   task.getAction());
               emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, false,
-                  task.getAction());
+                  task.getAction(), false);
               break;
             default:
               throw new IllegalArgumentException(
@@ -172,10 +174,10 @@ public class ShadowCopyQueueItemService {
   }
 
   private void emitShadowCopyingEndedEvent(DataAcquisitionProject dataAcquisitionProject,
-      Release release, String previousReleaseVersion, boolean isRerelease, Action action) {
+      Release release, String previousReleaseVersion, boolean isRerelease, Action action, boolean isReleaseAfterPreRelease) {
     this.applicationEventPublisher
         .publishEvent(new ShadowCopyingEndedEvent(this, dataAcquisitionProject.getMasterId(),
-            release, previousReleaseVersion, isRerelease, action));
+            release, previousReleaseVersion, isRerelease, action, isReleaseAfterPreRelease));
   }
 
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {

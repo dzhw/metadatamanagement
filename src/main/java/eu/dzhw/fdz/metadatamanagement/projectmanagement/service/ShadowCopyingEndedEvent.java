@@ -13,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 public class ShadowCopyingEndedEvent extends ApplicationEvent {
-  
+
   private static final long serialVersionUID = 549634157200620526L;
 
   private String dataAcquisitionProjectId;
@@ -21,14 +21,16 @@ public class ShadowCopyingEndedEvent extends ApplicationEvent {
   private String previousReleaseVersion;
 
   private Release release;
-  
+
   private boolean isRerelease;
-  
+
+  private boolean isReleaseAfterPreRelease;
+
   private Action action;
 
   /**
    * Create a new event instance.
-   * 
+   *
    * @param source Event emitter reference
    * @param dataAcquisitionProjectId master id of the released project
    * @param release the version which has been released
@@ -36,12 +38,13 @@ public class ShadowCopyingEndedEvent extends ApplicationEvent {
    * @param isRerelease true if the project has been released with this version before
    */
   public ShadowCopyingEndedEvent(Object source, String dataAcquisitionProjectId,
-      Release release, String previousReleaseVersion, boolean isRerelease, Action action) {
+      Release release, String previousReleaseVersion, boolean isRerelease, Action action, boolean isReleaseAfterPreRelease) {
     super(source);
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
     this.previousReleaseVersion = previousReleaseVersion;
     this.release = release;
     this.isRerelease = isRerelease;
+    this.isReleaseAfterPreRelease = isReleaseAfterPreRelease;
     this.action = action;
   }
 }

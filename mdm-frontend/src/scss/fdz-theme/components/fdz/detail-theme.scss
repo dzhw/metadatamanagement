@@ -31,6 +31,11 @@ $card-border-radius: 2px !default;
     word-break: break-word;
   }
 
+  .fdz-embargo-warning {
+    background-color: $brand-warning;
+    margin: 0px;
+  }
+
   .fdz-tag-link-container {
     display: inline;
     align-items: baseline;

@@ -61,6 +61,7 @@ angular.module('metadatamanagementApp').config([
             },
             'doi': 'DOI',
             'published-at': 'veröffentlicht am',
+            'pre-published-at': 'vorläufig veröffentlicht am',
             'published': 'Veröffentlicht am'
           },
           'attachments': {

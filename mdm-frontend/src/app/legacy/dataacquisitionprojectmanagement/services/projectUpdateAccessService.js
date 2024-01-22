@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').service('ProjectUpdateAccessService', ['
     };
 
     var isProjectUnreleased = function(project) {
-      return !project.release;
+      return !project.release || project.release.isPreRelease;
     };
 
     var isTypeRequired = function(project, type) {

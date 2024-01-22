@@ -201,8 +201,12 @@ angular.module('metadatamanagementApp')
           }
         };
 
+        /**
+         * Whether the project is fully released.
+         * @returns true if the project is fully released else false
+         */
         ctrl.isProjectReleased = function() {
-          return ctrl.project.release;
+          return ctrl.project.release && !ctrl.project.release.isPreRelease;
         };
 
         if (ctrl.type !== 'publications' && ctrl.type !== 'concepts') {
