@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Upload a variable report template to generate variable report. Folder upload does not work in this case.
+Metadata        Info on data    This test suite uses the project with the name "gra2005" which needs to be available in the testing environment
 Library   OperatingSystem
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot

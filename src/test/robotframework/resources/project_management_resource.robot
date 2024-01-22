@@ -16,6 +16,10 @@ Write Message and Assign
   Input Text   xpath=//textarea[@name="assigneeMessage"]   This is a meesage by Robot for changing project roles!!
   Click Element Through Tooltips   xpath=//md-dialog-actions//button[contains(., "Zuweisen")]
 
+Confirm Local Release
+  [Documentation]  Check "local release" hint when running in local environment
+  Run Keyword Ignore Error   Click Element Through Tooltips   xpath=//md-dialog-content//md-input-container//md-checkbox[@name='releaseConfirmed']
+
 Click on OK Button
    Click Element Through Tooltips  xpath=//md-dialog-actions//button[contains(.,'OK')]
 
@@ -79,6 +83,9 @@ Ensure Publisher Ready Checkbox is Disabled
 Ensure Project Release Button is Disabled
    Page Should Contain Element  xpath=//md-card//release-status-badge[@released="ctrl.project.release"]//following::button[@disabled="disabled"]
 
+Ensure Project Is Unreleased
+   Page Should Contain Element  xpath=//md-card//release-status-badge[@released="ctrl.project.release"]//span["Nicht freigegeben"]
+
 Ensure Project Assign Role Button is Disabled
    Page Should Contain Element  xpath=//md-card//project-status-badge[@assignee-group="PUBLISHER"]//following::button[@disabled="disabled"]
 
@@ -100,41 +107,15 @@ Ensure Dataset Creation is Possible
 Ensure Variable Upload is Possible
    Click Element Through Tooltips  xpath=//md-card[@type="variables"]//button[contains(.,"Hochladen")]
 
-Click Publisher Ready Checkbox for Data Packages
-   Click Element Through Tooltips  xpath=//md-card[@type="dataPackages"]//md-checkbox[contains(.,"Publisher Fertig")]
+Click Dataprovider Ready Checkbox
+   [Documentation]  Clicks the Dataprovider Ready checkbox for the given card (dataPackages, surveys, instruments, questions, dataSets, variables)
+   [Arguments]  ${card}
+   Click Element Through Tooltips  xpath=//md-card[@type="${card}"]/md-card-content//md-checkbox/div[normalize-space(.)="Datengeber:innen Fertig"]/parent::md-checkbox
 
-Click Dataprovider Ready Checkbox for Data Packages
-   Click Element Through Tooltips  xpath=//md-card[@type="dataPackages"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
-
-Click Publisher Ready Checkbox for Surveys
-   Click Element Through Tooltips  xpath=//md-card[@type="surveys"]//md-checkbox[contains(.,"Publisher Fertig")]
-
-Click Dataprovider Ready Checkbox for Surveys
-   Click Element Through Tooltips  xpath=//md-card[@type="surveys"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
-
-Click Publisher Ready Checkbox for Instruments
-   Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//md-checkbox[contains(.,"Publisher Fertig")]
-
-Click Dataprovider Ready Checkbox for Instruments
-   Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
-
-Click Publisher Ready Checkbox for Questions
-   Click Element Through Tooltips  xpath=//md-card[@type="questions"]//md-checkbox[contains(.,"Publisher Fertig")]
-
-Click Dataprovider Ready Checkbox for Questions
-   Click Element Through Tooltips  xpath=//md-card[@type="questions"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
-
-Click Publisher Ready Checkbox for Datasets
-   Click Element Through Tooltips  xpath=//md-card[@type="dataSets"]//md-checkbox[contains(.,"Publisher Fertig")]
-
-Click Dataprovider Ready Checkbox for Datasets
-   Click Element Through Tooltips  xpath=//md-card[@type="dataSets"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
-
-Click Publisher Ready Checkbox for Variables
-   Click Element Through Tooltips  xpath=//md-card[@type="variables"]//md-checkbox[contains(.,"Publisher Fertig")]
-
-Click Dataprovider Ready Checkbox for Variables
-   Click Element Through Tooltips  xpath=//md-card[@type="variables"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
+Click Publisher Ready Checkbox
+   [Documentation]  Clicks the Publisher Ready checkbox for the given card (dataPackages, surveys, instruments, questions, dataSets, variables)
+   [Arguments]  ${card}
+   Click Element Through Tooltips  xpath=//md-card[@type="${card}"]/md-card-content//md-checkbox/div[normalize-space(.)="Publisher Fertig"]/parent::md-checkbox
 
 Close The Toast Message
     [Arguments]  ${TOAST_MSSG}

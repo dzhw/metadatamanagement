@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Tests the user experience of ordering the analysis package Test Analysis Package (testanalysepaket)
+Metadata          Info on data    This test suite uses the analysis package 'testanalysispackage'
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/order_resource.robot
@@ -8,11 +9,13 @@ Resource          ../../resources/order_resource.robot
 Put analysis packages in shopping cart
     wait until page contains element    //a[@ui-sref="search({type: 'analysis_packages'})"]
     Click Element   //a[@ui-sref="search({type: 'analysis_packages'})"]
+    Search for    Test Analysepaket
     Click on first search result
     Wait for Angular    2s
     Put all analysis package versions in shopping cart
     Go to Shopping Cart
-    Check for shopping cart items    Dieses Datenpaket    2
+    # TODO: remove data dependency (number of items in cart depends on data)
+    #Check for shopping cart items    Dieses Datenpaket    2
     Check for shopping cart items    Dieses Analysepaket    2
     Empty The Shopping Cart
     [Teardown]    Get back to german home page
@@ -24,7 +27,8 @@ Test delete functionality
     Wait for Angular    2s
     Put all analysis package versions in shopping cart
     Go to Shopping Cart
-    Check for shopping cart items    Dieses Datenpaket    2
+    # TODO: remove data dependency (number of items in cart depends on data)
+    #Check for shopping cart items    Dieses Datenpaket    2
     Check for shopping cart items    Dieses Analysepaket    2
     Delete an Item    1
     Empty The Shopping Cart

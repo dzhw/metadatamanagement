@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Upload a attachement to the data package
+Metadata          Info on data    This test suite uses the project with the name "fileuploadproject" which needs to be available in the testing environment
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 

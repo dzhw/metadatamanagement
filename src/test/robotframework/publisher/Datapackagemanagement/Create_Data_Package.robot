@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Publisher Create Data Package
+Metadata          Info on data   Create the temporary project with name tempdatapackage${BROWSER}
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -8,7 +9,8 @@ Resource          ../../resources/home_page_resource.robot
 *** Test Cases ***
 Create Data Package by Publisher
     Pass Execution If    '${BROWSER}' == 'ie'    Data Package Creation not possible in IE
-    Create Project  robotsproject${BROWSER}
+    ${created}  Run Keyword and return status  Create Project  tempdatapackage${BROWSER}
+    Run Keyword If  ${created}==False  Fail  Could not create new project 'tempdatapackage${BROWSER}'
     Get Back to german home page
     Click on data package tab
     Open Data Package Create Page
@@ -45,8 +47,9 @@ Create Data Package by Publisher
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='English Days Keyword']
     Save Changes
-    Page Should Contain Element    xpath=//fdz-breadcrumbs//span[contains(.,'robotsproject${BROWSER}')]
-    Delete Robotsproject
+    Page Should Contain Element    xpath=//fdz-breadcrumbs//span[contains(.,'tempdatapackage${BROWSER}')]
+    Get back to german home page
+    Delete project by name  tempdatapackage${BROWSER}
 
 *** Keywords ***
 Open Data Package Create Page

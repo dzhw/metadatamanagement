@@ -30,6 +30,11 @@ Select project by name
     Input Text    xpath=//md-sidenav//project-navbar-module//md-autocomplete//input    ${projectname}
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
 
+Check project exists
+    [Arguments]    ${projectname}
+    Input Text    xpath=//md-sidenav//project-navbar-module//md-autocomplete//input    ${projectname}
+    Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
+
 Delete project by name
     [Arguments]    ${projectname}
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    ${projectname}

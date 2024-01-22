@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Publisher Create a new Project and Assign role and check the project as dataprovider
+Metadata          Info on data    This test suite creates a temporary test project with the name "${PROJECT_NAME}${BROWSER}" which is automatically deleted afterwards
 Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
@@ -7,12 +8,13 @@ Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
 *** Variables ***
-${PROJECT_NAME}  hossainrobot
+${PROJECT_NAME}  temprobotassignroles
 ${TOAST_MSSG}  Die Aktion ist nicht möglich
 
 *** Test Cases ***
 Check Publisher Can Change Accordingly
-   Create Project  ${PROJECT_NAME}${BROWSER}
+   ${created}  Run Keyword and return status  Create Project  ${PROJECT_NAME}${BROWSER}
+   Run Keyword If  ${created}==False  Fail  Could not create new project '${PROJECT_NAME}${BROWSER}'
    Assign a dataprovider  dataprovider
    Select Metadata Checkbox From The List
    Switch To Status Tab
@@ -59,7 +61,7 @@ Check Project is Assigned to Dataprovider But Can Not Change Anything When Publi
 
 *** Keywords ***
 Assert Project is Assigned to Dataprovider
-    Element Should Contain  xpath=//project-status-badge//span[contains(.,"Zugewiesen an Datengeber:innen")]  Zugewiesen an Datengeber:innen
+    Element Should Contain  xpath=//project-status-badge//span[contains(normalize-space(.),"Zugewiesen an Datengeber:innen")]  Zugewiesen an Datengeber:innen
 
 Ensure Create Button is Restricted
     [Arguments]  ${metadataname}
@@ -107,8 +109,8 @@ Close The Toast Message for Upload Button in IE
 Click Publisher and Dataprovider Ready Checkbox From The List
     @{MD_ITEMS}    Create List   surveys   instruments   questions   dataSets    variables   dataPackages  #data packages should be at last index to avoid outofbound error in IE
     FOR   ${MD_DT}   IN  @{MD_ITEMS}
-        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
-        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
+        Click Publisher Ready Checkbox  ${MD_DT}
+        Click Dataprovider Ready Checkbox  ${MD_DT}
     END
 
 Select Metadata Checkbox From The List

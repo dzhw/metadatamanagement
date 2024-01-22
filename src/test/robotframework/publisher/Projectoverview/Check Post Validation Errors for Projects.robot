@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Automatically test post validation errors and messages of a selected project. Prerequisite to have validation errors for the selected project.
-
+Metadata          Info on data    This test suite uses the project with the name "fileuploadproject" which needs to be available in the testing environment
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot

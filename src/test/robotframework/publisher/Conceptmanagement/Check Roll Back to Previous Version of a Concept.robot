@@ -1,5 +1,7 @@
 *** Settings ***
-Documentation     Roll back to previous version of a concept. Prerequisite to have "Roll Back Concept ${BROWSER} De" concept in the system.
+Documentation     Roll back to previous version of a concept. the system.
+Metadata          Info on data   Prerequisite to have "Roll Back Concept ${BROWSER} De" concept with at least one
+...               version containing the concept name "Roll Back Concept ${BROWSER} De_Rollback"
 Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot

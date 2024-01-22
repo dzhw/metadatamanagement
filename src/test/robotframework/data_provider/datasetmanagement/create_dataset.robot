@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Dataset Creation by Dataprovider #Prerequisite to have robotproject4${BROWSER} and a survey for robotproject4${BROWSER}
+Metadata          Info on data    This test suite uses the project with the name "robotproject4${BROWSER}" which needs to contain a survey
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/click_element_resource.robot
