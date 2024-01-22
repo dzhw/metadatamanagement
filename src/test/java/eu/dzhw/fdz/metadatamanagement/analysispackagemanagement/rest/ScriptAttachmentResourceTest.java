@@ -159,7 +159,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
 
     analysisPackage.setScripts(
         Lists.asList(Script.builder().softwarePackage("R").softwarePackageVersion("1.0.0")
-            .uuid("5432").usedLanguage("de").build()));
+          .title("title").uuid("5432").usedLanguage("de").build()));
     // update the analysis package
     mockMvc.perform(put("/api/analysis-packages/" + "/" + analysisPackage.getId())
         .content(TestUtil.convertObjectToJsonBytes(analysisPackage))

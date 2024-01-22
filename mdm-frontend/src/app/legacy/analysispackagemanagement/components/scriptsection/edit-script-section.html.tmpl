@@ -59,6 +59,85 @@
             <input hidden
                    name="scriptsUuid_{{$index}}"
                    ng-model="script.uuid">
+            <md-input-container flex="50"
+                class="ml0 mr8"
+                md-is-error="!$ctrl.currentForm['scriptsTitle_' + $index].$valid && ($ctrl.currentForm['scriptsTitle_' + $index].$dirty || $ctrl.currentForm['scriptsTitle_' + $index].$touched)">
+                <label>{{'analysis-package-management.detail.label.title' | translate}}</label>
+                <input
+                    md-no-asterisk
+                    name="scriptsTitle_{{$index}}"
+                    md-maxlength="2048"
+                    ng-model="script.title">
+                <div class="fdz-input-hint"
+                    ng-if="!$ctrl.currentForm['scriptsTitle_' + $index].$dirty && !$ctrl.currentForm['scriptsTitle_' + $index].$touched">
+                    {{'analysis-package-management.edit.hints.script.title' | translate}}
+                </div>
+                <div multiple ng-messages="$ctrl.currentForm['scriptsTitle_' + $index].$error">
+                    <div ng-message="md-maxlength">
+                        {{'analysis-package-management.error.script.title.i18n-string-size' | translate}}
+                    </div>
+                </div>
+            </md-input-container>
+            <div flex="100"
+                 layout="row"
+                 layout-gt-sm="row"
+                 class="mr8 items-center">
+              <p class="ma0" ng-if="$ctrl.createMode">{{'analysis-package-management.detail.label.save-file' | translate}}</p>
+              <md-input-container class="pa0 ms-flex w-100"
+                                  ng-if="!$ctrl.createMode"
+                                  ngf-drop="$ctrl.addScriptAttachment($file, $index, $event)"
+                                  ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}"
+                                  ngf-select="$ctrl.addScriptAttachment($file, $index, $event)"
+                                  class="pointer"
+                                  md-is-error="!currentForm['filename' + $index].$valid && (currentForm['filename' + $index].$dirty || currentForm['filename' + $index].$touched)">
+
+                <label>{{'analysis-package-management.detail.label.file' | translate}}</label>
+                <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/"
+                       ng-model="script.scriptAttachmentMetadata.fileName"
+                       name="filename_{{$index}}" class="pointer"
+                       ng-if="!ctrl.createMode"
+                       style="border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
+                <div
+                  ng-if="!currentForm['filename' + $index].$dirty && !currentForm['filename' + $index].$touched"
+                  class="fdz-input-hint">
+                  {{ 'analysis-package-management.edit.hints.script-attachment-metadata.filename' | translate}}
+                </div>
+                <div ng-messages="currentForm['filename' + $index].$error"
+                     multiple>
+                  <div ng-message="unique">
+                    {{'analysis-package-management.error.script-attachment-metadata.filename.not-unique' | translate}}
+                  </div>
+                  <div ng-message="valid">
+                    {{'analysis-package-management.error.script-attachment-metadata.filename.not-valid' | translate}}
+                  </div>
+                  <div ng-message="pattern">
+                    {{'analysis-package-management.error.script-attachment-metadata.filename.pattern' | translate}}
+                  </div>
+                </div>
+              </md-input-container>
+              <div class="fdz-button-wrapper mt18 self-start">
+                <md-button class="md-primary md-icon-button ma0"
+                           ng-click="$ctrl.addScriptAttachmentButton($index)"
+                           ng-if="!$ctrl.createMode && !($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0">
+                  <md-tooltip md-autohide="true" md-direction="bottom"
+                              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{'analysis-package-management.detail.script-attachment-metadata.add-attachment-tooltip' | translate
+                    }}
+                  </md-tooltip>
+                  <md-icon md-font-set="material-icons">add</md-icon>
+                </md-button>
+                <md-button class="md-primary md-icon-button ma0"
+                           ng-click="$ctrl.deleteScriptAttachment(script.scriptAttachmentMetadata, $index, true)"
+                           ng-if="!$ctrl.createMode && ($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0">
+                  <md-tooltip md-autohide="true" md-direction="bottom"
+                              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{'analysis-package-management.detail.script-attachment-metadata.delete-attachment-tooltip' | translate
+                    }}
+                  </md-tooltip>
+                  <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                </md-button>
+              </div>
+            </div>
           </div>
           <div layout="row"
                layout-gt-sm="row"
@@ -169,66 +248,6 @@
                 </div>
               </div>
             </md-input-container>
-            <div flex="100"
-                 layout="row"
-                 layout-gt-sm="row"
-                 class="mr8 items-center">
-              <p class="ma0" ng-if="$ctrl.createMode">{{'analysis-package-management.detail.label.save-file' | translate}}</p>
-              <md-input-container class="pa0 ms-flex w-100"
-                                  ng-if="!$ctrl.createMode"
-                                  ngf-drop="$ctrl.addScriptAttachment($file, $index, $event)"
-                                  ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}"
-                                  ngf-select="$ctrl.addScriptAttachment($file, $index, $event)"
-                                  class="pointer"
-                                  md-is-error="!currentForm['filename' + $index].$valid && (currentForm['filename' + $index].$dirty || currentForm['filename' + $index].$touched)">
-
-                <label>{{'analysis-package-management.detail.label.file' | translate}}</label>
-                <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/"
-                       ng-model="script.scriptAttachmentMetadata.fileName"
-                       name="filename_{{$index}}" class="pointer"
-                       ng-if="!ctrl.createMode"
-                       style="border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
-                <div
-                  ng-if="!currentForm['filename' + $index].$dirty && !currentForm['filename' + $index].$touched"
-                  class="fdz-input-hint">
-                  {{ 'analysis-package-management.edit.hints.script-attachment-metadata.filename' | translate}}
-                </div>
-                <div ng-messages="currentForm['filename' + $index].$error"
-                     multiple>
-                  <div ng-message="unique">
-                    {{'analysis-package-management.error.script-attachment-metadata.filename.not-unique' | translate}}
-                  </div>
-                  <div ng-message="valid">
-                    {{'analysis-package-management.error.script-attachment-metadata.filename.not-valid' | translate}}
-                  </div>
-                  <div ng-message="pattern">
-                    {{'analysis-package-management.error.script-attachment-metadata.filename.pattern' | translate}}
-                  </div>
-                </div>
-              </md-input-container>
-              <div class="fdz-button-wrapper mt18 self-start">
-                <md-button class="md-primary md-icon-button ma0"
-                           ng-click="$ctrl.addScriptAttachmentButton($index)"
-                           ng-if="!$ctrl.createMode && !($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0">
-                  <md-tooltip md-autohide="true" md-direction="bottom"
-                              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'analysis-package-management.detail.script-attachment-metadata.add-attachment-tooltip' | translate
-                    }}
-                  </md-tooltip>
-                  <md-icon md-font-set="material-icons">add</md-icon>
-                </md-button>
-                <md-button class="md-primary md-icon-button ma0"
-                           ng-click="$ctrl.deleteScriptAttachment(script.scriptAttachmentMetadata, $index, true)"
-                           ng-if="!$ctrl.createMode && ($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0">
-                  <md-tooltip md-autohide="true" md-direction="bottom"
-                              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'analysis-package-management.detail.script-attachment-metadata.delete-attachment-tooltip' | translate
-                    }}
-                  </md-tooltip>
-                  <md-icon md-font-set="material-icons">delete_forever</md-icon>
-                </md-button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
