@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.filemanagement.rest;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +40,7 @@ public class FileResource {
   public ResponseEntity<?> downloadFile(HttpServletRequest request) throws IOException {
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-    String fileName = completePath.replaceFirst("/public/files", "");
+    String fileName = URLDecoder.decode(completePath.replaceFirst("/public/files", ""), "UTF-8");
     // find file in grid fs / mongo db
     GridFsResource gridFsFile = this.fileService.findFile(fileName);
 

@@ -16,6 +16,11 @@
 # JHipster specific properties
 # ===================================================================
 
+# properties specific to spring boot upgrade from 2.5 to 2.7
+spring.main.allow-circular-references: true
+spring.mongodb.embedded.version: 4.2.13
+de.flapdoodle.mongodb.embedded.version: 4.2.13
+
 spring:
     data:
        rest:

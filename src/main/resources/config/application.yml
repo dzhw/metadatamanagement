@@ -12,6 +12,7 @@
 # ===================================================================
 
 spring:
+    main.allow-circular-references: true
     data:
       rest:
         base-path: /api

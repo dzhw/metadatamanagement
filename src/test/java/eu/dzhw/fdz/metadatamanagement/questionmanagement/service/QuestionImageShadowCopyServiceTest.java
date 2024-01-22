@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,7 +126,8 @@ public class QuestionImageShadowCopyServiceTest extends AbstractTest {
         dataAcquisitionProject.getRelease(), "1.0.0");
 
     List<GridFSFile> files = new ArrayList<>();
-    gridFsOperations.find(new Query()).forEach(files::add);
+    gridFsOperations.find(new Query())
+        .forEach((Consumer<? super GridFSFile>) (GridFSFile f) -> files.add(f));
 
     assertThat(files.size(), equalTo(2));
 
