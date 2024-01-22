@@ -1,0 +1,22 @@
+<div ng-form="approvedUsageFilterForm" layout="row" layout-align="center center">
+    <md-autocomplete fdz-autofocus="!currentSearchParams.filter.approved-usage" md-delay="250" class="fdz-search-filter-component" md-input-name="approvedUsageFilter" md-floating-label="{{'search-management.filter.floating-label.approved-usage' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentApprovedUsage"
+      md-selected-item-change="onSelectionChanged(currentApprovedUsage)" md-search-text="searchText" md-items="item in searchApprovedUsage(searchText)" md-item-text="(item.title)" md-clear-button="true" md-no-cache="true" md-menu-class="fdz-search-filter-items" md-select-on-focus="true">
+        <md-item-template>
+          <span class="item-title fdz-truncate-string">
+            <strong md-highlight-text="searchText" md-highlight-flags="ig">{{(item.title)}}</strong>
+          </span>
+          <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:' + item.count + '}':'messageformat'}}</span>
+        </md-item-template>
+        <md-not-found>
+          <span class="item-title fdz-truncate-string">
+            <strong>{{'search-management.filter.approved-usage-filter.not-found' | translate}}</strong>
+          </span>
+          <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:0}':'messageformat'}}</span>
+        </md-not-found>
+        <div ng-messages="approvedUsageFilterForm.approvedUsageFilter.$error">
+            <div ng-message="md-require-match">
+                {{'search-management.filter.approved-usage-filter.no-valid-selected' | translate}}
+            </div>
+        </div>
+    </md-autocomplete>
+</div>

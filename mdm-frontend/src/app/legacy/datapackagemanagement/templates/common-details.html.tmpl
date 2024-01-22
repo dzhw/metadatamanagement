@@ -136,6 +136,19 @@
             </li>
           </ul>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.approvedUsageList && $ctrl.options.dataPackage.approvedUsageList.length > 0">
+          <h5>{{'data-package-management.detail.label.approvedUsageList' | translate }}:</h5>
+          <ul style="list-style: none; padding-left: 0;">
+            <li ng-repeat="usage in $ctrl.options.dataPackage.approvedUsageList">{{ $ctrl.options.getTranslationPathFromApprovedUsageId(usage) | translate }}</li>
+          </ul>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.approvedUsage && $ctrl.options.dataPackage.approvedUsage.length > 0">
+          <h5>{{'data-package-management.detail.label.approvedUsage' | translate }}:</h5>
+          <p
+            class="md-secondary"
+            markdown-to-html="$ctrl.options.dataPackage.approvedUsage"
+            ></p>
+        </md-list-item>
       </md-list>
     </md-card-content>
   </div>

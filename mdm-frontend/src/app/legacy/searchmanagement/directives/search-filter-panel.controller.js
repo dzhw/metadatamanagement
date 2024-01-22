@@ -40,10 +40,12 @@ angular.module('metadatamanagementApp')
           }
         });
         
-        // show filter externalDataPackage only to users with role publisher
+        // show filter only to users with role publisher
         if (!Principal.isPublisher()) {
           displayAvailableFilters = displayAvailableFilters.filter(item => item !== "externalDataPackage");
           displayAvailableFilters = displayAvailableFilters.filter(item => item !== "transmissionViaVerbundFdb");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "approved-usage");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "approved-usage-list");
         }
         
         return displayAvailableFilters;
@@ -52,7 +54,7 @@ angular.module('metadatamanagementApp')
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchHelperService.getAvailableFilters(
-          $scope.currentElasticsearchType);
+          $scope.currentElasticsearchType); // currentElasticsearchType --> e.g. "data_packages"
         /* as this is the search panel for logged in users we need to remove some
         filters that sould only be shown in the sidenav for public users */
         removeIrrelevantFilter();
@@ -150,6 +152,16 @@ angular.module('metadatamanagementApp')
         var minHeight = (56 * $scope.selectedFilters.length) + 'px';
         return {'min-height': minHeight};
       };
+
+      /**
+       * Method to remove all selected Filters.
+       * It also removes the "useAndLogicApprovedUsage"-filter
+       * which is a special filter for the list of all approved usages.
+       */
+      $scope.removeFilters = function() {
+        $scope.selectedFilters = [];
+        delete $scope.currentSearchParams.filter.useAndLogicApprovedUsage;
+      }
 
       /**
        * Function to remove the filters that are irrelevant for the search panel.
