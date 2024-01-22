@@ -318,6 +318,12 @@
             <version>2.11.3</version>
             <scope>test</scope>
         </dependency>
+        <!-- tweet okhttp3 -->
+      <dependency>
+        <groupId>com.twitter</groupId>
+        <artifactId>twitter-api-java-sdk</artifactId>
+        <version>2.0.3</version>
+      </dependency>
     </dependencies>
 
     <repositories>

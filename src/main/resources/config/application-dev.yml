@@ -31,7 +31,7 @@ mongock:
     change-logs-scan-package:
         - eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs
         - eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.changelogs
-  
+
 management:
   metrics:
     export:
@@ -69,3 +69,12 @@ metadatamanagement:
 
 logbook:
   filter.enabled: false
+
+tweet:
+  consumerkey: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  consumersecret: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  oauthtoken: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  oauthtokensecret: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
+  endpointurl: "https://api.twitter.com/2/tweets"
+  mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
+  imagepath:  "./mdm-frontend/src/assets/images/social-survey.jpg"
