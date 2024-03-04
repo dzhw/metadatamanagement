@@ -181,7 +181,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>6.5.3</version>
+            <version>7.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
