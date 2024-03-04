@@ -114,6 +114,16 @@ public class RelatedPublication extends AbstractRdcDomainObject {
       message = "related-publication-management.error.related-publication.annotations.size")
   private I18nString annotations;
 
+  /**
+   * Name of journal.
+   */
+  private String journal;
+
+  /**
+   * Issue (Ausgabe) of journal.
+   */
+  private Integer issue;
+
   /* Foreign Keys */
   @Indexed
   private List<@DataPackageExists String> dataPackageIds;

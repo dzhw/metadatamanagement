@@ -91,7 +91,8 @@ angular.module('metadatamanagementApp').config([
           'edit-concepts-tooltip': 'Click to edit the existing concepts',
           'edit-publications-tooltip': 'Click to add publications to the data package or to remove them',
           'delete-publications-tooltip': 'Click to remove all publications from the data package of the current project',
-          'open-filter-panel': 'Click to show the search filters'
+          'open-filter-panel': 'Click to show the search filters',
+          'approved-usage-use-and-logic': 'If switched on, only data packages, where all selected approved usages are assigned to, are displayed.'
         },
         'input-label': {
           'all': 'Search for Data Packages, Analysis Packages, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',
@@ -160,6 +161,8 @@ angular.module('metadatamanagementApp').config([
           'concept-tooltip': 'Click to show concept "{{id}}"'
         },
         'filter': {
+          'approved-usage': 'Special restrictions for the data use',
+          'approved-usage-list': 'Allowed use cases',
           'no-record': 'No data recorded.',
           'data-package': 'Data Package',
           'analysis-package': 'Analysis Package',
@@ -182,6 +185,8 @@ angular.module('metadatamanagementApp').config([
           'sponsor-en': 'Sponsor',
           'survey-method-de': 'Survey Method',
           'survey-method-en': 'Survey Method',
+          'transmissionViaVerbundFdb': 'Data transmission via the VerbundFDB',
+          'externalDataPackage': 'DZHW external data package',
           'floating-label': {
             'survey': 'By which survey do you want to filter?',
             'concept': 'By which concept do you want to filter?',
@@ -197,7 +202,9 @@ angular.module('metadatamanagementApp').config([
             'study-series': 'By which study series do you want to filter?',
             'institution': 'By which institute do you want to filter?',
             'sponsor': 'By which sponsor do you want to filter?',
-            'survey-method': 'By which survey method do you want to filter?'
+            'survey-method': 'By which survey method do you want to filter?',
+            'approved-usage': 'By which special restrictions for the data use do you want to filter?',
+            'approved-usage-list': 'By which approved usage do you want to filter?',
           },
           'input-label': {
             'data_packages': 'Select filters for Study Search...',
@@ -263,6 +270,14 @@ angular.module('metadatamanagementApp').config([
           'study-series-filter': {
             'not-found': 'No existing study series found!',
             'no-valid-selected': 'No valid study series selected!'
+          },
+          'approved-usage-filter': {
+            'not-found': 'No entries for approved usage available yet!',
+            'no-valid-selected': 'No valid approved usage selected!'
+          },
+          'approved-usage-list-filter': {
+            'logic-switch': 'All options combined',
+            'no-valid-provided': 'Invalid approved usage specified via URL parameter: '
           },
           'sponsor-filter': {
             'not-found': 'No existing sponsor found!',

@@ -1,0 +1,20 @@
+<div ng-form="approvedUsageListFilterForm" layout="row">
+  <label class="checkbox-label">{{'search-management.filter.floating-label.approved-usage-list' | translate}}</label>
+</div>
+<div ng-repeat="usage in approvedUsageListItems" layout="row">
+  <md-checkbox  ng-model="currentApprovedUsageList[usage]" ng-change="onApprovedUsageListChanged()">
+    {{ getTranslationPathFromApprovedUsageId(usage) | translate }}
+  </md-checkbox>
+</div>
+<div layout="row">
+  <md-switch ng-model="useAndLogicApprovedUsage" aria-label="Use And-Logic" ng-change="onApprovedUsageListChanged()">
+    <md-tooltip md-autohide="true" md-direction="bottom"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+      {{'search-management.buttons.approved-usage-use-and-logic' | translate}}
+    </md-tooltip>
+    {{ 'search-management.filter.approved-usage-list-filter.logic-switch' | translate }}
+  </md-switch>
+  <div ng-if="errorMsg != ''">
+    {{'search-management.filter.approved-usage-list-filter.no-valid-provided' | translate}} {{errorMsg}}
+  </div>
+</div>
