@@ -19,6 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectVersionsServiceTest extends AbstractTest {
@@ -35,12 +37,20 @@ public class DataAcquisitionProjectVersionsServiceTest extends AbstractTest {
   private DataAcquisitionProjectRepository repository;
 
   @Autowired
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
+
+  @Autowired
   private JaversService javersService;
 
   @AfterEach
   public void tearDown() {
     shadowCopyQueueItemRepository.deleteAll();
     repository.deleteAll();
+    elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
 

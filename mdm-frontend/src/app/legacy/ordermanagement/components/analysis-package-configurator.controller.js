@@ -159,11 +159,6 @@
             version: item.selectedVersion,
             dataFormats: extractDataFormats(item,
               item.selectedAccessWay),
-            study: {
-              id: item.id,
-              surveyDataTypes: item.surveyDataTypes,
-              title: item.title
-            },
             dataPackage: {
               id: item.id,
               surveyDataTypes: item.surveyDataTypes,

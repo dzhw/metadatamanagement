@@ -44,7 +44,7 @@ public class SearchResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -97,7 +97,7 @@ public class SearchResourceTest extends AbstractTest {
 
     List<Integer> surveyNumbers = new ArrayList<Integer>();
     surveyNumbers.add(1);
-    
+
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variableRepository.save(variable);
@@ -106,6 +106,6 @@ public class SearchResourceTest extends AbstractTest {
     mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
 
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
   }
 }

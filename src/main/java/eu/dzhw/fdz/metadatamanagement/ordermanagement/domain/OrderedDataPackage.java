@@ -68,4 +68,9 @@ public class OrderedDataPackage implements Serializable {
    * Remarks for User Service.
    */
   private String remarksUserService;
+
+  /**
+   * The approved usage of a dataPackage. May be null.
+   */
+  private String approvedUsage;
 }

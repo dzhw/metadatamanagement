@@ -7,6 +7,14 @@ angular.module('metadatamanagementApp').config([
     var translations = {
       //jscs:disable
       'data-package-management': {
+        'common': {
+          'approvedUsage': {
+            'scientificUse': 'scientific use',
+            'teachingPurposes':'teaching purposes',
+            'nonCommercialUse':'non-commercial use',
+            'commercialUse':'commercial use'
+          }
+        },
         'detail': {
           'label': {
             'studySeries': 'Study Series',
@@ -22,13 +30,17 @@ angular.module('metadatamanagementApp').config([
             'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
+            'transmission-via-VerbundFdb': 'Data transmission via the VerbundFDB',
             'remarksUserService': 'Remarks for the User Service',
+            'externalDataPackage': 'DZHW external data package',
             'wave': 'Waves',
             'survey-data-type': 'Survey Data Type',
             'survey-period': 'Survey Period',
             'title': 'Title',
             'dataLanguages': 'Data available in',
             'tags': 'Tags',
+            'approvedUsageList': 'Allowed use cases',
+            'approvedUsage': 'Special restrictions for the data use',
             'additional-links': 'Additional Links',
             'attachments': {
               'type': 'Type',
@@ -297,6 +309,8 @@ angular.module('metadatamanagementApp').config([
               'de': 'Enter additional annotations for this data package in German.',
               'en': 'Enter additional annotations for this data package in English.'
             },
+            'approved-usage-list': 'If available enter the allowed use cases.',
+            'approved-usage': 'If available enter the special restrictions for the data use.',
             'description': {
               'de': 'Enter a description of this data package in German.',
               'en': 'Enter a description of this data package in English.'

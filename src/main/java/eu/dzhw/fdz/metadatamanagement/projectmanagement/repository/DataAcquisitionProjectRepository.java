@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 import java.util.List;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,4 +53,7 @@ public interface DataAcquisitionProjectRepository
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> findByMasterIdAndShadowIsTrue(String masterId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
 }

@@ -152,11 +152,8 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * List of {@link Sponsor}s which have sponsored this data package.
-   *
-   * Must not be empty.
    */
   @Valid
-  @NotEmpty(message = "data-package-management.error.data-package.data-curators.not-empty")
   private List<Sponsor> sponsors;
 
   /**
@@ -216,6 +213,30 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    */
   @Indexed
   private String remarksUserService;
+
+  /**
+   * Arbitrary text with approved purposes of use for this dataPackage.
+   */
+  @Indexed
+  private String approvedUsage;
+
+  /**
+   * A list of allowed use cases for the data-package.
+   * The items of that list are elements of the ApprovedUsageEnum (--> controlled vocabulary).
+   */
+  private List<ApprovedUsageEnum> approvedUsageList;
+
+  /**
+   * Shows if a dataPackage was transmitted via VerbundFDB.
+   */
+  @Indexed
+  private Boolean transmissionViaVerbundFdb = false;
+
+  /**
+   * Shows if a data package is external.
+   */
+  @Indexed
+  private Boolean externalDataPackage = false;
 
   public DataPackage(DataPackage dataPackage) {
     super();

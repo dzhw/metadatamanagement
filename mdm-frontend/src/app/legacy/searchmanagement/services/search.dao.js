@@ -472,6 +472,17 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
                        filter, elasticsearchType, pageSize, idsToExclude,
                        aggregations, newFilters, sortCriteria,
                        enforceReleased, additionalSearchIndex) {
+
+        // At this point it is necessary to clone the filter variable.
+        // Reason: If the filter contains the "approved-usage-list" field (multiple choice),
+        // it is removed from the filter during this search() function
+        // so that a should-filter ("or" connection) instead of a must-filter
+        // can be used for multiple selections.
+        // However, the field must still be included in the higher-level
+        // search.controller, as otherwise the filters will not be
+        // displayed correctly in the frontend.
+        var filterCopy = filter ? JSON.parse(JSON.stringify(filter)) : filter;
+
         var query = {};
         query.preference = clientId;
         var dataPackageId;
@@ -582,9 +593,9 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
         // strip version number from filter values for publications & concepts
         if (_.includes(['related_publications', 'concepts'],
           elasticsearchType)) {
-          filterToUse = stripVersionSuffixFromFilters(filter);
+          filterToUse = stripVersionSuffixFromFilters(filterCopy);
         } else {
-          filterToUse = filter;
+          filterToUse = filterCopy;
         }
 
         if (dataAcquisitionProjectId &&
@@ -624,6 +635,51 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
           };
 
           query.body.query.bool.filter.push(boolFilter);
+        }
+
+        // Special handling of querys with approved-usage-list filter
+        // Those must be in a separate "should"-filter,
+        // because they usually should not be connected with "must", but with "should"
+        if (filterToUse && "approved-usage-list" in filterToUse) {
+          var usages = filterToUse["approved-usage-list"].split("||")
+          
+          var approvedUsageListFilter = {
+            'bool': {
+              'must': []
+            }
+          };
+
+          // check for logical combination AND or OR
+          var useOrLogic = filterToUse["useAndLogicApprovedUsage"] ? false : true;
+          if (useOrLogic) {
+            approvedUsageListFilter = {
+              'bool': {
+                'should': []
+              }
+            };
+          }
+
+          for (const usage of usages) {
+            var term = {
+              'term': {
+                  'approvedUsageList': usage
+              }
+            }
+            if (useOrLogic) {
+              approvedUsageListFilter.bool.should.push(term);
+            } else {
+              approvedUsageListFilter.bool.must.push(term);
+            }
+          }
+          // delete from default filter
+          delete filterToUse["approved-usage-list"];
+
+          // add as new should-filter
+          if (!query.body.query.bool.filter) {
+            query.body.query.bool.filter = [approvedUsageListFilter];
+          } else {
+            query.body.query.bool.filter.push(approvedUsageListFilter);
+          } 
         }
 
         if (!CleanJSObjectService.isNullOrEmpty(filterToUse)) {

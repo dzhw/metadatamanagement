@@ -38,7 +38,8 @@ angular.module('metadatamanagementApp').config([
           'access-ways': 'Access Ways',
           'unavailable': 'Not available',
           'language': 'Language',
-          'year': 'Publication Year'
+          'year': 'Publication Year',
+          'approved-usage': 'Special restrictions for the data use'
         },
         'toolbar': {
           'buttons': {
@@ -155,6 +156,7 @@ angular.module('metadatamanagementApp').config([
             'rdcProject': 'Data Acquisition Projects',
             'current-project': 'Current Data Acquisition Project',
             'select-project': 'Select Project',
+            'search-project': 'Search by project ID',
             'unknown-project': 'No project found!'
           },
           'search': {
@@ -385,6 +387,7 @@ angular.module('metadatamanagementApp').config([
         'common-dialogs': {
           'yes': 'Yes',
           'no': 'No',
+          'close': 'Close',
           'confirm-dirty': {
             'title': 'Discard Changes?',
             'content': 'There are unsaved changes. Do you want to discard these changes?'
@@ -457,7 +460,10 @@ angular.module('metadatamanagementApp').config([
            'content': 'Please confirm that you want to activate the user.',
            'yes': 'Activate',
            'no': 'Keep current status'
-         }
+         },
+         'info': {
+          'license': 'License'
+        }
         },
         'people': {
           'edit': {
