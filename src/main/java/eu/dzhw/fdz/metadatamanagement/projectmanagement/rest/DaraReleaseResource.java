@@ -65,10 +65,10 @@ public class DaraReleaseResource {
 
   /**
    * Update all (non-shadow and non beta-release) projects in dara.
-   * @return List of errors that occurred during executing registerOrUpdateProjectToDara. Empty List if no errors occurred.
+   * @return List of errors that occurred during update. Empty List if no errors occurred.
    */
   @RequestMapping(value = "/data-acquisition-projects/update-dara",
-    method = RequestMethod.PUT)
+      method = RequestMethod.PUT)
   @Secured(value = {AuthoritiesConstants.ADMIN})
   public List<String> flagQualityData() {
     List<String> templateExceptionMessages = new ArrayList<>();
