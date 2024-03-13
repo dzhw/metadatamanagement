@@ -38,6 +38,9 @@ public interface DataAcquisitionProjectRepository
       @Param("login") String publishers);
 
   @RestResource(exported = true)
+  List<DataAcquisitionProject> findAllByShadowIsFalse();
+
+  @RestResource(exported = true)
   List<DataAcquisitionProject> findAllByConfigurationDataProvidersContainsAndShadowIsFalse(
       @Param("login") String dataProviders);
 
