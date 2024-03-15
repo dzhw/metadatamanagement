@@ -347,8 +347,9 @@ public class DaraService {
     // Add flag for qualitative data in surveys
     boolean hasQualitativeSurvey = false;
     for (Survey survey : this.surveyRepository.findByDataAcquisitionProjectId(project.getId())) {
-      if (survey.getDataType().equals(DataTypes.QUALITATIVE_DATA) || survey.getDataType().equals(DataTypes.ALL)) {
+      if (survey.getDataType().equals(DataTypes.QUALITATIVE_DATA)) {
         hasQualitativeSurvey = true;
+        break;
       }
     }
     dataForTemplate.put("hasQualitativeSurvey", hasQualitativeSurvey);
