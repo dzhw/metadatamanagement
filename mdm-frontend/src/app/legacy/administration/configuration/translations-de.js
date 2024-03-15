@@ -40,6 +40,11 @@ angular.module('metadatamanagementApp').config([
           'elasticsearch': {
             'reindex': 'Reindizieren',
             'reindex-success': 'Elasticsearch Indices werden jetzt neu erstellt...'
+          },
+          'dara': {
+            'update': 'Aktualisieren',
+            'update-success': 'DARA erfolgreich aktualisiert',
+            'update-failure': 'Es sind Fehler beim Aktualisieren von DARA aufgetreten! (Siehe Details)'
           }
         },
         'logs': {
