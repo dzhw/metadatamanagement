@@ -209,6 +209,11 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
   @NotNull(message = "analysis-package-management.error.analysis-package.tags.not-null")
   private Tags tags;
 
+  /**
+   * The DOI of the analysis package.
+   */
+  private String doi;
+
   public AnalysisPackage(AnalysisPackage analysisPackage) {
     super();
     BeanUtils.copyProperties(analysisPackage, this);

@@ -73,4 +73,9 @@ public class OrderedDataPackage implements Serializable {
    * The approved usage of a dataPackage. May be null.
    */
   private String approvedUsage;
+
+  /**
+   * The DOI of a dataPackage.
+   */
+  private String doi;
 }

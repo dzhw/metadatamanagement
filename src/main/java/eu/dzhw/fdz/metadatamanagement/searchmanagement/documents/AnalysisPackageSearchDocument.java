@@ -48,11 +48,9 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
 
   private I18nString completeTitle;
 
-  private String doi;
-
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    */
   @SuppressWarnings("CPD-START")
   public AnalysisPackageSearchDocument(AnalysisPackage analysisPackage, Release release,
@@ -62,7 +60,7 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
     this.release = release;
     this.configuration = configuration;
     this.completeTitle = analysisPackage.getTitle();
-    this.doi = doi;
+    this.setDoi(doi);
     if (relatedPublications != null && !relatedPublications.isEmpty()) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());

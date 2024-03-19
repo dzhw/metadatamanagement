@@ -88,8 +88,6 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
 
   private Integer numberOfWaves;
 
-  private String doi;
-
   private I18nString guiLabels = DataPackageDetailsGuiLabels.GUI_LABELS;
 
   private I18nString completeTitle;
@@ -178,7 +176,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
     this.nestedSponsors = dataPackage.getSponsors();
     this.release = release;
     this.configuration = configuration;
-    this.doi = doi;
+    this.setDoi(doi);
     this.completeTitle = I18nString.builder()
         .de((dataPackage.getTitle().getDe() != null ? dataPackage.getTitle().getDe()
             : dataPackage.getTitle().getEn()) + " (" + dataPackage.getId() + ")")
