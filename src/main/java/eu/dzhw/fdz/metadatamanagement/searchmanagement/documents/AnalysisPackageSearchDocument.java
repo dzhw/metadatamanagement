@@ -48,6 +48,8 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
 
   private I18nString completeTitle;
 
+  private String doi;
+
   /**
    * Construct the search document with all related subdocuments.
    *
@@ -60,7 +62,7 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
     this.release = release;
     this.configuration = configuration;
     this.completeTitle = analysisPackage.getTitle();
-    this.setDoi(doi);
+    this.doi = doi;
     if (relatedPublications != null && !relatedPublications.isEmpty()) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());

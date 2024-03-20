@@ -238,12 +238,6 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Indexed
   private Boolean externalDataPackage = false;
 
-  /**
-   * DOI of this dataPackage.
-   */
-  @Indexed
-  private String doi;
-
   public DataPackage(DataPackage dataPackage) {
     super();
     BeanUtils.copyProperties(dataPackage, this);
