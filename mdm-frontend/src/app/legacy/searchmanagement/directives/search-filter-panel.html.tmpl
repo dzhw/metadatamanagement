@@ -27,7 +27,7 @@
       <md-icon ng-if="filtersCollapsed" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
       <md-icon ng-if="!filtersCollapsed" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
     </md-button>
-    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="selectedFilters = []" style="margin-right: 16px; margin-top: 16px;">
+    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="removeFilters()" style="margin-right: 16px; margin-top: 16px;">
         <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'search-management.filter.clear-filters-tooltip' | translate}}
         </md-tooltip>
@@ -51,6 +51,14 @@
         <concept-search-filter ng-if="selectedFilters.indexOf('concept') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" concept-changed-callback="onOneFilterChanged" bowser="bowser"></concept-search-filter>
         <sponsor-search-filter ng-if="selectedFilters.indexOf('sponsor-de') >= 0 || selectedFilters.indexOf('sponsor-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" sponsor-changed-callback="onOneFilterChanged()" bowser="bowser"></sponsor-search-filter>
         <survey-method-search-filter ng-if="selectedFilters.indexOf('survey-method-de') >= 0 || selectedFilters.indexOf('survey-method-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" survey-method-changed-callback="onOneFilterChanged()" bowser="bowser"></survey-method-search-filter>
+        <approved-usage-search-filter ng-if="selectedFilters.indexOf('approved-usage') >= 0 && isPublisher()" current-language="currentLanguage" current-search-params="currentSearchParams" approved-usage-changed-callback="onOneFilterChanged" bowser="bowser"></approved-usage-search-filter>
+        <approved-usage-list-search-filter ng-if="selectedFilters.indexOf('approved-usage-list') >= 0 && isPublisher()" current-language="currentLanguage" current-search-params="currentSearchParams" approved-usage-list-changed-callback="onOneFilterChanged" bowser="bowser"></approved-usage-list-search-filter>
+        <md-checkbox layout="column" layout-gt-sm="row" ng-if="selectedFilters.indexOf('transmissionViaVerbundFdb') >= 0 && isPublisher()" ng-model="transmissionViaVerbundFdb" ng-change="onTransmissionViaVerbundFdbClick()" name="dataPackage" class="mb0">
+            {{'search-management.filter.transmissionViaVerbundFdb' | translate}}
+        </md-checkbox>
+        <md-checkbox layout="column" layout-gt-sm="row" ng-if="selectedFilters.indexOf('externalDataPackage') >= 0 && isPublisher()" ng-model="externalDataPackage" ng-change="onExternalDataPackageClick()" name="dataPackage" class="mb0">
+            {{'search-management.filter.externalDataPackage' | translate}}
+        </md-checkbox>
         <input type="submit" ng-hide="true">
     </form>
 </div>

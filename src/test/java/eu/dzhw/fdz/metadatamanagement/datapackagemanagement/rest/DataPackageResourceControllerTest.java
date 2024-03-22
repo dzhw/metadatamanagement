@@ -299,7 +299,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     dataPackage = dataPackageRepository.save(dataPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
 
     // since there is no shadow yet the public user will get the mongo version
     mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
@@ -308,7 +308,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     // now fake a shadow
     project.setId(project.getId() + "-1.0.0");
     project.setVersion(null);
-    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     dataPackage.setId(dataPackage.getId() + "-1.0.0");
     dataPackage.setDataAcquisitionProjectId(project.getId());
@@ -316,7 +316,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     dataPackage = dataPackageRepository.save(dataPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(4L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getMasterId()))
@@ -342,7 +342,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     project.setId(project.getMasterId() + "-2.0.0");
     project.setSuccessorId(null);
     project.setVersion(null);
-    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     dataPackage.setId(dataPackage.getMasterId() + "-2.0.0");
     dataPackage.setSuccessorId(null);
@@ -351,7 +351,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     dataPackage = dataPackageRepository.save(dataPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(3L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(6L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getMasterId()))

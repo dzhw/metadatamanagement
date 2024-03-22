@@ -395,6 +395,7 @@ try {
                 config.url.indexOf('/shadows') === -1 &&
                 config.url.indexOf('/releases') === -1) ||
               config.url.indexOf('/api/users/findUserWithRole') !== -1 ||
+              config.url.indexOf('/api/users/findUserWithFilter') !== -1 ||
               (config.url.indexOf('/api/concepts/') !== -1 &&
                     config.method === 'GET')) {
             return false; // ... don't block it.

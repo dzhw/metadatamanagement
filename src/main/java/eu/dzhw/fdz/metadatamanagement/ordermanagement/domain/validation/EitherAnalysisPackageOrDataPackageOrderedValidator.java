@@ -13,7 +13,7 @@ class EitherAnalysisPackageOrDataPackageOrderedValidator
 
   @Override
   public boolean isValid(Product product, ConstraintValidatorContext constraintValidatorContext) {
-    return (product.getDataPackage() != null && product.getStudy() != null)
+    return (product.getDataPackage() != null)
         ^ product.getAnalysisPackage() != null;
   }
 }

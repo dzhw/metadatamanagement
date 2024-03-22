@@ -16,7 +16,10 @@
     </style>
 </head>
 <body>
-<p th:text="#{email.project-configuration-removed.greeting(${user.login})}">Dear</p>
+<p th:if="${user.firstName != null and user.firstName != ''} and ${user.lastName != null and user.lastName != ''}"
+   th:text="#{email.project-configuration-removed.greeting(${user.firstName}, ${user.lastName})}">Dear</p>
+<p th:if="${user.firstName == null or user.firstName == ''} or ${user.lastName == null or user.lastName == ''}"
+   th:text="#{email.project-configuration-removed.greetingLogin(${user.login})}">Dear</p>
 <p>
     <span th:text="#{email.project-configuration-removed.text1}">You have been removed from</span>
     <span th:text="${projectId}">project</span>

@@ -36,6 +36,11 @@ angular.module('metadatamanagementApp').factory('UserResource', ['$resource',
         params: {search: '@login', role: '@role'},
         method: 'GET',
         isArray: true
+      },
+      'searchFilter': {
+        url: '/api/users/findUserWithFilter/',
+        method: 'GET',
+        isArray: true
       }
     });
   }]);

@@ -41,16 +41,17 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 
 /**
  * Component which implements CRUD functions for all {@link AbstractRdcDomainObject}s.
  *
  * @param <S> The {@link BaseRepository} managing the data access.
  * @param <T> The {@link AbstractRdcDomainObject}.
- * 
+ *
  * @author René Reitmann
  */
-public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject, 
+public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
     S extends BaseRepository<T, String>> {
 
   protected final S repository;
@@ -81,7 +82,7 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       DomainObjectChangesProvider<T> domainObjectChangesProvider,
-      RestHighLevelClient elasticsearchClient, Class<? extends T> searchDocumentClass, 
+      RestHighLevelClient elasticsearchClient, Class<? extends T> searchDocumentClass,
       Gson gson) {
     this.repository = repository;
     this.applicationEventPublisher = applicationEventPublisher;
@@ -121,12 +122,15 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
     if (AnalysisPackageRepository.class.isAssignableFrom(repository.getClass())) {
       return ElasticsearchType.analysis_packages;
     }
+    if (DataAcquisitionProjectRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.data_acquisition_projects;
+    }
     return null;
   }
 
   /**
    * Create the given {@link AbstractRdcDomainObject}. Updates elasticsearch as well.
-   * 
+   *
    * @param domainObject The {@link AbstractRdcDomainObject} to be created.
    * @return The created {@link AbstractRdcDomainObject}.
    */
@@ -154,9 +158,9 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
   /**
    * Save (update or create) the given {@link AbstractRdcDomainObject}. Updates elasticsearch as
    * well.
-   * 
+   *
    * @param domainObject The {@link AbstractRdcDomainObject} to be saved.
-   * 
+   *
    * @return The saved {@link AbstractRdcDomainObject}.
    */
   public T save(T domainObject) {
@@ -184,7 +188,7 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
 
   /**
    * Delete the given {@link AbstractRdcDomainObject}. Updates elasticsearch as well.
-   * 
+   *
    * @param domainObject The {@link AbstractRdcDomainObject} to be deleted.
    */
   public void delete(T domainObject) {
@@ -204,7 +208,7 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
 
   /**
    * Find the {@link AbstractRdcDomainObject} by the given id.
-   * 
+   *
    * @param id The id of the domain object.
    * @return An optional domain object.
    */
@@ -215,7 +219,7 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
   /**
    * Find the {@link SearchDocumentInterface} which corresponds to the
    * {@link AbstractRdcDomainObject}.
-   * 
+   *
    * @param id The id of the domain object.
    * @return An optional domain object.
    */

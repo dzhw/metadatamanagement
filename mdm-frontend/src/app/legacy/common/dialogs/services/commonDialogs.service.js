@@ -90,12 +90,32 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService', ['$mdDia
       return $mdDialog.show(confirmOnFilenameChangedDialog);
     };
 
+    /**
+     * Shows an info dialog with title and content and only one action
+     * button to close the dialog.
+     * @param {*} titleKey Translation key for title
+     * @param {*} titleParams Parameter map to insert into title
+     * @param {*} content content of info dialog
+     * @param {*} targetEvent the target event
+     * @returns the dialog
+     */
+    var showInfoDialog = function(titleKey, titleParams, content,
+      targetEvent) {
+      var confirmDialog = $mdDialog.confirm()
+      .title($translate.instant(titleKey, titleParams)).textContent(
+        content)
+        .ok($translate.instant('global.common-dialogs.close'))
+        .targetEvent(targetEvent);
+      return $mdDialog.show(confirmDialog);
+    };
+
     return {
       showConfirmDialog: showConfirmDialog,
       showConfirmOnDirtyDialog: showConfirmOnDirtyDialog,
       showConfirmFileDeletionDialog: showConfirmFileDeletionDialog,
       showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog,
-      showConfirmDeletionDialog: showConfirmDeletionDialog
+      showConfirmDeletionDialog: showConfirmDeletionDialog,
+      showInfoDialog: showInfoDialog
     };
   }]);
 

@@ -90,7 +90,8 @@ angular.module('metadatamanagementApp').config([
           'edit-concepts-tooltip': 'Klicken, um die vorhandenen Konzepte zu bearbeiten',
           'edit-publications-tooltip': 'Klicken, um Publikationen zum Datenpaket hinzuzufügen bzw. zu entfernen',
           'delete-publications-tooltip': 'Klicken, um alle Publikationen von dem Datenpaket des aktuellen Projektes zu entfernen',
-          'open-filter-panel': 'Klicken, um die Suchfilter anzuzeigen'
+          'open-filter-panel': 'Klicken, um die Suchfilter anzuzeigen',
+          'approved-usage-use-and-logic': 'Wenn eingeschaltet, werden ausschließlich Datenpakete angezeigt, denen alle ausgewählten erlaubten Nutzungszwecke zugewiesen sind.'
         },
         'input-label': {
           'all': 'Suchen Sie Datenpakete, Analysepakete, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',
@@ -159,6 +160,8 @@ angular.module('metadatamanagementApp').config([
           'publication-tooltip': 'Klicken, um die Publikation "{{id}}" anzuzeigen'
         },
         'filter': {
+          'approved-usage': 'Spezielle Beschränkungen für die Datennutzung',
+          'approved-usage-list': 'Erlaubte Nutzungszwecke',
           'no-record': 'Keine Daten erfasst.',
           'data-package': 'Datenpaket',
           'analysis-package': 'Analysepaket',
@@ -181,6 +184,8 @@ angular.module('metadatamanagementApp').config([
           'sponsor-en': 'Sponsor',
           'survey-method-de': 'Erhebungsmethode',
           'survey-method-en': 'Erhebungsmethode',
+          'transmissionViaVerbundFdb': 'Datenmeldung über den VerbundFDB',
+          'externalDataPackage': 'DZHW-externes Datenpaket',
           'floating-label': {
             'survey': 'Nach welcher Erhebung wollen Sie filtern?',
             'instrument': 'Nach welchem Instrument wollen Sie filtern?',
@@ -196,7 +201,9 @@ angular.module('metadatamanagementApp').config([
             'study-series': 'Nach welcher Studienreihe wollen Sie filtern?',
             'institution': 'Nach welchem Institut wollen Sie filtern?',
             'sponsor': 'Nach welchem Sponsor wollen Sie filtern?',
-            'survey-method': 'Nach welcher Erhebungsmethode wollen Sie filtern?'
+            'survey-method': 'Nach welcher Erhebungsmethode wollen Sie filtern?',
+            'approved-usage': 'Nach welchen speziellen Beschränkungen wollen Sie filtern?',
+            'approved-usage-list': 'Nach welchen erlaubten Nutzungszwecken wollen Sie filtern?',
           },
           'input-label': {
             'data_packages': 'Filter für die Datenpaketsuche...',
@@ -262,6 +269,14 @@ angular.module('metadatamanagementApp').config([
           'study-series-filter': {
             'not-found': 'Keine vorhandene Studienreihe gefunden!',
             'no-valid-selected': 'Keine gültige Studienreihe ausgewählt!'
+          },
+          'approved-usage-filter': {
+            'not-found': 'Noch keine Einträge für erlaubte Nutzungszwecke vorhanden!',
+            'no-valid-selected': 'Keinen gültigen erlaubten Nuzungszweck ausgewählt!'
+          },
+          'approved-usage-list-filter': {
+            'logic-switch': 'Alle Optionen kombiniert',
+            'no-valid-provided': 'Ungültiger Nutzungszweck per URL-Parameter übergeben: '
           },
           'sponsor-filter': {
             'not-found': 'Kein vorhandener Sponsor gefunden!',

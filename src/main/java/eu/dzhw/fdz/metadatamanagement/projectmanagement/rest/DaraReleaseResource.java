@@ -1,9 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -20,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyReleaseToDaraNotAllowed;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
@@ -39,6 +43,8 @@ import lombok.RequiredArgsConstructor;
 public class DaraReleaseResource {
 
   private final DaraService daraService;
+  @Autowired
+  private DataAcquisitionProjectRepository projectRepository;
 
   /**
    * Release a project to dara (or update it).
@@ -55,6 +61,28 @@ public class DaraReleaseResource {
     }
     HttpStatus status = this.daraService.registerOrUpdateProjectToDara(project);
     return ResponseEntity.status(status).build();
+  }
+
+  /**
+   * Update all (non-shadow and non beta-release) projects in dara.
+   * @return List of errors that occurred during update. Empty List if no errors occurred.
+   */
+  @RequestMapping(value = "/data-acquisition-projects/update-dara",
+      method = RequestMethod.PUT)
+  @Secured(value = {AuthoritiesConstants.ADMIN})
+  public List<String> flagQualityData() {
+    List<String> templateExceptionMessages = new ArrayList<>();
+    for (DataAcquisitionProject project : this.projectRepository.findAllByShadowIsFalse()) {
+      if (project.getRelease() != null
+          && !project.getRelease().getVersion().startsWith("0")) { // ignore beta releases (0.X.X)
+        try {
+          this.daraService.registerOrUpdateProjectToDara(project);
+        } catch (Exception e) {
+          templateExceptionMessages.add("Error in project: " + project.getId() + "\n" + e.getMessage());
+        }
+      }
+    }
+    return templateExceptionMessages;
   }
 
   @ExceptionHandler(ShadowCopyReleaseToDaraNotAllowed.class)

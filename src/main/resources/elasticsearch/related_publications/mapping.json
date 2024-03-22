@@ -106,6 +106,21 @@
 		"year": {
 			"type": "integer"
 		},
+    "journal": {
+      "type": "text",
+      "index": false,
+      "copy_to": "all",
+      "fields": {
+        "ngrams": {
+          "type": "text",
+          "analyzer": "ngrams",
+          "norms": false
+        }
+      }
+    },
+    "issue": {
+      "type": "integer"
+    },
 		"dataPackageIds": {
 			"type": "keyword",
 			"copy_to": "all"

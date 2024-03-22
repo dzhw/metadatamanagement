@@ -191,4 +191,24 @@ public class UserResourceTest extends AbstractTest {
     restUserMockMvc.perform(get("/api/users/admin/public").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.login").value("admin"));
   }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void findUserWithFilter() throws Exception {
+    restUserMockMvc.perform(get("/api/users/findUserWithFilter")
+      .param("searchFilter", "user")
+      .param("page", "0")
+      .param("size", "10")
+      .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$[0].login", is("anonymousUser")))
+      .andExpect(jsonPath("$[0].firstName", is("Anonymous")))
+      .andExpect(jsonPath("$[0].lastName", is("User")))
+      .andExpect(jsonPath("$[0].email", is("anonymous@localhost")))
+      .andExpect(jsonPath("$[1].login", is("user")))
+      .andExpect(jsonPath("$[1].firstName", is("")))
+      .andExpect(jsonPath("$[1].lastName", is("User")))
+      .andExpect(jsonPath("$[1].email", is("userMod@localhost")));
+  }
+
 }

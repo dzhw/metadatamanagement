@@ -17,8 +17,11 @@ body {
 </style>
 </head>
 <body>
-	<p th:text="#{email.activation.greeting(${user.login})}">Dear</p>
-	<p>
+	<p th:if="${user.firstName != null and user.firstName != ''} and ${user.lastName != null and user.lastName != ''}"
+     th:text="#{email.activation.greeting(${user.firstName}, ${user.lastName})}">Dear</p>
+  <p th:if="${user.firstName == null or user.firstName == ''} or ${user.lastName == null or user.lastName == ''}"
+     th:text="#{email.activation.greetingLogin(${user.login})}">Dear</p>
+  <p>
 		<span th:text="#{email.activation.text1}">Your Account of our
 			Metadatasystem has been created. Please click on the link below to
 			activate it:</span> <br /> <a

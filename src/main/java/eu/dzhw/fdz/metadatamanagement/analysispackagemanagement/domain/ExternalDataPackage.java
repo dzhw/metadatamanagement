@@ -24,10 +24,10 @@ import lombok.NoArgsConstructor;
 /**
  * External data describes data sets of an {@link AnalysisPackage} which cannot be ordered in our
  * RDC.
- * 
+ *
  * Scenario: The actual files (that are part of the analysis package) are not hosted by FDZ-DZHW.
  * Therefore, this object refers to external data sources.
- * 
+ *
  * @author René Reitmann
  */
 @NoArgsConstructor
@@ -87,7 +87,7 @@ public class ExternalDataPackage extends AbstractAnalysisDataPackage {
   /**
    * The data source where the data is stored must be specified here (e.g. name of the
    * institution/repository, private data storage).
-   * 
+   *
    * Must not be empty and must not contain more than 512 characters.
    */
   @NotNull(message = "analysis-package-management.error.external-data-package.data-source.not-null")
@@ -101,7 +101,7 @@ public class ExternalDataPackage extends AbstractAnalysisDataPackage {
 
   /**
    * Optional url for the data source.
-   * 
+   *
    * If specified it must be a valid URL and not longer than 2000 characters.
    */
   @URL(
@@ -118,4 +118,13 @@ public class ExternalDataPackage extends AbstractAnalysisDataPackage {
       message = "analysis-package-management.error.external-data-package.availability-type"
           + ".not-valid")
   private I18nString availabilityType;
+
+  /**
+   * The license of this external data package. Markdown is supported.
+   *
+   * May be empty. Must not contain more than 1 MB characters.
+   */
+  @Size(max = StringLengths.X_LARGE,
+      message = "analysis-package-management.error.analysis-package.license.size")
+  private String license;
 }

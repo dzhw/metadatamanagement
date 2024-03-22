@@ -60,7 +60,7 @@ public class MetadataManagementProperties {
   }
 
   /**
-   * Configuration Properties for the Angular ElasticSearch Client.
+   * Configuration Properties for the Angular Elasticsearch Client.
    *
    * @author Amine Limouri
    */

@@ -438,6 +438,75 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       });
     };
 
+    var findApprovedUsage = function(searchText, filter,
+      ignoreAuthorization) {
+      ignoreAuthorization = ignoreAuthorization || false;
+      var query = createQueryObject();
+      var termFilters = createTermFilters(filter);
+      query.size = 0;
+      query.body = {
+        'aggs': {
+          'approvedUsage': {
+            "terms": {
+              "field": "approvedUsage"
+            },
+            'aggs': {
+              'filtered': {
+                'filter': {
+                  'bool': {
+                    'must': [{
+                      'match': {}
+                    }]
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      query.body.query = {
+        'bool': {
+          'filter': {
+            'term': {
+              'shadow': false
+            }
+          }
+        }
+      };
+
+      query.body.aggs.approvedUsage.aggs.filtered.filter.bool.must[0].match
+        ['approvedUsage'] = {
+        'query': searchText || '',
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      if (!ignoreAuthorization) {
+        SearchHelperService.addFilter(query);
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var approvedUsage = [];
+        var approvedUsageElement = {};
+        result.aggregations.approvedUsage.buckets.forEach(
+          function(bucket) {
+            approvedUsageElement = {
+              title: bucket.key,
+              count: bucket.doc_count
+            }
+            // approvedUsageElement = bucket.key;
+            approvedUsage.push(approvedUsageElement);
+          });
+        return approvedUsage;
+      });
+    };
+
     var findInstitutions = function(searchText, filter, language,
                                     ignoreAuthorization, excludedInstitutions) {
       ignoreAuthorization = ignoreAuthorization || false;
@@ -644,6 +713,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', ['$q
       findDataPackageById: findDataPackageById,
       findStudySeries: findStudySeries,
       findSponsors: findSponsors,
+      findApprovedUsage: findApprovedUsage,
       findInstitutions: findInstitutions,
       findDataPackageTitles: findDataPackageTitles,
       findInstitutionFilterOptions: findInstitutionFilterOptions,

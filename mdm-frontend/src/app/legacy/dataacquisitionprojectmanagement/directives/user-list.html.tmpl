@@ -18,7 +18,12 @@
 	>
 		<md-item-template>
 			<div layout="row">
-				<strong><span md-highlight-text="ctrl.searchText">{{user.login}}</span></strong>
+				<strong ng-if="!(!!user.firstName && !!user.lastName)">
+                    <span md-highlight-text="ctrl.searchText">{{user.login}}</span>
+                </strong>
+				<strong ng-if="!!user.firstName && !!user.lastName">
+                    <span md-highlight-text="ctrl.searchText">{{user.firstName}}</span>&nbsp;<span md-highlight-text="ctrl.searchText">{{user.lastName}}</span>
+                </strong>
 				&nbsp;
 				<span md-highlight-text="ctrl.searchText">({{user.email}})</span>
 			</div>
@@ -32,7 +37,13 @@
 		<div ng-repeat="user in ctrl.activeUsers">
 			<md-list-item layout="row" class="pr0">
 				<div class="md-list-item-text">
-					<strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
+                    <strong ng-if="!(!!user.firstName && !!user.lastName)">
+                        <strong>{{user.login}}</strong> 
+                    </strong>
+                    <strong ng-if="!!user.firstName && !!user.lastName">
+                        <strong>{{user.firstName}} {{user.lastName}}</strong>
+                    </strong>
+                    &nbsp;(<a href="mailto:{{user.email}}">{{user.email}}</a>)
 				</div>
 				<span flex></span>
 				<md-button ng-disabled="ctrl.disabled || !ctrl.canDeleteUser(user)" class="md-icon-button md-primary" ng-click="ctrl.removeUser(user, ctrl.group)">

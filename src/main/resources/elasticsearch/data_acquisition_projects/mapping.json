@@ -1,0 +1,133 @@
+{
+  "dynamic_templates": [
+    {
+      "default_mapping": {
+        "match": "*",
+        "mapping": {
+          "index": false,
+          "copy_to": "all"
+        }
+      }
+    }
+  ],
+  "properties": {
+    "all": {
+      "type": "text",
+      "index": true,
+      "analyzer": "ngrams",
+      "norms": false
+    },
+    "id": {
+      "type": "keyword",
+      "copy_to": "all",
+      "fields": {
+        "ngrams": {
+          "type": "text",
+          "analyzer": "ngrams",
+          "norms": false
+        }
+      }
+    },
+    "masterId": {
+      "type": "keyword",
+      "copy_to": "all",
+      "fields": {
+        "ngrams": {
+          "type": "text",
+          "analyzer": "ngrams",
+          "norms": false
+        }
+      }
+    },
+    "shadow": {
+      "type": "boolean",
+      "copy_to": "all"
+    },
+    "hidden": {
+      "type": "boolean",
+      "copy_to": "all"
+    },
+    "lastModifiedDate": {
+      "type": "date"
+    },
+    "lastModifiedBy": {
+      "type": "keyword",
+      "copy_to": "all"
+    },
+    "createdDate": {
+      "type": "date"
+    },
+    "createdBy": {
+      "type": "keyword",
+      "copy_to": "all"
+    },
+    "assigneeGroup": {
+      "type": "keyword",
+      "copy_to": "all"
+    },
+    "hasUserServiceRemarks": {
+      "type": "boolean",
+      "copy_to": "all"
+    },
+    "release": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "keyword"
+        },
+        "firstDate": {
+          "type": "date"
+        },
+        "lastDate": {
+          "type": "date"
+        },
+        "pinToStartPage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "publishers": {
+          "type": "keyword"
+        },
+        "dataProviders": {
+          "type": "keyword"
+        },
+        "requirements": {
+          "type": "object",
+          "properties": {
+            "isDataPackagesRequired": {
+              "type": "boolean"
+            },
+            "isAnalysisPackagesRequired": {
+              "type": "boolean"
+            },
+            "isSurveysRequired": {
+              "type": "boolean"
+            },
+            "isInstrumentsRequired": {
+              "type": "boolean"
+            },
+            "isQuestionsRequired": {
+              "type": "boolean"
+            },
+            "isDataSetsRequired": {
+              "type": "boolean"
+            },
+            "isVariablesRequired": {
+              "type": "boolean"
+            },
+            "isPublicationsRequired": {
+              "type": "boolean"
+            },
+            "isConceptsRequired": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}

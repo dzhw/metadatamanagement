@@ -77,6 +77,7 @@ angular.module('metadatamanagementApp')
                     i18nPrefix + 'dara-released-not-successfully', {
                       id: project.id
                     });
+                    $mdDialog.hide();
                 });
           } else {
             //REGULAR RELEASE
@@ -98,6 +99,7 @@ angular.module('metadatamanagementApp')
                     i18nPrefix + 'dara-released-not-successfully', {
                       id: project.id
                     });
+                  $mdDialog.hide();
                 });
           }
         }).catch(function() {

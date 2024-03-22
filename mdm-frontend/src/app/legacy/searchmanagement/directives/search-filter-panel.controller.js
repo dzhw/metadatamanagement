@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
     '$scope', 'SearchHelperService', '$timeout',
-    '$element', 'CleanJSObjectService', '$mdSelect',
+    '$element', 'CleanJSObjectService', '$mdSelect', 'Principal',
     function($scope, SearchHelperService, $timeout,
-      $element, CleanJSObjectService, $mdSelect) {
+      $element, CleanJSObjectService, $mdSelect, Principal) {
 
       /* filters that need to be removed because they sould only be visible
       in the sidenav for public users */
@@ -16,6 +16,8 @@ angular.module('metadatamanagementApp')
       var elasticSearchTypeChanged = false;
       var searchParamsFilterChanged = false;
       $scope.filtersCollapsed = false;
+      $scope.transmissionViaVerbundFdb = false;
+      $scope.externalDataPackage = false;
 
       var createDisplayAvailableFilterList = function(availableFilters) {
         var displayAvailableFilters = [];
@@ -37,13 +39,22 @@ angular.module('metadatamanagementApp')
             displayAvailableFilters.push(filter);
           }
         });
+        
+        // show filter only to users with role publisher
+        if (!Principal.isPublisher()) {
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "externalDataPackage");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "transmissionViaVerbundFdb");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "approved-usage");
+          displayAvailableFilters = displayAvailableFilters.filter(item => item !== "approved-usage-list");
+        }
+        
         return displayAvailableFilters;
       };
 
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchHelperService.getAvailableFilters(
-          $scope.currentElasticsearchType);
+          $scope.currentElasticsearchType); // currentElasticsearchType --> e.g. "data_packages"
         /* as this is the search panel for logged in users we need to remove some
         filters that sould only be shown in the sidenav for public users */
         removeIrrelevantFilter();
@@ -96,6 +107,8 @@ angular.module('metadatamanagementApp')
             $scope.availableHiddenFilters, unselectedFilters);
           $scope.filterChangedCallback();
         }
+        $scope.transmissionViaVerbundFDB = $scope.currentSearchParams.filter['transmissionViaVerbundFdb'];
+        $scope.externalDataPackage = $scope.currentSearchParams.filter['externalDataPackage'];
       });
 
       $scope.$watch('currentSearchParams.filter', function() {
@@ -141,6 +154,16 @@ angular.module('metadatamanagementApp')
       };
 
       /**
+       * Method to remove all selected Filters.
+       * It also removes the "useAndLogicApprovedUsage"-filter
+       * which is a special filter for the list of all approved usages.
+       */
+      $scope.removeFilters = function() {
+        $scope.selectedFilters = [];
+        delete $scope.currentSearchParams.filter.useAndLogicApprovedUsage;
+      }
+
+      /**
        * Function to remove the filters that are irrelevant for the search panel.
        */
       var removeIrrelevantFilter = function() {
@@ -156,5 +179,35 @@ angular.module('metadatamanagementApp')
           }
         }
       };
+
+      $scope.isPublisher = function() {
+        return Principal.isPublisher();
+      };
+
+      /**
+       * Function to set the value of transmissionViaVerbundFDB in the filter of currentSearchParams.
+       */
+       $scope.onTransmissionViaVerbundFdbClick = function() {
+        $scope.transmissionViaVerbundFdb = !$scope.transmissionViaVerbundFdb
+        if ($scope.transmissionViaVerbundFdb) {
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = true;
+        } else {
+          $scope.currentSearchParams.filter['transmissionViaVerbundFdb'] = false;
+        }
+        $scope.filterChangedCallback();
+      }
+
+      /**
+       * Function to set the value of externalDataPackage in the filter of currentSearchParams.
+       */
+      $scope.onExternalDataPackageClick = function() {
+        $scope.externalDataPackage = !$scope.externalDataPackage
+        if ($scope.externalDataPackage) {
+          $scope.currentSearchParams.filter['externalDataPackage'] = true;
+        } else {
+          $scope.currentSearchParams.filter['externalDataPackage'] = false;
+        }
+        $scope.filterChangedCallback();
+      }
     }
   ]);

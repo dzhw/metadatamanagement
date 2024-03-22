@@ -123,6 +123,7 @@ Desktop.ini
 *.pyc
 .attach*
 .python-version
+/.sdkmanrc
 
 ######################
 # Gradle Wrapper
