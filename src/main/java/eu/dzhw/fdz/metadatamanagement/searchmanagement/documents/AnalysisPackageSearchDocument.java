@@ -52,7 +52,7 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
 
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    */
   @SuppressWarnings("CPD-START")
   public AnalysisPackageSearchDocument(AnalysisPackage analysisPackage, Release release,
