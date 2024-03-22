@@ -147,7 +147,8 @@
         version: $ctrl.selectedVersion,
         analysisPackage: {
           id: $ctrl.analysisPackage.id,
-          title: $ctrl.analysisPackage.title
+          title: $ctrl.analysisPackage.title,
+          doi: $ctrl.analysisPackage.doi
         }
       });
       if ($ctrl.dataPackages.length) {
@@ -162,7 +163,8 @@
             dataPackage: {
               id: item.id,
               surveyDataTypes: item.surveyDataTypes,
-              title: item.title
+              title: item.title,
+              doi: item.doi
             }
           });
         });

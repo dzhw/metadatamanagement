@@ -338,7 +338,6 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController', [
       completeProduct.analysisPackage.id = ProjectReleaseService
         .stripVersionSuffix(completeProduct.analysisPackage.id);
       order.products.push(completeProduct);
-      console.log(order);
     };
     ctrl.order = function() {
       // check honeypot fields
