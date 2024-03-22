@@ -190,7 +190,8 @@
             surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
             title: $ctrl.dataPackage.title,
             remarksUserService: $ctrl.dataPackage.remarksUserService,
-            approvedUsage: $ctrl.dataPackage.approvedUsage
+            approvedUsage: $ctrl.dataPackage.approvedUsage,
+            doi: $ctrl.dataPackage.doi
           }
         });
       }

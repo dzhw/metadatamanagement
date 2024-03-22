@@ -46,4 +46,9 @@ public class OrderedAnalysisPackage implements Serializable {
    * The annotations of the {@link AnalysisPackage}.
    */
   private I18nString annotations;
+
+  /**
+   * The DOI of the {@link AnalysisPackage}.
+   */
+  private String doi;
 }
