@@ -219,20 +219,20 @@ angular.module('metadatamanagementApp').config([
           'move-sub-data-set-down-tooltip': 'Klicken, um den ausgewählten Subdatensatz nach oben zu verschieben',
           'sub-data-set-default-description': {
             'download-cuf': {
-              de: 'Kann nach einer Registrierung ohne Datennutzungsvertrag heruntergeladen werden',
-              en: 'can be downloaded after registration without a data use agreement'
+              'de': 'Kann nach einer Registrierung ohne Datennutzungsvertrag heruntergeladen werden',
+              'en': 'can be downloaded after registration without a data use agreement'
             },
             'download-suf': {
-              de: 'Kann nach Abschluss eines Datennutzungsvertrags heruntergeladen werden',
-              en: 'can be downloaded after the conclusion of a data use agreement'
+              'de': 'Kann nach Abschluss eines Datennutzungsvertrags heruntergeladen werden',
+              'en': 'can be downloaded after the conclusion of a data use agreement'
             },
             'remote-desktop-suf': {
-              de: 'Kann über Remote Desktop genutzt werden',
-              en: 'can be used via remote desktop'
+              'de': 'Kann über Remote Desktop genutzt werden',
+              'en': 'can be used via remote desktop'
             },
             'onsite-suf': {
-              de: 'Ist am Gastwissenschaftlerarbeitsplatz im DZHW in Hannover verfügbar',
-              en: 'available at the workspace for visiting scientists at the DZHW in Hannover'
+              'de': 'Ist am Gastwissenschaftlerarbeitsplatz im DZHW in Hannover verfügbar',
+              'en': 'available at the workspace for visiting scientists at the DZHW in Hannover'
             }
           },
           'label': {
