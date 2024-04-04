@@ -166,10 +166,8 @@
               id,
               null);
             ElasticSearchClient.search(projectQuery).then(function(results) {
-              //todo
-              console.log(results.hits.hits)
               if (results.hits.hits.length === 1) {
-                $ctrl.project = results.hits.hits.source;
+                $ctrl.project = results.hits.hits[0]._source;
               } else {
                 results.hits.hits.length < 1 ? console.error("No projects found") : console.error("Search resulted in more than one project being found.")
               } 

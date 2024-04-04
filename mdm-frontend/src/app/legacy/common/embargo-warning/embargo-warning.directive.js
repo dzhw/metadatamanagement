@@ -3,8 +3,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('embargoWarning', ['$state',
-    function ($state) {
+  .directive('embargoWarning', ['$state', 'Principal',
+    function ($state, Principal) {
       return {
         restrict: 'E',
         templateUrl: 'scripts/common/embargo-warning/' +
@@ -16,11 +16,14 @@ angular.module('metadatamanagementApp')
         controllerAs: 'ctrl',
 
         controller: [
-          '$scope', '$rootScope',
-          function ($scope, $rootScope) {
-            $scope.isOrderView = localStorage.getItem('currentView') === 'orderView';
+          '$scope', '$rootScope', 'Principal',
+          function ($scope, $rootScope, Principal) {
+            if (localStorage.getItem('currentView') === 'orderView' || !Principal.isAuthenticated()) {
+              $scope.isOrderView = true;
+            }
+            //$scope.isOrderView = localStorage.getItem('currentView') === 'orderView';
             this.project = $scope.project;
-            this.dateString = this.project.embargoDate ? new Date(this.project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
+            this.dateString = this.project && this.project.embargoDate ? new Date(this.project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
           }],
 
         /* jshint -W098 */
@@ -38,7 +41,6 @@ angular.module('metadatamanagementApp')
             }
             return true;
           }
-
         }
       };
     }]);
