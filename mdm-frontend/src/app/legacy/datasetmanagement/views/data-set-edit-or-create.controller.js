@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp')
   'ChoosePreviousVersionService',
   'DataSetVersionsResource',
   'DataFormatsResource',
+  '$translate', 
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
@@ -46,7 +47,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, DataSetAttachmentUploadService,
       DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataSetVersionsResource, DataFormatsResource) {
+      DataSetVersionsResource, DataFormatsResource, $translate) {
       var ctrl = this;
       ctrl.surveyChips = [];
       ctrl.availableDataFormats = DataFormatsResource.query();
@@ -257,6 +258,39 @@ angular.module('metadatamanagementApp')
           }
         };
       };
+
+      ctrl.accessWayChanged = function(accessWay, subDataSet) {
+        if (!subDataSet.description || !subDataSet.description.de || this.isDefaultDescriptionOrEmpty(subDataSet.description.de)) {
+          (subDataSet.description ??= {}).de = $translate.instant('data-set-management.edit.sub-data-set-default-description.' + accessWay + '.de');
+        }
+        if (!subDataSet.description || !subDataSet.description.en || this.isDefaultDescriptionOrEmpty(subDataSet.description.en)) {
+          (subDataSet.description ??= {}).en = $translate.instant('data-set-management.edit.sub-data-set-default-description.' + accessWay + '.en');
+        }
+      }
+
+      /**
+       * Checks whether a string corresponds to a predefined default description
+       * @param currentDescription any string value or undefined
+       * @returns true, if currentDescription is either undefined, empty or corresponds to default description
+       */
+      ctrl.isDefaultDescriptionOrEmpty = function(currentDescription) {
+        if (currentDescription && currentDescription.length > 0) {
+          const allDefaultDescriptions = [
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.download-cuf.de'),
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.download-cuf.en'),
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.download-suf.de'),
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.download-suf.en'),
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.remote-desktop-suf.de'),
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.remote-desktop-suf.en'),
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.onsite-suf.de'),
+            $translate.instant('data-set-management.edit.sub-data-set-default-description.onsite-suf.en')
+          ]
+          if (!allDefaultDescriptions.includes(currentDescription)) {
+            return false
+          }
+        }
+        return true
+      }
 
       ctrl.allAccessWays = ['download-cuf', 'download-suf',
         'remote-desktop-suf', 'onsite-suf'];
