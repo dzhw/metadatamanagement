@@ -253,6 +253,7 @@ angular.module('metadatamanagementApp').config([
           'table': {
             'project-name': 'Project',
             'release-version': 'Current Version',
+            'embargo-date': 'Embargo Date',
             'assigned-group': 'Assigned Group',
             'user-service-remarks': 'Remarks for User Service',
             'data-package-status': 'Data Package',
@@ -311,7 +312,8 @@ angular.module('metadatamanagementApp').config([
             }
           },
           'no-project-msg': 'There is no project assigned to your account.',
-          'no-search-results-msg': 'No results found for your search request.'
+          'no-search-results-msg': 'No results found for your search request.',
+          'pre-release-hint': '* Labeled projects are preliminarily released and are subject to an embargo date.'
         },
         'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). Choose the current version ({{newVersion}}) in the side menu.</a>',
         'version-not-found-alert': 'Your link refers to a version ({{oldVersion}}) of this page which does not exist. This is the current version ({{newVersion}}).',

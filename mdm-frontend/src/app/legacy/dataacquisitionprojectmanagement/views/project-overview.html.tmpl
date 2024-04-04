@@ -109,11 +109,12 @@
         <!-- user with projects -->
         <md-card-content ng-switch-when="true" card="pa0">
           <div ng-switch="ctrl.overview.data.length > 0" >
-            <table ng-switch-when="true" class="table-striped table-hover fdz-table-rotated">
+            <table ng-switch-when="true" class="table-striped table-hover fdz-table-rotated mb16">
               <thead class="w-20">
               <tr>
                 <th>{{'data-acquisition-project-management.project-overview.table.project-name' | translate}}</th>
                 <th>{{'data-acquisition-project-management.project-overview.table.release-version' | translate}}</th>
+                <th>{{'data-acquisition-project-management.project-overview.table.embargo-date' | translate}}</th>
                 <th>{{'data-acquisition-project-management.project-overview.table.assigned-group' | translate}}</th>
                 <th ng-if="ctrl.shouldShowRemarksInfo()">{{'data-acquisition-project-management.project-overview.table.user-service-remarks' | translate}}</th>
                 <th class="fdz-project-status-overview-metadata-status-table-cell">
@@ -157,7 +158,12 @@
                 </td>
                 <td class="fdz-table-data-vertical-middle">{{::dataAcquisitionProject.release.version ?
                   dataAcquisitionProject.release.version :
-                  ('data-acquisition-project-management.project-overview.table.unreleased' | translate)}}&nbsp;
+                  ('data-acquisition-project-management.project-overview.table.unreleased' | translate)}}
+                  {{::dataAcquisitionProject.release.isPreRelease ? '*' : ''}}
+                </td>
+                <td class="fdz-table-data-vertical-middle">{{::dataAcquisitionProject.embargoDate ?
+                  (dataAcquisitionProject.embargoDate | date:'dd.MM.yyyy') :
+                  ''}}&nbsp;
                 </td>
                 <td class="fdz-table-data-vertical-middle" ng-switch="dataAcquisitionProject.assigneeGroup">
                   <span ng-switch-when="PUBLISHER">{{'data-acquisition-project-management.project-overview.table.publisher' | translate}}</span>
@@ -198,6 +204,7 @@
               </tr>
               </tbody>
             </table>
+            <span data-translate="data-acquisition-project-management.project-overview.pre-release-hint"></span>
             <div ng-switch-when="true" layout="column" layout-align="start center">
               <ul boundary-link-numbers="true"
                   class="pagination-sm"
@@ -212,6 +219,7 @@
               </ul>
             </div>
             <span ng-switch-when="false" data-translate="data-acquisition-project-management.project-overview.no-search-results-msg"></span>
+            
           </div>
         </md-card-content>
         <div ng-switch-when="false">
