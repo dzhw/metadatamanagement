@@ -42,6 +42,19 @@
           </div>
         </div>
       </md-input-container>
+      <md-input-container class="md-block">
+        <div class="fdz-input-hint">
+          {{'data-acquisition-project-management.release.landing-page-hint' | translate}}
+        </div>
+        <md-radio-group required name="doiPageLanguage" ng-model="release.doiPageLanguage" class="md-primary">
+          <md-radio-button value="de" class="md-primary mr20" style="color:black">
+            {{'data-acquisition-project-management.release.landing-page-de-title' | translate }}
+          </md-radio-button>
+          <md-radio-button value="en" class="md-primary" style="color:black">
+            {{'data-acquisition-project-management.release.landing-page-en-title' | translate }}
+          </md-radio-button>
+        </md-radio-group>
+      </md-input-container>
       <md-input-container ng-if="!project.configuration.requirements.analysisPackagesRequired" class="md-block">
         <md-checkbox name="pinToStartPage" ng-model="release.pinToStartPage"
                      style="margin: 0 18px 0 0">

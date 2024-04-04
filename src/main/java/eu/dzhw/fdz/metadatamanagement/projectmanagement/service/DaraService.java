@@ -297,6 +297,12 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
+    } else {
+      dataForTemplate.put("projectURLLanguage", "en");
+    }
+
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
 
     // Get Surveys Information
@@ -337,6 +343,16 @@ public class DaraService {
 
     // Add data for collection mode
     dataForTemplate.put("surveyToCollectionModesMap", computeSurveyToCollectionModesMap(surveys));
+
+    // Add flag for qualitative data in surveys
+    boolean hasQualitativeSurvey = false;
+    for (Survey survey : this.surveyRepository.findByDataAcquisitionProjectId(project.getId())) {
+      if (survey.getDataType().equals(DataTypes.QUALITATIVE_DATA)) {
+        hasQualitativeSurvey = true;
+        break;
+      }
+    }
+    dataForTemplate.put("hasQualitativeSurvey", hasQualitativeSurvey);
 
     return dataForTemplate;
   }
@@ -392,6 +408,12 @@ public class DaraService {
     String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
     if (!analysisPackage.isHidden()) {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
+    }
+
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
+    } else {
+      dataForTemplate.put("projectURLLanguage", "en");
     }
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);

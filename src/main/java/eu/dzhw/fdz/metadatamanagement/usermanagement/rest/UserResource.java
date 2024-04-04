@@ -121,6 +121,27 @@ public class UserResource {
   }
 
   /**
+   * Get users filtered by usernames, email addresses, first name, or last name.
+   */
+  @RequestMapping(value = "/users/findUserWithFilter", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured(AuthoritiesConstants.ADMIN)
+  public ResponseEntity<List<ManagedUserDto>> findUserWithFilter(String searchFilter, Pageable pageable)
+    throws URISyntaxException {
+    Page<User> page;
+    if (searchFilter == null || searchFilter.isEmpty()) {
+      page = userRepository.findAll(pageable);
+    } else {
+      page = userRepository.findByLoginNameEmail(searchFilter, pageable);
+    }
+    List<ManagedUserDto> managedUserDtos = page.getContent().stream()
+        .map(user -> new ManagedUserDto(user)).collect(Collectors.toList());
+    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/findUserWithFilter");
+    headers.setCacheControl(CacheControl.noStore());
+    return new ResponseEntity<>(managedUserDtos, headers, HttpStatus.OK);
+  }
+
+  /**
    * Get the "login" user.
    */
   @RequestMapping(value = "/users/{login}", method = RequestMethod.GET,

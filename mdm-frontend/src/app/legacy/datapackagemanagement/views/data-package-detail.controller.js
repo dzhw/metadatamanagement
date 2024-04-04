@@ -73,6 +73,9 @@ angular.module('metadatamanagementApp')
       };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+      ctrl.showRemarks = Principal
+        .hasAnyAuthority(['ROLE_PUBLISHER']);
+
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
@@ -215,6 +218,26 @@ angular.module('metadatamanagementApp')
                   'overview-generation-started-toast');
             });
         });
+      };
+
+      ctrl.getTranslationPathFromApprovedUsageId = function(id) {
+        switch(id) {
+          case 'SCIENTIFIC_USE':
+            return "data-package-management.common.approvedUsage.scientificUse"
+          case 'TEACHING_PURPOSES':
+            return "data-package-management.common.approvedUsage.teachingPurposes"
+          case 'NON_COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.nonCommercialUse"
+          case 'COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.commercialUse"
+          default:
+            console.log("ApprovedUsageId (" + id + ") unknown!");
+            return "unknown"
+        }
+      }
+
+      ctrl.isPublisher = function() {
+        return Principal.isPublisher();
       };
     }]);
 

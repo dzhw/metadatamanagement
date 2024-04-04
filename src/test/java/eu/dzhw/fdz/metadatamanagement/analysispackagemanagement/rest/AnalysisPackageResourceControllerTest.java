@@ -328,7 +328,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     analysisPackage = analysisPackageRepository.save(analysisPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
 
     // since there is no shadow yet the public user will get the mongo version
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId()))
@@ -337,7 +337,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     // now fake a shadow
     project.setId(project.getId() + "-1.0.0");
     project.setVersion(null);
-    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     analysisPackage.setId(analysisPackage.getId() + "-1.0.0");
     analysisPackage.setDataAcquisitionProjectId(project.getId());
@@ -345,7 +345,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     analysisPackage = analysisPackageRepository.save(analysisPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(4L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getMasterId()))
@@ -371,7 +371,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     project.setId(project.getMasterId() + "-2.0.0");
     project.setSuccessorId(null);
     project.setVersion(null);
-    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false));
+    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null, false, null));
     project = dataAcquisitionProjectRepository.save(project);
     analysisPackage.setId(analysisPackage.getMasterId() + "-2.0.0");
     analysisPackage.setSuccessorId(null);
@@ -380,7 +380,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     analysisPackage = analysisPackageRepository.save(analysisPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(3L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(6L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getMasterId()))
@@ -431,7 +431,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
             .availabilityType(CustomDataPackage.AVAILABLE_AVAILABILITY_TYPES.get(0))
             .accessWay(CustomDataPackage.AVAILABLE_ACCESS_WAYS.get(0)).build();
     analysisPackage.setAnalysisDataPackages(Lists.asList(customDataPackage, externalDataPackage));
-    
+
     // create the analysis package with the given id
     mockMvc.perform(put(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId())
         .content(TestUtil.convertObjectToJsonBytes(analysisPackage))

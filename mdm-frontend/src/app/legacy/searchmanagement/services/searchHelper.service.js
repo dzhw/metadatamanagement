@@ -149,7 +149,11 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         'sponsor-en': 'sponsors.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
-        'concept': 'concepts.id'
+        'concept': 'concepts.id',
+        'approved-usage-list': 'approvedUsageList',
+        'approved-usage': 'approvedUsage',
+        'transmissionViaVerbundFdb': 'transmissionViaVerbundFdb',
+        'externalDataPackage': 'externalDataPackage'
       },
       'analysis_packages': {
         'related-publication': 'relatedPublications.id',

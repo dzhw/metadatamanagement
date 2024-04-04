@@ -18,9 +18,10 @@ body {
 </head>
 <body
 	style="font-family: Roboto, 'Helvetica Neue', sans-serif; color: black;">
-	<p th:text="#{email.datapackage-overview-generated.greeting(${user.login})}">
-		Liebe(r) rreitmann,</p>
-	<p>
+  <p th:if="${user.firstName != null and user.firstName != ''} and ${user.lastName != null and user.lastName != ''}"
+     th:text="#{email.datapackage-overview-generated.greeting(${user.firstName}, ${user.lastName})}">Liebe(r) rreitmann,</p>
+  <p th:if="${user.firstName == null or user.firstName == ''} or ${user.lastName == null or user.lastName == ''}"
+     th:text="#{email.datapackage-overview-generated.greetingLogin(${user.login})}">Liebe(r) rreitmann,</p>
 	<span th:text="#{email.datapackage-overview-generated.text(${language})}">Ihr
 		Datensatzreport wurde erfolgreich erzeugt und kann, wenn Sie
 		angemeldet sind, hier betrachted werden:</span>

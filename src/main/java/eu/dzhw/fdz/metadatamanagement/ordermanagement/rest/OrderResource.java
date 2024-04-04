@@ -13,6 +13,8 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,9 +31,11 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Product;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.projection.IdAndVersionOrderProjection;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -103,11 +107,25 @@ public class OrderResource {
     }
 
     Order entity = optional.get();
+
+    // do not provide field remarksUserService to users without role PUBLISHER
+    if (SecurityContextHolder.getContext() == null
+        || SecurityContextHolder.getContext().getAuthentication() == null
+        || SecurityContextHolder.getContext().getAuthentication().getAuthorities() == null
+        || !(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+        .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER)))) {
+      for (Product product : entity.getProducts()) {
+        if (product != null && product.getDataPackage() != null) {
+          product.getDataPackage().setRemarksUserService(null);
+        }
+      }
+    }
+
     return ResponseEntity.ok()
         .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
         .eTag(entity.getVersion().toString())
         .lastModified(
-            entity.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
+          entity.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
         .body(entity);
   }
 

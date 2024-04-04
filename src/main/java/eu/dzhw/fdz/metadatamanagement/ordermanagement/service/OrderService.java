@@ -67,13 +67,9 @@ public class OrderService {
           if (product.getDataPackage().getAnnotations().getDe() != null) {
             product.getDataPackage().getAnnotations().setDe(
                 markdownHelper.getPlainText(product.getDataPackage().getAnnotations().getDe()));
-            product.getStudy().getAnnotations().setDe(
-                markdownHelper.getPlainText(product.getDataPackage().getAnnotations().getDe()));
           }
           if (product.getDataPackage().getAnnotations().getEn() != null) {
             product.getDataPackage().getAnnotations().setEn(
-                markdownHelper.getPlainText(product.getDataPackage().getAnnotations().getEn()));
-            product.getStudy().getAnnotations().setEn(
                 markdownHelper.getPlainText(product.getDataPackage().getAnnotations().getEn()));
           }
         }

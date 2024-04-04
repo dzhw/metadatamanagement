@@ -18,13 +18,15 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
     PageMetadataService.setPageTitle('user-management.home.title');
     $scope.users = [];
     $scope.page = 0;
-    $scope.loadAll = function() {
-      UserResource.query({
+    $scope.searchFilter = null;
+    $scope.loadAll = function () {
+      UserResource.searchFilter({
+        searchFilter: $scope.searchFilter,
         page: $scope.page,
         //jscs:disable
         per_page: 20
-          //jscs:enable
-      }, function(result, headers) {
+        //jscs:enable
+      }, function (result, headers) {
         $scope.links = ParseLinks.parse(headers('link'));
         $scope.users = result;
       });
@@ -143,6 +145,14 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
           targetEvent: event,
           fullscreen: true
         });
+    };
+
+    $scope.hideMobileKeyboardAndSearch = function ($event) {
+      // reset page index
+      $scope.page = 0;
+      // restart search with given filter 
+      $scope.loadAll();
+      $event.target.querySelector('#query').blur();
     };
   }]);
 
