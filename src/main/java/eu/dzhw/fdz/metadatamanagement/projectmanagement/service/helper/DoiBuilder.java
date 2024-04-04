@@ -7,8 +7,6 @@ import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.github.zafarkhaja.semver.Version;
-
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;

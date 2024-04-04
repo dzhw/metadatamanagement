@@ -48,10 +48,10 @@ public class DataAcquisitionProjectPostValidationResource {
   }
 
   /**
-   * Validate project by id.
+   * Validate project by id in case of pre-release.
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}/post-validate-pre-release",
-    method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+      method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<PostValidationErrorsDto> postValidatePreRelease(@PathVariable String id) {
     log.debug("REST request for post validation : {}", id);

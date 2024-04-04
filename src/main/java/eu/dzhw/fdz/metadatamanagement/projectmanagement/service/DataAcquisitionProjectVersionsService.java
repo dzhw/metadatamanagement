@@ -42,7 +42,7 @@ public class DataAcquisitionProjectVersionsService extends
           .or(QDataAcquisitionProject.dataAcquisitionProject.hidden.isFalse());
 
   private static final Predicate projectNotPreReleased =
-    QDataAcquisitionProject.dataAcquisitionProject.release.isNotNull()
+      QDataAcquisitionProject.dataAcquisitionProject.release.isNotNull()
       .and(QDataAcquisitionProject.dataAcquisitionProject.release.isPreRelease.isFalse());
 
 
@@ -119,7 +119,8 @@ public class DataAcquisitionProjectVersionsService extends
    * @param noBeta boolean indicating if beta release shall be skipped or not
    * @return List of all releases (max 100 entries).
    */
-  public List<Release> findAllReleases(String id, boolean excludePreReleased, boolean noBeta, boolean onlyNotHiddenVersions) {
+  public List<Release> findAllReleases(String id, boolean excludePreReleased,
+      boolean noBeta, boolean onlyNotHiddenVersions) {
     // Find all version changes
     List<Shadow<Release>> shadows =
         javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")

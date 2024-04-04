@@ -39,7 +39,8 @@ public class DataAcquisitionProjectReleasesResource {
       @RequestParam(name = "excludePreReleased", defaultValue = "false") Boolean excludePreReleased,
       @RequestParam(name = "noBeta", defaultValue = "true") Boolean noBetaReleases,
       @RequestParam(name = "onlyNotHidden", defaultValue = "false") Boolean onlyNotHiddenVersions) {
-    List<Release> releases = this.projectVersionsService.findAllReleases(id, excludePreReleased, noBetaReleases, onlyNotHiddenVersions);
+    List<Release> releases = this.projectVersionsService.findAllReleases(
+        id, excludePreReleased, noBetaReleases, onlyNotHiddenVersions);
 
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(releases);
   }

@@ -138,9 +138,10 @@ public class ShadowCopyQueueItemService {
               emitShadowCopyingStartedEvent(dataAcquisitionProject, release, previousReleaseVersion,
                   task.getAction());
               // check if its a real re-release or a release after a pre-release
-              boolean isReleaseAfterPreRelease = existingShadow.isPresent() && existingShadow.get().getRelease().getIsPreRelease();
+              boolean isReleaseAfterPreRelease = existingShadow.isPresent()
+                  && existingShadow.get().getRelease().getIsPreRelease();
               emitShadowCopyingEndedEvent(dataAcquisitionProject, release, previousReleaseVersion,
-                existingShadow.isPresent(), task.getAction(), isReleaseAfterPreRelease);
+                  existingShadow.isPresent(), task.getAction(), isReleaseAfterPreRelease);
               break;
             case HIDE:
             case UNHIDE:
@@ -174,7 +175,8 @@ public class ShadowCopyQueueItemService {
   }
 
   private void emitShadowCopyingEndedEvent(DataAcquisitionProject dataAcquisitionProject,
-      Release release, String previousReleaseVersion, boolean isRerelease, Action action, boolean isReleaseAfterPreRelease) {
+      Release release, String previousReleaseVersion, boolean isRerelease,
+      Action action, boolean isReleaseAfterPreRelease) {
     this.applicationEventPublisher
         .publishEvent(new ShadowCopyingEndedEvent(this, dataAcquisitionProject.getMasterId(),
             release, previousReleaseVersion, isRerelease, action, isReleaseAfterPreRelease));

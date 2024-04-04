@@ -91,10 +91,10 @@ public class DaraReleaseResource {
    * @throws IOException IO Exception for the XML Freemarker Process.
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}/pre-release",
-    method = RequestMethod.POST)
+      method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<?> preRelease(@PathVariable String id,
-                                   @RequestBody @Valid DataAcquisitionProject project) throws IOException, TemplateException {
+      @RequestBody @Valid DataAcquisitionProject project) throws IOException, TemplateException {
     if (project.isShadow()) {
       throw new ShadowCopyReleaseToDaraNotAllowed();
     }

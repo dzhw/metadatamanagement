@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -206,6 +207,22 @@ public class DaraService {
   }
 
   /**
+   * Registers or updates a dataset with a given doi to dara.
+   *
+   * @param projectId The id of the Project.
+   * @return The HttpStatus from Dara Returns a false, if something gone wrong.
+   * @throws IOException the io exception for non readable xml file.
+   * @throws TemplateException Exception for filling the template.
+   */
+  public HttpStatus registerOrUpdateProjectToDara(String projectId)
+    throws IOException, TemplateException {
+
+    // Load Project
+    DataAcquisitionProject project = this.projectRepository.findById(projectId).get();
+    return this.registerOrUpdateProjectToDara(project);
+  }
+
+  /**
    * Registers or updates a data acquistion project as a pre-release with a given doi to dara.
    *
    * @param project The Project.
@@ -219,7 +236,7 @@ public class DaraService {
     if (project.getConfiguration().getRequirements().isDataPackagesRequired()) {
       // Read data package xml template
       String registerXmlStr =
-        IOUtils.toString(this.registerPreReleaseDataPackageXml.getInputStream(), Charsets.UTF_8);
+          IOUtils.toString(this.registerPreReleaseDataPackageXml.getInputStream(), Charsets.UTF_8);
 
       // Fill template
       filledTemplate = this.fillTemplate(registerXmlStr, this.getTemplateConfiguration(),
@@ -227,7 +244,7 @@ public class DaraService {
     } else if (project.getConfiguration().getRequirements().isAnalysisPackagesRequired()) {
       // Read analysis package xml template
       String registerXmlStr =
-        IOUtils.toString(this.registerPreReleaseAnalysisPackageXml.getInputStream(), Charsets.UTF_8);
+          IOUtils.toString(this.registerPreReleaseAnalysisPackageXml.getInputStream(), Charsets.UTF_8);
 
       // Fill template
       filledTemplate = this.fillTemplate(registerXmlStr, this.getTemplateConfiguration(),
@@ -236,22 +253,6 @@ public class DaraService {
     // Send Rest Call for Registration
     HttpStatus httpStatusFromDara = this.postToDaraImportXml(filledTemplate);
     return httpStatusFromDara;
-  }
-
-  /**
-   * Registers or updates a dataset with a given doi to dara.
-   *
-   * @param projectId The id of the Project.
-   * @return The HttpStatus from Dara Returns a false, if something gone wrong.
-   * @throws IOException the io exception for non readable xml file.
-   * @throws TemplateException Exception for filling the template.
-   */
-  public HttpStatus registerOrUpdateProjectToDara(String projectId)
-      throws IOException, TemplateException {
-
-    // Load Project
-    DataAcquisitionProject project = this.projectRepository.findById(projectId).get();
-    return this.registerOrUpdateProjectToDara(project);
   }
 
   /**
@@ -417,7 +418,7 @@ public class DaraService {
 
     // Get DataPackage Information
     DataPackage dataPackage =
-      this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+        this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
     dataForTemplate.put("dataPackage", dataPackage);
 
     // Add Availability Controlled
@@ -431,9 +432,10 @@ public class DaraService {
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate); // ???
 
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    String dateSting = formatter.format(project.getEmbargoDate());
-    dataForTemplate.put("embargoDate", dateSting);
+    //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    //String dateSting = formatter.format(project.getEmbargoDate());
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    dataForTemplate.put("embargoDate", project.getEmbargoDate().format(formatter));
 
     return dataForTemplate;
   }
@@ -527,7 +529,7 @@ public class DaraService {
 
     // Get DataPackage Information
     AnalysisPackage analysisPackage =
-      this.analysisPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+        this.analysisPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
     dataForTemplate.put("analysisPackage", analysisPackage);
 
     // Add Availability Controlled

@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
@@ -105,6 +105,11 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
   @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
       + ".has-user-service-remarks.not-null")
   private Boolean hasUserServiceRemarks = false;
+
+  /**
+   * Attribute which holds information on the planned release date.
+   */
+  private LocalDate embargoDate;
 
   /**
    * A valid {@link Release} object.

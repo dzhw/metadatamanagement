@@ -322,7 +322,7 @@ public class DataAcquisitionProjectManagementService
           if (shadowCopyingEndedEvent.isReleaseAfterPreRelease()) {
             // in case of a release after a pre-release update info on Dara
             daraService
-              .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
+                .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
                 + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
           }
           return;

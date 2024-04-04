@@ -132,8 +132,8 @@ public class PostValidationService {
     Optional<DataAcquisitionProject> project = projectRepository.findById(dataAcquisitionProjectId);
     if (!project.isPresent()) {
       PostValidationMessageDto error = new PostValidationMessageDto(
-        "data-acquisition-project" + "-management.error.post-validation.no-project",
-        Collections.singletonList(dataAcquisitionProjectId));
+          "data-acquisition-project" + "-management.error.post-validation.no-project",
+          Collections.singletonList(dataAcquisitionProjectId));
       return Collections.singletonList(error);
     }
 
@@ -227,12 +227,12 @@ public class PostValidationService {
   }
 
   /**
-   * This method handles a reduces validation of a data acquisition project for pre-releases.
+   * This method handles a reduced validation of a data acquisition project for pre-releases.
    * Checks include whether the project has an embargo date, and valid data for data packages or
    * analysis packages.
-   * @param project
-   * @param errors
-   * @return
+   * @param project the project to be validated
+   * @param errors the list of validation errors
+   * @return the complete list of validation errors
    */
   private List<PostValidationMessageDto> postValidatePreReleaseProject(DataAcquisitionProject project,
                                                              List<PostValidationMessageDto> errors) {
@@ -243,8 +243,8 @@ public class PostValidationService {
 
     if (project.getEmbargoDate() == null) {
       PostValidationMessageDto message = new PostValidationMessageDto(
-        "data-acquisition-project-management.error.post-validation.no-embargo-date",
-        Collections.singletonList(project.getId()));
+          "data-acquisition-project-management.error.post-validation.no-embargo-date",
+          Collections.singletonList(project.getId()));
       errors.add(message);
     }
 
@@ -260,14 +260,20 @@ public class PostValidationService {
 
     if (!information.isEmpty()) {
       PostValidationMessageDto message = new PostValidationMessageDto(
-        "data-acquisition-project-management.error.post-validation.requirements-not-met",
-        information);
+          "data-acquisition-project-management.error.post-validation.requirements-not-met",
+          information);
       errors.add(message);
     }
 
     return errors;
   }
 
+  /**
+   * Checks if the required project part is marked as ready by publisher.
+   * @param required if the part of the project is required (e.g. data package)
+   * @param projectState the state of the project part
+   * @return true if the part is required but not marked as ready, else false
+   */
   private boolean isProjectStateInvalid(boolean required, ProjectState projectState) {
     return required && (projectState == null || !projectState.isPublisherReady());
   }
