@@ -109,7 +109,6 @@
         .then(
         function(releases) {
           var releaseList = [];
-          console.log(releases)
           for (var release of releases) {
               releaseList.push(release);
           }

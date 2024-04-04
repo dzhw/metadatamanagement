@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp')
            * @returns true if it has expired else false
            */
           ctrl.isEmbargoDateExpired = function () {
-            if (ctrl.project.embargoDate) {
+            if (ctrl.project && ctrl.project.embargoDate) {
               var current = new Date();
               return new Date(ctrl.project.embargoDate) < current;
             }
