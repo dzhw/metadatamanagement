@@ -74,8 +74,9 @@
                   <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.release-state' | translate}}">
                     <md-content class="md-select-menu-ie11-fix">
                         <md-option value="" ng-click="closeSelectMenu()"></md-option>
-                        <md-option value="true" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.release-state.released' | translate}}</md-option>
-                        <md-option value="false" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.release-state.unreleased' | translate}}</md-option>
+                        <md-option value="released" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.release-state.released' | translate}}</md-option>
+                        <md-option value="unreleased" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.release-state.unreleased' | translate}}</md-option>
+                        <md-option value="pre-released" ng-click="selectedFilters.indexOf(filter) === -1 && closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.release-state.pre-released' | translate}}</md-option>
                     </md-content>
                   </md-select>
                 </md-input-container>
@@ -204,7 +205,7 @@
               </tr>
               </tbody>
             </table>
-            <span data-translate="data-acquisition-project-management.project-overview.pre-release-hint"></span>
+            <span ng-switch-when="true" data-translate="data-acquisition-project-management.project-overview.pre-release-hint"></span>
             <div ng-switch-when="true" layout="column" layout-align="start center">
               <ul boundary-link-numbers="true"
                   class="pagination-sm"

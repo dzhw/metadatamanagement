@@ -91,7 +91,7 @@ export class DataacquisitionprojectSearchService {
      * @param assignedProjectsOnly if only projects assigned to the given user should be returned
      * @param projectId the ID of a project
      * @param assigneeGroup the user group the project must be assigned to (DATA_PROVIDER or PUBLISHER)
-     * @param releaseState the release state (released or unreleased)
+     * @param releaseState the release state (released, unreleased or pre-released)
      * @param filterDataPackages a list of data package parts required in the project
      * @param additionalInfo if additional remarks for the user service are given
      * @param loginName the login name of the user
@@ -144,10 +144,24 @@ export class DataacquisitionprojectSearchService {
         if (releaseState) {
             let releaseStateBase = {'field': 'release'};
             let releaseStateFilter = this.createFilterFragment(QueryFragmentType.exists, releaseStateBase)
-            if (releaseState === "true") {
+            if (releaseState === "released") {
                 boolQuery.bool.must?.push(releaseStateFilter);
-            } else {
+                boolQuery.bool.must?.push({
+                    "term": {
+                        "release.isPreRelease": false
+                    }
+                });
+            } 
+            if (releaseState === "unreleased") {
                 boolQuery.bool.must_not?.push(releaseStateFilter);
+            }
+            if (releaseState === "pre-released") {
+                boolQuery.bool.must?.push(releaseStateFilter);
+                boolQuery.bool.must?.push({
+                    "term": {
+                        "release.isPreRelease": true
+                    }
+                });
             }
         }
 

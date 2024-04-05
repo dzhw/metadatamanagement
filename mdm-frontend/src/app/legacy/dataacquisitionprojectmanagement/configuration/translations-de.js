@@ -290,7 +290,8 @@ angular.module('metadatamanagementApp').config([
               },
               'release-state': {
                 'released': 'Freigegeben',
-                'unreleased': 'Nicht freigegeben'
+                'unreleased': 'Nicht freigegeben',
+                'pre-released': 'Vorläufig Freigegeben'
               },
               'datapackage-filter': {
                 'variables': 'Variablen',

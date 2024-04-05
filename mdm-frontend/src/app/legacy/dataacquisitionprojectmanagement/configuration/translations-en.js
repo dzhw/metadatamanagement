@@ -297,7 +297,8 @@ angular.module('metadatamanagementApp').config([
               },
               'release-state': {
                 'released': 'Released',
-                'unreleased': 'Unreleased'
+                'unreleased': 'Unreleased',
+                'pre-released': 'Pre-released'
               },
               'datapackage-filter': {
                 'variables': 'Variables',
