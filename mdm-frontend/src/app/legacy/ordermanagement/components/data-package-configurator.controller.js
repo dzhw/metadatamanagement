@@ -110,7 +110,10 @@
         function(releases) {
           var releaseList = [];
           for (var release of releases) {
-              releaseList.push(release);
+              // only allow fully released versions to be listed for ordering
+              if (!release.isPreRelease) {
+                releaseList.push(release);
+              }
           }
           $ctrl.releases = releaseList;
           if (releases.length === 0 || rel.length === 0) {
