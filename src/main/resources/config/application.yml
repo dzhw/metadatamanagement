@@ -175,4 +175,4 @@ tweet:
   oauthtokensecret: "{see s3://metadatamanagement-private/sensitive_variables.tf}"
   endpointurl: "https://api.twitter.com/2/tweets"
   mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
-  imagepath:  "./mdm-frontend/src/assets/images/social-survey.jpg"
+  imagedir:  "./mdm-frontend/src"

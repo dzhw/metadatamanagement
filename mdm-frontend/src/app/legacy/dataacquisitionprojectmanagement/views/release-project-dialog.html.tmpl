@@ -98,7 +98,25 @@
             <div ng-message="md-maxlength">{{'data-acquisition-project-management.error.release.tweet.size' |
               translate}}
             </div>
-          </div>
+        </div>
+        <div style="margin-top: 10pt; display: flex; justify-content: space-between;">
+            <md-radio-group id="twitter-image-switch" ng-model="release.selectedTweetImage">
+                <div style="display: flex; align-items: center;">
+                    <span>
+                        <md-radio-button ng-disabled="!release.toTweet" style="padding-right:0; padding-left:0" ng-value="'data-acquisition-project-management.release.imagePath1' | translate"  aria-label="thumb_twitter_fdz_1"></md-radio-button>
+                        <img ng-src="{{'data-acquisition-project-management.release.imagePath1' | translate }}" style="margin-right: 10pt; width: 75%; height: 75%;">
+                    </span>
+                    <span>
+                        <md-radio-button ng-disabled="!release.toTweet" style="padding-right:0; padding-left:0" ng-value="'data-acquisition-project-management.release.imagePath2' | translate" aria-label="thumb_twitter_fdz_2"></md-radio-button>
+                        <img ng-src="{{'data-acquisition-project-management.release.imagePath2' | translate }}" class="mt4" style="margin-right: 10pt; width: 75%; height: 75%;">
+                    </span>
+                    <span>
+                        <md-radio-button ng-disabled="!release.toTweet" style="padding-right:0; padding-left:0" ng-value="'data-acquisition-project-management.release.imagePath3' | translate" aria-label="thumb_twitter_fdz_3"></md-radio-button>
+                        <img ng-src="{{'data-acquisition-project-management.release.imagePath3' | translate }}" class="mt4" style="width: 75%; height: 75%;">
+                    </span>
+                </div>
+            </md-radio-group>
+        </div>
       </md-input-container>
     </md-dialog-content>
     <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">

@@ -37,9 +37,17 @@ angular.module('metadatamanagementApp')
       $mdDialog.cancel();
     };
 
+    $scope.$watch('release.toTweet', function(newValue) {
+      if (!newValue && $scope.release) {
+        // Set all radio buttons for tweet image to false if toTweet flag gets unchecked
+        $scope.release.selectedTweetImage = null;
+      }
+    });
+
     $scope.setTweetPlaceholder = function(response) {     
       // set the default tweet placeholder text
       $scope.release.toTweet = false;
+      $scope.release.selectedTweetImage = null;
       $scope.release.tweetTextInput = "";
       // german version
       if (response && response.title && response.title.de && response.title.de.trim() != "") {
@@ -146,9 +154,10 @@ angular.module('metadatamanagementApp')
                       if (release.version) {
                         $scope.release.tweetTextInput += " (Version " + release.version + ")";
                       }
-                      console.debug("Tweet text: " + $scope.release.tweetTextInput);
-                      DataAcquisitionProjectTweetResource.createTweet($scope.release.tweetTextInput)
-                        .$promise.then(function(response) {
+                      DataAcquisitionProjectTweetResource.createTweet({
+                          tweetTextInput: $scope.release.tweetTextInput,
+                          selectedTweetImage: $scope.release.selectedTweetImage
+                      }).$promise.then(function(response) {
                           console.debug("Tweet response:", response.response)
                         })
                         .catch(function(error) {

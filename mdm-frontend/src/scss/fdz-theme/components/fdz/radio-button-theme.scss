@@ -124,3 +124,12 @@
     }
   }
 }
+
+.fdz-theme md-radio-group#twitter-image-switch md-radio-button.md-checked .md-off {
+  border-color: $accent-color;
+}
+  
+.fdz-theme md-radio-group#twitter-image-switch md-radio-button.md-checked .md-on {
+  background-color: $accent-color;
+}
+  

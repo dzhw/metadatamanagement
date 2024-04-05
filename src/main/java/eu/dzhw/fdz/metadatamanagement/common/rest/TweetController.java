@@ -23,12 +23,12 @@ public class TweetController {
   /**
    * Create tweet.
    *
-   * @param tweetTextInput Tweet text.
+   * @param tweetBody REST body with tweet text and optional image
    */
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
   @PostMapping(value = "/api/data-acquisition-projects/tweet")
-  public ResponseEntity<?> createTweet(@RequestBody(required = false) String tweetTextInput) {
-    return tweetService.createTweet(tweetTextInput);
+  public ResponseEntity<?> createTweet(@RequestBody TweetService.TweetRequest tweetBody) {
+    return tweetService.createTweet(tweetBody);
   }
 }
 

@@ -23,7 +23,10 @@ angular.module('metadatamanagementApp').config([
           },
           'confirm-hint': 'Check this box if you really want to release this project on this system!',
           'toTweet': "Publish on X (formerly Twitter). The Version of the Data Acquisition Projects will automatically be added.",
-          'tweetTextLabel': "Tweet"
+          'tweetTextLabel': "Tweet",
+          'imagePath1': 'assets/images/thumb_twitter_fdz_1_en.jpg',
+          'imagePath2': 'assets/images/thumb_twitter_fdz_2_en.jpg',
+          'imagePath3': 'assets/images/thumb_twitter_fdz_3_en.jpg'
         },
         'home': {
           'title': 'Data Acquisition Projects',

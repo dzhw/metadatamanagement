@@ -23,7 +23,10 @@ angular.module('metadatamanagementApp').config([
           },
           'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!',
           'toTweet': "Auf X (ehemals Twitter) veröffentlichen. Die Version des Datenaufnahmeprojektes wird automatisch hinzugefügt.",
-          'tweetTextLabel': "Tweet"
+          'tweetTextLabel': "Tweet",
+          'imagePath1': 'assets/images/thumb_twitter_fdz_1_de.jpg',
+          'imagePath2': 'assets/images/thumb_twitter_fdz_2_de.jpg',
+          'imagePath3': 'assets/images/thumb_twitter_fdz_3_de.jpg'
         },
         'home': {
           'title': 'Datenaufnahmeprojekte',
