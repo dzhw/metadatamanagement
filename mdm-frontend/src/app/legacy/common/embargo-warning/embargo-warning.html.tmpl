@@ -3,26 +3,26 @@
         <md-card-title style="padding: 0px;">
             <md-card-title-text>
                 <span class="md-subhead b" ng-if="isOrderView">{{
-                    'embargo-warning.title-order-view' | translate: {projectId: project.masterId} }}</span>
+                    'embargo-warning.data-package.title-order-view' | translate: {projectId: project.masterId} }}</span>
                 <span class="md-subhead b" ng-if="!isOrderView">{{
-                    'embargo-warning.title-provider-view' | translate: {projectId: project.id} }}</span>
+                    'embargo-warning.data-package.title-provider-view' | translate: {projectId: project.id} }}</span>
             </md-card-title-text>
         </md-card-title>
     </md-card-header>
     <md-card-content ng-if="isOrderView && !ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
-        <span translate="embargo-warning.content-order-view" translate-values="{date: ctrl.dateString}">
+        <span data-translate="embargo-warning.data-package.content-order-view" translate-values="{date: ctrl.dateString}">
         </span>
     </md-card-content>
     <md-card-content ng-if="isOrderView && ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
-        <span translate="embargo-warning.content-order-view-expired">
+        <span data-translate="embargo-warning.data-package.content-order-view-expired">
         </span>
     </md-card-content>
     <md-card-content ng-if="!isOrderView && !ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
-        <span translate="embargo-warning.content-provider-view" translate-values="{date: ctrl.dateString}">
+        <span data-translate="embargo-warning.data-package.content-provider-view" translate-values="{date: ctrl.dateString}">
         </span>
     </md-card-content>
     <md-card-content ng-if="!isOrderView && ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
-        <span translate="embargo-warning.content-provider-view-expired">
+        <span data-translate="embargo-warning.data-package.content-provider-view-expired">
         </span>
     </md-card-content>
 </md-card>
