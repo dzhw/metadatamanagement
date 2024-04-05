@@ -50,7 +50,31 @@ public class TweetService {
   private final String endpointUrl;
   private final String mediaEndpointUrl;
   private final String version = "1.0";
-  private final String imagePath;
+  private final String imageDir;
+
+  /**
+   * Tweet body request.
+   */
+  public static class TweetRequest {
+    String tweetTextInput;
+    String selectedTweetImage;
+
+    public String getTweetTextInput() {
+      return tweetTextInput;
+    }
+
+    public void setTweetTextInput(String tweetTextInput) {
+      this.tweetTextInput = tweetTextInput;
+    }
+
+    public String getSelectedTweetImage() {
+      return selectedTweetImage;
+    }
+
+    public void setSelectedTweetImage(String selectedTweetImage) {
+      this.selectedTweetImage = selectedTweetImage;
+    }
+  }
 
   /**
    * TweetService constructor.
@@ -65,7 +89,7 @@ public class TweetService {
     this.oauthSecretToken = tweetProperties.getOauthtokensecret();
     this.endpointUrl = tweetProperties.getEndpointurl();
     this.mediaEndpointUrl = tweetProperties.getMediaendpointurl();
-    this.imagePath = tweetProperties.getImagepath();
+    this.imageDir = tweetProperties.getImagedir();
   }
 
   /**
@@ -76,25 +100,33 @@ public class TweetService {
    * signature @see source [TwitterOauthHeaderGenerator](https://github.com/smilep/twitter-play/blob/
    * 6fca6dec72387882318dc62fd98dbcf70ce1467b/src/main/java/com/smilep/twitter/helper/TwitterOauthHeaderGenerator.java)
    *
-   * @param tweetTextInput Tweet text to be posted
+   * @param tweetBody REST body with tweet text and optional image
    */
-  public ResponseEntity<?> createTweet(String tweetTextInput) {
+  public ResponseEntity<?> createTweet(TweetRequest tweetBody) {
     try {
+      if (tweetBody == null || tweetBody.getTweetTextInput() == null) {
+        return null;
+      }
+
       // set nonce and timestamp, needed to create authentication parameter
       String nonce = getNonce();
       String timestamp = String.valueOf(Instant.now().getEpochSecond());
 
-      // get image id
-      String imageId = getImageId(nonce, timestamp);
+      // get image id if an image has to be uploaded with the tweet text
+      String imageId = null;
+      if (tweetBody.getSelectedTweetImage() != null) {
+        imageId = getImageId(nonce, timestamp, tweetBody.getSelectedTweetImage());
+      }
 
       // post a tweet using the POST /2/tweets endpoint and reference the uploaded media file
       OkHttpClient client = new OkHttpClient().newBuilder().build();
       MediaType mediaType = MediaType.parse("application/json");
       String content;
       if (imageId != null) {
-        content = "{\"text\": \"" + tweetTextInput + "\"," + "\"media\": {\"media_ids\": [\"" + imageId + "\"]}}";
+        content = "{\"text\": \"" + tweetBody.getTweetTextInput() + "\","
+          + "\"media\": {\"media_ids\": [\"" + imageId + "\"]}}";
       } else {
-        content = "{\"text\": \"" + tweetTextInput + "\"}";
+        content = "{\"text\": \"" + tweetBody.getTweetTextInput() + "\"}";
       }
       RequestBody body = RequestBody.create(mediaType, content);
       String baseSignatureString = generateSignatureBaseString(HttpMethod.POST.name(), endpointUrl, nonce, timestamp,
@@ -131,9 +163,10 @@ public class TweetService {
    *
    * @param nonce     Nonce
    * @param timestamp Timestamp
+   * @param selectedTweetImage Image name of image that is being posted with the text
    * @return Media ID of the uploaded image file
    */
-  private String getImageId(String nonce, String timestamp) {
+  private String getImageId(String nonce, String timestamp, String selectedTweetImage) {
     String mediaId = null;
 
     Map<String, String> requestParams = new HashMap<>();
@@ -143,7 +176,7 @@ public class TweetService {
     String signature = encryptUsingHmacSha1(baseSignatureString);
 
     OkHttpClient client = new OkHttpClient().newBuilder().build();
-    File file = new File(imagePath);
+    File file = new File(imageDir + "/" + selectedTweetImage);
     RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
         .addFormDataPart("media", file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"),
           file))

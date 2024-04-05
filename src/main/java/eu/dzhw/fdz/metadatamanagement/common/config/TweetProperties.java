@@ -19,6 +19,6 @@ public class TweetProperties {
   private String oauthtoken;
   private String endpointurl;
   private String mediaendpointurl;
-  private String imagepath;
+  private String imagedir;
 
 }
