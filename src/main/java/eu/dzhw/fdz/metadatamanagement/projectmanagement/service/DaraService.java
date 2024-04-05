@@ -6,14 +6,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -432,8 +429,6 @@ public class DaraService {
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate); // ???
 
-    //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    //String dateSting = formatter.format(project.getEmbargoDate());
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     dataForTemplate.put("embargoDate", project.getEmbargoDate().format(formatter));
 
@@ -543,9 +538,8 @@ public class DaraService {
 
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
 
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    String dateSting = formatter.format(project.getEmbargoDate());
-    dataForTemplate.put("embargoDate", dateSting);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    dataForTemplate.put("embargoDate", project.getEmbargoDate().format(formatter));
 
     return dataForTemplate;
   }
