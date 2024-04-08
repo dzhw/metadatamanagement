@@ -1,11 +1,10 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 col-md-offset-2" style="margin-bottom: 20pt;">
             <h2 class="md-headline fdz-bootstrap-headline" data-translate="user-management.register.title">Registration</h2>
 
-            <div class="alert alert-success" ng-show="success" data-translate="user-management.register.messages.success">
-                <strong>Registration saved!</strong>
-                Please check your email for confirmation.
+            <div class="alert alert-success" ng-show="success" data-translate="user-management.register.messages.success" data-translate-values="{firstname: '{{registerAccount.firstName}}', lastname: '{{registerAccount.lastName}}'}">
+                <strong>Registration saved!</strong> Hello, thank you for registering in the RDC-DZHW Metadata Managementsystem (MDM). Please inform your contact person at the RDC-DZHW that your registration is complete and let them know your user name. Once you have been assigned to an ingest project, you can start editing the Metadata. Best regards, your RDC-DZHW team.
             </div>
 
             <div class="alert alert-danger" ng-show="error" data-translate="user-management.register.messages.error.fail">
@@ -32,6 +31,11 @@
                 <div class="form-group" ng-class="{'has-error': form.username.$dirty && form.username.$invalid}">
                     <label class="control-label" for="username" data-translate="global.form.username">Username</label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="{{'global.form.username-placeholder' | translate}}" ng-model="registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[a-z0-9]*$/" required>
+                    <div ng-show="!form.username.$dirty && !form.username.$valid">
+                        <p class="help-block" data-translate="user-management.register.messages.validate.login.validationsummary">
+                            Your user name must be between 1-50 characters long and may only contain lower-case letters and digits.
+                        </p>
+                    </div>
                     <div ng-show="form.username.$dirty && form.username.$invalid">
                         <p class="help-block" ng-show="form.username.$error.required" data-translate="user-management.register.messages.validate.login.required">
                             Your username is required.
@@ -50,6 +54,11 @@
                 <div class="form-group" ng-class="{'has-error': form.firstname.$dirty && form.firstname.$invalid}">
                     <label class="control-label" for="firstname" data-translate="global.form.firstname">First name</label>
                     <input type="text" class="form-control" id="firstname" name="firstname" placeholder="{{'global.form.firstname-placeholder' | translate}}" ng-model="registerAccount.firstName" ng-minlength=1 ng-maxlength=50 required>
+                    <div ng-show="!form.firstname.$dirty && !form.firstname.$valid">
+                        <p class="help-block" data-translate="user-management.register.messages.validate.firstname.validationsummary">
+                            Your first name must be between 1-50 characters long.
+                        </p>
+                    </div>
                     <div ng-show="form.firstname.$dirty && form.firstname.$invalid">
                         <p class="help-block" ng-show="form.firstname.$error.required" data-translate="user-management.register.messages.validate.firstname.required">
                             Your first name is required.
@@ -65,6 +74,11 @@
                 <div class="form-group" ng-class="{'has-error': form.lastname.$dirty && form.lastname.$invalid}">
                     <label class="control-label" for="lastname" data-translate="global.form.lastname">Last name</label>
                     <input type="text" class="form-control" id="lastname" name="lastname" placeholder="{{'global.form.lastname-placeholder' | translate}}" ng-model="registerAccount.lastName" ng-minlength=1 ng-maxlength=50 required>
+                    <div ng-show="!form.lastname.$dirty && !form.lastname.$valid">
+                        <p class="help-block" data-translate="user-management.register.messages.validate.lastname.validationsummary">
+                            Your last name must be between 1-50 characters long.
+                        </p>
+                    </div>
                     <div ng-show="form.lastname.$dirty && form.lastname.$invalid">
                         <p class="help-block" ng-show="form.lastname.$error.required" data-translate="user-management.register.messages.validate.lastname.required">
                             Your last name is required.
@@ -98,6 +112,11 @@
                 <div class="form-group" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
                     <label class="control-label" for="password" data-translate="global.form.newpassword">New password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="{{'global.form.newpassword-placeholder' | translate}}" ng-model="registerAccount.password" ng-minlength=5 ng-maxlength=50 required>
+                    <div ng-show="!form.password.$dirty && !form.password.$valid">
+                        <p class="help-block" data-translate="global.messages.validate.newpassword.validationsummary">
+                            Your password must be between 1-50 characters long.
+                        </p>
+                    </div>
                     <div ng-show="form.password.$dirty && form.password.$invalid">
                         <p class="help-block" ng-show="form.password.$error.required" data-translate="global.messages.validate.newpassword.required">
                             Your password is required.
