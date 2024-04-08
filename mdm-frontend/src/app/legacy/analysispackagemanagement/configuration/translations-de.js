@@ -77,6 +77,7 @@ angular.module('metadatamanagementApp').config([
             'version': 'Version',
             'published-at': 'veröffentlicht am',
             'published': 'Veröffentlicht am',
+            'pre-published-at': 'vorläufig veröffentlicht am',
             'generate-analysis-package-overview-tooltip': 'Klicken, um eine Übersicht über dieses Analysepaket als PDF zu erstellen.',
             'overview-generation-started-toast': 'Die Analysepaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
             'tags': 'Schlagwörter',
