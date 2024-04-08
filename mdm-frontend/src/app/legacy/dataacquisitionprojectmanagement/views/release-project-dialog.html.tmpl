@@ -48,11 +48,11 @@
             {{'data-acquisition-project-management.error.release.version.not-parsable-or-not-incremented' |
             translate:'{lastVersion: "' + lastVersion + '"}' }}
           </div>
-          <div ng-if="(isPreRelease() && !lastVersion) || (!isPreRelease() && project.embargoDate)" ng-message="valid-project-version">
+          <div ng-if="(isPreRelease() && !lastVersion) || (!isPreRelease() && project.embargoDate && !lastVersion)" ng-message="valid-project-version">
             {{'data-acquisition-project-management.error.release.version.no-beta-version' |
             translate }}
           </div>
-          <div ng-if="isPreRelease() && lastVersion" ng-message="valid-project-version">
+          <div ng-if="(isPreRelease() && lastVersion) || (!isPreRelease() && project.embargoDate && lastVersion)" ng-message="valid-project-version">
             {{'data-acquisition-project-management.error.release.version.no-major-version-change' |
             translate:{lastVersion: lastVersion, nextMajorVersion: getNextMajorVersion()} }}
           </div>
