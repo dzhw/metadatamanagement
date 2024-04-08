@@ -135,6 +135,27 @@
           $ctrl.dataPackage = res;
           $rootScope.selectedDataPackage = res;
           if ($ctrl.dataPackage) {
+            if ($ctrl.dataPackage.release && $ctrl.dataPackage.release.isPreRelease) {
+              // disable ordering in case of pre-release
+              $ctrl.isPreReleased = true;
+            }
+
+            // get project for embargo warning display
+            var id = ProjectReleaseService.stripVersionSuffix(
+              $ctrl.dataPackage.dataAcquisitionProjectId
+            );
+            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+              "dataPackages",
+              false, //all projects
+              id,
+              null);
+            ElasticSearchClient.search(projectQuery).then(function(results) {
+              if (results.hits.hits.length === 1) {
+                $ctrl.project = results.hits.hits[0]._source;
+              } else {
+                results.hits.hits.length < 1 ? console.error("No projects found") : console.error("Search resulted in more than one project being found.")
+              } 
+            });
             loadVersion($ctrl.dataPackageIdVersion.projectId, id);
           }
         }, function() {
@@ -158,7 +179,7 @@
               $ctrl.isPreReleased = true;
             }
 
-            // get project for embargo warning display (ToDo)
+            // get project for embargo warning display
             var id = ProjectReleaseService.stripVersionSuffix(
               $ctrl.dataPackage.dataAcquisitionProjectId
             );

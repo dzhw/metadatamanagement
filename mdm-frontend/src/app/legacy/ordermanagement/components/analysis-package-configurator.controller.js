@@ -1,24 +1,48 @@
 /* global _ */
-(function() {
+// (function() {
 
-  'use strict';
+ /* globals _ */
+'use strict';
 
-  function Controller($scope,
-                      $rootScope,
-                      $location,
-                      DataAcquisitionProjectReleasesResource,
-                      $state,
-                      $mdDialog,
-                      $transitions,
-                      LanguageService,
-                      ProjectReleaseService,
-                      ShoppingCartService,
-                      MessageBus,
-                      AnalysisPackageSearchService,
-                      CurrentAnalysisPackageService,
-                      AnalysisPackageCitationDialogService,
-                      DataPackageSearchService,
-                      Principal
+  angular
+    .module('metadatamanagementApp')
+    .controller('AnalysisPackageConfiguratorController', [
+      '$scope',
+      '$rootScope',
+      '$location',
+      'DataAcquisitionProjectReleasesResource',
+      '$state',
+      '$mdDialog',
+      '$transitions',
+      'LanguageService',
+      'ProjectReleaseService',
+      'ShoppingCartService',
+      'MessageBus',
+      'AnalysisPackageSearchService',
+      'CurrentAnalysisPackageService',
+      'AnalysisPackageCitationDialogService',
+      'DataPackageSearchService',
+      'Principal',
+      'dataAcquisitionProjectSearchService',
+      'ElasticSearchClient',
+      function ($scope,
+          $rootScope,
+          $location,
+          DataAcquisitionProjectReleasesResource,
+          $state,
+          $mdDialog,
+          $transitions,
+          LanguageService,
+          ProjectReleaseService,
+          ShoppingCartService,
+          MessageBus,
+          AnalysisPackageSearchService,
+          CurrentAnalysisPackageService,
+          AnalysisPackageCitationDialogService,
+          DataPackageSearchService,
+          Principal,
+          dataAcquisitionProjectSearchService,
+          ElasticSearchClient
   ) {
     var $ctrl = this;
     var initReady = false;
@@ -27,6 +51,7 @@
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onAnalysisPackageChange = MessageBus;
     $ctrl.noFinalRelease = false;
+    $ctrl.isPreReleased = false;
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
@@ -51,8 +76,15 @@
         .$promise
         .then(
           function(releases) {
-            $ctrl.releases = releases;
-            if (releases.length === 0) {
+            var releaseList = [];
+            for (var release of releases) {
+                // only allow fully released versions to be listed for ordering
+                if (!release.isPreRelease) {
+                  releaseList.push(release);
+                }
+            }
+            $ctrl.releases = releaseList;
+            if (releases.length === 0 || rel.length === 0) {
               $ctrl.noFinalRelease = true;
             }
           });
@@ -98,6 +130,26 @@
           $ctrl.analysisPackage = res;
           $rootScope.selectedDataPackage = res;
           if ($ctrl.analysisPackage) {
+            if ($ctrl.analysisPackage.release && $ctrl.analysisPackage.release.isPreRelease) {
+              // disable ordering on case of pre-release
+              $ctrl.isPreReleased = true;
+            }
+            // get project for embargo warning display
+            var id = ProjectReleaseService.stripVersionSuffix(
+              $ctrl.analysisPackage.dataAcquisitionProjectId
+            );
+            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+              "analysisPackages",
+              false, //all projects
+              id,
+              null);
+            ElasticSearchClient.search(projectQuery).then(function(results) {
+              if (results.hits.hits.length === 1) {
+                $ctrl.project = results.hits.hits[0]._source;
+              } else {
+                results.hits.hits.length < 1 ? console.error("No projects found") : console.error("Search resulted in more than one project being found.")
+              } 
+            });
             loadVersion($ctrl.analysisPackageIdVersion.projectId, id);
           }
         }, function() {
@@ -119,8 +171,24 @@
             }
             if ($ctrl.analysisPackage.release && $ctrl.analysisPackage.release.isPreRelease) {
               // disable ordering on case of pre-release
-              $ctrl.noFinalRelease = true;
+              $ctrl.isPreReleased = true;
             }
+            // get project for embargo warning display
+            var id = ProjectReleaseService.stripVersionSuffix(
+              $ctrl.analysisPackage.dataAcquisitionProjectId
+            );
+            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+              "analysisPackages",
+              false, //all projects
+              id,
+              null);
+            ElasticSearchClient.search(projectQuery).then(function(results) {
+              if (results.hits.hits.length === 1) {
+                $ctrl.project = results.hits.hits[0]._source;
+              } else {
+                results.hits.hits.length < 1 ? console.error("No projects found") : console.error("Search resulted in more than one project being found.")
+              } 
+            });
             loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);
             $ctrl.dataPackages.length = 0;
             _.forEach($ctrl.analysisPackage.analysisDataPackages,
@@ -182,10 +250,10 @@
         trans.$to().name === 'conceptDetail';
     });
 
-    $ctrl.showBackToEditButton = function() {
-      return $ctrl.selectedVersion && Principal.hasAuthority(
-        'ROLE_DATA_PROVIDER');
-    };
+    // $ctrl.showBackToEditButton = function() {
+    //   return $ctrl.selectedVersion && Principal.hasAuthority(
+    //     'ROLE_DATA_PROVIDER');
+    // };
 
     // closes the order menu in the parent component
     $ctrl.closeOrderMenu = function() {
@@ -207,6 +275,7 @@
       var search = $location.search();
       if (!newVal) { return; }
       if (newVal !== search.version) {
+        $ctrl.isPreReleased = false;
         search.version = $ctrl.selectedVersion;
         search.lang = $rootScope.currentLanguage;
         $state.go($state.current, search, {reload: true});
@@ -254,28 +323,39 @@
         $ctrl.analysisPackage, $event
       );
     };
-  }
 
-  angular
-    .module('metadatamanagementApp')
-    .controller('AnalysisPackageConfiguratorController', [
-      '$scope',
-      '$rootScope',
-      '$location',
-      'DataAcquisitionProjectReleasesResource',
-      '$state',
-      '$mdDialog',
-      '$transitions',
-      'LanguageService',
-      'ProjectReleaseService',
-      'ShoppingCartService',
-      'MessageBus',
-      'AnalysisPackageSearchService',
-      'CurrentAnalysisPackageService',
-      'AnalysisPackageCitationDialogService',
-      'DataPackageSearchService',
-      'Principal',
-      Controller
-    ]);
+    /**
+       * Whether the embargo date has expired or not.
+       * @returns true if it has expired else false
+       */
+    $ctrl.isEmbargoDateExpired = function() {
+      if ($ctrl.dataPackage.embargoDate) {
+        var current = new Date();
+        return new Date($ctrl.dataPackage.embargoDate) < current;
+      }
+      return true;
+    };
 
-})();
+  // angular
+  //   .module('metadatamanagementApp')
+  //   .controller('AnalysisPackageConfiguratorController', [
+  //     '$scope',
+  //     '$rootScope',
+  //     '$location',
+  //     'DataAcquisitionProjectReleasesResource',
+  //     '$state',
+  //     '$mdDialog',
+  //     '$transitions',
+  //     'LanguageService',
+  //     'ProjectReleaseService',
+  //     'ShoppingCartService',
+  //     'MessageBus',
+  //     'AnalysisPackageSearchService',
+  //     'CurrentAnalysisPackageService',
+  //     'AnalysisPackageCitationDialogService',
+  //     'DataPackageSearchService',
+  //     'Principal',
+  //     Controller
+  //   ]);
+
+}]);

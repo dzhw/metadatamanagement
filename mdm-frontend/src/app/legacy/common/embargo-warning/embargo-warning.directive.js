@@ -21,9 +21,8 @@ angular.module('metadatamanagementApp')
             if (localStorage.getItem('currentView') === 'orderView' || !Principal.isAuthenticated()) {
               $scope.isOrderView = true;
             }
-            //$scope.isOrderView = localStorage.getItem('currentView') === 'orderView';
             this.project = $scope.project;
-            this.dateString = this.project && this.project.embargoDate ? new Date(this.project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
+            this.type = this.project && this.project.configuration.requirements.dataPackageRequired ? 'data-package' : 'analysis-package';
           }],
 
         /* jshint -W098 */

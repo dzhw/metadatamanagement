@@ -163,7 +163,7 @@
                   {{::dataAcquisitionProject.release.isPreRelease ? '*' : ''}}
                 </td>
                 <td class="fdz-table-data-vertical-middle">{{::dataAcquisitionProject.embargoDate ?
-                  (dataAcquisitionProject.embargoDate | date:'dd.MM.yyyy') :
+                  (dataAcquisitionProject.embargoDate | date:'mediumDate') :
                   ''}}&nbsp;
                 </td>
                 <td class="fdz-table-data-vertical-middle" ng-switch="dataAcquisitionProject.assigneeGroup">
