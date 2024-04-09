@@ -13,9 +13,6 @@ angular.module('metadatamanagementApp')
         templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
           'releaseButton.html.tmpl',
         scope: {
-          // project: '=',
-          // isAssignedDataProvider: '=',
-          // isAssignedPublisher: '='
         },
         replace: true,
         controllerAs: 'ctrl',
@@ -53,6 +50,7 @@ angular.module('metadatamanagementApp')
             function(event, project) { // jshint ignore:line
               ctrl.project = CurrentProjectService.getCurrentProject();
           });
+          
           /**
            * Method to check wether there is an embargo date 
            * and wether this date has expired.

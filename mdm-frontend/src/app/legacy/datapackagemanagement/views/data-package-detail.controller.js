@@ -72,11 +72,9 @@ angular.module('metadatamanagementApp')
         }
       };
       var ctrl = this;
-      var activeProject;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
-      ctrl.hasBeenReleasedBefore = false;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         surveysCount: 0,
@@ -148,13 +146,7 @@ angular.module('metadatamanagementApp')
             ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
             ctrl.shouldDisplayEditButton = localStorage.getItem('currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
             ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
-            ctrl.embargoDate = project.embargoDate;
             ctrl.project = project;
-            ctrl.embargoString = project.embargoDate ? new Date(project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
-            ctrl.assigneeGroup = project.assigneeGroup;
-            activeProject = project;
-            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
-            console.log("provider?", ctrl.projectId)
             ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
           });
         }
@@ -236,7 +228,7 @@ angular.module('metadatamanagementApp')
        */
       ctrl.dataPackageEdit = function() {
         if (ProjectUpdateAccessService
-          .isUpdateAllowed(activeProject, 'dataPackages', true)) {
+          .isUpdateAllowed(ctrl.project, 'dataPackages', true)) {
           $state.go('dataPackageEdit', {id: ctrl.dataPackage.id});
         }
       };

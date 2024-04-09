@@ -313,11 +313,7 @@ angular.module('metadatamanagementApp').config([
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
         'not-master-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}). ',
         'no-order-allowed-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}), die nicht bestellbar ist. Wählen Sie eine bestellbare Version im Seitenmenü.',
-        'current-version':'Hier geht es zur aktuellen Version!',
-        'embargo-alert-provider': 'Dieses Datenpaket unterliegt bis zum [Datum] einem Embargo. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
-        'embargo-alert-order': 'Dieses Datenpaket ist derzeit noch nicht bestellbar, da es bis zum [Datum] einem Embargo unterliegt. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte Kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
-        'expired-embargo-alert-provider': 'Dieses Datenpaket unterliegt bis zum [Datum] einem Embargo. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
-        'expired-embargo-alert-order': 'Dieses Datenpaket ist derzeit noch nicht bestellbar, da es sich noch in der Aufbereitung befindet. Kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.'
+        'current-version':'Hier geht es zur aktuellen Version!'
       }
       //jscs:enable
     };

@@ -1,6 +1,7 @@
 <div>
     <md-button ng-if="ctrl.project" class="md-primary md-raised md-icon-button" ng-click="ctrl.toggleReleaseProject()"
-        ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER' || (ctrl.project.release && ctrl.project.release.isPreRelease && !ctrl.isEmbargoDateExpired())">
+        ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER' || (ctrl.project.release && ctrl.project.release.isPreRelease && !ctrl.isEmbargoDateExpired())"
+        aria-label="Toggle release state of project">
         <!-- tooltips -->
         <md-tooltip ng-if="ctrl.shouldDisplayUserNotAllowedTooltip()" ng-hide="!project" md-direction="bottom"
             md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

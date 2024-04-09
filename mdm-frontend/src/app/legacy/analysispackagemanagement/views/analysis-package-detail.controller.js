@@ -81,9 +81,7 @@ angular.module('metadatamanagementApp')
         }
       };
       var ctrl = this;
-      //var activeProject;
       var bowser = $rootScope.bowser;
-      ctrl.hasBeenReleasedBefore = false;
 
       ctrl.dataPackageList = {
         dataPackage: {
@@ -103,7 +101,6 @@ angular.module('metadatamanagementApp')
       ctrl.scriptAttachments = [];
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         publicationsCount: 0
@@ -203,15 +200,9 @@ angular.module('metadatamanagementApp')
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
             ctrl.shouldDisplayEditButton = localStorage.getItem('currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
             ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
             ctrl.project = project;
-            ctrl.embargoDate = project.embargoDate;
-            ctrl.embargoString = project.embargoDate ? new Date(project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
-            ctrl.assigneeGroup = project.assigneeGroup;
-            //activeProject = project;
-            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -269,6 +260,9 @@ angular.module('metadatamanagementApp')
       }, $log.error)
         .finally(blockUI.stop);
 
+        /**
+         * Scrolling handler.
+         */
       ctrl.scroll = function() {
         var element = $document[0].getElementById('related-objects');
         if ($rootScope.bowser.msie) {
@@ -277,6 +271,11 @@ angular.module('metadatamanagementApp')
           element.scrollIntoView({behavior: 'smooth', inline: 'nearest'});
         }
       };
+
+      /**
+       * Method to check if edits are allowed and switch to editing page of the
+       * current analysis package if so.
+       */
       ctrl.analysisPackageEdit = function() {
         if (ProjectUpdateAccessService
           .isUpdateAllowed(ctrl.project, 'analysisPackages', true)) {
@@ -284,13 +283,11 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      /**
+       * Method to toggle the side nav menu.
+       */
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
-      };
-
-      ctrl.showOrderButton = function() {
-        return ctrl.hasBeenReleasedBefore &&
-          ctrl.analysisPackage.release !== undefined;
       };
 
        /**

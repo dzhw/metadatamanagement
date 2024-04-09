@@ -23,6 +23,12 @@ angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValid
       return objectElement;
     };
 
+    /**
+     * Method triggering post validation of a project on full release and handling results.
+     * @param {*} id the ID of the project
+     * @param {*} version the version of the project to be validated
+     * @returns the validation promise
+     */
     var postValidate = function(id, version) {
       var deferred = $q.defer();
       JobLoggingService.start('postValidation');
@@ -65,6 +71,12 @@ angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValid
       return deferred.promise;
     };
 
+    /**
+     * Method triggering post validation of a project on pre-release and handling results.
+     * @param {*} id the ID of the project
+     * @param {*} version the version of the project to be validated
+     * @returns the validation promise
+     */
     var postValidatePreRelease = function(id, version) {
       var deferred = $q.defer();
       JobLoggingService.start('postValidation');

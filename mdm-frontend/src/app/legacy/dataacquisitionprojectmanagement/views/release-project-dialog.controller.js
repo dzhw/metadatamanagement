@@ -35,8 +35,6 @@ angular.module('metadatamanagementApp')
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     $scope.ENV = ENV;
-    $scope.isBetaRelease = false;
-    $scope.embargoString = $scope.project.embargoDate ? new Date($scope.project.embargoDate).toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}) : '';
 
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';
@@ -149,10 +147,10 @@ angular.module('metadatamanagementApp')
      * Method handling releases. 
      * In case of a pre-release the project is validated and released 
      * with the 'isPreRelease' attribute set to true. The metadata is sent to DA|RA.
-     * If it is not a pre-release the project is validated. If it is a beta release
-     * with a version < 1.0.0 the project is saved with the release object but no data is send to DA|RA.
-     * If it is a regular release the project is saved and the metadata is sent to DA|RA.
-     * @param {*} release 
+     * If it is a beta release (version < 1.0.0) the project is not validated, saved with 
+     * the release object but no data is send to DA|RA.
+     * If it is a regular release the project is validated, saved and the metadata is sent to DA|RA.
+     * @param {*} release the release object
      */
     $scope.ok = function(release) {
       if ($scope.isPreRelease()) {
@@ -188,47 +186,9 @@ angular.module('metadatamanagementApp')
                     id: project.id
                   });
                 $mdDialog.hide();
-<<<<<<< HEAD
-                $state.forceReload();
-              }).catch(function() {
-                  delete project.release;
-                  SimpleMessageToastService.openAlertMessageToast(
-                    i18nPrefix + 'dara-released-not-successfully', {
-                      id: project.id
-                    });
-                    $mdDialog.hide();
-                });
-          } else {
-            //REGULAR RELEASE
-            DaraReleaseResource.release(project)
-            .$promise.then(function() {
-                DataAcquisitionProjectResource.save(project).$promise
-                .then(function() {
-                    SimpleMessageToastService.openSimpleMessageToast(
-                      i18nPrefix + 'released-successfully', {
-                        id: project.id
-                      });
-                    CurrentProjectService.setCurrentProject(project);
-                    $mdDialog.hide();
-                    $state.forceReload();
-
-                    $scope.postTweet(release);
-                  });
-              }).catch(function() {
-                  delete project.release;
-                  SimpleMessageToastService.openAlertMessageToast(
-                    i18nPrefix + 'dara-released-not-successfully', {
-                      id: project.id
-                    });
-                  $mdDialog.hide();
-                });
-          }
-        }).catch(function() {
-=======
               });
         }).catch(function(error) {
           console.log(error)
->>>>>>> 4f0e4b4a97 (#3216: configured release dialog and postvalidation for pre release)
           $mdDialog.show($mdDialog.alert()
           .title($translate.instant(
             i18nPrefix + 'release-not-possible-title', {

@@ -49,7 +49,6 @@ angular.module('metadatamanagementApp')
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.dataPackage = null;
-      ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
@@ -66,7 +65,6 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.project = project;
-            ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
             ctrl.shouldDisplayEditButton = localStorage.getItem('currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;

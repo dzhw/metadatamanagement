@@ -33,7 +33,7 @@
           <md-button ng-if="shadow.release.isPreRelease" disabled class="md-icon-button md-primary">
             <md-icon md-font-set="material-icons" class="material-icons" role="img">schedule</md-icon>
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'data-acquisition-project-management.project-cockpit.versions.button.pre-released' | translate: {date: shadow.embargoString} }}
+              {{'data-acquisition-project-management.project-cockpit.versions.button.pre-released' | translate: {date: (shadow.embargoDate | date:'mediumDate')} }}
             </md-tooltip>
           </md-button>
         </md-list-item>

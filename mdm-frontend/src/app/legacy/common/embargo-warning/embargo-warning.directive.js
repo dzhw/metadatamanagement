@@ -2,6 +2,10 @@
 
 'use strict';
 
+/**
+ * Directive rendering a warning hint on the embargo date in place.
+ * Displayed messages depend on user role and current view.
+ */
 angular.module('metadatamanagementApp')
   .directive('embargoWarning', ['$state', 'Principal',
     function ($state, Principal) {
@@ -25,9 +29,7 @@ angular.module('metadatamanagementApp')
             this.type = this.project && this.project.configuration.requirements.dataPackageRequired ? 'data-package' : 'analysis-package';
           }],
 
-        /* jshint -W098 */
-        link: function ($scope, elem, attrs, ctrl) {
-          /* jshint +W098 */
+        link: function (ctrl) {
 
           /**
            * Whether the embargo date has expired or not.

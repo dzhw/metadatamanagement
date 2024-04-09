@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp').config([
         'tooltips': {
           'create-project': 'Click to create a new Data Acquisition Project.',
           'delete-project': 'Click to delete the selected Data Acquisition Project with all related data.',
-          'release-project': 'Click to release the selected project preliminary.',
+          'release-project': 'Click to release the selected project.',
           'prerelease-project': 'Click to preliminarily release the selected project.',
           'unrelease-project': 'Click to unrelease the selected project.',
           'cockpit-project': 'Click to go to the Project Cockpit.',

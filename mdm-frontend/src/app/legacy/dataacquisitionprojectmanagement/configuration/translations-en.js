@@ -320,11 +320,7 @@ angular.module('metadatamanagementApp').config([
         'version-not-found-alert': 'Your link refers to a version ({{oldVersion}}) of this page which does not exist. This is the current version ({{newVersion}}).',
         'not-master-alert': 'This is a {{hidden?"<u>hidden</u>":""}} shadow copy ({{version}}). ',
         'no-order-allowed-alert': 'This is a {{hidden?"<u>hidden</u>":""}} shadow copy ({{version}}) which is not orderable. Choose an available version in the side menu. ',
-        'current-version': 'Click here to open the current version!',
-        'embargo-alert-provider': 'Dieses Datenpaket unterliegt bis zum [Datum] einem Embargo. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
-        'embargo-alert-order': 'This data package is currently not yet available for order as it is subject to an embargo until [date]. Publication can only take place after this date. Please note that the embargo date does not necessarily correspond to the expected release date, please contact userservice@dzhw.eu if you wish to receive information regarding the release date of the data package.',
-        'expired-embargo-alert-provider': 'Dieses Datenpaket unterliegt bis zum [Datum] einem Embargo. Die Veröffentlichung kann erst nach diesem Datum erfolgen. Bitte beachten Sie, dass das Embargodatum nicht dem erwarteten Veröffentlichungszeitpunkt entsprechen muss, bitte kontaktieren Sie userservice@dzhw.eu, wenn Sie Informationen bezüglich des Veröffentlichungsdatums des Datenpakets erhalten wollen.',
-        'expired-embargo-alert-order': 'This data package is currently not yet available for order as it is still being prepared. Contact userservice@dzhw.eu if you wish to receive information regarding the release date of the data package.'
+        'current-version': 'Click here to open the current version!'
       }
       //jscs:enable
     };

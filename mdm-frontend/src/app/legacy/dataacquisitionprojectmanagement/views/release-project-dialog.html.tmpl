@@ -23,7 +23,7 @@
     <md-button class="md-icon-button" disabled>
       <md-icon md-font-set="material-icons">info</md-icon>
     </md-button>
-    <span class="fdz-input-hint w-80">{{'data-acquisition-project-management.release.pre-release-hint' | translate:{id: project.id, date: embargoString} }}</span>
+    <span class="fdz-input-hint w-80">{{'data-acquisition-project-management.release.pre-release-hint' | translate:{id: project.id, date: (project.embargoDate | date:'mediumDate')} }}</span>
   </div>
   <form flex layout="column" layout-align="space-between stretch" name="releaseForm" class="ms-flex">
     <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">

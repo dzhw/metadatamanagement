@@ -41,8 +41,8 @@ angular.module('metadatamanagementApp')
         })
 
         /**
-         * Whether the current user is an assigned publisher of the project.
-         * @returns true if the user is an assigned publisher else false
+         * Whether the current user is not an assigned publisher of the project.
+         * @returns true if the user is not an assigned publisher else false
          */
         var isNotAssignedPublisher = function() {
           var loginName = Principal.loginName();
@@ -51,8 +51,8 @@ angular.module('metadatamanagementApp')
         };
 
         /**
-         * Whether the current user is an assigned data provider of the project.
-         * @returns true if the user is an assigned data provider else false
+         * Whether the current user is not an assigned data provider of the project.
+         * @returns true if the user is not an assigned data provider else false
          */
         var isNotAssignedDataprovider = function() {
           var loginName = Principal.loginName();
@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp')
 
         /**
          * Whether the project is released including pre-releases.
-         * @returns true if the project is released
+         * @returns true if the project is released or pre-released
          */
         var isProjectReleased = function() {
           return $scope.project.release;
@@ -84,10 +84,17 @@ angular.module('metadatamanagementApp')
           return isNotAssignedPublisher() || (isProjectReleased() && !$scope.project.release.isPreRelease);
         };
 
+        /**
+         * Whether the user has the PUBLISHER role.
+         * @returns 
+         */
         ctrl.isUserPublisher = function() {
           return Principal.hasAuthority('ROLE_PUBLISHER');
         };
 
+        /**
+         * Sets basic requirements in case of analysis packages being selected as the project type.
+         */
         ctrl.isAnalysisPackageChecked = function() {
           req.analysisPackagesRequired = true;
           req.dataPackagesRequired = false;
@@ -100,12 +107,18 @@ angular.module('metadatamanagementApp')
           req.conceptsRequired = false;
         };
 
+        /**
+         * Sets basic requirements in case of data packages being selected as the project type.
+         */
         ctrl.isDataPackageChecked = function() {
           req.analysisPackagesRequired = false;
           req.dataPackagesRequired = true;
           req.publicationsRequired = false;
         };
 
+        /**
+         * Resets embargo date, e.g. on final release.
+         */
         ctrl.removeEmbargoDate = function() {
           ctrl.project.embargoDate = null;
         }
