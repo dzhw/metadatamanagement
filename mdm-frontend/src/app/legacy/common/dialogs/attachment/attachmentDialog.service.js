@@ -30,6 +30,7 @@ angular.module('metadatamanagementApp').service('AttachmentDialogService', ['$md
         fullscreen: true,
         locals: {
           dialogConfig: {
+            surveySerialNumbers: dialogConfig.surveySerialNumbers,
             attachmentMetadata: dialogConfig.attachmentMetadata,
             attachmentTypes: dialogConfig.attachmentTypes,
             uploadCallback: dialogConfig.uploadCallback,

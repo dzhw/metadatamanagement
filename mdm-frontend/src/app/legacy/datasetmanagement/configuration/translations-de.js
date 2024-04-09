@@ -231,7 +231,7 @@ angular.module('metadatamanagementApp').config([
               'en': 'can be used via remote desktop'
             },
             'onsite-suf': {
-              'de': 'Ist am Gastwissenschaftlerarbeitsplatz im DZHW in Hannover verfügbar',
+              'de': 'Ist am Gastwissenschaftler*innenarbeitsplatz im DZHW in Hannover verfügbar',
               'en': 'available at the workspace for visiting scientists at the DZHW in Hannover'
             }
           },

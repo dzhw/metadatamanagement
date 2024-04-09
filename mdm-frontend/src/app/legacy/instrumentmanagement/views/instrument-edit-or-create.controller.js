@@ -162,6 +162,7 @@ angular.module('metadatamanagementApp')
             'ROLE_DATA_PROVIDER'])) {
           if (entity) {
             entity.$promise.then(function(instrument) {
+              ctrl.dataPackageTitle = instrument.dataPackageTitle;
               ctrl.createMode = false;
               DataAcquisitionProjectResource.get({
                 id: instrument.dataAcquisitionProjectId
@@ -443,6 +444,8 @@ angular.module('metadatamanagementApp')
         };
 
         var dialogConfig = {
+          dataPackageTitle: ctrl.dataPackageTitle,
+          surveySerialNumbers: ctrl.getSurveySerialNumbersFromChips(),
           attachmentMetadata: attachment,
           attachmentTypes: instrumentAttachmentTypes,
           uploadCallback: upload,
@@ -479,6 +482,8 @@ angular.module('metadatamanagementApp')
         };
 
         var dialogConfig = {
+          dataPackageTitle: ctrl.dataPackageTitle,
+          surveySerialNumbers: ctrl.getSurveySerialNumbersFromChips(),
           attachmentMetadata: null,
           attachmentTypes: instrumentAttachmentTypes,
           uploadCallback: upload,
@@ -492,6 +497,18 @@ angular.module('metadatamanagementApp')
               ctrl.loadAttachments(true);
             });
       };
+
+      /**
+       * collects all numbers of surveyChips, so that an array of serial numbers can be returned
+       * @returns array of all survey serial numbers, e.g. [1, 3]
+       */
+      ctrl.getSurveySerialNumbersFromChips = function() {
+        var surveyIds = [];
+        ctrl.surveyChips.forEach(function(chip) {
+          surveyIds.push(chip.number);
+        });
+        return surveyIds;
+      }
 
       ctrl.moveAttachmentUp = function() {
         var a = ctrl.attachments[ctrl.currentAttachmentIndex - 1];

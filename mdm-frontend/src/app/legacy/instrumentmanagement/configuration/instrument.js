@@ -103,10 +103,15 @@ function($stateProvider, $urlRouterProvider) {
           }, 500);
         }],
         resolve: {
-          entity: ['$stateParams', 'InstrumentResource',
-            function($stateParams, InstrumentResource) {
+          entity: ['$stateParams', 'InstrumentResource', 'DataPackageResource',
+            function($stateParams, InstrumentResource, DataPackageResource) {
               return InstrumentResource.get({
                 id: $stateParams.id
+              }).$promise.then(instrument => {
+                return DataPackageResource.get({id: instrument.dataPackageId}).$promise.then(dataPackage => {
+                  instrument.dataPackageTitle = dataPackage.title;
+                  return instrument;
+                });
               });
             }
           ]
