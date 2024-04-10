@@ -319,7 +319,8 @@ public class DataAcquisitionProjectManagementService
         // hint: releases after pre-releases do not count as rereleases at this point
         if (shadowCopyingEndedEvent.isRerelease()) {
           // do not send mails for rereleases
-          if (shadowCopyingEndedEvent.isReleaseAfterPreRelease() && !shadowCopyingEndedEvent.getRelease().getIsPreRelease()) {
+          if (shadowCopyingEndedEvent.isReleaseAfterPreRelease()
+              && !shadowCopyingEndedEvent.getRelease().getIsPreRelease()) {
             // in case of a release after a pre-release update info on Dara
             daraService
                 .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()

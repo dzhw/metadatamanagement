@@ -249,12 +249,12 @@ public class PostValidationService {
     }
 
     if (isProjectStateInvalid(requirements.isDataPackagesRequired(),
-      configuration.getDataPackagesState())) {
+        configuration.getDataPackagesState())) {
       information.add("dataPackages");
     }
 
     if (isProjectStateInvalid(requirements.isAnalysisPackagesRequired(),
-      configuration.getAnalysisPackagesState())) {
+        configuration.getAnalysisPackagesState())) {
       information.add("analysisPackages");
     }
 

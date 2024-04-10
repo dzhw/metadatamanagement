@@ -130,15 +130,7 @@
 			"copy_to": "all"
 		},
 		"release": {
-      "type": "object",
-      "properties": {
-        "version": {
-          "type": "keyword"
-        },
-        "isPreRelease": {
-          "type": "boolean"
-        }
-      }
+      "type": "keyword"
 		},
 		"shadow": {
 			"type": "keyword"
