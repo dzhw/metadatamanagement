@@ -75,6 +75,7 @@ angular.module('metadatamanagementApp').config([
             'fundingRef': 'Förderkennzeichen',
             'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
+            'embargo-date': 'Embargo-Datum',
             'published-at': 'veröffentlicht am',
             'published': 'Veröffentlicht am',
             'pre-published-at': 'vorläufig veröffentlicht am',

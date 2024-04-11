@@ -75,6 +75,7 @@ angular.module('metadatamanagementApp').config([
             'fundingRef': 'Funding reference',
             'fundingProgram': 'Associated funding program',
             'version': 'Version',
+            'embargo-date': 'Embargo Date',
             'published-at': 'published at',
             'published': 'Published at',
             'pre-published-at': 'preliminarily published at',

@@ -69,6 +69,10 @@
           <span ng-if="$ctrl.options.analysisPackage.release && $ctrl.options.analysisPackage.release.isPreRelease" class="md-secondary">{{$ctrl.options.analysisPackage.release.version + ' (' + ('analysis-package-management.detail.label.pre-published-at' | translate) + ' ' + ($ctrl.options.analysisPackage.release.firstDate + 'Z' | date:'mediumDate') + ')'}}</span>
           <span ng-if="!$ctrl.options.analysisPackage.release" class="md-secondary">{{'analysis-package-management.detail.not-yet-released' | translate}}</span>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.project.embargoDate">
+          <h5>{{'analysis-package-management.detail.label.embargo-date' | translate }}:</h5>
+          <span class="md-secondary">{{$ctrl.options.project.embargoDate | date:'mediumDate'}}</span>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.options.analysisPackage.annotations">
           <h5>{{'analysis-package-management.detail.label.annotations' | translate }}:</h5>
           <p

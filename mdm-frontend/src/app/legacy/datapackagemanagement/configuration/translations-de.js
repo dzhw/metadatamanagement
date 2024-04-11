@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config([
             'fundingRef': 'Förderkennzeichen',
             'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
+            'embargo-date': 'Embargo-Datum',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
             'transmission-via-VerbundFdb': 'Datenmeldung über den VerbundFDB',
