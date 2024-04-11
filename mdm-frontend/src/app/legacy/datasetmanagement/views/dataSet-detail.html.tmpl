@@ -34,6 +34,7 @@
           template-url="scripts/datasetmanagement/templates/attachments.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
+          ng-if="ctrl.isProviderView || (!ctrl.isProviderView && !ctrl.dataSet.release.isPreRelease)"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"

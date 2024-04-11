@@ -93,6 +93,7 @@
           template-url="scripts/analysispackagemanagement/templates/attachments.html.tmpl"></fdz-detail>
         <md-divider ng-if="ctrl.attachments.length > 0 "></md-divider>
         <fdz-related-objects
+          ng-if="ctrl.isProviderView || (!ctrl.isProviderView && !ctrl.analysisPackage.release.isPreRelease)"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
