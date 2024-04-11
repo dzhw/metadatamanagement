@@ -22,6 +22,8 @@ angular.module('metadatamanagementApp')
           });
         }
         $scope.form = $ctrl.currentForm;
+        $scope.isQuestionnaire = $ctrl.attachmentMetadataType === "Questionnaire"
+          || $ctrl.attachmentMetadataType === "Variable Questionnaire";
       };
 
       $ctrl.deletePerson = function(index) {
@@ -121,5 +123,16 @@ angular.module('metadatamanagementApp')
         delete $ctrl.people[personIndex].orcid;
         $ctrl.currentForm.$setDirty();
       };
+
+      // Show error for questionnaire mandatory fields firstName and lastName,
+      // whenever user entered input for some fields (firstName or lastName or
+      // middleName or orcid) and either firstName or lastName is null.
+      $scope.questionnaireFieldsInvalid = function(person) {
+        return (!!person.firstName && !person.lastName) ||
+          (!person.firstName && !!person.lastName) ||
+          !!person.middleName ||
+          !!person.orcid
+      }
+      
     }]);
 

@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').config([
         'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
         'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
         'error': {
-          'attachment-has-validation-errors-toast': 'The file has not been saved because there are invalid fields!.',
+          'attachment-has-validation-errors-toast': 'The file has not been saved because there are invalid fields.',
           'description': {
             'i18n-string-not-empty': 'The description must not be empty at least for one language.',
             'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.'
