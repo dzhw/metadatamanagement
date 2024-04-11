@@ -8,7 +8,8 @@
     bindings: {
       citationDetails: '=',
       currentForm: '<',
-      selectedLanguage: '<'
+      selectedLanguage: '<',
+      attachmentMetadataType: '<'
     }
   };
 
