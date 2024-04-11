@@ -190,6 +190,12 @@ angular.module('metadatamanagementApp').config([
             'config': 'Einstellungen',
             'versions': 'Versionen'
           },
+          'release-settings': {
+            'header': 'Einstellungen zur Veröffentlichung',
+            'label': 'Embargo-Datum',
+            'info': 'Wenn das Projekt vorerst vorläufig freigegeben werden soll, müssen Sie hier ein Embargo-Datum setzen, welches dem Zeitpunkt der geplanten Veröffentlichung entspricht.',
+            'delete-tooltip': 'Embargo-Datum entfernen'
+          },
           'requirements': {
             'header': 'Erwartete Metadaten',
             'dataPackages': 'Datenpaket',

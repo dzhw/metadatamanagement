@@ -48,9 +48,7 @@ angular.module('metadatamanagementApp')
          * @returns true if the user is not an assigned publisher else false
          */
         var isNotAssignedPublisher = function() {
-          var loginName = Principal.loginName();
-          var publishers = _.get(ctrl.project, 'configuration.publishers', []);
-          return publishers.indexOf(loginName) === -1;
+          return ctrl.project.configuration.publishers.indexOf(Principal.loginName()) === -1;
         };
 
         /**
@@ -58,9 +56,7 @@ angular.module('metadatamanagementApp')
          * @returns true if the user is not an assigned data provider else false
          */
         var isNotAssignedDataprovider = function() {
-          var loginName = Principal.loginName();
-          var publishers = _.get(ctrl.project, 'configuration.dataproviders', []);
-          return publishers.indexOf(loginName) === -1;
+          return ctrl.project.configuration.dataProviders.indexOf(Principal.loginName()) === -1;
         };
 
         /**
@@ -68,7 +64,7 @@ angular.module('metadatamanagementApp')
          * @returns true if the project is released or pre-released
          */
         var isProjectReleased = function() {
-          return $scope.project.release;
+          return $scope.project.release ? true : false;
         };
 
         /**
