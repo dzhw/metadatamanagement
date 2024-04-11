@@ -144,7 +144,8 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
-            ctrl.shouldDisplayEditButton = localStorage.getItem('currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
+            ctrl.shouldDisplayEditButton = localStorage.getItem(
+              'currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
             ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
             ctrl.project = project;
             ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';

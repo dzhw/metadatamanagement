@@ -24,9 +24,9 @@
               "src/manifest.json",
               "src/assets",
               {
-                  "glob": "**/*.html.tmpl",
-                  "input": "src/app/legacy",
-                  "output": "scripts/"
+                "glob": "**/*.html.tmpl",
+                "input": "src/app/legacy",
+                "output": "scripts/"
               },
               {
                 "glob": "**/*",
@@ -38,12 +38,30 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/scss/main.scss",
               "src/scss/fdz.scss",
-              { "input": "./node_modules/angular-material/angular-material.css", "bundleName": "vendor-styles"},
-              { "input": "./node_modules/angular-block-ui/dist/angular-block-ui.css", "bundleName": "vendor-styles"},
-              { "input": "./node_modules/highlightjs/styles/default.css", "bundleName": "vendor-styles"},
-              { "input": "./node_modules/angular-jk-carousel/dist/jk-carousel.css", "bundleName": "vendor-styles"},
-              { "input": "./node_modules/jsonformatter/dist/json-formatter.css", "bundleName": "vendor-styles"},
-              { "input": "./node_modules/fdz-paginator/dest/fdz-paginator.css", "bundleName": "vendor-styles"}
+              {
+                "input": "./node_modules/angular-material/angular-material.css",
+                "bundleName": "vendor-styles"
+              },
+              {
+                "input": "./node_modules/angular-block-ui/dist/angular-block-ui.css",
+                "bundleName": "vendor-styles"
+              },
+              {
+                "input": "./node_modules/highlightjs/styles/default.css",
+                "bundleName": "vendor-styles"
+              },
+              {
+                "input": "./node_modules/angular-jk-carousel/dist/jk-carousel.css",
+                "bundleName": "vendor-styles"
+              },
+              {
+                "input": "./node_modules/jsonformatter/dist/json-formatter.css",
+                "bundleName": "vendor-styles"
+              },
+              {
+                "input": "./node_modules/fdz-paginator/dest/fdz-paginator.css",
+                "bundleName": "vendor-styles"
+              }
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
@@ -108,15 +126,12 @@
               "./node_modules/angulartics-piwik/src/angulartics-piwik.js",
               "./node_modules/angular-uuid/angular-uuid.js",
               "./node_modules/citation-js/build/citation.js",
-
               "src/app/legacy/app.js",
               "src/app/legacy/app.constants.js",
-
               "src/app/legacy/start/configuration/start.js",
               "src/app/legacy/start/configuration/translations-de.js",
               "src/app/legacy/start/configuration/translations-en.js",
               "src/app/legacy/start/views/start.controller.js",
-
               "src/app/legacy/administration/admin.js",
               "src/app/legacy/administration/configuration/translations-de.js",
               "src/app/legacy/administration/configuration/translations-en.js",
@@ -133,7 +148,6 @@
               "src/app/legacy/administration/usermanagement/user.resource.js",
               "src/app/legacy/administration/usermanagement/user-message-dialog.controller.js",
               "src/app/legacy/administration/usermanagement/edit-user.controller.js",
-
               "src/app/legacy/usermanagement/configuration/translations-de.js",
               "src/app/legacy/usermanagement/configuration/translations-en.js",
               "src/app/legacy/usermanagement/account/account.js",
@@ -163,7 +177,6 @@
               "src/app/legacy/usermanagement/auth/auth.interceptor.js",
               "src/app/legacy/usermanagement/welcome/services/welcome-dialog.service.js",
               "src/app/legacy/usermanagement/welcome/views/welcome-dialog.controller.js",
-
               "src/app/legacy/common/easteregg/egg.js",
               "src/app/legacy/common/easteregg/thankyou.js",
               "src/app/legacy/common/easteregg/confused.js",
@@ -273,16 +286,13 @@
               "src/app/legacy/common/embargo-warning/embargo-warning.directive.js",
               "src/app/legacy/common/embargo-warning/configuration/translations-de.js",
               "src/app/legacy/common/embargo-warning/configuration/translations-en.js",
-
               "src/app/legacy/filemanagement/resources/file.resource.js",
               "src/app/legacy/filemanagement/services/excelReader.service.js",
               "src/app/legacy/filemanagement/services/fileReader.service.js",
-
               "src/app/legacy/disclosure/configuration/disclosure.js",
               "src/app/legacy/disclosure/configuration/translations-de.js",
               "src/app/legacy/disclosure/configuration/translations-en.js",
               "src/app/legacy/disclosure/views/disclosure.controller.js",
-
               "src/app/legacy/variablemanagement/configuration/variable.js",
               "src/app/legacy/variablemanagement/configuration/translations-de.js",
               "src/app/legacy/variablemanagement/configuration/translations-en.js",
@@ -297,7 +307,6 @@
               "src/app/legacy/variablemanagement/views/variable-detail.controller.js",
               "src/app/legacy/variablemanagement/directives/diagram.directive.js",
               "src/app/legacy/variablemanagement/directives/create-variable-links.directive.js",
-
               "src/app/legacy/surveymanagement/configuration/survey.js",
               "src/app/legacy/surveymanagement/configuration/translations-de.js",
               "src/app/legacy/surveymanagement/configuration/translations-en.js",
@@ -326,7 +335,6 @@
               "src/app/legacy/surveymanagement/directives/geographic-coverage.controller.js",
               "src/app/legacy/surveymanagement/directives/unitValuePicker.controller.js",
               "src/app/legacy/surveymanagement/directives/unitValuePicker.directive.js",
-
               "src/app/legacy/datasetmanagement/configuration/dataSet.js",
               "src/app/legacy/datasetmanagement/configuration/translations-de.js",
               "src/app/legacy/datasetmanagement/configuration/translations-en.js",
@@ -346,7 +354,6 @@
               "src/app/legacy/datasetmanagement/views/data-set-edit-or-create.controller.js",
               "src/app/legacy/datasetmanagement/views/choose-data-set-number.controller.js",
               "src/app/legacy/datasetmanagement/views/create-report-dialog.controller.js",
-
               "src/app/legacy/questionmanagement/configuration/question.js",
               "src/app/legacy/questionmanagement/configuration/translations-de.js",
               "src/app/legacy/questionmanagement/configuration/translations-en.js",
@@ -359,7 +366,6 @@
               "src/app/legacy/questionmanagement/services/questionImageUpload.service.js",
               "src/app/legacy/questionmanagement/services/questionRepositoryClient.service.js",
               "src/app/legacy/questionmanagement/views/question-detail.controller.js",
-
               "src/app/legacy/datapackagemanagement/configuration/data-package.js",
               "src/app/legacy/datapackagemanagement/configuration/translations-de.js",
               "src/app/legacy/datapackagemanagement/configuration/translations-en.js",
@@ -387,7 +393,6 @@
               "src/app/legacy/common/details/related-objects.controller.js",
               "src/app/legacy/common/details/search.detail.component.js",
               "src/app/legacy/common/details/search.detail.controller.js",
-
               "src/app/legacy/instrumentmanagement/configuration/instrument.js",
               "src/app/legacy/instrumentmanagement/configuration/translations-de.js",
               "src/app/legacy/instrumentmanagement/configuration/translations-en.js",
@@ -404,7 +409,6 @@
               "src/app/legacy/instrumentmanagement/resources/instrumentVersions.resource.js",
               "src/app/legacy/instrumentmanagement/resources/instrumentAttachmentVersions.resource.js",
               "src/app/legacy/instrumentmanagement/resources/availableInstrumentNumbers.resource.js",
-
               "src/app/legacy/relatedpublicationmanagement/configuration/relatedPublication.js",
               "src/app/legacy/relatedpublicationmanagement/configuration/translations-de.js",
               "src/app/legacy/relatedpublicationmanagement/configuration/translations-en.js",
@@ -417,7 +421,6 @@
               "src/app/legacy/relatedpublicationmanagement/services/relatedPublicationRepositoryClient.service.js",
               "src/app/legacy/relatedpublicationmanagement/views/relatedPublicationDetail.controller.js",
               "src/app/legacy/relatedpublicationmanagement/services/relatedPublicationSearch.service.js",
-
               "src/app/legacy/dataacquisitionprojectmanagement/configuration/translations-de.js",
               "src/app/legacy/dataacquisitionprojectmanagement/configuration/translations-en.js",
               "src/app/legacy/dataacquisitionprojectmanagement/directives/data-acquisition-project-navbar-module.controller.js",
@@ -460,7 +463,6 @@
               "src/app/legacy/dataacquisitionprojectmanagement/directives/metadata-status.js",
               "src/app/legacy/dataacquisitionprojectmanagement/services/outdatedVersionNotifierService.js",
               "src/app/legacy/dataacquisitionprojectmanagement/directives/releaseButton.directive.js",
-
               "src/app/legacy/searchmanagement/services/elasticSearch.client.service.js",
               "src/app/legacy/searchmanagement/services/search.dao.js",
               "src/app/legacy/searchmanagement/services/elasticSearchAdmin.service.js",
@@ -528,7 +530,6 @@
               "src/app/legacy/searchmanagement/components/menu-toggle.component.js",
               "src/app/legacy/searchmanagement/components/menu-toggle.controller.js",
               "src/app/legacy/searchmanagement/components/package-info.controller.js",
-
               "src/app/legacy/ordermanagement/configuration/shoppingCart.js",
               "src/app/legacy/ordermanagement/configuration/translations-de.js",
               "src/app/legacy/ordermanagement/configuration/translations-en.js",
@@ -550,7 +551,6 @@
               "src/app/legacy/ordermanagement/components/data-package-configurator.controller.js",
               "src/app/legacy/ordermanagement/components/analysis-package-configurator.component.js",
               "src/app/legacy/ordermanagement/components/analysis-package-configurator.controller.js",
-
               "src/app/legacy/conceptmanagement/configuration/concept.js",
               "src/app/legacy/conceptmanagement/configuration/translations-de.js",
               "src/app/legacy/conceptmanagement/configuration/translations-en.js",
@@ -564,7 +564,6 @@
               "src/app/legacy/conceptmanagement/views/concept-edit-or-create.controller.js",
               "src/app/legacy/conceptmanagement/directives/uniqueConceptIdValidator.directive.js",
               "src/app/legacy/conceptmanagement/directives/composeConceptId.directive.js",
-
               "src/app/legacy/analysispackagemanagement/configuration/analysis-package.js",
               "src/app/legacy/analysispackagemanagement/configuration/translations-de.js",
               "src/app/legacy/analysispackagemanagement/configuration/translations-en.js",
@@ -617,9 +616,9 @@
                 "src/manifest.json",
                 "src/assets",
                 {
-                    "glob": "**/*.html.tmpl",
-                    "input": "src/app/legacy",
-                    "output": "scripts/"
+                  "glob": "**/*.html.tmpl",
+                  "input": "src/app/legacy",
+                  "output": "scripts/"
                 },
                 {
                   "glob": "**/*",
@@ -644,9 +643,9 @@
                 "src/manifest.json",
                 "src/assets",
                 {
-                    "glob": "**/*.html.tmpl",
-                    "input": "src/app/legacy",
-                    "output": "scripts/"
+                  "glob": "**/*.html.tmpl",
+                  "input": "src/app/legacy",
+                  "output": "scripts/"
                 },
                 {
                   "glob": "**/*",
@@ -677,9 +676,9 @@
                 "src/manifest.json",
                 "src/assets",
                 {
-                    "glob": "**/*.html.tmpl",
-                    "input": "src/app/legacy",
-                    "output": "scripts/"
+                  "glob": "**/*.html.tmpl",
+                  "input": "src/app/legacy",
+                  "output": "scripts/"
                 },
                 {
                   "glob": "**/*",
@@ -732,8 +731,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.js",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

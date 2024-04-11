@@ -3,7 +3,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitConfig', ['Principal', 'DataAcquisitionProjectLastReleaseResource',  function(Principal, DataAcquisitionProjectLastReleaseResource) {
+  .directive('projectCockpitConfig', [
+    'Principal', 
+    'DataAcquisitionProjectLastReleaseResource',  
+    function(Principal, DataAcquisitionProjectLastReleaseResource) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +

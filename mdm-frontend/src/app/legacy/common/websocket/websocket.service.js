@@ -1,7 +1,8 @@
 /*global SockJS, Stomp, window */
 'use strict';
 
-angular.module('metadatamanagementApp').factory('WebSocketService', ['$timeout', '$mdDialog', 'ENV', 'localStorageService', '$translate', 'LanguageService', 'ClientJS', '$location', 
+angular.module('metadatamanagementApp').factory('WebSocketService', [
+  '$timeout', '$mdDialog', 'ENV', 'localStorageService', '$translate', 'LanguageService', 'ClientJS', '$location', 
   function($timeout, $mdDialog, ENV, localStorageService,
     $translate, LanguageService, ClientJS, $location) {
       var socket = null;

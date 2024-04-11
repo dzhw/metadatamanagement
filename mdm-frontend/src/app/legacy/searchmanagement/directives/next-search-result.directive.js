@@ -1,7 +1,8 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').directive('nextSearchResult', ['SearchResultNavigatorService', 'SearchTypeToDetailsStateMapper', '$state', 'Principal', 
+angular.module('metadatamanagementApp').directive('nextSearchResult', [
+  'SearchResultNavigatorService', 'SearchTypeToDetailsStateMapper', '$state', 'Principal', 
   function(SearchResultNavigatorService, SearchTypeToDetailsStateMapper,
            $state, Principal) {
     return {

@@ -1,7 +1,14 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ShoppingCartService', ['OrderResource', 'localStorageService', '$state', 'SimpleMessageToastService', 'ProjectReleaseService', '$rootScope', '$q', 
+angular.module('metadatamanagementApp').service('ShoppingCartService', [
+  'OrderResource', 
+  'localStorageService', 
+  '$state', 
+  'SimpleMessageToastService', 
+  'ProjectReleaseService', 
+  '$rootScope', 
+  '$q', 
   function(OrderResource, localStorageService, $state,
            SimpleMessageToastService, ProjectReleaseService, $rootScope, $q) {
 

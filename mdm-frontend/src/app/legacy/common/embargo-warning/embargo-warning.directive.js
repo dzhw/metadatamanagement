@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp')
               $scope.isOrderView = true;
             }
             this.project = $scope.project;
-            this.type = this.project && this.project.configuration.requirements.dataPackageRequired ? 'data-package' : 'analysis-package';
+            this.type = this.project 
+              && this.project.configuration.requirements.dataPackageRequired ? 'data-package' : 'analysis-package';
           }],
 
         link: function (ctrl) {

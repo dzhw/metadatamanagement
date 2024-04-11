@@ -5,7 +5,8 @@
   @author Daniel Katzberg
 */
 
-angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValidationService', ['JobLoggingService', 'DataAcquisitionProjectPostValidationResource', '$q', 
+angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValidationService', [
+  'JobLoggingService', 'DataAcquisitionProjectPostValidationResource', '$q', 
   function(JobLoggingService,
     DataAcquisitionProjectPostValidationResource, $q) {
 

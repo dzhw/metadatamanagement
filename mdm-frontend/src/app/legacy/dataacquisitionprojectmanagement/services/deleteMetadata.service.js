@@ -1,6 +1,12 @@
 /* global _ */
 'use strict';
-angular.module('metadatamanagementApp').service('DeleteMetadataService', ['$rootScope', 'ProjectUpdateAccessService', 'CommonDialogsService', 'ElasticSearchAdminService', 'SimpleMessageToastService', '$injector', 
+angular.module('metadatamanagementApp').service('DeleteMetadataService', [
+  '$rootScope', 
+  'ProjectUpdateAccessService', 
+  'CommonDialogsService', 
+  'ElasticSearchAdminService', 
+  'SimpleMessageToastService', 
+  '$injector', 
   function($rootScope, ProjectUpdateAccessService, CommonDialogsService,
     ElasticSearchAdminService, SimpleMessageToastService, $injector) {
 

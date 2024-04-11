@@ -1,7 +1,12 @@
 /* globals _ */
 'use strict';
 
-angular.module('metadatamanagementApp').factory('Principal', ['$q', 'AccountResource', 'AuthServerProvider', '$rootScope', 'WelcomeDialogService', 
+angular.module('metadatamanagementApp').factory('Principal', [
+  '$q', 
+  'AccountResource', 
+  'AuthServerProvider', 
+  '$rootScope', 
+  'WelcomeDialogService', 
   function Principal($q, AccountResource, AuthServerProvider, $rootScope,
                      WelcomeDialogService) {
     var _identity;

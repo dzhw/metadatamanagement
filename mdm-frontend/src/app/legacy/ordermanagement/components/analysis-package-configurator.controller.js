@@ -147,7 +147,9 @@
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;
               } else {
-                results.hits.hits.length < 1 ? console.error("No projects found") : console.error("Search resulted in more than one project being found.")
+                results.hits.hits.length < 1 ? 
+                  console.error("No projects found") : 
+                  console.error("Search resulted in more than one project being found.")
               } 
             });
             loadVersion($ctrl.analysisPackageIdVersion.projectId, id);
@@ -186,7 +188,9 @@
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;
               } else {
-                results.hits.hits.length < 1 ? console.error("No projects found") : console.error("Search resulted in more than one project being found.")
+                results.hits.hits.length < 1 ? 
+                  console.error("No projects found") : 
+                  console.error("Search resulted in more than one project being found.")
               } 
             });
             loadVersion($ctrl.analysisPackage.dataAcquisitionProjectId, id);

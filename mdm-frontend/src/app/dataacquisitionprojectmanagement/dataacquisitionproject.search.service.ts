@@ -22,7 +22,7 @@ const DATA_ACQUISITION_PROJECT_INDEX_NAME = 'data_acquisition_projects';
 })
 export class DataacquisitionprojectSearchService {
 
-    constructor() {}
+    // constructor() {}
 
     /**
      * Creates an empty Elasticsearch bool query.
@@ -46,8 +46,8 @@ export class DataacquisitionprojectSearchService {
      * @param base the base object usually consisting of a field name and a value
      * @returns the fragment
      */
-    createFilterFragment(queryFragmentType: QueryFragmentType, base: Object) {
-        let fragment : QueryFragment = {};
+    createFilterFragment(queryFragmentType: QueryFragmentType, base: { [key: string]: unknown; } | undefined) {
+        const fragment : QueryFragment = {};
         switch (queryFragmentType) {
             case QueryFragmentType.term:
                 fragment.term = base;
@@ -99,51 +99,52 @@ export class DataacquisitionprojectSearchService {
      */
     createFilterQueryForProjects(pageIndex: number, 
         pageSize: number,
-        projectType: String | null,
+        projectType: string | null,
         assignedProjectsOnly: boolean,
-        projectId: String | null, 
-        assigneeGroup: String | null, 
-        releaseState: String | null, 
-        filterDataPackages: String[] | null,
-        additionalInfo: String | null,
-        loginName?: String): Query {
+        projectId: string | null, 
+        assigneeGroup: string | null, 
+        releaseState: string | null, 
+        filterDataPackages: string[] | null,
+        additionalInfo: string | null,
+        loginName?: string): Query {
         
-        let boolQuery = this.createBoolQuery();
+        const boolQuery = this.createBoolQuery();
         
         // add no shadows filter
-        let noShadowBase = {'shadow': false};
-        let noShadowsFilter = this.createFilterFragment(QueryFragmentType.term, noShadowBase);
+        const noShadowBase = {'shadow': false};
+        const noShadowsFilter = this.createFilterFragment(QueryFragmentType.term, noShadowBase);
         boolQuery.bool.filter?.push(noShadowsFilter);
 
         // dataproviders should only see assigned data
         if (assignedProjectsOnly && loginName) {
-            let assignedOnlyBase = {'configuration.dataProviders': loginName};
-            let assignedOnlyFilter = this.createFilterFragment(QueryFragmentType.term, assignedOnlyBase);
+            const assignedOnlyBase = {'configuration.dataProviders': loginName};
+            const assignedOnlyFilter = this.createFilterFragment(QueryFragmentType.term, assignedOnlyBase);
             boolQuery.bool.filter?.push(assignedOnlyFilter);
         }
 
         if (projectType) {
-            let requirement = 'configuration.requirements.is' + projectType.charAt(0).toUpperCase() + projectType.slice(1) + 'Required'
-            let typeBase = {[requirement]: true};
-            let typeFilter = this.createFilterFragment(QueryFragmentType.term, typeBase);
+            const requirement = 'configuration.requirements.is' + projectType.charAt(0).toUpperCase() 
+                + projectType.slice(1) + 'Required';
+            const typeBase = {[requirement]: true};
+            const typeFilter = this.createFilterFragment(QueryFragmentType.term, typeBase);
             boolQuery.bool.filter?.push(typeFilter);
         }
 
         if (projectId) {
-            let projectBase = {'id': projectId};
-            let projectFilter = this.createFilterFragment(QueryFragmentType.term, projectBase)
+            const projectBase = {'id': projectId};
+            const projectFilter = this.createFilterFragment(QueryFragmentType.term, projectBase);
             boolQuery.bool.filter?.push(projectFilter);
         }
 
         if (assigneeGroup) {
-            let assigneeGroupBase = {'assigneeGroup': assigneeGroup};
-            let assigneeGroupFilter = this.createFilterFragment(QueryFragmentType.term, assigneeGroupBase)
+            const assigneeGroupBase = {'assigneeGroup': assigneeGroup};
+            const assigneeGroupFilter = this.createFilterFragment(QueryFragmentType.term, assigneeGroupBase);
             boolQuery.bool.filter?.push(assigneeGroupFilter);
         }
 
         if (releaseState) {
-            let releaseStateBase = {'field': 'release'};
-            let releaseStateFilter = this.createFilterFragment(QueryFragmentType.exists, releaseStateBase)
+            const releaseStateBase = {'field': 'release'};
+            const releaseStateFilter = this.createFilterFragment(QueryFragmentType.exists, releaseStateBase);
             if (releaseState === "released") {
                 boolQuery.bool.must?.push(releaseStateFilter);
                 boolQuery.bool.must?.push({
@@ -166,21 +167,21 @@ export class DataacquisitionprojectSearchService {
         }
 
         if (filterDataPackages && filterDataPackages.length > 0) {
-            for (let dpFilter of filterDataPackages) {
-                let fieldName = 'configuration.requirements.is' + dpFilter + 'Required';
-                let dpFilterBase = {[fieldName]: true};
-                let dpFilterFilter = this.createFilterFragment(QueryFragmentType.term, dpFilterBase);
+            for (const dpFilter of filterDataPackages) {
+                const fieldName = 'configuration.requirements.is' + dpFilter + 'Required';
+                const dpFilterBase = {[fieldName]: true};
+                const dpFilterFilter = this.createFilterFragment(QueryFragmentType.term, dpFilterBase);
                 boolQuery.bool.filter?.push(dpFilterFilter);
             }
         }
 
         if (additionalInfo) {
-            let additionalBase = {'hasUserServiceRemarks': additionalInfo === 'true' ? true : false};
-            let additionalFilter = this.createFilterFragment(QueryFragmentType.term, additionalBase);
+            const additionalBase = {'hasUserServiceRemarks': additionalInfo === 'true' ? true : false};
+            const additionalFilter = this.createFilterFragment(QueryFragmentType.term, additionalBase);
             boolQuery.bool.filter?.push(additionalFilter);
         }
 
-        let queryBody : QueryBody = {
+        const queryBody : QueryBody = {
             track_total_hits: true,
             query: boolQuery,
             from: (pageIndex) * pageSize,
@@ -188,7 +189,7 @@ export class DataacquisitionprojectSearchService {
             sort: this.getDefaultSorting()
         };
 
-        let query : Query = {
+        const query : Query = {
             index: DATA_ACQUISITION_PROJECT_INDEX_NAME,
             body: queryBody
         };
@@ -207,43 +208,44 @@ export class DataacquisitionprojectSearchService {
      * @returns an Elasticsearch query
      */
     createSearchQueryForProjectsById(
-        projectType: String | null,
+        projectType: string | null,
         assignedProjectsOnly: boolean,
-        searchTerm: String | null,
-        loginName?: String | null) : Query {
+        searchTerm: string | null,
+        loginName?: string | null) : Query {
         
-        let boolQuery = this.createBoolQuery();
+        const boolQuery = this.createBoolQuery();
     
         // add no shadows filter
-        let noShadowBase = {'shadow': false};
-        let noShadowsFilter = this.createFilterFragment(QueryFragmentType.term, noShadowBase);
+        const noShadowBase = {'shadow': false};
+        const noShadowsFilter = this.createFilterFragment(QueryFragmentType.term, noShadowBase);
         boolQuery.bool.filter?.push(noShadowsFilter);
 
         // dataproviders should only see assigned data
         if (assignedProjectsOnly && loginName) {
-            let assignedOnlyBase = {'configuration.dataProviders': loginName};
-            let assignedOnlyFilter = this.createFilterFragment(QueryFragmentType.term, assignedOnlyBase);
+            const assignedOnlyBase = {'configuration.dataProviders': loginName};
+            const assignedOnlyFilter = this.createFilterFragment(QueryFragmentType.term, assignedOnlyBase);
             boolQuery.bool.filter?.push(assignedOnlyFilter);
         }
 
         if (projectType) {
-            let requirement = 'configuration.requirements.is' + projectType.charAt(0).toUpperCase() + projectType.slice(1) + 'Required'
-            let typeBase = {[requirement]: true};
-            let typeFilter = this.createFilterFragment(QueryFragmentType.term, typeBase);
+            const requirement = 'configuration.requirements.is' + projectType.charAt(0).toUpperCase() 
+                + projectType.slice(1) + 'Required';
+            const typeBase = {[requirement]: true};
+            const typeFilter = this.createFilterFragment(QueryFragmentType.term, typeBase);
             boolQuery.bool.filter?.push(typeFilter);
         }
 
-        let searchTermBase = {
+        const searchTermBase = {
             "id.ngrams": {
               "query": searchTerm || '',
               "operator": "AND",
               "minimum_should_match": "100%",
               "zero_terms_query": "ALL"
           }
-          }
-        let projectFilter = this.createFilterFragment(QueryFragmentType.match, searchTermBase)
+        };
+        const projectFilter = this.createFilterFragment(QueryFragmentType.match, searchTermBase);
         boolQuery.bool.filter?.push(projectFilter);
-        let queryBody : QueryBody = {
+        const queryBody : QueryBody = {
             track_total_hits: true,
             query: boolQuery,
             from: 0,
@@ -251,7 +253,7 @@ export class DataacquisitionprojectSearchService {
             sort: this.getDefaultSorting()
         };
 
-        let query : Query = {
+        const query : Query = {
             index: DATA_ACQUISITION_PROJECT_INDEX_NAME,
             body: queryBody
         };
@@ -262,4 +264,5 @@ export class DataacquisitionprojectSearchService {
 // necessary for using service in AngularJS
 getAngularJSGlobal()
     .module('metadatamanagementApp')
-    .factory('dataAcquisitionProjectSearchService', downgradeInjectable(DataacquisitionprojectSearchService) as any);
+    .factory('dataAcquisitionProjectSearchService', 
+        downgradeInjectable(DataacquisitionprojectSearchService) as unknown);

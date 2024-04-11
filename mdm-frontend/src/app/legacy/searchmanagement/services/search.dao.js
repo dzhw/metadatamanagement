@@ -2,7 +2,16 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClient', 'CleanJSObjectService', 'Principal', 'LanguageService', 'DataPackageIdBuilderService', 'AnalysisPackageIdBuilderService', 'SearchHelperService', 'clientId', 
+angular.module('metadatamanagementApp')
+  .service('SearchDao', [
+    'ElasticSearchClient', 
+    'CleanJSObjectService', 
+    'Principal', 
+    'LanguageService', 
+    'DataPackageIdBuilderService', 
+    'AnalysisPackageIdBuilderService', 
+    'SearchHelperService', 
+    'clientId', 
   function(ElasticSearchClient, CleanJSObjectService, Principal,
            LanguageService, DataPackageIdBuilderService,
            AnalysisPackageIdBuilderService,
@@ -468,8 +477,8 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
 
     return {
       /**
-       * Function creating elastic search query based on input parameters and returning request results.
-
+       * Function creating elastic search query based on input parameters 
+       * and returning request results.
        * @param {*} queryterm the term to search for
        * @param {*} pageNumber the current page number
        * @param {*} dataAcquisitionProjectId the id of the currently selected project
@@ -480,8 +489,8 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
        * @param {*} aggregations a list of fields aggregations should be created for
        * @param {*} newFilters filter objects created from the url parameters
        * @param {*} sortCriteria option for sorting
-       * @param {*} enforceReleased true if search applies only to released data else false
-       * @param {*} additionalSearchIndex an array of strings with the names of additional indices (relevant for public user search)
+       * @param {*} enforceReleased true if search applies only to released data
+       * @param {*} additionalSearchIndex an array of strings naming additional indices
        * @returns {*} seach result
        */
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,

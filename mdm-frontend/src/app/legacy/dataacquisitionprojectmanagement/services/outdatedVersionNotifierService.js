@@ -1,7 +1,8 @@
 /* globals _, bowser */
 'use strict';
 
-angular.module('metadatamanagementApp').service('OutdatedVersionNotifier', ['SimpleMessageToastService', '$document', '$mdToast', 'Principal', '$location', 
+angular.module('metadatamanagementApp').service('OutdatedVersionNotifier', [
+  'SimpleMessageToastService', '$document', '$mdToast', 'Principal', '$location', 
   function(SimpleMessageToastService, $document, $mdToast, Principal,
     $location) {
 
@@ -40,9 +41,11 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier', ['Sim
       var versionFromUrl = $location.search().version;
       if (Principal.loginName() && item.shadow) {
         var version = _.get(item, 'release.version');        
-        // prevent notification when in order view (data will always be an older version than the current, unreleased version)
+        // prevent notification when in order view (data will always be an older version 
+        // than the current, unreleased version)
         // but allow notifications for hidden datasets
-        // prevent notification for pre-released projects (data will always be an older version than the current, unreleased version in provider view)
+        // prevent notification for pre-released projects (data will always be an older version 
+        // than the current, unreleased version in provider view)
         if (Principal.isProviderActive() && !item.release.isPreRelease) {
           showLoggedInUserMessage(item.masterId, version, item.hidden);
         } else {

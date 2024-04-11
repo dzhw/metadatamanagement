@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('MigrationService', ['VERSION', 'localStorageService', 'ShoppingCartService', 
+angular.module('metadatamanagementApp').service('MigrationService', [
+  'VERSION', 'localStorageService', 'ShoppingCartService', 
   function(VERSION, localStorageService, ShoppingCartService) {
 
     var versionKey = 'version';

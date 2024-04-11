@@ -3,7 +3,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('metadataTypeStateCard', ['$state', 'ProjectStatusScoringService', 'ProjectUpdateAccessService', 'VariableUploadService', 'QuestionUploadService', 'DeleteMetadataService', 'SimpleMessageToastService', 'AnalysisPackageIdBuilderService', 
+  .directive('metadataTypeStateCard', [
+    '$state', 
+    'ProjectStatusScoringService', 
+    'ProjectUpdateAccessService', 
+    'VariableUploadService', 
+    'QuestionUploadService', 
+    'DeleteMetadataService', 
+    'SimpleMessageToastService', 
+    'AnalysisPackageIdBuilderService', 
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
       VariableUploadService, QuestionUploadService, DeleteMetadataService,
       SimpleMessageToastService, AnalysisPackageIdBuilderService) {

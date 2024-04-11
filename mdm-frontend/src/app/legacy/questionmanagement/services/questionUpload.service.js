@@ -1,7 +1,24 @@
 /* global _, document */
 'use strict';
 
-angular.module('metadatamanagementApp').service('QuestionUploadService', ['FileReaderService', 'QuestionResource', 'QuestionRepositoryClient', 'JobLoggingService', 'QuestionImageUploadService', 'CleanJSObjectService', 'ErrorMessageResolverService', '$q', 'ElasticSearchAdminService', '$rootScope', '$translate', '$mdDialog', 'QuestionIdBuilderService', 'DataPackageIdBuilderService', 'InstrumentIdBuilderService', 'Upload', '$timeout', 
+angular.module('metadatamanagementApp').service('QuestionUploadService', [
+  'FileReaderService', 
+  'QuestionResource', 
+  'QuestionRepositoryClient', 
+  'JobLoggingService', 
+  'QuestionImageUploadService', 
+  'CleanJSObjectService', 
+  'ErrorMessageResolverService', 
+  '$q', 
+  'ElasticSearchAdminService', 
+  '$rootScope', 
+  '$translate', 
+  '$mdDialog', 
+  'QuestionIdBuilderService', 
+  'DataPackageIdBuilderService', 
+  'InstrumentIdBuilderService', 
+  'Upload', 
+  '$timeout', 
   function(FileReaderService, QuestionResource, QuestionRepositoryClient,
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,

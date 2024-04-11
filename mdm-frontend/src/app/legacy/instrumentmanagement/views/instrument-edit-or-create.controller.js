@@ -188,7 +188,8 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-            (!CurrentProjectService.getCurrentProject().release || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
+            (!CurrentProjectService.getCurrentProject().release 
+              || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                 .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                   'instruments', true)) {

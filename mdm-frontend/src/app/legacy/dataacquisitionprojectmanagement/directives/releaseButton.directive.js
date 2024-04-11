@@ -84,8 +84,9 @@ angular.module('metadatamanagementApp')
 
           /**
            * Checks whether the tooltip for regular releases should be shown.
-           * Regular releases are allowed if the the project is currently not released and there is no embargo date or the
-           * embargo date has expired. It is also allowed if the project is currently released but in a pre-release and the
+           * Regular releases are allowed if the the project is currently not released and there is 
+           * no embargo date or the embargo date has expired. It is also allowed if the project is 
+           * currently released but in a pre-release and the
            * embargo date has expired.
            * @returns 
            */
@@ -140,7 +141,8 @@ angular.module('metadatamanagementApp')
 
           /**
            * Checks whether the pre-release icon should be shown.
-           * Pre-Releases are only possible if the project is currently not released and the embargo date is set and has not expired.
+           * Pre-Releases are only possible if the project is currently not released 
+           * and the embargo date is set and has not expired.
            */
           ctrl.shouldDisplayPreReleaseIcon = function () {
             return !ctrl.project.release && !ctrl.isEmbargoDateExpired();
@@ -148,7 +150,8 @@ angular.module('metadatamanagementApp')
 
           /**
            * Checks whether the regular release icon should be shown.
-           * Regular releases are possible if the project is currently not released and there is no embargo date or the embargo date has expired.
+           * Regular releases are possible if the project is currently not released 
+           * and there is no embargo date or the embargo date has expired.
            * Regular releases are also possible if the project is currently pre-released.
            * @returns 
            */

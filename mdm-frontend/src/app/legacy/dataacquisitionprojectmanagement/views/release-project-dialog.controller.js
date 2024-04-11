@@ -149,7 +149,8 @@ angular.module('metadatamanagementApp')
      * with the 'isPreRelease' attribute set to true. The metadata is sent to DA|RA.
      * If it is a beta release (version < 1.0.0) the project is not validated, saved with 
      * the release object but no data is send to DA|RA.
-     * If it is a regular release the project is validated, saved and the metadata is sent to DA|RA.
+     * If it is a regular release the project is validated, saved and 
+     * the metadata is sent to DA|RA.
      * @param {*} release the release object
      */
     $scope.ok = function(release) {
@@ -188,7 +189,7 @@ angular.module('metadatamanagementApp')
                 $mdDialog.hide();
               });
         }).catch(function(error) {
-          console.log(error)
+          console.log(error);
           $mdDialog.show($mdDialog.alert()
           .title($translate.instant(
             i18nPrefix + 'release-not-possible-title', {
@@ -271,13 +272,14 @@ angular.module('metadatamanagementApp')
                 id: project.id
               }))
             .ok($translate.instant('global.buttons.ok')));
-          })
+          });
       };
     };
 
     /**
-     * Method to check wether the release is going to be a pre-release. If an embargo date is set
-     * and has not expired it is a pre-release. Otherwise it is a regular release.
+     * Method to check wether the release is going to be a pre-release. 
+     * If an embargo date is set and has not expired it is a pre-release. 
+     * Otherwise it is a regular release.
      */
     $scope.isPreRelease = function() {
       if ($scope.project.embargoDate) {

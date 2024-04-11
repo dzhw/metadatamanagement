@@ -3,7 +3,17 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitStatus', ['SearchDao', 'ProjectUpdateAccessService', 'SimpleMessageToastService', 'Principal', 'DataAcquisitionProjectPostValidationService', '$mdDialog', '$translate', 'ProjectReleaseService', '$q',  function(
+  .directive('projectCockpitStatus', [
+    'SearchDao', 
+    'ProjectUpdateAccessService', 
+    'SimpleMessageToastService', 
+    'Principal', 
+    'DataAcquisitionProjectPostValidationService', 
+    '$mdDialog', 
+    '$translate', 
+    'ProjectReleaseService', 
+    '$q',  
+    function(
     SearchDao, ProjectUpdateAccessService,
     SimpleMessageToastService, Principal,
     DataAcquisitionProjectPostValidationService,

@@ -1,7 +1,10 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJSObjectService', 'Principal', 'LanguageService', 
+angular.module('metadatamanagementApp')
+  .factory(
+    'SearchHelperService', 
+    ['CleanJSObjectService', 'Principal', 'LanguageService', 
   function(CleanJSObjectService, Principal, LanguageService) {
     var domainObjectFilterNames = ['data-package', 'analysis-package','survey',
       'data-set', 'instrument', 'variable', 'question'];
@@ -671,8 +674,8 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
     };
 
     /**
-     * Adds a must term filter reducing results to shadow copies only, that are not hidden
-     * and not pre-released.
+     * Adds a must term filter reducing results to shadow copies only, 
+     * that are not hidden and not pre-released.
      * @param {*} query the query this filter should be added to
      * @param {*} filter the filter parameter
      */
@@ -699,16 +702,16 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
     };
 
     /**
-     * Distiguishes between szenarios of showing only master data or showing only
-     * shadow copies.
-     * If the user is logged in and the provider view is active the search will be
-     * limited to master data only so show project based search results.
+     * Distiguishes between szenarios of showing only master data
+     * or showing only shadow copies.
+     * If the user is logged in and the provider view is active the search
+     * will be limited to master data only so show project based search results.
      * If the user is not logged in (public user) or is in the order view
      * the search will be limited to shadow copies only which represent released
      * versions of data packages and can therefore be ordered.
      * @param {*} query the query this filter should be added to
      * @param {*} filter  the filter parameter
-     * @param {boolean} enforceReleased true if search should be limited to released versions
+     * @param {boolean} enforceReleased true if enforcing released versions
      */
     var addShadowCopyFilter = function(query, filter, enforceReleased) {
       if (!enforceReleased && Principal.loginName() &&
@@ -880,8 +883,9 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         };
 
         if (!Principal.loginName() || !Principal.isProviderActive()) {
-          // as public users and users in order view are only able to find not hidden,
-          // not pre-released shadow object, aggregations need to account for that, too
+          // as public users and users in order view are only able to find
+          // not hidden, not pre-released shadow object, aggregations need
+          // to account for that, too
           var shadowCopyFilter = {
             'bool': {
               'must': [{
