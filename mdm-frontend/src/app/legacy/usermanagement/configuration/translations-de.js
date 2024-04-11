@@ -99,20 +99,23 @@ angular.module('metadatamanagementApp').config([
                 'required': 'Ihr Benutzer:innenname wird benötigt.',
                 'minlength': 'Ihr Benutzer:innenname muss mindestens 1 Zeichen lang sein.',
                 'maxlength': 'Ihr Benutzer:innenname darf nicht länger als 50 Zeichen sein.',
-                'pattern': 'Ihr Benutzer:innenname darf nur Kleinbuchstaben und Ziffern enthalten.'
+                'pattern': 'Ihr Benutzer:innenname darf nur Kleinbuchstaben und Ziffern enthalten.',
+                'validationsummary': 'Ihr Benutzername muss zwischen 1-50 Zeichen lang sein und darf nur Kleinbuchstaben und Ziffern enthalten.'
               },
               'firstname': {
                 'required': 'Ihr Vorname wird benötigt.',
                 'minlength': 'Ihr Vorname muss mindestens 1 Zeichen lang sein.',
-                'maxlength': 'Ihr Vorname darf nicht länger als 50 Zeichen sein.'
+                'maxlength': 'Ihr Vorname darf nicht länger als 50 Zeichen sein.',
+                'validationsummary': 'Ihr Vorname muss zwischen 1-50 Zeichen lang sein.'
               },
               'lastname': {
                 'required': 'Ihr Nachname wird benötigt.',
                 'minlength': 'Ihr Nachname muss mindestens 1 Zeichen lang sein.',
-                'maxlength': 'Ihr Nachname darf nicht länger als 50 Zeichen sein.'
+                'maxlength': 'Ihr Nachname darf nicht länger als 50 Zeichen sein.',
+                'validationsummary': 'Ihr Nachname muss zwischen 1-50 Zeichen lang sein.'
               }
             },
-            'success': '<strong>Registrierung gespeichert!</strong> Bitte überprüfen Sie Ihre E-Mails für die Bestätigung.',
+            'success': '<strong>Registrierung gespeichert!</strong> Guten Tag {{firstname}} {{lastname}}, vielen Dank für Ihre Registrierung im Metadatenmangementsystem (MDM) des FDZ-DZHW. Bitte informieren Sie Ihre Kontaktperson im FDZ-DZHW, dass die Registrierung abgeschlossen ist und teilen Sie ihr Ihren Benutzer:innennamen mit. Nach der Zuweisung zu einem Datenaufnahmeprojekt können Sie mit der Bearbeitung der Metadaten beginnen. Mit besten Grüßen Ihr FDZ-DZHW-Team.',
             'error': {
               'fail': '<strong>Registrierung fehlgeschlagen!</strong> Bitte versuchen Sie es später nochmal.',
               'userexists': '<strong>Benutzer:innenname bereits vergeben!</strong> Bitte wählen Sie einen anderen aus.',
