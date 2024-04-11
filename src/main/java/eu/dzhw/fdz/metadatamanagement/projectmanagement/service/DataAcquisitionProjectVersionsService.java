@@ -112,7 +112,8 @@ public class DataAcquisitionProjectVersionsService extends
   }
 
   /**
-   * Find all release stamps (limited to 100 results) for the given project id.
+   * Find all release stamps (limited to 100 results) for the given project id
+   * in which the properties version and preReleased have changed.
    *
    * @param id the project id
    * @param excludePreReleased boolean indicating if pre-released version shall be skipped
@@ -124,7 +125,7 @@ public class DataAcquisitionProjectVersionsService extends
     // Find all version changes
     List<Shadow<Release>> shadows =
         javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-            .withChangedProperty("version").limit(100).build());
+            .withChangedProperty("version").withChangedProperty("isPreRelease").limit(100).build());
 
     if (shadows.isEmpty()) {
       return new ArrayList<>();

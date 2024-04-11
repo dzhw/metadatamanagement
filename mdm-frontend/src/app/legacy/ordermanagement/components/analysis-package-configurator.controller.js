@@ -1,7 +1,4 @@
-/* global _ */
-// (function() {
-
- /* globals _ */
+/* globals _ */
 'use strict';
 
   angular
@@ -339,27 +336,4 @@
       }
       return true;
     };
-
-  // angular
-  //   .module('metadatamanagementApp')
-  //   .controller('AnalysisPackageConfiguratorController', [
-  //     '$scope',
-  //     '$rootScope',
-  //     '$location',
-  //     'DataAcquisitionProjectReleasesResource',
-  //     '$state',
-  //     '$mdDialog',
-  //     '$transitions',
-  //     'LanguageService',
-  //     'ProjectReleaseService',
-  //     'ShoppingCartService',
-  //     'MessageBus',
-  //     'AnalysisPackageSearchService',
-  //     'CurrentAnalysisPackageService',
-  //     'AnalysisPackageCitationDialogService',
-  //     'DataPackageSearchService',
-  //     'Principal',
-  //     Controller
-  //   ]);
-
 }]);
