@@ -18,8 +18,9 @@ angular.module('metadatamanagementApp')
 /**
  * Method to request the endpoint that updates all projects in dara-template.
  * The response is a list (List<String>) of possible error messages, that occurre during update.
+ * We could not put this into the "DaraReleaseResource"-schema (above), because the URLs would not match.
  */
-angular.module('metadatamanagementApp').factory('DaraUpdateHttp', ['$http', 
+angular.module('metadatamanagementApp').factory('DaraReleaseCustomResource', ['$http', 
 function($http) {
   return {
     updateDaraProjects: function() {
