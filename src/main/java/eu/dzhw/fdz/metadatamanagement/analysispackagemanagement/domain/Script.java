@@ -41,6 +41,15 @@ public class Script implements Serializable {
   private String uuid;
 
   /**
+   * The title of the script.
+   *
+   * It must not contain more than 2048 characters.
+   */
+  @Size(max = StringLengths.LARGE,
+      message = "analysis-package-management.error.script.title.size")
+  private String title;
+
+  /**
    * The human language used for code comments as ISO 639 code.
    *
    * Must not be empty and must be a valid ISO 639 code.

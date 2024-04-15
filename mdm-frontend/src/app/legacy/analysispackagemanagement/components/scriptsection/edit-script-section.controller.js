@@ -81,10 +81,7 @@
         if ($ctrl.scripts && $ctrl.scripts.length === 0) {
           $ctrl.scripts = [{
             uuid: uuid.v4(),
-            title: {
-              de: '',
-              en: ''
-            },
+            title: '',
             softwarePackage: '',
             softwarePackageVersion: '',
             usedLanguage: '',
@@ -138,10 +135,7 @@
       $ctrl.addScript = function() {
         $ctrl.scripts.push({
           uuid: uuid.v4(),
-          title: {
-            de: '',
-            en: ''
-          },
+          title: '',
           softwarePackage: '',
           softwarePackageVersion: '',
           usedLanguage: '',
