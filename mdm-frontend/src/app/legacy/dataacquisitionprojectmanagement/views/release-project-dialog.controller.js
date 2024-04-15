@@ -102,7 +102,8 @@ angular.module('metadatamanagementApp')
                   $mdDialog.hide();
                 });
           }
-        }).catch(function() {
+        }).catch(function(error) {
+          console.warn(error);
           $mdDialog.show($mdDialog.alert()
           .title($translate.instant(
             i18nPrefix + 'release-not-possible-title', {

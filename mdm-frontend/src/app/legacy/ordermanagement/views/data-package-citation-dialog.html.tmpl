@@ -48,6 +48,29 @@
         </md-tooltip>
       </md-button>
     </div>
+    <!-- render citation of instrument attachment types 'questionnaire' and 'variable questionnaire' -->
+    <div ng-if="ctrl.questionnaireCitationHint.en.length > 0 || ctrl.questionnaireCitationHint.de.length > 0">
+        <h5 style="margin-top: 10px;">{{'shopping-cart.detail.label.cite-questionnaire' | translate }}</h5>
+        <div ng-repeat="(language, hints) in ctrl.questionnaireCitationHint">
+            <div ng-repeat="hint in hints" ng-init="index = $index">
+                <p style="display:inline;" id="questionnaireCitationHint-{{language}}-{{index}}">{{hint}}</p>
+                <md-button class="md-icon-button md-primary md-inline-tiny" data-clipboard-target="#questionnaireCitationHint-{{language}}-{{index}}" ng-click="ctrl.openSuccessCopyToClipboardToast('shopping-cart.detail.citation-success-copy-to-clipboard')" ngclipboard>
+                    <md-icon md-font-library="material-icons">content_copy</md-icon>
+                    <md-tooltip md-autohide="true" md-direction="south" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'shopping-cart.detail.copy-citation-tooltip' | translate}}
+                    </md-tooltip>
+                </md-button>
+                <md-button ng-if="!bowser.msie" class="md-primary md-inline-tiny" ng-click="ctrl.downloadQuestionnaireBibtex(hint)">
+                    <span>BibTex</span>
+                    <md-icon md-font-library="material-icons">download</md-icon>
+                    <md-tooltip md-autohide="true" md-direction="south" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'shopping-cart.detail.download-bibtex-tooltip' | translate}}
+                    </md-tooltip>
+                </md-button>
+            </div>
+        </div>
+    </div>
+    <div class="fdz-input-hint" style="margin-top: 10pt">{{'shopping-cart.detail.citation-node' | translate}}</div>
   </div>
   <md-dialog-actions>
     <span flex></span>

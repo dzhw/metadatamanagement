@@ -92,6 +92,24 @@ function($interpolate, LanguageService, $filter, $rootScope) {
       });
   };
 
+  var generateBibtexForInstrumentAttachment = function(citationDetails) {
+    if ($rootScope.bowser.msie) {
+      throw 'citation.js is not compatible with IE11';
+    }
+    var citeJson = {
+      type: 'instrument',
+      publisher: citationDetails.institution,
+      'publisher-place': citationDetails.location,
+      issued: [{'date-parts': [citationDetails.publicationYear]}],
+      author: mapPeopleToCiteJson(citationDetails.authors)
+    };
+    return new Cite(citeJson).format('bibtex')
+      // remove spaces in latex code for umlauts
+      .replace(/{\\.\s./g, function(match) {
+        return match.replace(' ', '');
+      });
+  };
+
   var generateCitationHint = function(accessWay, dataPackage) {
     var de = '{{dataPackage.projectContributors | displayPersons}} ' +
       '({{dataPackage.release.firstDate | date:"yyyy"}}). ' +
@@ -127,11 +145,30 @@ function($interpolate, LanguageService, $filter, $rootScope) {
     return $interpolate(citationHint)({attachment: attachment});
   };
 
+  var generateCitationHintForInstrumentAttachment = function(attachment, description) {
+      var citationHint =
+        '{{authors | displayPersons}} ' +
+        '({{publicationYear}}). ' +
+        '{{description}}. ' +
+        '{{location}}: ' +
+        '{{institution}}.';
+      return $interpolate(citationHint)({
+        authors: attachment.authors,
+        publicationYear: attachment.publicationYear,
+        description: description,
+        location: attachment.location,
+        institution: attachment.institution
+      });
+    };
+    
+
   return {
     generateBibtex: generateBibtex,
     generateBibtexForAttachment: generateBibtexForAttachment,
+    generateBibtexForInstrumentAttachment: generateBibtexForInstrumentAttachment,
     generateCitationHint: generateCitationHint,
-    generateCitationHintForAttachment: generateCitationHintForAttachment
+    generateCitationHintForAttachment: generateCitationHintForAttachment,
+    generateCitationHintForInstrumentAttachment: generateCitationHintForInstrumentAttachment
   };
 }]);
 
