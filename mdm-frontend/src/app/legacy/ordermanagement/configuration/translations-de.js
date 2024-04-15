@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').config([
           'scripts-tooltip': 'Klicken, um alle Skripte dieses Analysepaketes anzuzeigen.',
           'custom-data-packages-tooltip': 'Klicken, um alle benutzerdefinierten Datenpakete dieses Analysepaketes anzuzeigen.',
           'software-packages-tooltip': 'Klicken, um alle Softwarepakete dieses Analysepaketes anzuzeigen.',
-          'citation': 'Datenpaket, Daten- und Methodenbericht und Fragebogen zitieren',
+          'citation': 'Datenpaket, Daten- und Methodenbericht und Fragebogen/ Variablenfragenbogen zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
           'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',
           'download-bibtex-tooltip': 'Klicken, um die Zitationsdetails im BibTex-Format zu speichern.',
