@@ -9,8 +9,9 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
   'SimpleMessageToastService',
   '$scope',
   '$mdDialog',
+  '$translate',
   function(dialogConfig, isoLanguages, CommonDialogsService, LanguageService,
-            SimpleMessageToastService, $scope, $mdDialog) {
+            SimpleMessageToastService, $scope, $mdDialog, $translate) {
     $scope.bowser = bowser;
     var ctrl = this;
     var isInitialisingSelectedLanguage = false;
@@ -142,6 +143,13 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
 
     ctrl.saveAttachment = function() {
       if ($scope.attachmentForm.$valid) {
+        // before saving, remove empty author array entries; we assume that entry is null if 'firstName'
+        // is null because it is one of the mandatory fields
+        if (ctrl.attachmentMetadata.type.en === "Questionnaire" || ctrl.attachmentMetadata.type.en === "Variable Questionnaire") {
+          ctrl.attachmentMetadata.citationDetails.authors = ctrl.attachmentMetadata.citationDetails.authors.filter(
+            author => author.firstName && author.firstName.trim() !== "");
+        }
+        
         if (!ctrl.selectedFile) {
           ctrl.attachmentMetadata.$save().then(ctrl.onSavedSuccessfully);
         } else {
@@ -251,14 +259,18 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
 
     ctrl.onTypeChanged = function() {
       if (ctrl.titleParams.dataPackageId) {
+        ctrl.attachmentMetadata.description = {
+          de: '',
+          en: ''
+        }
         if (ctrl.attachmentMetadata.type.en === 'Method Report') {
           ctrl.setTitleForMethodReports();
-          ctrl.attachmentMetadata.description = {
-            de: 'Der Bericht umfasst Datennutzungshinweise und weitere' +
-            ' Informationen zum Datenpaket.',
-            en: 'The report includes data usage notes and further ' +
-            'information on the data package.'
-          };
+          $translate('attachment.predefined-content.description.method-report.de').then(function(descriptionDe) {
+            ctrl.attachmentMetadata.description.de = descriptionDe;
+          });
+          $translate('attachment.predefined-content.description.method-report.en').then(function(descriptionEn) {
+            ctrl.attachmentMetadata.description.en = descriptionEn;
+          });
         } else {
           delete ctrl.attachmentMetadata.citationDetails;
         }
@@ -269,13 +281,12 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
             function(isoLanguage) {
               return isoLanguage.code === ctrl.attachmentMetadata.language;
             })[0];
-          ctrl.attachmentMetadata.description = {
-            de: 'Die Release Notes enthalten Informationen zur aktuellen ' +
-            'Version und zu Veränderungen im Vergleich zu vorherigen' +
-            ' Versionen.',
-            en: 'The release notes contain information about the current' +
-            ' version and changes compared to previous versions. '
-          };
+          $translate('attachment.predefined-content.description.release-notes.de').then(function(descriptionDe) {
+            ctrl.attachmentMetadata.description.de = descriptionDe;
+          });
+          $translate('attachment.predefined-content.description.release-notes.en').then(function(descriptionEn) {
+            ctrl.attachmentMetadata.description.en = descriptionEn;
+          });
         }
       }
     };

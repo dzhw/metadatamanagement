@@ -17,14 +17,18 @@
         <tr>
           <th class="fdz-table-third-absorbing-column">{{'analysis-package-management.detail.scripts.title' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.language' | translate }}</th>
-          <th class="fdz-table-half-absorbing-column">{{'analysis-package-management.detail.scripts.software-package' | translate }}</th>
+          <th>{{'analysis-package-management.detail.scripts.software-package' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.version' | translate }}</th>
           <th>{{'analysis-package-management.detail.scripts.file' | translate }}</th>
+          <th style="width: 20%">{{'analysis-package-management.detail.scripts.license' | translate }}</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="row in $ctrl.options">
-          <td>{{row.title[$ctrl.lang]}} </td>
+          <tr ng-repeat="row in $ctrl.options">
+          <td>
+            {{row.title}}
+            </a><strong ng-if="!row.title">*</strong>  
+          </td>
           <td>{{row.usedLanguage | displayIsoLanguage: $ctrl.lang}}</td>
           <td>{{row.softwarePackage}}</td>
           <td>{{row.softwarePackageVersion}}</td>
@@ -33,6 +37,16 @@
               {{'global.tooltips.files.download' | translate: {filename: row.attachment.fileName} }}
             </md-tooltip>
           </a><strong ng-if="!row.attachment">*</strong>
+          </td>
+          <td>
+            <span ng-if="!row.license">*</span>
+            <div ng-if="row.license">
+              <a ng-click="showLicenseInDialog(row.license, 'analysis-package-management.detail.label.scripts-license.title')">{{ 'analysis-package-management.detail.label.scripts-license.show-license' | translate }}
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'analysis-package-management.detail.license-tooltip' | translate}}
+                </md-tooltip>
+              </a>
+            </div>
           </td>
         </tr>
         </tbody>

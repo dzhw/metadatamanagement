@@ -48,7 +48,7 @@ angular.module('metadatamanagementApp').config([
             'released-successfully': 'The projects metadata has been sent to da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
             'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No metadata has been sent to da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" can now be edited by assigned Publishers and Data Providers.',
-            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. An error occured during sending metadata to da|ra.',
+            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. The da|ra service for registering the DOI is currently not available. Contact the administrator (fdz-feedback@dzhw.eu) and try again later.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
             'unrelease': 'Do you really want to unrelease the project "{{ id }}" and edit its metadata?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',
@@ -75,6 +75,9 @@ angular.module('metadatamanagementApp').config([
             },
             'has-been-released-before': {
               'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'
+            },
+            'has-user-service-remarks': {
+              'not-null': 'The information is missing, that a Data Acquisition Project has remarks for the user service.'
             }
           },
           'configuration': {
@@ -231,6 +234,7 @@ angular.module('metadatamanagementApp').config([
             'project-name': 'Project',
             'release-version': 'Current Version',
             'assigned-group': 'Assigned Group',
+            'user-service-remarks': 'Remarks for User Service',
             'data-package-status': 'Data Package',
             'analysis-package-status': 'Analysis Package',
             'surveys-status': 'Surveys',
@@ -243,6 +247,8 @@ angular.module('metadatamanagementApp').config([
             'publisher': 'Publisher',
             'data-provider': 'Data Provider',
             'unreleased': 'unreleased',
+            'not-available' : 'none',
+            'available': 'available',
             'tooltip': 'Click to open the project cockpit for this project'
           },
           'pagination': {
@@ -250,7 +256,42 @@ angular.module('metadatamanagementApp').config([
             'next': 'Click to show next projects',
             'current': 'Click to show projects on page {{number}}'
           },
-          'no-project-msg': 'There is no project assigned to your account'
+          'filter-label': {
+            'assigneeGroup': 'Assigned to',
+            'releaseState': 'Release state',
+            'datapackage-filter': 'Filter for data packages',
+            'userServiceRemarks': 'Remarks User Service'
+          },
+          'filter': {
+            'label': {
+              'assignee-group': 'Assigned to',
+              'release-state': 'Release state',
+              'datapackage-filter': 'Filter for data packages',
+              'user-service-remarks': 'Remarks User Service'
+            },
+            'options': {
+              'assignee-group': {
+                'dataprovider': 'Data Provider',
+                'publisher': 'Publisher'
+              },
+              'release-state': {
+                'released': 'Released',
+                'unreleased': 'Unreleased'
+              },
+              'datapackage-filter': {
+                'variables': 'Variables',
+                'questions': 'Questions',
+                'publications': 'Publications',
+                'concepts': 'Concepts'
+              },
+              'user-service-remarks': {
+                'with-additional-info': 'With remarks for user service',
+                'without-additional-info': 'Without remarks for user service'
+              }
+            }
+          },
+          'no-project-msg': 'There is no project assigned to your account.',
+          'no-search-results-msg': 'NNo results found for your search request.'
         },
         'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). Choose the current version ({{newVersion}}) in the side menu.</a>',
         'version-not-found-alert': 'Your link refers to a version ({{oldVersion}}) of this page which does not exist. This is the current version ({{newVersion}}).',

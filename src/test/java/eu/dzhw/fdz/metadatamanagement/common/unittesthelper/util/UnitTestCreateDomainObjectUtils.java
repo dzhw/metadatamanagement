@@ -84,7 +84,7 @@ public class UnitTestCreateDomainObjectUtils {
 
     DataAcquisitionProject project =
         DataAcquisitionProject.builder().id(projectId).hasBeenReleasedBefore(false)
-            .configuration(configuration).assigneeGroup(AssigneeGroup.PUBLISHER).build();
+            .configuration(configuration).assigneeGroup(AssigneeGroup.PUBLISHER).hasUserServiceRemarks(false).build();
 
     project.setMasterId(projectId);
     return project;
@@ -128,7 +128,7 @@ public class UnitTestCreateDomainObjectUtils {
     List<Person> projectContributors = new ArrayList<>();
     projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
-      Collections.singletonList(I18nString.builder().de("Institution De").en("Institution En").build());
+        Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
     List<Sponsor> sponsors = new ArrayList<>();
     sponsors.add(buildSponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build(), "xyz-123"));
     List<Person> dataCurators = new ArrayList<>();
@@ -176,8 +176,8 @@ public class UnitTestCreateDomainObjectUtils {
         .dataAcquisitionProjectId(projectId).title(new I18nString("Title De", "Title En"))
         .description(new I18nString("Description De", "Description En")).authors(authors)
         .scripts(List.of(Script.builder().softwarePackage("R").softwarePackageVersion("1.0.0")
-            .title(new I18nString("de", "en")).uuid("1234").usedLanguage("de").build()))
-        .dataCurators(dataCurators).masterId(analysisPackageId).tags(tags).tagsElsst(tagsElsst)
+          .title("title").uuid("1234").usedLanguage("de").build()))
+        .dataCurators(dataCurators).masterId(analysisPackageId).tags(tags)
         .sponsors(sponsors).build();
 
   }

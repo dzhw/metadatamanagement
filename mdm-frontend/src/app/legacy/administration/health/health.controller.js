@@ -9,11 +9,13 @@ angular.module('metadatamanagementApp').controller('HealthController', [
   '$state',
   'BreadcrumbService',
   'SimpleMessageToastService',
+  'DaraReleaseCustomResource',
   function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
-    PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService) {
+    PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService, DaraReleaseCustomResource) {
     PageMetadataService.setPageTitle('administration.health.title');
     $scope.isRecreatingIndices = false;
     $scope.updatingHealth = true;
+    $scope.isUpdatingDara = false;
     $scope.separator = '.';
 
     $scope.refresh = function() {
@@ -38,6 +40,35 @@ angular.module('metadatamanagementApp').controller('HealthController', [
           $scope.isRecreatingIndices = false;
         });
     };
+
+    /**
+     * Method that calls the updateDaraProjects-method from DaraReleaseResource.
+     * In this way, all projects are updated in dara.
+     * In particular projects with surveys that consist of qualitative data are marked.
+     * Potential errors are listed in details-modal.
+     */
+    $scope.updateDaraProjects = function(health) {
+      $scope.isUpdatingDara = true;
+      DaraReleaseCustomResource.updateDaraProjects().then(function(errorsList) {
+        if (errorsList.length > 0) {
+          // errors occurred during update
+          SimpleMessageToastService.openAlertMessageToasts(
+            [{messageId: 'administration.health.dara.update-failure'}]);
+          let errorsString = errorsList.length + " errors occured during DARA update:\n" +
+            "======================================================================\n\n";
+          for (const errMsg of errorsList) {
+            errorsString += errMsg + "\n\n======================================================================\n\n";
+          }
+          // set health.error, so that errors are shown in Details-Modal
+          health.error = errorsString;
+        } else {
+          // no errors occurred during update
+          SimpleMessageToastService.openSimpleMessageToast(
+            'administration.health.dara.update-success');
+        }
+        $scope.isUpdatingDara = false;
+      });
+    }
 
     $scope.refresh();
 

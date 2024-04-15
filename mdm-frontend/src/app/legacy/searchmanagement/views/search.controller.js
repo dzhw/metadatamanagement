@@ -110,6 +110,11 @@ angular.module('metadatamanagementApp').controller('SearchController', [
       }
     };
     $scope.findProjects();
+
+    // This method only writes the content of $scope.searchParams.filter (e.g. "{approvedUsage: 'foo'}")
+    // into locationSearch (e.g. "{page: '1', size: '10', type: 'data_packages'}")
+    // This combined is written into the search compnent of $location, so that the URL-params are set to:
+    // "?page=1&size=10&type=data_packages&approvedUsage=foo"
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
@@ -176,6 +181,9 @@ angular.module('metadatamanagementApp').controller('SearchController', [
         }
         if (locationSearch.type) {
           $scope.searchParams.type = locationSearch.type;
+        }
+        if (locationSearch.useAndLogicApprovedUsage && typeof locationSearch.useAndLogicApprovedUsage === "string") {
+          locationSearch.useAndLogicApprovedUsage = locationSearch.useAndLogicApprovedUsage === "true";
         }
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'size',
           'type', 'query', 'sort-by'

@@ -20,16 +20,16 @@
         </div>
         <md-input-container flex="33" class="ml0 mr8"
                             md-is-error="!form[$ctrl.peopleId + 'FirstName_' + $index].$valid && (form[$ctrl.peopleId + 'FirstName_' + $index].$dirty || form[$ctrl.peopleId + 'FirstName_' + $index].$touched)">
-          <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
-          <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}FirstName_{{$index}}"
+          <label ng-class="{ 'fdz-input-required': {{ !isQuestionnaire|| (isQuestionnaire && questionnaireFieldsInvalid(person)) }}, 'fdz-input': {{ (isQuestionnaire && !questionnaireFieldsInvalid(person)) }} }">{{'global.people.edit.label.first-name' | translate}}</label>
+          <input ng-attr-fdz-required="!isQuestionnaire || (isQuestionnaire && questionnaireFieldsInvalid(person))" md-no-asterisk name="{{ $ctrl.peopleId }}FirstName_{{$index}}"
                  ng-blur="$ctrl.deleteCurrentPerson($index, $event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
                  ng-model="person.firstName" autocomplete="off">
           <div
             class="fdz-input-hint"
-            ng-if="!form[$ctrl.peopleId + 'FirstName_' + $index].$dirty && !form[$ctrl.peopleId + 'FirstName_' + $index].$touched">
+            ng-if="isQuestionnaire || (!form[$ctrl.peopleId + 'FirstName_' + $index].$dirty && !form[$ctrl.peopleId + 'FirstName_' + $index].$touched)">
             {{ $ctrl.translationKeys.hints.firstName | translate}}
           </div>
-          <div multiple ng-messages="form[$ctrl.peopleId + 'FirstName_' + $index].$error">
+          <div ng-if="(!isQuestionnaire && form[$ctrl.peopleId + 'FirstName_' + $index].$touched) || (isQuestionnaire && questionnaireFieldsInvalid(person))" multiple ng-messages="form[$ctrl.peopleId + 'FirstName_' + $index].$error">
             <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
           </div>
         </md-input-container>
@@ -49,16 +49,16 @@
         </md-input-container>
         <md-input-container flex="33" class="mr8"
                             md-is-error="!form[$ctrl.peopleId + 'LastName_' + $index].$valid && (form[$ctrl.peopleId + 'LastName_' + $index].$dirty || form[$ctrl.peopleId + 'LastName_' + $index].$touched)">
-          <label class="fdz-input-required">{{'global.people.edit.label.last-name' | translate}}</label>
-          <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}LastName_{{$index}}"
+        <label ng-class="{ 'fdz-input-required': {{ !isQuestionnaire|| (isQuestionnaire && questionnaireFieldsInvalid(person)) }}, 'fdz-input': {{ (isQuestionnaire && !questionnaireFieldsInvalid(person)) }} }">{{'global.people.edit.label.last-name' | translate}}</label>
+        <input ng-attr-fdz-required="!isQuestionnaire || (isQuestionnaire && questionnaireFieldsInvalid(person))" md-no-asterisk name="{{ $ctrl.peopleId }}LastName_{{$index}}"
                  ng-blur="$ctrl.deleteCurrentPerson($index, $event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
                  ng-model="person.lastName" autocomplete="off">
           <div
             class="fdz-input-hint"
-            ng-if="!form[$ctrl.peopleId + 'LastName_' + $index].$dirty && !form[$ctrl.peopleId + 'LastName_' + $index].$touched">
+            ng-if="isQuestionnaire || (!form[$ctrl.peopleId + 'LastName_' + $index].$dirty && !form[$ctrl.peopleId + 'LastName_' + $index].$touched)">
             {{ $ctrl.translationKeys.hints.lastName | translate}}
           </div>
-          <div multiple ng-messages="form[$ctrl.peopleId + 'LastName_' + $index].$error">
+          <div ng-if="(!isQuestionnaire && form[$ctrl.peopleId + 'LastName_' + $index].$touched) || (isQuestionnaire && questionnaireFieldsInvalid(person))" multiple ng-messages="form[$ctrl.peopleId + 'LastName_' + $index].$error">
             <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
           </div>
         </md-input-container>

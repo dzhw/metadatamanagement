@@ -65,7 +65,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private GridFsMetadataUpdateService gridFsMetadataUpdateService;
-  
+
   @Autowired
   private ScriptAttachmentService scriptAttachmentService;
 
@@ -159,7 +159,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
 
     analysisPackage.setScripts(
         Lists.asList(Script.builder().softwarePackage("R").softwarePackageVersion("1.0.0")
-            .title(new I18nString("de", "en")).uuid("5432").usedLanguage("de").build()));
+          .title("title").uuid("5432").usedLanguage("de").build()));
     // update the analysis package
     mockMvc.perform(put("/api/analysis-packages/" + "/" + analysisPackage.getId())
         .content(TestUtil.convertObjectToJsonBytes(analysisPackage))
@@ -171,7 +171,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
             + "/scripts/attachments"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
   public void shouldNotDeleteAttachmentIfScriptIsModified() throws Exception {
@@ -206,7 +206,6 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
             is("/public/files/analysis-packages/" + "ana-projectid$/scripts/"
                 + scriptAttachmentMetadata.getScriptUuid() + "/attachments/filename.txt")));
 
-    analysisPackage.getScripts().get(0).setTitle(new I18nString("Neuer Titel", "New Title"));
     // update the analysis package
     mockMvc.perform(put("/api/analysis-packages/" + "/" + analysisPackage.getId())
         .content(TestUtil.convertObjectToJsonBytes(analysisPackage))
@@ -330,7 +329,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
             is("analysis-package-management.error.script-attachment-metadata"
                 + ".script-uuid.not-empty")));
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void shouldRemoveOrphanedAttachment() throws Exception {
@@ -342,9 +341,9 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
         UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
-    
+
     analysisPackageRepository.save(analysisPackage);
-    
+
     //upload the attachment
     mockMvc
     .perform(
@@ -353,26 +352,26 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
                 + scriptAttachmentMetadata.getAnalysisPackageId() + "/scripts/attachments")
             .file(attachment).file(metadata))
     .andExpect(status().isCreated());
-    
+
     //change script uuid to make attachment orphaned
     analysisPackage.getScripts().get(0).setUuid("etataetataetaettaeet");
     analysisPackageRepository.save(analysisPackage);
-    
+
     // check that the script attachment is available
     mockMvc
         .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()
             + "/scripts/attachments"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
-    
+
     scriptAttachmentService.removeOrphanedAttachments();
-    
+
     // check that the script attachment has been deleted
     mockMvc
         .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()
             + "/scripts/attachments"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void shouldNotRemoveAttachment() throws Exception {
@@ -385,7 +384,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
         UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
-    
+
     //upload the attachment
     mockMvc
     .perform(
@@ -394,15 +393,15 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
                 + scriptAttachmentMetadata.getAnalysisPackageId() + "/scripts/attachments")
             .file(attachment).file(metadata))
     .andExpect(status().isCreated());
-    
+
     // check that the script attachment is available
     mockMvc
         .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()
             + "/scripts/attachments"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
-    
+
     scriptAttachmentService.removeOrphanedAttachments();
-    
+
     // check that the script attachment is still available
     mockMvc
         .perform(get("/api/analysis-packages/" + scriptAttachmentMetadata.getAnalysisPackageId()

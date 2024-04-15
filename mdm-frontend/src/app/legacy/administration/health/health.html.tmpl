@@ -25,9 +25,12 @@
           {{subSystemName(health.name)}}
         </td>
         <td class="text-center">
-          <button class="btn btn-danger btn-xs" data-translate="administration.health.elasticsearch.reindex" ng-click="recreateAllElasticsearchIndices()"
-                  ng-disabled="isRecreatingIndices" ng-show="health.name === 'elasticsearch'"
-                  type="button">Reindex
+          <button ng-if="health.name === 'dara'" class="btn btn-danger btn-xs" data-translate="administration.health.dara.update"
+                  ng-click="updateDaraProjects(health)" ng-disabled="isUpdatingDara" type="button">flag quali-data
+          </button>
+          <button ng-if="health.name === 'elasticsearch'" class="btn btn-danger btn-xs"
+                  data-translate="administration.health.elasticsearch.reindex" ng-click="recreateAllElasticsearchIndices()"
+                  ng-disabled="isRecreatingIndices" type="button">Reindex
           </button>
         </td>
         <td class="text-center">

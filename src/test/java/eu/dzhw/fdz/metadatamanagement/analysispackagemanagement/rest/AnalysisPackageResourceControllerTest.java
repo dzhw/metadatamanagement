@@ -328,7 +328,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     analysisPackage = analysisPackageRepository.save(analysisPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
 
     // since there is no shadow yet the public user will get the mongo version
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId()))
@@ -345,7 +345,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     analysisPackage = analysisPackageRepository.save(analysisPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(4L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getMasterId()))
@@ -380,7 +380,7 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
     analysisPackage = analysisPackageRepository.save(analysisPackage);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(3L));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(6L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getMasterId()))

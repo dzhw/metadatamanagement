@@ -16,12 +16,12 @@ angular.module('metadatamanagementApp').config([
           'pin-to-start-page': 'Datenpaket auf Startseite anzeigen',
           'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.',
           'confirmed': {
-            'local': 'Dies ist ein lokales System. Sind sie sicher?',
-            'test': 'Dies ist das Test-System! Sind sie sicher?',
-            'dev': 'Dies ist das Dev-System! Sind sie sicher?',
-            'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind sie sicher?',
+            'local': 'Dies ist ein lokales System. Sind Sie sicher?',
+            'test': 'Dies ist das Test-System! Sind Sie sicher?',
+            'dev': 'Dies ist das Dev-System! Sind Sie sicher?',
+            'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind Sie sicher?',
           },
-          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn sie das Projekt wirklich auf diesem System freigeben wollen!'
+          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!'
         },
         'home': {
           'title': 'Datenaufnahmeprojekte',
@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').config([
             'deleted-not-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" konnte nicht gelöscht werden!',
             'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein.',
             'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
-            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
+            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Der da|ra-Service zur Registrierung der DOI ist aktuell nicht verfügbar. Kontaktieren Sie den Administrator (fdz-feedback@dzhw.eu) und versuchen Sie es später erneut.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt bearbeitet werden.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
             'unrelease': 'Möchten Sie wirklich die Freigabe zurücknehmen und die Metadaten des Projektes "{{ id }}" bearbeiten?',
@@ -74,7 +74,10 @@ angular.module('metadatamanagementApp').config([
               'exists': 'Es gibt bereits ein Datenaufnahmeprojekt mit diesem Namen.'
             },
             'has-been-released-before': {
-              'not-null': 'Es muss angegeben sein, ob ein des Datenaufnahmeprojekts schon einmal veröffentlicht wurde oder nicht.'
+              'not-null': 'Es muss angegeben sein, ob das Datenaufnahmeprojekts schon einmal veröffentlicht wurde oder nicht.'
+            },
+            'has-user-service-remarks': {
+              'not-null': 'Es muss angegeben sein, ob ein Datenaufnahmeprojekt Bemerkungen für den User Service enthält oder nicht.'
             }
           },
           'configuration': {
@@ -230,6 +233,7 @@ angular.module('metadatamanagementApp').config([
             'project-name': 'Projekt',
             'release-version': 'Aktuelle Version',
             'assigned-group': 'Zugewiesene Gruppe',
+            'user-service-remarks': 'Bemerkungen User Service',
             'data-package-status': 'Datenpaket',
             'analysis-package-status': 'Analyse Paket',
             'surveys-status': 'Erhebungen',
@@ -242,6 +246,8 @@ angular.module('metadatamanagementApp').config([
             'publisher': 'Publisher',
             'data-provider': 'Datengeber:innen',
             'unreleased': 'nicht freigegeben',
+            'not-available' : 'keine',
+            'available': 'vorhanden',
             'tooltip': 'Klicken, um das Projekt-Cockpit dieses Projekts zu öffnen'
           },
           'pagination': {
@@ -249,7 +255,36 @@ angular.module('metadatamanagementApp').config([
             'next': 'Klicken, um die nächsten Projekte anzuzeigen',
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           },
-          'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen'
+          'filter': {
+            'label': {
+              'assignee-group': 'Zugewiesen an',
+              'release-state': 'Status',
+              'datapackage-filter': 'Filter für Datenpakete',
+              'user-service-remarks': 'Bemerkungen User Service'
+            },
+            'options': {
+              'assignee-group': {
+                'dataprovider': 'Datengeber:innen',
+                'publisher': 'Publisher'
+              },
+              'release-state': {
+                'released': 'Freigegeben',
+                'unreleased': 'Nicht freigegeben'
+              },
+              'datapackage-filter': {
+                'variables': 'Variablen',
+                'questions': 'Fragen',
+                'publications': 'Publikationen',
+                'concepts': 'Konzepte'
+              },
+              'user-service-remarks': {
+                'with-additional-info': 'Bemerkungen vorhanden',
+                'without-additional-info': 'keine Bemerkungen'
+              }
+            }
+          },
+          'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen.',
+          'no-search-results-msg': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.'
         },
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',

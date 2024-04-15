@@ -9,7 +9,8 @@
       people: '=',
       peopleId: '<',
       currentForm: '<',
-      translationKeys: '<'
+      translationKeys: '<',
+      attachmentMetadataType: '<'
     }
   };
 

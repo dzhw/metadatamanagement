@@ -920,44 +920,7 @@
 							}
 						}
 					}
-				},
-        "tagsElsst": {
-          "type": "object",
-          "properties": {
-            "de": {
-              "type": "object",
-              "properties": {
-                "prefLabel": {
-                  "type": "keyword",
-                  "copy_to": "all",
-                  "fields": {
-                    "ngrams": {
-                      "type": "text",
-                      "analyzer": "ngrams",
-                      "norms": false
-                    }
-                  }
-                }
-              }
-            },
-            "en": {
-              "type": "object",
-              "properties": {
-                "prefLabel": {
-                  "type": "keyword",
-                  "copy_to": "all",
-                  "fields": {
-                    "ngrams": {
-                      "type": "text",
-                      "analyzer": "ngrams",
-                      "norms": false
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+				}
 			}
 		},
 		"nestedConcepts": {
@@ -1094,42 +1057,33 @@
 				}
 			}
 		},
-    "tagsElsst": {
-      "type": "object",
-      "properties": {
-        "de": {
-          "type": "object",
-          "properties": {
-            "prefLabel": {
-              "type": "keyword",
-              "copy_to": "all",
-              "fields": {
-                "ngrams": {
-                  "type": "text",
-                  "analyzer": "ngrams",
-                  "norms": false
-                }
-              }
-            }
-          }
-        },
-        "en": {
-          "type": "object",
-          "properties": {
-            "prefLabel": {
-              "type": "keyword",
-              "copy_to": "all",
-              "fields": {
-                "ngrams": {
-                  "type": "text",
-                  "analyzer": "ngrams",
-                  "norms": false
-                }
-              }
-            }
-          }
+    "approvedUsage": {
+      "type": "keyword",
+      "copy_to": "all",
+      "fields": {
+        "ngrams": {
+          "type": "text",
+          "analyzer": "ngrams",
+          "norms": false
         }
       }
+    },
+    "approvedUsageList": {
+      "type": "keyword",
+      "copy_to": "all",
+      "fields": {
+        "ngrams": {
+          "type": "text",
+          "analyzer": "ngrams",
+          "norms": false
+        }
+      }
+    },
+    "transmissionViaVerbundFdb": {
+      "type": "boolean"
+    },
+    "externalDataPackage": {
+      "type": "boolean"
     }
 	}
 }

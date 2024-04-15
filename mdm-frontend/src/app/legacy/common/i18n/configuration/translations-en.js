@@ -39,7 +39,8 @@ angular.module('metadatamanagementApp').config([
           'access-ways': 'Access Ways',
           'unavailable': 'Not available',
           'language': 'Language',
-          'year': 'Publication Year'
+          'year': 'Publication Year',
+          'approved-usage': 'Special restrictions for the data use'
         },
         'toolbar': {
           'buttons': {
@@ -156,6 +157,7 @@ angular.module('metadatamanagementApp').config([
             'rdcProject': 'Data Acquisition Projects',
             'current-project': 'Current Data Acquisition Project',
             'select-project': 'Select Project',
+            'search-project': 'Search by project ID',
             'unknown-project': 'No project found!'
           },
           'search': {
@@ -195,17 +197,17 @@ angular.module('metadatamanagementApp').config([
           'project-overview': 'Project Overview'
         },
         'form': {
-          'username': 'Username',
+          'username': 'Username *',
           'username-placeholder': 'Your username',
-          'firstname': 'First name',
+          'firstname': 'First name *',
           'firstname-placeholder': 'Your first name',
-          'lastname': 'Last name',
+          'lastname': 'Last name *',
           'lastname-placeholder': 'Your last name',
-          'newpassword': 'New password',
+          'newpassword': 'New password *',
           'newpassword-placeholder': 'New password',
-          'confirmpassword': 'New password confirmation',
+          'confirmpassword': 'New password confirmation *',
           'confirmpassword-placeholder': 'Confirm the new password',
-          'email': 'E-mail',
+          'email': 'E-mail *',
           'email-placeholder': 'Your e-mail'
         },
         'messages': {
@@ -223,6 +225,7 @@ angular.module('metadatamanagementApp').config([
               'required': 'Your password is required.',
               'minlength': 'Your password is required to be at least 5 characters.',
               'maxlength': 'Your password cannot be longer than 50 characters.',
+              'validationsummary': 'Your password must be between 1-50 characters long.',
               'strength': 'Password strength:'
             },
             'confirmpassword': {
@@ -386,6 +389,7 @@ angular.module('metadatamanagementApp').config([
         'common-dialogs': {
           'yes': 'Yes',
           'no': 'No',
+          'close': 'Close',
           'confirm-dirty': {
             'title': 'Discard Changes?',
             'content': 'There are unsaved changes. Do you want to discard these changes?'
@@ -458,7 +462,10 @@ angular.module('metadatamanagementApp').config([
            'content': 'Please confirm that you want to activate the user.',
            'yes': 'Activate',
            'no': 'Keep current status'
-         }
+         },
+         'info': {
+          'license': 'License'
+        }
         },
         'people': {
           'edit': {

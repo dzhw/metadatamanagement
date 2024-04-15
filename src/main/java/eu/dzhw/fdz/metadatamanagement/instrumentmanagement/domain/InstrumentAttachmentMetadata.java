@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -154,6 +155,15 @@ public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObj
       message = "attachment.error.doi.pattern",
       regexp = Patterns.DOI)
   private String doi;
+
+  /**
+   * Additional details required to optionally generate a citation hint for the instrument types
+   * 'Variable Questionnaire' and 'Questionnaire'.
+   *
+   * Can be null for other instrument types.
+   */
+  @Valid
+  private InstrumentCitationDetails citationDetails;
 
   /**
    * Generate the id of this attachment from the instrumentId and the fileName.

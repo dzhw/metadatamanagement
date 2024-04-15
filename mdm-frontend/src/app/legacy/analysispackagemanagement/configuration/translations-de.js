@@ -23,7 +23,12 @@ angular.module('metadatamanagementApp').config([
               'description': 'Datenpaketbeschreibung',
               'annotations': 'Anmerkungen',
               'data-source': 'Datenquelle',
-              'data-source-url': 'Link zur Datenquelle'
+              'data-source-url': 'Link zur Datenquelle',
+              'license': {
+                'title': 'Lizenz des Datenpakets',
+                'show-license': 'Lizenz anzeigen',
+                'hide-license': 'Lizenz verbergen'
+              }
             },
             'custom-data-package': {
               'available-availability-type': 'Verfügbarer Zugangsstatus',
@@ -34,13 +39,23 @@ angular.module('metadatamanagementApp').config([
               'dataSources': 'Datenquellen',
               'data-source-url': 'Link zur Datenquelle',
               'access-way': 'Zugangsweg',
-              'available-access-ways': 'Verfügbare Zugangswege'
+              'available-access-ways': 'Verfügbare Zugangswege',
+              'license': {
+                'title': 'Lizenz der Datenquelle',
+                'show-license': 'Lizenz anzeigen',
+                'hide-license': 'Lizenz verbergen'
+              }
             },
             'attachments': {
               'title': 'Titel',
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
+            },
+            'scripts-license': {
+              'title': 'Lizenz des Skripts',
+              'show-license': 'Lizenz anzeigen',
+              'hide-license': 'Lizenz verbergen'
             },
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
@@ -79,8 +94,9 @@ angular.module('metadatamanagementApp').config([
             'table-title': 'Skripte zu diesem Analysepaket',
             'title': 'Titel',
             'software-package': 'Softwarepaket',
-            'language': 'Skriptsprache',
+            'language': 'Sprache der Kommentierungen',
             'version': 'Version des Softwarepakets',
+            'license': 'Lizenz',
             'file': 'Datei',
             'file-must-be-ordered': 'Das Skript ist nicht über einen direkten Download verfügbar, bitte bestellen Sie das Analysepaket über den Warenkorb.'
           },
@@ -109,6 +125,7 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen.',
           'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
+          'license-tooltip': 'Klicken, um die vollständige Lizenz anzusehen.',
           'tag-tooltip': 'Klicken, um Analysepakete mit diesem Tag zu suchen.',
           'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Analysepakete.',
@@ -190,7 +207,7 @@ angular.module('metadatamanagementApp').config([
             'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
             'script': {
-              'used-language': 'Skriptsprache',
+              'used-language': 'Sprache der Kommentierungen',
               'software-package': 'Softwarepaket',
               'software-package-version': 'Version des Softwarepakets'
             },
@@ -233,10 +250,7 @@ angular.module('metadatamanagementApp').config([
             },
             'license': 'Wenn kein Vertrag unterzeichnet wird, benötigen wir eine Lizenz wie cc-by-sa',
             'script': {
-              'title': {
-                'de': 'Geben Sie den Titel des Skripts auf Deutsch ein.',
-                'en': 'Geben Sie den Titel des Skripts auf Englisch ein.'
-              },
+              'title': 'Geben Sie den Titel des Skripts ein.',
               'used-language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Skript verwendet haben.',
               'software-package': 'Bitte wählen Sie das Softwarepaket aus, für das dieses Skript geschrieben wurde.',
               'software-package-version': 'Version des Softwarepakets'
@@ -244,6 +258,9 @@ angular.module('metadatamanagementApp').config([
             },
             'script-attachment-metadata': {
               'filename': 'Wählen Sie eine Datei aus, die Sie dem Skript hinzufügen wollen.'
+            },
+            'scripts-license': {
+              'title': 'Geben Sie hier die Lizenz des Skripts an.'
             },
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Analysepaket ein.',
@@ -278,6 +295,9 @@ angular.module('metadatamanagementApp').config([
                 'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
                 'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
                 'none': 'nicht zugänglich.'
+              },
+              'license': {
+                'title': 'Geben Sie hier die Lizenz des Datenpakets an.'
               }
             },
             'custom-data-package': {
@@ -308,6 +328,9 @@ angular.module('metadatamanagementApp').config([
                 'none': 'nicht zugänglich.',
                 'accessible': 'Lorem ipsum...',
                 'not-accessible': 'Lorem ipsum...'
+              },
+              'license': {
+                'title': 'Geben Sie hier die Lizenz der Datenquelle an.'
               }
             },
             'analyzed-data-package': {
@@ -322,9 +345,7 @@ angular.module('metadatamanagementApp').config([
         'error': {
           'script': {
             'title': {
-              'not-null': 'Der Titel eines Skripts darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge des Titels eines Skripts ist 2048 Zeichen.',
-              'i18n-string-entire-not-empty': 'Der Titel eines Skripts muss in allen Sprachen vorhanden sein.'
+              'i18n-string-size': 'Die Maximallänge des Titels eines Skripts ist 2048 Zeichen.'
             },
             'used-language': {
               'not-found': 'Keine gültige Skriptsprache gefunden!',
@@ -419,6 +440,9 @@ angular.module('metadatamanagementApp').config([
             },
             'availability-type': {
               'i18n-not-null': 'Der Zugangsstatus eines externen Datenpakets darf nicht leer sein!'
+            },
+            'license': {
+              'string-size': 'Die Maximallänge der Lizenz ist 1048576 Zeichen.'
             }
           },
           'custom-data-package': {

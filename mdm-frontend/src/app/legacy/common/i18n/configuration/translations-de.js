@@ -39,7 +39,8 @@ angular.module('metadatamanagementApp').config([
           'access-ways': 'Zugangswege',
           'unavailable': 'Nicht vorhanden',
           'language': 'Sprache',
-          'year': 'Erscheinungsjahr'
+          'year': 'Erscheinungsjahr',
+          'approved-usage': 'Spezielle Beschränkungen für die Datennutzung'
         },
         'toolbar': {
           'buttons': {
@@ -156,6 +157,7 @@ angular.module('metadatamanagementApp').config([
             'rdcProject': 'Datenaufnahmeprojekte:',
             'current-project': 'Aktuelles Datenaufnahmeprojekt',
             'select-project': 'Projekt auswählen',
+            'search-project': 'Nach Projekt-ID suchen',
             'unknown-project': 'Kein Projekt gefunden!'
           },
           'search': {
@@ -195,17 +197,17 @@ angular.module('metadatamanagementApp').config([
           'project-overview': 'Projektübersicht'
         },
         'form': {
-          'username': 'Benutzer:innenname',
+          'username': 'Benutzer:innenname *',
           'username-placeholder': 'Ihr Benutzer:innenname',
-          'firstname': 'Vorname',
+          'firstname': 'Vorname *',
           'firstname-placeholder': 'Ihr Vorname',
-          'lastname': 'Nachname',
+          'lastname': 'Nachname *',
           'lastname-placeholder': 'Ihr Nachname',
-          'newpassword': 'Neues Passwort',
+          'newpassword': 'Neues Passwort *',
           'newpassword-placeholder': 'Neues Passwort',
-          'confirmpassword': 'Neues Passwort bestätigen',
+          'confirmpassword': 'Neues Passwort bestätigen *',
           'confirmpassword-placeholder': 'Bestätigen Sie Ihr neues Passwort',
-          'email': 'E-Mail Adresse',
+          'email': 'E-Mail Adresse *',
           'email-placeholder': 'Ihre E-Mail Adresse'
         },
         'messages': {
@@ -223,6 +225,7 @@ angular.module('metadatamanagementApp').config([
               'required': 'Ein neues Passwort wird benötigt.',
               'minlength': 'Das neue Passwort muss mindestens 5 Zeichen lang sein.',
               'maxlength': 'Das neue Passwort darf nicht länger als 50 Zeichen sein.',
+              'validationsummary': 'Das neue Passwort muss zwischen 5-50 Zeichen lang sein.',
               'strength': 'Passwortstärke:'
             },
             'confirmpassword': {
@@ -386,6 +389,7 @@ angular.module('metadatamanagementApp').config([
         'common-dialogs': {
           'yes': 'Ja',
           'no': 'Nein',
+          'close': 'Schließen',
           'confirm-dirty': {
             'title': 'Änderungen verwerfern?',
             'content': 'Sie haben ungespeicherte Änderungen. Wollen Sie diese verwerfen?'
@@ -455,9 +459,12 @@ angular.module('metadatamanagementApp').config([
            },
            'confirm-activate-user': {
             'title': 'Nutzer:in aktivieren?',
-            'content': 'Bitte bestätigen Sie, dass sie die/den Nutzer:in aktivieren möchten.',
+            'content': 'Bitte bestätigen Sie, dass Sie die/den Nutzer:in aktivieren möchten.',
             'yes': 'Aktivieren',
             'no': 'Status beibehalten'
+          },
+          'info': {
+            'license': 'Lizenz'
           }
         },
         'people': {

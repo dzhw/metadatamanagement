@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config([
             'diskSpace': 'Disk space',
             'mail': 'Email',
             'mongo': 'MongoDB',
-            'elasticsearch': 'ElasticSearch',
+            'elasticsearch': 'Elasticsearch',
             'dara': 'Dara',
             'messageBroker': 'Message Broker (for Websockets)',
             'rabbit': 'RabbitMQ',
@@ -40,6 +40,11 @@ angular.module('metadatamanagementApp').config([
           'elasticsearch': {
             'reindex': 'Reindex',
             'reindex-success': 'Elasticsearch indices are currently recreated...'
+          },
+          'dara': {
+            'update': 'Update',
+            'update-success': 'DARA update successful',
+            'update-failure': 'Errors occurred during DARA update! (see details)'
           }
         },
         'logs': {

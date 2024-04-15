@@ -63,4 +63,19 @@ public class OrderedDataPackage implements Serializable {
    * The name of the series of dataPackages to which this dataPackage belongs. May be null.
    */
   private I18nString studySeries;
+
+  /**
+   * Remarks for User Service.
+   */
+  private String remarksUserService;
+
+  /**
+   * The approved usage of a dataPackage. May be null.
+   */
+  private String approvedUsage;
+
+  /**
+   * The DOI of a dataPackage.
+   */
+  private String doi;
 }

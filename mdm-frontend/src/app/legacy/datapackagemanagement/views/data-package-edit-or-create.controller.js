@@ -51,6 +51,18 @@ angular.module('metadatamanagementApp')
         {de: 'Release Notes', en: 'Release Notes'},
         {de: 'Sonstiges', en: 'Other'}
       ];
+      ctrl.approvedUsageList = [
+        "SCIENTIFIC_USE",
+        "TEACHING_PURPOSES",
+        "NON_COMMERCIAL_USE",
+        "COMMERCIAL_USE"
+      ];
+      ctrl.currentApprovedUsageList = {
+        "SCIENTIFIC_USE": false,
+        "TEACHING_PURPOSES": false,
+        "NON_COMMERCIAL_USE": false,
+        "COMMERCIAL_USE": false,
+      }
 
       var getDialogLabels = function() {
         return {
@@ -167,7 +179,12 @@ angular.module('metadatamanagementApp')
           } else {
             CurrentProjectService.setCurrentProject(project);
             ctrl.dataPackage = dataPackage;
+            for (usage of dataPackage.approvedUsageList) {
+              ctrl.currentApprovedUsageList[usage] = true;
+            }
+            ctrl.currentApprovedUsage = dataPackage.approvedUsage;
             ctrl.currentStudySeries = dataPackage.studySeries;
+            ctrl.remarksUserService = dataPackage.remarksUserService;
             ctrl.currentSponsors = angular.copy(
               ctrl.dataPackage.sponsors);
             ctrl.currentInstitutions = angular.copy(
@@ -647,6 +664,19 @@ angular.module('metadatamanagementApp')
           });
       };
 
+      $scope.searchApprovedUsage = function(searchText) {
+        //Search Call to Elasticsearch
+        return DataPackageSearchService.findApprovedUsage(searchText, {},
+            true)
+          .then(function(approvedUsage) {
+            var approvedUsageItems = [];
+            for (const item of approvedUsage) {
+              approvedUsageItems.push(item.title);
+            }
+            return approvedUsageItems;
+          });
+      };
+
       $scope.searchSponsors = function(searchText, language) {
         //Search Call to Elasticsearch
         console.log('CURRENTSPONSORS: ' + JSON.stringify(ctrl.currentSponsors));
@@ -812,6 +842,10 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      ctrl.isPublisher = function() {
+        return Principal.isPublisher();
+      };
+      
       ctrl.onStudySeriesChanged = function() {
         //The fields of study series are undefined
         //at the moment of the first initial Call
@@ -858,6 +892,31 @@ angular.module('metadatamanagementApp')
           ctrl.isInitializingStudySeries = false;
         }
       };
+
+      ctrl.onApprovedUsageListChanged = function() {
+        ctrl.dataPackage.approvedUsageList = [];
+        for (var usage in ctrl.currentApprovedUsageList) {
+          if (ctrl.currentApprovedUsageList[usage]) {
+            ctrl.dataPackage.approvedUsageList.push(usage);
+          }
+        }
+      }
+
+      ctrl.getTranslationPathFromApprovedUsageId = function(id) {
+        switch(id) {
+          case 'SCIENTIFIC_USE':
+            return "data-package-management.common.approvedUsage.scientificUse"
+          case 'TEACHING_PURPOSES':
+            return "data-package-management.common.approvedUsage.teachingPurposes"
+          case 'NON_COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.nonCommercialUse"
+          case 'COMMERCIAL_USE':
+            return "data-package-management.common.approvedUsage.commercialUse"
+          default:
+            console.log("ApprovedUsageId (" + id + ") unknown!");
+            return "unknown"
+        }
+      }
 
       init();
     }]);

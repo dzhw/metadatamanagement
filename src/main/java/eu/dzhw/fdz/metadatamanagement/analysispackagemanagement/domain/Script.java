@@ -3,15 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.javers.core.metamodel.annotation.ValueObject;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidSoftwarePackage;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import lombok.AllArgsConstructor;
@@ -22,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * A script which will be published with this {@link AnalysisPackage}.
- * 
+ *
  * @author René Reitmann
  */
 @NoArgsConstructor
@@ -38,7 +34,7 @@ public class Script implements Serializable {
   /**
    * Client side generated id of the script. Used to reference script attachments. Not unique in the
    * DB cause shadow copies of {@link AnalysisPackage}s do not changes this id.
-   * 
+   *
    * Must not be empty and must be unique within the {@link AnalysisPackage}.
    */
   @NotEmpty(message = "analysis-package-management.error.script.uuid.not-empty")
@@ -47,14 +43,11 @@ public class Script implements Serializable {
   /**
    * The title of the script.
    *
-   * It must be specified in German and English and it must not contain more than 2048 characters.
+   * It must not contain more than 2048 characters.
    */
-  @NotNull(message = "analysis-package-management.error.script.title.not-null")
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "analysis-package-management.error.script.title.i18n-string-size")
-  @I18nStringEntireNotEmpty(
-      message = "analysis-package-management.error.script.title." + "i18n-string-entire-not-empty")
-  private I18nString title;
+  @Size(max = StringLengths.LARGE,
+      message = "analysis-package-management.error.script.title.size")
+  private String title;
 
   /**
    * The human language used for code comments as ISO 639 code.
@@ -68,7 +61,7 @@ public class Script implements Serializable {
 
   /**
    * The software package in which this script was written.
-   * 
+   *
    * Must be one of {@link SoftwarePackages}.
    */
   @ValidSoftwarePackage(
@@ -77,7 +70,7 @@ public class Script implements Serializable {
 
   /**
    * The version of the software package in which this script was written.
-   * 
+   *
    * Must not be empty and must not contain more than 32 characters.
    */
   @NotEmpty(
@@ -86,4 +79,13 @@ public class Script implements Serializable {
       message = "analysis-package-management.error.script.software-package-version"
           + ".string-size")
   private String softwarePackageVersion;
+
+  /**
+   * The license of the script. Markdown is supported.
+   *
+   * May be empty. Must not contain more than 1 MB characters.
+   */
+  @Size(max = StringLengths.X_LARGE,
+      message = "analysis-package-management.error.analysis-package.license.size")
+  private String license;
 }

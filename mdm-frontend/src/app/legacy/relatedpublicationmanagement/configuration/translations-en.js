@@ -33,7 +33,10 @@ angular.module('metadatamanagementApp').config([
             'source-reference': 'Reference',
             'abstract-source': 'Source',
             'studySerieses': 'Study Serieses',
-            'annotations': 'Annotations'
+            'annotations': 'Annotations',
+            'title': 'Title',
+            'issue': 'Issue',
+            'journal': 'Journal'
           },
           'abstract': 'Abstract',
           'title': '{{ title }}',
