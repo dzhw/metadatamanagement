@@ -27,7 +27,8 @@ public class TagsElsst implements Serializable {
   private Set<Elsst> de;
 
   /**
-   * English tags (optional).
+   * English tags. At least one tag must be provided.
    */
+  @NotEmpty(message = "datapackagemanagement.error.data-package.tagsElsst.not-empty")
   private Set<Elsst> en;
 }

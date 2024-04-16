@@ -204,7 +204,6 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    * ELSST keywords for the dataPackage.
    */
   @Valid
-  @NotNull(message = "data-package-management.error.data-package.tagsElsst.not-null")
   private TagsElsst tagsElsst;
 
   /**

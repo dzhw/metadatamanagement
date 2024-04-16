@@ -211,11 +211,8 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * ELSST keywords for the analysis package.
-   *
-   * Must not be empty.
    */
   @Valid
-  @NotNull(message = "analysis-package-management.error.analysis-package.tagsElsst.not-null")
   private TagsElsst tagsElsst;
 
   public AnalysisPackage(AnalysisPackage analysisPackage) {

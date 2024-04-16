@@ -134,11 +134,8 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
 
   /**
    * Keywords for the concept.
-   *
-   * Must not be empty.
    */
   @Valid
-  @NotNull(message = "concept-management.error.concept.tagsElsst.not-null")
   private TagsElsst tagsElsst;
 
   /**
