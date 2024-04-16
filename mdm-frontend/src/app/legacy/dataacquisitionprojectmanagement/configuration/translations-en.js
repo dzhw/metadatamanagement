@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config([
             'prod': 'WARNING: This is the PRODUCTION stage! Are you sure?',
           },
           'confirm-hint': 'Check this box if you really want to release this project on this system!',
-          'toTweet': "Publish on X (formerly Twitter). The Version of the Data Acquisition Projects will automatically be added.",
+          'toTweet': "Publish on X (formerly Twitter). The DOI Link and the Version of the Data Acquisition Project will automatically be added.",
           'tweetTextLabel': "Tweet",
           'imagePath1': 'assets/images/thumb_twitter_fdz_1_en.jpg',
           'imagePath2': 'assets/images/thumb_twitter_fdz_2_en.jpg',

@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config([
             'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind Sie sicher?',
           },
           'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!',
-          'toTweet': "Auf X (ehemals Twitter) veröffentlichen. Die Version des Datenaufnahmeprojektes wird automatisch hinzugefügt.",
+          'toTweet': "Auf X (ehemals Twitter) veröffentlichen. Der DOI-Link und die Version des Datenaufnahmeprojektes werden automatisch hinzugefügt.",
           'tweetTextLabel': "Tweet",
           'imagePath1': 'assets/images/thumb_twitter_fdz_1_de.jpg',
           'imagePath2': 'assets/images/thumb_twitter_fdz_2_de.jpg',
