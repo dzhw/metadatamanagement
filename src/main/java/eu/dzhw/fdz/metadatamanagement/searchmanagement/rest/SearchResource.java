@@ -144,9 +144,10 @@ public class SearchResource {
    * Recreate selected elasticsearch indices.
    */
   @RequestMapping(value = "/api/search/recreateByName", method = RequestMethod.POST,
-    produces = MediaType.APPLICATION_JSON_VALUE)
+      produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(AuthoritiesConstants.ADMIN)
-  public ResponseEntity<?> recreateSelectedElasticsearchIndices(@RequestParam List<ElasticsearchType> indices) throws URISyntaxException {
+  public ResponseEntity<?> recreateSelectedElasticsearchIndices(@RequestParam List<ElasticsearchType> indices)
+    throws URISyntaxException {
     elasticsearchAdminService.recreateIndices(indices);
     return ResponseEntity.ok().build();
   }
