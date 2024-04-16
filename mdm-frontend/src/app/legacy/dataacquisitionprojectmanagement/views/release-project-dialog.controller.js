@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp')
   'DataAcquisitionProjectTweetResource',
   'DataPackageSearchService',
   'AnalysisPackageSearchService',
+  'DoiService',
   'ENV', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
@@ -27,7 +28,7 @@ angular.module('metadatamanagementApp')
     DataAcquisitionProjectPostValidationService, PinnedDataPackagesService,
     DataPackageIdBuilderService, AnalysisPackageIdBuilderService,
     DataAcquisitionProjectTweetResource,
-    DataPackageSearchService, AnalysisPackageSearchService, ENV) {
+    DataPackageSearchService, AnalysisPackageSearchService, DoiService, ENV) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     $scope.ENV = ENV;
@@ -44,7 +45,7 @@ angular.module('metadatamanagementApp')
       }
     });
 
-    $scope.setTweetPlaceholder = function(response) {     
+    $scope.setTweetPlaceholder = function(response) {
       // set the default tweet placeholder text
       $scope.release.toTweet = false;
       $scope.release.selectedTweetImage = null;
@@ -59,10 +60,6 @@ angular.module('metadatamanagementApp')
           $scope.release.tweetTextInput += " / ";
         }
         $scope.release.tweetTextInput += " New data has been released! " + response.title.en;
-      }
-      // doi link
-      if (response && response.doi) {
-        $scope.release.tweetTextInput += " https://doi.org/" + response.doi;
       }
     };
 
@@ -150,10 +147,15 @@ angular.module('metadatamanagementApp')
                     $mdDialog.hide();
                     $state.forceReload();
                     // tweet
-                    if (release.toTweet) {
-                      if (release.version) {
-                        $scope.release.tweetTextInput += " (Version " + release.version + ")";
-                      }
+                    if (release.toTweet && release.version) {
+                      // create the doi link like it is created in backend {DoiBuilder.java}
+                      // (requesting doi through search service is not possible because 
+                      // for new projects the doi link would not be available immediately
+                      var doiLink = DoiService.createDoiLink(project.id, release.version);
+                      $scope.release.tweetTextInput += " " + doiLink;
+
+                      $scope.release.tweetTextInput += " (Version " + release.version + ")";
+                      
                       DataAcquisitionProjectTweetResource.createTweet({
                           tweetTextInput: $scope.release.tweetTextInput,
                           selectedTweetImage: $scope.release.selectedTweetImage
