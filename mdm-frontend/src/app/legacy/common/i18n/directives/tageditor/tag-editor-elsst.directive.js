@@ -16,9 +16,7 @@ angular.module('metadatamanagementApp').directive('tagEditorElsst', function() {
       'tag-editor-elsst.html.tmpl',
     scope: {
       tags: '=',
-      tagSearch: '&',
-      requireGermanTag: '=?',
-      requireEnglishTag: '=?'
+      tagSearch: '&'
     }
   };
 });
