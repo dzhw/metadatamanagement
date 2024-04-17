@@ -73,6 +73,53 @@
           {{'data-acquisition-project-management.release.confirm-hint' | translate}}
         </div>
       </md-input-container>
+      <!-- Tweet-->
+      <div ng-if="!isBetaRelease">
+        <md-input-container class="md-block">
+            <md-checkbox 
+                name="toTweet"
+                ng-model="release.toTweet"
+                style="margin: 0 18px 0 0">
+                {{'data-acquisition-project-management.release.toTweet' | translate }}
+            </md-checkbox>
+        </md-input-container>
+        <md-input-container ng-disabled="!release.toTweet" class="md-block" md-is-error="!releaseForm.tweetTextInput.$valid"
+            style="margin-top: 20pt;">
+            <label>{{'data-acquisition-project-management.release.tweetTextLabel' | translate}}</label>
+            <textarea rows="3"
+                autocomplete="off" data-md-autofocus data-md-maxlength="280"
+                data-md-no-asterisk name="tweetTextInput" ng-model="release.tweetTextInput"
+                ng-required="release.toTweet" translate-attr="{'title':'global.entity.validation.required'}"
+                ng-disabled="!release.toTweet">
+            </textarea>
+            <div ng-if="release.toTweet" data-md-auto-hide="false" data-multiple ng-messages="releaseForm.tweetTextInput.$error">
+                <div ng-message="required">{{'data-acquisition-project-management.error.release.tweet.not-empty' |
+                translate}}
+                </div>
+                <div ng-message="md-maxlength">{{'data-acquisition-project-management.error.release.tweet.size' |
+                translate}}
+                </div>
+            </div>
+            <div style="margin-top: 10pt; display: flex; justify-content: space-between;">
+                <md-radio-group id="twitter-image-switch" ng-model="release.selectedTweetImage">
+                    <div style="display: flex; align-items: center;">
+                        <span>
+                            <md-radio-button ng-disabled="!release.toTweet" style="padding-right:0; padding-left:0" ng-value="'data-acquisition-project-management.release.imagePath1' | translate"  aria-label="thumb_twitter_fdz_1"></md-radio-button>
+                            <img ng-src="{{'data-acquisition-project-management.release.imagePath1' | translate }}" style="margin-right: 10pt; width: 75%; height: 75%;">
+                        </span>
+                        <span>
+                            <md-radio-button ng-disabled="!release.toTweet" style="padding-right:0; padding-left:0" ng-value="'data-acquisition-project-management.release.imagePath2' | translate" aria-label="thumb_twitter_fdz_2"></md-radio-button>
+                            <img ng-src="{{'data-acquisition-project-management.release.imagePath2' | translate }}" class="mt4" style="margin-right: 10pt; width: 75%; height: 75%;">
+                        </span>
+                        <span>
+                            <md-radio-button ng-disabled="!release.toTweet" style="padding-right:0; padding-left:0" ng-value="'data-acquisition-project-management.release.imagePath3' | translate" aria-label="thumb_twitter_fdz_3"></md-radio-button>
+                            <img ng-src="{{'data-acquisition-project-management.release.imagePath3' | translate }}" class="mt4" style="width: 75%; height: 75%;">
+                        </span>
+                    </div>
+                </md-radio-group>
+            </div>
+        </md-input-container>
+        </div>
     </md-dialog-content>
     <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
       <md-button class="md-raised" ng-click="cancel()">

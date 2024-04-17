@@ -32,6 +32,10 @@ data "template_file" "web_container" {
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
     site_token        = var.seo4ajax_tokens[count.index].site_token
+    tweet_consumer_key = var.tweet_credentials[count.index].consumerkey
+    tweet_consumer_secret = var.tweet_credentials[count.index].consumersecret
+    tweet_oauth_token = var.tweet_credentials[count.index].oauthtoken
+    tweet_oauth_token_secret = var.tweet_credentials[count.index].oauthtokensecret
   }
 }
 
@@ -99,6 +103,10 @@ data "template_file" "worker_container" {
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
     site_token        = var.seo4ajax_tokens[count.index].site_token
+    tweet_consumer_key = var.tweet_credentials[count.index].consumerkey
+    tweet_consumer_secret = var.tweet_credentials[count.index].consumersecret
+    tweet_oauth_token = var.tweet_credentials[count.index].oauthtoken
+    tweet_oauth_token_secret = var.tweet_credentials[count.index].oauthtokensecret
   }
 }
 

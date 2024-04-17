@@ -208,12 +208,7 @@ angular.module('metadatamanagementApp')
                       lastName: ''
                     }],
                     institutions: [],
-                    sponsors: [{
-                      name: {
-                        de: '',
-                        en: ''
-                      }
-                    }],
+                    sponsors: [],
                     scripts: [],
                     analysisDataPackages: []
                   });

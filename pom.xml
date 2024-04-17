@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>2024.1.2</version>
+    <version>2024.2.1</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -318,6 +318,12 @@
             <version>2.11.3</version>
             <scope>test</scope>
         </dependency>
+        <!-- tweet okhttp3 -->
+      <dependency>
+        <groupId>com.twitter</groupId>
+        <artifactId>twitter-api-java-sdk</artifactId>
+        <version>2.0.3</version>
+      </dependency>
     </dependencies>
 
     <repositories>
