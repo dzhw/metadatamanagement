@@ -45,6 +45,29 @@ angular.module('metadatamanagementApp')
       }
     });
 
+    $scope.postTweet = function(release) {
+      // optional tweet about (re-)releases
+      if (release.toTweet && release.version) {
+        // create the doi link like it is created in backend {DoiBuilder.java}
+        // (requesting doi through search service is not possible because 
+        // the current doi link would not be available immediately)
+        var doiLink = DoiService.createDoiLink(project.id, release.version);
+        $scope.release.tweetTextInput += " " + doiLink;
+
+        $scope.release.tweetTextInput += " (Version " + release.version + ")";
+        
+        DataAcquisitionProjectTweetResource.createTweet({
+            tweetTextInput: $scope.release.tweetTextInput,
+            selectedTweetImage: $scope.release.selectedTweetImage
+        }).$promise.then(function(response) {
+            console.debug("Tweet response:", response.response)
+          })
+          .catch(function(error) {
+            console.error("Tweet error response:", error)
+        });
+      }
+    };
+
     $scope.setTweetPlaceholder = function(response) {
       // set the default tweet placeholder text
       $scope.release.toTweet = false;
@@ -146,26 +169,8 @@ angular.module('metadatamanagementApp')
                     CurrentProjectService.setCurrentProject(project);
                     $mdDialog.hide();
                     $state.forceReload();
-                    // tweet
-                    if (release.toTweet && release.version) {
-                      // create the doi link like it is created in backend {DoiBuilder.java}
-                      // (requesting doi through search service is not possible because 
-                      // for new projects the doi link would not be available immediately
-                      var doiLink = DoiService.createDoiLink(project.id, release.version);
-                      $scope.release.tweetTextInput += " " + doiLink;
 
-                      $scope.release.tweetTextInput += " (Version " + release.version + ")";
-                      
-                      DataAcquisitionProjectTweetResource.createTweet({
-                          tweetTextInput: $scope.release.tweetTextInput,
-                          selectedTweetImage: $scope.release.selectedTweetImage
-                      }).$promise.then(function(response) {
-                          console.debug("Tweet response:", response.response)
-                        })
-                        .catch(function(error) {
-                          console.error("Tweet error response:", error)
-                      });
-                    }
+                    $scope.postTweet(release);
                   });
               }).catch(function() {
                   delete project.release;
