@@ -176,9 +176,9 @@ angular.module('metadatamanagementApp').config([
               'i18n-string-entire-not-empty': 'Die Institution eines Datenpakets muss in beiden Sprachen vorhanden sein.'
             },
             'sponsor': {
-              'not-null': 'Die Geldgeber:in eines Datenpakets darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge der Geldgeber:in eines Datenpakets ist 512 Zeichen.',
-              'i18n-string-entire-not-empty': 'Die Geldgeber:in eines Datenpakets muss in beiden Sprachen vorhanden sein.'
+              'not-empty': 'Die Liste der Geldgeber:innen eines Datenpakets benötigt mindestens ein Element und darf nicht leer sein.',
+              'i18n-string-size': 'Die Maximallänge des Namens der Geldgeber:in eines Datenpakets ist 512 Zeichen.',
+              'i18n-string-entire-not-empty': 'Der Name der Geldgeber:in eines Datenpakets muss in beiden Sprachen vorhanden sein.'
             },
             'study-series': {
               'i18n-string-size': 'Die Maximallänge der Studienreihe ist 512 Zeichen.',

@@ -177,8 +177,10 @@ angular.module('metadatamanagementApp')
           } else {
             CurrentProjectService.setCurrentProject(project);
             ctrl.dataPackage = dataPackage;
-            for (usage of dataPackage.approvedUsageList) {
-              ctrl.currentApprovedUsageList[usage] = true;
+            if (dataPackage.approvedUsageList && dataPackage.approvedUsageList.length > 0) {
+              for (usage of dataPackage.approvedUsageList) {
+                ctrl.currentApprovedUsageList[usage] = true;
+              }
             }
             ctrl.currentApprovedUsage = dataPackage.approvedUsage;
             ctrl.currentStudySeries = dataPackage.studySeries;
