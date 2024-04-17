@@ -410,7 +410,7 @@ public class DataAcquisitionProjectManagementService
   @HandleAfterSave
   public void onDataPackageChanged(DataPackage dataPackage) {
     elasticsearchUpdateQueueService.enqueueUpsertAsync(
-      () -> acquisitionProjectRepository.findOneIdAndVersionById(dataPackage.getDataAcquisitionProjectId()),
-      ElasticsearchType.data_acquisition_projects);
+        () -> acquisitionProjectRepository.findOneIdAndVersionById(dataPackage.getDataAcquisitionProjectId()),
+        ElasticsearchType.data_acquisition_projects);
   }
 }
