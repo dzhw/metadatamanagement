@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp')
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     $scope.ENV = ENV;
+    $scope.isBetaRelease = false;
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';
     $scope.cancel = function() {
@@ -42,6 +43,15 @@ angular.module('metadatamanagementApp')
       if (!newValue && $scope.release) {
         // Set all radio buttons for tweet image to false if toTweet flag gets unchecked
         $scope.release.selectedTweetImage = null;
+      }
+    });
+
+    $scope.$watch('release.version', function(newValue) {
+      // Do not show tweet form fields if beta release
+      if (!!newValue) {
+        $scope.isBetaRelease = $scope.bowser.compareVersions(['1.0.0', newValue]) === 1;
+      } else {
+        $scope.isBetaRelease = false;
       }
     });
 
