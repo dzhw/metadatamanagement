@@ -23,6 +23,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -57,7 +59,11 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+
   private final DataPackageCrudHelper crudHelper;
+
+  private final DataAcquisitionProjectCrudHelper projectCrudHelper;
 
   /**
    * Delete all dataPackages when the dataAcquisitionProject was deleted.
@@ -246,6 +252,14 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public DataPackage save(DataPackage dataPackage) {
     // TODO check project access rights
+    DataAcquisitionProject project =
+      dataAcquisitionProjectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
+    if (dataPackage.getRemarksUserService() != null && !dataPackage.getRemarksUserService().isBlank()) {
+      project.setHasUserServiceRemarks(true);
+    } else {
+      project.setHasUserServiceRemarks(false);
+    }
+    projectCrudHelper.saveMaster(project);
     return crudHelper.saveMaster(dataPackage);
   }
 
