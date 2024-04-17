@@ -114,17 +114,17 @@ To set this up, you need to have an X Developer Account (Free Access Level) and 
 credentials `consumer key` and `consumer secret`. Be aware that the current [Free Access Level](https://developer.twitter.com/en/docs/twitter-api)
 is limited to 50 tweets/24h; 1,500 tweets/month; 1 environment; 1 project.
 
-Make your credentials `consumer key` and `consumer secret` accessible by the `application.yml` through
-`sensitive-variables.tf` just like other highly sensitive data. 
+Make your credentials `consumer key` and `consumer secret` accessible by the `application.yml` of the current stage through
+`sensitive_variables.tf` just like other highly sensitive data. 
 
 ```shell
 [application.yml]
 ...
 tweet:
-  consumerkey: ${TWEET_CONSUMER_KEY}
-  consumersecret: ${TWEET_CONSUMER_SECRET}
-  oauthtoken: ${TWEET_OAUTH_TOKEN}
-  oauthtokensecret: ${TWEET_OAUTH_TOKEN_SECRET}
+  consumerkey: ${vcap.services.tweet.credentials.consumerkey}
+  consumersecret: ${vcap.services.tweet.credentials.consumersecret}
+  oauthtoken: ${vcap.services.tweet.credentials.oauthtoken}
+  oauthtokensecret: ${vcap.services.tweet.credentials.oauthtokensecret}
   ...
 ```
 
@@ -155,13 +155,7 @@ the linked Twitter example, select `No Auth` instead of `OAuth 1.0`).
 POST 'https://api.twitter.com/?oauth_token={OAUTH_TOKEN_FROM_STEP2}&oauth_verifier={OAUTH_VERIFIER_FROM_STEP2}' 
 ```
 
-
-Finally, add the returned `oauth_token` and `oauth_token_secret` from step 3 to the `sensitive-variables.tf`
-   for the placeholders `TWEET_OAUTH_TOKEN` and `TWEET_OAUTH_TOKEN_SECRET`.
-```
-oauthtoken: ${TWEET_OAUTH_TOKEN}
-oauthtokensecret: ${TWEET_OAUTH_TOKEN_SECRET}
-```
+Add the returned values for `oauth_token` and `oauth_token_secret` from step 3 to the `sensitive_variables.tf`.
 
 For further details also see [Authentication OAuth FAQ](https://developer.twitter.com/en/docs/authentication/faq).
 

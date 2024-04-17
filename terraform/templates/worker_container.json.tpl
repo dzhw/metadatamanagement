@@ -77,6 +77,22 @@
         {
           "name": "vcap_services_seo4ajax_sitetoken",
           "value": "${site_token}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_consumerkey",
+          "value": "${tweet_consumer_key}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_consumersecret",
+          "value": "${tweet_consumer_secret}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_oauthtoken",
+          "value": "${tweet_oauth_token}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_oauthtokensecret",
+          "value": "${tweet_oauth_token_secret}"
         }
       ],
       "resourceRequirements": null,
