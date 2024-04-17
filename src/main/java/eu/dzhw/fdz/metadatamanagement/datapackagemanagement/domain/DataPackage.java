@@ -152,8 +152,11 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * List of {@link Sponsor}s which have sponsored this data package.
+   *
+   * Must not be empty. Needs at least one sponsor.
    */
   @Valid
+  @NotEmpty(message = "data-package-management.error.data-package.sponsor.not-empty")
   private List<Sponsor> sponsors;
 
   /**

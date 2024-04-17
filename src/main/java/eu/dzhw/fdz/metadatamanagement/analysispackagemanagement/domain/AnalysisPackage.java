@@ -162,6 +162,8 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * List of {@link Sponsor}s which have sponsored this data package.
+   *
+   * May be empty.
    */
   @Valid
   private List<Sponsor> sponsors;

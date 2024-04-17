@@ -75,3 +75,12 @@ metadatamanagement:
 
 logbook:
   filter.enabled: false
+
+tweet:
+  consumerkey: ${vcap.services.tweet.credentials.consumerkey}
+  consumersecret: ${vcap.services.tweet.credentials.consumersecret}
+  oauthtoken: ${vcap.services.tweet.credentials.oauthtoken}
+  oauthtokensecret: ${vcap.services.tweet.credentials.oauthtokensecret}
+  endpointurl: "https://api.twitter.com/2/tweets"
+  mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
+  imagedir:  "./mdm-frontend/src"

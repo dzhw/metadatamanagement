@@ -21,7 +21,12 @@ angular.module('metadatamanagementApp').config([
             'dev': 'Dies ist das Dev-System! Sind Sie sicher?',
             'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind Sie sicher?',
           },
-          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!'
+          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!',
+          'toTweet': "Auf X (ehemals Twitter) veröffentlichen. Der DOI-Link und die Version des Datenaufnahmeprojektes werden automatisch hinzugefügt.",
+          'tweetTextLabel': "Tweet",
+          'imagePath1': 'assets/images/thumb_twitter_fdz_1_de.jpg',
+          'imagePath2': 'assets/images/thumb_twitter_fdz_2_de.jpg',
+          'imagePath3': 'assets/images/thumb_twitter_fdz_3_de.jpg'
         },
         'home': {
           'title': 'Datenaufnahmeprojekte',
@@ -100,6 +105,10 @@ angular.module('metadatamanagementApp').config([
               'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
               'not-parsable-or-not-incremented': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version. Die letzte Version war "{{lastVersion}}".',
               'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
+            },
+            'tweet': {
+              'not-empty': 'Der Text darf nicht leer sein.',
+              'size': 'Der Text darf nicht länger als 280 Zeichen sein.'
             }
           },
           'post-validation': {

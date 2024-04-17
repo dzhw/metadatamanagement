@@ -31,7 +31,7 @@ mongock:
     change-logs-scan-package:
         - eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs
         - eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.changelogs
-            
+
 management:
   metrics:
     export:
@@ -77,3 +77,12 @@ metadatamanagement:
 
 logbook:
    filter.enabled: false
+
+tweet:
+  consumerkey: ${vcap.services.tweet.credentials.consumerkey}
+  consumersecret: ${vcap.services.tweet.credentials.consumersecret}
+  oauthtoken: ${vcap.services.tweet.credentials.oauthtoken}
+  oauthtokensecret: ${vcap.services.tweet.credentials.oauthtokensecret}
+  endpointurl: "https://api.twitter.com/2/tweets"
+  mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
+  imagedir:  "./mdm-frontend/src"

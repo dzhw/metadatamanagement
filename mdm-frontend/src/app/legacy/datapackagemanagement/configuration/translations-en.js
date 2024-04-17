@@ -176,9 +176,9 @@ angular.module('metadatamanagementApp').config([
               'i18n-string-entire-not-empty': 'The institution of the data package must not be empty for both languages.'
             },
             'sponsor': {
-              'not-null': 'The sponsor of the data package must not be empty!',
-              'i18n-string-size': 'The max length of the sponsor of the data package is 512.',
-              'i18n-string-entire-not-empty': 'The sponsor of the data package must not be empty for both languages.'
+              'not-empty': 'The list of sponsors of a data package needs min. one element and must not be empty.',
+              'i18n-string-size': 'The max length of the sponsor name of the data package is 512.',
+              'i18n-string-entire-not-empty': 'The sponsor name of the data package must not be empty for both languages.'
             },
             'study-series': {
               'i18n-string-size': 'The max length of the study series is 512 signs.',

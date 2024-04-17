@@ -260,7 +260,7 @@
             <div layout="row">
             <div>
               <md-button class="md-primary md-icon-button mt18 mh0 pl0"
-                         ng-click="ctrl.deleteSponsor($index)" ng-if="ctrl.analysisPackage.sponsors.length > 1">
+                         ng-click="ctrl.deleteSponsor($index)">
                 <md-tooltip md-autohide="true" md-direction="bottom"
                             md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'analysis-package-management.edit.delete-sponsor-tooltip' | translate}}
@@ -352,7 +352,7 @@
             </md-autocomplete>
           </div>
           <div layout="row" layout-align="start center">
-            <md-input-container flex="33" ng-style="{'margin-left': ctrl.analysisPackage.sponsors.length > 1 ? '40px' : '0px'}" class="mt0">
+            <md-input-container flex="33" style="margin-left: 40px;" class="mt0">
               <label>{{'analysis-package-management.edit.label.fundingRef' | translate}}</label>
               <input name="sponsorFundingRef_{{$index}}" ng-model="ctrl.analysisPackage.sponsors[$index].fundingRef" autocomplete="off">
               <div
@@ -363,7 +363,7 @@
             </md-input-container>
           </div>
           <div layout="row" layout-align="start center">
-            <md-input-container flex="50" ng-style="{'margin-left': ctrl.analysisPackage.sponsors.length > 1 ? '40px' : '0px'}" class="mt0">
+            <md-input-container flex="50" style="margin-left: 40px;" class="mt0">
               <label>{{'analysis-package-management.edit.label.fundingProgram' | translate}}</label>
               <input name="sponsorFundingProgram_{{$index}}" ng-model="ctrl.analysisPackage.sponsors[$index].fundingProgram" autocomplete="off">
               <div
