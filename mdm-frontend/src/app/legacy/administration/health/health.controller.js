@@ -9,9 +9,9 @@ angular.module('metadatamanagementApp').controller('HealthController', [
   '$state',
   'BreadcrumbService',
   'SimpleMessageToastService',
-  'DaraReleaseResource',
+  'DaraReleaseCustomResource',
   function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
-    PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService, DaraReleaseResource) {
+    PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService, DaraReleaseCustomResource) {
     PageMetadataService.setPageTitle('administration.health.title');
     $scope.isRecreatingIndices = false;
     $scope.updatingHealth = true;
@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').controller('HealthController', [
      */
     $scope.updateDaraProjects = function(health) {
       $scope.isUpdatingDara = true;
-      DaraReleaseResource.updateDaraProjects().then(function(errorsList) {
+      DaraReleaseCustomResource.updateDaraProjects().then(function(errorsList) {
         if (errorsList.length > 0) {
           // errors occurred during update
           SimpleMessageToastService.openAlertMessageToasts(
