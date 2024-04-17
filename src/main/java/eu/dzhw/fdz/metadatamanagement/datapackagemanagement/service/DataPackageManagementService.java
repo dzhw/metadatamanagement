@@ -254,12 +254,15 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
     // TODO check project access rights
     DataAcquisitionProject project =
         dataAcquisitionProjectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
-    if (dataPackage.getRemarksUserService() != null && !dataPackage.getRemarksUserService().isBlank()) {
-      project.setHasUserServiceRemarks(true);
-    } else {
-      project.setHasUserServiceRemarks(false);
+    if (project != null) {
+      if (dataPackage.getRemarksUserService() != null && !dataPackage.getRemarksUserService().isBlank()) {
+        project.setHasUserServiceRemarks(true);
+      } else {
+        project.setHasUserServiceRemarks(false);
+      }
+      projectCrudHelper.saveMaster(project);
     }
-    projectCrudHelper.saveMaster(project);
+
     return crudHelper.saveMaster(dataPackage);
   }
 
