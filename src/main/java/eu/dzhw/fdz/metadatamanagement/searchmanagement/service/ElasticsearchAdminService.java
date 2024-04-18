@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -70,6 +71,7 @@ public class ElasticsearchAdminService {
    */
   @Async
   public CompletableFuture<Object> recreateAllIndices() {
+    log.info("Recreating all elasticsearch indices ...");
     try {
       for (ElasticsearchType type : ElasticsearchType.values()) {
         recreateIndex(type);
@@ -85,6 +87,60 @@ public class ElasticsearchAdminService {
       this.enqueueAllAnalysisPackages();
       this.enqueueAllDataAcquisitionProjects();
       updateQueueService.processAllQueueItems();
+      log.info("Finished recreating all indices.");
+    } catch (Exception e) {
+      log.error("Error during recreation of indices:", e);
+    }
+    return CompletableFuture.completedFuture(new Object());
+  }
+
+  /**
+   * Recreate the specified indices and their mappings. Asynchronous cause it might take a while.
+   */
+  @Async
+  public CompletableFuture<Object> recreateIndices(List<ElasticsearchType> indices) {
+    log.info("Recreating the following indices: " + indices.toString() + " ...");
+    try {
+      for (ElasticsearchType index : indices) {
+        recreateIndex(index);
+        switch (index) {
+          case data_packages:
+            this.enqueueAllDataPackages();
+            break;
+          case variables:
+            this.enqueueAllVariables();
+            break;
+          case surveys:
+            this.enqueueAllSurveys();
+            break;
+          case data_sets:
+            this.enqueueAllDataSets();
+            break;
+          case questions:
+            this.enqueueAllQuestions();
+            break;
+          case related_publications:
+            this.enqueueAllRelatedPublications();
+            break;
+          case instruments:
+            this.enqueueAllInstruments();
+            break;
+          case concepts:
+            this.enqueueAllConcepts();
+            break;
+          case analysis_packages:
+            this.enqueueAllAnalysisPackages();
+            break;
+          case data_acquisition_projects:
+            this.enqueueAllDataAcquisitionProjects();
+            break;
+          default:
+            log.error("Enqueueing objects for index with name'" + index + "' has not been implemented yet.");
+        }
+      }
+      log.info("Enqueueing all objects ...");
+      updateQueueService.processAllQueueItems();
+      log.info("Finished recreating indices.");
     } catch (Exception e) {
       log.error("Error during recreation of indices:", e);
     }

@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Base64;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -135,8 +136,19 @@ public class SearchResource {
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<?> recreateAllElasticsearchIndices() throws URISyntaxException {
-    log.debug("REST request to recreate all elasticsearch indices.");
     elasticsearchAdminService.recreateAllIndices();
+    return ResponseEntity.ok().build();
+  }
+
+  /**
+   * Recreate selected elasticsearch indices.
+   */
+  @RequestMapping(value = "/api/search/recreateByName", method = RequestMethod.POST,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured(AuthoritiesConstants.ADMIN)
+  public ResponseEntity<?> recreateSelectedElasticsearchIndices(@RequestParam List<ElasticsearchType> indices)
+    throws URISyntaxException {
+    elasticsearchAdminService.recreateIndices(indices);
     return ResponseEntity.ok().build();
   }
 
