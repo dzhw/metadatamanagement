@@ -89,6 +89,7 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',
           'tag-tooltip': 'Click to search for concepts with this tag',
+          'tagElsst-tooltip': 'Click to search for concepts with this ELSST tag',
           'tags': 'Tags',
           'tagsElsst': 'ELSST Tags'
         },

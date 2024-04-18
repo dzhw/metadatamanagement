@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').factory('ElsstSearchService', ['LanguageService',  
   function(LanguageService) {
     
-    var getAltLabel = function(item) {
+    var getAltLabelAsArray = function(item) {
       var preparedAltLabel = item.altLabel;
         if (!preparedAltLabel) { 
           preparedAltLabel = [];
@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').factory('ElsstSearchService', ['Language
         const data = await response.json();
         return data.results.map(item => ({
           prefLabel: item.prefLabel,
-          altLabel: item.altLabel || [],
+          altLabel: getAltLabelAsArray(item),
           localname: item.localname
         }));
       } catch (error) {
@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp').factory('ElsstSearchService', ['Language
 
         return data.results.map(item => ({
           prefLabel: item.prefLabel,
-          altLabel: getAltLabel(item),
+          altLabel: getAltLabelAsArray(item),
           localname: item.localname
         }));
       } catch (error) {

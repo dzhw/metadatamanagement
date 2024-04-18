@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
   'DataPackageSearchService', 'ElsstSearchService', function($scope, $mdMedia, DataPackageSearchService, ElsstSearchService) {
 
     var removeExistingTags = function(tags, language) {
-    // return all selectable tags that are available according to the search text and have not already selected
+      // return all selectable tags that are available according to the search text and have not already been selected
       if (!$scope.tags[language] || $scope.tags[language].length == 0) {
         $scope.tags = {
           de: [],

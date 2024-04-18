@@ -37,7 +37,7 @@
                ui-sref="search({type: 'data_packages', 'query': tagElsst.prefLabel})">
                <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.detail.tag-tooltip' | translate}}
+                {{'data-package-management.detail.tagElsst-tooltip' | translate}}
               </md-tooltip>
             </a>
             <a ng-repeat="tagElsst in ctrl.dataPackageTagsElsst"
@@ -45,7 +45,7 @@
                ui-sref="search({type: 'data_packages', 'tags': tagElsst.prefLabel})">
               <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-package-management.detail.tag-tooltip' | translate}}
+                {{'data-package-management.detail.tagElsst-tooltip' | translate}}
               </md-tooltip>
             </a>
           </div>
