@@ -90,6 +90,10 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
             boolQuery.should.push(createConstantScoreQuery(
               'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tagsElsst.de.prefLabel.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tagsElsst.en.prefLabel.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'projectContributors.firstName.ngrams',
@@ -108,6 +112,10 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
               'tags.de', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'tags.en', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tagsElsst.de.prefLabel', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tagsElsst.en.prefLabel', queryTerm, englishMajorBoost));
             break;
 
           case 'analysis_packages':
@@ -134,6 +142,10 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
               'tags.de', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'tags.en', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tagsElsst.de.prefLabel', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tagsElsst.en.prefLabel', queryTerm, englishMajorBoost));
             break;
 
           case 'surveys':
@@ -313,6 +325,10 @@ angular.module('metadatamanagementApp').service('SearchDao', ['ElasticSearchClie
               'tags.de', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'tags.en', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tagsElsst.de.prefLabel', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tagsElsst.en.prefLabel', queryTerm, englishMajorBoost));
             break;
         }
       });

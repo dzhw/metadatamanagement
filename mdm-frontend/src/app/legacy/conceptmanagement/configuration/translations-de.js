@@ -81,8 +81,10 @@ angular.module('metadatamanagementApp').config([
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
-          'tag-tooltip': 'Klicken, um Konzepte mit diesem Tag zu suchen',
-          'tags': 'Tags'
+          'tag-tooltip': 'Klicken, um Konzepte mit diesem Schlagwort zu suchen',
+          'tagElsst-tooltip': 'Klicken, um Konzepte mit diesem ELSST-Schlagwort zu suchen',
+          'tags': 'Schlagwörter',
+          'tagsElsst': 'ELSST-Schlagwörter'
         },
         'log-messages': {
           'concept': {
@@ -124,7 +126,7 @@ angular.module('metadatamanagementApp').config([
               'size': 'Die Maximallänge der Zitationsangabe ist 2048 Zeichen.'
             },
             'tags': {
-              'not-empty': 'In beiden Sprachen muss mindestens ein Tag angegeben werden.'
+              'not-empty': 'In beiden Sprachen muss mindestens ein Schlagwort angegeben werden.'
             },
             'in-use': {
               'instruments': 'Das Konzept kann nicht gelöscht werden, weil es durch die folgenden Instrumente referenziert wird: {{ids}}.',
@@ -149,7 +151,8 @@ angular.module('metadatamanagementApp').config([
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlüsselwörter) zum Konzept'
+            'tags': 'Schlagwörter zum Konzept',
+            'tagsElsst': 'ELSST-Schlagwörter zum Konzept'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Konzepts wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Konzept zu speichern.',

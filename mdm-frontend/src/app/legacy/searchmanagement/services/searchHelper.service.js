@@ -28,6 +28,11 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
           i18n: true,
           min_doc_count: 1
         },
+        'tagsElsst': {
+          attribute: 'tagsElsst.{}.prefLabel',
+          i18n: true,
+          min_doc_count: 1
+        },
         'concepts': {
           attribute: 'concepts.title',
           i18n: true,
@@ -57,6 +62,11 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         },
         'tags': {
           attribute: 'tags',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'tagsElsst': {
+          attribute: 'tagsElsst.{}.prefLabel',
           i18n: true,
           min_doc_count: 1
         }
@@ -98,6 +108,11 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
           i18n: true,
           concatMultipleWithOr: false
         },
+        'tagsElsst': {
+          attribute: 'tagsElsst.{}.prefLabel',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
         'concepts': {
           attribute: 'concepts.title',
           i18n: true,
@@ -127,6 +142,11 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         },
         'tags': {
           attribute: 'tags',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'tagsElsst': {
+          attribute: 'tagsElsst.{}.prefLabel',
           i18n: true,
           min_doc_count: 1
         }
@@ -861,8 +881,14 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
 
             if (aggregationConfig.i18n &&
               elasticsearchType !== 'related_publications') {
-              aggregation.terms.field = aggregationConfig.attribute +
-              '.' + currentLanguage;
+              if (aggregationConfig.attribute.includes("{}")) {
+                // add language to attribute by replacing the brackets, e.g. foo.{}.prefLabel = foo.de.prefLabel
+                aggregation.terms.field = aggregationConfig.attribute.replace("{}", currentLanguage);
+              } else {
+                // add language to attribute at the end, e.g. foo = foo.de
+                aggregation.terms.field = aggregationConfig.attribute +
+                '.' + currentLanguage;
+              }
             } else {
               aggregation.terms.field = aggregationConfig.attribute;
             }
@@ -913,8 +939,13 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
               }
             };
             if (filterConfig.i18n) {
-              filter.term[filterConfig.attribute + '.' + currentLanguage] =
-              filterValue;
+              if (filterConfig.attribute.includes("{}")) {
+                // add language to attribute by replacing the brackets, e.g. foo.{}.prefLabel = foo.de.prefLabel
+                filter.term[filterConfig.attribute.replace("{}", currentLanguage)] = filterValue;
+              } else {
+                // add language to attribute at the end, e.g. foo = foo.de
+                filter.term[filterConfig.attribute + '.' + currentLanguage] = filterValue;
+              }
             } else {
               filter.term[filterConfig.attribute] = filterValue;
             }

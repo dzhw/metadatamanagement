@@ -204,6 +204,12 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   private Tags tags;
 
   /**
+   * ELSST keywords for the dataPackage.
+   */
+  @Valid
+  private TagsElsst tagsElsst;
+
+  /**
    * A list of additional links for the data package.
    *
    * May be empty.

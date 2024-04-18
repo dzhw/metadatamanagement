@@ -9,13 +9,13 @@ angular.module('metadatamanagementApp').config([
       'common': {
         'tag-editor': {
           'error': {
-            'required': 'Es muss mindestens ein Tag eingetragen sein.'
+            'required': 'Es muss mindestens ein Schlagwort eingetragen sein.'
           },
           'label': {
-            'german-tags': 'Deutsche Tags',
-            'english-tags': 'Englische Tags'
+            'german-tags': 'Deutsche Schlagwörter',
+            'english-tags': 'Englische Schlagwörter'
           },
-          'placeholder': 'Neuen Tag eingeben'
+          'placeholder': 'Neues Schlagwort eingeben'
         }
       }
       //jscs:enable

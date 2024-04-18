@@ -137,6 +137,7 @@ angular.module('metadatamanagementApp').config([
           'doi-tooltip': 'Click to open the DOI in a new tab',
           'link-tooltip': 'Click to open the link in a new tab.',
           'tag-tooltip': 'Click to search for data packages with this tag',
+          'tagElsst-tooltip': 'Click to search for data packages with this ELSST tag',
           'generate-datapackage-overview-tooltip': 'Click to generate an overview of this data package as a PDF.',
           'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
           'order-datapackage-tooltip': 'Click to order this data package.'
@@ -241,6 +242,7 @@ angular.module('metadatamanagementApp').config([
             'middle-name': 'Middle Name',
             'last-name': 'Last Name',
             'tags': 'Tags (Keywords) for the Data Package',
+            'tagsElsst': 'ELSST Tags (Keywords) for the Data Package',
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',

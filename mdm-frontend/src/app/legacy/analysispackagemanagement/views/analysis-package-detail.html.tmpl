@@ -29,6 +29,26 @@
               </md-tooltip>
             </a>
           </div>
+          <!-- ELSST tags -->
+          <div class="fdz-tag-link-container" ng-if="ctrl.analysisPackageTagsElsst.length > 0">
+            <h5>{{'analysis-package-management.detail.label.tagsElsst' | translate}}: </h5>
+            <a ng-repeat="tagElsst in ctrl.analysisPackageTagsElsst"
+               ng-if="ctrl.isAuthenticated()"
+               ui-sref="search({type: 'analysis_packages', 'query': tagElsst.prefLabel})">
+              <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'analysis-package-management.detail.tagElsst-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+            <a ng-repeat="tagElsst in ctrl.analysisPackageTagsElsst"
+               ng-if="!ctrl.isAuthenticated()"
+               ui-sref="search({type: 'analysis_packages', 'tags': tagElsst.prefLabel})">
+              <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'analysis-package-management.detail.tagElsst-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+          </div>
         </div>
         <md-divider></md-divider>
         <fdz-detail
