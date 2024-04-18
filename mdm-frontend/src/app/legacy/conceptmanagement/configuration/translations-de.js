@@ -84,7 +84,7 @@ angular.module('metadatamanagementApp').config([
           'tag-tooltip': 'Klicken, um Konzepte mit diesem Schlagwort zu suchen',
           'tagElsst-tooltip': 'Klicken, um Konzepte mit diesem ELSST-Schlagwort zu suchen',
           'tags': 'Schlagwörter',
-          'tagsELSST': 'ELSST-Schlagwörter'
+          'tagsElsst': 'ELSST-Schlagwörter'
         },
         'log-messages': {
           'concept': {
