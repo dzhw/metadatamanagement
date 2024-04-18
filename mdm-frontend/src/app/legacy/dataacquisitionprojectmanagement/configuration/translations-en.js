@@ -300,7 +300,7 @@ angular.module('metadatamanagementApp').config([
             }
           },
           'no-project-msg': 'There is no project assigned to your account.',
-          'no-search-results-msg': 'NNo results found for your search request.'
+          'no-search-results-msg': 'No results found for your search request.'
         },
         'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). Choose the current version ({{newVersion}}) in the side menu.</a>',
         'version-not-found-alert': 'Your link refers to a version ({{oldVersion}}) of this page which does not exist. This is the current version ({{newVersion}}).',
