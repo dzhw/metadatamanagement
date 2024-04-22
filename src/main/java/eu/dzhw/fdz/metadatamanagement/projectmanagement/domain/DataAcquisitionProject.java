@@ -94,11 +94,6 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
   private Boolean hasBeenReleasedBefore;
 
   /**
-   * Attribute which holds information on the planned release date.
-   */
-  private Date embargoDate;
-
-  /**
    * Flag indicating whether this project has remarks for the user service. Can only be true
    * for data packages.
    */
