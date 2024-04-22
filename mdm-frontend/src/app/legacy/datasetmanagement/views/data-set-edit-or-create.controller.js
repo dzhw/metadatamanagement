@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp')
   'ChoosePreviousVersionService',
   'DataSetVersionsResource',
   'DataFormatsResource',
+  '$translate', 
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
@@ -46,7 +47,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, DataSetAttachmentUploadService,
       DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataSetVersionsResource, DataFormatsResource) {
+      DataSetVersionsResource, DataFormatsResource, $translate) {
       var ctrl = this;
       ctrl.surveyChips = [];
       ctrl.availableDataFormats = DataFormatsResource.query();
@@ -257,6 +258,11 @@ angular.module('metadatamanagementApp')
           }
         };
       };
+
+      ctrl.accessWayChanged = function(accessWay, subDataSet) {
+        (subDataSet.description ??= {}).de = $translate.instant('data-set-management.edit.sub-data-set-default-description.' + accessWay + '.de');
+        (subDataSet.description ??= {}).en = $translate.instant('data-set-management.edit.sub-data-set-default-description.' + accessWay + '.en');
+      }
 
       ctrl.allAccessWays = ['download-cuf', 'download-suf',
         'remote-desktop-suf', 'onsite-suf'];

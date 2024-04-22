@@ -181,7 +181,7 @@
                 <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsAccessWay_' + $index].$valid && (dataSetForm['subDataSetsAccessWay_' + $index].$dirty || dataSetForm['subDataSetsAccessWay_' + $index].$touched)" class="ms-flex">
                   <label>{{'data-set-management.edit.label.sub-data-set.access-way' | translate}}</label>
                   <md-select name="subDataSetsAccessWay_{{$index}}" ng-model="subDataSet.accessWay" ng-model-options="{trackBy: '$value'}" required>
-                    <md-option ng-repeat="accessWay in ctrl.availableAccessWays" ng-value="accessWay">{{accessWay | displayAccessWay}}
+                    <md-option ng-repeat="accessWay in ctrl.availableAccessWays" ng-value="accessWay" ng-click="ctrl.accessWayChanged(accessWay, subDataSet)">{{accessWay | displayAccessWay}}
                     </md-option>
                     <md-option ng-if="subDataSet.accessWay != null && subDataSet.accessWay !=''" ng-value="subDataSet.accessWay">{{subDataSet.accessWay | displayAccessWay}}
                     </md-option>
