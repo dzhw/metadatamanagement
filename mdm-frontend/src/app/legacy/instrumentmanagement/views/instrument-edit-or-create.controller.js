@@ -504,9 +504,11 @@ angular.module('metadatamanagementApp')
        */
       ctrl.getSurveySerialNumbersFromChips = function() {
         var surveyIds = [];
-        ctrl.surveyChips.forEach(function(chip) {
-          surveyIds.push(chip.number);
-        });
+        if (ctrl.surveyChips) {
+          ctrl.surveyChips.forEach(function(chip) {
+            surveyIds.push(chip.number);
+          });  
+        }
         return surveyIds;
       }
 
