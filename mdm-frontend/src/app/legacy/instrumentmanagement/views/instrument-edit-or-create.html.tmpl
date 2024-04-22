@@ -321,9 +321,12 @@
         {{'instrument-management.detail.attachments.save-instrument-before-adding-attachment' | translate}}
       </md-card-content>
       <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;">
-        <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAttachment($event)">
-          <md-tooltip md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        <md-button ng-disabled="ctrl.surveyChips == undefined" class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAttachment($event)">
+          <md-tooltip ng-if="ctrl.surveyChips != undefined" md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'instrument-management.detail.attachments.add-attachment-tooltip' | translate}}
+          </md-tooltip>
+          <md-tooltip ng-if="ctrl.surveyChips == undefined" md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'instrument-management.detail.attachments.add-attachment-tooltip-disabled' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>

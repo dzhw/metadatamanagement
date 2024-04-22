@@ -54,6 +54,7 @@ angular.module('metadatamanagementApp').config([
             'save-attachment-order-tooltip': 'Klicken, um die geänderte Reihenfolge der Dateien zu speichern.',
             'attachment-order-saved-toast': 'Die geänderte Reihenfolge der Dateien wurde gespeichert.',
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Instrument hinzuzufügen.',
+            'add-attachment-tooltip-disabled': 'Datei kann nur hinzugefügt werden, wenn die Liste der Erhebungen nicht leer ist.',
             'edit-title': 'Datei "{{ filename }}" von Instrument "{{ instrumentId }}" bearbeiten',
             'create-title': 'Neue Datei zu Instrument "{{ instrumentId }}" hinzufügen',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',

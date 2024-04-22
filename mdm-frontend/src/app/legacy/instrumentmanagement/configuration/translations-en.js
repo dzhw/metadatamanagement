@@ -53,6 +53,7 @@ function($translateProvider) {
                     'save-attachment-order-tooltip': 'Click to save the modified order of the documents.',
                     'attachment-order-saved-toast': 'The modified order of the documents has been saved.',
                     'add-attachment-tooltip': 'Click to add a new document to this instrument.',
+                    'add-attachment-tooltip-disabled': 'Document can only be added if list of surveys is not empty.',
                     'edit-title': 'Modify Document "{{ filename }}" of Instrument "{{ instrumentId }}"',
                     'create-title': 'Add new Document to Instrument "{{ instrumentId }}"',
                     'change-file-tooltip': 'Click to choose a file.',
