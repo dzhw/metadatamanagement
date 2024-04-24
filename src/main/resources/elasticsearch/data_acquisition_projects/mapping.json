@@ -73,7 +73,7 @@
       "type": "boolean",
       "copy_to": "all"
     },
-    "isTransmittedViaVerbundFDB": {
+    "isTransmittedViaVerbundFdb": {
       "type": "boolean",
       "copy_to": "all"
     },

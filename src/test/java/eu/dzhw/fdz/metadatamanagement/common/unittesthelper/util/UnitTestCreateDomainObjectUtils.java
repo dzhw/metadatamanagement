@@ -85,7 +85,7 @@ public class UnitTestCreateDomainObjectUtils {
     DataAcquisitionProject project =
         DataAcquisitionProject.builder().id(projectId).hasBeenReleasedBefore(false)
             .configuration(configuration).assigneeGroup(AssigneeGroup.PUBLISHER).hasUserServiceRemarks(false)
-            .isExternalDataPackage(false).isTransmittedViaVerbundFDB(false).build();
+            .isExternalDataPackage(false).isTransmittedViaVerbundFdb(false).build();
 
     project.setMasterId(projectId);
     return project;

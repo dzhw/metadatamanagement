@@ -179,7 +179,7 @@ export class DataacquisitionprojectSearchService {
         }
 
         if (verbundFdb) {
-            let dataTransmissionBase = {'isTransmittedViaVerbundFDB': verbundFdb === 'true' ? true : false};
+            let dataTransmissionBase = {'isTransmittedViaVerbundFdb': verbundFdb === 'true' ? true : false};
             let dataTransmissionFilter = this.createFilterFragment(QueryFragmentType.term, dataTransmissionBase);
             boolQuery.bool.filter?.push(dataTransmissionFilter);
         }

@@ -332,6 +332,14 @@ public class ElasticsearchUpdateQueueService {
           && !dataPackage.getRemarksUserService().equals("")) {
         project.setHasUserServiceRemarks(true);
       }
+      if (dataPackage != null
+          && dataPackage.getExternalDataPackage()) {
+        project.setIsExternalDataPackage(true);
+      }
+      if (dataPackage != null
+          && dataPackage.getTransmissionViaVerbundFdb()) {
+        project.setIsTransmittedViaVerbundFdb(true);
+      }
       DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
           project);
 

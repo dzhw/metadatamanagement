@@ -105,7 +105,7 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
    * for data packages.
    */
   @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
-    + ".is-external.not-null")
+      + ".is-external.not-null")
   private Boolean isExternalDataPackage = false;
 
   /**
@@ -113,8 +113,8 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
    * for data packages.
    */
   @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
-    + ".is-tansmitted-via-verbundfdb.not-null")
-  private Boolean isTransmittedViaVerbundFDB = false;
+      + ".is-tansmitted-via-verbundfdb.not-null")
+  private Boolean isTransmittedViaVerbundFdb = false;
 
   /**
    * A valid {@link Release} object.
