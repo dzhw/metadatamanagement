@@ -85,6 +85,8 @@ export class DataacquisitionprojectSearchService {
      *    - release state
      *    - if variables, questions, publications an/or concepts are required (data packages only)
      *    - if additional remarks for the user service are given (data packages only)
+     *    - if the data package is marked as external (data packages only)
+     *    - if the data was transmitted via VerbundFDB (data packages only)
      * @param pageIndex the index of the currently requested page
      * @param pageSize the number of items per page
      * @param projectType  the type of the project (dataPackages or analysisPackages)
@@ -93,7 +95,9 @@ export class DataacquisitionprojectSearchService {
      * @param assigneeGroup the user group the project must be assigned to (DATA_PROVIDER or PUBLISHER)
      * @param releaseState the release state (released or unreleased)
      * @param filterDataPackages a list of data package parts required in the project
-     * @param additionalInfo if additional remarks for the user service are given
+     * @param remarksUserService if additional remarks for the user service are given
+     * @param external if the data package is external
+     * @param verbundFdb if the data was transmitted via VerbundFDB
      * @param loginName the login name of the user
      * @returns an Elasticsearch query
      */
@@ -105,7 +109,9 @@ export class DataacquisitionprojectSearchService {
         assigneeGroup: String | null, 
         releaseState: String | null, 
         filterDataPackages: String[] | null,
-        additionalInfo: String | null,
+        remarksUserService: String | null,
+        external: String | null,
+        verbundFdb : String | null,
         loginName?: String): Query {
         
         let boolQuery = this.createBoolQuery();
@@ -160,11 +166,24 @@ export class DataacquisitionprojectSearchService {
             }
         }
 
-        if (additionalInfo) {
-            let additionalBase = {'hasUserServiceRemarks': additionalInfo === 'true' ? true : false};
+        if (remarksUserService) {
+            let additionalBase = {'hasUserServiceRemarks': remarksUserService === 'true' ? true : false};
             let additionalFilter = this.createFilterFragment(QueryFragmentType.term, additionalBase);
             boolQuery.bool.filter?.push(additionalFilter);
         }
+
+        if (external) {
+            let externalBase = {'isExternalDataPackage': external === 'true' ? true : false};
+            let externalFilter = this.createFilterFragment(QueryFragmentType.term, externalBase);
+            boolQuery.bool.filter?.push(externalFilter);
+        }
+
+        if (verbundFdb) {
+            let dataTransmissionBase = {'isTransmittedViaVerbundFDB': verbundFdb === 'true' ? true : false};
+            let dataTransmissionFilter = this.createFilterFragment(QueryFragmentType.term, dataTransmissionBase);
+            boolQuery.bool.filter?.push(dataTransmissionFilter);
+        }
+
 
         let queryBody : QueryBody = {
             track_total_hits: true,

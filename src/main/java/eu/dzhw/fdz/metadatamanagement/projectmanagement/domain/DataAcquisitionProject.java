@@ -101,6 +101,22 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
   private Boolean hasUserServiceRemarks = false;
 
   /**
+   * Flag indicating whether this project includes an external data package. Can only be true
+   * for data packages.
+   */
+  @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
+    + ".is-external.not-null")
+  private Boolean isExternalDataPackage = false;
+
+  /**
+   * Flag indicating whether this project is transmitted via VerbundFDB. Can only be true
+   * for data packages.
+   */
+  @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
+    + ".is-tansmitted-via-verbundfdb.not-null")
+  private Boolean isTransmittedViaVerbundFDB = false;
+
+  /**
    * A valid {@link Release} object.
    *
    * Null if the project is currently not released. The version of a {@link Release} must be a

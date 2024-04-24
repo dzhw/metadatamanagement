@@ -260,6 +260,16 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
       } else {
         project.setHasUserServiceRemarks(false);
       }
+      if (dataPackage.getTransmissionViaVerbundFdb()) {
+        project.setIsTransmittedViaVerbundFDB(true);
+      } else {
+        project.setIsTransmittedViaVerbundFDB(false);
+      }
+      if (dataPackage.getExternalDataPackage()) {
+        project.setIsExternalDataPackage(true);
+      } else {
+        project.setIsExternalDataPackage(false);
+      }
       projectCrudHelper.saveMaster(project);
     }
 
