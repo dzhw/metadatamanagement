@@ -71,5 +71,18 @@ angular
             $timeout(function() {
             });
           }]
-        });
+        })
+        .state('cockpit', {
+          parent: 'site',
+          url: '/cockpit',
+          //component: 'projectCockpit',
+          data: {
+            authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER', 'ROLE_ADMIN']
+          },
+          views: {
+            'content@': {
+              template: '<fdz-project-cockpit></fdz-project-cockpit>'
+            }
+          },
+        });;
     }]);
