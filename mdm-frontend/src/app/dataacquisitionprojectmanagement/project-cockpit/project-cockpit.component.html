@@ -1,1 +1,41 @@
-<p>project-cockpit works!</p>
+
+<div class="fdz-cc">
+    <div flex layout="column">
+        <div layout="row" layout-margin class="mb0">
+            <h1 class="md-headline fdz-truncate-string mbo" id="top">
+                Projekt-Cockpit 
+                <span class="label label-as-badge label-default">{{project.id}}</span>
+            </h1>
+        </div>
+    </div>
+    <div class="layout-margin" ng-if="!project">
+        <p>Kein Projekt ausgewählt</p>
+    </div>
+    <mat-card class="cockpit-card">
+        <mat-card-content>
+            <mat-tab-group mat-align-tabs="start" class="cockpit-tab-group" [disableRipple]=true [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onSelectedTabChanged($event)">
+                <mat-tab id="status">
+                    <ng-template mat-tab-label >
+                        <mat-icon class="example-tab-icon">info</mat-icon>
+                        Status
+                    </ng-template>
+                    Content 1 
+                </mat-tab>
+                <mat-tab id="config">
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">settings</mat-icon>
+                        Einstellungen
+                    </ng-template>
+                    Content 2 
+                </mat-tab>
+                <mat-tab id="versions">
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">history</mat-icon>
+                        Versionen
+                    </ng-template>
+                    Content 3 
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+</div>

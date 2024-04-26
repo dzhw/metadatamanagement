@@ -1,0 +1,17 @@
+.cockpit-card {
+    max-width: 400px;
+    background-color: white;
+    box-shadow: 2px 2px 3px #c3c3c3;
+}
+
+.cockpit-tab-group {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    color: black;
+    background-color: white;
+}
+
+.example-tab-icon {
+    margin-right: 8px;
+}

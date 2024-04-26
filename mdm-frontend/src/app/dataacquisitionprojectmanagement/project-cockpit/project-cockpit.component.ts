@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
 import { downgradeComponent, getAngularJSGlobal } from '@angular/upgrade/static';
-import * as angular from 'angular';
 
 @Component({
   selector: 'fdz-project-cockpit',
@@ -10,12 +8,25 @@ import * as angular from 'angular';
 })
 export class ProjectCockpitComponent implements OnInit {
 
+  // @Input({ required: true }) project!: DataAcquisitionProject;
+
+  // todo input for project
+  project = {
+    id: "dummy"
+  }
+
+  selectedTabIndex = 1
+
   constructor() {
     console.log("constructing")
   }
 
   ngOnInit(): void {
       console.log("I am here-")
+  }
+
+  onSelectedTabChanged(tabIndex: number): void {
+    console.log("New Tab Index", this.selectedTabIndex)
   }
 }
 
