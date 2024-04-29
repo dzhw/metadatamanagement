@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataacquisitionprojectSearchService } from './dataacquisitionproject.search.service';
 import { UpgradeModule } from '@angular/upgrade/static';
@@ -6,7 +6,9 @@ import { ProjectCockpitComponent } from './project-cockpit/project-cockpit.compo
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { DataacquisitionprojectDataService } from './dataacquisitionproject.data.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -20,10 +22,12 @@ import {MatIconModule} from '@angular/material/icon';
     BrowserAnimationsModule,
     MatCardModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [
-    DataacquisitionprojectSearchService
+    DataacquisitionprojectSearchService,
+    DataacquisitionprojectDataService
   ]
 })
 export class DataacquisitionprojectmanagementModule {}

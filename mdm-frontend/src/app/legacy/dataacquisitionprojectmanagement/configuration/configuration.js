@@ -74,14 +74,14 @@ angular
         })
         .state('cockpit', {
           parent: 'site',
-          url: '/cockpit',
-          //component: 'projectCockpit',
+          url: '/cockpit/:id?',
           data: {
             authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER', 'ROLE_ADMIN']
           },
           views: {
             'content@': {
-              template: '<fdz-project-cockpit></fdz-project-cockpit>'
+              template: function($stateParams) {
+                return '<fdz-project-cockpit id="'+$stateParams.id +'"></fdz-project-cockpit>'}
             }
           },
         });;
