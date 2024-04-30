@@ -233,6 +233,7 @@ try {
             };
           } else if (Principal.isAuthenticated() &&
           ((trans.$to().name).indexOf('project-cockpit') !== -1 ||
+          (trans.$to().name).indexOf('cockpit') !== -1 ||
           (trans.$to().name).indexOf('project-overview') !== -1 ||
           (trans.$to().name).indexOf('user-management') !== -1 ||
           (trans.$to().name).indexOf('logs') !== -1 ||
