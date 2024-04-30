@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { downgradeComponent, getAngularJSGlobal } from '@angular/upgrade/static';
 import { DataacquisitionprojectDataService } from '../dataacquisitionproject.data.service';
+import { CurrentProjectService } from '../current-project.service';
+import { DataAcquisitionProject } from '../data/dataacquisitionprojectmanagement.data';
 
 @Component({
   selector: 'fdz-project-cockpit',
@@ -15,24 +17,28 @@ export class ProjectCockpitComponent implements OnInit {
     id: "dummy"
   }
 
-  selectedTabIndex = 1
+  current! : DataAcquisitionProject;
 
-  constructor(private dataService: DataacquisitionprojectDataService) {
-    console.log("constructing")
+  selectedTabIndex = 0;
+
+  constructor(private dataService: DataacquisitionprojectDataService, 
+    private currentProjectService: CurrentProjectService) {
+      
   }
 
   ngOnInit(): void {
-      // todo: get project data
       try {
-        let current;
-        this.dataService.fetchProjectById(this.id).then(project => {
-          current = project;
-        console.log("CURRENT",current);
-        });
-    } catch (error) {
-        console.error("Unable to fetch project data for id " + this.id);
-    }
-      
+        if(this.id) {
+          this.dataService.fetchProjectById(this.id).then(project => {
+            this.current = project;
+            console.log("CURRENT",this.current.assigneeGroup);
+            // todo: prüfen ob das an der Stelle Sinn macht
+            this.currentProjectService.setCurrentProject(this.current)
+          });
+        }
+      } catch (error) {
+          console.error("Unable to fetch project data for id " + this.id);
+      }
   }
 
   onSelectedTabChanged(tabIndex: number): void {

@@ -1,0 +1,12 @@
+<button mat-icon-button (click)="toggleReleaseProject()"
+    (disabled)="!project || !isAssignedPublisher() || project.assigneeGroup !== 'PUBLISHER'">
+    <!-- Todo: case dependent tooltips -->
+    <!-- <mat-tooltip *ngIf="project && isAssignedPublisher() && project.assigneeGroup === 'PUBLISHER'">
+        Release/Unrelease
+    </mat-tooltip>
+    <mat-tooltip *ngIf="project && !ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'">
+        Ist der anderen Gruppe zugewiesen/keine Berechtigung
+    </mat-tooltip> -->
+    <mat-icon *ngIf="!hasRelease()">screen_share</mat-icon>
+    <mat-icon *ngIf="hasRelease()">stop_screen_share</mat-icon>
+</button>

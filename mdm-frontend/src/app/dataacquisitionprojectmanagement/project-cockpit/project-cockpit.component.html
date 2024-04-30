@@ -4,23 +4,67 @@
         <div layout="row" layout-margin class="mb0">
             <h1 class="md-headline fdz-truncate-string mbo" id="top">
                 Projekt-Cockpit 
-                <span class="label label-as-badge label-default">{{project.id}}</span>
+                <span *ngIf="current" class="label label-as-badge label-default">{{current.id}}</span>
             </h1>
         </div>
     </div>
-    <div class="layout-margin" ng-if="!project">
+    <div class="layout-margin" *ngIf="!current">
         <p>Kein Projekt ausgewählt</p>
     </div>
-    <mat-card class="cockpit-card">
+    <mat-card class="cockpit-card" *ngIf="current">
         <mat-card-content>
             <mat-tab-group mat-align-tabs="start" class="cockpit-tab-group" [disableRipple]=true [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onSelectedTabChanged($event)">
+                <!-- status tab -->
                 <mat-tab id="status">
                     <ng-template mat-tab-label >
                         <mat-icon class="example-tab-icon">info</mat-icon>
                         Status
                     </ng-template>
-                    Content 1 
+                    <div style="height: 500px; width:800px;"> 
+                        <div>
+                            <div class="row-container">
+                                <!-- Release status -->
+                                <mat-card class="cockpit-card" style="margin-right: 16px; margin-top: 16px;">
+                                    <mat-card-content>
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <!-- <mat-chip>{{current.assigneeGroup}}</mat-chip> -->
+                                            <fdz-release-status-badge></fdz-release-status-badge>
+                                            <fdz-release-button></fdz-release-button>
+                                        </div>
+                                        
+                                    </mat-card-content>
+                                </mat-card>
+                                <!-- Assignee -->
+                                <mat-card class="cockpit-card" style="margin-right: 16px; margin-top: 16px;">
+                                    <mat-card-content>
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <fdz-assignee-status-badge [assigneeGroup]="current.assigneeGroup"></fdz-assignee-status-badge>
+                                            <button mat-icon-button id="toggleAssignedGroupBtn">
+                                                <mat-icon>gavel</mat-icon>
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- <div class="layout-row">
+                                            <md-button ng-if="!(ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup !== 'PUBLISHER')" ng-disabled="ctrl.project.release || !(ctrl.project.assigneeGroup === 'PUBLISHER' && ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup === 'DATA_PROVIDER' && ctrl.isAssignedDataProvider())" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.onSaveChangesAndAssign()">
+                                                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                                    {{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
+                                                </md-tooltip>
+                                                <md-icon md-font-set="material-icons">send</md-icon>
+                                            </md-button>
+                                            <md-button ng-if="ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup !== 'PUBLISHER'" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.onSaveChangesAndTakeBack()">
+                                                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                                    {{'data-acquisition-project-management.project-cockpit.button.save-takeback' | translate}}
+                                                </md-tooltip>
+                                                <md-icon md-font-set="material-icons">gavel</md-icon>
+                                            </md-button>
+                                        </div> -->
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </div>
                 </mat-tab>
+                <!-- config tab -->
                 <mat-tab id="config">
                     <ng-template mat-tab-label>
                         <mat-icon class="example-tab-icon">settings</mat-icon>
@@ -28,6 +72,7 @@
                     </ng-template>
                     Content 2 
                 </mat-tab>
+                <!-- versions tab -->
                 <mat-tab id="versions">
                     <ng-template mat-tab-label>
                         <mat-icon class="example-tab-icon">history</mat-icon>
