@@ -42,7 +42,7 @@
             <md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
         </md-button>
         <span flex></span>
-        <md-button ui-sref="project-cockpit({id: ctrl.selectedProject.id})" class="md-raised md-icon-button md-accent" ng-click="close()" ng-disabled="!ctrl.selectedProject" style="margin-right: 0px;">
+        <md-button ui-sref="cockpit({id: ctrl.selectedProject.id})" class="md-raised md-icon-button md-accent" ng-click="close()" ng-disabled="!ctrl.selectedProject" style="margin-right: 0px;">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.tooltips.cockpit-project' | translate}}
             </md-tooltip>
