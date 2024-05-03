@@ -13,7 +13,7 @@ export class AssigneeStatusBadgeComponent implements OnInit {
   publishersAssigned = false;
 
   ngOnInit(): void {
-    if(this.assigneeGroup && this.assigneeGroup === "PUBLISHERS") {
+    if(this.assigneeGroup && this.assigneeGroup === "PUBLISHER") {
       this.publishersAssigned = true;
     } else {
       this.publishersAssigned = false;

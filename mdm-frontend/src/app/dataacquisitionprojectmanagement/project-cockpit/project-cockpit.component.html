@@ -2,13 +2,13 @@
 <div class="fdz-cc">
     <div flex layout="column">
         <div layout="row" layout-margin class="mb0">
-            <h1 class="md-headline fdz-truncate-string mbo" id="top">
-                Projekt-Cockpit 
+            <h1 class="md-headline fdz-truncate-string mbo" id="top" >
+                <p i18n="@@cockpit-title">Projekt-Cockpit</p>
                 <span *ngIf="current" class="label label-as-badge label-default">{{current.id}}</span>
             </h1>
         </div>
     </div>
-    <div class="layout-margin" *ngIf="!current">
+    <div class="layout-margin" *ngIf="!current" i18n="@@cockpit-no-project">
         <p>Kein Projekt ausgewählt</p>
     </div>
     <mat-card class="cockpit-card" *ngIf="current">
@@ -20,7 +20,7 @@
                         <mat-icon class="example-tab-icon">info</mat-icon>
                         Status
                     </ng-template>
-                    <div style="height: 500px; width:800px;"> 
+                    <div> 
                         <div>
                             <div class="row-container">
                                 <!-- Release status -->
@@ -61,6 +61,80 @@
                                     </mat-card-content>
                                 </mat-card>
                             </div>
+                        </div>
+                        <div>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.dataPackagesRequired"
+                                id="data-package-state-card" 
+                                [(project)]="current" 
+                                type="dataPackages" 
+                                [counts]="getCountForType('data_packages')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.analysisPackagesRequired"
+                                id="analysis-package-state-card" 
+                                [(project)]="current" type="analysisPackages" 
+                                [counts]="getCountForType('analysis_packages')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.variablesRequired"
+                                id="variables-state-card" 
+                                [(project)]="current" 
+                                type="variables" 
+                                [counts]="getCountForType('variables')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.instrumentsRequired"
+                                id="instruments-state-card" 
+                                [(project)]="current" 
+                                type="instruments" 
+                                [counts]="getCountForType('instruments')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.surveysRequired"
+                                id="surveys-state-card" 
+                                [(project)]="current" 
+                                type="surveys" 
+                                [counts]="getCountForType('surveys')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.dataSetsRequired"
+                                id="datasets-state-card" 
+                                [(project)]="current" 
+                                type="dataSets" 
+                                [counts]="getCountForType('data_sets')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.publicationsRequired"
+                                id="publications-state-card" 
+                                [(project)]="current" 
+                                type="publications" 
+                                [counts]="getCountForType('related_publications')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.conceptsRequired"
+                                id="concepts-state-card" 
+                                [(project)]="current" 
+                                type="concepts" 
+                                [counts]="getCountForType('concepts')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                *ngIf="current.configuration.requirements.questionsRequired"
+                                id="questions-state-card" 
+                                [(project)]="current" 
+                                type="questions" 
+                                [counts]="getCountForType('questions')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+
                         </div>
                     </div>
                 </mat-tab>

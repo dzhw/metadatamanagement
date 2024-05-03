@@ -1,0 +1,23 @@
+<mat-card class="state-card">
+    <mat-card-header>
+        <a ui-sref="search({type: searchState})" class="md-headline" layout="row" layout-align="start center">
+            <!-- Möglichkeit für variable Übersetzungsstrings -->
+            <!-- <span i18n="@@state-card.card-title">{type, select, dataPackages {Datenpakete} variables {Variablen}}</span> -->
+            <span>{{'test.title.'+type | translate }} ({{counts}})</span>
+        </a>
+    </mat-card-header>
+    <mat-card-content>
+        <div style="display: flex; flex-direction: row;">
+            <mat-checkbox [(ngModel)]="dataProviderReady" (change)="onDataProviderStateChanged($event)" i18n="@@state-card-provider-ready">Datengeber:innen fertig</mat-checkbox>
+            <mat-checkbox [(ngModel)]="publisherReady" i18n="@@state-card-publisher-ready">Publisher fertig</mat-checkbox>
+        </div>
+    </mat-card-content>
+    <mat-card-actions style="display: flex; flex-direction: row; justify-content: end;">
+        <button mat-raised-button disabled i18n="@@state-card-delete-btn">
+            Löschen
+        </button>
+        <button mat-raised-button disabled i18n="@@state-card-edit-btn">
+            Bearbeiten
+        </button>
+    </mat-card-actions>
+</mat-card>

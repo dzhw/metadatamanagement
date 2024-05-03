@@ -88,8 +88,14 @@ angular.module('metadatamanagementApp')
                         id: project.id
                       });
                   ctrl.selectedProject = project;
-                  CurrentProjectService.setCurrentProject(project);
-                  $state.go('project-cockpit', {
+                  currentProjectService.setCurrentProject(project);
+                  // $state.go('project-cockpit', {
+                  //   id: ctrl.selectedProject.id,
+                  //   lang: LanguageService.getCurrentInstantly(),
+                  //   tab: 'config'},
+                  //   {inherit: false}
+                  // );
+                  $state.go('cockpit', {
                     id: ctrl.selectedProject.id,
                     lang: LanguageService.getCurrentInstantly(),
                     tab: 'config'},

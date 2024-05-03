@@ -1,0 +1,15 @@
+{
+    "test": {
+        "title": {
+            "dataPackages": "Data Package",
+            "variables": "Variable",
+            "analysisPackages": "Analysis Package",
+            "concepts": "Concept",
+            "instruments": "Instrument",
+            "dataSets": "Dataset",
+            "surveys": "Survey",
+            "publications": "Publication",
+            "questions": "Questions"
+        }
+    }
+}

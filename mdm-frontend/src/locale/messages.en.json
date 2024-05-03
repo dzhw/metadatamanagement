@@ -1,0 +1,12 @@
+{
+  "locale": "en-US",
+  "translations": {
+    "state-card.card-title": "{VAR_SELECT, select, dataPackages {Data Packages} variables {Variables}}",
+    "state-card-provider-ready": "Dataprovider ready",
+    "state-card-publisher-ready": "Publisher ready",
+    "state-card-delete-btn": " Delete ",
+    "state-card-edit-btn": " Edit ",
+    "cockpit-title": "Project Cockpit",
+    "cockpit-no-project": "{$START_PARAGRAPH}No project selected{$CLOSE_PARAGRAPH}"
+  }
+}

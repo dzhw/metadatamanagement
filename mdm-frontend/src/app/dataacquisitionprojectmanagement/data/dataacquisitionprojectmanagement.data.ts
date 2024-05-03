@@ -47,7 +47,7 @@ export interface ProjectRequirements {
 
 export interface ProjectPartState {
     publisherReady: boolean;
-    dataproviderReady: boolean;
+    dataProviderReady: boolean;
 }
 
 export interface Release {

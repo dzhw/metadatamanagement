@@ -22,7 +22,28 @@ import { DataacquisitionprojectmanagementModule } from './dataacquisitionproject
     UpgradeModule,
     DataacquisitionprojectmanagementModule
   ],
-  // providers: [],
+  providers: [
+    {
+      provide: 'CommonDialogsService', 
+      useFactory: ($injector: any) => $injector.get('CommonDialogsService'), 
+      deps: ['$injector']
+    },
+    {
+      provide: 'SearchDao', 
+      useFactory: ($injector: any) => $injector.get('SearchDao'), 
+      deps: ['$injector']
+    },
+    {
+      provide: 'ProjectSaveService', 
+      useFactory: ($injector: any) => $injector.get('ProjectSaveService'), 
+      deps: ['$injector']
+    },
+    {
+      provide: 'CurrentProjectService', 
+      useFactory: ($injector: any) => $injector.get('CurrentProjectService'), 
+      deps: ['$injector']
+    }
+  ],
   // bootstrap: [AppComponent]
 })
 export class AppModule implements DoBootstrap {

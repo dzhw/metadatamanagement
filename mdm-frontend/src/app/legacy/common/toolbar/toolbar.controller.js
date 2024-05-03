@@ -145,4 +145,9 @@ angular.module('metadatamanagementApp').controller(
         ($scope.productsCount && $scope.isAuthenticated() &&
         Principal.isDataprovider());
     };
+
+    $scope.switchedLanguage = function(langCode) {
+      console.log("switched", langCode)
+      $rootScope.$broadcast('switched-language', langCode)
+    }
   }]);

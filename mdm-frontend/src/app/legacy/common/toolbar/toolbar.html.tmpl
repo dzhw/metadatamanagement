@@ -67,7 +67,8 @@
         id="changeLanguageToEn"
         lang="en" rel="alternate"
         ng-if="currentLanguage!='en'"
-        ui-sref="({lang:'en'})" hreflang="en">
+        ui-sref="({lang:'en'})" hreflang="en"
+        ng-click="switchedLanguage('en')">
         <span>EN</span>
         <md-tooltip md-autohide="true" md-direction="left"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -79,7 +80,8 @@
         id="changeLanguageToDe"
         lang="de" rel="alternate"
         ng-if="currentLanguage!='de'"
-        ui-sref="({lang:'de'})" hreflang="de">
+        ui-sref="({lang:'de'})" hreflang="de"
+        ng-click="switchedLanguage('de')">
         <span>DE</span>
         <md-tooltip md-autohide="true" md-direction="left"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

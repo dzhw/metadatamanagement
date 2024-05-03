@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataacquisitionprojectSearchService } from './dataacquisitionproject.search.service';
 import { UpgradeModule } from '@angular/upgrade/static';
@@ -15,6 +15,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReleaseStatusBadgeComponent } from './release-status-badge/release-status-badge.component';
 import { AssigneeStatusBadgeComponent } from './assignee-status-badge/assignee-status-badge.component';
 import { ReleaseButtonComponent } from './release-button/release-button.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { StateCardComponent } from './project-cockpit/components/state-card/state-card.component';
+import { FormsModule } from '@angular/forms';
+import { NgxTranslateModule } from '../translate/translate.module';
 
 
 
@@ -23,7 +27,8 @@ import { ReleaseButtonComponent } from './release-button/release-button.componen
     ProjectCockpitComponent,
     ReleaseStatusBadgeComponent,
     AssigneeStatusBadgeComponent,
-    ReleaseButtonComponent
+    ReleaseButtonComponent,
+    StateCardComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +40,10 @@ import { ReleaseButtonComponent } from './release-button/release-button.componen
     MatChipsModule,
     MatButtonModule,
     MatTooltipModule,
-    HttpClientModule
+    MatCheckboxModule,
+    HttpClientModule,
+    FormsModule,
+    NgxTranslateModule
   ],
   providers: [
     DataacquisitionprojectSearchService,

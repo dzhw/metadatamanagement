@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { DataAcquisitionProject } from '../data/dataacquisitionprojectmanagement.data';
-import { CurrentProjectService } from '../current-project.service';
 
 @Component({
   selector: 'fdz-release-button',
@@ -11,7 +10,7 @@ export class ReleaseButtonComponent implements OnInit {
 
   project! : DataAcquisitionProject | undefined;
 
-  constructor(private currentProjectService: CurrentProjectService) {
+  constructor(@Inject("CurrentProjectService") private currentProjectService: any,) {
 
   }
 
