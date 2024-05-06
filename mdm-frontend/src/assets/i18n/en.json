@@ -2,13 +2,13 @@
     "test": {
         "title": {
             "dataPackages": "Data Package",
-            "variables": "Variable",
+            "variables": "Variables",
             "analysisPackages": "Analysis Package",
-            "concepts": "Concept",
-            "instruments": "Instrument",
-            "dataSets": "Dataset",
-            "surveys": "Survey",
-            "publications": "Publication",
+            "concepts": "Concepts",
+            "instruments": "Instruments",
+            "dataSets": "Datasets",
+            "surveys": "Surveys",
+            "publications": "Publications",
             "questions": "Questions"
         }
     }

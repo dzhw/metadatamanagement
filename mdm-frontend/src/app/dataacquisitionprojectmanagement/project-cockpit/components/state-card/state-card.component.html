@@ -7,9 +7,17 @@
         </a>
     </mat-card-header>
     <mat-card-content>
-        <div style="display: flex; flex-direction: row;">
-            <mat-checkbox [(ngModel)]="dataProviderReady" (change)="onDataProviderStateChanged($event)" i18n="@@state-card-provider-ready">Datengeber:innen fertig</mat-checkbox>
-            <mat-checkbox [(ngModel)]="publisherReady" i18n="@@state-card-publisher-ready">Publisher fertig</mat-checkbox>
+        <div calss="checkbox-row">
+            <mat-checkbox 
+                class="checkbox" 
+                [(ngModel)]="dataProviderReady" 
+                (change)="onDataProviderStateChanged($event)" 
+                i18n="@@state-card-provider-ready">Datengeber:innen fertig</mat-checkbox>
+            <mat-checkbox 
+                class="checkbox" 
+                [(ngModel)]="publisherReady" 
+                (change)="onPublisherStateChanged($event)" 
+                i18n="@@state-card-publisher-ready">Publisher fertig</mat-checkbox>
         </div>
     </mat-card-content>
     <mat-card-actions style="display: flex; flex-direction: row; justify-content: end;">

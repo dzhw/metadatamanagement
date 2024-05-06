@@ -6,8 +6,8 @@
 
 .cockpit-tab-group {
     display: flex;
-    align-items: start;
-    justify-content: start;
+    align-items: flex-start;
+    justify-content: flex-start;
     color: black;
     background-color: white;
 }
@@ -19,5 +19,10 @@
 .row-container {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
+}
+
+.state-card {
+    margin: 8px;
+    width: 48%;
 }

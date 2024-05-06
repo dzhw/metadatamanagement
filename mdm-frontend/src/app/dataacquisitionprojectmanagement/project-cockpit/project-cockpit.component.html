@@ -62,8 +62,9 @@
                                 </mat-card>
                             </div>
                         </div>
-                        <div>
+                        <div class="row-container" style="flex-wrap: wrap;">
                             <fdz-state-card 
+                                class="state-card"
                                 *ngIf="current.configuration.requirements.dataPackagesRequired"
                                 id="data-package-state-card" 
                                 [(project)]="current" 
@@ -72,6 +73,7 @@
                                 (projectChange)="onProjectPartStateChanged($event)">
                             </fdz-state-card>
                             <fdz-state-card 
+                                class="state-card"
                                 *ngIf="current.configuration.requirements.analysisPackagesRequired"
                                 id="analysis-package-state-card" 
                                 [(project)]="current" type="analysisPackages" 
@@ -79,22 +81,7 @@
                                 (projectChange)="onProjectPartStateChanged($event)">
                             </fdz-state-card>
                             <fdz-state-card 
-                                *ngIf="current.configuration.requirements.variablesRequired"
-                                id="variables-state-card" 
-                                [(project)]="current" 
-                                type="variables" 
-                                [counts]="getCountForType('variables')" 
-                                (projectChange)="onProjectPartStateChanged($event)">
-                            </fdz-state-card>
-                            <fdz-state-card 
-                                *ngIf="current.configuration.requirements.instrumentsRequired"
-                                id="instruments-state-card" 
-                                [(project)]="current" 
-                                type="instruments" 
-                                [counts]="getCountForType('instruments')" 
-                                (projectChange)="onProjectPartStateChanged($event)">
-                            </fdz-state-card>
-                            <fdz-state-card 
+                                class="state-card"
                                 *ngIf="current.configuration.requirements.surveysRequired"
                                 id="surveys-state-card" 
                                 [(project)]="current" 
@@ -103,6 +90,25 @@
                                 (projectChange)="onProjectPartStateChanged($event)">
                             </fdz-state-card>
                             <fdz-state-card 
+                                class="state-card"
+                                *ngIf="current.configuration.requirements.instrumentsRequired"
+                                id="instruments-state-card" 
+                                [(project)]="current" 
+                                type="instruments" 
+                                [counts]="getCountForType('instruments')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                class="state-card"
+                                *ngIf="current.configuration.requirements.questionsRequired"
+                                id="questions-state-card" 
+                                [(project)]="current" 
+                                type="questions" 
+                                [counts]="getCountForType('questions')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                class="state-card"
                                 *ngIf="current.configuration.requirements.dataSetsRequired"
                                 id="datasets-state-card" 
                                 [(project)]="current" 
@@ -111,6 +117,16 @@
                                 (projectChange)="onProjectPartStateChanged($event)">
                             </fdz-state-card>
                             <fdz-state-card 
+                                class="state-card"
+                                *ngIf="current.configuration.requirements.variablesRequired"
+                                id="variables-state-card" 
+                                [(project)]="current" 
+                                type="variables" 
+                                [counts]="getCountForType('variables')" 
+                                (projectChange)="onProjectPartStateChanged($event)">
+                            </fdz-state-card>
+                            <fdz-state-card 
+                                class="state-card"
                                 *ngIf="current.configuration.requirements.publicationsRequired"
                                 id="publications-state-card" 
                                 [(project)]="current" 
@@ -119,6 +135,7 @@
                                 (projectChange)="onProjectPartStateChanged($event)">
                             </fdz-state-card>
                             <fdz-state-card 
+                                class="state-card"
                                 *ngIf="current.configuration.requirements.conceptsRequired"
                                 id="concepts-state-card" 
                                 [(project)]="current" 
@@ -126,14 +143,7 @@
                                 [counts]="getCountForType('concepts')" 
                                 (projectChange)="onProjectPartStateChanged($event)">
                             </fdz-state-card>
-                            <fdz-state-card 
-                                *ngIf="current.configuration.requirements.questionsRequired"
-                                id="questions-state-card" 
-                                [(project)]="current" 
-                                type="questions" 
-                                [counts]="getCountForType('questions')" 
-                                (projectChange)="onProjectPartStateChanged($event)">
-                            </fdz-state-card>
+                            
 
                         </div>
                     </div>

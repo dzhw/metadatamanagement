@@ -172,4 +172,45 @@ export class StateCardComponent implements OnInit {
     this.dataProviderReady = value.checked;
     this.projectChange.emit(this.project);
   }
+
+  onPublisherStateChanged(value: MatCheckboxChange) {
+    console.log(value);
+    switch (this.type) {
+      case 'dataPackages':
+        this.project.configuration.dataPackagesState!.publisherReady = value.checked;
+        break;
+      case 'analysisPackages':
+        this.project.configuration.analysisPackagesState!.publisherReady = value.checked;
+        break;
+      case 'surveys':
+        this.project.configuration.surveysState!.publisherReady = value.checked;
+        break;
+      case 'instruments':
+        this.project.configuration.instrumentsState!.publisherReady = value.checked;
+        break;  
+      case 'questions':
+        console.log("TODO")
+        // this.project.configuration.!.dataProviderReady = value.checked;
+        break;
+      case 'dataSets':
+        this.project.configuration.datasetsState!.publisherReady = value.checked;
+        break;
+      case 'variables':
+        console.log("TODO")
+        // this.project.configuration.!.dataProviderReady = value.checked;
+        break;
+      case 'publications':
+        console.log("TODO")
+        // this.project.configuration.!.dataProviderReady = value.checked;
+        break;
+      case 'concepts':
+        console.log("TODO")
+        // this.project.configuration.!.dataProviderReady = value.checked;
+        break;
+      default:
+        console.error("Case not implemented")        
+    } 
+    this.publisherReady = value.checked;
+    this.projectChange.emit(this.project);
+  }
 }

@@ -2,3 +2,13 @@
     background-color: white;
     box-shadow: 2px 2px 3px #c3c3c3;
 }
+
+.checkbox {
+    margin-right: 16px;
+}
+
+.checkboc-row {
+    display: flex; 
+    flex-direction: row; 
+    align-items: baseline;
+}
