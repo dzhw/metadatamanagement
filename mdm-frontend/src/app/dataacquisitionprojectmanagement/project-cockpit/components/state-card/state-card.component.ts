@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { TranslateService } from '@ngx-translate/core';
-import { IRootScopeService } from 'angular';
 import { DataAcquisitionProject } from 'src/app/dataacquisitionprojectmanagement/data/dataacquisitionprojectmanagement.data';
 
 @Component({
@@ -14,6 +12,9 @@ export class StateCardComponent implements OnInit {
   @Input() counts!: number;
   @Input() project!: DataAcquisitionProject;
   @Output() projectChange = new EventEmitter<DataAcquisitionProject>();
+
+  constructor(@Inject("StateProvider") private _state: any) {
+  }
 
   createState: string = "";
   searchState: string = "";
@@ -212,5 +213,12 @@ export class StateCardComponent implements OnInit {
     } 
     this.publisherReady = value.checked;
     this.projectChange.emit(this.project);
+  }
+
+  /**
+   * Navigates to the search page of the corresponding project part.
+   */
+  goToSearch() {
+    this._state.go("search", {type: this.searchState});
   }
 }

@@ -42,6 +42,11 @@ import { DataacquisitionprojectmanagementModule } from './dataacquisitionproject
       provide: 'CurrentProjectService', 
       useFactory: ($injector: any) => $injector.get('CurrentProjectService'), 
       deps: ['$injector']
+    },
+    {
+      provide: 'StateProvider', 
+      useFactory: ($injector: any) => $injector.get('$state'), 
+      deps: ['$injector']
     }
   ],
   // bootstrap: [AppComponent]

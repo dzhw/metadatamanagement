@@ -18,7 +18,6 @@ export class ProjectCockpitComponent implements OnInit {
 
   selectedTabIndex = 0;
 
-  // counts! : {[key: string]: number|undefined};
   counts : {key: string, count: number}[] = [];
   count: number | undefined;
 
@@ -37,7 +36,10 @@ export class ProjectCockpitComponent implements OnInit {
     private translate: TranslateService) {
       _rootScope.$on('current-project-changed', (event, project) => {
         this.current = project;
-        router.navigateByUrl("/de/cockpit/"+project.id);
+        if (this.current) {
+          router.navigateByUrl("/de/cockpit/"+project.id);
+        }
+        
       });
       _rootScope.$on('switched-language', (event, langCode) => {
         console.log("HELLOO", langCode);

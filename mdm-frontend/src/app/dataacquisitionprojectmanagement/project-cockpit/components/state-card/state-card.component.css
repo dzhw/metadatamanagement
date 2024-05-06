@@ -12,3 +12,8 @@
     flex-direction: row; 
     align-items: baseline;
 }
+
+.card-title {
+    color: #006AB2;
+    font-size: x-large;
+}

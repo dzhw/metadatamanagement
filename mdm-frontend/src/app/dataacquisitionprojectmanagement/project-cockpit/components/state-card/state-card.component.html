@@ -1,13 +1,12 @@
 <mat-card class="state-card">
     <mat-card-header>
-        <a ui-sref="search({type: searchState})" class="md-headline" layout="row" layout-align="start center">
-            <!-- Möglichkeit für variable Übersetzungsstrings -->
-            <!-- <span i18n="@@state-card.card-title">{type, select, dataPackages {Datenpakete} variables {Variablen}}</span> -->
-            <span>{{'test.title.'+type | translate }} ({{counts}})</span>
-        </a>
+        <button mat-button style="margin-left: -8px !important"  (click)="goToSearch()">
+            <span class="card-title">{{'test.title.'+type | translate }} ({{counts}})</span>
+        </button>
+        
     </mat-card-header>
     <mat-card-content>
-        <div calss="checkbox-row">
+        <div class="checkbox-row">
             <mat-checkbox 
                 class="checkbox" 
                 [(ngModel)]="dataProviderReady" 
