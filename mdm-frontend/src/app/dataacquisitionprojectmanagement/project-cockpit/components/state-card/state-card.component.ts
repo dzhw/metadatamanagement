@@ -33,16 +33,8 @@ export class StateCardComponent implements OnInit {
 
   dataProviderReady: boolean = false;
   publisherReady: boolean = false;  
-  buttonConfig : BtnConfig = {
-    delete: false,
-    edit: false,
-    create: false,
-    reportPublication: false,
-    upload: false
-  }
 
   ngOnInit(): void {
-    console.log("COUNTS:",this.type, this.counts.toString())
     switch (this.type) {
       case 'dataPackages':
         this.createState = 'dataPackageCreate';
@@ -54,14 +46,6 @@ export class StateCardComponent implements OnInit {
         this.limit = 1;
         this.dataProviderReady = this.project.configuration.dataPackagesState!.dataProviderReady;
         this.publisherReady = this.project.configuration.dataPackagesState!.publisherReady;
-        
-        this.buttonConfig = {
-          delete: this.counts > 0 ? true : false,
-          edit: this.counts > 0 ? true : false,
-          create: this.counts === 0 ? true : false,
-          reportPublication: false,
-          upload: false
-        }
         break;
       case 'analysisPackages':
         this.createState = 'analysisPackageCreate';
