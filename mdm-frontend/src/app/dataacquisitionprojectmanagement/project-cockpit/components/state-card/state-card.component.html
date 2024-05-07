@@ -3,7 +3,6 @@
         <button mat-button style="margin-left: -8px !important"  (click)="goToSearch()">
             <span class="card-title">{{'test.title.'+type | translate }} ({{counts}})</span>
         </button>
-        
     </mat-card-header>
     <mat-card-content>
         <div class="checkbox-row">
@@ -20,11 +19,25 @@
         </div>
     </mat-card-content>
     <mat-card-actions style="display: flex; flex-direction: row; justify-content: end;">
-        <button mat-raised-button disabled i18n="@@state-card-delete-btn">
+        <button mat-raised-button disabled
+            *ngIf="shouldShowDeleteButton()">
             Löschen
         </button>
-        <button mat-raised-button disabled i18n="@@state-card-edit-btn">
+        <button mat-raised-button disabled
+            *ngIf="shouldShowEditButton()">
             Bearbeiten
+        </button>
+        <button mat-raised-button disabled
+            *ngIf="shouldShowNewButton()">
+            Neu
+        </button>
+        <button mat-raised-button disabled
+            *ngIf="shouldShowUploadButton()">
+            Hochladen
+        </button>
+        <button mat-raised-button disabled
+            *ngIf="shouldShowPublicationButton()">
+            Publikation melden
         </button>
     </mat-card-actions>
 </mat-card>

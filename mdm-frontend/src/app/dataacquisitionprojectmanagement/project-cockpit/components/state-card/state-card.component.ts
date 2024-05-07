@@ -2,6 +2,13 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DataAcquisitionProject } from 'src/app/dataacquisitionprojectmanagement/data/dataacquisitionprojectmanagement.data';
 
+export interface BtnConfig {
+  delete: boolean,
+  edit: boolean,
+  create: boolean,
+  reportPublication: boolean,
+  upload: boolean
+}
 @Component({
   selector: 'fdz-state-card',
   templateUrl: './state-card.component.html',
@@ -26,8 +33,16 @@ export class StateCardComponent implements OnInit {
 
   dataProviderReady: boolean = false;
   publisherReady: boolean = false;  
+  buttonConfig : BtnConfig = {
+    delete: false,
+    edit: false,
+    create: false,
+    reportPublication: false,
+    upload: false
+  }
 
   ngOnInit(): void {
+    console.log("COUNTS:",this.type, this.counts.toString())
     switch (this.type) {
       case 'dataPackages':
         this.createState = 'dataPackageCreate';
@@ -39,6 +54,14 @@ export class StateCardComponent implements OnInit {
         this.limit = 1;
         this.dataProviderReady = this.project.configuration.dataPackagesState!.dataProviderReady;
         this.publisherReady = this.project.configuration.dataPackagesState!.publisherReady;
+        
+        this.buttonConfig = {
+          delete: this.counts > 0 ? true : false,
+          edit: this.counts > 0 ? true : false,
+          create: this.counts === 0 ? true : false,
+          reportPublication: false,
+          upload: false
+        }
         break;
       case 'analysisPackages':
         this.createState = 'analysisPackageCreate';
@@ -220,5 +243,45 @@ export class StateCardComponent implements OnInit {
    */
   goToSearch() {
     this._state.go("search", {type: this.searchState});
+  }
+
+  /**
+   * If the delete button should be shown or not.
+   * @returns true if it should be shown else false
+   */
+  shouldShowDeleteButton(): boolean {
+    return true;
+  }
+
+  /**
+   * If the edit button should be shown or not.
+   * @returns true if it should be shown else false
+   */
+  shouldShowEditButton(): boolean {
+    return true;
+  }
+
+  /**
+   * If the button to create new objects should be shown or not.
+   * @returns true if it should be shown else false
+   */
+  shouldShowNewButton(): boolean {
+    return true;
+  }
+
+  /**
+   * If the upload button should be shown or not.
+   * @returns true if it should be shown else false
+   */
+  shouldShowUploadButton(): boolean {
+    return true;
+  }
+
+  /**
+   * If the button to report publications should be shown or not.
+   * @returns true if it should be shown else false
+   */
+  shouldShowPublicationButton(): boolean {
+    return true;
   }
 }
