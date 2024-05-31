@@ -112,8 +112,8 @@ public class OrderResource {
     if (SecurityContextHolder.getContext() == null
         || SecurityContextHolder.getContext().getAuthentication() == null
         || SecurityContextHolder.getContext().getAuthentication().getAuthorities() == null
-        || !(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-        .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER)))) {
+        || !SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+        .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER))) {
       for (Product product : entity.getProducts()) {
         if (product != null && product.getDataPackage() != null) {
           product.getDataPackage().setRemarksUserService(null);

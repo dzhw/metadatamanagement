@@ -18,7 +18,7 @@ public enum ElasticsearchType {
    * @return the strings of this enum
    */
   public static String[] names() {
-    return Stream.of(ElasticsearchType.values()).map(ElasticsearchType::name)
+    return Stream.of(values()).map(ElasticsearchType::name)
         .toArray(String[]::new);
   }
 }
