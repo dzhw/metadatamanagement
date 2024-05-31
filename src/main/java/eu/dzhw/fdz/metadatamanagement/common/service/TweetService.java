@@ -19,6 +19,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.config.TweetProperties;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -49,6 +50,7 @@ public class TweetService {
   private final String oauthSecretToken;
   private final String endpointUrl;
   private final String mediaEndpointUrl;
+  @SuppressFBWarnings("SS_SHOULD_BE_STATIC")
   private final String version = "1.0";
   private final String imageDir;
 
