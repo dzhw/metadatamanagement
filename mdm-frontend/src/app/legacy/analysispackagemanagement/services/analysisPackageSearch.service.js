@@ -2,7 +2,14 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('AnalysisPackageSearchService', ['$q', 'ElasticSearchClient', 'CleanJSObjectService', 'SearchHelperService', 'GenericFilterOptionsSearchService', 'LanguageService', 'AnalysisPackageIdBuilderService', 
+  .factory('AnalysisPackageSearchService', [
+    '$q', 
+    'ElasticSearchClient',
+    'CleanJSObjectService', 
+    'SearchHelperService', 
+    'GenericFilterOptionsSearchService', 
+    'LanguageService', 
+    'AnalysisPackageIdBuilderService', 
     function($q, ElasticSearchClient, CleanJSObjectService, SearchHelperService,
              GenericFilterOptionsSearchService, LanguageService,
              AnalysisPackageIdBuilderService) {

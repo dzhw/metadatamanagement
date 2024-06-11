@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config([
             'fundingRef': 'Funding reference',
             'fundingProgram': 'Associated funding program',
             'version': 'Version',
+            'embargo-date': 'Embargo Date',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
             'transmission-via-VerbundFdb': 'Data transmission via the VerbundFDB',
@@ -61,6 +62,7 @@ angular.module('metadatamanagementApp').config([
             },
             'doi': 'DOI',
             'published-at': 'published at',
+            'pre-published-at': 'preliminarily published at',
             'published': 'Published at'
           },
           'attachments': {

@@ -1,7 +1,10 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJSObjectService', 'Principal', 'LanguageService', 
+angular.module('metadatamanagementApp')
+  .factory(
+    'SearchHelperService', 
+    ['CleanJSObjectService', 'Principal', 'LanguageService', 
   function(CleanJSObjectService, Principal, LanguageService) {
     var domainObjectFilterNames = ['data-package', 'analysis-package','survey',
       'data-set', 'instrument', 'variable', 'question'];
@@ -652,6 +655,11 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
       }
     };
 
+    /**
+     * Adds a must term filter reducing results to non-shadow copies only.
+     * @param {*} query the query this filter should be added to
+     * @param {*} filter the filter parameter
+     */
     var applyOnlyMasterDataFilter = function(query, filter) {
       var masterFilter = {
         'bool': {
@@ -665,6 +673,12 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
       }
     };
 
+    /**
+     * Adds a must term filter reducing results to shadow copies only, 
+     * that are not hidden and not pre-released.
+     * @param {*} query the query this filter should be added to
+     * @param {*} filter the filter parameter
+     */
     var applyShadowCopyFilter = function(query, filter) {
       var shadowCopyFilter = {
         'bool': {
@@ -673,6 +687,9 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
           },
           {
             'term': {'hidden': false}
+          },
+          {
+            'term': {'release.isPreRelease': false}
           }]
         }
       };
@@ -684,6 +701,18 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
       pushToFilterArray(query, shadowCopyFilter);
     };
 
+    /**
+     * Distiguishes between szenarios of showing only master data
+     * or showing only shadow copies.
+     * If the user is logged in and the provider view is active the search
+     * will be limited to master data only so show project based search results.
+     * If the user is not logged in (public user) or is in the order view
+     * the search will be limited to shadow copies only which represent released
+     * versions of data packages and can therefore be ordered.
+     * @param {*} query the query this filter should be added to
+     * @param {*} filter  the filter parameter
+     * @param {boolean} enforceReleased true if enforcing released versions
+     */
     var addShadowCopyFilter = function(query, filter, enforceReleased) {
       if (!enforceReleased && Principal.loginName() &&
         Principal.isProviderActive()) {
@@ -723,6 +752,12 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
       }
     };
 
+    /**
+     * Creates a query to search an object by id and version.
+     * @param {*} id the id to search by
+     * @param {*} version the version to search by
+     * @returns the query object
+     */
     var createShadowByIdAndVersionQuery = function(id, version) {
       var query = {
         'body': {
@@ -827,6 +862,12 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
       }
     };
 
+    /**
+     * Adds aggregation queries to the existing query object.
+     * @param {*} query the query the aggregations should be added to
+     * @param {*} elasticsearchType the elastic search type
+     * @param {*} aggregations the aggregations queries need to be added for
+     */
     var addAggregations = function(query, elasticsearchType, aggregations) {
       var currentLanguage = LanguageService.getCurrentInstantly();
       if (aggregations && aggregations.length > 0) {
@@ -842,12 +883,18 @@ angular.module('metadatamanagementApp').factory('SearchHelperService', ['CleanJS
         };
 
         if (!Principal.loginName() || !Principal.isProviderActive()) {
+          // as public users and users in order view are only able to find
+          // not hidden, not pre-released shadow object, aggregations need
+          // to account for that, too
           var shadowCopyFilter = {
             'bool': {
               'must': [{
                 'term': {'shadow': true}
               },{
                 'term': {'hidden': false}
+              },
+              {
+                'term': {'release.isPreRelease': false}
               }]
             }
           };

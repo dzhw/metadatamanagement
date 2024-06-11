@@ -130,7 +130,7 @@
 			"copy_to": "all"
 		},
 		"release": {
-			"type": "keyword"
+      "type": "keyword"
 		},
 		"shadow": {
 			"type": "keyword"

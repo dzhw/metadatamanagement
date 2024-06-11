@@ -2,7 +2,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectDoesNotExist', ['DataAcquisitionProjectResource', '$q', '$rootScope',  function(DataAcquisitionProjectResource,
+  .directive('projectDoesNotExist', [
+    'DataAcquisitionProjectResource', '$q', '$rootScope',  
+    function(DataAcquisitionProjectResource,
       $q, $rootScope) {
     return {
         require: 'ngModel',

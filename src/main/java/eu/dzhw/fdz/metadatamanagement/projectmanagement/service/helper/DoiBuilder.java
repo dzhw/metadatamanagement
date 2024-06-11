@@ -7,8 +7,6 @@ import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.github.zafarkhaja.semver.Version;
-
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -36,7 +34,8 @@ public class DoiBuilder {
    */
   public String buildDataOrAnalysisPackageDoi(String dataAcquisitionProjectId, Release release) {
     if (release != null && StringUtils.hasText(dataAcquisitionProjectId)
-        && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
+       // && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))
+    ) {
       if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
         return "10.21249/DZHW:" + stripVersionSuffix(dataAcquisitionProjectId) + ":"
             + release.getVersion();

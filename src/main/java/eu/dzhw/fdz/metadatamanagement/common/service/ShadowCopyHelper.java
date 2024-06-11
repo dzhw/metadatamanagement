@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Create shadow copies of domain objects provided by {@link ShadowCopyDataSource}s.
- * 
+ *
  * @param <T> The domain object to be copied.
  */
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
   /**
    * Create shadow copies of the master domain objects of a project returned by
    * {@link ShadowCopyDataSource}.
-   * 
+   *
    * @param dataAcquisitionProjectId id of the project being shadow copied
    * @param release The release object containing the version of the shadow copies being created
    * @param previousVersion The previous version of the project or {@code null} if this
@@ -44,7 +44,8 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
 
       masters.map(master -> shadowCopyDataSource.createShadowCopy(master, release))
           .forEach(shadowCopy -> {
-            if (hasPreviousVersion) {
+            // add a successorId to previous versions if the current release is not a pre-release
+            if (hasPreviousVersion && !release.getIsPreRelease()) {
               Optional<T> opt =
                   shadowCopyDataSource.findPredecessorOfShadowCopy(shadowCopy, previousVersion);
               if (opt.isPresent()) {
@@ -80,14 +81,14 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
   private void unhideExistingShadowCopies(String dataAcquisitionProjectId, String version) {
     shadowCopyDataSource.unhideExistingShadowCopies(dataAcquisitionProjectId, version);
   }
-  
+
   private void deleteExistingShadowCopies(String dataAcquisitionProjectId, String version) {
     shadowCopyDataSource.deleteExistingShadowCopies(dataAcquisitionProjectId, version);
   }
-  
+
   /**
    * Create, hide or unhide shadow copies of current master domain objects on project release.
-   * 
+   *
    * @param shadowCopyingStartedEvent Emitted by {@link ShadowCopyQueueItemService}
    */
   @EventListener
@@ -106,7 +107,7 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
         this.unhideExistingShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
             shadowCopyingStartedEvent.getRelease().getVersion());
         break;
-      case DELETE:  
+      case DELETE:
         this.deleteExistingShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
             shadowCopyingStartedEvent.getRelease().getVersion());
         break;
@@ -115,10 +116,10 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
             shadowCopyingStartedEvent.getAction() + " has not been implemented yet!");
     }
   }
-  
+
   /**
    * Update elasticsearch (both predecessors and current shadows).
-   * 
+   *
    * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}
    */
   @EventListener

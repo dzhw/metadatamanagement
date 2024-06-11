@@ -22,6 +22,9 @@ angular.module('metadatamanagementApp').config([
             'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind Sie sicher?',
           },
           'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!',
+          'pre-release-hint': 'Das Projekt "{{id}}" ist mit dem Embargo-Datum {{date}} versehen und kann nur vorläufig freigegeben werden. Vorläufig freigegebene Projekte sind nicht in MDM such- oder bestellbar. Die vorläufige Freigabe kann bis zur endgültigen Freigabe nicht zurückgenommen werden. Die Bearbeitung des Projektes ist in der vorläufigen Freigabe weiterhin möglich. Nach Ablauf des Embargo-Datums kann das Projekt in der im Folgenden gewählten Version endgültig freigegeben werden.',
+          'release-action': 'Freigeben',
+          'pre-release-action': 'Vorläufig freigeben',
           'toTweet': "Auf X (ehemals Twitter) veröffentlichen. Der DOI-Link und die Version des Datenaufnahmeprojektes werden automatisch hinzugefügt.",
           'tweetTextLabel': "Tweet",
           'imagePath1': 'assets/images/thumb_twitter_fdz_1_de.jpg',
@@ -32,10 +35,12 @@ angular.module('metadatamanagementApp').config([
           'title': 'Datenaufnahmeprojekte',
           'createLabel': 'Neues Datenaufnahmeprojekt anlegen',
           'releaseLabel': 'Das Datenaufnahmeprojekt "{{ id }}" freigeben',
+          'prereleaseLabel': 'Das Datenaufnahmeprojekt "{{ id }}" vorläufig freigeben',
           'dialog-tooltip': {
             'create-ok': 'Klicken, um das Datenaufnahmeprojekt zu erzeugen',
             'create-cancel': 'Klicken, um den Dialog zu schließen ohne ein Projekt anzulegen',
             'release-ok': 'Klicken, um das Projekt freizugeben',
+            'pre-release-ok': 'Klicken, um das Projekt vorläufig freizugeben',
             'release-cancel': 'Klicken, um den Dialog zu schließen ohne das Projekt freizugeben'
           }
         },
@@ -104,6 +109,8 @@ angular.module('metadatamanagementApp').config([
               'not-empty': 'Die Version darf nicht leer sein.',
               'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
               'not-parsable-or-not-incremented': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version. Die letzte Version war "{{lastVersion}}".',
+              'no-major-version-change': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version ("{{lastVersion}}"). Sie muss kleiner sein als die nächste Major-Version ("{{nextMajorVersion}}").',
+              'no-beta-version': 'Für das Projekt ist ein Embargo-Datum angegeben. Die Versionsnummer muss daher mindestens "1.0.0" sein.',
               'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
             },
             'tweet': {
@@ -116,6 +123,7 @@ angular.module('metadatamanagementApp').config([
             'project-has-no-analysisPackage': 'Das Projekt mit der FDZ-ID {{ id }} enthält kein Analysepaket.',
             'project-must-have-exactly-one-publication': 'Das Projekt mit der FDZ-ID {{ id }} muss genau eine Publikation enthalten.',
             'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.',
+            'no-embargo-date': 'Für das Projekt {{ id }} ist kein Embargo-Datum angegeben.',
             'project-has-no-survey': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens eine Erhebung enthalten.',
             'project-has-no-data-set': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens einen Datensatz enthalten.'
           },
@@ -125,6 +133,7 @@ angular.module('metadatamanagementApp').config([
             'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch die Publisher oder Datengeber:innen als "fertig" markiert wurden',
             'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer:innen freigegeben ist.',
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
+            'embargo-date-not-expired': 'Die Aktion ist nicht möglich, da das Embargo-Datum noch nicht abgelaufen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber:in zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
             'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.',
@@ -138,7 +147,8 @@ angular.module('metadatamanagementApp').config([
         },
         'releasestatusbadge': {
           'released': 'Freigegeben',
-          'unreleased': 'Nicht freigegeben'
+          'unreleased': 'Nicht freigegeben',
+          'pre-released': 'Vorläufig freigegeben'
         },
         'project-cockpit': {
           'title': 'Projekt-Cockpit ({{projectId}})',
@@ -179,6 +189,12 @@ angular.module('metadatamanagementApp').config([
             'status': 'Status',
             'config': 'Einstellungen',
             'versions': 'Versionen'
+          },
+          'release-settings': {
+            'header': 'Einstellungen zur Veröffentlichung',
+            'label': 'Embargo-Datum',
+            'info': 'Wenn das Projekt vorerst vorläufig freigegeben werden soll, müssen Sie hier ein Embargo-Datum setzen, welches dem Zeitpunkt der geplanten Veröffentlichung entspricht.',
+            'delete-tooltip': 'Embargo-Datum entfernen'
           },
           'requirements': {
             'header': 'Erwartete Metadaten',
@@ -232,7 +248,8 @@ angular.module('metadatamanagementApp').config([
             'unhiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten wieder für alle Benutzer:innen sichtbar sein!',
             'button': {
               'hide-shadow': 'Diese Version ist aktuell für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version zu verstecken!',
-              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!'
+              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!',
+              'pre-released': 'Diese Version unterliegt bis zum {{date}} einem Embargo durch die Datengeber:innen. Die Veröffentlichung kann erst nach diesem Datum erfolgen.'
             }
           }
         },
@@ -241,6 +258,7 @@ angular.module('metadatamanagementApp').config([
           'table': {
             'project-name': 'Projekt',
             'release-version': 'Aktuelle Version',
+            'embargo-date': 'Embargo-Datum',
             'assigned-group': 'Zugewiesene Gruppe',
             'user-service-remarks': 'Bemerkungen User Service',
             'data-package-status': 'Datenpaket',
@@ -278,7 +296,8 @@ angular.module('metadatamanagementApp').config([
               },
               'release-state': {
                 'released': 'Freigegeben',
-                'unreleased': 'Nicht freigegeben'
+                'unreleased': 'Nicht freigegeben',
+                'pre-released': 'Vorläufig Freigegeben'
               },
               'datapackage-filter': {
                 'variables': 'Variablen',
@@ -293,7 +312,8 @@ angular.module('metadatamanagementApp').config([
             }
           },
           'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen.',
-          'no-search-results-msg': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.'
+          'no-search-results-msg': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.',
+          'pre-release-hint': '* Gekennzeichnete Projekte sind vorläufig freigegeben und unterliegen einem Embargo-Datum.'
         },
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',

@@ -3,6 +3,7 @@
   <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
   <div class="fdz-cc">
     <div>
+      <embargo-warning ng-if="ctrl.isProviderView && ctrl.analysisPackage.release && ctrl.analysisPackage.release.isPreRelease" project="ctrl.project" style="margin: 8px;"></embargo-warning>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
           <div class="fdz-detail__header-text">
@@ -92,6 +93,7 @@
           template-url="scripts/analysispackagemanagement/templates/attachments.html.tmpl"></fdz-detail>
         <md-divider ng-if="ctrl.attachments.length > 0 "></md-divider>
         <fdz-related-objects
+          ng-if="ctrl.isProviderView || (!ctrl.isProviderView && !ctrl.analysisPackage.release.isPreRelease)"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
@@ -104,7 +106,7 @@
   <div class="fdz-fab-button-container" layout="column" layout-align="center end">
     <report-publications-component ng-if="!ctrl.isAuthenticated()" analysis-package="true"></report-publications-component>  
     <md-button class="md-fab md-raised md-accent" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
-               ng-click="ctrl.analysisPackageEdit()" ng-if="!ctrl.projectIsCurrentlyReleased">
+               ng-click="ctrl.analysisPackageEdit()" ng-if="ctrl.shouldDisplayEditButton">
       <md-tooltip md-autohide="true" md-direction="left"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-analysis-package-tooltip' | translate}}

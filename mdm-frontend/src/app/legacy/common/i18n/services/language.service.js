@@ -1,6 +1,15 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('LanguageService', ['$q', '$translate', '$location', '$rootScope', 'tmhDynamicLocale', 'LANGUAGES', 'amMoment', '$mdDateLocale', 'moment', 
+angular.module('metadatamanagementApp').factory('LanguageService', [
+  '$q', 
+  '$translate', 
+  '$location', 
+  '$rootScope', 
+  'tmhDynamicLocale', 
+  'LANGUAGES', 
+  'amMoment', 
+  '$mdDateLocale', 
+  'moment', 
   function($q, $translate, $location, $rootScope,
     tmhDynamicLocale, LANGUAGES, amMoment, $mdDateLocale, moment) {
     return {

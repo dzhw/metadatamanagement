@@ -1,0 +1,32 @@
+<md-card class="fdz-embargo-warning">
+    <md-card-header style="border: none !important; padding: 0px;">
+        <md-card-title style="padding: 0px;">
+            <md-card-title-text>
+                <span class="md-subhead b" ng-if="isOrderView && ctrl.type == 'data-package'">{{
+                    'embargo-warning.data-package.title-order-view' | translate: {projectId: project.masterId} }}</span>
+                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type == 'data-package'">{{
+                    'embargo-warning.data-package.title-provider-view' | translate: {projectId: project.masterId} }}</span>
+                <span class="md-subhead b" ng-if="isOrderView && ctrl.type != 'data-package'">{{
+                    'embargo-warning.analysis-package.title-order-view' | translate: {projectId: project.masterId} }}</span>
+                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type != 'data-package'">{{
+                    'embargo-warning.analysis-package.title-provider-view' | translate: {projectId: project.masterId} }}</span>
+            </md-card-title-text>
+        </md-card-title>
+    </md-card-header>
+    <md-card-content ng-if="isOrderView && !ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
+        <span data-translate="embargo-warning.{{ctrl.type}}.content-order-view" translate-values="{date: (ctrl.project.embargoDate | date:'mediumDate')}">
+        </span>
+    </md-card-content>
+    <md-card-content ng-if="isOrderView && ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
+        <span data-translate="embargo-warning.{{ctrl.type}}.content-order-view-expired">
+        </span>
+    </md-card-content>
+    <md-card-content ng-if="!isOrderView && !ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
+        <span data-translate="embargo-warning.{{ctrl.type}}.content-provider-view" translate-values="{date: (ctrl.project.embargoDate | date:'mediumDate')}">
+        </span>
+    </md-card-content>
+    <md-card-content ng-if="!isOrderView && ctrl.isEmbargoDateExpired()" style="text-align: justify; hyphens: auto; margin-bottom: 16px;">
+        <span data-translate="embargo-warning.{{ctrl.type}}.content-provider-view-expired">
+        </span>
+    </md-card-content>
+</md-card>

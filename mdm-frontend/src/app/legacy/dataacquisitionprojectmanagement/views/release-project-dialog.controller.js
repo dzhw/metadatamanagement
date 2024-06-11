@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Controller handling project releases
+ */
 angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', [
   '$scope',
@@ -32,7 +35,7 @@ angular.module('metadatamanagementApp')
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     $scope.ENV = ENV;
-    $scope.isBetaRelease = false;
+
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';
     $scope.cancel = function() {
@@ -124,6 +127,8 @@ angular.module('metadatamanagementApp')
       if (lastRelease.version) {
         $scope.lastVersion = lastRelease.version;
         $scope.release.version = lastRelease.version;
+        $scope.release.isPreRelease = lastRelease.isPreRelease;
+        $scope.release.doiPageLanguage = lastRelease.doiPageLanguage;
         PinnedDataPackagesService.getPinnedDataPackage().then(
           function(response) {
             if (response.data && response.data.id ===
@@ -138,60 +143,53 @@ angular.module('metadatamanagementApp')
       $scope.getTweetData();
     });
 
+    /**
+     * Method handling releases. 
+     * In case of a pre-release the project is validated and released 
+     * with the 'isPreRelease' attribute set to true. The metadata is sent to DA|RA.
+     * If it is a beta release (version < 1.0.0) the project is not validated, saved with 
+     * the release object but no data is send to DA|RA.
+     * If it is a regular release the project is validated, saved and 
+     * the metadata is sent to DA|RA.
+     * @param {*} release the release object
+     */
     $scope.ok = function(release) {
-      DataAcquisitionProjectPostValidationService
-        .postValidate(project.id, release.version).then(function() {
+      if ($scope.isPreRelease()) {
+        // Handling for pre-releases
+        DataAcquisitionProjectPostValidationService
+        .postValidatePreRelease(project.id).then(function() {
           var compareForBeta = $scope.bowser
-          .compareVersions(['1.0.0', release.version]);
+            .compareVersions(['1.0.0', release.version]);
+          // early return in case of beta release
+          if (compareForBeta === 1) {
+            return;
+          }
           release.lastDate = new Date().toISOString();
+          release.isPreRelease = true;
           project.release = release;
           project.hasBeenReleasedBefore = true;
-
-          if (compareForBeta === 1) {
-            //BETA RELEASE
-            DataAcquisitionProjectResource.save(project).$promise
-            .then(function() {
-                SimpleMessageToastService.openSimpleMessageToast(
-                  i18nPrefix + 'released-beta-successfully', {
+          DaraReleaseResource.preRelease(project)
+          .$promise.then(function() {
+              DataAcquisitionProjectResource.save(project).$promise
+              .then(function() {
+                  SimpleMessageToastService.openSimpleMessageToast(
+                    i18nPrefix + 'released-successfully', {
+                      id: project.id
+                    });
+                  CurrentProjectService.setCurrentProject(project);
+                  $mdDialog.hide();
+                  $state.forceReload();
+                });
+            }).catch(function() {
+                delete project.release;
+                SimpleMessageToastService.openAlertMessageToast(
+                  i18nPrefix + 'dara-released-not-successfully', {
                     id: project.id
                   });
-                CurrentProjectService.setCurrentProject(project);
                 $mdDialog.hide();
-                $state.forceReload();
-              }).catch(function() {
-                  delete project.release;
-                  SimpleMessageToastService.openAlertMessageToast(
-                    i18nPrefix + 'dara-released-not-successfully', {
-                      id: project.id
-                    });
-                    $mdDialog.hide();
-                });
-          } else {
-            //REGULAR RELEASE
-            DaraReleaseResource.release(project)
-            .$promise.then(function() {
-                DataAcquisitionProjectResource.save(project).$promise
-                .then(function() {
-                    SimpleMessageToastService.openSimpleMessageToast(
-                      i18nPrefix + 'released-successfully', {
-                        id: project.id
-                      });
-                    CurrentProjectService.setCurrentProject(project);
-                    $mdDialog.hide();
-                    $state.forceReload();
-
-                    $scope.postTweet(release);
-                  });
-              }).catch(function() {
-                  delete project.release;
-                  SimpleMessageToastService.openAlertMessageToast(
-                    i18nPrefix + 'dara-released-not-successfully', {
-                      id: project.id
-                    });
-                  $mdDialog.hide();
-                });
-          }
-        }).catch(function() {
+              });
+        }).catch(function(error) {
+          console.log(error);
           $mdDialog.show($mdDialog.alert()
           .title($translate.instant(
             i18nPrefix + 'release-not-possible-title', {
@@ -207,6 +205,102 @@ angular.module('metadatamanagementApp')
             }))
           .ok($translate.instant('global.buttons.ok')));
         });
+      } else {
+        DataAcquisitionProjectPostValidationService
+          .postValidate(project.id, release.version).then(function() {
+            var compareForBeta = $scope.bowser
+            .compareVersions(['1.0.0', release.version]);
+            release.lastDate = new Date().toISOString();
+            release.isPreRelease = false;
+            project.release = release;
+            project.hasBeenReleasedBefore = true;
+            project.embargoDate = null;
+            // handling for beta releases
+            if (compareForBeta === 1) {
+              DataAcquisitionProjectResource.save(project).$promise
+              .then(function() {
+                  SimpleMessageToastService.openSimpleMessageToast(
+                    i18nPrefix + 'released-beta-successfully', {
+                      id: project.id
+                    });
+                  CurrentProjectService.setCurrentProject(project);
+                  $mdDialog.hide();
+                  $state.forceReload();
+                }).catch(function() {
+                    delete project.release;
+                    SimpleMessageToastService.openAlertMessageToast(
+                      i18nPrefix + 'dara-released-not-successfully', {
+                        id: project.id
+                      });
+                      $mdDialog.hide();
+                  });
+            } else {
+              // handling for regular releases
+              DaraReleaseResource.release(project)
+              .$promise.then(function() {
+                  DataAcquisitionProjectResource.save(project).$promise
+                  .then(function() {
+                      SimpleMessageToastService.openSimpleMessageToast(
+                        i18nPrefix + 'released-successfully', {
+                          id: project.id
+                        });
+                      CurrentProjectService.setCurrentProject(project);
+                      $mdDialog.hide();
+                      $state.forceReload();
+                    });
+                }).catch(function() {
+                    delete project.release;
+                    SimpleMessageToastService.openAlertMessageToast(
+                      i18nPrefix + 'dara-released-not-successfully', {
+                        id: project.id
+                      });
+                    $mdDialog.hide();
+                  });
+            }
+          }).catch(function() {
+            $mdDialog.show($mdDialog.alert()
+            .title($translate.instant(
+              i18nPrefix + 'release-not-possible-title', {
+                id: project.id
+              }))
+            .textContent($translate.instant(
+              i18nPrefix + 'release-not-possible', {
+                id: project.id
+              }))
+            .ariaLabel($translate.instant(
+              i18nPrefix + 'release-not-possible-title', {
+                id: project.id
+              }))
+            .ok($translate.instant('global.buttons.ok')));
+          });
+      };
+    };
+
+    /**
+     * Method to check wether the release is going to be a pre-release. 
+     * If an embargo date is set and has not expired it is a pre-release. 
+     * Otherwise it is a regular release.
+     */
+    $scope.isPreRelease = function() {
+      if ($scope.project.embargoDate) {
+        var current = new Date();
+        return new Date($scope.project.embargoDate) > current;
+      }
+      return false;
+    };
+
+    /**
+     * Method to retrieve the next major version from the current version.
+     * @returns the next major version as a string
+     */
+    $scope.getNextMajorVersion = function() {
+      if ($scope.lastVersion != undefined) {
+        var major = $scope.lastVersion.split(".")[0];
+        var highestMajorVersion = +major + 1;
+        return highestMajorVersion + ".0.0";
+      }
+      return '1.0.0';
+      
     };
   }]);
 

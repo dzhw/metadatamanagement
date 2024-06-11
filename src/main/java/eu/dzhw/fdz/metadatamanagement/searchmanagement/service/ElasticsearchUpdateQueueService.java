@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.NotImplementedException;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -18,8 +20,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.projection.AnalysisPackageSubDocumentProjection;
@@ -127,7 +127,7 @@ public class ElasticsearchUpdateQueueService {
 
   private final ElasticsearchDao elasticsearchDao;
 
-  private final Gson gson;
+  private final ObjectMapper objectMapper;
 
   private final DoiBuilder doiBuilder;
 
@@ -307,8 +307,12 @@ public class ElasticsearchUpdateQueueService {
       AnalysisPackageSearchDocument searchDocument = new AnalysisPackageSearchDocument(
           analysisPackage, release, configuration, doi, dataPackages, relatedPublications);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting an Analysis Package Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -335,8 +339,13 @@ public class ElasticsearchUpdateQueueService {
       DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
           project);
 
-      IndexRequest req = new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON);
+      IndexRequest req = null;
+      try {
+        req = new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON);
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a Data Acquisition Project Document to JSON", e);
+      }
       request.add(req);
       return true;
     }
@@ -395,8 +404,12 @@ public class ElasticsearchUpdateQueueService {
           new ConceptSearchDocument(concept, dataPackageSubDocuments, nestedDataPackageDocuments,
               questions, instruments, surveys, dataSets, variables);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a Concept Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -443,8 +456,12 @@ public class ElasticsearchUpdateQueueService {
           new InstrumentSearchDocument(instrument, dataPackage, surveys, questions, variables,
               dataSets, concepts, release, doi, configuration);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting an Instrument Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -496,8 +513,12 @@ public class ElasticsearchUpdateQueueService {
           relatedPublication, dataPackageSubDocuments, nestedDataPackageDocuments,
           analysisPackageSubDocuments, nestedAnalysisPackageDocuments);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a Related Publication Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -549,8 +570,12 @@ public class ElasticsearchUpdateQueueService {
           new DataSetSearchDocument(dataSet, dataPackage, variableProjections, surveys, instruments,
               questions, concepts, release, doi, configuration);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a DataSet Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -585,8 +610,12 @@ public class ElasticsearchUpdateQueueService {
       SurveySearchDocument searchDocument = new SurveySearchDocument(survey, dataPackage, dataSets,
           variables, instruments, questions, concepts, release, doi, configuration);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a Survey Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -654,8 +683,12 @@ public class ElasticsearchUpdateQueueService {
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable, dataSet,
           dataPackage, surveys, instruments, questions, concepts, release, doi, configuration);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a Variable Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -701,8 +734,12 @@ public class ElasticsearchUpdateQueueService {
       QuestionSearchDocument searchDocument = new QuestionSearchDocument(question, dataPackage,
           instrument, surveys, variables, dataSets, concepts, release, doi, configuration);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a Question Document to JSON", e);
+      }
       return true;
     }
     return false;
@@ -751,8 +788,12 @@ public class ElasticsearchUpdateQueueService {
           dataSets, variables, relatedPublications, surveys, questions, instruments, concepts,
           analysisPackages, release, doi, configuration);
 
-      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-          .source(gson.toJson(searchDocument), XContentType.JSON));
+      try {
+        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException("An error occurred while converting a data package Document to JSON", e);
+      }
       return true;
     }
     return false;

@@ -65,9 +65,13 @@ angular.module('metadatamanagementApp')
           DataAcquisitionProjectResource.get({
             id: survey.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.project = project;
+            ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
+            ctrl.shouldDisplayEditButton = localStorage.getItem('currentView') != 'orderView' 
+              && !(project.release != null && !project.release.isPreRelease);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
+            ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
           });
         }
         if (survey.dataType.en !== 'Qualitative Data') {

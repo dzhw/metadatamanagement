@@ -22,6 +22,9 @@ angular.module('metadatamanagementApp').config([
             'prod': 'WARNING: This is the PRODUCTION stage! Are you sure?',
           },
           'confirm-hint': 'Check this box if you really want to release this project on this system!',
+          'pre-release-hint': 'The project "{{id}}" has the embargo date {{date}} and can only be released preliminarily. Preliminarily released projects cannot be searched for or ordered in MDM. The preliminary release cannot be withdrawn until the final release. It is still possible to edit the project during preliminary release. After the embargo date has expired, the project can be released definitively in the version selected below.',
+          'release-action': 'Release',
+          'pre-release-action': 'Preliminarily release',
           'toTweet': "Publish on X (formerly Twitter). The DOI Link and the Version of the Data Acquisition Project will automatically be added.",
           'tweetTextLabel': "Tweet",
           'imagePath1': 'assets/images/thumb_twitter_fdz_1_en.jpg',
@@ -32,10 +35,12 @@ angular.module('metadatamanagementApp').config([
           'title': 'Data Acquisition Projects',
           'createLabel': 'Create a new Data Acquisition Project',
           'releaseLabel': 'Release Data Acquisition Project "{{ id }}"',
+          'prereleaseLabel': 'Preliminarily Release Data Acquisition Project "{{ id }}"',
           'dialog-tooltip': {
             'create-ok': 'Click to create the Data Acquisition Project',
             'create-cancel': 'Click to close the dialog without creating a project',
             'release-ok': 'Click to release the project',
+            'pre-release-ok': 'Click to preliminarily release the project',
             'release-cancel': 'Click to close the dialog without releasing the project'
           }
         },
@@ -104,6 +109,8 @@ angular.module('metadatamanagementApp').config([
               'not-empty': 'The version must not be empty.',
               'pattern': 'The version must match the pattern "major.minor.patch" (e.g. "1.0.0").',
               'not-parsable-or-not-incremented': 'The version number must be at least as high as the last version. The previous version was "{{lastVersion}}".',
+              'no-major-version-change': 'The version number must be at least as high as the last version ("{{lastVersion}}"). It must be lower than the next major version ("{{nextMajorVersion}}").',
+              'no-beta-version': 'An embargo date is enabled for this project. Therefore, the version number must be at least equal to "1.0.0".',
               'size': 'The version must not contain more than 32 characters.'
             },
             'tweet': {
@@ -116,6 +123,7 @@ angular.module('metadatamanagementApp').config([
             'project-has-no-analysisPackage': 'The Project with the RDC-ID {{ id }} has no analysis package.',
             'project-must-have-exactly-one-publication': 'The Project with the RDC-ID {{ id }} must contain exactly one publication.',
             'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.',
+            'no-embargo-date': 'Embargo date for project {{ id }} is missing.',
             'project-has-no-survey': 'The Project with the RDC-ID {{ id }} must contain at least one survey.',
             'project-has-no-data-set': 'The Project with the RDC-ID {{ id }} must contain at least one data set.'
           },
@@ -126,6 +134,7 @@ angular.module('metadatamanagementApp').config([
             'update-for-data-providers-allowed': 'The action is not possible because the metadata has already been marked as "ready" by the publishers or data providers.',
             'project-released': 'The action is not possible because the projects metadata is currently open to all public users.',
             'member-of-assigned-group': 'The action is not possible because the project is currently assigned to the other project group.',
+            'embargo-date-not-expired': 'The action is not possible because the embargo date has not expired yet.',
             'assigned-to-project': 'The action is not possible because you are not assigned to the project as a publisher or data provider.',
             'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.',
             'prerequisite-missing-surveys': 'The action is not possible because the project does not contain any survey.',
@@ -139,7 +148,8 @@ angular.module('metadatamanagementApp').config([
         },
         'releasestatusbadge': {
           'released': 'Released',
-          'unreleased': 'Unreleased'
+          'unreleased': 'Unreleased',
+          'pre-released': 'Preliminarily released'
         },
         'project-cockpit': {
           'title': 'Project-Cockpit ({{projectId}})',
@@ -180,6 +190,12 @@ angular.module('metadatamanagementApp').config([
             'status': 'Status',
             'config': 'Settings',
             'versions': 'Versions'
+          },
+          'release-settings': {
+            'header': 'Release Settings',
+            'label': 'Embargo Date',
+            'info': 'If the project is to be released preliminary, you need to set an embargo date here, which corresponds to the date of the planned publication.',
+            'delete-tooltip': 'Delete embargo date'
           },
           'requirements': {
             'header': 'Expected Metadata',
@@ -233,7 +249,8 @@ angular.module('metadatamanagementApp').config([
             'unhiding-toast': 'The version {{version}} of the project {{id}} will be visible again for all users in about 10 minutes!',
             'button': {
               'hide-shadow': 'This version is currently visible for all users. Click here to hide this version!',
-              'unhide-shadow': 'This version is currently not visible for all users. Click here to make it available for all users!'
+              'unhide-shadow': 'This version is currently not visible for all users. Click here to make it available for all users!',
+              'pre-released': 'This version is subject to an embargo until {{ date }}. The final release can only take place after this date.'
             }
           }
         },
@@ -242,6 +259,7 @@ angular.module('metadatamanagementApp').config([
           'table': {
             'project-name': 'Project',
             'release-version': 'Current Version',
+            'embargo-date': 'Embargo Date',
             'assigned-group': 'Assigned Group',
             'user-service-remarks': 'Remarks for User Service',
             'data-package-status': 'Data Package',
@@ -285,7 +303,8 @@ angular.module('metadatamanagementApp').config([
               },
               'release-state': {
                 'released': 'Released',
-                'unreleased': 'Unreleased'
+                'unreleased': 'Unreleased',
+                'pre-released': 'Pre-released'
               },
               'datapackage-filter': {
                 'variables': 'Variables',
@@ -300,7 +319,8 @@ angular.module('metadatamanagementApp').config([
             }
           },
           'no-project-msg': 'There is no project assigned to your account.',
-          'no-search-results-msg': 'No results found for your search request.'
+          'no-search-results-msg': 'No results found for your search request.',
+          'pre-release-hint': '* Labeled projects are preliminarily released and are subject to an embargo date.'
         },
         'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). Choose the current version ({{newVersion}}) in the side menu.</a>',
         'version-not-found-alert': 'Your link refers to a version ({{oldVersion}}) of this page which does not exist. This is the current version ({{newVersion}}).',
