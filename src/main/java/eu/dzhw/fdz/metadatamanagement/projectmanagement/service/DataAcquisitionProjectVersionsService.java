@@ -41,6 +41,11 @@ public class DataAcquisitionProjectVersionsService extends
       QDataAcquisitionProject.dataAcquisitionProject.hidden.isNull()
           .or(QDataAcquisitionProject.dataAcquisitionProject.hidden.isFalse());
 
+  private static final Predicate projectNotPreReleased =
+      QDataAcquisitionProject.dataAcquisitionProject.release.isNotNull()
+      .and(QDataAcquisitionProject.dataAcquisitionProject.release.isPreRelease.isFalse());
+
+
   /**
    * Construct the service.
    */
@@ -82,7 +87,9 @@ public class DataAcquisitionProjectVersionsService extends
   public Release findPreviousRelease(String id, Release currentRelease) {
     try (Stream<Shadow<Release>> shadows = javers.findShadowsAndStream(
         QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-            .withChangedProperty("version").build());) {
+          .withChangedProperty("version")
+          .withChangedProperty("isPreRelease")
+          .build());) {
       if (currentRelease == null) {
         Optional<Shadow<Release>> optional = shadows.findFirst();
         if (optional.isPresent()) {
@@ -105,17 +112,20 @@ public class DataAcquisitionProjectVersionsService extends
   }
 
   /**
-   * Find all release stamps (limited to 100 results) for the given project id.
+   * Find all release stamps (limited to 100 results) for the given project id
+   * in which the properties version and preReleased have changed.
    *
    * @param id the project id
+   * @param excludePreReleased boolean indicating if pre-released version shall be skipped
    * @param noBeta boolean indicating if beta release shall be skipped or not
    * @return List of all releases (max 100 entries).
    */
-  public List<Release> findAllReleases(String id, boolean noBeta, boolean onlyNotHiddenVersions) {
+  public List<Release> findAllReleases(String id, boolean excludePreReleased,
+      boolean noBeta, boolean onlyNotHiddenVersions) {
     // Find all version changes
     List<Shadow<Release>> shadows =
         javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-            .withChangedProperty("version").limit(100).build());
+            .withChangedProperty("version").withChangedProperty("isPreRelease").limit(100).build());
 
     if (shadows.isEmpty()) {
       return new ArrayList<>();
@@ -124,7 +134,9 @@ public class DataAcquisitionProjectVersionsService extends
         // return only not-hidden versions (for all users)
         return shadows.stream().map(shadow -> shadow.get())
           .filter(release -> checkNotHidden(id, release) && (!noBeta || Version
-            .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))))
+            .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) && (
+              !excludePreReleased || checkNotPreReleased(id, release)
+            ))
           .collect(Collectors.toList());
       }
 
@@ -132,7 +144,9 @@ public class DataAcquisitionProjectVersionsService extends
       // only not-hidden versions for public users
       return shadows.stream().map(shadow -> shadow.get())
         .filter(release -> isAvailable(id, release) && (!noBeta || Version
-          .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))))
+          .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) && (
+          !excludePreReleased || checkNotPreReleased(id, release)
+        ))
         .collect(Collectors.toList());
 
     }
@@ -148,7 +162,9 @@ public class DataAcquisitionProjectVersionsService extends
   private boolean isAvailable(String id, Release release) {
     if (userInformationProvider.isUserAnonymous()) {
       return super.repository.exists(QDataAcquisitionProject.dataAcquisitionProject.id
-          .eq(id + "-" + release.getVersion()).and(projectNotHidden));
+          .eq(id + "-" + release.getVersion())
+          .and(projectNotHidden)
+          .and(projectNotPreReleased));
     }
     return true;
   }
@@ -163,5 +179,17 @@ public class DataAcquisitionProjectVersionsService extends
   private boolean checkNotHidden(String id, Release release) {
     return super.repository.exists(QDataAcquisitionProject.dataAcquisitionProject.id
       .eq(id + "-" + release.getVersion()).and(projectNotHidden));
+  }
+
+  /**
+   * Check if the released shadow is pre-released. Only return not pre-released shadows.
+   *
+   * @param id masterId of the project
+   * @param release the release containing the version of the shadow
+   * @return false if the shadow is pre-released
+   */
+  private boolean checkNotPreReleased(String id, Release release) {
+    return super.repository.exists(QDataAcquisitionProject.dataAcquisitionProject.id
+      .eq(id + "-" + release.getVersion()).and(projectNotPreReleased));
   }
 }

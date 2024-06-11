@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config([
             'fundingRef': 'Förderkennzeichen',
             'fundingProgram': 'Zugehörige Förderlinie',
             'version': 'Version',
+            'embargo-date': 'Embargo-Datum',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
             'transmission-via-VerbundFdb': 'Datenmeldung über den VerbundFDB',
@@ -39,6 +40,7 @@ angular.module('metadatamanagementApp').config([
             'title': 'Titel',
             'dataLanguages': 'Daten verfügbar auf',
             'tags': 'Schlagwörter',
+            'tagsElsst': 'ELSST-Schlagwörter',
             'approvedUsageList': 'Erlaubte Nutzungszwecke',
             'approvedUsage': 'Spezielle Beschränkungen für die Datennutzung',
             'additional-links': 'Weiterführende Links',
@@ -61,6 +63,7 @@ angular.module('metadatamanagementApp').config([
             },
             'doi': 'DOI',
             'published-at': 'veröffentlicht am',
+            'pre-published-at': 'vorläufig veröffentlicht am',
             'published': 'Veröffentlicht am'
           },
           'attachments': {
@@ -136,7 +139,8 @@ angular.module('metadatamanagementApp').config([
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen.',
           'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
-          'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen.',
+          'tag-tooltip': 'Klicken, um Datenpakete mit diesem Schlagwort zu suchen.',
+          'tagElsst-tooltip': 'Klicken, um Datenpakete mit diesem ELSST-Schlagwort zu suchen.',
           'generate-datapackage-overview-tooltip': 'Klicken, um eine Übersicht über dieses Datenpaket als PDF zu erstellen.',
           'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
           'order-datapackage-tooltip': 'Klicken, um dieses Datenpaket zu bestellen.'
@@ -240,7 +244,8 @@ angular.module('metadatamanagementApp').config([
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlagwörter) zum Datenpaket',
+            'tags': 'Schlagwörter zum Datenpaket',
+            'tagsElsst': 'ELSST-Schlagwörter zum Datenpaket',
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
@@ -355,12 +360,12 @@ angular.module('metadatamanagementApp').config([
         },
         'tag-editor': {
           'label': {
-            'german-tags': 'Deutsche Tags',
-            'english-tags': 'Englische Tags'
+            'german-tags': 'Deutsche Schlagwörter',
+            'english-tags': 'Englische Schlagwörter'
           },
-          'placeholder': 'Neuen Tag eingeben',
+          'placeholder': 'Neues Schlagwort eingeben',
           'error': {
-            'required': 'Es muss mindestens ein Tag eingetragen sein.'
+            'required': 'Es muss mindestens ein Schlagwort eingetragen sein.'
           }
         },
         'create-overview': {

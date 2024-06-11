@@ -5,7 +5,8 @@
   @author Daniel Katzberg
 */
 
-angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValidationService', ['JobLoggingService', 'DataAcquisitionProjectPostValidationResource', '$q', 
+angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValidationService', [
+  'JobLoggingService', 'DataAcquisitionProjectPostValidationResource', '$q', 
   function(JobLoggingService,
     DataAcquisitionProjectPostValidationResource, $q) {
 
@@ -23,6 +24,12 @@ angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValid
       return objectElement;
     };
 
+    /**
+     * Method triggering post validation of a project on full release and handling results.
+     * @param {*} id the ID of the project
+     * @param {*} version the version of the project to be validated
+     * @returns the validation promise
+     */
     var postValidate = function(id, version) {
       var deferred = $q.defer();
       JobLoggingService.start('postValidation');
@@ -64,9 +71,59 @@ angular.module('metadatamanagementApp').service('DataAcquisitionProjectPostValid
       });
       return deferred.promise;
     };
+
+    /**
+     * Method triggering post validation of a project on pre-release and handling results.
+     * @param {*} id the ID of the project
+     * @param {*} version the version of the project to be validated
+     * @returns the validation promise
+     */
+    var postValidatePreRelease = function(id, version) {
+      var deferred = $q.defer();
+      JobLoggingService.start('postValidation');
+      DataAcquisitionProjectPostValidationResource.postValidatePreRelease({
+        id: id,
+        version: version
+      }, function(result) {
+        // got errors by post validation
+        if (result.errors.length > 0) {
+          for (var i = 0; i < result.errors.length; i++) {
+            var messageParameter = {
+              id: result.errors[i].messageParameter[0],
+              toBereferenzedId: result.errors[i].messageParameter[1],
+              additionalId: result.errors[i].messageParameter[2]
+            };
+            JobLoggingService.error({
+              message: result.errors[i].messageId,
+              messageParams: messageParameter
+            });
+          }
+          deferred.reject(result);
+          //no errors by post validation
+        } else {
+          JobLoggingService
+            .success();
+          deferred.resolve();
+        }
+
+        // After sending errors or success, the process is finished.
+        JobLoggingService.finish(
+          'global.log-messages.post-validation-terminated', {
+            successes: JobLoggingService.getCurrentJob().successes,
+            errors: JobLoggingService.getCurrentJob().errors
+          });
+      }, function(error) {
+        // something went wrong
+        JobLoggingService.cancel(error.data.error);
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    };
+
     //public, global methods definitions.
     return {
-      postValidate: postValidate
+      postValidate: postValidate,
+      postValidatePreRelease: postValidatePreRelease
     };
   }]);
 

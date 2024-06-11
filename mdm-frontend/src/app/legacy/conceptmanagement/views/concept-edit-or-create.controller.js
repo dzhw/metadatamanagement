@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp')
   '$scope',
   '$q',
   'ElasticSearchAdminService',
+  'ElsstSearchService',
   '$transitions',
   'CommonDialogsService',
   'LanguageService',
@@ -27,7 +28,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
-      ElasticSearchAdminService, $transitions,
+      ElasticSearchAdminService, ElsstSearchService, $transitions,
       CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
       ConceptAttachmentResource, AttachmentDialogService,
       ConceptAttachmentVersionsResource, ChoosePreviousVersionService,
@@ -36,6 +37,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
 
       ctrl.conceptTagSearch = ConceptSearchService.findTags;
+      ctrl.findTagsElsst = ElsstSearchService.findTagsElsst;
 
       var conceptAttachmentTypes = [
         {de: 'Dokumentation', en: 'Documentation'},

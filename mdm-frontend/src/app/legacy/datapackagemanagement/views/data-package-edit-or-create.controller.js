@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp')
   'CommonDialogsService',
   'LanguageService',
   'DataPackageSearchService',
+  'ElsstSearchService',
   'DataPackageAttachmentResource',
   '$q',
   'CleanJSObjectService',
@@ -35,7 +36,7 @@ angular.module('metadatamanagementApp')
       CurrentProjectService, DataPackageIdBuilderService, DataPackageResource,
       $scope, ElasticSearchAdminService, $transitions,
       CommonDialogsService, LanguageService, DataPackageSearchService,
-      DataPackageAttachmentResource, $q, CleanJSObjectService,
+      ElsstSearchService, DataPackageAttachmentResource, $q, CleanJSObjectService,
       DataAcquisitionProjectResource, ProjectUpdateAccessService,
       AttachmentDialogService, DataPackageAttachmentUploadService,
       DataPackageAttachmentVersionsResource, ChoosePreviousVersionService,
@@ -121,6 +122,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.findTags = DataPackageSearchService.findTags;
+      ctrl.findTagsElsst = ElsstSearchService.findTagsElsst;
 
       $scope.$watch('ctrl.dataPackage.studySeries', function() {
         ctrl.onStudySeriesChanged();
@@ -169,7 +171,7 @@ angular.module('metadatamanagementApp')
         DataAcquisitionProjectResource.get({
           id: dataPackage.dataAcquisitionProjectId
         }).$promise.then(function(project) {
-          if (project.release != null) {
+          if (project.release != null && !project.release.isPreRelease) {
             handleReleasedProject();
           } else if (!ProjectUpdateAccessService
               .isUpdateAllowed(project, 'dataPackages', true)) {
@@ -205,7 +207,8 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
+              (!CurrentProjectService.getCurrentProject().release 
+                || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                    .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                     'dataPackages', true)) {

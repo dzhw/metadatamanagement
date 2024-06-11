@@ -1,7 +1,8 @@
 import { DoBootstrap, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { DataacquisitionprojectmanagementModule } from './dataacquisitionprojectmanagement/dataacquisitionprojectmanagement.module';
+import { DataacquisitionprojectmanagementModule } from 
+  './dataacquisitionprojectmanagement/dataacquisitionprojectmanagement.module';
 
 // import { AppRoutingModule } from './app-routing.module';
 // import { AppComponent } from './app.component';

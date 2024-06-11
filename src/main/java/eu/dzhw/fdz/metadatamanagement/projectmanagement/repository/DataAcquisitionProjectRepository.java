@@ -59,4 +59,7 @@ public interface DataAcquisitionProjectRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
+
+  @RestResource(exported = false)
+  IdAndVersionProjection findOneIdAndVersionById(String id);
 }

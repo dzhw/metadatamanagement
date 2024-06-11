@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp')
   'AnalysisPackageResource',
   '$scope',
   'ElasticSearchAdminService',
+  'ElsstSearchService',
   '$transitions',
   'CommonDialogsService',
   'LanguageService',
@@ -34,7 +35,7 @@ angular.module('metadatamanagementApp')
              $state, BreadcrumbService, Principal, SimpleMessageToastService,
              CurrentProjectService, AnalysisPackageIdBuilderService,
              AnalysisPackageResource,
-             $scope, ElasticSearchAdminService, $transitions,
+             $scope, ElasticSearchAdminService, ElsstSearchService, $transitions,
              CommonDialogsService, LanguageService,
              AnalysisPackageSearchService, AnalysisPackageAttachmentResource,
              $q, DataAcquisitionProjectResource,
@@ -109,6 +110,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.findTags = AnalysisPackageSearchService.findTags;
+      ctrl.findTagsElsst = ElsstSearchService.findTagsElsst;
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -152,7 +154,7 @@ angular.module('metadatamanagementApp')
         DataAcquisitionProjectResource.get({
           id: analysisPackage.dataAcquisitionProjectId
         }).$promise.then(function(project) {
-          if (project.release != null) {
+          if (project.release != null && !project.release.isPreRelease) {
             handleReleasedProject();
           } else if (!ProjectUpdateAccessService
             .isUpdateAllowed(project, 'analysisPackages', true)) {
@@ -180,7 +182,8 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
+              (!CurrentProjectService.getCurrentProject().release 
+                || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                 .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                   'analysisPackages', true)) {

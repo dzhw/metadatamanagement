@@ -3,6 +3,7 @@
   <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
   <div class="fdz-cc">
     <div>
+      <embargo-warning ng-if="ctrl.isProviderView && ctrl.dataPackage.release && ctrl.dataPackage.release.isPreRelease" project="ctrl.project" style="margin: 8px;"></embargo-warning>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
           <div class="fdz-detail__header-text">
@@ -29,6 +30,26 @@
               </md-tooltip>
             </a>
           </div>
+          <!-- ELSST tags -->
+          <div class="fdz-tag-link-container" ng-if="ctrl.dataPackageTagsElsst.length > 0">
+            <h5>{{'data-package-management.detail.label.tagsElsst' | translate}}: </h5>
+            <a ng-repeat="tagElsst in ctrl.dataPackageTagsElsst"
+               ng-if="ctrl.isAuthenticated()"
+               ui-sref="search({type: 'data_packages', 'query': tagElsst.prefLabel})">
+               <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-package-management.detail.tagElsst-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+            <a ng-repeat="tagElsst in ctrl.dataPackageTagsElsst"
+               ng-if="!ctrl.isAuthenticated()"
+               ui-sref="search({type: 'data_packages', 'tags': tagElsst.prefLabel})">
+              <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-package-management.detail.tagElsst-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+          </div>
         </div>
         <md-divider></md-divider>
         <fdz-detail
@@ -51,6 +72,7 @@
           template-url="scripts/datapackagemanagement/templates/attachments.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
+          ng-if="ctrl.isProviderView || (!ctrl.isProviderView && !ctrl.dataPackage.release.isPreRelease)"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
@@ -70,7 +92,7 @@
       <md-icon md-font-set="material-icons">picture_as_pdf</md-icon>
     </md-button>
     <md-button class="md-fab md-raised md-accent" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
-               ng-click="ctrl.dataPackageEdit()" ng-if="!ctrl.projectIsCurrentlyReleased">
+               ng-click="ctrl.dataPackageEdit()" ng-if="ctrl.shouldDisplayEditButton">
       <md-tooltip md-autohide="true" md-direction="left"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-data-package-tooltip' | translate}}

@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController', [
         'study-series',
         'survey-data-types',
         'tags',
+        'tagsElsst',
         'sponsors',
         'institutions',
         'access-ways',
@@ -63,6 +64,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController', [
       ],
       analysis_packages: [
         'tags',
+        'tagsElsst',
         'sponsors',
         'institutions'
       ],
@@ -348,6 +350,8 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController', [
           'survey-data-types'),
         'tags': createDataPackageFilterContent(data,
           'tags'),
+        'tagsElsst': createDataPackageFilterContent(data,
+          'tagsElsst'),
         'access-ways': createDataPackageFilterContent(data,
           'access-ways'),
         'concepts': createDataPackageFilterContent(data,
@@ -364,6 +368,8 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController', [
       var dataPackageFilter = {
         'tags': createDataPackageFilterContent(data,
           'tags'),
+        'tagsElsst': createDataPackageFilterContent(data,
+          'tagsElsst'),
         'sponsors': createDataPackageFilterContent(data,
           'sponsors'),
         'institutions': createDataPackageFilterContent(data,

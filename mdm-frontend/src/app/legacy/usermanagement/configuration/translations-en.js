@@ -99,20 +99,23 @@ angular.module('metadatamanagementApp').config([
                 'required': 'Your username is required.',
                 'minlength': 'Your username is required to be at least 1 character.',
                 'maxlength': 'Your username cannot be longer than 50 characters.',
-                'pattern': 'Your username can only contain lower-case letters and digits.'
+                'pattern': 'Your username can only contain lower-case letters and digits.',
+                'validationsummary': 'Your user name must be between 1-50 characters long and may only contain lower-case letters and digits.'
               },
               'firstname': {
                 'required': 'Your first name is required.',
                 'minlength': 'Your first name is required to be at least 1 character.',
                 'maxlength': 'Your first name cannot be longer than 50 characters.',
+                'validationsummary': 'Your first name must be between 1-50 characters long.'
               },
               'lastname': {
                 'required': 'Your last name is required.',
                 'minlength': 'Your last name is required to be at least 1 character.',
                 'maxlength': 'Your last name cannot be longer than 50 characters.',
+                'validationsummary': 'Your last name must be between 1-50 characters long.'
               }
             },
-            'success': '<strong>Registration saved!</strong> Please check your email for confirmation.',
+            'success': '<strong>Registration saved!</strong> Hello {{firstname}} {{lastname}}, thank you for registering in the RDC-DZHW Metadata Managementsystem (MDM). Please inform your contact person at the RDC-DZHW that your registration is complete and let them know your user name. Once you have been assigned to an ingest project, you can start editing the metadata. Best regards, your RDC-DZHW team.',
             'error': {
               'fail': '<strong>Registration failed!</strong> Please try again later.',
               'userexists': '<strong>Login name already registered!</strong> Please choose another one.',

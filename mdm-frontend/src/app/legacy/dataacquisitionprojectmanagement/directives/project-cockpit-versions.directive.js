@@ -3,7 +3,16 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitVersions', ['Principal', 'CommonDialogsService', 'DataAcquisitionProjectShadowsResource', 'SimpleMessageToastService', 'DataAcquisitionProjectShadowsHideResource', '$timeout', 'DataAcquisitionProjectShadowsActionResource', 'DataAcquisitionProjectResource',  function(Principal, CommonDialogsService,
+  .directive('projectCockpitVersions', [
+    'Principal', 
+    'CommonDialogsService', 
+    'DataAcquisitionProjectShadowsResource', 
+    'SimpleMessageToastService', 
+    'DataAcquisitionProjectShadowsHideResource', 
+    '$timeout', 
+    'DataAcquisitionProjectShadowsActionResource', 
+    'DataAcquisitionProjectResource', 
+    function(Principal, CommonDialogsService,
     DataAcquisitionProjectShadowsResource, SimpleMessageToastService,
     DataAcquisitionProjectShadowsHideResource, $timeout,
     DataAcquisitionProjectShadowsActionResource,

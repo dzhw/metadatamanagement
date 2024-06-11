@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('CitationHintGeneratorService', ['$interpolate', 'LanguageService', '$filter', '$rootScope', 
+angular.module('metadatamanagementApp').service('CitationHintGeneratorService', [
+  '$interpolate', 'LanguageService', '$filter', '$rootScope', 
 function($interpolate, LanguageService, $filter, $rootScope) {
   var Cite;
   if (!$rootScope.bowser.msie) {

@@ -2,7 +2,16 @@
 
 angular
   .module('metadatamanagementApp')
-  .factory('Auth', ['$rootScope', '$q', 'Principal', 'AuthServerProvider', 'AccountResource', 'RegisterResource', 'ActivateResource', 'PasswordResource', 'PasswordResetInitResource', 'PasswordResetFinishResource', 
+  .factory('Auth', [
+    '$rootScope', 
+    '$q', 'Principal', 
+    'AuthServerProvider', 
+    'AccountResource', 
+    'RegisterResource', 
+    'ActivateResource', 
+    'PasswordResource', 
+    'PasswordResetInitResource', 
+    'PasswordResetFinishResource', 
     function Auth($rootScope, $q, Principal,
       AuthServerProvider, AccountResource, RegisterResource, ActivateResource,
       PasswordResource, PasswordResetInitResource,

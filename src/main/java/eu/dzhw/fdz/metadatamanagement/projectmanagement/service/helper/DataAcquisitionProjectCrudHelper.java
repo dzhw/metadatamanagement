@@ -12,12 +12,12 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 
 /**
  * Component which implements CRUD functions for all {@link DataAcquisitionProjectCrudHelper}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
 public class DataAcquisitionProjectCrudHelper extends
-    GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject, 
+    GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject,
       DataAcquisitionProjectRepository> {
   public DataAcquisitionProjectCrudHelper(DataAcquisitionProjectRepository repository,
       ApplicationEventPublisher applicationEventPublisher,

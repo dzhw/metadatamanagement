@@ -1,0 +1,51 @@
+<div ng-form="tagEditorFormElsst" layout-gt-sm="row" layout="column">
+    <md-input-container flex-gt-sm="50" flex="100"
+                        ng-class="{'mr10': $mdMedia('gt-sm')}">
+        <label>{{'data-package-management.tag-editor.label.german-tags' | translate}}</label>
+        <md-chips ng-model="tags.de"
+                  name="tagsDe"
+                  md-add-on-blur="true"
+                  md-on-remove="onChipRemoved($chip, 'de')"
+                  md-on-add="removeInvalidInput($chip, 'de')">
+            <md-autocomplete 
+                md-items="tag in searchTags(tagSearchTextDe, 'de')"
+                md-selected-item-change="selectedItemChange(tag, 'de')"
+                md-item-text="tag.prefLabel"
+                md-search-text="tagSearchTextDe"
+                md-no-cache="true"
+                md-min-length="0"
+                placeholder="{{'data-package-management.tag-editor.placeholder' | translate}}">
+                <md-item-template>
+                    <span md-highlight-text="tagSearchTextDe" md-highlight-flags="ig">{{tag.prefLabel}}</span>
+                </md-item-template>
+            </md-autocomplete>
+            <md-chip-template ng-click="openLink($chip, 'de')">
+                <span>{{$chip.prefLabel}}</span>
+            </md-chip-template>
+        </md-chips>     
+    </md-input-container>
+    <md-input-container flex-gt-sm="50" flex="100">
+        <label>{{'data-package-management.tag-editor.label.english-tags' | translate}}</label>
+        <md-chips ng-model="tags.en"
+                  name="tagsEn"
+                  md-add-on-blur="true"
+                  md-on-remove="onChipRemoved($chip, 'en')"
+                  md-on-add="removeInvalidInput($chip, 'en')">
+            <md-autocomplete 
+                md-items="tag in searchTags(tagSearchTextEn, 'en')"
+                md-selected-item-change="selectedItemChange(tag, 'en')"
+                md-search-text="tagSearchTextEn"
+                md-item-text="tag.prefLabel"
+                md-no-cache="true"
+                md-min-length="0"
+                placeholder="{{'data-package-management.tag-editor.placeholder' | translate}}">
+                <md-item-template>
+                    <span md-highlight-text="tagSearchTextEn" md-highlight-flags="ig">{{tag.prefLabel}}</span>
+                </md-item-template>
+            </md-autocomplete>
+            <md-chip-template ng-click="openLink($chip, 'en')">
+                <span>{{$chip.prefLabel}}</span>
+            </md-chip-template>
+        </md-chips>
+    </md-input-container>
+</div>

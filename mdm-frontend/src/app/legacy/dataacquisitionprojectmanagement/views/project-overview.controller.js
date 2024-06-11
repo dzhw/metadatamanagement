@@ -92,7 +92,8 @@ angular.module('metadatamanagementApp')
       locationSearch.tab = ctrl.currentTab && ctrl.currentTab.group ? ctrl.currentTab.group : null;
       locationSearch.assignee = ctrl.selectedAssignedGroup ? ctrl.selectedAssignedGroup : null;
       locationSearch.release = ctrl.selectedReleaseState ? ctrl.selectedReleaseState : null;
-      locationSearch.packageFilter = ctrl.selectedFiltersDataPackage && ctrl.selectedFiltersDataPackage.length > 0 ? ctrl.selectedFiltersDataPackage : null;
+      locationSearch.packageFilter = ctrl.selectedFiltersDataPackage 
+        && ctrl.selectedFiltersDataPackage.length > 0 ? ctrl.selectedFiltersDataPackage : null;
       locationSearch.additional = ctrl.selectedAdditionalInfo ? ctrl.selectedAdditionalInfo : null;
       locationSearch.project = ctrl.selectedProject ? ctrl.selectedProject.id : null;
       

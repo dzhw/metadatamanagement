@@ -3,7 +3,17 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitStatus', ['SearchDao', 'ProjectUpdateAccessService', 'SimpleMessageToastService', 'Principal', 'DataAcquisitionProjectPostValidationService', '$mdDialog', '$translate', 'ProjectReleaseService', '$q',  function(
+  .directive('projectCockpitStatus', [
+    'SearchDao', 
+    'ProjectUpdateAccessService', 
+    'SimpleMessageToastService', 
+    'Principal', 
+    'DataAcquisitionProjectPostValidationService', 
+    '$mdDialog', 
+    '$translate', 
+    'ProjectReleaseService', 
+    '$q',  
+    function(
     SearchDao, ProjectUpdateAccessService,
     SimpleMessageToastService, Principal,
     DataAcquisitionProjectPostValidationService,
@@ -152,15 +162,6 @@ angular.module('metadatamanagementApp')
         $scope.$on('deletion-completed', function() {
           setTypeCounts(ctrl.project.id);
         });
-
-        ctrl.toggleReleaseProject = function() {
-          if (ctrl.project.release) {
-            ProjectReleaseService.unreleaseProject(ctrl.project);
-          } else {
-            ProjectReleaseService.releaseProject(ctrl.project);
-          }
-        };
-
       }
     };
   }]);

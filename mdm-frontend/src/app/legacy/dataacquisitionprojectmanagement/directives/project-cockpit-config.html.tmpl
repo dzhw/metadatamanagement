@@ -10,6 +10,34 @@
 	</div>
 	</div>
 
+	<md-card>
+		<md-card-title class="pa0">
+			<md-card-title-text>
+				<span class="md-headline">
+					{{'data-acquisition-project-management.project-cockpit.release-settings.header' | translate}}
+				</span>
+			</md-card-title-text>
+		</md-card-title>
+		<md-card-content>
+			<p class="md-body-1">
+				{{'data-acquisition-project-management.project-cockpit.release-settings.info' | translate}}
+			</p>
+			<md-input-container>
+				<label>{{'data-acquisition-project-management.project-cockpit.release-settings.label' | translate}}</label>
+				<div class="layout-row">
+					<md-datepicker ng-model="ctrl.project.embargoDate" ng-disabled="ctrl.isEmbargoDateDisabled()" md-hide-icons="calendar" ng-change="ctrl.onEmbargoDateChanged()" md-open-on-focus>
+					</md-datepicker>
+					<md-button ng-disabled="ctrl.project.embargoDate === undefined || ctrl.isEmbargoDateDisabled()" class="md-icon-button md-primary mb-16" ng-click="ctrl.removeEmbargoDate()">
+						<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img">delete_forever</md-icon>
+						<md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+							{{'data-acquisition-project-management.project-cockpit.release-settings.delete-tooltip' | translate}}
+						</md-tooltip>
+					</md-button>
+				</div>
+			</md-input-container>
+		</md-card-content>
+	</md-card>
+
 	<md-card ng-if="ctrl.project.configuration.requirements">
 		<md-card-title class="pa0">
 			<md-card-title-text>
@@ -26,7 +54,7 @@
 				<md-list class="w-50">
 					<md-list-item>
 						<md-input-container class="mv8">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataPackagesRequired" ng-change="ctrl.isDataPackageChecked()" ng-disabled="ctrl.isProjectRequirementsDisabled()" name="dataPackage" class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataPackagesRequired" ng-change="ctrl.isDataPackageChecked()" ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.release.isPreRelease" name="dataPackage" class="mb0">
 								{{'data-acquisition-project-management.project-cockpit.requirements.dataPackages' | translate}}
 							</md-checkbox>
 						</md-input-container>
@@ -84,7 +112,7 @@
         <md-list class="w-50">
           <md-list-item>
             <md-input-container class="mv8">
-              <md-checkbox ng-model="ctrl.project.configuration.requirements.analysisPackagesRequired" ng-change="ctrl.isAnalysisPackageChecked()"  ng-disabled="ctrl.isProjectRequirementsDisabled()" name="analysisPackage" class="mb0">
+              <md-checkbox ng-model="ctrl.project.configuration.requirements.analysisPackagesRequired" ng-change="ctrl.isAnalysisPackageChecked()"  ng-disabled="ctrl.isProjectRequirementsDisabled() || ctrl.project.release.isPreRelease" name="analysisPackage" class="mb0">
                 {{'data-acquisition-project-management.project-cockpit.requirements.analysisPackages' | translate}}
               </md-checkbox>
             </md-input-container>

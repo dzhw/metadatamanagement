@@ -920,7 +920,44 @@
 							}
 						}
 					}
-				}
+				},
+        "tagsElsst": {
+          "type": "object",
+          "properties": {
+            "de": {
+              "type": "object",
+              "properties": {
+                "prefLabel": {
+                  "type": "keyword",
+                  "copy_to": "all",
+                  "fields": {
+                    "ngrams": {
+                      "type": "text",
+                      "analyzer": "ngrams",
+                      "norms": false
+                    }
+                  }
+                }
+              }
+            },
+            "en": {
+              "type": "object",
+              "properties": {
+                "prefLabel": {
+                  "type": "keyword",
+                  "copy_to": "all",
+                  "fields": {
+                    "ngrams": {
+                      "type": "text",
+                      "analyzer": "ngrams",
+                      "norms": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
 			}
 		},
 		"nestedConcepts": {
@@ -1025,9 +1062,13 @@
 				},
 				"pinToStartPage": {
 					"type": "boolean"
-				}
+				},
+        "isPreRelease": {
+          "type": "boolean"
+        }
 			}
 		},
+
 		"tags": {
 			"type": "object",
 			"properties": {
@@ -1057,6 +1098,43 @@
 				}
 			}
 		},
+    "tagsElsst": {
+      "type": "object",
+      "properties": {
+        "de": {
+          "type": "object",
+          "properties": {
+            "prefLabel": {
+              "type": "keyword",
+              "copy_to": "all",
+              "fields": {
+                "ngrams": {
+                  "type": "text",
+                  "analyzer": "ngrams",
+                  "norms": false
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "type": "object",
+          "properties": {
+            "prefLabel": {
+              "type": "keyword",
+              "copy_to": "all",
+              "fields": {
+                "ngrams": {
+                  "type": "text",
+                  "analyzer": "ngrams",
+                  "norms": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "approvedUsage": {
       "type": "keyword",
       "copy_to": "all",

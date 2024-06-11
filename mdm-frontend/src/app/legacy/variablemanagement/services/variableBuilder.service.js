@@ -1,7 +1,16 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('VariableBuilderService', ['VariableResource', 'CleanJSObjectService', 'DataSetIdBuilderService', 'QuestionIdBuilderService', 'SurveyIdBuilderService', 'DataPackageIdBuilderService', 'VariableIdBuilderService', 'InstrumentIdBuilderService', 
+angular.module('metadatamanagementApp')
+  .service('VariableBuilderService', [
+    'VariableResource', 
+    'CleanJSObjectService', 
+    'DataSetIdBuilderService', 
+    'QuestionIdBuilderService', 
+    'SurveyIdBuilderService', 
+    'DataPackageIdBuilderService', 
+    'VariableIdBuilderService', 
+    'InstrumentIdBuilderService', 
   function(VariableResource, CleanJSObjectService, DataSetIdBuilderService,
     QuestionIdBuilderService, SurveyIdBuilderService,
     DataPackageIdBuilderService, VariableIdBuilderService,

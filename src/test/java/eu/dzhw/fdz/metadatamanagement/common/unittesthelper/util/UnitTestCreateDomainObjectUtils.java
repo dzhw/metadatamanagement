@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.Elsst;
 import org.javers.common.collections.Sets;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
@@ -114,6 +115,16 @@ public class UnitTestCreateDomainObjectUtils {
   public static DataPackage buildDataPackage(String projectId) {
     Tags tags = new Tags();
     tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
+
+    eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.TagsElsst tagsElsst =
+      new eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.TagsElsst();
+    Elsst elsst = new Elsst();
+    elsst.setAltLabel(Collections.singletonList("Test-Tag-Elsst"));
+    elsst.setLocalname("123");
+    elsst.setPrefLabel("test-tag-elsst");
+    tagsElsst.setDe(new HashSet<>(Collections.singletonList(elsst)));
+    tagsElsst.setEn(new HashSet<>(Collections.singletonList(elsst)));
+
     List<Person> projectContributors = new ArrayList<>();
     projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
@@ -132,7 +143,7 @@ public class UnitTestCreateDomainObjectUtils {
             I18nString.builder().de("DataPackage Series De").en("DataPackage Series En").build())
         .sponsors(sponsors).title(I18nString.builder().de("Titel De").en("Title En").build())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
-        .tags(tags).surveyDesign(SurveyDesigns.PANEL).dataAcquisitionProjectId(projectId).build();
+        .tags(tags).surveyDesign(SurveyDesigns.PANEL).tagsElsst(tagsElsst).dataAcquisitionProjectId(projectId).build();
     dataPackage.setMasterId(dataPackageId);
     return dataPackage;
   }
@@ -140,8 +151,17 @@ public class UnitTestCreateDomainObjectUtils {
   public static AnalysisPackage buildAnalysisPackage(String projectId) {
     eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.Tags tags =
         new eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.Tags();
-    tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
-    tags.setEn(new HashSet<String>(Arrays.asList("Test-Tag")));
+    tags.setDe(new HashSet<String>(Collections.singletonList("Test-Tag")));
+    tags.setEn(new HashSet<String>(Collections.singletonList("Test-Tag")));
+
+    eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.TagsElsst tagsElsst =
+      new eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.TagsElsst();
+    Elsst elsst = new Elsst();
+    elsst.setAltLabel(Collections.singletonList("Test-Tag-Elsst"));
+    elsst.setLocalname("123");
+    elsst.setPrefLabel("test-tag-elsst");
+    tagsElsst.setDe(new HashSet<>(Collections.singletonList(elsst)));
+    tagsElsst.setEn(new HashSet<>(Collections.singletonList(elsst)));
 
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
@@ -151,15 +171,14 @@ public class UnitTestCreateDomainObjectUtils {
     List<Person> dataCurators = new ArrayList<>();
     dataCurators.add(buildPerson("Test", null, "Curators"));
     String analysisPackageId = UnitTestCreateValidIds.buildAnalysisPackageId(projectId);
-    AnalysisPackage analysisPackage = AnalysisPackage.builder().id(analysisPackageId)
+
+    return AnalysisPackage.builder().id(analysisPackageId)
         .dataAcquisitionProjectId(projectId).title(new I18nString("Title De", "Title En"))
         .description(new I18nString("Description De", "Description En")).authors(authors)
         .scripts(List.of(Script.builder().softwarePackage("R").softwarePackageVersion("1.0.0")
           .title("title").uuid("1234").usedLanguage("de").build()))
         .dataCurators(dataCurators).masterId(analysisPackageId).tags(tags)
         .sponsors(sponsors).build();
-
-    return analysisPackage;
 
   }
 
@@ -378,7 +397,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Release buildRelease() {
-    return Release.builder().version("1.0.0").lastDate(LocalDateTime.now()).build();
+    return Release.builder().version("1.0.0").lastDate(LocalDateTime.now()).isPreRelease(false).build();
   }
 
   public static FilterDetails buildFilterDetails() {
@@ -516,15 +535,25 @@ public class UnitTestCreateDomainObjectUtils {
   public static Concept buildConcept() {
     eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Tags tags =
         new eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Tags();
-    tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
-    tags.setEn(new HashSet<String>(Arrays.asList("Test-Tag")));
+    tags.setDe(new HashSet<String>(Collections.singletonList("Test-Tag")));
+    tags.setEn(new HashSet<String>(Collections.singletonList("Test-Tag")));
+
+    eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.TagsElsst tagsElsst =
+      new eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.TagsElsst();
+    Elsst elsst = new Elsst();
+    elsst.setAltLabel(Collections.singletonList("Test-Tag-Elsst"));
+    elsst.setLocalname("123");
+    elsst.setPrefLabel("test-tag-elsst");
+    tagsElsst.setDe(new HashSet<>(Collections.singletonList(elsst)));
+    tagsElsst.setEn(new HashSet<>(Collections.singletonList(elsst)));
+
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
     Set<String> originalLanguages = Sets.asSet("de", "en");
 
     return Concept.builder().id("con-conceptid$")
         .description(I18nString.builder().de("Beschreibung").en("Description").build())
-        .title(I18nString.builder().de("Titel").en("Title").build()).tags(tags)
+        .title(I18nString.builder().de("Titel").en("Title").build()).tags(tags).tagsElsst(tagsElsst)
         .originalLanguages(originalLanguages).authors(authors).citationHint("Hurz").build();
   }
 }

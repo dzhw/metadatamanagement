@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('metadatamanagementApp').factory('SearchResultNavigatorService', ['SearchDao', '$q', 'BreadcrumbService', 
+angular.module('metadatamanagementApp').factory('SearchResultNavigatorService', [
+  'SearchDao', 
+  '$q', 
+  'BreadcrumbService', 
   function(SearchDao, $q, BreadcrumbService) {
     var searchIndex = null;
     var lastSearchParams = {};

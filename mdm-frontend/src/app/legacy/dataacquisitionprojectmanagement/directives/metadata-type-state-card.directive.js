@@ -3,7 +3,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('metadataTypeStateCard', ['$state', 'ProjectStatusScoringService', 'ProjectUpdateAccessService', 'VariableUploadService', 'QuestionUploadService', 'DeleteMetadataService', 'SimpleMessageToastService', 'AnalysisPackageIdBuilderService', 
+  .directive('metadataTypeStateCard', [
+    '$state', 
+    'ProjectStatusScoringService', 
+    'ProjectUpdateAccessService', 
+    'VariableUploadService', 
+    'QuestionUploadService', 
+    'DeleteMetadataService', 
+    'SimpleMessageToastService', 
+    'AnalysisPackageIdBuilderService', 
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
       VariableUploadService, QuestionUploadService, DeleteMetadataService,
       SimpleMessageToastService, AnalysisPackageIdBuilderService) {
@@ -201,8 +209,12 @@ angular.module('metadatamanagementApp')
           }
         };
 
+        /**
+         * Whether the project is fully released.
+         * @returns true if the project is fully released else false
+         */
         ctrl.isProjectReleased = function() {
-          return ctrl.project.release;
+          return ctrl.project.release && !ctrl.project.release.isPreRelease;
         };
 
         if (ctrl.type !== 'publications' && ctrl.type !== 'concepts') {

@@ -1,6 +1,13 @@
 /* globals _ */
 'use strict';
 
+/**
+ * View implementing the detail page of an analysis package. The detail page
+ * displays basic information about the analysis package and links to its components.
+ * The view is accessible for all users but provides options to switch to
+ * editing mode for PUBLISHERS and DATAPROVIDERS. It also offers the
+ * opportunity to generate the overview of the analysis package as a PDF file.
+ */
 angular.module('metadatamanagementApp')
   .controller('AnalysisPackageDetailController', [
   'entity',
@@ -65,10 +72,16 @@ angular.module('metadatamanagementApp')
           return [];
         }
       };
+      var getTagsElsst = function(analysisPackage) {
+        if (analysisPackage.tagsElsst) {
+          var language = LanguageService.getCurrentInstantly();
+          return analysisPackage.tagsElsst[language];
+        } else {
+          return [];
+        }
+      };
       var ctrl = this;
-      var activeProject;
       var bowser = $rootScope.bowser;
-      ctrl.hasBeenReleasedBefore = false;
 
       ctrl.dataPackageList = {
         dataPackage: {
@@ -88,7 +101,6 @@ angular.module('metadatamanagementApp')
       ctrl.scriptAttachments = [];
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         publicationsCount: 0
@@ -96,6 +108,9 @@ angular.module('metadatamanagementApp')
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
+      /**
+       * Method for loading attachments
+       */
       ctrl.loadAttachments = function() {
         AnalysisPackageAttachmentResource.findByAnalysisPackageId({
           analysisPackageId: ctrl.analysisPackage.id
@@ -105,6 +120,9 @@ angular.module('metadatamanagementApp')
           });
       };
 
+      /**
+       * Method for loading data packages
+       */
       ctrl.loadDataPackages = function(packages) {
         var excludes = ['nested*', 'variables', 'questions',
           'surveys', 'instruments', 'relatedPublications',
@@ -122,6 +140,11 @@ angular.module('metadatamanagementApp')
         });
       };
 
+      /**
+       * Whether the analysis package is beta released (version < 1.0.0) or not.
+       * @param {*} analysisPackage
+       * @returns true if it is a beta release else false
+       */
       ctrl.isBetaRelease = function(analysisPackage) {
         if (analysisPackage.release) {
           return bowser.compareVersions(['1.0.0', analysisPackage
@@ -130,6 +153,9 @@ angular.module('metadatamanagementApp')
         return false;
       };
 
+      /**
+       * Method for loading script attachments
+       */
       ctrl.loadScriptAttachments = function() {
         ScriptAttachmentResource.findByAnalysisPackageId({
           analysisPackageId: ctrl.analysisPackage.id
@@ -150,12 +176,19 @@ angular.module('metadatamanagementApp')
             }
           });
       };
+
+      /**
+       * Listener for deletion event
+       */
       $scope.$on('deletion-completed', function() {
         //wait for 2 seconds until refresh
         //in order to wait for elasticsearch reindex
         $timeout($state.reload, 2000);
       });
 
+      /**
+       * init
+       */
       entity.promise.then(function(result) {
         var fetchFn = AnalysisPackageSearchService.findShadowByIdAndVersion
           .bind(null, result.masterId, null, ['nested*',
@@ -167,10 +200,10 @@ angular.module('metadatamanagementApp')
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            ctrl.projectIsCurrentlyReleased = (project.release != null);
-            ctrl.assigneeGroup = project.assigneeGroup;
-            activeProject = project;
-            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
+            ctrl.shouldDisplayEditButton = localStorage.getItem(
+              'currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
+            ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
+            ctrl.project = project;
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -223,10 +256,14 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.analysisPackageTags = getTags(result);
+        ctrl.analysisPackageTagsElsst = getTagsElsst(result);
 
       }, $log.error)
         .finally(blockUI.stop);
 
+        /**
+         * Scrolling handler.
+         */
       ctrl.scroll = function() {
         var element = $document[0].getElementById('related-objects');
         if ($rootScope.bowser.msie) {
@@ -235,20 +272,44 @@ angular.module('metadatamanagementApp')
           element.scrollIntoView({behavior: 'smooth', inline: 'nearest'});
         }
       };
+
+      /**
+       * Method to check if edits are allowed and switch to editing page of the
+       * current analysis package if so.
+       */
       ctrl.analysisPackageEdit = function() {
         if (ProjectUpdateAccessService
-          .isUpdateAllowed(activeProject, 'analysisPackages', true)) {
+          .isUpdateAllowed(ctrl.project, 'analysisPackages', true)) {
           $state.go('analysisPackageEdit', {id: ctrl.analysisPackage.id});
         }
       };
 
+      /**
+       * Method to toggle the side nav menu.
+       */
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
 
-      ctrl.showOrderButton = function() {
-        return ctrl.hasBeenReleasedBefore &&
-          ctrl.analysisPackage.release !== undefined;
+       /**
+       * Whether a warning about the embargo date of the project should be
+       * displayed.
+       * @returns true if embargo date is applied else false
+       */
+       ctrl.shouldDisplayEmbargoWarning = function() {
+        return ctrl.analysisPackage.release.isPreRelease;
+      }
+
+      /**
+       * Whether the embargo date has expired or not.
+       * @returns true if it has expired else false
+       */
+      ctrl.isEmbargoDateExpired = function() {
+        if (ctrl.analysisPackage.embargoDate) {
+          var current = new Date();
+          return new Date(ctrl.analysisPackage.embargoDate) < current;
+        }
+        return true;
       };
     }]);
 

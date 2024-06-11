@@ -1,7 +1,8 @@
 /* global _ */
 'use strict';
 
-angular.module('metadatamanagementApp').service('ProjectSaveService', ['SimpleMessageToastService', 'DataAcquisitionProjectResource', 'CurrentProjectService', '$q', 
+angular.module('metadatamanagementApp').service('ProjectSaveService', [
+  'SimpleMessageToastService', 'DataAcquisitionProjectResource', 'CurrentProjectService', '$q', 
   function(
     SimpleMessageToastService,
     DataAcquisitionProjectResource,

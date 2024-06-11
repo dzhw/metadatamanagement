@@ -5,4 +5,28 @@
     <Match>
         <Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE"/>
     </Match>
+    <!--
+    There are about a thousand EI_EXPOSE_REP warnings prompted by
+    lomboks getter annotation used all over the place because the
+    returned lists or objects aren't immutable.
+
+    There is no point in fixing those by writing boilerplate code
+    (e.g. adding and removing items to a list individually) or
+    by adding suppression annotations.
+    -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+
+    <!--
+    Fixing all CT_CONSTRUCTOR_THROW warnings is also pointless
+    because most exceptions will bubble up anyway and terminate
+    either the app or at the very least the spawned thread
+    -->
+    <Match>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
 </FindBugsFilter>

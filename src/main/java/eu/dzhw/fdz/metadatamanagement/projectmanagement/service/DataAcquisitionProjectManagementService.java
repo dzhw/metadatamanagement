@@ -14,6 +14,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import com.github.zafarkhaja.semver.Version;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -32,6 +35,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAl
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowUnhidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
@@ -73,6 +78,8 @@ public class DataAcquisitionProjectManagementService
   private final DaraService daraService;
 
   private final Environment environment;
+
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
@@ -223,6 +230,8 @@ public class DataAcquisitionProjectManagementService
 
       if (oldRelease == null && newRelease != null) {
         return true;
+      } else if (oldRelease != null && oldRelease.getIsPreRelease() && newRelease != null) {
+        return true;
       } else {
         return false;
       }
@@ -307,8 +316,16 @@ public class DataAcquisitionProjectManagementService
       throws IOException, TemplateException {
     switch (shadowCopyingEndedEvent.getAction()) {
       case CREATE:
+        // hint: releases after pre-releases do not count as rereleases at this point
         if (shadowCopyingEndedEvent.isRerelease()) {
           // do not send mails for rereleases
+          if (shadowCopyingEndedEvent.isReleaseAfterPreRelease()
+              && !shadowCopyingEndedEvent.getRelease().getIsPreRelease()) {
+            // in case of a release after a pre-release update info on Dara
+            daraService
+                .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
+                + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
+          }
           return;
         }
         Version currentVersion = Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion());
@@ -392,5 +409,18 @@ public class DataAcquisitionProjectManagementService
     }
     shadowCopyQueueItemService.scheduleShadowCopyUnhiding(shadowProject.getMasterId(),
         shadowProject.getRelease());
+  }
+
+  /**
+   * Enqueue update of dataAcquisitionProject search documents when the {@link DataPackage} is changed.
+   *
+   * @param dataPackage the updated or created {@link DataPackage}.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  public void onDataPackageChanged(DataPackage dataPackage) {
+    elasticsearchUpdateQueueService.enqueueUpsertAsync(
+        () -> acquisitionProjectRepository.findOneIdAndVersionById(dataPackage.getDataAcquisitionProjectId()),
+        ElasticsearchType.data_acquisition_projects);
   }
 }

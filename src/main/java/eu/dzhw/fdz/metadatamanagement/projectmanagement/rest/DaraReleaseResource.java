@@ -85,6 +85,23 @@ public class DaraReleaseResource {
     return templateExceptionMessages;
   }
 
+  /**
+   * Pre-Release a project to dara (or update it).
+   * @throws TemplateException Template Errors of the XML Freemarker Process.
+   * @throws IOException IO Exception for the XML Freemarker Process.
+   */
+  @RequestMapping(value = "/data-acquisition-projects/{id}/pre-release",
+      method = RequestMethod.POST)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER})
+  public ResponseEntity<?> preRelease(@PathVariable String id,
+      @RequestBody @Valid DataAcquisitionProject project) throws IOException, TemplateException {
+    if (project.isShadow()) {
+      throw new ShadowCopyReleaseToDaraNotAllowed();
+    }
+    HttpStatus status = this.daraService.registerPreReleaseProjectToDara(project);
+    return ResponseEntity.status(status).build();
+  }
+
   @ExceptionHandler(ShadowCopyReleaseToDaraNotAllowed.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)

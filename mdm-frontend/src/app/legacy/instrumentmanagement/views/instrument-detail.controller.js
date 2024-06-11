@@ -49,7 +49,6 @@ angular.module('metadatamanagementApp')
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.dataPackage = null;
-      ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
@@ -65,9 +64,12 @@ angular.module('metadatamanagementApp')
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.project = project;
+            ctrl.shouldDisplayEditButton = localStorage.getItem(
+              'currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
+            ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker

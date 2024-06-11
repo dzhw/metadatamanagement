@@ -27,6 +27,8 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
         _.get(ctrl, 'labels.createTitle.params') :
         _.get(ctrl, 'labels.editTitle.params');
     ctrl.excludedMetadataFields = dialogConfig.exclude;
+    ctrl.surveySerialNumbers = dialogConfig.surveySerialNumbers;
+    ctrl.dataPackageTitle = dialogConfig.dataPackageTitle;
 
     ctrl.translationKeys = {
       title: 'data-package-management.detail.label.attachments.authors',
@@ -143,6 +145,13 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
 
     ctrl.saveAttachment = function() {
       if ($scope.attachmentForm.$valid) {
+        // before saving, remove empty author array entries; we assume that entry is null if 'firstName'
+        // is null because it is one of the mandatory fields
+        if (ctrl.attachmentMetadata.type.en === "Questionnaire" || ctrl.attachmentMetadata.type.en === "Variable Questionnaire") {
+          ctrl.attachmentMetadata.citationDetails.authors = ctrl.attachmentMetadata.citationDetails.authors.filter(
+            author => author.firstName && author.firstName.trim() !== "");
+        }
+        
         if (!ctrl.selectedFile) {
           ctrl.attachmentMetadata.$save().then(ctrl.onSavedSuccessfully);
         } else {
@@ -282,6 +291,49 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
           });
         }
       }
+      // set content of description fields depending on selected type
+      var typeDescriptionDe = "";
+      var typeDescriptionEn = "";
+
+      switch(ctrl.attachmentMetadata.type.en) { 
+        case "Questionnaire": {
+          typeDescriptionDe = $translate.instant('attachment.predefined-content.description.type.instrument.de');
+          typeDescriptionEn = $translate.instant('attachment.predefined-content.description.type.instrument.en');
+          break; 
+        } 
+        case "Question Flow": {
+          typeDescriptionDe = $translate.instant('attachment.predefined-content.description.type.question-flow.de');
+          typeDescriptionEn = $translate.instant('attachment.predefined-content.description.type.question-flow.en');
+          break; 
+        } 
+        case "Variable Questionnaire": {
+          typeDescriptionDe = $translate.instant('attachment.predefined-content.description.type.variable-questionaire.de');
+          typeDescriptionEn = $translate.instant('attachment.predefined-content.description.type.variable-questionaire.en');
+          break; 
+        }
+        default: {
+           break; 
+        }
+      }
+      // replace placeholders
+      typeDescriptionDe = typeDescriptionDe.replace("#titledatapackage#", ctrl.dataPackageTitle.de);
+      typeDescriptionEn = typeDescriptionEn.replace("#titledatapackage#", ctrl.dataPackageTitle.en);
+      var surveySerialNumbersList = "";
+      ctrl.surveySerialNumbers.forEach(function(serialNumber) {
+        surveySerialNumbersList += serialNumber + ", ";
+      });
+      surveySerialNumbersList = surveySerialNumbersList.slice(0, -2);
+      if (ctrl.surveySerialNumbers.length > 1) {
+        typeDescriptionDe = typeDescriptionDe.replace("#surveys#", "Erhebungen " + surveySerialNumbersList);
+        typeDescriptionEn = typeDescriptionEn.replace("#surveys#", "surveys " + surveySerialNumbersList);
+      } else {
+        typeDescriptionDe = typeDescriptionDe.replace("#surveys#", "Erhebung " + surveySerialNumbersList);
+        typeDescriptionEn = typeDescriptionEn.replace("#surveys#", "survey " + surveySerialNumbersList);
+      }
+
+      // set description
+      (ctrl.attachmentMetadata.description ??= {}).de = typeDescriptionDe;
+      (ctrl.attachmentMetadata.description ??= {}).en = typeDescriptionEn;
     };
   }]);
 
