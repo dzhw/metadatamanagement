@@ -42,6 +42,7 @@ function($translateProvider) {
                         'file': 'File'
                     }
                 },
+                'citation': 'Cite',
                 'attachments': {
                     'table-title': 'Documents related to the Instrument',
                     'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
@@ -196,6 +197,10 @@ function($translateProvider) {
                     'instrument-number': 'Please select an instrument number for the new instrument.'
                 },
                 'all-instruments-deleted-toast': 'All Instruments of the Data Acquisition Project "{{id}}" have been deleted.'
+            },
+            'buttons': {
+              'open-citation-tooltip': 'Click to get and copy citation information.',
+              'open-citation': 'Cite...',
             }
         }
         //jscs:enable
