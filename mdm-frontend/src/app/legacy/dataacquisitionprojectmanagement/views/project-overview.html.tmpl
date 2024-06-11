@@ -41,7 +41,7 @@
             
             <!-- Search Bar -->
             <form role="search" ng-submit="hideMobileKeyboard($event)">
-                <md-autocomplete class="mh16 mt16 mb8" md-search-text="ctrl.searchText" 
+              <md-autocomplete class="mh16 mt16 mb8" md-search-text="ctrl.searchText" 
                   md-selected-item="ctrl.selectedProject" 
                   md-selected-item-change="ctrl.onFilterValueChanged()" 
                   md-items="project in ctrl.searchProjects(ctrl.searchText)" 
@@ -58,9 +58,9 @@
                         <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: ctrl.searchText}"></span>
                     </md-not-found>
                 </md-autocomplete>
+              <div layout="row" class="mr16">
                 <!-- ASSIGNED GROUP -->
-                <md-input-container flex class="ma16 ml16 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
-                  <!-- <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon> -->
+                <md-input-container flex class="ma16 ml16 w-20">
                   <label>{{'data-acquisition-project-management.project-overview.filter.label.assignee-group' | translate}}</label>
                   <md-select ng-model="ctrl.selectedAssignedGroup" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.assignee-group' | translate}}">
                       <md-option value="" ng-click="closeSelectMenu()"></md-option>
@@ -69,7 +69,7 @@
                   </md-select>
                 </md-input-container>
                 <!-- RELEASE STATE -->
-                <md-input-container flex class="ma16 w-20" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
+                <md-input-container flex class="ma16 w-20">
                   <label>{{'data-acquisition-project-management.project-overview.filter.label.release-state' | translate}}</label>
                   <md-select ng-model="ctrl.selectedReleaseState" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.release-state' | translate}}">
                     <md-content class="md-select-menu-ie11-fix">
@@ -80,7 +80,7 @@
                   </md-select>
                 </md-input-container>
                 <!-- Filters Datapackage -->
-                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma16 mr16 w-20">
+                <md-input-container ng-if="ctrl.currentTab.group === 'dataPackages'" flex class="ma16 w-20">
                   <label>{{'data-acquisition-project-management.project-overview.filter.label.datapackage-filter' | translate}}</label>
                   <md-select ng-model="ctrl.selectedFiltersDataPackage" multiple ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.datapackage-filter' | translate}}">
                     <md-content class="md-select-menu-ie11-fix">
@@ -91,15 +91,39 @@
                     </md-content>
                   </md-select>
                 </md-input-container>
-                <!-- Additional Info -->
-                <md-input-container ng-if="ctrl.shouldShowRemarksFilter()" flex class="ma16 w-20">
+                
+              </div>
+              <div layout="row" class="mr16">
+                <!-- Remarks User Service -->
+                <md-input-container ng-if="ctrl.shouldShowRemarksFilter()" flex class="ma16 ml16 w-20">
                   <label>{{'data-acquisition-project-management.project-overview.filter.label.user-service-remarks' | translate}}</label>
-                  <md-select ng-model="ctrl.selectedAdditionalInfo" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.user-service-remarks' | translate}}">
+                  <md-select ng-model="ctrl.selectedRemarksFilter" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.user-service-remarks' | translate}}">
                       <md-option value="" ng-click="closeSelectMenu()"></md-option>
-                      <md-option value="true" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.user-service-remarks.with-additional-info' | translate}}</md-option>
-                      <md-option value="false" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.user-service-remarks.without-additional-info' | translate}}</md-option>
+                      <md-option value="true" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.user-service-remarks.with-remarks' | translate}}</md-option>
+                      <md-option value="false" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.user-service-remarks.without-remarks' | translate}}</md-option>
                   </md-select>
                 </md-input-container>
+                <!-- External Datapackage -->
+                <md-input-container ng-if="ctrl.shouldShowExternalDatapackageFilter()" flex class="ma16 w-20">
+                  <label>{{'data-acquisition-project-management.project-overview.filter.label.external-datapackage' | translate}}</label>
+                  <md-select ng-model="ctrl.selectedExternalFilter" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.external-datapackage' | translate}}">
+                      <md-option value="" ng-click="closeSelectMenu()"></md-option>
+                      <md-option value="true" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.external-datapackage.true' | translate}}</md-option>
+                      <md-option value="false" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.external-datapackage.false' | translate}}</md-option>
+                  </md-select>
+                </md-input-container>
+                <!-- Datatransmission via VerbundFDB -->
+                <md-input-container ng-if="ctrl.shouldShowDataTransmisionFilter()" flex class="ma16 w-20">
+                  <label>{{'data-acquisition-project-management.project-overview.filter.label.data-transmission-verbund-fdb' | translate}}</label>
+                  <md-select ng-model="ctrl.selectedDataTransmissionFilter" ng-change="ctrl.onFilterValueChanged()" aria-label="{{'data-acquisition-project-management.project-overview.filter.label.data-transmission-verbund-fdb' | translate}}">
+                      <md-option value="" ng-click="closeSelectMenu()"></md-option>
+                      <md-option value="true" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.data-transmission-verbund-fdb.true' | translate}}</md-option>
+                      <md-option value="false" ng-click="closeSelectMenu()">{{'data-acquisition-project-management.project-overview.filter.options.data-transmission-verbund-fdb.false' | translate}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+                
+                
             </form>
         </md-card>
         <md-progress-linear md-mode="indeterminate" ng-disabled="!ctrl.isSearching"></md-progress-linear>

@@ -83,6 +83,12 @@ angular.module('metadatamanagementApp').config([
             },
             'has-user-service-remarks': {
               'not-null': 'Es muss angegeben sein, ob ein Datenaufnahmeprojekt Bemerkungen für den User Service enthält oder nicht.'
+            },
+            'is-external': {
+              'not-null': 'Es muss angegeben sein, ob es sich um ein externes Datenpaket handelt.'
+            },
+            'is-tansmitted-via-verbundfdb': {
+              'not-null': 'Es muss angegeben sein, ob ein Datenpaket via VerbundFDB übermittelt wurde.'
             }
           },
           'configuration': {
@@ -269,7 +275,9 @@ angular.module('metadatamanagementApp').config([
               'assignee-group': 'Zugewiesen an',
               'release-state': 'Status',
               'datapackage-filter': 'Filter für Datenpakete',
-              'user-service-remarks': 'Bemerkungen User Service'
+              'user-service-remarks': 'Bemerkungen User Service',
+              'external-datapackage': 'Externes Datenpaket',
+              'data-transmission-verbund-fdb': 'Datentransfer via VerbundFDB'
             },
             'options': {
               'assignee-group': {
@@ -287,8 +295,16 @@ angular.module('metadatamanagementApp').config([
                 'concepts': 'Konzepte'
               },
               'user-service-remarks': {
-                'with-additional-info': 'Bemerkungen vorhanden',
-                'without-additional-info': 'keine Bemerkungen'
+                'with-remarks': 'Bemerkungen vorhanden',
+                'without-remarks': 'keine Bemerkungen'
+              },
+              'external-datapackage': {
+                'true': 'Externes Datenpaket',
+                'false': 'Kein externes Datenpaket'
+              },
+              'data-transmission-verbund-fdb': {
+                'true': 'Datentransfer via VerbundFDB',
+                'false': 'Kein Datentransfer via VerbundFDB'
               }
             }
           },
