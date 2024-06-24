@@ -1,11 +1,6 @@
 Konzepte (concepts)
 ---------------------------------
 
-Konzepte können ausschließlich von Publishern angelegt werden.
-
-.. figure:: ./_static/concept_create.png
-   :name: konzept_anlegen
-
    Konzeptdetails
 
 Zunächst müssen Sie eine Konzept-ID festlegen. Diese folgt der Form Abkürzung.Jahreszahl, wobei sich
