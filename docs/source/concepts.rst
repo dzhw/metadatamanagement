@@ -2,13 +2,6 @@ Konzepte (concepts)
 ---------------------------------
 
 Konzepte können ausschließlich von Publishern angelegt werden.
-Der Begriff "Konzept" kann auf mehreren Ebenen angewendet werden. Im Kontext des MDM
-sind konkrete Konzept-Instrumente gemeint. Im folgendes wird es am Beispiel des Konzeptes Persönlichkeit erklärt:
-Es gibt mehrere Modelle, die das Konzept "Persönlichkeit" erfassen können: z.B. Big5 und DISG.
-Ins MDM tragen Sie bitte konkrete Messinstrumente ein, also z.B. eine bestimmte Big5 Kurzskala.
-Da so eingetragene Konzepte mit mehreren Datenpaketen (auf verschiedenen Ebenen) verknüpft werden können,
-kann der/die EndnutzerIn so Datenpakete heraussuchen, die ein bestimmtes Konzept auf gleiche Art und Weise
-gemessen haben.
 
 .. figure:: ./_static/concept_create.png
    :name: konzept_anlegen
