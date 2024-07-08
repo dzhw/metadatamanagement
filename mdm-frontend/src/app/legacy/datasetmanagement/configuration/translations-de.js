@@ -219,20 +219,20 @@ angular.module('metadatamanagementApp').config([
           'move-sub-data-set-down-tooltip': 'Klicken, um den ausgewählten Subdatensatz nach oben zu verschieben',
           'sub-data-set-default-description': {
             'download-cuf': {
-              'de': 'Kann nach einer Registrierung ohne Datennutzungsvertrag heruntergeladen werden',
-              'en': 'can be downloaded after registration without a data use agreement'
+              'de': 'Erstellt für die wissenschaftliche Lehre und Übungszwecke; sehr hoher statistischer Anonymisierungsgrad; nach Antragsbewilligung verfügbar per Download',
+              'en': 'created for academic teaching and training purposes; very high statistical anonymization level; available for download after application approval'
             },
             'download-suf': {
-              'de': 'Kann nach Abschluss eines Datennutzungsvertrags heruntergeladen werden',
-              'en': 'can be downloaded after the conclusion of a data use agreement'
+              'de': 'Erstellt für wissenschaftliche Forschungszwecke; hoher statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar per Download',
+              'en': 'created for scientific research purposes; high statistical anonymization level; available for download after conclusion of data use agreement'
             },
             'remote-desktop-suf': {
-              'de': 'Kann über Remote Desktop genutzt werden',
-              'en': 'can be used via remote desktop'
+              'de': 'Erstellt für wissenschaftliche Forschungszwecke; moderater statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar per Internet über virtuellen Desktop mit Input-/Output-Prüfungen',
+              'en': 'created for scientific research purposes; moderate statistical anonymization level; available via internet using virtual desktop with input/output checks after conclusion of data use agreement'
             },
             'onsite-suf': {
-              'de': 'Ist am Gastwissenschaftler*innenarbeitsplatz im DZHW in Hannover verfügbar',
-              'en': 'available at the workspace for visiting scientists at the DZHW in Hannover'
+              'de': 'Erstellt für wissenschaftliche Forschungszwecke; geringer statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar vor Ort im FDZ-DZHW in Hannover mit Input-/Output-Prüfungen',
+              'en': 'created for scientific research purposes; low statistical anonymization level; available on site at the FDZ-DZHW in Hanover with input/output checks after conclusion of data use agreement'
             }
           },
           'label': {
