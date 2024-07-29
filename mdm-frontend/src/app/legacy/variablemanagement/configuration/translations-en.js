@@ -309,9 +309,9 @@ angular.module('metadatamanagementApp').config([
             'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).',
             'variable-survey-ids-are-not-consistent-with-data-set': 'The Variable {{id}} references different surveys than its Data Set {{toBereferenzedId}}.'
           },
-          "pid": {
-            "pattern": "The provided value does not match the PID pattern.",
-            "size": "The provided value must not contain more than 512 characters."
+          'pid': {
+            'pattern': 'The provided value does not match the PID pattern.',
+            'size': 'The provided value must not contain more than 512 characters.'
           }
         },
         'edit': {
