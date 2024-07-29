@@ -1,17 +1,30 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.rmi.server.ExportException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
@@ -31,7 +44,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link Variable}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -49,7 +62,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
-   * 
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
@@ -59,7 +72,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Update all variables of the project, when the project is released.
-   * 
+   *
    * @param dataAcquisitionProject the changed project
    */
   @HandleAfterSave
@@ -72,7 +85,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * A service method for deletion of variables within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -88,7 +101,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the data set is changed.
-   * 
+   *
    * @param dataSet the updated, created or deleted data set.
    */
   @HandleAfterCreate
@@ -102,7 +115,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the dataPackage is changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -116,7 +129,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the instrument is changed.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -130,7 +143,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the question is changed.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -144,7 +157,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the survey is updated.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -158,7 +171,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate
@@ -201,5 +214,29 @@ public class VariableManagementService implements CrudService<Variable> {
   @Override
   public Optional<Variable> readSearchDocument(String id) {
     return crudHelper.readSearchDocument(id);
+  }
+
+  /**
+   * Writes all variable data according to the PID metadata schema to a JSON file.
+   * @return the JSON file
+   * @throws IOException
+   */
+  public ResponseEntity<?> exportVariablesAsJSON() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    ArrayNode jsonNode = objectMapper.createArrayNode();
+    File tempFile = new File("tempfile.json");
+    tempFile.deleteOnExit();
+    objectMapper.writeValue(tempFile, jsonNode);
+    Path path = Paths.get(tempFile.getAbsolutePath());
+    try {
+      ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+      HttpHeaders headers = new HttpHeaders();
+      headers.add("Content-Disposition", "attachment; filename=Variables_PID_MDM_Export.json");
+      return ResponseEntity.ok()
+        .headers(headers)
+        .body(resource);
+    } catch (IOException ex) {
+      return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
+    }
   }
 }
