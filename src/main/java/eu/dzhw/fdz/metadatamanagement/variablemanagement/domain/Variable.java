@@ -117,7 +117,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the variable which uniquely identifies the variable in this application.
-   * 
+   *
    * The id must not be empty and must be of the form
    * var-{{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{name}}$. The id must not contain more
    * than 512 characters.
@@ -135,8 +135,21 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   private String masterId;
 
   /**
+   * The PID of the variable.
+   *
+   * Must not contain more than 512 characters.
+   *
+   * Must match the pattern of a PID "21.T11998/dzhw:{DataPackageID}_{VariableID}:{version}
+   */
+  @Size(max = StringLengths.MEDIUM, message = "variable-management.error.pid.size")
+  @Pattern(
+    message = "variable-management.error.pid.pattern",
+    regexp = Patterns.PID)
+  private String pid;
+
+  /**
    * The id of the {@link DataAcquisitionProject} to which this variable belongs.
-   * 
+   *
    * The dataAcquisitionProjectId must not be empty.
    */
   @Indexed
@@ -145,7 +158,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * The name of the variable as it is used in the {@link DataSet}.
-   * 
+   *
    * It must not be empty and must be unique in the {@link DataSet}. It must contain only
    * alphanumeric (english) characters and "_". The first character must not be a number. It must
    * not contain more than 32 characters.
@@ -158,7 +171,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * The label of the variable should describe its content.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
   @NotNull(message = "variable-management.error.variable.label.not-null")
@@ -169,7 +182,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * Arbitrary additional text for this variable. Markdown is supported.
-   * 
+   *
    * Must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
@@ -178,7 +191,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link DataSet} to which this variable belongs.
-   * 
+   *
    * Must not be empty.
    */
   @Indexed
@@ -187,7 +200,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * The number of the {@link DataSet} to which this variable belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message = "variable-management.error.variable.data-set-number-not-null")
@@ -195,7 +208,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * The technical type which the {@link ValidResponse}s have.
-   * 
+   *
    * Must be one of {@link DataTypes} and must not be empty.
    */
   @NotNull(message = "variable-management.error.variable.data-type.not-null")
@@ -205,7 +218,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   /**
    * Associated with each data type is a storage type. For instance numerics can be stored as
    * integer or double.
-   * 
+   *
    * Must be one of {@link StorageTypes} and must not be empty.
    */
   @NotNull(message = "variable-management.error.variable.storage-type.not-null")
@@ -216,7 +229,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
    * The scale level (or level of measurement) classifies the nature of information within the
    * values assigned to this variable ({@link ValidResponse}s). It determines which mathematical
    * operations can be performed with the values.
-   * 
+   *
    * It must be one of {@link ScaleLevels} and must not be empty. If the data type of this variable
    * is {@link DataTypes#DATE} then the ScaleLevel must be {@link ScaleLevels#ORDINAL},
    * {@link ScaleLevels#INTERVAL} or {@link ScaleLevels#NOMINAL}.
@@ -228,7 +241,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   /**
    * The access way of this variable. Depends on the sensitivity of the data and describes how the
    * data user will be able to work with the data.
-   * 
+   *
    * Must not be empty and be one of {@link AccessWays}.
    */
   // checks for min size too.
@@ -245,7 +258,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   /**
    * The index in the {@link DataSet} of this variable. Used for sorting the variables of this
    * {@link DataSet} and for displaying successors and predecessors of this variable.
-   * 
+   *
    * Must not be empty and the successor of this variable must have indexInDataSet incremented by
    * one.
    */
@@ -254,7 +267,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * List of numbers of {@link Survey}s which have been conducted to create this variable.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message = "variable-management.error.variable.survey-numbers-not-empty")
@@ -263,7 +276,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   /**
    * Identifier used to group variables within this {@link DataSet} which measure the same across
    * multiple waves.
-   * 
+   *
    * Must be of the form {{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{string}}$. Must not
    * contain more than 512 characters and must contain only (german) alphanumeric characters and "_"
    * and "-".
@@ -277,7 +290,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   /**
    * Identifier used to group variables within this {@link DataSet} which have been derived from
    * each other. For instance one variable might be an aggregated version of the other.
-   * 
+   *
    * Must be of the form {{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{string}}$. Must not
    * contain more than 512 characters and must contain only (german) alphanumeric characters and "_"
    * and "-".
@@ -333,7 +346,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   /**
    * List of ids of {@link Survey}s which have been conducted to create this variable.
-   * 
+   *
    * Must not be empty.
    */
   @Indexed
