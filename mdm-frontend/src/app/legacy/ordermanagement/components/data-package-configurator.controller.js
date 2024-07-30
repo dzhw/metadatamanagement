@@ -116,7 +116,7 @@
               }
           }
           $ctrl.releases = releaseList;
-          if (releases.length === 0 || rel.length === 0) {
+          if (releases.length === 0 || releaseList.length === 0) {
             $ctrl.noFinalRelease = true;
           }
           loadAccessWays(id);
@@ -141,13 +141,13 @@
             }
 
             // get project for embargo warning display
-            var id = ProjectReleaseService.stripVersionSuffix(
+            var strippedId = ProjectReleaseService.stripVersionSuffix(
               $ctrl.dataPackage.dataAcquisitionProjectId
             );
             var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
               "dataPackages",
               false, //all projects
-              id,
+              strippedId,
               null);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
@@ -180,15 +180,14 @@
               // disable ordering in case of pre-release
               $ctrl.isPreReleased = true;
             }
-
             // get project for embargo warning display
-            var id = ProjectReleaseService.stripVersionSuffix(
+            var strippedId = ProjectReleaseService.stripVersionSuffix(
               $ctrl.dataPackage.dataAcquisitionProjectId
             );
             var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
               "dataPackages",
               false, //all projects
-              id,
+              strippedId,
               null);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
