@@ -10,8 +10,9 @@ angular.module('metadatamanagementApp').controller('HealthController', [
   'BreadcrumbService',
   'SimpleMessageToastService',
   'DaraReleaseCustomResource',
+  'ExportAllVariablesResource',
   function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
-    PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService, DaraReleaseCustomResource) {
+    PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService, DaraReleaseCustomResource, ExportAllVariablesResource) {
     PageMetadataService.setPageTitle('administration.health.title');
     $scope.isRecreatingIndices = false;
     $scope.updatingHealth = true;
@@ -68,6 +69,25 @@ angular.module('metadatamanagementApp').controller('HealthController', [
         }
         $scope.isUpdatingDara = false;
       });
+    }
+
+    /**
+     * Method to download all variable metadata as needed for PID registration.
+     * Data will be downloaded as a JSON file.
+     */
+    $scope.downloadPidData = function() {
+      $scope.isDownloadingData = true;
+      ExportAllVariablesResource.exportAll().then(function(res) {
+        var blob = new Blob([angular.toJson(res, true)],{
+          type: "application/json;charset=utf-8;"
+        });
+        var downloadLink = document.createElement('a');
+        downloadLink.setAttribute('download', 'variable_pid_mdm_export.json');
+        downloadLink.setAttribute('href', window.URL.createObjectURL(blob));
+        downloadLink.click();
+        console.log("Download", res);
+        $scope.isDownloadingData = false;
+      })
     }
 
     $scope.refresh();
