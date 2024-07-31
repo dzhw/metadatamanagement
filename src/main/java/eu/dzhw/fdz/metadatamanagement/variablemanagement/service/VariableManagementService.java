@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.server.ExportException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
@@ -52,6 +54,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.helper.VariableCrudHelper;
@@ -88,14 +91,18 @@ public class VariableManagementService implements CrudService<Variable> {
 
   private final VariableRepository variableRepository;
 
-  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-  private final DataPackageRepository dataPackageRepository;
-
   private final VariableCrudHelper crudHelper;
 
   private final ObjectMapper objectMapper = new ObjectMapper();
+
   private final RestHighLevelClient client;
+
   private final Gson gson;
+
+  private final String LANDING_PAGE_BASE_URL = "https://metadata.fdz.dzhw.eu/en/variables/";
+  private final String PID_PREFIX = "21.T11998/dzhw:";
+
+
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
@@ -259,10 +266,12 @@ public class VariableManagementService implements CrudService<Variable> {
    * @throws IOException
    */
   public ResponseEntity<?> exportVariablesAsJSON() throws IOException {
-    ArrayNode jsonNode = this.getPidVariablesMetadata();
+    ArrayNode variableMetadata = this.getPidVariablesMetadata();
+    ObjectNode node = objectMapper.createObjectNode();
+    node.set("variables", variableMetadata);
     File tempFile = new File("tempfile.json");
     tempFile.deleteOnExit();
-    objectMapper.writeValue(tempFile, jsonNode);
+    objectMapper.writeValue(tempFile, node);
     Path path = Paths.get(tempFile.getAbsolutePath());
     try {
       ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
@@ -289,7 +298,7 @@ public class VariableManagementService implements CrudService<Variable> {
       .must(new TermQueryBuilder("shadow", true))
       .must(new ExistsQueryBuilder("release"))
       .must(new TermQueryBuilder("release.isPreRelease", false)))
-      .size(10000);
+      .size(10);
     projectsRequest.source(builderProjects);
     projectsRequest.indices("data_acquisition_projects");
     try {
@@ -303,7 +312,7 @@ public class VariableManagementService implements CrudService<Variable> {
         builderDataPackages.query(QueryBuilders.boolQuery()
           .must(new TermQueryBuilder("shadow", true))
           .must(new TermQueryBuilder("dataAcquisitionProjectId", project.getId())))
-          .size(10000);
+          .size(10);
         dataPackagesRequest.source(builderDataPackages);
         dataPackagesRequest.indices("data_packages");
         SearchResponse responseDataPackage =  client.search(dataPackagesRequest, RequestOptions.DEFAULT);
@@ -316,7 +325,7 @@ public class VariableManagementService implements CrudService<Variable> {
         builderVariables.query(QueryBuilders.boolQuery()
           .must(new TermQueryBuilder("shadow", true))
           .must(new TermQueryBuilder("dataAcquisitionProjectId", project.getId())))
-          .size(10000);
+          .size(10);
         variablesRequest.source(builderVariables);
         variablesRequest.indices("variables");
         SearchResponse responseVariables =  client.search(variablesRequest, RequestOptions.DEFAULT);
@@ -350,22 +359,51 @@ public class VariableManagementService implements CrudService<Variable> {
     variableObj.put("studyDOI", dataPackage.getDoi());
     variableObj.put("variableName", variable.getName());
     variableObj.put("variableLabel", variable.getLabel().getEn()); // todo: Deutsch oder Englisch?
-    variableObj.put("pidProposal", "21.T11998/dzhw:" + project.getId() + "_" + variable.getId() + ":" + project.getRelease().getVersion());
-    // todo base URL as Constant, Deutsch oder Englisch?
-    variableObj.put("landingPage", "https://metadata.fdz.dzhw.eu/en/variables/" + variable.getId().replace("$", "") + "?version=" + project.getRelease().getVersion());
-    variableObj.put("resourceType", "variable");
+    variableObj.put("pidProposal", PID_PREFIX + project.getId() + "_" + variable.getName() + ":" + project.getRelease().getVersion());
+    // todo: Deutsch oder Englisch?
+    variableObj.put("landingPage", LANDING_PAGE_BASE_URL
+      + variable.getMasterId().replace("$", "")
+      + "?version=" + project.getRelease().getVersion());
+    variableObj.put("resourceType", "Variable");
     variableObj.put("title", variable.getName() + ": " + variable.getLabel().getEn()); // todo: Deutsch oder Englisch?
-    // todo creators zusammenstellen
-    //variableObj.put("creators", )
+    variableObj.set("creators", this.compileCreators(dataPackage.getProjectContributors()));
     variableObj.put("publisher", "FDZ-DZHW");
-    // Create DateTimeFormatter instance with specified format
-    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    // Format LocalDateTime to String
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     String formattedDateTime = project.getRelease().getLastDate().format(dateTimeFormatter);
     variableObj.put("publicationDate", formattedDateTime);
-    //todo access ways verarbeiten
-    String accessWays = variable.getAccessWays().toString();
-    variableObj.put("availability", accessWays);
+    variableObj.put("availability", this.compileAccessWays(variable.getAccessWays()));
     return variableObj;
+  }
+
+  /**
+   * Compiles the given list of project contributor entries into a PID metadata list.
+   * @param projectContributors the list of contributors of this project
+   * @return a list of contributors as needed for PID registration
+   */
+  private ArrayNode compileCreators(List<Person> projectContributors) {
+    ArrayNode contributorList = objectMapper.createArrayNode();
+    for (var person : projectContributors) {
+      ObjectNode p = objectMapper.createObjectNode();
+      p.put("firstName", person.getFirstName());
+      if (person.getMiddleName() != null && !person.getMiddleName().isEmpty()) {
+        p.put("middleName", person.getMiddleName());
+      }
+      p.put("lastName", person.getLastName());
+      contributorList.add(p);
+    }
+    return contributorList;
+  }
+
+  /**
+   * Compiles the given list of accessway entries into a readable string.
+   * @param accessWays list of access ways
+   * @return a readable string of access ways
+   */
+  private String compileAccessWays(List<String> accessWays) {
+    List<String> strList = new ArrayList<>();
+    for (var access : accessWays) {
+      strList.add(AccessWays.displayAccessWay(access));
+    }
+    return String.join(", ", strList);
   }
 }
