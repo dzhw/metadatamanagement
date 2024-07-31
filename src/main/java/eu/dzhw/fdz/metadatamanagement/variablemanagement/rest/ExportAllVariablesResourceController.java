@@ -1,11 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.rest;
 
 import java.io.IOException;
-import java.rmi.server.ExportException;
 
 import javax.persistence.PersistenceException;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableManagementService;
 import lombok.RequiredArgsConstructor;

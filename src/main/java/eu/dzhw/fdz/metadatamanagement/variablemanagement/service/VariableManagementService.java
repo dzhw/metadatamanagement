@@ -6,6 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.server.ExportException;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,17 +26,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.Gson;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataAcquisitionProjectSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSubDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -41,6 +56,21 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.helper.VariableCrudHelper;
 import lombok.RequiredArgsConstructor;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.ExistsQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.objectweb.asm.TypeReference;
 
 /**
  * Service for managing the domain object/aggregate {@link Variable}.
@@ -58,7 +88,14 @@ public class VariableManagementService implements CrudService<Variable> {
 
   private final VariableRepository variableRepository;
 
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final DataPackageRepository dataPackageRepository;
+
   private final VariableCrudHelper crudHelper;
+
+  private final ObjectMapper objectMapper = new ObjectMapper();
+  private final RestHighLevelClient client;
+  private final Gson gson;
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
@@ -222,8 +259,7 @@ public class VariableManagementService implements CrudService<Variable> {
    * @throws IOException
    */
   public ResponseEntity<?> exportVariablesAsJSON() throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    ArrayNode jsonNode = objectMapper.createArrayNode();
+    ArrayNode jsonNode = this.getPidVariablesMetadata();
     File tempFile = new File("tempfile.json");
     tempFile.deleteOnExit();
     objectMapper.writeValue(tempFile, jsonNode);
@@ -238,5 +274,98 @@ public class VariableManagementService implements CrudService<Variable> {
     } catch (IOException ex) {
       return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     }
+  }
+
+  /**
+   * Mapping variable metadata to metadata schema needed for PID registration
+   * @return
+   */
+  private ArrayNode getPidVariablesMetadata() {
+    ArrayNode jsonNode = objectMapper.createArrayNode();
+    // 1. ES-Query alle DatAaAcquisitionProjects shadow=false, release != null, isPreRelease == false
+    SearchRequest projectsRequest = new SearchRequest();
+    SearchSourceBuilder builderProjects = new SearchSourceBuilder();
+    builderProjects.query(QueryBuilders.boolQuery()
+      .must(new TermQueryBuilder("shadow", true))
+      .must(new ExistsQueryBuilder("release"))
+      .must(new TermQueryBuilder("release.isPreRelease", false)))
+      .size(10000);
+    projectsRequest.source(builderProjects);
+    projectsRequest.indices("data_acquisition_projects");
+    try {
+      SearchResponse response =  client.search(projectsRequest, RequestOptions.DEFAULT);
+      List<SearchHit> hits = Arrays.asList(response.getHits().getHits());
+      for (var hit : hits) {
+        DataAcquisitionProjectSearchDocument project = gson.fromJson(hit.getSourceAsString(), DataAcquisitionProjectSearchDocument.class);
+        // für jedes Ergebnis: 2. ES-Query DataPackages shadow.=true, dataAcquisitionProjectId=project.id-project.version
+        SearchRequest dataPackagesRequest = new SearchRequest();
+        SearchSourceBuilder builderDataPackages = new SearchSourceBuilder();
+        builderDataPackages.query(QueryBuilders.boolQuery()
+          .must(new TermQueryBuilder("shadow", true))
+          .must(new TermQueryBuilder("dataAcquisitionProjectId", project.getId())))
+          .size(10000);
+        dataPackagesRequest.source(builderDataPackages);
+        dataPackagesRequest.indices("data_packages");
+        SearchResponse responseDataPackage =  client.search(dataPackagesRequest, RequestOptions.DEFAULT);
+        List<SearchHit> hitsDataPackages = Arrays.asList(responseDataPackage.getHits().getHits());
+        assert hitsDataPackages.size() == 1;
+
+        // 3. ES-Query Variables shadow=true, dataAcquisitionProjectId=project.id-project.version
+        SearchRequest variablesRequest = new SearchRequest();
+        SearchSourceBuilder builderVariables = new SearchSourceBuilder();
+        builderVariables.query(QueryBuilders.boolQuery()
+          .must(new TermQueryBuilder("shadow", true))
+          .must(new TermQueryBuilder("dataAcquisitionProjectId", project.getId())))
+          .size(10000);
+        variablesRequest.source(builderVariables);
+        variablesRequest.indices("variables");
+        SearchResponse responseVariables =  client.search(variablesRequest, RequestOptions.DEFAULT);
+        List<SearchHit> hitsVariables = Arrays.asList(responseVariables.getHits().getHits());
+        for (var variable : hitsVariables) {
+          VariableSearchDocument variableObj = gson.fromJson(variable.getSourceAsString(), VariableSearchDocument.class);
+          DataPackageSearchDocument dataPackage = gson.fromJson(hitsDataPackages.get(0).getSourceAsString(), DataPackageSearchDocument.class);
+          ObjectNode obj = this.getPidMetadataOfVariable(variableObj, project, dataPackage);
+          jsonNode.add(obj);
+          System.out.println("Adding variable to json " + variableObj.getId());
+        }
+      }
+      return jsonNode;
+    } catch (IOException e) {
+      throw new ElasticsearchIoException(e);
+    }
+  }
+
+  /**
+   * Collects PID metadata of variable
+   * @param variable the variable metadata is collected for
+   * @param project the project this variable belongs to
+   * @param dataPackage the data package this variable belongs to
+   * @return the metadata as a json node
+   */
+  private ObjectNode getPidMetadataOfVariable(
+    VariableSearchDocument variable,
+    DataAcquisitionProject project,
+    DataPackageSearchDocument dataPackage) {
+    ObjectNode variableObj = objectMapper.createObjectNode();
+    variableObj.put("studyDOI", dataPackage.getDoi());
+    variableObj.put("variableName", variable.getName());
+    variableObj.put("variableLabel", variable.getLabel().getEn()); // todo: Deutsch oder Englisch?
+    variableObj.put("pidProposal", "21.T11998/dzhw:" + project.getId() + "_" + variable.getId() + ":" + project.getRelease().getVersion());
+    // todo base URL as Constant, Deutsch oder Englisch?
+    variableObj.put("landingPage", "https://metadata.fdz.dzhw.eu/en/variables/" + variable.getId().replace("$", "") + "?version=" + project.getRelease().getVersion());
+    variableObj.put("resourceType", "variable");
+    variableObj.put("title", variable.getName() + ": " + variable.getLabel().getEn()); // todo: Deutsch oder Englisch?
+    // todo creators zusammenstellen
+    //variableObj.put("creators", )
+    variableObj.put("publisher", "FDZ-DZHW");
+    // Create DateTimeFormatter instance with specified format
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    // Format LocalDateTime to String
+    String formattedDateTime = project.getRelease().getLastDate().format(dateTimeFormatter);
+    variableObj.put("publicationDate", formattedDateTime);
+    //todo access ways verarbeiten
+    String accessWays = variable.getAccessWays().toString();
+    variableObj.put("availability", accessWays);
+    return variableObj;
   }
 }
