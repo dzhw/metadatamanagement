@@ -143,8 +143,8 @@ public class Variable extends AbstractShadowableRdcDomainObject {
    */
   @Size(max = StringLengths.MEDIUM, message = "variable-management.error.pid.size")
   @Pattern(
-    message = "variable-management.error.pid.pattern",
-    regexp = Patterns.PID)
+      message = "variable-management.error.pid.pattern",
+      regexp = Patterns.PID)
   private String pid;
 
   /**

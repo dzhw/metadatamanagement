@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * Controller for exporting all variables for PID registration.
+ */
 @Controller
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -35,7 +38,7 @@ public class ExportAllVariablesResourceController {
   public ResponseEntity<?> exportAllVariables() {
     ResponseEntity<?> response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     try {
-      response = this.variablesManagementService.exportVariablesAsJSON();
+      response = this.variablesManagementService.exportVariablesAsJson();
     } catch (PersistenceException | IOException ex) {
       return response;
     }
