@@ -310,7 +310,7 @@ public class VariableManagementService implements CrudService<Variable> {
       log.info("Exporting variables for " + hits.size() + " projects");
       for (var hit : hits) {
         DataAcquisitionProjectSearchDocument project = gson.fromJson(
-          hit.getSourceAsString(), DataAcquisitionProjectSearchDocument.class);
+            hit.getSourceAsString(), DataAcquisitionProjectSearchDocument.class);
         SearchRequest dataPackagesRequest = new SearchRequest();
         SearchSourceBuilder builderDataPackages = new SearchSourceBuilder();
         builderDataPackages.query(QueryBuilders.boolQuery()
@@ -338,9 +338,9 @@ public class VariableManagementService implements CrudService<Variable> {
         List<SearchHit> hitsVariables = Arrays.asList(responseVariables.getHits().getHits());
         for (var variable : hitsVariables) {
           VariableSearchDocument variableObj = gson.fromJson(
-            variable.getSourceAsString(), VariableSearchDocument.class);
+              variable.getSourceAsString(), VariableSearchDocument.class);
           DataPackageSearchDocument dataPackage = gson.fromJson(
-            hitsDataPackages.get(0).getSourceAsString(), DataPackageSearchDocument.class);
+              hitsDataPackages.get(0).getSourceAsString(), DataPackageSearchDocument.class);
           ObjectNode obj = this.getPidMetadataOfVariable(variableObj, project, dataPackage);
           if (obj != null) {
             jsonNode.add(obj);
@@ -371,9 +371,9 @@ public class VariableManagementService implements CrudService<Variable> {
     variableObj.put("studyDOI", dataPackage.getDoi());
     variableObj.put("variableName", variable.getName());
     // todo: Clarify which language to use
-    variableObj.put("variableLabel", variable.getLabel().getEn() != null ?
-      variable.getLabel().getEn() :
-      variable.getLabel().getDe());
+    variableObj.put("variableLabel", variable.getLabel().getEn() != null
+        ? variable.getLabel().getEn() :
+        variable.getLabel().getDe());
     variableObj.put("pidProposal", pidPrefix + project.getId() + "_" + variable.getName() + ":"
         + project.getRelease().getVersion());
     // todo: Clarify which language to use
@@ -399,30 +399,32 @@ public class VariableManagementService implements CrudService<Variable> {
    * @param dataPackage the data package this variable belongs to
    * @return true if required fields are missing, else false
    */
-  private boolean hasMissingFields(VariableSearchDocument variable, DataAcquisitionProject project, DataPackageSearchDocument dataPackage) {
+  private boolean hasMissingFields(VariableSearchDocument variable,
+                                   DataAcquisitionProject project,
+                                   DataPackageSearchDocument dataPackage) {
     if (variable.getName() == null || variable.getName().isEmpty()) {
       log.info(String.format("Unable to export variable with id '%s'. Required variable name is missing.",
-        variable.getId()));
+          variable.getId()));
       return true;
     }
     if (variable.getLabel() == null) {
       log.info(String.format("Unable to export variable with id '%s'. Required variable label is missing.",
-        variable.getId()));
+          variable.getId()));
       return true;
     } else if ((variable.getLabel().getDe() == null || variable.getLabel().getDe().trim().isEmpty())
         && (variable.getLabel().getEn() == null || variable.getLabel().getEn().trim().isEmpty())) {
       log.info(String.format("Unable to export variable with id '%s'. Required variable label is missing.",
-        variable.getId()));
+          variable.getId()));
       return true;
     }
     if (dataPackage.getDoi() == null || dataPackage.getDoi().trim().isEmpty()) {
       log.info(String.format("Unable to export variable with id '%s'. Required datapackage DOIl is missing.",
-        variable.getId()));
+          variable.getId()));
       return true;
     }
     if (dataPackage.getProjectContributors() == null || dataPackage.getProjectContributors().isEmpty()) {
       log.info(String.format("Unable to export variable with id '%s'. Datapackage has no contributors.",
-        variable.getId()));
+          variable.getId()));
       return true;
     }
     if (project.getId() == null
@@ -431,7 +433,7 @@ public class VariableManagementService implements CrudService<Variable> {
         || project.getRelease().getVersion().trim().isEmpty()
         || project.getRelease().getLastDate() == null) {
       log.info(String.format("Unable to export variable with id '%s'. Required project fields are missing.",
-        variable.getId()));
+          variable.getId()));
       return true;
     }
     return false;
