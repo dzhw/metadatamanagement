@@ -271,12 +271,8 @@ public class VariableManagementService implements CrudService<Variable> {
     ArrayNode variableMetadata = this.getPidVariablesMetadata();
     ObjectNode node = objectMapper.createObjectNode();
     node.set("variables", variableMetadata);
-    File tempFile = new File("tempfile.json");
-    tempFile.deleteOnExit();
-    objectMapper.writeValue(tempFile, node);
-    Path path = Paths.get(tempFile.getAbsolutePath());
     try {
-      ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+      ByteArrayResource resource = new ByteArrayResource(objectMapper.writeValueAsBytes(node));
       HttpHeaders headers = new HttpHeaders();
       headers.add("Content-Disposition", "attachment; filename=Variables_PID_MDM_Export.json");
       log.info("Finished variable export with " + variableMetadata.size() + " variables.");
