@@ -10,6 +10,14 @@
             <h1 class="md-headline" display-i18n-string="ctrl.survey.title" ></h1>
             <json-content-dialog class="mb0" content="ctrl.survey"
                                  header-title="ctrl.survey.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+            <md-button class="md-primary fdz-small ma0" style="height: fit-content;" 
+              ng-if="ctrl.enableVariableExport" 
+              ng-click="ctrl.exportVariables()">
+              <md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                Daten als XML exportieren
+              </md-tooltip>
+              <span class="fdz-no-select">DDI</span>
+            </md-button>
           </div>
         </div>
         <md-divider></md-divider>
