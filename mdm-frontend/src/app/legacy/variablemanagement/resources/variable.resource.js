@@ -24,8 +24,8 @@ angular.module('metadatamanagementApp')
    angular.module('metadatamanagementApp').factory('ExportDdiVariablesResource', ['$http', 
     function($http) {
     return {
-      exportVariablesAsXml: function() {
-            return $http.get('api/variables/exportDDI/xml/:studyId').then(function(response) {
+      exportVariablesAsXml: function(surveyId) {
+            return $http.get('api/variables/exportDDI/xml/' + surveyId).then(function(response) {
               return response.data;
             });
         }

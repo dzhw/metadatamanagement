@@ -34,13 +34,13 @@ public class ExportDdiVariablesResourceController {
    *
    * @return an XML file
    */
-  @GetMapping(value = "/variables/exportDDI/xml/{studyId:.+}", produces = MediaType.APPLICATION_XML_VALUE)
+  @GetMapping(value = "/variables/exportDDI/xml/{surveyId:.+}", produces = MediaType.APPLICATION_XML_VALUE)
   @ResponseBody
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
-  public ResponseEntity<?> exportVariablesAsXml(@PathVariable String studyId) {
+  public ResponseEntity<?> exportVariablesAsXml(@PathVariable String surveyId) {
     ResponseEntity<?> response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     try {
-      response = this.variablesManagementService.exportDdiVariablesAsXML(studyId);
+      response = this.variablesManagementService.exportDdiVariablesAsXML(surveyId);
     } catch (PersistenceException ex) {
       return response;
     }

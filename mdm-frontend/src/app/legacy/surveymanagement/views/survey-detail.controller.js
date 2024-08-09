@@ -56,12 +56,17 @@ angular.module('metadatamanagementApp')
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       ctrl.enableVariableExport = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+      ctrl.surveyId = null;
 
       entity.promise.then(function(survey) {
         var fetchFn = SurveySearchService.findShadowByIdAndVersion
           .bind(null, survey.masterId, null, ['nested*','variables','questions',
             'instruments', 'dataSets', 'relatedPublications','concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
+;
+        if (survey.release) {
+          ctrl.surveyId = survey.id + '-' + survey.release.version;
+        }
 
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -182,9 +187,7 @@ angular.module('metadatamanagementApp')
        * Exports Variables metadata as DDI Codebook XML.
        */
       ctrl.exportVariables = function() {
-        ExportDdiVariablesResource.exportVariablesAsXml({
-          studyId: "foo"
-        }).then(function(res) {
+        ExportDdiVariablesResource.exportVariablesAsXml(ctrl.surveyId).then(function(res) {
           var blob = new Blob([res],{
             type: "application/xml;charset=utf-8;"
           });
