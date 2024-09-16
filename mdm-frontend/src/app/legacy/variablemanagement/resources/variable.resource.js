@@ -17,18 +17,3 @@ angular.module('metadatamanagementApp')
     });
   }]);
 
-   /**
-   * Method to request the endpoint that downloads all variables of the study as a DDI-formatted XML file.
-   * We could not put this into the "VariableResource"-schema (above), because the URLs would not match.
-   */
-   angular.module('metadatamanagementApp').factory('ExportDdiVariablesResource', ['$http', 
-    function($http) {
-    return {
-      exportVariablesAsXml: function(surveyId) {
-            return $http.get('api/variables/exportDDI/xml/' + surveyId).then(function(response) {
-              return response.data;
-            });
-        }
-    }
-  }]);
-

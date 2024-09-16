@@ -6,10 +6,20 @@
       <embargo-warning ng-if="ctrl.isProviderView && ctrl.dataPackage.release && ctrl.dataPackage.release.isPreRelease" project="ctrl.project" style="margin: 8px;"></embargo-warning>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
-          <div class="fdz-detail__header-text">
+          <div class="fdz-detail__header-text" style="display:flex; flex-direction: row;" >
             <h1 class="md-headline" display-i18n-string="ctrl.dataPackage.title" ></h1>
-            <json-content-dialog class="mb0" content="ctrl.dataPackage"
-                                 header-title="ctrl.dataPackage.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+            <div style="align-self: flex-end;">
+              <json-content-dialog class="mb0" content="ctrl.dataPackage"
+                header-title="ctrl.dataPackage.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+              <md-button class="md-primary fdz-small ma0" style="height: fit-content;" 
+                ng-if="ctrl.enableVariableExport" 
+                ng-click="ctrl.exportVariables()">
+                <md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                Variablen als XML nach DDI Standard exportieren
+                </md-tooltip>
+                <span class="fdz-no-select">DDI</span>
+              </md-button>
+            </div>
           </div>
           <div class="fdz-tag-link-container" ng-if="ctrl.dataPackageTags.length > 0">
             <h5>{{'data-package-management.detail.label.tags' | translate}}: </h5>

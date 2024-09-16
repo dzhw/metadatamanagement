@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp')
   '$stateParams',
   'blockUI',
   '$mdSidenav',
-  'ExportDdiVariablesResource',
+  // 'ExportDdiVariablesResource',
     function(entity, LanguageService, CleanJSObjectService,
              PageMetadataService, $state, BreadcrumbService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp')
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource, $mdDialog,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
-             blockUI, $mdSidenav, ExportDdiVariablesResource) {
+             blockUI, $mdSidenav) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -54,8 +54,8 @@ angular.module('metadatamanagementApp')
       ctrl.responseRateImage = null;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
-      ctrl.enableVariableExport = Principal
-        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+      // ctrl.enableVariableExport = Principal
+      //   .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       ctrl.surveyId = null;
 
       entity.promise.then(function(survey) {
@@ -182,21 +182,5 @@ angular.module('metadatamanagementApp')
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
-
-      /**
-       * Exports Variables metadata as DDI Codebook XML.
-       */
-      ctrl.exportVariables = function() {
-        ExportDdiVariablesResource.exportVariablesAsXml(ctrl.surveyId).then(function(res) {
-          var blob = new Blob([res],{
-            type: "application/xml;charset=utf-8;"
-          });
-          var downloadLink = document.createElement('a');
-          downloadLink.setAttribute('download', 'variable_ddi_mdm_export.xml');
-          downloadLink.setAttribute('href', window.URL.createObjectURL(blob));
-          downloadLink.click();
-          $scope.isDownloadingData = false;
-        })
-      }
     }]);
 
