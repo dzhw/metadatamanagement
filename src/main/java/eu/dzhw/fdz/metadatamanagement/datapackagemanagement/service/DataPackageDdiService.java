@@ -1,13 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.Tags;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Catgry;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Citation;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.CodeBook;
@@ -19,9 +24,29 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.S
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.TextElement;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.TitlStmt;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Var;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSubDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedQuestionSubDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSubDocument;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -70,119 +95,164 @@ public class DataPackageDdiService {
    * @return the metadata
    */
   private CodeBook getDdiVariablesMetadata(String dataPackageId) throws JsonProcessingException {
-    StdyDscr stdyDscr = this.getDdiStdyDscr();
+    // get Data
+    SearchRequest dataPackageRequest = new SearchRequest();
+    SearchSourceBuilder builderSurveys = new SearchSourceBuilder();
+    builderSurveys.query(QueryBuilders.termsQuery("id", dataPackageId));
+    dataPackageRequest.source(builderSurveys);
+    dataPackageRequest.indices("data_packages");
 
-    List<FileDscr> fileDscrList = new ArrayList<>();
-    // for each dataset of the data package
-    for (int i = 0; i < 3; i++) {
-      //todo make a list of all added datasets and do add there variables later on
-      fileDscrList.add(this.getDdiFileDsrc());
+    try {
+      SearchResponse surveyResponse = client.search(dataPackageRequest, RequestOptions.DEFAULT);
+      List<SearchHit> hits = Arrays.asList(surveyResponse.getHits().getHits());
+      if (hits.size() != 1) {
+        throw new ElasticsearchException(
+          String.format("Expected one data package for id '%s', but found %d", dataPackageId, hits.size()));
+      }
+      DataPackageSearchDocument dataPackageDoc = gson.fromJson(
+        hits.get(0).getSourceAsString(), DataPackageSearchDocument.class);
+      if (dataPackageDoc.getRelease() == null ||
+        (dataPackageDoc.getRelease() != null && dataPackageDoc.getRelease().getIsPreRelease())) {
+        throw new ElasticsearchException(
+          String.format("DDI codebook export failed. Can only export released data packages. " +
+            "Data package with id '%s' is not released.", dataPackageDoc.getId())
+        );
+      }
+
+      StdyDscr stdyDscr = this.getDdiStdyDscr(dataPackageDoc);
+      List<FileDscr> fileDscrList = new ArrayList<>();
+      for (DataSetSubDocument dataset : dataPackageDoc.getDataSets()) {
+        fileDscrList.add(this.getDdiFileDsrc(dataset));
+      }
+
+      List<Var> varList = new ArrayList<>();
+      for (VariableSubDocument variable : dataPackageDoc.getVariables()) {
+        varList.add(this.getDdiVar(variable));
+      }
+      DataDscr dataDscr = new DataDscr(varList);
+      CodeBook codeBook = new CodeBook(stdyDscr, fileDscrList, dataDscr);
+
+      return codeBook;
+
+    } catch (IOException e) {
+      log.error("An error occurred while querying the ES. ", e);
     }
-
-    List<Var> varList = new ArrayList<>();
-    // for each variable of the data package
-    for (int j = 0; j < 10; j++) {
-      varList.add(this.getDdiVar());
-    }
-    DataDscr dataDscr = new DataDscr(varList);
-    CodeBook codeBook = new CodeBook(stdyDscr, fileDscrList, dataDscr);
-
-    return codeBook;
-
-
-//    SearchRequest surveyRequest = new SearchRequest();
-//    SearchSourceBuilder builderSurveys = new SearchSourceBuilder();
-//    builderSurveys.query(QueryBuilders.termsQuery("id", surveyId));
-//    surveyRequest.source(builderSurveys);
-//    surveyRequest.indices("surveys");
-//
-//    SearchRequest variablesRequest = new SearchRequest();
-//    SearchSourceBuilder builderVariables = new SearchSourceBuilder();
-//    builderVariables.query(QueryBuilders.termsQuery("surveyIds", surveyId))
-//      .size(10000);
-//    variablesRequest.source(builderVariables);
-//    variablesRequest.indices("variables");
-//    try {
-//      SearchResponse surveyResponse =  client.search(surveyRequest, RequestOptions.DEFAULT);
-//      List<SearchHit> surveyHits = Arrays.asList(surveyResponse.getHits().getHits());
-//      if (surveyHits.size() == 0) {
-//        throw new ElasticsearchException(String.format("Could not find survey with id '%s'", surveyId));
-//      }
-//      SurveySearchDocument surveyDoc = gson.fromJson(
-//        surveyHits.get(0).getSourceAsString(), SurveySearchDocument.class);
-//      // toDo: Decide on language usage
-//      CodeBook.StdyDscr.Citation.TitlStmt titlStmt = new CodeBook.StdyDscr.Citation.TitlStmt(surveyDoc.getTitle().getEn());
-//      CodeBook.StdyDscr.Citation citation = new CodeBook.StdyDscr.Citation(titlStmt);
-//      CodeBook.StdyDscr study = new CodeBook.StdyDscr(citation);
-//      SearchResponse variableResponse =  client.search(variablesRequest, RequestOptions.DEFAULT);
-//      List<SearchHit> hits = Arrays.asList(variableResponse.getHits().getHits());
-//      if (hits.size() > 0) {
-//        log.info(String.format("Found %d variables for survey '%s'", hits.size(),surveyId));
-//        List<CodeBook.DataDscr.Var> variableList = new ArrayList<>();
-//        for (var variable : hits) {
-//          VariableSearchDocument variableDoc = gson.fromJson(
-//            variable.getSourceAsString(), VariableSearchDocument.class);
-//          CodeBook.DataDscr.Var varMetadata = new CodeBook.DataDscr.Var(variableDoc.getName());
-//          variableList.add(varMetadata);
-//        }
-//        CodeBook.DataDscr dataDscr = new CodeBook.DataDscr(variableList);
-//        return new CodeBook(study, dataDscr);
-//      } else {
-//        log.info(String.format("No variables found for studyId '%s'", surveyId));
-//      }
-//    } catch (IOException e) {
-//      throw new ElasticsearchIoException(e);
-//    }
-    //return null;
+    return null;
   }
 
   /**
    *
    * @return
    */
-  private Var getDdiVar() {
-    String name = "Variable ID";
-    String files = "Dataset ID";
+  private Var getDdiVar(VariableSubDocument variableDoc) {
+    String name = variableDoc.getId();
+    String files = variableDoc.getDataSetId();
     List<TextElement> varLablList = new ArrayList<>();
-    varLablList.add(new TextElement(LanguageEnum.de, "Variable Label in German"));
-    varLablList.add(new TextElement(LanguageEnum.en, "Variable Label in English"));
+    varLablList.add(new TextElement(LanguageEnum.de, variableDoc.getLabel().getDe()));
+    varLablList.add(new TextElement(LanguageEnum.en, variableDoc.getLabel().getEn()));
     List<TextElement> qstnList = new ArrayList<>();
-    // possibly empty
-    qstnList.add(new TextElement(LanguageEnum.de, "Related Question label in German"));
-    qstnList.add(new TextElement(LanguageEnum.en, "Related Question label in English"));
-    List<Catgry> catgryList = new ArrayList<>();
-    for (int k = 0; k < 5; k++) {
-      // only for nominal/ordinal
-      String catValu = "Value";
-      List<TextElement> catLablList = new ArrayList<>();
-      catLablList.add(new TextElement(LanguageEnum.de, "Value Label in German"));
-      catLablList.add(new TextElement(LanguageEnum.en, "Value Label in English"));
-      catgryList.add(new Catgry(catValu, catLablList));
+    if (variableDoc.getRelatedQuestions() != null && variableDoc.getRelatedQuestions().size() > 0) {
+      for (RelatedQuestionSubDocumentProjection relQuest : variableDoc.getRelatedQuestions()) {
+        SearchRequest questionRequest = new SearchRequest();
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        builder.query(QueryBuilders.termsQuery("id", relQuest.getQuestionId()));
+        questionRequest.source(builder);
+        questionRequest.indices("questions");
+        try {
+          SearchResponse questionResponse = client.search(questionRequest, RequestOptions.DEFAULT);
+          List<SearchHit> hits = Arrays.asList(questionResponse.getHits().getHits());
+          if (hits.size() == 0) {
+            throw new ElasticsearchException(
+              String.format("Could not find question for id '%s'", relQuest.getQuestionId()));
+          }
+          for (SearchHit hit : hits) {
+            QuestionSearchDocument relatedQuestion = gson.fromJson(
+              hit.getSourceAsString(), QuestionSearchDocument.class);
+            if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getDe() != null) {
+              qstnList.add(new TextElement(LanguageEnum.de, relatedQuestion.getQuestionText().getDe()));
+            }
+            if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getEn() != null) {
+              qstnList.add(new TextElement(LanguageEnum.en, relatedQuestion.getQuestionText().getEn()));
+            }
+          }
+        } catch (IOException e) {
+          log.error("An exception occurred requestion questions index. ", e);
+        }
+      }
     }
-    return new Var(name, files, varLablList, qstnList, catgryList);
+
+    SearchRequest variableRequest = new SearchRequest();
+    SearchSourceBuilder builderVar = new SearchSourceBuilder();
+    builderVar.query(QueryBuilders.termsQuery("id", variableDoc.getId()));
+    variableRequest.source(builderVar);
+    variableRequest.indices("variables");
+    List<Catgry> catgryList = new ArrayList<>();
+    try {
+      SearchResponse variableResponse = client.search(variableRequest, RequestOptions.DEFAULT);
+      List<SearchHit> hits = Arrays.asList(variableResponse.getHits().getHits());
+      if (hits.size() == 0) {
+        throw new ElasticsearchException(
+          String.format("Could not find question for id '%s'", variableDoc.getId()));
+      }
+      for (SearchHit hit : hits) {
+        VariableSearchDocument varDoc = gson.fromJson(
+          hit.getSourceAsString(), VariableSearchDocument.class);
+        if ((varDoc.getScaleLevel().equals(ScaleLevels.NOMINAL) || varDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
+            && varDoc.getDistribution() != null
+            && varDoc.getDistribution().getValidResponses() != null) {
+          for (ValidResponse validResponse : varDoc.getDistribution().getValidResponses()) {
+            String catValu = validResponse.getValue();
+            List<TextElement> catLablList = new ArrayList<>();
+            if (validResponse.getLabel() != null && validResponse.getLabel().getDe() != null) {
+              catLablList.add(new TextElement(LanguageEnum.de, validResponse.getLabel().getDe()));
+            }
+            if (validResponse.getLabel() != null && validResponse.getLabel().getEn() != null) {
+              catLablList.add(new TextElement(LanguageEnum.en, validResponse.getLabel().getEn()));
+            }
+            catgryList.add(new Catgry(catValu, catLablList));
+          }
+          // missing values
+          if (varDoc.getDistribution() != null && varDoc.getDistribution().getMissings() != null)
+          for (Missing missing : varDoc.getDistribution().getMissings()) {
+            String catValu = missing.getCode();
+            List<TextElement> catLablList = new ArrayList<>();
+            if (missing.getLabel() != null && missing.getLabel().getDe() != null) {
+              catLablList.add(new TextElement(LanguageEnum.de, missing.getLabel().getDe()));
+            }
+            if (missing.getLabel() != null && missing.getLabel().getEn() != null) {
+              catLablList.add(new TextElement(LanguageEnum.en, missing.getLabel().getEn()));
+            }
+            catgryList.add(new Catgry(catValu, catLablList));
+          }
+        }
+      }
+    } catch (IOException e) {
+      log.error("Error ...", e);
+    }
+    return new Var(name, files, varLablList, qstnList.size() > 0 ? qstnList : null, catgryList);
   }
 
   /**
    *
    * @return
    */
-  private FileDscr getDdiFileDsrc() {
-    String id = "Dataset ID";
-    String fileName = "Dataset ID";
-    TextElement fileCont = new TextElement(LanguageEnum.de, "Dataset Title in German");
+  private FileDscr getDdiFileDsrc(DataSetSubDocument dataset) {
+    String id = dataset.getId();
+    String fileName = dataset.getId();
+    // todo: Clarify why this is just in German and if it is the correct field
+    TextElement fileCont = new TextElement(LanguageEnum.de, dataset.getDescription().getDe());
     FileTxt fileTxt = new FileTxt(fileName, fileCont);
     return new FileDscr(id, fileTxt);
   }
 
   /**
-   *
-   * @return
+   * Creates the DDI element stdyDscr with data from the data package.
+   * @return the stdyDscr element
    */
-  private StdyDscr getDdiStdyDscr() {
-    TextElement titl = new TextElement(LanguageEnum.de, "Data Package Title in German");
-    TextElement parTitl = new TextElement(LanguageEnum.en, "Data Package Title in English");
+  private StdyDscr getDdiStdyDscr(DataPackageSearchDocument doc) {
+    TextElement titl = new TextElement(LanguageEnum.de, doc.getTitle().getDe());
+    TextElement parTitl = new TextElement(LanguageEnum.en, doc.getTitle().getEn());
     Citation citation = new Citation(new TitlStmt(titl, parTitl));
     return new StdyDscr(citation);
   }
-
 }
