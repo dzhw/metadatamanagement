@@ -2,18 +2,19 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
 import java.util.List;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.XmlElement;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class Catgry {
 
-  @JacksonXmlProperty(localName = "catValu")
+  public Catgry() {}
+
+  @XmlElement(name="catValu")
   String catValu;
 
-  @JacksonXmlProperty(localName = "labl")
-  @JacksonXmlElementWrapper(useWrapping = false)
+  @XmlElement(name="labl")
   List<TextElement> labl;
 
 }

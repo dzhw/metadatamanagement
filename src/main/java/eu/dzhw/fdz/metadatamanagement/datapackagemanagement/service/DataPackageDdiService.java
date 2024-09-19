@@ -1,18 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.Tags;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Catgry;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Citation;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.CodeBook;
@@ -24,15 +24,12 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.S
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.TextElement;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.TitlStmt;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Var;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedQuestionSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSubDocument;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
@@ -45,7 +42,6 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import org.springframework.core.io.ByteArrayResource;
@@ -78,14 +74,20 @@ public class DataPackageDdiService {
   public ResponseEntity<?> exportDdiVariablesAsXML(String dataPackageId) {
     try {
       CodeBook variableMetadata = this.getDdiVariablesMetadata(dataPackageId);
-      XmlMapper mapper = new XmlMapper();
-      ByteArrayResource resource = new ByteArrayResource(mapper.writeValueAsBytes(variableMetadata));
+      JAXBContext context = JAXBContext.newInstance(CodeBook.class);
+      Marshaller mar = context.createMarshaller();
+      mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+      mar.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd");;
+      ByteArrayOutputStream res = new ByteArrayOutputStream();
+      mar.marshal(variableMetadata, res);
+      ByteArrayResource resource = new ByteArrayResource(res.toByteArray());
       HttpHeaders headers = new HttpHeaders();
-      headers.add("Content-Disposition", "attachment; filename=Variables_PID_MDM_Export.xml");
+      headers.add("Content-Disposition", "attachment; filename=Variables_DDI_MDM_Export.xml");
       return ResponseEntity.ok()
         .headers(headers)
         .body(resource);
-    } catch (IOException ex) {
+    } catch (JAXBException | JsonProcessingException ex) {
+      log.error("Error generating XML: " + ex);
       return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     }
   }

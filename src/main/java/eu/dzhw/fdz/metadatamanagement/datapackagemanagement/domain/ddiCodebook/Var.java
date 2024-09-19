@@ -2,29 +2,29 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
 import java.util.List;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class Var {
 
-  @JacksonXmlProperty(localName = "name", isAttribute = true)
+  public Var() {}
+
+  @XmlAttribute(name="name")
   String name;
 
-  @JacksonXmlProperty(localName = "files", isAttribute = true)
+  @XmlAttribute(name="files")
   String files;
 
-  @JacksonXmlProperty(localName = "labl")
-  @JacksonXmlElementWrapper(useWrapping = false)
+  @XmlElement(name="labl")
   List<TextElement> labl;
 
-  @JacksonXmlProperty(localName = "qstn")
-  @JacksonXmlElementWrapper(useWrapping = false)
+  @XmlElement(name="qstn")
   List<TextElement> qstn;
 
-  @JacksonXmlProperty(localName = "catgry")
-  @JacksonXmlElementWrapper(useWrapping = false)
+  @XmlElement(name="catgry")
   List<Catgry> catgry;
 
 }

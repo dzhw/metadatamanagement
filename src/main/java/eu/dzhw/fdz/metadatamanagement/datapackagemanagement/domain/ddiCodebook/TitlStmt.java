@@ -1,15 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.XmlElement;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class TitlStmt {
 
-  @JacksonXmlProperty(localName = "titl")
-  private TextElement titl;
+  public TitlStmt() {}
 
-  @JacksonXmlProperty(localName = "parTitl")
-  private TextElement parTitle;
+  @XmlElement(name="titl")
+  TextElement titl;
+
+  @XmlElement(name="parTitl")
+  TextElement parTitle;
 
 }

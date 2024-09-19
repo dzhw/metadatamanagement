@@ -1,15 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.XmlElement;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class FileTxt {
 
-  @JacksonXmlProperty(localName = "fileName")
+  public FileTxt() {}
+
+  @XmlElement(name="fileName")
   String fileName;
 
-  @JacksonXmlProperty(localName = "fileCont")
+  @XmlElement(name="fileCont")
   TextElement fileCont;
 
 }

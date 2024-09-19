@@ -1,7 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
+
 import lombok.AllArgsConstructor;
 
 /**
@@ -9,12 +12,15 @@ import lombok.AllArgsConstructor;
  * e.g. labels (labl in DDI standard).
  */
 @AllArgsConstructor
+@XmlAccessorType(XmlAccessType.NONE)
 public class TextElement {
 
-  @JacksonXmlProperty(localName = "xml:lang", isAttribute = true)
+  public TextElement() {}
+
+  @XmlAttribute(name="xml:lang")
   private LanguageEnum lang;
 
-  @JacksonXmlText
+  @XmlValue
   private String value;
 
   public String getValue() {

@@ -1,12 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.XmlElement;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class StdyDscr {
 
-  @JacksonXmlProperty(localName = "citation")
+  public StdyDscr() {}
+
+  @XmlElement(name="citation")
   Citation citation;
 
 }

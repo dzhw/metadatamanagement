@@ -1,14 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class FileDscr {
 
-  @JacksonXmlProperty(localName = "ID", isAttribute = true)
+  public FileDscr() {}
+
+  @XmlAttribute(name="ID")
   String id;
 
-  @JacksonXmlProperty(localName = "fileTxt")
+  @XmlElement(name="fileTxt")
   FileTxt fileTxt;
 }

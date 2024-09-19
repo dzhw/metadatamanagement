@@ -2,18 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
 
 import java.util.List;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import lombok.Getter;
-import lombok.Setter;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Defines the mapping of the DDI Codebook standard.
  */
-@Getter
-@Setter
-@JacksonXmlRootElement(localName = "codeBook", namespace = "ddi:codebook:2_5")
+
+@XmlRootElement(name="codeBook")
 public class CodeBook {
 
   public CodeBook(StdyDscr stdyDscr, List<FileDscr> fileDscr, DataDscr dataDscr) {
@@ -22,26 +18,15 @@ public class CodeBook {
     this.dataDscr = dataDscr;
   }
 
-//  @JacksonXmlProperty(localName = "xmlns", isAttribute = true)
-//  private String nameSpace = "ddi:codebook:2_5";
+  public  CodeBook() {}
 
-//  @JacksonXmlProperty(localName = "xmlns:xsi", isAttribute = true)
-//  private String xsi = "http://www.w3.org/2001/XMLSchema-instance";
-//
-//  @JacksonXmlProperty(localName = "xmlns:xs", isAttribute = true)
-//  private String xs = "http://www.w3.org/2001/XMLSchema";
-//
-//  @JacksonXmlProperty(localName = "xsi:schemaLocation", isAttribute = true)
-//  private String schemaLocation = "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd";
-
-  @JacksonXmlProperty(localName = "stdyDscr")
+  @XmlElement(name="stdyDscr")
   private StdyDscr stdyDscr;
 
-  @JacksonXmlProperty(localName = "fileDscr")
-  @JacksonXmlElementWrapper(useWrapping = false)
+  @XmlElement(name="fileDscr")
   private List<FileDscr> fileDscr;
 
-  @JacksonXmlProperty(localName = "dataDscr")
+  @XmlElement(name="dataDscr")
   private DataDscr dataDscr;
 
 }
