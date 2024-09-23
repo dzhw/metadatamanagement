@@ -24,6 +24,9 @@ public class Var {
   @XmlElement(name="qstn")
   List<TextElement> qstn;
 
+  @XmlElement(name="txt")
+  List<TextElement> txt;
+
   @XmlElement(name="catgry")
   List<Catgry> catgry;
 

@@ -67,7 +67,7 @@ public class DataPackageDdiService {
   private final Gson gson;
 
   /**
-   * Exports all variables belonging to a given datapackage according to the DDI Codebook standard.
+   * Exports all variables metadata belonging to a given data package according to the DDI Codebook standard.
    * @param dataPackageId the ID of the study
    * @return DDI metadata as XML
    */
@@ -143,8 +143,8 @@ public class DataPackageDdiService {
   }
 
   /**
-   *
-   * @return
+   * Create the DDI var Element with data from the variable, and its related questions.
+   * @return the var element
    */
   private Var getDdiVar(VariableSubDocument variableDoc) {
     String name = variableDoc.getId();
@@ -178,7 +178,7 @@ public class DataPackageDdiService {
             }
           }
         } catch (IOException e) {
-          log.error("An exception occurred requestion questions index. ", e);
+          log.error("An exception occurred querying the questions index. ", e);
         }
       }
     }
@@ -189,16 +189,23 @@ public class DataPackageDdiService {
     variableRequest.source(builderVar);
     variableRequest.indices("variables");
     List<Catgry> catgryList = new ArrayList<>();
+    List<TextElement> txtList = new ArrayList<>();
     try {
       SearchResponse variableResponse = client.search(variableRequest, RequestOptions.DEFAULT);
       List<SearchHit> hits = Arrays.asList(variableResponse.getHits().getHits());
       if (hits.size() == 0) {
         throw new ElasticsearchException(
-          String.format("Could not find question for id '%s'", variableDoc.getId()));
+          String.format("Could not find variable for id '%s'", variableDoc.getId()));
       }
       for (SearchHit hit : hits) {
         VariableSearchDocument varDoc = gson.fromJson(
           hit.getSourceAsString(), VariableSearchDocument.class);
+        if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getDe() != null) {
+          txtList.add(new TextElement(LanguageEnum.de, varDoc.getAnnotations().getDe()));
+        }
+        if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getEn() != null) {
+          txtList.add(new TextElement(LanguageEnum.en, varDoc.getAnnotations().getEn()));
+        }
         if ((varDoc.getScaleLevel().equals(ScaleLevels.NOMINAL) || varDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
             && varDoc.getDistribution() != null
             && varDoc.getDistribution().getValidResponses() != null) {
@@ -229,14 +236,14 @@ public class DataPackageDdiService {
         }
       }
     } catch (IOException e) {
-      log.error("Error ...", e);
+      log.error("An exception occurred querying the variables index. ", e);
     }
-    return new Var(name, files, varLablList, qstnList.size() > 0 ? qstnList : null, catgryList);
+    return new Var(name, files, varLablList, qstnList.size() > 0 ? qstnList : null, txtList, catgryList);
   }
 
   /**
-   *
-   * @return
+   * Create the DDI element fileDscr with data from the datasets of the data package.
+   * @return the fileDscr element
    */
   private FileDscr getDdiFileDsrc(DataSetSubDocument dataset) {
     String id = dataset.getId();
