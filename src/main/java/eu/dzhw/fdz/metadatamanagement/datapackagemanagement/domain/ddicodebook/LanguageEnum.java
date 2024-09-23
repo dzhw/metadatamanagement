@@ -1,10 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
+package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
 public enum LanguageEnum {
   de("de"), en("en");
 
   /**
-   * The language string
+   * The language string.
    */
   public final String languageString;
 

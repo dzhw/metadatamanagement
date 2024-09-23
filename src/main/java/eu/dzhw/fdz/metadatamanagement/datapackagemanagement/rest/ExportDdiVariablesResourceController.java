@@ -38,7 +38,7 @@ public class ExportDdiVariablesResourceController {
   public ResponseEntity<?> exportVariablesAsXml(@PathVariable String dataPackageId) {
     ResponseEntity<?> response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     try {
-      response = this.dataPackageDdiService.exportDdiVariablesAsXML(dataPackageId);
+      response = this.dataPackageDdiService.exportDdiVariablesAsXml(dataPackageId);
     } catch (PersistenceException ex) {
       return response;
     }

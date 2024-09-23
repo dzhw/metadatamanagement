@@ -13,17 +13,17 @@ import javax.xml.bind.Marshaller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Catgry;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Citation;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.CodeBook;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.DataDscr;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.FileDscr;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.FileTxt;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.LanguageEnum;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.StdyDscr;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.TextElement;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.TitlStmt;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook.Var;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Catgry;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Citation;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.CodeBook;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.DataDscr;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.FileDscr;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.FileTxt;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.LanguageEnum;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.StdyDscr;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TextElement;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TitlStmt;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Var;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
@@ -53,8 +53,9 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service for construction DDI codebook metadata for all veriables of a {@link DataPackage}.
- * @since Sep 2024
+ *
  * @author <a href="mailto:tmoeller@codematix.de">Theresa Möller</a>
+ * @since Sep 2024
  */
 @Service
 @RepositoryEventHandler
@@ -68,16 +69,18 @@ public class DataPackageDdiService {
 
   /**
    * Exports all variables metadata belonging to a given data package according to the DDI Codebook standard.
+   *
    * @param dataPackageId the ID of the study
    * @return DDI metadata as XML
    */
-  public ResponseEntity<?> exportDdiVariablesAsXML(String dataPackageId) {
+  public ResponseEntity<?> exportDdiVariablesAsXml(String dataPackageId) {
     try {
       CodeBook variableMetadata = this.getDdiVariablesMetadata(dataPackageId);
       JAXBContext context = JAXBContext.newInstance(CodeBook.class);
       Marshaller mar = context.createMarshaller();
       mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-      mar.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd");;
+      mar.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
+        "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd");
       ByteArrayOutputStream res = new ByteArrayOutputStream();
       mar.marshal(variableMetadata, res);
       ByteArrayResource resource = new ByteArrayResource(res.toByteArray());
@@ -94,6 +97,7 @@ public class DataPackageDdiService {
 
   /**
    * Collects variables metadata according to DDI Codebook standard.
+   *
    * @return the metadata
    */
   private CodeBook getDdiVariablesMetadata(String dataPackageId) throws JsonProcessingException {
@@ -112,12 +116,12 @@ public class DataPackageDdiService {
           String.format("Expected one data package for id '%s', but found %d", dataPackageId, hits.size()));
       }
       DataPackageSearchDocument dataPackageDoc = gson.fromJson(
-        hits.get(0).getSourceAsString(), DataPackageSearchDocument.class);
-      if (dataPackageDoc.getRelease() == null ||
-        (dataPackageDoc.getRelease() != null && dataPackageDoc.getRelease().getIsPreRelease())) {
+          hits.get(0).getSourceAsString(), DataPackageSearchDocument.class);
+      if (dataPackageDoc.getRelease() == null
+          || (dataPackageDoc.getRelease() != null && dataPackageDoc.getRelease().getIsPreRelease())) {
         throw new ElasticsearchException(
-          String.format("DDI codebook export failed. Can only export released data packages. " +
-            "Data package with id '%s' is not released.", dataPackageDoc.getId())
+          String.format("DDI codebook export failed. Can only export released data packages. "
+            + "Data package with id '%s' is not released.", dataPackageDoc.getId())
         );
       }
 
@@ -144,15 +148,16 @@ public class DataPackageDdiService {
 
   /**
    * Create the DDI var Element with data from the variable, and its related questions.
+   *
    * @return the var element
    */
   private Var getDdiVar(VariableSubDocument variableDoc) {
     String name = variableDoc.getId();
     String files = variableDoc.getDataSetId();
-    List<TextElement> varLablList = new ArrayList<>();
+    List<TextElement> varLablList = new ArrayList();
     varLablList.add(new TextElement(LanguageEnum.de, variableDoc.getLabel().getDe()));
     varLablList.add(new TextElement(LanguageEnum.en, variableDoc.getLabel().getEn()));
-    List<TextElement> qstnList = new ArrayList<>();
+    List<TextElement> qstnList = new ArrayList();
     if (variableDoc.getRelatedQuestions() != null && variableDoc.getRelatedQuestions().size() > 0) {
       for (RelatedQuestionSubDocumentProjection relQuest : variableDoc.getRelatedQuestions()) {
         SearchRequest questionRequest = new SearchRequest();
@@ -207,8 +212,8 @@ public class DataPackageDdiService {
           txtList.add(new TextElement(LanguageEnum.en, varDoc.getAnnotations().getEn()));
         }
         if ((varDoc.getScaleLevel().equals(ScaleLevels.NOMINAL) || varDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
-            && varDoc.getDistribution() != null
-            && varDoc.getDistribution().getValidResponses() != null) {
+          && varDoc.getDistribution() != null
+          && varDoc.getDistribution().getValidResponses() != null) {
           for (ValidResponse validResponse : varDoc.getDistribution().getValidResponses()) {
             String catValu = validResponse.getValue();
             List<TextElement> catLablList = new ArrayList<>();
@@ -222,27 +227,31 @@ public class DataPackageDdiService {
           }
           // missing values
           if (varDoc.getDistribution() != null && varDoc.getDistribution().getMissings() != null)
-          for (Missing missing : varDoc.getDistribution().getMissings()) {
-            String catValu = missing.getCode();
-            List<TextElement> catLablList = new ArrayList<>();
-            if (missing.getLabel() != null && missing.getLabel().getDe() != null) {
-              catLablList.add(new TextElement(LanguageEnum.de, missing.getLabel().getDe()));
+            for (Missing missing : varDoc.getDistribution().getMissings()) {
+              String catValu = missing.getCode();
+              List<TextElement> catLablList = new ArrayList<>();
+              if (missing.getLabel() != null && missing.getLabel().getDe() != null) {
+                catLablList.add(new TextElement(LanguageEnum.de, missing.getLabel().getDe()));
+              }
+              if (missing.getLabel() != null && missing.getLabel().getEn() != null) {
+                catLablList.add(new TextElement(LanguageEnum.en, missing.getLabel().getEn()));
+              }
+              catgryList.add(new Catgry(catValu, catLablList));
             }
-            if (missing.getLabel() != null && missing.getLabel().getEn() != null) {
-              catLablList.add(new TextElement(LanguageEnum.en, missing.getLabel().getEn()));
-            }
-            catgryList.add(new Catgry(catValu, catLablList));
-          }
         }
       }
     } catch (IOException e) {
       log.error("An exception occurred querying the variables index. ", e);
     }
-    return new Var(name, files, varLablList, qstnList.size() > 0 ? qstnList : null, txtList, catgryList);
+    return new Var(name, files, varLablList,
+        qstnList.size() > 0 ? qstnList : null,
+        txtList.size() > 0 ? txtList : null,
+        catgryList);
   }
 
   /**
    * Create the DDI element fileDscr with data from the datasets of the data package.
+   *
    * @return the fileDscr element
    */
   private FileDscr getDdiFileDsrc(DataSetSubDocument dataset) {
@@ -256,6 +265,7 @@ public class DataPackageDdiService {
 
   /**
    * Creates the DDI element stdyDscr with data from the data package.
+   *
    * @return the stdyDscr element
    */
   private StdyDscr getDdiStdyDscr(DataPackageSearchDocument doc) {

@@ -1,6 +1,5 @@
-
 /**
- * Configuration for JAXB
+ * Configuration for JAXB.
  */
 
 @XmlSchema(
@@ -10,12 +9,9 @@
   },
   namespace = "ddi:codebook:2_5",
   elementFormDefault = XmlNsForm.QUALIFIED)
-package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
+
+package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
 import javax.xml.bind.annotation.XmlNs;
 import javax.xml.bind.annotation.XmlNsForm;
 import javax.xml.bind.annotation.XmlSchema;
-
-
-
-

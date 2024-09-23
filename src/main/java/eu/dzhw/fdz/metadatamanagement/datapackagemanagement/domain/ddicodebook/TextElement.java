@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddiCodebook;
+package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,9 +15,12 @@ import lombok.AllArgsConstructor;
 @XmlAccessorType(XmlAccessType.NONE)
 public class TextElement {
 
+  /**
+   * Constructor needed by JAXB.
+   */
   public TextElement() {}
 
-  @XmlAttribute(name="xml:lang")
+  @XmlAttribute(name = "xml:lang")
   private LanguageEnum lang;
 
   @XmlValue
