@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.rest;
 import javax.persistence.PersistenceException;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageDdiService;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
