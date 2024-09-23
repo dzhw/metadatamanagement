@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
+/**
+ * Enum representing available language abbreviations.
+ */
 public enum LanguageEnum {
   de("de"), en("en");
 

@@ -52,7 +52,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for construction DDI codebook metadata for all veriables of a {@link DataPackage}.
+ * Service for construction DDI codebook metadata for all variables of a {@link DataPackage}.
  *
  * @author <a href="mailto:tmoeller@codematix.de">Theresa Möller</a>
  * @since Sep 2024
@@ -80,7 +80,7 @@ public class DataPackageDdiService {
       Marshaller mar = context.createMarshaller();
       mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
       mar.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
-        "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd");
+          "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd");
       ByteArrayOutputStream res = new ByteArrayOutputStream();
       mar.marshal(variableMetadata, res);
       ByteArrayResource resource = new ByteArrayResource(res.toByteArray());
@@ -152,8 +152,6 @@ public class DataPackageDdiService {
    * @return the var element
    */
   private Var getDdiVar(VariableSubDocument variableDoc) {
-    String name = variableDoc.getId();
-    String files = variableDoc.getDataSetId();
     List<TextElement> varLablList = new ArrayList();
     varLablList.add(new TextElement(LanguageEnum.de, variableDoc.getLabel().getDe()));
     varLablList.add(new TextElement(LanguageEnum.en, variableDoc.getLabel().getEn()));
@@ -174,7 +172,7 @@ public class DataPackageDdiService {
           }
           for (SearchHit hit : hits) {
             QuestionSearchDocument relatedQuestion = gson.fromJson(
-              hit.getSourceAsString(), QuestionSearchDocument.class);
+                hit.getSourceAsString(), QuestionSearchDocument.class);
             if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getDe() != null) {
               qstnList.add(new TextElement(LanguageEnum.de, relatedQuestion.getQuestionText().getDe()));
             }
@@ -204,7 +202,7 @@ public class DataPackageDdiService {
       }
       for (SearchHit hit : hits) {
         VariableSearchDocument varDoc = gson.fromJson(
-          hit.getSourceAsString(), VariableSearchDocument.class);
+            hit.getSourceAsString(), VariableSearchDocument.class);
         if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getDe() != null) {
           txtList.add(new TextElement(LanguageEnum.de, varDoc.getAnnotations().getDe()));
         }
@@ -212,8 +210,8 @@ public class DataPackageDdiService {
           txtList.add(new TextElement(LanguageEnum.en, varDoc.getAnnotations().getEn()));
         }
         if ((varDoc.getScaleLevel().equals(ScaleLevels.NOMINAL) || varDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
-          && varDoc.getDistribution() != null
-          && varDoc.getDistribution().getValidResponses() != null) {
+            && varDoc.getDistribution() != null
+            && varDoc.getDistribution().getValidResponses() != null) {
           for (ValidResponse validResponse : varDoc.getDistribution().getValidResponses()) {
             String catValu = validResponse.getValue();
             List<TextElement> catLablList = new ArrayList<>();
@@ -226,7 +224,7 @@ public class DataPackageDdiService {
             catgryList.add(new Catgry(catValu, catLablList));
           }
           // missing values
-          if (varDoc.getDistribution() != null && varDoc.getDistribution().getMissings() != null)
+          if (varDoc.getDistribution() != null && varDoc.getDistribution().getMissings() != null) {
             for (Missing missing : varDoc.getDistribution().getMissings()) {
               String catValu = missing.getCode();
               List<TextElement> catLablList = new ArrayList<>();
@@ -238,11 +236,14 @@ public class DataPackageDdiService {
               }
               catgryList.add(new Catgry(catValu, catLablList));
             }
+          }
         }
       }
     } catch (IOException e) {
       log.error("An exception occurred querying the variables index. ", e);
     }
+    String name = variableDoc.getId();
+    String files = variableDoc.getDataSetId();
     return new Var(name, files, varLablList,
         qstnList.size() > 0 ? qstnList : null,
         txtList.size() > 0 ? txtList : null,
