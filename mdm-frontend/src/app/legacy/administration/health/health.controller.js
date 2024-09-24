@@ -85,7 +85,6 @@ angular.module('metadatamanagementApp').controller('HealthController', [
         downloadLink.setAttribute('download', 'variable_pid_mdm_export.json');
         downloadLink.setAttribute('href', window.URL.createObjectURL(blob));
         downloadLink.click();
-        console.log("Download", res);
         $scope.isDownloadingData = false;
       })
     }
