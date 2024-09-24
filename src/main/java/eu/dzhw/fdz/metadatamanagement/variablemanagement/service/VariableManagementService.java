@@ -49,10 +49,6 @@ public class VariableManagementService implements CrudService<Variable> {
 
   private final VariableCrudHelper crudHelper;
 
-  private final RestHighLevelClient client;
-
-  private final Gson gson;
-
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
    *
