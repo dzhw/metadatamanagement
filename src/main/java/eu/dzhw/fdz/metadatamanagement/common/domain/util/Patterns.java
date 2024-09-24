@@ -15,6 +15,7 @@ public interface Patterns {
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT = "^[_A-Za-z0-9äöüÄÖÜß\\-\\.]*$";
 
   String DOI = "^https:\\/\\/doi.org\\/([_A-Za-z0-9äöüÄÖÜß\\-\\/\\:.]{1,}$)";
+  String PID = "^21\\.T11998\\/dzhw:([_A-Za-z0-9äöüÄÖÜß\\-\\/\\:.]{1,}$)";
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR =
       "^[_A-Za-z0-9äöüÄÖÜß\\-\\.\\$]*$";
   String NO_WHITESPACE = "^[^\\s]*$";
