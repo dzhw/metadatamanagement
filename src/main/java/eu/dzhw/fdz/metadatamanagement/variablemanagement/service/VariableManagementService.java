@@ -9,6 +9,8 @@ import java.rmi.server.ExportException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,17 +66,11 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.core.CountRequest;
-import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.ExistsQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.objectweb.asm.TypeReference;
 
 /**
  * Service for managing the domain object/aggregate {@link Variable}.
@@ -320,7 +316,6 @@ public class VariableManagementService implements CrudService<Variable> {
         List<SearchHit> hitsDataPackages = Arrays.asList(responseDataPackage.getHits().getHits());
         assert hitsDataPackages.size() == 1;
 
-        // 3. ES-Query Variables shadow=true, dataAcquisitionProjectId=project.id-project.version
         SearchRequest variablesRequest = new SearchRequest();
         SearchSourceBuilder builderVariables = new SearchSourceBuilder();
         builderVariables.query(QueryBuilders.boolQuery()
@@ -366,18 +361,13 @@ public class VariableManagementService implements CrudService<Variable> {
     ObjectNode variableObj = objectMapper.createObjectNode();
     variableObj.put("studyDOI", dataPackage.getDoi());
     variableObj.put("variableName", variable.getName());
-    // todo: Clarify which language to use
-    variableObj.put("variableLabel", variable.getLabel().getEn() != null
-        ? variable.getLabel().getEn() :
-        variable.getLabel().getDe());
+    variableObj.put("variableLabel", variable.getLabel().getEn());
     variableObj.put("pidProposal", pidPrefix + project.getId() + "_" + variable.getName() + ":"
         + project.getRelease().getVersion());
-    // todo: Clarify which language to use
     variableObj.put("landingPage", landingPageBaseUrl
         + variable.getMasterId().replace("$", "")
         + "?version=" + project.getRelease().getVersion());
     variableObj.put("resourceType", "Variable");
-    // todo: Clarify which language to use
     variableObj.put("title", variable.getName() + ": " + variable.getLabel().getEn());
     variableObj.set("creators", this.compileCreators(dataPackage.getProjectContributors()));
     variableObj.put("publisher", "FDZ-DZHW");
@@ -455,15 +445,23 @@ public class VariableManagementService implements CrudService<Variable> {
   }
 
   /**
-   * Compiles the given list of accessway entries into a readable string.
+   * Selects the availablity type according to the available access ways.
+   * All download, remote and onsite access ways are mapped to "delivery".
+   * All not available access ways are mapped to "not available".
+   * Every other access ways us mapped as "unknown".
    * @param accessWays list of access ways
-   * @return a readable string of access ways
+   * @return the availability string
    */
   private String compileAccessWays(List<String> accessWays) {
-    List<String> strList = new ArrayList<>();
-    for (var access : accessWays) {
-      strList.add(AccessWays.displayAccessWay(access));
+    if (accessWays.contains(AccessWays.DOWNLOAD_CUF)
+        || accessWays.contains(AccessWays.DOWNLOAD_SUF)
+        || accessWays.contains(AccessWays.REMOTE_DESKTOP)
+        || accessWays.contains(AccessWays.ONSITE_SUF)) {
+      return "delivery";
+    } else if (accessWays.contains(AccessWays.NOT_ACCESSIBLE)) {
+      return "not available";
+    } else {
+      return "unknown";
     }
-    return String.join(", ", strList);
   }
 }
