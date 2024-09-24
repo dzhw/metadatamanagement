@@ -35,7 +35,6 @@ angular.module('metadatamanagementApp')
   'blockUI',
   '$mdSidenav',
   'ContainsOnlyQualitativeDataChecker',
-  'ExportDdiVariablesResource',
     function(entity,
              MessageBus,
              PageMetadataService,
@@ -49,8 +48,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope,
              $timeout, $document, DataPackageOverviewResource,
              OutdatedVersionNotifier, DataPackageSearchService, $log,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker, 
-             ExportDdiVariablesResource) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -91,8 +89,6 @@ angular.module('metadatamanagementApp')
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       ctrl.showRemarks = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER']);
-      ctrl.enableVariableExport = Principal
-        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
       var bowser = $rootScope.bowser;
 
@@ -309,24 +305,6 @@ angular.module('metadatamanagementApp')
           return new Date(ctrl.dataPackage.embargoDate) < current;
         }
         return true;
-      }
-
-      /**
-       * Exports Variables metadata as DDI Codebook XML.
-       */
-      ctrl.exportVariables = function() {
-        console.log(ctrl.dataPackage)
-        ExportDdiVariablesResource.exportVariablesAsXml(ctrl.dataPackage.id).then(function(res) {
-          var blob = new Blob([res],{
-            type: "application/xml;charset=utf-8;"
-          });
-          var downloadLink = document.createElement('a');
-          const fileName = 'mdm_export_ddi_variables_' + ctrl.dataPackage.id + '.xml'
-          downloadLink.setAttribute('download', fileName);
-          downloadLink.setAttribute('href', window.URL.createObjectURL(blob));
-          downloadLink.click();
-          $scope.isDownloadingData = false;
-        })
       }
     }]);
 

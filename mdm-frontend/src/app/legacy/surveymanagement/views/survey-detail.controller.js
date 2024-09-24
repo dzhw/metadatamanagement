@@ -24,7 +24,6 @@ angular.module('metadatamanagementApp')
   '$stateParams',
   'blockUI',
   '$mdSidenav',
-  // 'ExportDdiVariablesResource',
     function(entity, LanguageService, CleanJSObjectService,
              PageMetadataService, $state, BreadcrumbService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
@@ -54,19 +53,12 @@ angular.module('metadatamanagementApp')
       ctrl.responseRateImage = null;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
-      // ctrl.enableVariableExport = Principal
-      //   .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
-      ctrl.surveyId = null;
 
       entity.promise.then(function(survey) {
         var fetchFn = SurveySearchService.findShadowByIdAndVersion
           .bind(null, survey.masterId, null, ['nested*','variables','questions',
             'instruments', 'dataSets', 'relatedPublications','concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
-;
-        if (survey.release) {
-          ctrl.surveyId = survey.id + '-' + survey.release.version;
-        }
 
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
