@@ -242,8 +242,8 @@ public class DataPackageDdiService {
     } catch (IOException e) {
       log.error("An exception occurred querying the variables index. ", e);
     }
-    String name = variableDoc.getId();
-    String files = variableDoc.getDataSetId();
+    String name = variableDoc.getId().split("\\$")[0];
+    String files = variableDoc.getDataSetId().split("\\$")[0];
     return new Var(name, files, varLablList,
         qstnList.size() > 0 ? qstnList : null,
         txtList.size() > 0 ? txtList : null,
@@ -256,11 +256,9 @@ public class DataPackageDdiService {
    * @return the fileDscr element
    */
   private FileDscr getDdiFileDsrc(DataSetSubDocument dataset) {
-    String id = dataset.getId();
-    String fileName = dataset.getId();
-    // todo: Clarify why this is just in German and if it is the correct field
+    String id = dataset.getId().split("\\$")[0];
     TextElement fileCont = new TextElement(LanguageEnum.de, dataset.getDescription().getDe());
-    FileTxt fileTxt = new FileTxt(fileName, fileCont);
+    FileTxt fileTxt = new FileTxt(id, fileCont);
     return new FileDscr(id, fileTxt);
   }
 
