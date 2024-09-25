@@ -93,7 +93,7 @@
       </md-list-item>
       <md-list-item style="flex-flow: row; padding-right: 12px;" class="md-no-proxy">
         <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.openCitationDialog($event)"
-          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.isPreReleased || $ctrl.releases.length === 0 || ($ctrl.accessWays && $ctrl.accessWays.length > 0)" style="margin-right: 12px; margin-top: 0px;">
+          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.isPreReleased || $ctrl.releases.length === 0 || !($ctrl.accessWays && $ctrl.accessWays.length > 0)" style="margin-right: 12px; margin-top: 0px;">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.open-citation-tooltip' | translate}}
           </md-tooltip>
