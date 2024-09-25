@@ -5,13 +5,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
@@ -29,9 +22,16 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.helper.VariableCrudHelper;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Service;
+
 /**
  * Service for managing the domain object/aggregate {@link Variable}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -49,7 +49,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
-   * 
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
@@ -59,7 +59,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Update all variables of the project, when the project is released.
-   * 
+   *
    * @param dataAcquisitionProject the changed project
    */
   @HandleAfterSave
@@ -72,7 +72,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * A service method for deletion of variables within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -88,7 +88,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the data set is changed.
-   * 
+   *
    * @param dataSet the updated, created or deleted data set.
    */
   @HandleAfterCreate
@@ -102,7 +102,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the dataPackage is changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -116,7 +116,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the instrument is changed.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -130,7 +130,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the question is changed.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -144,7 +144,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the survey is updated.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -158,7 +158,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   /**
    * Enqueue update of variable search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate

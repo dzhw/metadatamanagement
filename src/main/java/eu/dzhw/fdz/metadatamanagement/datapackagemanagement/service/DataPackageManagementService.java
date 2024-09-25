@@ -36,6 +36,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for managing the domain object/aggregate {@link DataPackage}.
@@ -45,6 +46,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RepositoryEventHandler
 @RequiredArgsConstructor
+@Slf4j
 public class DataPackageManagementService implements CrudService<DataPackage> {
 
   private final DataPackageRepository dataPackageRepository;

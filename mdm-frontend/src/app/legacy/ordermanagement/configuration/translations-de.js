@@ -128,7 +128,9 @@ angular.module('metadatamanagementApp').config([
           'related-publications-tooltip': 'Klicken, um weitere Informationen zu Publikationen zu erhalten.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
-          'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
+          'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.',
+          'export-ddi-variables': 'Variablenmetadaten exportieren',
+          'export-ddi-variables-tooltip': 'Klicken, um die Variablen-Metadaten als DDI-Codebook-XML herunterzuladen.'
         },
         'version-info': {
           'title': 'Eine Version auswählen',
