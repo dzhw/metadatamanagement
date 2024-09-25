@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.google.gson.Gson;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
@@ -22,7 +21,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.helper.VariableCrudHelper;
 import lombok.RequiredArgsConstructor;
-import org.elasticsearch.client.RestHighLevelClient;
 
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
