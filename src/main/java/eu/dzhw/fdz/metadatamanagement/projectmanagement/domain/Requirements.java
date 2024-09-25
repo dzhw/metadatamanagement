@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.javers.core.metamodel.annotation.ValueObject;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.EitherDataPackagesOrAnalysisPackagesRequired;
@@ -36,46 +37,55 @@ public class Requirements implements Serializable {
    * Defines if dataPackage data is required for a release (either this object type is mandatory or
    * analysis packages).
    */
+  @JsonProperty("isDataPackagesRequired")
   private boolean isDataPackagesRequired;
 
   /**
    * Defines if analysis package data is required for a release (either this object type is
    * mandatory or data packages).
    */
+  @JsonProperty("isAnalysisPackagesRequired")
   private boolean isAnalysisPackagesRequired;
 
   /**
    * Defines if survey data is required for a release.
    */
+  @JsonProperty("isSurveysRequired")
   private boolean isSurveysRequired;
 
   /**
    * Defines if instrument data is required for a release.
    */
+  @JsonProperty("isInstrumentsRequired")
   private boolean isInstrumentsRequired;
 
   /**
    * Defines if question data is required for a release.
    */
+  @JsonProperty("isQuestionsRequired")
   private boolean isQuestionsRequired;
 
   /**
    * Defines if data set data is required for a release.
    */
+  @JsonProperty("isDataSetsRequired")
   private boolean isDataSetsRequired;
 
   /**
    * Defines if variable data is required for a release.
    */
+  @JsonProperty("isVariablesRequired")
   private boolean isVariablesRequired;
 
   /**
    * Defines if publication data is required for a release.
    */
+  @JsonProperty("isPublicationsRequired")
   private boolean isPublicationsRequired;
 
   /**
    * Defines if concept data is required for a release.
    */
+  @JsonProperty("isConceptsRequired")
   private boolean isConceptsRequired;
 }
