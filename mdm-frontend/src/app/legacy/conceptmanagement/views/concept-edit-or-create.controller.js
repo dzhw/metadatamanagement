@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp')
   'ConceptAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'ConceptVersionsResource',
+  '$mdDialog',
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
@@ -32,7 +33,7 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
       ConceptAttachmentResource, AttachmentDialogService,
       ConceptAttachmentVersionsResource, ChoosePreviousVersionService,
-      ConceptVersionsResource) {
+      ConceptVersionsResource, $mdDialog) {
 
       var ctrl = this;
 
@@ -407,6 +408,21 @@ angular.module('metadatamanagementApp')
             .hasAuthority('ROLE_PUBLISHER')) {
           ctrl.currentAttachmentIndex = index;
         }
+      };
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
       };
 
       init();
