@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp').config([
             'title': 'Title',
             'dataLanguages': 'Data available in',
             'tags': 'Tags',
+            'tagsElsst': 'ELSST Tags',
             'approvedUsageList': 'Allowed use cases',
             'approvedUsage': 'Special restrictions for the data use',
             'additional-links': 'Additional Links',
@@ -142,7 +143,9 @@ angular.module('metadatamanagementApp').config([
           'tagElsst-tooltip': 'Click to search for data packages with this ELSST tag',
           'generate-datapackage-overview-tooltip': 'Click to generate an overview of this data package as a PDF.',
           'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
-          'order-datapackage-tooltip': 'Click to order this data package.'
+          'order-datapackage-tooltip': 'Click to order this data package.',
+          'elsst-general-tooltip': 'Click to see information about ELSST tags.',
+          'elsst-info': 'The tags that can be referenced here are derived from the European Language Social Science Thesaurus (ELSST) - CESSDA and Service Providers (2023) The European Language Social Science Thesaurus (ELSST) (Version 4). ELSST is a broad-based, multilingual thesaurus for the social sciences. It is owned and published by the Consortium of European Social Science Data Archives (CESSDA) and its national Service Providers. The thesaurus consists of over 3,300 concepts and covers the core social science disciplines: politics, sociology, economics, education, law, crime, demography, health, employment, information and communication technology, and environmental science. ELSST is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (<a href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>). For more information: <a href="https://elsst.cessda.eu/">https://elsst.cessda.eu/</a>'
         },
         'log-messages': {
           'data-package': {
