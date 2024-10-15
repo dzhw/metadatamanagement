@@ -259,6 +259,49 @@ export class DataacquisitionprojectSearchService {
         };
         return query;
     }
+
+    /**
+     * Method assembling a search query to find a specific project by its id.
+     * @param projectType the type of the project (dataPackages or analysisPackages)
+     * @param projectId the project id
+     * @returns an Elasticsearch query
+     */
+    getProjectByIdQuery(
+        projectType: string | null,
+        projectId: string | null) : Query {
+        
+        const boolQuery = this.createBoolQuery();
+    
+        // add no shadows filter
+        const noShadowBase = {'shadow': false};
+        const noShadowsFilter = this.createFilterFragment(QueryFragmentType.term, noShadowBase);
+        boolQuery.bool.filter?.push(noShadowsFilter);
+
+        if (projectType) {
+            const requirement = 'configuration.requirements.is' + projectType.charAt(0).toUpperCase() 
+                + projectType.slice(1) + 'Required';
+            const typeBase = {[requirement]: true};
+            const typeFilter = this.createFilterFragment(QueryFragmentType.term, typeBase);
+            boolQuery.bool.filter?.push(typeFilter);
+        }
+
+        const projectFilter = this.createFilterFragment(QueryFragmentType.term, {id: projectId});
+        boolQuery.bool.must?.push(projectFilter);
+        const queryBody : QueryBody = {
+            track_total_hits: true,
+            query: boolQuery,
+            from: 0,
+            size: 10,
+            sort: this.getDefaultSorting()
+        };
+        console.log(queryBody)
+
+        const query : Query = {
+            index: DATA_ACQUISITION_PROJECT_INDEX_NAME,
+            body: queryBody
+        };
+        return query;
+    }
 }
 
 // necessary for using service in AngularJS

@@ -144,11 +144,9 @@
             var strippedId = ProjectReleaseService.stripVersionSuffix(
               $ctrl.dataPackage.dataAcquisitionProjectId
             );
-            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
               "dataPackages",
-              false, //all projects
-              strippedId,
-              null);
+              strippedId);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;
@@ -184,11 +182,9 @@
             var strippedId = ProjectReleaseService.stripVersionSuffix(
               $ctrl.dataPackage.dataAcquisitionProjectId
             );
-            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
               "dataPackages",
-              false, //all projects
-              strippedId,
-              null);
+              strippedId);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;
