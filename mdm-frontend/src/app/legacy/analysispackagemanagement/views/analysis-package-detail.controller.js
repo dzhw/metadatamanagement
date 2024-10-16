@@ -35,6 +35,9 @@ angular.module('metadatamanagementApp')
   'blockUI',
   '$mdSidenav',
   'ContainsOnlyQualitativeDataChecker',
+  'dataAcquisitionProjectSearchService',
+  'ElasticSearchClient',
+  'ProjectReleaseService',
     function(entity,
              MessageBus,
              PageMetadataService,
@@ -48,7 +51,9 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope, ScriptAttachmentResource,
              $timeout, $document,
              OutdatedVersionNotifier, AnalysisPackageSearchService, $log,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker, 
+             dataAcquisitionProjectSearchService,
+             ElasticSearchClient, ProjectReleaseService) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -204,6 +209,23 @@ angular.module('metadatamanagementApp')
               'currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
             ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
             ctrl.project = project;
+          });
+        } else {
+          // projects can only be queried from ES in this case because the resource requires authentification
+          var strippedId = ProjectReleaseService.stripVersionSuffix(
+            result.dataAcquisitionProjectId
+          );
+          var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
+            "dataPackages",
+            strippedId);
+          ElasticSearchClient.search(projectQuery).then(function(results) {
+            if (results.hits.hits.length === 1) {
+              ctrl.project = results.hits.hits[0]._source;
+            } else {
+              results.hits.hits.length < 1 ? 
+                console.error("No projects found for id " + strippedId) : 
+                console.error("Search resulted in more than one project being found for id " + strippedId);
+            } 
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker

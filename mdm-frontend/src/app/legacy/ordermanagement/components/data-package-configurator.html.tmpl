@@ -37,7 +37,7 @@
         <h5>{{'data-package-management.detail.label.doi' | translate }}:</h5>
         <span class="md-secondary">{{$ctrl.dataPackage.doi}}</span>
       </md-list-item>
-      <md-list-item ng-if="$ctrl.dataPackage.release.firstDate">
+      <md-list-item ng-if="!$ctrl.isPreReleased && $ctrl.dataPackage.release.firstDate">
         <h5>{{'data-package-management.detail.label.published' | translate }}:</h5>
         <span class="md-secondary">{{$ctrl.dataPackage.release.firstDate + 'Z' | date:'mediumDate'}}</span>
       </md-list-item>

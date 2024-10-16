@@ -170,7 +170,6 @@
           $rootScope.$broadcast('stop-ignoring-404');
         });
       } else {
-        console.log(id)
         DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
           $ctrl.dataPackage = data;
