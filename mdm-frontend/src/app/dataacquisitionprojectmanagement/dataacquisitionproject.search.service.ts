@@ -294,7 +294,6 @@ export class DataacquisitionprojectSearchService {
             size: 10,
             sort: this.getDefaultSorting()
         };
-        console.log(queryBody)
 
         const query : Query = {
             index: DATA_ACQUISITION_PROJECT_INDEX_NAME,

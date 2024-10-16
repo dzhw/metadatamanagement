@@ -20,30 +20,35 @@ angular.module('metadatamanagementApp')
         controllerAs: 'ctrl',
 
         controller: [
-          '$scope', '$rootScope', 'Principal',
-          function ($scope, $rootScope, Principal) {
+          '$scope', 'Principal',
+          function ($scope, Principal) {
+            var ctrl = this;
+            ctrl.project = $scope.project;
+
+            if (ctrl.project) {
+              ctrl.type = ctrl.project 
+                && ctrl.project.configuration.requirements.isDataPackagesRequired ? 'data-package' : 'analysis-package';
+            } else {
+              console.error("Project is undefined.")
+            }
+
             if (localStorage.getItem('currentView') === 'orderView' || !Principal.isAuthenticated()) {
               $scope.isOrderView = true;
             }
-            this.project = $scope.project;
-            this.type = this.project 
-              && this.project.configuration.requirements.dataPackagesRequired ? 'data-package' : 'analysis-package';
-          }],
-
-        link: function (ctrl) {
-
-          /**
-           * Whether the embargo date has expired or not.
-           * @returns true if it has expired else false
-           */
-          ctrl.isEmbargoDateExpired = function () {
-            if (ctrl.project && ctrl.project.embargoDate) {
-              var current = new Date();
-              return new Date(ctrl.project.embargoDate) < current;
+            
+            /**
+             * Whether the embargo date has expired or not.
+             * @returns true if it has expired else false
+             */
+            ctrl.isEmbargoDateExpired = function () {
+              if (ctrl.project && ctrl.project.embargoDate) {
+                var current = new Date();
+                return new Date(ctrl.project.embargoDate) < current;
+              }
+              return true;
             }
-            return true;
-          }
-        }
-      };
+            
+          }]         
+        };
     }]);
 

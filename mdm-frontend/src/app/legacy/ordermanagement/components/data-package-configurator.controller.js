@@ -20,8 +20,6 @@
       '$mdDialog',
       'DataPackageCitationDialogService',
       'CurrentDataPackageService',
-      'DataAcquisitionProjectResource',
-      '$q',
       'dataAcquisitionProjectSearchService',
       'ElasticSearchClient',
         function ($scope,
@@ -38,7 +36,7 @@
           DataPackageAccessWaysResource, $mdDialog,
           DataPackageCitationDialogService,
           CurrentDataPackageService,
-          DataAcquisitionProjectResource, $q, dataAcquisitionProjectSearchService, ElasticSearchClient) {
+          dataAcquisitionProjectSearchService, ElasticSearchClient) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -91,6 +89,13 @@
         $ctrl.dataPackageIdVersion.version);
       initReady = true;
     }
+
+    /**
+       * init
+       */
+    $ctrl.$onInit = () => {
+      init();
+    };
 
     /**
      * Method to load the list of available versions of the datapackage.
@@ -165,6 +170,7 @@
           $rootScope.$broadcast('stop-ignoring-404');
         });
       } else {
+        console.log(id)
         DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
           $ctrl.dataPackage = data;
@@ -193,9 +199,8 @@
                   console.error("No projects found") :
                   console.error("Search resulted in more than one project being found.")
               } 
-            });
-
-            loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
+              loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
+            });           
           }
         }, function() {
           $ctrl.dataPackage = null;
