@@ -193,7 +193,7 @@ angular.module('metadatamanagementApp').config([
           'release-settings': {
             'header': 'Einstellungen zur Veröffentlichung',
             'label': 'Embargo-Datum',
-            'info': 'Wenn das Projekt vorerst vorläufig freigegeben werden soll, müssen Sie hier ein Embargo-Datum setzen, welches dem Zeitpunkt der geplanten Veröffentlichung entspricht.',
+            'info': 'Wenn das Projekt vorerst vorläufig freigegeben werden soll, müssen Sie hier ein Embargo-Datum setzen, welches auf den Tag vor dem frühest möglichen Zeitpunkt der Veröffentlichung gesetzt werden muss.',
             'delete-tooltip': 'Embargo-Datum entfernen'
           },
           'requirements': {

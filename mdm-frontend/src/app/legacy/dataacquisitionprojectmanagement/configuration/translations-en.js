@@ -194,7 +194,7 @@ angular.module('metadatamanagementApp').config([
           'release-settings': {
             'header': 'Release Settings',
             'label': 'Embargo Date',
-            'info': 'If the project is to be released preliminary, you need to set an embargo date here, which corresponds to the date of the planned publication.',
+            'info': 'If the project is to be released provisionally for the time being, you must set an embargo date here, which must be set to the day before the earliest possible date of publication.',
             'delete-tooltip': 'Delete embargo date'
           },
           'requirements': {
