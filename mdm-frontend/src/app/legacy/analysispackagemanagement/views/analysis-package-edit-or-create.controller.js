@@ -484,18 +484,43 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveAnalysisPackage = function() {
         if ($scope.analysisPackageForm.$valid) {
-          if (angular.isUndefined(ctrl.analysisPackage.masterId)) {
-            ctrl.analysisPackage.masterId = ctrl.analysisPackage.id;
-          }
-          ctrl.analysisPackage.$save()
-            .then(ctrl.updateElasticSearchIndex)
-            .then(ctrl.onSavedSuccessfully)
-            .catch(function() {
-              SimpleMessageToastService.openAlertMessageToast(
-                'analysis-package-management.edit.error-on-save-toast', {
-                  analysisPackageId: ctrl.analysisPackage.id
+          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.analysisPackage.masterId)) {
+                ctrl.analysisPackage.masterId = ctrl.analysisPackage.id;
+              }
+              ctrl.analysisPackage.$save()
+                .then(ctrl.updateElasticSearchIndex)
+                .then(ctrl.onSavedSuccessfully)
+                .catch(function() {
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'analysis-package-management.edit.error-on-save-toast', {
+                      analysisPackageId: ctrl.analysisPackage.id
+                    });
                 });
             });
+          } else {
+            if (angular.isUndefined(ctrl.analysisPackage.masterId)) {
+              ctrl.analysisPackage.masterId = ctrl.analysisPackage.id;
+            }
+            ctrl.analysisPackage.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function() {
+                SimpleMessageToastService.openAlertMessageToast(
+                  'analysis-package-management.edit.error-on-save-toast', {
+                    analysisPackageId: ctrl.analysisPackage.id
+                  });
+              });
+            }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.analysisPackageForm.$error, function(field) {

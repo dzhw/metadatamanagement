@@ -466,7 +466,13 @@ angular.module('metadatamanagementApp').config([
          },
          'info': {
           'license': 'License'
-        }
+         },
+         'confirm-edit-pre-released-project': {
+           'title': 'Publish changes?',
+           'content': 'This project is currently preliminarly released. Every saved change is immediately visible to the public. Please confirm that you want to save the changes.',
+           'yes': 'Publish changes',
+           'no': 'Continue editing'
+         }
         },
         'people': {
           'edit': {

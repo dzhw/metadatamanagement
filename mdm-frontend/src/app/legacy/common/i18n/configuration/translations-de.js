@@ -466,6 +466,12 @@ angular.module('metadatamanagementApp').config([
           },
           'info': {
             'license': 'Lizenz'
+          },
+          'confirm-edit-pre-released-project': {
+            'title': 'Änderungen freigeben?',
+            'content': 'Dieses Projekt ist aktuell vorläufig freigegeben. Jede gespeicherte Änderung ist unmittelbar öffentlich einsehbar. Bitte bestätigen Sie, dass Sie die Änderung speichern möchten.',
+            'yes': 'Änderungen freigeben',
+            'no': 'Bearbeitung fortsetzen'
           }
         },
         'people': {
