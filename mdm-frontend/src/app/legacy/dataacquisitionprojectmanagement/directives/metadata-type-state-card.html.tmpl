@@ -1,4 +1,4 @@
-<md-card class="fdz-metadata-type-state-card mb8" ng-hide="ctrl.type === 'fake1' || ctrl.type === 'fake2' ||!ctrl.project.configuration.requirements[ctrl.type+'Required']">
+<md-card class="fdz-metadata-type-state-card mb8" ng-hide="ctrl.type === 'fake1' || ctrl.type === 'fake2' ||!ctrl.project.configuration.requirements['is' + ctrl.type.charAt(0).toUpperCase() + ctrl.type.slice(1) +'Required']">
 	<md-card-header>
 		<md-card-header-text class="pb8" layout="row" layout-align="space-between center" ng-if="ctrl.type.indexOf('fake') === -1">
 			<a ui-sref="search({type: ctrl.searchState})" class="md-headline" layout="row" layout-align="start center">
@@ -50,13 +50,13 @@
 				<span>{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>
-			<md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.project.configuration.requirements.dataPackagesRequired" target="_blank" href="{{'related-publication-management.report-publications.button.link' | translate:{dataPackageId: ctrl.dataPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
+			<md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.project.configuration.requirements.isDataPackagesRequired" target="_blank" href="{{'related-publication-management.report-publications.button.link' | translate:{dataPackageId: ctrl.dataPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
 				<span>{{'related-publication-management.report-publications.button.text' | translate}}</span>
 				<md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
 		      {{'related-publication-management.report-publications.button.tooltip' | translate }}
 		    </md-tooltip>
 		  </md-button>
-      <md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.project.configuration.requirements.analysisPackagesRequired" target="_blank" href="{{'related-publication-management.report-publications.button.analysis-package.link' | translate:{analysisPackageId: ctrl.analysisPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
+      <md-button class="md-primary md-raised" ng-if="ctrl.type==='publications' && ctrl.project.configuration.requirements.isAnalysisPackagesRequired" target="_blank" href="{{'related-publication-management.report-publications.button.analysis-package.link' | translate:{analysisPackageId: ctrl.analysisPackageId} }}" analytics-on="click" analytics-event="report-publications" analytics-label="{{'related-publication-management.report-publications.button.text' | translate}}" analytics-category="Publikationen">
         <span>{{'related-publication-management.report-publications.button.text' | translate}}</span>
         <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'related-publication-management.report-publications.button.analysis-package.tooltip' | translate }}
