@@ -36,8 +36,8 @@ angular.module('metadatamanagementApp').service('ProjectUpdateAccessService', [
         type = type === 'data_sets' ? 'dataSets' : type;
         type = type === 'data_packages' ? 'dataPackages' : type;
         type = type === 'analysis_packages' ? 'analysisPackages' : type;
-        return _.get(project, 'configuration.requirements.' + type +
-          'Required');
+        return _.get(project, 'configuration.requirements.is' + type.charAt(0).toUpperCase() +
+          type.slice(1) + 'Required');
       } else {
         return false;
       }

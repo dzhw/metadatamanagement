@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp')
           var optionalStates = ['surveys', 'instruments', 'questions',
             'dataSets', 'variables', 'publications', 'concepts', 'fake1'];
           var activeStates = _.filter(optionalStates, function(state) {
-            return ctrl.project.configuration.requirements[state + 'Required'];
+            return ctrl.project.configuration.requirements['is' + state.charAt(0).toUpperCase() + state.slice(1) + 'Required'];
           });
           var inactiveStates = _.difference(optionalStates, activeStates);
           return activeStates.concat(inactiveStates);
