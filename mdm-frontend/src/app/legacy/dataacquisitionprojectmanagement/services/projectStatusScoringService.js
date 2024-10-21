@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
   .service('ProjectStatusScoringService', function() {
     var scoreProjectStatus = function(project, type) {
       var isRequired = project.configuration
-        .requirements[type + 'Required'];
+        .requirements['is' + type.charAt(0).toUpperCase() + type.slice(1) + 'Required'];
 
       var typeState = project.configuration[type + 'State'];
 
