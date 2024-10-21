@@ -25,7 +25,7 @@
 			<md-input-container>
 				<label>{{'data-acquisition-project-management.project-cockpit.release-settings.label' | translate}}</label>
 				<div class="layout-row">
-					<md-datepicker ng-model="ctrl.project.embargoDate" ng-disabled="ctrl.isEmbargoDateDisabled()" md-hide-icons="calendar" ng-change="ctrl.onEmbargoDateChanged()" md-open-on-focus>
+					<md-datepicker ng-model="ctrl.selectedEmbargoDate" ng-disabled="ctrl.isEmbargoDateDisabled()" md-hide-icons="calendar" ng-change="ctrl.onEmbargoDateChanged()" md-open-on-focus>
 					</md-datepicker>
 					<md-button ng-disabled="ctrl.project.embargoDate === undefined || ctrl.isEmbargoDateDisabled()" class="md-icon-button md-primary mb-16" ng-click="ctrl.removeEmbargoDate()">
 						<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img">delete_forever</md-icon>
