@@ -430,7 +430,16 @@ public class DaraService {
     addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate); // ???
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    dataForTemplate.put("embargoDate", project.getEmbargoDate().format(formatter));
+    if (project.getEmbargoDate() != null) {
+      dataForTemplate.put("embargoDate", project.getEmbargoDate().format(formatter));
+    } else {
+      /**
+       * If the embargo date is null it indicates that is has been removed from a pre-released project.
+       * As the project can now be released at any time and the embargo date is no longer in place we update dara with
+       * the current date set as the embargo date.
+       */
+      dataForTemplate.put("embargoDate", LocalDateTime.now().format(formatter));
+    }
 
     return dataForTemplate;
   }

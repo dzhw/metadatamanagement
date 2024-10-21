@@ -228,7 +228,7 @@ public class PostValidationService {
 
   /**
    * This method handles a reduced validation of a data acquisition project for pre-releases.
-   * Checks include whether the project has an embargo date, and valid data for data packages or
+   * Checks include whether the project has valid data for data packages or
    * analysis packages.
    * @param project the project to be validated
    * @param errors the list of validation errors
@@ -240,13 +240,6 @@ public class PostValidationService {
     Configuration configuration = project.getConfiguration();
     Requirements requirements = configuration.getRequirements();
     List<String> information = new ArrayList<>();
-
-    if (project.getEmbargoDate() == null) {
-      PostValidationMessageDto message = new PostValidationMessageDto(
-          "data-acquisition-project-management.error.post-validation.no-embargo-date",
-          Collections.singletonList(project.getId()));
-      errors.add(message);
-    }
 
     if (isProjectStateInvalid(requirements.isDataPackagesRequired(),
         configuration.getDataPackagesState())) {
