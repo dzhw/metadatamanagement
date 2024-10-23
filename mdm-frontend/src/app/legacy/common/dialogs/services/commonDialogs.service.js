@@ -90,6 +90,18 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService', ['$mdDia
       return $mdDialog.show(confirmOnFilenameChangedDialog);
     };
 
+    var showConfirmEditPreReleaseDialog = function(titleKey, titleParams, contentKey,
+      contentParams, targetEvent) {
+      var confirmDialog = $mdDialog.confirm({
+        onComplete: focusCancelButton
+      }).title($translate.instant(titleKey, titleParams)).textContent(
+        $translate.instant(contentKey, contentParams))
+        .ok($translate.instant('global.common-dialogs.confirm-edit-pre-released-project.yes'))
+        .cancel($translate.instant('global.common-dialogs.confirm-edit-pre-released-project.no'))
+        .targetEvent(targetEvent);
+      return $mdDialog.show(confirmDialog);
+    };
+
     /**
      * Shows an info dialog with title and content and only one action
      * button to close the dialog.
@@ -115,6 +127,7 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService', ['$mdDia
       showConfirmFileDeletionDialog: showConfirmFileDeletionDialog,
       showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog,
       showConfirmDeletionDialog: showConfirmDeletionDialog,
+      showConfirmEditPreReleaseDialog: showConfirmEditPreReleaseDialog,
       showInfoDialog: showInfoDialog
     };
   }]);

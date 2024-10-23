@@ -268,18 +268,43 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveInstrument = function() {
         if ($scope.instrumentForm.$valid) {
-          if (angular.isUndefined(ctrl.instrument.masterId)) {
-            ctrl.instrument.masterId = ctrl.instrument.id;
-          }
-          ctrl.instrument.$save()
-          .then(ctrl.updateElasticSearchIndex)
-          .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              console.log(error);
-              SimpleMessageToastService.openAlertMessageToast(
-                'instrument-management.edit.error-on-save-toast',
-                {instrumentId: ctrl.instrument.id});
+          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.instrument.masterId)) {
+                ctrl.instrument.masterId = ctrl.instrument.id;
+              }
+              ctrl.instrument.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function(error) {
+                  console.log(error);
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'instrument-management.edit.error-on-save-toast',
+                    {instrumentId: ctrl.instrument.id});
+                });
             });
+          } else {
+            if (angular.isUndefined(ctrl.instrument.masterId)) {
+              ctrl.instrument.masterId = ctrl.instrument.id;
+            }
+            ctrl.instrument.$save()
+            .then(ctrl.updateElasticSearchIndex)
+            .then(ctrl.onSavedSuccessfully)
+            .catch(function(error) {
+                console.log(error);
+                SimpleMessageToastService.openAlertMessageToast(
+                  'instrument-management.edit.error-on-save-toast',
+                  {instrumentId: ctrl.instrument.id});
+              });
+          }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.instrumentForm.$error, function(field) {

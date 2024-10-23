@@ -63,6 +63,13 @@
       initReady = true;
     }
 
+    /**
+       * init
+       */
+    $ctrl.$onInit = () => {
+      init();
+    };
+
     function loadVersion(dataAcquisitionProjectId) {
       DataAcquisitionProjectReleasesResource.get(
         {
@@ -135,11 +142,9 @@
             var id = ProjectReleaseService.stripVersionSuffix(
               $ctrl.analysisPackage.dataAcquisitionProjectId
             );
-            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
               "analysisPackages",
-              false, //all projects
-              id,
-              null);
+              id);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;
@@ -176,11 +181,9 @@
             var id = ProjectReleaseService.stripVersionSuffix(
               $ctrl.analysisPackage.dataAcquisitionProjectId
             );
-            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
               "analysisPackages",
-              false, //all projects
-              id,
-              null);
+              id);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;

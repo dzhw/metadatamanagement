@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp').config([
             'deleted-successfully-project': 'Successfully deleted Data Acquisition Project "{{ id }}"!',
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
             'released-successfully': 'The projects metadata has been sent to da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
+            'dara-update-successfully': 'The projects metadata has been updated at da|ra.',
             'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No metadata has been sent to da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" can now be edited by assigned Publishers and Data Providers.',
             'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. The da|ra service for registering the DOI is currently not available. Contact the administrator (fdz-feedback@dzhw.eu) and try again later.',
@@ -194,7 +195,7 @@ angular.module('metadatamanagementApp').config([
           'release-settings': {
             'header': 'Release Settings',
             'label': 'Embargo Date',
-            'info': 'If the project is to be released preliminary, you need to set an embargo date here, which corresponds to the date of the planned publication.',
+            'info': 'If the project is to be released provisionally for the time being, you must set an embargo date here, which must be set to the day before the earliest possible date of publication.',
             'delete-tooltip': 'Delete embargo date'
           },
           'requirements': {

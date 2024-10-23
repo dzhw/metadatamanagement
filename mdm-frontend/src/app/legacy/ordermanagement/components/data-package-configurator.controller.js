@@ -20,8 +20,6 @@
       '$mdDialog',
       'DataPackageCitationDialogService',
       'CurrentDataPackageService',
-      'DataAcquisitionProjectResource',
-      '$q',
       'dataAcquisitionProjectSearchService',
       'ElasticSearchClient',
         function ($scope,
@@ -38,7 +36,7 @@
           DataPackageAccessWaysResource, $mdDialog,
           DataPackageCitationDialogService,
           CurrentDataPackageService,
-          DataAcquisitionProjectResource, $q, dataAcquisitionProjectSearchService, ElasticSearchClient) {
+          dataAcquisitionProjectSearchService, ElasticSearchClient) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -93,6 +91,13 @@
     }
 
     /**
+       * init
+       */
+    $ctrl.$onInit = () => {
+      init();
+    };
+
+    /**
      * Method to load the list of available versions of the datapackage.
      * 
      * @param {*} dataAcquisitionProjectId the id of the data acquisition project
@@ -144,11 +149,9 @@
             var strippedId = ProjectReleaseService.stripVersionSuffix(
               $ctrl.dataPackage.dataAcquisitionProjectId
             );
-            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
               "dataPackages",
-              false, //all projects
-              strippedId,
-              null);
+              strippedId);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;
@@ -184,11 +187,9 @@
             var strippedId = ProjectReleaseService.stripVersionSuffix(
               $ctrl.dataPackage.dataAcquisitionProjectId
             );
-            var projectQuery = dataAcquisitionProjectSearchService.createSearchQueryForProjectsById(
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
               "dataPackages",
-              false, //all projects
-              strippedId,
-              null);
+              strippedId);
             ElasticSearchClient.search(projectQuery).then(function(results) {
               if (results.hits.hits.length === 1) {
                 $ctrl.project = results.hits.hits[0]._source;
@@ -197,9 +198,8 @@
                   console.error("No projects found") :
                   console.error("Search resulted in more than one project being found.")
               } 
-            });
-
-            loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
+              loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
+            });           
           }
         }, function() {
           $ctrl.dataPackage = null;

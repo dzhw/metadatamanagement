@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp').config([
             'deleted-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" wurde erfolgreich gelöscht.',
             'deleted-not-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" konnte nicht gelöscht werden!',
             'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein.',
+            'dara-update-successfully': 'Die Metadaten des Projektes wurden bei da|ra aktualisiert.',
             'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Der da|ra-Service zur Registrierung der DOI ist aktuell nicht verfügbar. Kontaktieren Sie den Administrator (fdz-feedback@dzhw.eu) und versuchen Sie es später erneut.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt bearbeitet werden.',
@@ -193,7 +194,7 @@ angular.module('metadatamanagementApp').config([
           'release-settings': {
             'header': 'Einstellungen zur Veröffentlichung',
             'label': 'Embargo-Datum',
-            'info': 'Wenn das Projekt vorerst vorläufig freigegeben werden soll, müssen Sie hier ein Embargo-Datum setzen, welches dem Zeitpunkt der geplanten Veröffentlichung entspricht.',
+            'info': 'Wenn das Projekt vorerst vorläufig freigegeben werden soll, müssen Sie hier ein Embargo-Datum setzen, welches auf den Tag vor dem frühest möglichen Zeitpunkt der Veröffentlichung gesetzt werden muss.',
             'delete-tooltip': 'Embargo-Datum entfernen'
           },
           'requirements': {

@@ -244,18 +244,43 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveSurvey = function() {
         if ($scope.surveyForm.$valid) {
-          if (angular.isUndefined(ctrl.survey.masterId)) {
-            ctrl.survey.masterId = ctrl.survey.id;
-          }
-          ctrl.survey.$save()
-          .then(ctrl.updateElasticSearchIndex)
-          .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              $log.error(error);
-              SimpleMessageToastService.openAlertMessageToast(
-                'survey-management.edit.error-on-save-toast',
-                {surveyId: ctrl.survey.id});
+          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.survey.masterId)) {
+                ctrl.survey.masterId = ctrl.survey.id;
+              }
+              ctrl.survey.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function(error) {
+                  $log.error(error);
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'survey-management.edit.error-on-save-toast',
+                    {surveyId: ctrl.survey.id});
+                });
             });
+          } else {
+            if (angular.isUndefined(ctrl.survey.masterId)) {
+              ctrl.survey.masterId = ctrl.survey.id;
+            }
+            ctrl.survey.$save()
+            .then(ctrl.updateElasticSearchIndex)
+            .then(ctrl.onSavedSuccessfully)
+            .catch(function(error) {
+                $log.error(error);
+                SimpleMessageToastService.openAlertMessageToast(
+                  'survey-management.edit.error-on-save-toast',
+                  {surveyId: ctrl.survey.id});
+              });
+          }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.surveyForm.$error, function(field) {
