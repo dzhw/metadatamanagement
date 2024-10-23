@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp')
   'blockUI',
   '$mdSidenav',
   'ContainsOnlyQualitativeDataChecker',
+  '$mdDialog',
     function(entity,
              MessageBus,
              PageMetadataService,
@@ -48,7 +49,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope, ScriptAttachmentResource,
              $timeout, $document,
              OutdatedVersionNotifier, AnalysisPackageSearchService, $log,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker, $mdDialog) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -310,6 +311,21 @@ angular.module('metadatamanagementApp')
           return new Date(ctrl.analysisPackage.embargoDate) < current;
         }
         return true;
+      };
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        })
       };
     }]);
 

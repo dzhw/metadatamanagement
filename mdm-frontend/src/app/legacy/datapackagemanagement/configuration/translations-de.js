@@ -143,7 +143,9 @@ angular.module('metadatamanagementApp').config([
           'tagElsst-tooltip': 'Klicken, um Datenpakete mit diesem ELSST-Schlagwort zu suchen.',
           'generate-datapackage-overview-tooltip': 'Klicken, um eine Übersicht über dieses Datenpaket als PDF zu erstellen.',
           'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
-          'order-datapackage-tooltip': 'Klicken, um dieses Datenpaket zu bestellen.'
+          'order-datapackage-tooltip': 'Klicken, um dieses Datenpaket zu bestellen.',
+          'elsst-general-tooltip': 'Klicken, um Informationen zu ELSST-Schlagwörtern zu erhalten.',
+          'elsst-info': 'Die Schlagwörter, auf die hier verwiesen werden kann, stammen aus dem European Language Social Science Thesaurus (ELSST) - CESSDA and Service Providers (2023) The European Language Social Science Thesaurus (ELSST) (Version 4). ELSST ist ein breit angelegter, mehrsprachiger Thesaurus für die Sozialwissenschaften. Er ist Eigentum des Consortium of European Social Science Data Archives (CESSDA) und seiner nationalen Dienstleister und wird von diesen herausgegeben. Der Thesaurus besteht aus über 3.300 Konzepten und deckt die wichtigsten sozialwissenschaftlichen Disziplinen ab: Politik, Soziologie, Wirtschaft, Bildung, Recht, Kriminalität, Demografie, Gesundheit, Beschäftigung, Informations- und Kommunikationstechnologie sowie Umweltwissenschaften. ELSST ist unter einer Creative Commons Attribution-ShareAlike 4.0 International License (<a href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>) lizenziert. Weitere Informationen: <a href="https://elsst.cessda.eu/">https://elsst.cessda.eu/</a>'
         },
         'log-messages': {
           'data-package': {
