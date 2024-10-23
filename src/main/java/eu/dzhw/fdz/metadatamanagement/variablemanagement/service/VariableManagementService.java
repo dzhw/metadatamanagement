@@ -346,7 +346,11 @@ public class VariableManagementService implements CrudService<Variable> {
     ObjectNode variableObj = objectMapper.createObjectNode();
     variableObj.put("studyDOI", dataPackage.getDoi());
     variableObj.put("variableName", variable.getName());
-    variableObj.put("variableLabel", variable.getLabel().getEn());
+    if (variable.getLabel().getEn() == null || variable.getLabel().getEn().isEmpty()) {
+      variableObj.put("variableLabel", variable.getLabel().getDe());
+    } else {
+      variableObj.put("variableLabel", variable.getLabel().getEn());
+    }
     variableObj.put("pidProposal", pidPrefix + project.getId() + "_" + variable.getName() + ":"
         + project.getRelease().getVersion());
     variableObj.put("landingPage", landingPageBaseUrl
