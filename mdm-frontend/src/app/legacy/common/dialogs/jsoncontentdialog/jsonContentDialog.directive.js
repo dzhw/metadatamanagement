@@ -18,12 +18,6 @@ angular.module('metadatamanagementApp')
 
         $scope.bowser = bowser;
 
-        function DialogController($scope, $mdDialog, content, headerTitle) {
-          $scope.cancel = $mdDialog.hide;
-          $scope.content = content;
-          $scope.headerTitle = headerTitle;
-        }
-
         var filteredContent;
 
         if (_.isArray($scope.excludeFields)) {
@@ -34,7 +28,7 @@ angular.module('metadatamanagementApp')
 
         $scope.open = function() {
           $mdDialog.show({
-            controller: DialogController,
+            controller: 'DialogController',
             templateUrl: 'scripts/common/dialogs/jsoncontentdialog/' +
               'jsonContentDialog.html.tmpl',
             parent: angular.element(document.body),

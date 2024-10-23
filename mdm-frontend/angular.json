@@ -226,6 +226,7 @@
               "src/app/legacy/common/trustinput/trustResourceUrl.filter.js",
               "src/app/legacy/common/dialogs/services/commonDialogs.service.js",
               "src/app/legacy/common/window/directives/readElementSize.directive.js",
+              "src/app/legacy/common/dialogs/jsoncontentdialog/jsonContentDialog.controller.js",
               "src/app/legacy/common/dialogs/jsoncontentdialog/jsonContentDialog.directive.js",
               "src/app/legacy/common/dialogs/jsoncontentdialog/configuration/translations-de.js",
               "src/app/legacy/common/dialogs/jsoncontentdialog/configuration/translations-en.js",
