@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp')
             }
             this.project = $scope.project;
             this.type = this.project 
-              && this.project.configuration.requirements.dataPackagesRequired ? 'data-package' : 'analysis-package';
+              && this.project.configuration.requirements.isDataPackagesRequired ? 'data-package' : 'analysis-package';
           }],
 
         link: function (ctrl) {

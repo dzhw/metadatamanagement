@@ -71,7 +71,7 @@
           </md-radio-button>
         </md-radio-group>
       </md-input-container>
-      <md-input-container ng-if="!project.configuration.requirements.analysisPackagesRequired && !isPreRelease()" class="md-block">
+      <md-input-container ng-if="!project.configuration.requirements.isAnalysisPackagesRequired && !isPreRelease()" class="md-block">
         <md-checkbox name="pinToStartPage" ng-model="release.pinToStartPage"
                      style="margin: 0 18px 0 0">
           {{'data-acquisition-project-management.release.pin-to-start-page' | translate }}

@@ -95,24 +95,24 @@ angular.module('metadatamanagementApp')
          * Sets basic requirements in case of analysis packages being selected as the project type.
          */
         ctrl.isAnalysisPackageChecked = function() {
-          req.analysisPackagesRequired = true;
-          req.dataPackagesRequired = false;
-          req.surveysRequired = false;
-          req.instrumentsRequired = false;
-          req.questionsRequired = false;
-          req.dataSetsRequired = false;
-          req.variablesRequired = false;
-          req.publicationsRequired = true;
-          req.conceptsRequired = false;
+          req.isAnalysisPackagesRequired = true;
+          req.isDataPackagesRequired = false;
+          req.isSurveysRequired = false;
+          req.isInstrumentsRequired = false;
+          req.isQuestionsRequired = false;
+          req.isDataSetsRequired = false;
+          req.isVariablesRequired = false;
+          req.isPublicationsRequired = true;
+          req.isConceptsRequired = false;
         };
 
         /**
          * Sets basic requirements in case of data packages being selected as the project type.
          */
         ctrl.isDataPackageChecked = function() {
-          req.analysisPackagesRequired = false;
-          req.dataPackagesRequired = true;
-          req.publicationsRequired = false;
+          req.isAnalysisPackagesRequired = false;
+          req.isDataPackagesRequired = true;
+          req.isPublicationsRequired = false;
         };
 
         /**
