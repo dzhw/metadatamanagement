@@ -440,6 +440,12 @@
           <md-card-header-text>
             <h2 class="md-title">{{'analysis-package-management.edit.label.tagsElsst' | translate }}</h2>
           </md-card-header-text>
+          <md-button class="md-primary md-icon-button" style="margin-left: -10px; margin-right: -5px; width: fit-content; padding-top: 0px;" ng-click="ctrl.infoModal($event)">
+            <md-icon style="margin: 0px;">info</md-icon>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.detail.elsst-general-tooltip' | translate}}
+            </md-tooltip>
+          </md-button>
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content>

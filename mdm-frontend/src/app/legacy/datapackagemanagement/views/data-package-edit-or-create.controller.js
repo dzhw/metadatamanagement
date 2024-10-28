@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp')
   'DataPackageAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'DataPackageVersionsResource',
+  '$mdDialog',
     function(entity, PageMetadataService, $document, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataPackageIdBuilderService, DataPackageResource,
@@ -40,7 +41,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, ProjectUpdateAccessService,
       AttachmentDialogService, DataPackageAttachmentUploadService,
       DataPackageAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataPackageVersionsResource) {
+      DataPackageVersionsResource, $mdDialog) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -946,6 +947,21 @@ angular.module('metadatamanagementApp')
             return "unknown"
         }
       }
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
+      };
 
       init();
     }]);

@@ -326,5 +326,20 @@ angular.module('metadatamanagementApp')
         }
         return true;
       }
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
+      };
     }]);
 

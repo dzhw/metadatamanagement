@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp')
   'AnalysisPackageAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'AnalysisPackageVersionsResource',
+  '$mdDialog',
     function(entity, PageMetadataService, $document, $timeout,
              $state, BreadcrumbService, Principal, SimpleMessageToastService,
              CurrentProjectService, AnalysisPackageIdBuilderService,
@@ -42,7 +43,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService,
              AttachmentDialogService, AnalysisPackageAttachmentUploadService,
              AnalysisPackageAttachmentVersionsResource,
-             ChoosePreviousVersionService, AnalysisPackageVersionsResource) {
+             ChoosePreviousVersionService, AnalysisPackageVersionsResource, $mdDialog) {
 
       var ctrl = this;
       ctrl.currentInstitutions = [];
@@ -832,6 +833,21 @@ angular.module('metadatamanagementApp')
             'ROLE_DATA_PROVIDER'])) {
           ctrl.currentAttachmentIndex = index;
         }
+      };
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
       };
 
       init();
