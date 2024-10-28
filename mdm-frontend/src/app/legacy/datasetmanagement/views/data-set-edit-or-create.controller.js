@@ -348,18 +348,43 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveDataSet = function() {
         if ($scope.dataSetForm.$valid) {
-          if (angular.isUndefined(ctrl.dataSet.masterId)) {
-            ctrl.dataSet.masterId = ctrl.dataSet.id;
-          }
-          ctrl.dataSet.$save()
-          .then(ctrl.updateElasticSearchIndex)
-          .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              console.log(error);
-              SimpleMessageToastService.openAlertMessageToast(
-                'data-set-management.edit.error-on-save-toast',
-                {dataSetId: ctrl.dataSet.id});
+          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.dataSet.masterId)) {
+                ctrl.dataSet.masterId = ctrl.dataSet.id;
+              }
+              ctrl.dataSet.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function(error) {
+                  console.log(error);
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'data-set-management.edit.error-on-save-toast',
+                    {dataSetId: ctrl.dataSet.id});
+                });
             });
+          } else {
+            if (angular.isUndefined(ctrl.dataSet.masterId)) {
+              ctrl.dataSet.masterId = ctrl.dataSet.id;
+            }
+            ctrl.dataSet.$save()
+            .then(ctrl.updateElasticSearchIndex)
+            .then(ctrl.onSavedSuccessfully)
+            .catch(function(error) {
+                console.log(error);
+                SimpleMessageToastService.openAlertMessageToast(
+                  'data-set-management.edit.error-on-save-toast',
+                  {dataSetId: ctrl.dataSet.id});
+              });
+          }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.dataSetForm.$error, function(field) {

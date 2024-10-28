@@ -69,6 +69,14 @@
       "type": "boolean",
       "copy_to": "all"
     },
+    "isExternalDataPackage": {
+      "type": "boolean",
+      "copy_to": "all"
+    },
+    "isTransmittedViaVerbundFdb": {
+      "type": "boolean",
+      "copy_to": "all"
+    },
     "embargoDate": {
       "type": "date"
     },

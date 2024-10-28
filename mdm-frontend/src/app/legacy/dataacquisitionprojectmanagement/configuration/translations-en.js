@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp').config([
             'deleted-successfully-project': 'Successfully deleted Data Acquisition Project "{{ id }}"!',
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
             'released-successfully': 'The projects metadata has been sent to da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
+            'dara-update-successfully': 'The projects metadata has been updated at da|ra.',
             'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No metadata has been sent to da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" can now be edited by assigned Publishers and Data Providers.',
             'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. The da|ra service for registering the DOI is currently not available. Contact the administrator (fdz-feedback@dzhw.eu) and try again later.',
@@ -88,6 +89,12 @@ angular.module('metadatamanagementApp').config([
             },
             'has-user-service-remarks': {
               'not-null': 'The information is missing, that a Data Acquisition Project has remarks for the user service.'
+            },
+            'is-external': {
+              'not-null': 'The information is missing, if this is an external data package.'
+            },
+            'is-tansmitted-via-verbundfdb': {
+              'not-null': 'The information is missing, if this data package is transmitted via VerbundFDB.'
             }
           },
           'configuration': {
@@ -194,7 +201,7 @@ angular.module('metadatamanagementApp').config([
           'release-settings': {
             'header': 'Release Settings',
             'label': 'Embargo Date',
-            'info': 'If the project is to be released preliminary, you need to set an embargo date here, which corresponds to the date of the planned publication.',
+            'info': 'If the project is to be released provisionally for the time being, you must set an embargo date here, which must be set to the day before the earliest possible date of publication.',
             'delete-tooltip': 'Delete embargo date'
           },
           'requirements': {
@@ -294,7 +301,9 @@ angular.module('metadatamanagementApp').config([
               'assignee-group': 'Assigned to',
               'release-state': 'Release state',
               'datapackage-filter': 'Filter for data packages',
-              'user-service-remarks': 'Remarks User Service'
+              'user-service-remarks': 'Remarks User Service',
+              'external-datapackage': 'External data package',
+              'data-transmission-verbund-fdb': 'Data transmission via VerbundFDB'
             },
             'options': {
               'assignee-group': {
@@ -313,8 +322,16 @@ angular.module('metadatamanagementApp').config([
                 'concepts': 'Concepts'
               },
               'user-service-remarks': {
-                'with-additional-info': 'With remarks for user service',
-                'without-additional-info': 'Without remarks for user service'
+                'with-remarks': 'With remarks for user service',
+                'without-remarks': 'Without remarks for user service'
+              },
+              'external-datapackage': {
+                'true': 'External data package',
+                'false': 'Not an external data package'
+              },
+              'data-transmission-verbund-fdb': {
+                'true': 'Data transmission via VerbundFDB',
+                'false': 'No data transmission via VerbundFDB'
               }
             }
           },
