@@ -24,6 +24,8 @@
       '$q',
       'dataAcquisitionProjectSearchService',
       'ElasticSearchClient',
+      'ExportDdiVariablesResource',
+      'Principal',
         function ($scope,
           $rootScope,
           $location,
@@ -38,7 +40,8 @@
           DataPackageAccessWaysResource, $mdDialog,
           DataPackageCitationDialogService,
           CurrentDataPackageService,
-          DataAcquisitionProjectResource, $q, dataAcquisitionProjectSearchService, ElasticSearchClient) {
+          DataAcquisitionProjectResource, $q, dataAcquisitionProjectSearchService, ElasticSearchClient,
+          ExportDdiVariablesResource, Principal) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -49,6 +52,7 @@
     $ctrl.isPreReleased = false;
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
+    $ctrl.allowedToExportVariableMetadata = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
@@ -89,6 +93,7 @@
       $ctrl.selectedVersion = $ctrl.dataPackageIdVersion.version;
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
         $ctrl.dataPackageIdVersion.version);
+      $ctrl.allowedToExportVariableMetadata = Principal.isAuthenticated();
       initReady = true;
     }
 
@@ -389,5 +394,32 @@
         return new Date($ctrl.dataPackage.embargoDate) < current;
       }
       return true;
+    }
+
+    /**
+     * Checks if the latest version is selected.
+     * @returns true if the latest version is selected else false
+     */
+    $ctrl.isLatestVersionSelected = function() {
+      return this.selectedVersion 
+        && $ctrl.releases 
+        && $ctrl.releases.length > 0 ? $ctrl.releases[0].version === this.selectedVersion : false;
+    }
+
+    /**
+     * Exports Variables metadata as DDI Codebook XML.
+     */
+    $ctrl.exportVariables = function() {
+      ExportDdiVariablesResource.exportVariablesAsXml($ctrl.dataPackage.id).then(function(res) {
+        var blob = new Blob([res],{
+          type: "application/xml;charset=utf-8;"
+        });
+        var downloadLink = document.createElement('a');
+        const fileName = 'mdm_export_ddi_variables_' + $ctrl.dataPackage.id.split('$')[0] + '.xml'
+        downloadLink.setAttribute('download', fileName);
+        downloadLink.setAttribute('href', window.URL.createObjectURL(blob));
+        downloadLink.click();
+        $scope.isDownloadingData = false;
+      })
     }
 }]);

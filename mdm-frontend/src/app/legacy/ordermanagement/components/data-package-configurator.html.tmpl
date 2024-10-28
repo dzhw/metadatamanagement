@@ -113,6 +113,16 @@
           </md-menu-content>
         </md-menu>
       </md-list-item>
+      <md-list-item style="flex-flow: row; padding-right: 12px;" class="md-no-proxy">
+        <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.exportVariables()"
+          ng-hide="!$ctrl.allowedToExportVariableMetadata || !$ctrl.isLatestVersionSelected() || !$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.isPreReleased || ($ctrl.accessWays && $ctrl.accessWays.length === 0) || $ctrl.releases.length === 0"
+          style="margin-right: 12px; margin-top: 0px; ">
+          <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'shopping-cart.buttons.export-ddi-variables-tooltip' | translate}}
+          </md-tooltip>
+          <span>{{'shopping-cart.buttons.export-ddi-variables' | translate}}</span>
+        </md-button>
+      </md-list-item>
     </md-list>
   </md-card-content>
   <md-card-footer style="padding-top: 0px;">
