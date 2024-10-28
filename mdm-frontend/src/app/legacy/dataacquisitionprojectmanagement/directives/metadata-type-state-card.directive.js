@@ -152,8 +152,8 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isRequired = function() {
-          return _.get(ctrl, 'project.configuration.requirements.' +
-            ctrl.type + 'Required');
+          return _.get(ctrl, 'project.configuration.requirements.' + 'is' +
+            ctrl.type.charAt(0).toUpperCase() + ctrl.type.slice(1) + 'Required');
         };
 
         ctrl.getModifyButtonLabel = function(group) {
@@ -182,8 +182,8 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isUpdateAllowed = function(type) {
-          return !_.get(ctrl, 'project.configuration.requirements.' +
-            type + 'Required');
+          return !_.get(ctrl, 'project.configuration.requirements.is' +
+            type.charAt(0).toUpperCase() + type.slice(1) + 'Required');
         };
 
         ctrl.isUploadAllowed = function(type) {
