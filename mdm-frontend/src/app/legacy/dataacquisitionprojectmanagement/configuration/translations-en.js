@@ -89,6 +89,12 @@ angular.module('metadatamanagementApp').config([
             },
             'has-user-service-remarks': {
               'not-null': 'The information is missing, that a Data Acquisition Project has remarks for the user service.'
+            },
+            'is-external': {
+              'not-null': 'The information is missing, if this is an external data package.'
+            },
+            'is-tansmitted-via-verbundfdb': {
+              'not-null': 'The information is missing, if this data package is transmitted via VerbundFDB.'
             }
           },
           'configuration': {
@@ -295,7 +301,9 @@ angular.module('metadatamanagementApp').config([
               'assignee-group': 'Assigned to',
               'release-state': 'Release state',
               'datapackage-filter': 'Filter for data packages',
-              'user-service-remarks': 'Remarks User Service'
+              'user-service-remarks': 'Remarks User Service',
+              'external-datapackage': 'External data package',
+              'data-transmission-verbund-fdb': 'Data transmission via VerbundFDB'
             },
             'options': {
               'assignee-group': {
@@ -314,8 +322,16 @@ angular.module('metadatamanagementApp').config([
                 'concepts': 'Concepts'
               },
               'user-service-remarks': {
-                'with-additional-info': 'With remarks for user service',
-                'without-additional-info': 'Without remarks for user service'
+                'with-remarks': 'With remarks for user service',
+                'without-remarks': 'Without remarks for user service'
+              },
+              'external-datapackage': {
+                'true': 'External data package',
+                'false': 'Not an external data package'
+              },
+              'data-transmission-verbund-fdb': {
+                'true': 'Data transmission via VerbundFDB',
+                'false': 'No data transmission via VerbundFDB'
               }
             }
           },
