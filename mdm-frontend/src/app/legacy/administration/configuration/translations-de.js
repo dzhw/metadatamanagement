@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp').config([
             'dara': 'Dara',
             'messageBroker': 'Message Broker (für Websockets)',
             'rabbit': 'RabbitMQ',
-            'seo4Ajax': 'Seo4Ajax (Prerender as a Service)'
+            'seo4Ajax': 'Seo4Ajax (Prerender as a Service)',
+            'pid': 'PID'
           },
           'table': {
             'service': 'Servicename',
@@ -45,6 +46,9 @@ angular.module('metadatamanagementApp').config([
             'update': 'Aktualisieren',
             'update-success': 'DARA erfolgreich aktualisiert',
             'update-failure': 'Es sind Fehler beim Aktualisieren von DARA aufgetreten! (Siehe Details)'
+          },
+          'pid': {
+            'download': 'Daten herunterladen'
           }
         },
         'logs': {
