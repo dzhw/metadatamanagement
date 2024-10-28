@@ -104,14 +104,14 @@ angular.module('metadatamanagementApp')
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
         'concepts'];
-      if (project.configuration.requirements.dataPackagesRequired) {
+      if (project.configuration.requirements.isDataPackagesRequired) {
         // request the data package to get its title and doi through the master id
         DataPackageSearchService.findDataPackageById(
           DataPackageIdBuilderService.buildDataPackageId(project.id), excludes)
           .promise.then(function(response) {
             $scope.setTweetPlaceholder(response);
         });
-      } else if (project.configuration.requirements.analysisPackagesRequired) {
+      } else if (project.configuration.requirements.isAnalysisPackagesRequired) {
         // request the analysis package to get its title and doi through the master id
         AnalysisPackageSearchService.findAnalysisPackageById(
           AnalysisPackageIdBuilderService.buildAnalysisPackageId(project.id), excludes)

@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp')
             if (localStorage.getItem('currentView') === 'orderView' || !Principal.isAuthenticated()) {
               $scope.isOrderView = true;
             }
-            
+
             /**
              * Whether the embargo date has expired or not.
              * @returns true if it has expired else false
@@ -47,8 +47,8 @@ angular.module('metadatamanagementApp')
               }
               return true;
             }
-            
-          }]         
+
+          }]
         };
     }]);
 

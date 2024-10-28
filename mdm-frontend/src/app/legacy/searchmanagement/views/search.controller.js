@@ -584,31 +584,31 @@ angular.module('metadatamanagementApp').controller('SearchController', [
 
       if (project) {
         var inactiveStates = [];
-        if (!project.configuration.requirements.dataPackagesRequired) {
+        if (!project.configuration.requirements.isDataPackagesRequired) {
           inactiveStates.push('dataPackages');
         }
-        if (!project.configuration.requirements.analysisPackagesRequired) {
+        if (!project.configuration.requirements.isAnalysisPackagesRequired) {
           inactiveStates.push('analysisPackages');
         }
-        if (!project.configuration.requirements.conceptsRequired) {
+        if (!project.configuration.requirements.isConceptsRequired) {
           inactiveStates.push('concepts');
         }
-        if (!project.configuration.requirements.surveysRequired) {
+        if (!project.configuration.requirements.isSurveysRequired) {
           inactiveStates.push('surveys');
         }
-        if (!project.configuration.requirements.instrumentsRequired) {
+        if (!project.configuration.requirements.isInstrumentsRequired) {
           inactiveStates.push('instruments');
         }
-        if (!project.configuration.requirements.questionsRequired) {
+        if (!project.configuration.requirements.isQuestionsRequired) {
           inactiveStates.push('questions');
         }
-        if (!project.configuration.requirements.dataSetsRequired) {
+        if (!project.configuration.requirements.isDataSetsRequired) {
           inactiveStates.push('dataSets');
         }
-        if (!project.configuration.requirements.variablesRequired) {
+        if (!project.configuration.requirements.isVariablesRequired) {
           inactiveStates.push('variables');
         }
-        if (!project.configuration.requirements.publicationsRequired) {
+        if (!project.configuration.requirements.isPublicationsRequired) {
           inactiveStates.push('publications');
         }
 
