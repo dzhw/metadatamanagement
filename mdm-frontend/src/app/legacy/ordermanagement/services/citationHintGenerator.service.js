@@ -74,19 +74,24 @@ function($interpolate, LanguageService, $filter, $rootScope) {
       });
   };
 
-  var generateBibtexForAttachment = function(attachment) {
+  var generateBibtexForAttachment = function(attachment, dataPackage) {
     if ($rootScope.bowser.msie) {
       throw 'citation.js is not compatible with IE11';
     }
     var citeJson = {
       title: attachment.title,
       type: 'report',
+      DOI: dataPackage.doi,
       publisher: attachment.citationDetails.institution,
       'publisher-place': attachment.citationDetails.location,
       issued: [{'date-parts': [attachment.citationDetails.publicationYear]}],
       author: mapPeopleToCiteJson(attachment.citationDetails.authors)
     };
-    return new Cite(citeJson).format('bibtex')
+    return new Cite(citeJson).format('biblatex') // use biblatex to include the doi and map fields back to bibtex names
+      .replace('@report', '@techreport')
+      .replace('date =', 'year =')
+      .replace('location =', 'address =')
+      .replace('publisher =', 'institution =')
       // remove spaces in latex code for umlauts
       .replace(/{\\.\s./g, function(match) {
         return match.replace(' ', '');
@@ -118,14 +123,17 @@ function($interpolate, LanguageService, $filter, $rootScope) {
     };
   };
 
-  var generateCitationHintForAttachment = function(attachment) {
+  var generateCitationHintForAttachment = function(attachment, dataPackage) {
     var citationHint =
       '{{attachment.citationDetails.authors | displayPersons}} ' +
       '({{attachment.citationDetails.publicationYear}}). ' +
       '{{attachment.title}}. ' +
       '{{attachment.citationDetails.location}}: ' +
       '{{attachment.citationDetails.institution}}.';
-    return $interpolate(citationHint)({attachment: attachment});
+    if (!!dataPackage.doi) {
+      citationHint += ' https://doi.org/{{dataPackage.doi}}';
+    }
+    return $interpolate(citationHint)({attachment: attachment, dataPackage: dataPackage});
   };
 
   return {
