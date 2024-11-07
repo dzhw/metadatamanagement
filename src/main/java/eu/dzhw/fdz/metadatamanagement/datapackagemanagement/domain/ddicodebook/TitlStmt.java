@@ -21,4 +21,6 @@ public class TitlStmt {
   @XmlElement(name = "parTitl")
   TextElement parTitle;
 
+  @XmlElement(name = "IDNo")
+  IDNo idNo;
 }
