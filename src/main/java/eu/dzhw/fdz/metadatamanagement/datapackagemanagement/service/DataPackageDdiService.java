@@ -19,7 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.C
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.DataDscr;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.FileDscr;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.FileTxt;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.IDNo;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.IdNo;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.LanguageEnum;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Location;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.StdyDscr;
@@ -260,14 +260,14 @@ public class DataPackageDdiService {
   private FileDscr getDdiFileDsrc(DataSetSubDocument dataset) {
     var id = dataset.getId().split("\\$")[0];
     final var fileTxt = new FileTxt(
-      List.of(
-        new TextElement(LanguageEnum.de, id),
-        new TextElement(LanguageEnum.en, id)
-      ),
-      List.of(
-        new TextElement(LanguageEnum.de, dataset.getDescription().getDe()),
-        new TextElement(LanguageEnum.en, dataset.getDescription().getEn())
-      )
+        List.of(
+          new TextElement(LanguageEnum.de, id),
+          new TextElement(LanguageEnum.en, id)
+        ),
+        List.of(
+          new TextElement(LanguageEnum.de, dataset.getDescription().getDe()),
+          new TextElement(LanguageEnum.en, dataset.getDescription().getEn())
+        )
     );
     return new FileDscr(id, fileTxt);
   }
@@ -280,9 +280,9 @@ public class DataPackageDdiService {
   private StdyDscr getDdiStdyDscr(DataPackageSearchDocument doc) {
     TextElement titl = new TextElement(LanguageEnum.de, doc.getTitle().getDe());
     TextElement parTitl = new TextElement(LanguageEnum.en, doc.getTitle().getEn());
-    IDNo idNo = null;
+    IdNo idNo = null;
     if (doc.getDoi() != null && !doc.getDoi().isBlank()) {
-      idNo = new IDNo("DOI", doc.getRelease().getVersion(), doc.getDoi());
+      idNo = new IdNo("DOI", doc.getRelease().getVersion(), doc.getDoi());
     }
     Citation citation = new Citation(new TitlStmt(titl, parTitl, idNo));
     return new StdyDscr(citation);

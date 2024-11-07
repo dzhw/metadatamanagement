@@ -5,23 +5,29 @@ import lombok.AllArgsConstructor;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
+/**
+ * ID element for the study (e.g. DOI).
+ */
 @AllArgsConstructor
-public class IDNo {
+public class IdNo {
 
-  public IDNo() {}
+  public IdNo() {}
 
   /**
-   * e.g. 'DOI'
+   * The agency the ID is registered with (e.g. 'DOI').
    */
   @XmlAttribute
   String agency;
 
   /**
-   * The data package version e.g. '1.0.0'
+   * The data package version (e.g. '1.0.0').
    */
   @XmlAttribute
   String elementVersion;
 
+  /**
+   * The ID value.
+   */
   @XmlValue
-  String dataPackageDOI;
+  String value;
 }

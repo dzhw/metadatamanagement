@@ -22,5 +22,5 @@ public class TitlStmt {
   TextElement parTitle;
 
   @XmlElement(name = "IDNo")
-  IDNo idNo;
+  IdNo idNo;
 }
