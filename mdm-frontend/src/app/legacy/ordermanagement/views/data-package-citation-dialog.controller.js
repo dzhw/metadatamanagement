@@ -38,10 +38,10 @@ angular.module('metadatamanagementApp')
         ctrl.methodReportsCitationHint = {
           de: germanMethodReports.length > 0 ?
             CitationHintGeneratorService.generateCitationHintForAttachment(
-              germanMethodReports[0]) : null,
+              germanMethodReports[0], dataPackage) : null,
           en: englishMethodReports.length > 0 ?
             CitationHintGeneratorService.generateCitationHintForAttachment(
-              englishMethodReports[0]) : null,
+              englishMethodReports[0], dataPackage) : null,
         };
         ctrl.methodReports = {
           de: germanMethodReports.length > 0 ? germanMethodReports[0] : null,
@@ -74,7 +74,7 @@ angular.module('metadatamanagementApp')
       }
       if (methodReport) {
         ctrl.saveBibtex(CitationHintGeneratorService
-          .generateBibtexForAttachment(methodReport));
+          .generateBibtexForAttachment(methodReport, dataPackage));
       }
     };
 
