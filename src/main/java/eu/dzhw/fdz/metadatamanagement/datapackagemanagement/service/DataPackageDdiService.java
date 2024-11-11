@@ -19,7 +19,9 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.C
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.DataDscr;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.FileDscr;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.FileTxt;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.IdNo;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.LanguageEnum;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Location;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.StdyDscr;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TextElement;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TitlStmt;
@@ -243,8 +245,8 @@ public class DataPackageDdiService {
       log.error("An exception occurred querying the variables index. ", e);
     }
     String name = variableDoc.getId().split("\\$")[0];
-    String files = variableDoc.getDataSetId().split("\\$")[0];
-    return new Var(name, files, varLablList,
+    final var location = new Location(variableDoc.getDataSetId().split("\\$")[0]);
+    return new Var(name, location, varLablList,
         qstnList.size() > 0 ? qstnList : null,
         txtList.size() > 0 ? txtList : null,
         catgryList);
@@ -256,9 +258,17 @@ public class DataPackageDdiService {
    * @return the fileDscr element
    */
   private FileDscr getDdiFileDsrc(DataSetSubDocument dataset) {
-    String id = dataset.getId().split("\\$")[0];
-    TextElement fileCont = new TextElement(LanguageEnum.de, dataset.getDescription().getDe());
-    FileTxt fileTxt = new FileTxt(id, fileCont);
+    var id = dataset.getId().split("\\$")[0];
+    final var fileTxt = new FileTxt(
+        List.of(
+          new TextElement(LanguageEnum.de, id),
+          new TextElement(LanguageEnum.en, id)
+        ),
+        List.of(
+          new TextElement(LanguageEnum.de, dataset.getDescription().getDe()),
+          new TextElement(LanguageEnum.en, dataset.getDescription().getEn())
+        )
+    );
     return new FileDscr(id, fileTxt);
   }
 
@@ -270,7 +280,11 @@ public class DataPackageDdiService {
   private StdyDscr getDdiStdyDscr(DataPackageSearchDocument doc) {
     TextElement titl = new TextElement(LanguageEnum.de, doc.getTitle().getDe());
     TextElement parTitl = new TextElement(LanguageEnum.en, doc.getTitle().getEn());
-    Citation citation = new Citation(new TitlStmt(titl, parTitl));
+    IdNo idNo = null;
+    if (doc.getDoi() != null && !doc.getDoi().isBlank()) {
+      idNo = new IdNo("DOI", doc.getRelease().getVersion(), doc.getDoi());
+    }
+    Citation citation = new Citation(new TitlStmt(titl, parTitl, idNo));
     return new StdyDscr(citation);
   }
 }

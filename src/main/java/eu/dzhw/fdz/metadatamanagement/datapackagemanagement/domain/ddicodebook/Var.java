@@ -21,8 +21,8 @@ public class Var {
   @XmlAttribute(name = "name")
   String name;
 
-  @XmlAttribute(name = "files")
-  String files;
+  @XmlElement
+  Location location;
 
   @XmlElement(name = "labl")
   List<TextElement> labl;

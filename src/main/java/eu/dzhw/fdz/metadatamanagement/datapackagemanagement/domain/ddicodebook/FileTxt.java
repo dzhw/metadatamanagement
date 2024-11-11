@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 /**
  * Class representing the DDI fileTxt element.
  */
@@ -16,9 +18,9 @@ public class FileTxt {
   public FileTxt() {}
 
   @XmlElement(name = "fileName")
-  String fileName;
+  List<TextElement> fileName;
 
   @XmlElement(name = "fileCont")
-  TextElement fileCont;
+  List<TextElement> fileCont;
 
 }
