@@ -348,7 +348,10 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveDataSet = function() {
         if ($scope.dataSetForm.$valid) {
-          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
             CommonDialogsService.showConfirmEditPreReleaseDialog(
               'global.common-dialogs' +
               '.confirm-edit-pre-released-project.title',

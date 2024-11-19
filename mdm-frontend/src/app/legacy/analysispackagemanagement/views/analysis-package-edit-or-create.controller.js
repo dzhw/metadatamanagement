@@ -485,7 +485,10 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveAnalysisPackage = function() {
         if ($scope.analysisPackageForm.$valid) {
-          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
             CommonDialogsService.showConfirmEditPreReleaseDialog(
               'global.common-dialogs' +
               '.confirm-edit-pre-released-project.title',

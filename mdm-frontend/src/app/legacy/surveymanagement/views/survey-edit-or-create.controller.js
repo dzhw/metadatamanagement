@@ -244,7 +244,10 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveSurvey = function() {
         if ($scope.surveyForm.$valid) {
-          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
             CommonDialogsService.showConfirmEditPreReleaseDialog(
               'global.common-dialogs' +
               '.confirm-edit-pre-released-project.title',
