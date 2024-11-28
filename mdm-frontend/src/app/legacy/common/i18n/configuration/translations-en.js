@@ -471,7 +471,11 @@ angular.module('metadatamanagementApp').config([
            'title': 'Publish changes?',
            'content': 'This project is currently preliminarly released. Every saved change is immediately visible to the public. Please confirm that you want to save the changes.',
            'yes': 'Publish changes',
-           'no': 'Continue editing'
+           'no': 'Continue editing',
+           'attachment-title': 'Publish documents?',
+           'attachment-content': 'This project is currently preliminarly released. Added documents are immediatly visible to the public. Do you want to continue?',
+           'attachment-yes': 'Yes',
+           'attachment-no': 'Cancel'
          },
          'confirm-edit-embargo-date': {
             'title': 'Change embargo date?',

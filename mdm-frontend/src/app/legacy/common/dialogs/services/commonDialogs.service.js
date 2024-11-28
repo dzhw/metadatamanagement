@@ -102,6 +102,18 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService', ['$mdDia
       return $mdDialog.show(confirmDialog);
     };
 
+    var showConfirmAddAttachmentPreReleaseDialog = function(titleKey, titleParams, contentKey,
+      contentParams, targetEvent) {
+      var confirmDialog = $mdDialog.confirm({
+        onComplete: focusCancelButton
+      }).title($translate.instant(titleKey, titleParams)).textContent(
+        $translate.instant(contentKey, contentParams))
+        .ok($translate.instant('global.common-dialogs.confirm-edit-pre-released-project.attachment-yes'))
+        .cancel($translate.instant('global.common-dialogs.confirm-edit-pre-released-project.attachment-no'))
+        .targetEvent(targetEvent);
+      return $mdDialog.show(confirmDialog);
+    };
+
     /**
      * Shows an info dialog with title and content and only one action
      * button to close the dialog.
@@ -128,6 +140,7 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService', ['$mdDia
       showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog,
       showConfirmDeletionDialog: showConfirmDeletionDialog,
       showConfirmEditPreReleaseDialog: showConfirmEditPreReleaseDialog,
+      showConfirmAddAttachmentPreReleaseDialog: showConfirmAddAttachmentPreReleaseDialog,
       showInfoDialog: showInfoDialog
     };
   }]);
