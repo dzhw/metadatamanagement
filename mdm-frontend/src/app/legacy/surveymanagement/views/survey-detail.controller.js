@@ -90,7 +90,8 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: survey.dataPackage.masterId
+              masterId: survey.dataPackage.masterId,
+              projectId: survey.dataAcquisitionProjectId
             });
         }
         BreadcrumbService.updateToolbarHeader({
