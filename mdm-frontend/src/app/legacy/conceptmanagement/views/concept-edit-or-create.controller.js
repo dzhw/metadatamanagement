@@ -26,6 +26,7 @@ angular.module('metadatamanagementApp')
   'ChoosePreviousVersionService',
   'ConceptVersionsResource',
   '$mdDialog',
+  'CurrentProjectService',
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
@@ -33,7 +34,7 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
       ConceptAttachmentResource, AttachmentDialogService,
       ConceptAttachmentVersionsResource, ChoosePreviousVersionService,
-      ConceptVersionsResource, $mdDialog) {
+      ConceptVersionsResource, $mdDialog, CurrentProjectService) {
 
       var ctrl = this;
 
@@ -363,11 +364,29 @@ angular.module('metadatamanagementApp')
           labels: getDialogLabels()
         };
 
-        AttachmentDialogService
+        if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+          CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-title',
+            {},
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-content',
+            {},
+            null
+          ).then(function success() {
+            AttachmentDialogService
+              .showDialog(dialogConfig, event)
+              .then(function() {
+                ctrl.loadAttachments(true);
+              });
+          });
+        } else {
+          AttachmentDialogService
             .showDialog(dialogConfig, event)
             .then(function() {
               ctrl.loadAttachments(true);
             });
+        }
       };
 
       ctrl.moveAttachmentUp = function() {
