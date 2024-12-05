@@ -135,6 +135,11 @@
 
     function loadDataPackage(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
+      // sometimes on init there is no project id, because it is loaded later on
+      if (id === undefined) {
+        console.debug("No project ID provided to search by.")
+        return;
+      }
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',

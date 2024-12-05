@@ -348,7 +348,10 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveDataSet = function() {
         if ($scope.dataSetForm.$valid) {
-          if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
             CommonDialogsService.showConfirmEditPreReleaseDialog(
               'global.common-dialogs' +
               '.confirm-edit-pre-released-project.title',
@@ -588,11 +591,29 @@ angular.module('metadatamanagementApp')
           labels: getDialogLabels()
         };
 
-        AttachmentDialogService
-            .showDialog(dialogConfig, event)
-            .then(function() {
-              ctrl.loadAttachments(true);
-            });
+        if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+          CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-title',
+            {},
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-content',
+            {},
+            null
+          ).then(function success() {
+            AttachmentDialogService
+              .showDialog(dialogConfig, event)
+              .then(function() {
+                ctrl.loadAttachments(true);
+              });
+          });
+        } else {
+          AttachmentDialogService
+          .showDialog(dialogConfig, event)
+          .then(function() {
+            ctrl.loadAttachments(true);
+          });
+        }
       };
 
       ctrl.moveAttachmentUp = function() {

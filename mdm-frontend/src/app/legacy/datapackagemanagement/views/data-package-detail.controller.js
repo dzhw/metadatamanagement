@@ -180,7 +180,8 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.masterId
+              masterId: result.masterId,
+              projectId: result.dataAcquisitionProjectId
             });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         } else {

@@ -471,7 +471,11 @@ angular.module('metadatamanagementApp').config([
             'title': 'Änderungen freigeben?',
             'content': 'Dieses Projekt ist aktuell vorläufig freigegeben. Jede gespeicherte Änderung ist unmittelbar öffentlich einsehbar. Bitte bestätigen Sie, dass Sie die Änderung speichern möchten.',
             'yes': 'Änderungen freigeben',
-            'no': 'Bearbeitung fortsetzen'
+            'no': 'Bearbeitung fortsetzen',
+            'attachment-title': 'Materialien freigeben?',
+            'attachment-content': 'Dieses Projekt ist aktuell vorläufig freigegeben. Hinzugefügte Anhänge sind unmittelbar öffentlich einsehbar. Möchten Sie fortfahren?',
+            'attachment-yes': 'Ja',
+            'attachment-no': 'Abbrechen'
           },
           'confirm-edit-embargo-date': {
             'title': 'Embargodatum ändern?',

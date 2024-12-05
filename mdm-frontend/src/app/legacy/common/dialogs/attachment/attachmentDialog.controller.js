@@ -147,7 +147,7 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
       if ($scope.attachmentForm.$valid) {
         // before saving, remove empty author array entries; we assume that entry is null if 'firstName'
         // is null because it is one of the mandatory fields
-        if (ctrl.attachmentMetadata.type.en === "Questionnaire" || ctrl.attachmentMetadata.type.en === "Variable Questionnaire") {
+        if (ctrl.attachmentMetadata.type != null && (ctrl.attachmentMetadata.type.en === "Questionnaire" || ctrl.attachmentMetadata.type.en === "Variable Questionnaire")) {
           ctrl.attachmentMetadata.citationDetails.authors = ctrl.attachmentMetadata.citationDetails.authors.filter(
             author => author.firstName && author.firstName.trim() !== "");
         }
