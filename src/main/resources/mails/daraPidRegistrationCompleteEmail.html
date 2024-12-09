@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+    a {
+      text-decoration: none;
+      color: #006AB2;
+    }
+
+    body {
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+<p th:text="#{email.activation.greetingLogin(${name})}">Dear</p>
+<p>
+  <span
+    th:text="#{email.dara-pid-registration-complete.messageStart(${projectReleaseVersion})}"
+    >The variables for the release 1.0.0 of your project</span>
+  <a
+    th:href="@{projectUrl}"
+    th:text="${dataPackageTitle}"
+    >Grant Study 2024</a>
+  <span th:text="#{email.dara-pid-registration-complete.messageEnd}"
+    >have been registered successfully with da|ra.</span>
+</p>
+<p>
+  <span th:text="#{email.activation.text2}">Regards,</span> <br /> <em
+  th:text="#{email.signature}">Your FDZ-Team</em>
+</p>
+</body>
+</html>

@@ -13,6 +13,13 @@ angular.module('metadatamanagementApp').config([
           'landing-page-de-title': 'German',
           'landing-page-en-title': 'English',
           'landing-page-hint': 'Please select the language of the DOI landing page',
+          'pid-registration': 'Registration of Persistent Identifiers (PIDs) for the variables of the data package',
+          'pid-registration-hint': 'Check this box if you want to register PIDs for each variable of the data package',
+          'pid-api-not-reachable-dialog': {
+            'title': 'PID registration service not available',
+            'message': 'The service for registering PIDs for variables is currently not available. You can still carry out the release and register the variables later.',
+            'question': 'Should the release process be continued?'
+          },
           'pin-to-start-page': 'Show Data Package on Start Page',
           'pin-to-start-page-hint': 'Check this box, if you want to show this data package on the start page.',
           'confirmed': {
@@ -56,10 +63,12 @@ angular.module('metadatamanagementApp').config([
             'deleted-successfully-project': 'Successfully deleted Data Acquisition Project "{{ id }}"!',
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
             'released-successfully': 'The projects metadata has been sent to da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
+            'released-successfully-with-pids': 'The release process has been initiated. The data package will be available in a few minutes. The registration of the PIDs for variables is carried out in the background and can take up to an hour.',
             'dara-update-successfully': 'The projects metadata has been updated at da|ra.',
             'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No metadata has been sent to da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" can now be edited by assigned Publishers and Data Providers.',
             'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. The da|ra service for registering the DOI is currently not available. Contact the administrator (fdz-feedback@dzhw.eu) and try again later.',
+            'dara-pid-previous-registration': 'PIDs are already registered for the variables in this version, no new registration will be made. The data package is released as usual, no further action is required.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
             'unrelease': 'Do you really want to unrelease the project "{{ id }}" and edit its metadata?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',
@@ -158,6 +167,10 @@ angular.module('metadatamanagementApp').config([
           'unreleased': 'Unreleased',
           'pre-released': 'Preliminarily released'
         },
+        'registration-status-badge': {
+          'registered': 'PIDs registered',
+          'not-registered': 'No PIDs registered'
+        },
         'project-cockpit': {
           'title': 'Project-Cockpit ({{projectId}})',
           'header': 'Project-Cockpit',
@@ -187,7 +200,8 @@ angular.module('metadatamanagementApp').config([
             'save': 'Click to save the changes.',
             'save-assign': 'Click to save the changes and to assign the project.',
             'save-takeback': 'Click to save the changes and to assign the project to the publishers group.',
-            'remove-user': 'Remove user'
+            'remove-user': 'Remove user',
+            'register-pids': 'Register PIDs with da|ra'
           },
           'list': {
             'empty-data-provider': 'No data providers are assigned to this project.',
@@ -258,6 +272,13 @@ angular.module('metadatamanagementApp').config([
               'hide-shadow': 'This version is currently visible for all users. Click here to hide this version!',
               'unhide-shadow': 'This version is currently not visible for all users. Click here to make it available for all users!',
               'pre-released': 'This version is subject to an embargo until {{ date }}. The final release can only take place after this date.'
+            }
+          },
+          'pid-registration': {
+            'confirm-dialog': {
+              'title': 'Register PIDs with da|ra',
+              'message': 'The registration of the PIDs for variables is carried out in the background and can take up to an hour.',
+              'question': 'Do you want to proceed?'
             }
           }
         },

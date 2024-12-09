@@ -3,7 +3,7 @@
 resource "aws_ecs_cluster" "cluster" {
   count = length(var.stages)
   name  = var.stages[count.index]
-  
+
   capacity_providers = ["FARGATE", "FARGATE_SPOT"]
   default_capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
@@ -24,6 +24,9 @@ data "template_file" "web_container" {
     dara_endpoint     = var.dara_credentials[count.index].endpoint
     dara_username     = var.dara_credentials[count.index].username
     dara_password     = var.dara_credentials[count.index].password
+    dara_pid_endpoint = var.dara_pid_credentials[count.index].endpoint
+    dara_pid_username = var.dara_pid_credentials[count.index].username
+    dara_pid_password = var.dara_pid_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
@@ -95,6 +98,9 @@ data "template_file" "worker_container" {
     dara_endpoint     = var.dara_credentials[count.index].endpoint
     dara_username     = var.dara_credentials[count.index].username
     dara_password     = var.dara_credentials[count.index].password
+    dara_pid_endpoint = var.dara_pid_credentials[count.index].endpoint
+    dara_pid_username = var.dara_pid_credentials[count.index].username
+    dara_pid_password = var.dara_pid_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]

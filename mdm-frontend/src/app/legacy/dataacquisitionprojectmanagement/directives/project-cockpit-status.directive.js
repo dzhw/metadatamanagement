@@ -24,7 +24,8 @@ angular.module('metadatamanagementApp')
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
         'project-cockpit-status.html.tmpl',
       scope: {
-        project: '='
+        project: '=',
+        variablesCheck: '<'
       },
       replace: true,
       controllerAs: 'ctrl',
@@ -36,6 +37,7 @@ angular.module('metadatamanagementApp')
         this.isAssignedPublisher =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,
             this.project, 'publishers');
+        this.hasAdminRole = () => Principal.isAdmin();
       }],
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {

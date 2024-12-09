@@ -71,6 +71,19 @@
           </md-radio-button>
         </md-radio-group>
       </md-input-container>
+      <!--
+        P I D   R E G I S T R A T I O N
+      -->
+      <md-input-container ng-if="showPIDRegistrationOption" class="md-block" disabled>
+        <md-checkbox
+          name="registerPID"
+          ng-model="release.registerPID"
+          style="margin: 0 18px 0 0"
+          >{{ 'data-acquisition-project-management.release.pid-registration' | translate }}</md-checkbox>
+        <div class="fdz-input-hint">
+          {{'data-acquisition-project-management.release.pid-registration-hint' | translate}}
+        </div>
+      </md-input-container>
       <md-input-container ng-if="!project.configuration.requirements.isAnalysisPackagesRequired && !isPreRelease()" class="md-block">
         <md-checkbox name="pinToStartPage" ng-model="release.pinToStartPage"
                      style="margin: 0 18px 0 0">

@@ -461,6 +461,7 @@
               "src/app/legacy/dataacquisitionprojectmanagement/services/projectStatusScoringService.js",
               "src/app/legacy/dataacquisitionprojectmanagement/directives/projectStatusBadge.directive.js",
               "src/app/legacy/dataacquisitionprojectmanagement/directives/releaseStatusBadge.directive.js",
+              "src/app/legacy/dataacquisitionprojectmanagement/directives/registrationStatusCard.directive.js",
               "src/app/legacy/dataacquisitionprojectmanagement/directives/metadata-status.js",
               "src/app/legacy/dataacquisitionprojectmanagement/services/outdatedVersionNotifierService.js",
               "src/app/legacy/dataacquisitionprojectmanagement/directives/releaseButton.directive.js",
