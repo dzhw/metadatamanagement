@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.xml.bind.ValidationException;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
