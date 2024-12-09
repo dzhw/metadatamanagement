@@ -420,19 +420,19 @@
                                         <ignore />
                                     </action>
                                 </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-checkstyle-plugin</artifactId>
-                                        <versionRange>[2.17,)</versionRange>
-                                        <goals>
-                                            <goal>check</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
+<!--                                <pluginExecution>-->
+<!--                                    <pluginExecutionFilter>-->
+<!--                                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                                        <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--                                        <versionRange>[2.17,)</versionRange>-->
+<!--                                        <goals>-->
+<!--                                            <goal>check</goal>-->
+<!--                                        </goals>-->
+<!--                                    </pluginExecutionFilter>-->
+<!--                                    <action>-->
+<!--                                        <ignore />-->
+<!--                                    </action>-->
+<!--                                </pluginExecution>-->
                                 <pluginExecution>
                                     <pluginExecutionFilter>
                                         <groupId>com.github.spotbugs</groupId>
@@ -539,30 +539,31 @@
                 </executions>
             </plugin>
             <!-- Checkstyle and fail the build -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>checkstyle</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <excludes>${project.build.directory}/generated-test-sources/**</excludes>
-                            <configLocation>buildconfig/google_checks.xml</configLocation>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <failOnViolation>true</failOnViolation>
-                            <maxAllowedViolations>0</maxAllowedViolations>
-                            <linkXRef>false</linkXRef>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!-- This version of Checkstyle is incompatible with Java 17 syntax and upgrading the module breaks a ton of configuration -->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--                <version>3.0.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>checkstyle</id>-->
+<!--                        <phase>validate</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <excludes>${project.build.directory}/generated-test-sources/**</excludes>-->
+<!--                            <configLocation>buildconfig/google_checks.xml</configLocation>-->
+<!--                            <encoding>UTF-8</encoding>-->
+<!--                            <consoleOutput>true</consoleOutput>-->
+<!--                            <failsOnError>true</failsOnError>-->
+<!--                            <failOnViolation>true</failOnViolation>-->
+<!--                            <maxAllowedViolations>0</maxAllowedViolations>-->
+<!--                            <linkXRef>false</linkXRef>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
@@ -627,7 +628,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.22.0</version>
+                <version>3.24.0</version>
                 <executions>
                     <execution>
                         <id>pmd check</id>
@@ -841,7 +842,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <checkstyle.skip>true</checkstyle.skip>
+<!--                <checkstyle.skip>true</checkstyle.skip>-->
                 <exec.skip>true</exec.skip>
                 <jacoco.skip>true</jacoco.skip>
                 <maven.gitcommitid.skip>true</maven.gitcommitid.skip>
