@@ -260,7 +260,7 @@ angular.module('metadatamanagementApp')
               DaraReleaseResource.release({ registerVars }, project)
               .$promise.then(function() {
                   // show warning if PIDs had been registered before
-                  if (release.registerPID && $scope.hasRegistrations) {
+                  if (release.registerPID && $scope.variablesCheck.hasRegistrations) {
                     SimpleMessageToastService.openSimpleMessageToast(i18nPrefix + 'dara-pid-previous-registration');
                   }
                   DataAcquisitionProjectResource.save(project).$promise
