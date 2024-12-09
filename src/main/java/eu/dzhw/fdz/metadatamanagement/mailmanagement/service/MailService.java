@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientSer
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.RegistrationClientException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.RegistrationResponseException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.RegistrationResponseParsingException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.VerificationException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidRegistrationService.RegistrationFailedException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;
@@ -511,7 +512,10 @@ public class MailService {
       ? dataPackage.getTitle().getDe()
       : dataPackage.getTitle().getEn());
 
-    if (exception instanceof RegistrationResponseException rre) {
+    if (exception instanceof VerificationException ve) {
+      context.setVariable("errorMessage", ve.getMessage());
+      context.setVariable("failedEntries", ve.getViolations());
+    } else if (exception instanceof RegistrationResponseException rre) {
       context.setVariable("errorMessage", rre.getMessage());
       context.setVariable("statusCode", rre.getStatusCode());
       context.setVariable("body", rre.getBody());
