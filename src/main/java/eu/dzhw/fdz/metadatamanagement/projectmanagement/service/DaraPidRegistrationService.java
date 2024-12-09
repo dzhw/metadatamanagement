@@ -23,6 +23,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -274,10 +275,10 @@ public class DaraPidRegistrationService {
    */
   @Getter
   public static class RegistrationFailedException extends Exception implements DaraPidApiException {
-    private final List<VariableStatus> entries;
+    private final ArrayList<VariableStatus> entries;
     public RegistrationFailedException(List<VariableStatus> entries) {
       super("At least a subset of the variables could not be registered");
-      this.entries = entries;
+      this.entries = new ArrayList<>(entries);
     }
   }
 }
