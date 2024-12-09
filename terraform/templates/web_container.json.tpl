@@ -47,6 +47,18 @@
           "value": "${dara_username}"
         },
         {
+          "name": "vcap_services_dara_pid_credentials_endpoint",
+          "value": "${dara_pid_endpoint}"
+        },
+        {
+          "name": "vcap_services_dara_pid_credentials_password",
+          "value": "${dara_pid_password}"
+        },
+        {
+          "name": "vcap_services_dara_pid_credentials_username",
+          "value": "${dara_pid_username}"
+        },
+        {
           "name": "vcap_services_elastic_credentials_sslUri",
           "value": "${elasticsearch_uri}"
         },

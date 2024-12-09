@@ -71,13 +71,26 @@ mvn clean install -f maven-plugin/pom.xml
 mvn spring-boot:run
 ```
 
-In order for all external services to work on your local machine, you need to set the following variables in `application-local.yml`:
+In order for all external services to work on your local machine, you need to set the following environment variables
+when starting the Spring Boot application:
+* `DARA_ENDPOINT` (regular endpoint for registering projects)
+* `DARA_USERNAME`
+* `DARA_PASSWORD`
+* `DARA_PID_ENDPOINT` (endpoint for registering variables)
+* `DARA_PID_USERNAME`
+* `DARA_PID_PASSWORD`
+
+Starting the application from the command line would look like this:
+```sh
+DARA_ENDPOINT="https://dara.service/projects/" \
+DARA_USERNAME="bob" \
+DARA_PASSWORD="secret" \
+DARA_PID_ENDPOINT="https://dara.service/variables/" \
+DARA_PID_USERNAME="alice" \
+DARA_PID_PASSWORD="pid-secret" \
+    mvn spring-boot:run
 ```
-dara:
-    endpoint: "https://labs.da-ra.de/dara/"
-    username: {see s3://metadatamanagement-private/sensitive_variables.tf}
-    password: {see s3://metadatamanagement-private/sensitive_variables.tf}
-```
+Use `sensitive-variables.tf` to fill in the **correct credentials**.
 
 If you run the backend on your machine for the first time, or you have restored a
 mongodb dump, then you need to setup/reindex the elasticsearch indices. Therefore, login as admin to the application,

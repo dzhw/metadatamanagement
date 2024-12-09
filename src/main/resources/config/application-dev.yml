@@ -56,6 +56,10 @@ metadatamanagement:
     endpoint: ${vcap.services.dara.credentials.endpoint}
     username: ${vcap.services.dara.credentials.username}
     password: ${vcap.services.dara.credentials.password}
+  dara-pid:
+    endpoint: ${vcap.services.dara.pid.credentials.endpoint}
+    username: ${vcap.services.dara.pid.credentials.username}
+    password: ${vcap.services.dara.pid.credentials.password}
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:

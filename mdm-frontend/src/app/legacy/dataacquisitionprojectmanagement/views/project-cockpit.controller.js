@@ -14,11 +14,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController', [
   'projectDeferred',
   'CommonDialogsService',
   'ProjectSaveService',
+  'DaraReleaseResource',
   'blockUI',
   function($scope, $state, $location, $transitions, Principal,
            PageMetadataService, LanguageService, BreadcrumbService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           ProjectSaveService, blockUI) {
+           ProjectSaveService, DaraReleaseResource, blockUI) {
     blockUI.start();
     var unregisterTransitionHook;
     var pageTitleKey = 'data-acquisition-project-management.project' +
@@ -106,11 +107,18 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController', [
         CurrentProjectService.setCurrentProject(project);
 
         registerConfirmOnDirtyHook();
+
+        return DaraReleaseResource.variablesCheck(project).$promise;
+      }).then(result => {
+        $scope.variablesCheck = {
+          hasVariables: result.hasVariables,
+          hasRegistrations: result.hasRegistrations
+        };
       }).finally(function() {
-      $state.loadStarted = false;
-      $scope.initializing = false;
-      blockUI.stop();
-    });
+        $state.loadStarted = false;
+        $scope.initializing = false;
+        blockUI.stop();
+      });
 
     $scope.shareButtonShown = false;
 

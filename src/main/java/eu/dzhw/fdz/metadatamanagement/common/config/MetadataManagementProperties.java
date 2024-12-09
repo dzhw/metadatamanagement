@@ -29,6 +29,8 @@ public class MetadataManagementProperties {
 
   private final Dara dara = new Dara();
 
+  private final DaraPid daraPid = new DaraPid();
+
   private final Dlp dlp = new Dlp();
 
   private final Rabbitmq rabbitmq = new Rabbitmq();
@@ -82,6 +84,20 @@ public class MetadataManagementProperties {
   @Getter
   @Setter
   public static class Dara {
+    private String endpoint;
+    private String username;
+    private String password;
+  }
+
+  /**
+   * Credentials for da|ra variables registration (PID).
+   */
+  @Getter
+  @Setter
+  public static class DaraPid {
+    private boolean enabled;
+    private long statusPollIntervalInSeconds;
+    private long abortAfterMinutesElapsed;
     private String endpoint;
     private String username;
     private String password;
