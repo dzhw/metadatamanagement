@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonValue;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
@@ -242,13 +243,15 @@ public class DaraPidRegistrationService {
 
   /**
    * The types of availability for a variable used at da|ra (PID).
+   * @see <a href="https://labs.da-ra.de/nfdi/api/swagger-ui/index.html#/Registration/verifyVariables">Metadata Verification Endpoint</a>
    */
   public enum VariableAvailability {
 
-    DELIVERY("delivery"),
-    NOT_AVAILABLE("not available"),
-    UNKNOWN("unknown");
+    DELIVERY("Delivery"),
+    NOT_AVAILABLE("NotAvailable"),
+    UNKNOWN("Unknown");
 
+    @JsonValue
     public final String value;
 
     VariableAvailability(String value) {

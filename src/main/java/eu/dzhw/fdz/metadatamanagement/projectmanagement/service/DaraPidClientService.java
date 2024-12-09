@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -29,7 +31,9 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * A client service that's solely responsible for
@@ -110,10 +114,20 @@ public class DaraPidClientService {
     headers.add("Content-Type", "application/json");
     headers.add("Authorization", "Basic " + new String(authHash, StandardCharsets.UTF_8));
 
-    var uri = this.getRegistationEndpoint();
     var entity = new HttpEntity<>(new RegistrationRequestBody(variables), headers);
     try {
-      var response = this.restTemplate.postForEntity(uri, entity, String.class);
+      log.debug(this.objectMapper.writeValueAsString(new RegistrationRequestBody(variables)));
+      // verify variables
+      var response = this.restTemplate.postForEntity(
+        this.config.getDaraPid().getEndpoint() + PATH_VERIFY, entity, String.class);
+      var responseNode = this.objectMapper.readTree(response.getBody());
+      if (responseNode.path("constraintViolation").isArray()) {
+        var violations = Stream.of((ArrayNode) responseNode.path("constraintViolation"))
+          .map(JsonNode::toPrettyString).toList();
+        throw new VerificationException(violations);
+      }
+      // register variables
+      response = this.restTemplate.postForEntity(this.getRegistationEndpoint(), entity, String.class);
       if (!response.getStatusCode().is2xxSuccessful()) {
         throw new RegistrationResponseException(response.getStatusCodeValue(), response.getBody());
       }
@@ -165,6 +179,18 @@ public class DaraPidClientService {
     } catch (IOException e) {
       log.error("An IO error has occurred while performing the request", e);
       throw new JobStatusException("An IO error has occurred while performing the request", e);
+    }
+  }
+
+  /**
+   * This exception is thrown when verification of variable metadata fails.
+   */
+  @Getter
+  public static class VerificationException extends RegistrationException implements DaraPidApiException {
+    private final ArrayList<String> violations;
+    public VerificationException(List<String> violations) {
+      super("Verification of variable metadata has failed");
+      this.violations = new ArrayList<>(violations);
     }
   }
 
@@ -231,11 +257,10 @@ public class DaraPidClientService {
   }
 
   /**
-   * Details on which constraints were violated when a registration fails.
-   * @see <a href="https://labs.da-ra.de/nfdi/api/swagger-ui/index.html">da|ra PID API</a>
+   * Details on which constraints were violated when metadata verification fails.
+   * @see <a href="https://labs.da-ra.de/nfdi/api/swagger-ui/index.html#/Registration/verifyVariables">PID Metadata Verification Endpoint</a>
    */
-  record ConstraintViolation(
-    int id,
+  public record ConstraintViolation(
     String message,
     String locationInfo
   ) {}
