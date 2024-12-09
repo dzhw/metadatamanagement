@@ -69,6 +69,10 @@ metadatamanagement:
     endpoint: ${DARA_ENDPOINT}
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
+  dara-pid:
+    endpoint: ${DARA_PID_ENDPOINT}
+    username: ${DARA_PID_USERNAME}
+    password: ${DARA_PID_PASSWORD}
   websockets:
     allowed-origins:
       - "localhost"

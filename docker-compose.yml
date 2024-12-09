@@ -21,11 +21,14 @@ services:
     environment:
       - discovery.type=single-node
     # ensure group has rwx on this directory
-    mem_limit: 512m
     volumes:
       - ./data/elasticsearch/data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
+    deploy:
+      resources:
+        limits:
+          memory: 1024m
   maildev:
     image: djfarrelly/maildev
     container_name: maildev

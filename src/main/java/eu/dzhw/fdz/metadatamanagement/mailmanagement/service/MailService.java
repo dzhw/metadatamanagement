@@ -4,12 +4,23 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.JobStatusException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.JobStatusResponseException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.DaraPidApiException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.RegistrationClientException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.RegistrationResponseException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.RegistrationResponseParsingException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidRegistrationService.RegistrationFailedException;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -306,7 +317,7 @@ public class MailService {
   /**
    * Send the result of the dataset report generation to the user who has started the report
    * generation.
-   * 
+   *
    * @param user The user who has started the report generation.
    * @param dataSetId The id of the {@link DataSet} for which the report has been generated.
    * @param language The language in which the report has been generated.
@@ -332,7 +343,7 @@ public class MailService {
   /**
    * Send the error during dataset report generation to the user who started the task and to all
    * admins.
-   * 
+   *
    * @param onBehalfUser The user who has started the report generation.
    * @param admins A list of admins.
    * @param sender The sender of the email.
@@ -358,7 +369,7 @@ public class MailService {
 
   /**
    * Send a mail to all release managers when the project is released with a new major version.
-   * 
+   *
    * @param releaseManagers List of ROLE_RELEASE_MANAGER
    * @param dataAcquisitionProjectId the id of the project which has been released
    * @param release the release object containing the version
@@ -383,7 +394,7 @@ public class MailService {
   /**
    * Send the result of the data package overview generation to the user who has started the
    * overview generation.
-   * 
+   *
    * @param user The user who has started the overview generation.
    * @param dataPackageId The id of the {@link DataPackage} for which the overview has been
    *        generated.
@@ -410,7 +421,7 @@ public class MailService {
   /**
    * Send the error during data package overview generation to the user who started the task and to
    * all admins.
-   * 
+   *
    * @param onBehalfUser The user who has started the report generation.
    * @param admins A list of admins.
    * @param sender The sender of the email.
@@ -432,5 +443,99 @@ public class MailService {
     sendEmail(sender, new String[] {onBehalfUser.getEmail()},
         adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, locale);
 
+  }
+
+  /**
+   * Sends an email notifying the user that the registration process completed successfully.
+   * @param user the user that triggered the process by releasing a new project version
+   * @param project the data acquisition project which got a new release
+   * @param dataPackage the data package that was included in the project release
+   */
+  public void sendDaraPidRegistrationCompleteEmail(User user, DataAcquisitionProject project,
+                                                           DataPackage dataPackage
+  ) {
+    // CPD-OFF
+    log.debug("Sending da|ra PID registration complete e-mail to '{}'", user.getEmail());
+
+    Locale locale = Locale.forLanguageTag(user.getLangKey());
+    Context context = new Context(locale);
+
+    if (user.getFirstName() != null && !user.getFirstName().isBlank() &&
+        user.getLastName() != null && !user.getLastName().isBlank()
+    ) {
+      context.setVariable("name", user.getFirstName() + " " + user.getLastName());
+    } else {
+      context.setVariable("name", user.getLogin());
+    }
+    context.setVariable("projectReleaseVersion", project.getRelease().getVersion());
+    context.setVariable("projectUrl", String.format("%s/%s/data-packages/%s?page=1&size=10&type=surveys",
+      this.baseUrl, user.getLangKey(), dataPackage.getMasterId().replace("$", "")));
+    context.setVariable("dataPackageTitle", Objects.equals(user.getLangKey(), "de")
+      ? dataPackage.getTitle().getDe()
+      : dataPackage.getTitle().getEn());
+    // CPD-ON
+
+    String content = this.templateEngine.process("daraPidRegistrationCompleteEmail", context);
+    String subject = this.messageSource.getMessage("email.dara-pid-registration-complete.subject", null, locale);
+
+    this.sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, locale);
+  }
+
+  /**
+   * Sends an Email for when the PID registration of variables linked to a data acquisition project fails.
+   * @param user the user that triggered the process by releasing a new project version
+   * @param admins list of admins that should also be notified
+   * @param project the data acquisition project which got a new release
+   * @param dataPackage the data package that was included in the project release
+   * @param exception the exception that was thrown during the registration process
+   */
+  public void sendDaraPidRegistrationErrorEmail(User user, List<User> admins, DataAcquisitionProject project,
+                                                DataPackage dataPackage, DaraPidApiException exception
+  ) {
+    log.debug("Sending da|ra PID registration error e-mail to '{}'", user.getEmail());
+
+    Locale locale = Locale.forLanguageTag(user.getLangKey());
+    Context context = new Context(locale);
+
+    if (user.getFirstName() != null && !user.getFirstName().isBlank() &&
+      user.getLastName() != null && !user.getLastName().isBlank()
+    ) {
+      context.setVariable("name", user.getFirstName() + " " + user.getLastName());
+    } else {
+      context.setVariable("name", user.getLogin());
+    }
+    context.setVariable("projectReleaseVersion", project.getRelease().getVersion());
+    context.setVariable("projectUrl", String.format("%s/%s/data-packages/%s?page=1&size=10&type=surveys",
+      this.baseUrl, user.getLangKey(), dataPackage.getMasterId().replace("$", "")));
+    context.setVariable("dataPackageTitle", Objects.equals(user.getLangKey(), "de")
+      ? dataPackage.getTitle().getDe()
+      : dataPackage.getTitle().getEn());
+
+    if (exception instanceof RegistrationResponseException rre) {
+      context.setVariable("errorMessage", rre.getMessage());
+      context.setVariable("statusCode", rre.getStatusCode());
+      context.setVariable("body", rre.getBody());
+    } else if (exception instanceof RegistrationClientException rce) {
+      context.setVariable("stackTrace", ExceptionUtils.getStackTrace(rce));
+    } else if (exception instanceof RegistrationResponseParsingException rrpe) {
+      context.setVariable("stackTrace", ExceptionUtils.getStackTrace(rrpe));
+    } else if (exception instanceof JobStatusResponseException jsre) {
+      context.setVariable("errorMessage", jsre.getMessage());
+      context.setVariable("statusCode", jsre.getStatusCode());
+      context.setVariable("body", jsre.getBody());
+    } else if (exception instanceof JobStatusException jse) {
+      context.setVariable("stackTrace", ExceptionUtils.getStackTrace(jse));
+    } else if (exception instanceof RegistrationFailedException rfe) {
+      context.setVariable("errorMessage", rfe.getMessage());
+      context.setVariable("failedEntries", rfe.getEntries());
+    } else {
+      throw new RuntimeException("Unexpected exception type: " + exception.getClass());
+    }
+
+    String content = this.templateEngine.process("daraPidRegistrationErrorEmail", context);
+    String subject = this.messageSource.getMessage("email.dara-pid-registration-error.subject", null, locale);
+
+    this.sendEmail(null, new String[] {user.getEmail()},
+      admins.stream().map(User::getEmail).toList().toArray(new String[0]), null, subject, content, locale);
   }
 }

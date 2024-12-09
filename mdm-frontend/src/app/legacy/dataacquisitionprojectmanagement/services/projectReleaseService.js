@@ -4,6 +4,7 @@ angular.module('metadatamanagementApp').service('ProjectReleaseService', [
   'SimpleMessageToastService', 
   'DataAcquisitionProjectResource', 
   'CurrentProjectService', 
+  'MonitoringService',
   '$mdDialog', 
   '$translate', 
   '$state', 
@@ -11,14 +12,36 @@ angular.module('metadatamanagementApp').service('ProjectReleaseService', [
     SimpleMessageToastService,
     DataAcquisitionProjectResource,
     CurrentProjectService,
+    MonitoringService,
     $mdDialog,
     $translate,
     $state
   ) {
+
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
-    var releaseProject = function(project) {
-      $mdDialog.show({
+    const i18nPrefixDialog = 'data-acquisition-project-management.release.pid-api-not-reachable-dialog.';
+
+    var releaseProject = async function(project) {
+
+      const pidApiAvailable = await MonitoringService.checkDaraPidHealth();
+      const pidApiUnavailableConfirmDialog = $mdDialog.confirm()
+        .title($translate.instant(i18nPrefixDialog + 'title'))
+        .textContent(
+          $translate.instant(i18nPrefixDialog + 'message') + '\n\n' + $translate.instant(i18nPrefixDialog + 'question')
+        )
+        .ariaLabel(
+          $translate.instant(i18nPrefixDialog + 'message') + $translate.instant(i18nPrefixDialog + 'question')
+        )
+        .ok($translate.instant('global.common-dialogs.yes'))
+        .cancel($translate.instant('global.common-dialogs.no'));
+
+      var continueRelease = Promise.resolve();
+      if (!pidApiAvailable) {
+        continueRelease = $mdDialog.show(pidApiUnavailableConfirmDialog);
+      }
+
+      const releaseDialogConfig = {
         controller: 'ReleaseProjectDialogController',
         templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
           'views/release-project-dialog.html.tmpl',
@@ -27,9 +50,10 @@ angular.module('metadatamanagementApp').service('ProjectReleaseService', [
         locals: {
           project: angular.copy(project)
         }
-      }).catch(function() {
-        // user cancelled
-      });
+      };
+      continueRelease
+        .then(() => $mdDialog.show(releaseDialogConfig).catch(() => {}))
+        .catch(() => {});
     };
 
     var unreleaseProject = function(project) {

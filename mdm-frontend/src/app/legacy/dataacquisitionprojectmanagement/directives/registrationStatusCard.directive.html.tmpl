@@ -1,0 +1,17 @@
+<md-card layout-align="center center" style="min-width: 200px;">
+    <span ng-if="status.hasRegistrations" style="border-radius: 11px; font-weight: bold; padding: 0.1rem 0.8rem 0.1rem 0.8rem; margin: 0.8rem;"
+        class="fdz-released"
+        >{{ 'data-acquisition-project-management.registration-status-badge.registered' | translate }}</span>
+    <span ng-if="!status.hasRegistrations" style="border-radius: 11px; font-weight: bold; padding: 0.1rem 0.8rem 0.1rem 0.8rem; margin: 0.8rem;"
+        class="bg-primary"
+        >{{ 'data-acquisition-project-management.registration-status-badge.not-registered' | translate }}</span>
+    <md-button class="md-raised md-fab md-mini md-primary"
+        ng-click="ctrl.registerVariables()"
+        ng-disabled="!status.hasVariables || status.hasRegistrations"
+        >
+        <md-icon md-font-set="material-icons">app_registration</md-icon>
+        <md-tooltip md-direction="bottom" md-autohide="true">
+            {{ 'data-acquisition-project-management.project-cockpit.button.register-pids' | translate }}
+        </md-tooltip>
+    </md-button>
+</md-card>

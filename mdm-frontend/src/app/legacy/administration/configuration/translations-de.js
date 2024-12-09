@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').config([
             'mongo': 'MongoDB',
             'elasticsearch': 'Elasticsearch',
             'dara': 'Dara',
+            'daraPid': 'Dara PID Registrierung',
             'messageBroker': 'Message Broker (für Websockets)',
             'rabbit': 'RabbitMQ',
             'seo4Ajax': 'Seo4Ajax (Prerender as a Service)',

@@ -22,6 +22,11 @@
 					</md-button>
 				</div>
 			</md-card>
+			<registration-status-card
+				ng-if="!!ctrl.project.release && ctrl.hasAdminRole()"
+				project="ctrl.project"
+				status="variablesCheck"
+				></registration-status-card>
 		</div>
 	</div>
 	<div layout-gt-sm="row" layout="column" layout-wrap class="mb8">

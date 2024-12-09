@@ -7,6 +7,8 @@ angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', [
   '$scope',
   '$mdDialog',
+  'blockUI',
+  'MonitoringService',
   'project',
   'SimpleMessageToastService',
   'DataAcquisitionProjectResource',
@@ -24,17 +26,35 @@ angular.module('metadatamanagementApp')
   'DataPackageSearchService',
   'AnalysisPackageSearchService',
   'DoiService',
-  'ENV', function($scope, $mdDialog,
+  'ENV', function($scope, $mdDialog, blockUI, MonitoringService,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
     DataAcquisitionProjectLastReleaseResource, $state, $translate,
     DataAcquisitionProjectPostValidationService, PinnedDataPackagesService,
     DataPackageIdBuilderService, AnalysisPackageIdBuilderService,
     DataAcquisitionProjectTweetResource,
-    DataPackageSearchService, AnalysisPackageSearchService, DoiService, ENV) {
+    DataPackageSearchService, AnalysisPackageSearchService, DoiService, ENV
+  ) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     $scope.ENV = ENV;
+
+    $scope.showPIDRegistrationOption = false;
+    if (ENV !== 'prod') {
+      blockUI.start();
+      Promise.all([
+        MonitoringService.checkDaraPidHealth(),
+        DaraReleaseResource.variablesCheck(project).$promise
+      ]).then(([pidServiceIsUp, result]) => {
+        if (pidServiceIsUp) {
+          $scope.variablesCheck = {
+            hasVariables: result.hasVariables,
+            hasRegistrations: result.hasRegistrations
+          };
+          $scope.showPIDRegistrationOption = ENV !== 'prod' && result.hasVariables;
+        }
+      }).finally(() => blockUI.stop());
+    }
 
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';
@@ -235,15 +255,27 @@ angular.module('metadatamanagementApp')
                       $mdDialog.hide();
                   });
             } else {
+              const registerVars = release.registerPID && !$scope.hasRegistrations;
               // handling for regular releases
-              DaraReleaseResource.release(project)
+              DaraReleaseResource.release({ registerVars }, project)
               .$promise.then(function() {
+                  // show warning if PIDs had been registered before
+                  if (release.registerPID && $scope.hasRegistrations) {
+                    SimpleMessageToastService.openSimpleMessageToast(i18nPrefix + 'dara-pid-previous-registration');
+                  }
                   DataAcquisitionProjectResource.save(project).$promise
                   .then(function() {
-                      SimpleMessageToastService.openSimpleMessageToast(
-                        i18nPrefix + 'released-successfully', {
-                          id: project.id
-                        });
+                      if (registerVars) {
+                        SimpleMessageToastService.openSimpleMessageToast(
+                          i18nPrefix + 'released-successfully-with-pids', {
+                            id: project.id
+                          });
+                      } else {
+                        SimpleMessageToastService.openSimpleMessageToast(
+                          i18nPrefix + 'released-successfully', {
+                            id: project.id
+                          });
+                      }
                       CurrentProjectService.setCurrentProject(project);
                       $mdDialog.hide();
                       $state.forceReload();
@@ -300,7 +332,6 @@ angular.module('metadatamanagementApp')
         return highestMajorVersion + ".0.0";
       }
       return '1.0.0';
-      
     };
   }]);
 
