@@ -124,7 +124,9 @@ public class DaraPidClientService {
       if (responseNode.path("constraintViolation").isArray()) {
         var violations = Stream.of((ArrayNode) responseNode.path("constraintViolation"))
           .map(JsonNode::toPrettyString).toList();
-        throw new VerificationException(violations);
+        if (!violations.isEmpty()) {
+          throw new VerificationException(violations);
+        }
       }
       // register variables
       response = this.restTemplate.postForEntity(this.getRegistationEndpoint(), entity, String.class);
