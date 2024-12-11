@@ -122,8 +122,10 @@ public class DaraPidClientService {
         this.config.getDaraPid().getEndpoint() + PATH_VERIFY, entity, String.class);
       var responseNode = this.objectMapper.readTree(response.getBody());
       if (responseNode.path("constraintViolation").isArray()) {
-        var violations = Stream.of((ArrayNode) responseNode.path("constraintViolation"))
-          .map(JsonNode::toPrettyString).toList();
+        var violations = new ArrayList<String>();
+        for (JsonNode jsonNode : responseNode.get("constraintViolation")) {
+          violations.add(jsonNode.toPrettyString());
+        }
         if (!violations.isEmpty()) {
           throw new VerificationException(violations);
         }
