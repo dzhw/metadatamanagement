@@ -269,7 +269,7 @@ angular.module('metadatamanagementApp')
                         SimpleMessageToastService.openSimpleMessageToast(
                           i18nPrefix + 'released-successfully-with-pids', {
                             id: project.id
-                          });
+                          }, true);
                       } else {
                         SimpleMessageToastService.openSimpleMessageToast(
                           i18nPrefix + 'released-successfully', {
