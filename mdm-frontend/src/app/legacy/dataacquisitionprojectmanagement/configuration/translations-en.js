@@ -168,8 +168,8 @@ angular.module('metadatamanagementApp').config([
           'pre-released': 'Preliminarily released'
         },
         'registration-status-badge': {
-          'registered': 'PIDs registered',
-          'not-registered': 'No PIDs registered'
+          'registered': 'Variable PIDs registered',
+          'not-registered': 'No variable PIDs registered'
         },
         'project-cockpit': {
           'title': 'Project-Cockpit ({{projectId}})',
