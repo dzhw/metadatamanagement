@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config([
         'phone': 'Phone: ',
         'fax': 'Fax: ',
         'or': 'or',
-        'responsible-urls-text': 'All links are proofed regularly. Responsibility for the contents of links which find themselves outside of these parameters is explicitly denied.',
+        'responsible-urls-text': 'The owners of the linked pages are solely responsible for their content. Despite careful checking, we accept no liability for the content of external links. If we become aware of any legal infringements, we will remove such links immediately.',
         'supervisory': 'Head of the supervisory Board: Ministerial Conductor ',
         'scientific-director-female': 'Scientific Director: ',
         'scientific-director-male': 'Scientific Director: ',
