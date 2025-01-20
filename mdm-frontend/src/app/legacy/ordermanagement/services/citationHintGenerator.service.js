@@ -74,14 +74,14 @@ function($interpolate, LanguageService, $filter, $rootScope) {
       });
   };
 
-  var generateBibtexForAttachment = function(attachment, dataPackage) {
+  var generateBibtexForAttachment = function(attachment) {
     if ($rootScope.bowser.msie) {
       throw 'citation.js is not compatible with IE11';
     }
     var citeJson = {
       title: attachment.title,
       type: 'report',
-      DOI: dataPackage.doi,
+      DOI: attachment.doi,
       publisher: attachment.citationDetails.institution,
       'publisher-place': attachment.citationDetails.location,
       issued: [{'date-parts': [attachment.citationDetails.publicationYear]}],
@@ -123,15 +123,15 @@ function($interpolate, LanguageService, $filter, $rootScope) {
     };
   };
 
-  var generateCitationHintForAttachment = function(attachment, dataPackage) {
+  var generateCitationHintForAttachment = function(attachment) {
     var citationHint =
       '{{attachment.citationDetails.authors | displayPersons}} ' +
       '({{attachment.citationDetails.publicationYear}}). ' +
       '{{attachment.title}}. ' +
       '{{attachment.citationDetails.location}}: ' +
       '{{attachment.citationDetails.institution}}.';
-    if (!!dataPackage.doi) {
-      citationHint += ' https://doi.org/{{dataPackage.doi}}';
+    if (attachment.doi) {
+      citationHint += ' ' + attachment.doi;
     }
     return $interpolate(citationHint)({attachment: attachment, dataPackage: dataPackage});
   };
