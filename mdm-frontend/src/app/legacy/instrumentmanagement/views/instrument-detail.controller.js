@@ -141,5 +141,9 @@ angular.module('metadatamanagementApp')
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
+
+      ctrl.openCitationDialog = function($event) {
+        console.log("todo")
+      };
     }]);
 

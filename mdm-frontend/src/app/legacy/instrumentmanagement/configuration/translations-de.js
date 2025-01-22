@@ -41,8 +41,9 @@ angular.module('metadatamanagementApp').config([
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
-            }
+            },
           },
+          'citation': 'Zitieren',
           'attachments': {
             'table-title': 'Materialien zum Instrument',
             'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
@@ -197,6 +198,10 @@ angular.module('metadatamanagementApp').config([
             'instrument-number': 'Wählen Sie eine freie Nummer für das neue Instrument aus.'
           },
           'all-instruments-deleted-toast': 'Alle Instrumente des Datenaufnahmeprojekt "{{id}}" wurden gelöscht.'
+        },
+        'buttons': {
+          'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+          'open-citation': 'Zitieren...',
         }
       }
       //jscs:enable
