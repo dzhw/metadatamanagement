@@ -65,7 +65,7 @@
     "ng-showdown": "^1.1.0",
     "ng-text-truncate-2": "^1.0.1",
     "ngclipboard": "2.0.0",
-    "plotly.js": "2.24.3",
+    "plotly.js": "2.35.3",
     "rxjs": "~7.5.0",
     "showdown": "^2.0.0",
     "sockjs-client": "1.5.2",
