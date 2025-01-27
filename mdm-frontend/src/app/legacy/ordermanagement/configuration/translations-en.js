@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').config([
             'cite-data-package': 'Cite Data Package:',
             'cite-analysis-package': 'Cite Analysis Package:',
             'cite-method-report': 'Cite Method Report:',
-            'cite-questionnaire': 'Cite Questionnaire/ Variable Questionnaire:'
+            'cite-questionnaire': 'Cite Questionnaire/Variable Questionnaire:'
           },
           'hints': {
             'name': 'Please let us know your full name.',
@@ -68,7 +68,7 @@ angular.module('metadatamanagementApp').config([
           'scripts-tooltip': 'Click to display all scripts of this analysis package.',
           'custom-data-packages-tooltip': 'Click to display all custom data packages of this analysis package.',
           'software-packages-tooltip': 'Click to display all software packages of this analysis package.',
-          'citation': 'Cite Data Package, Method Report and Questionnaire/ Variable Questionnaire',
+          'citation': 'Cite Data Package, Method Report and Questionnaire/Variable Questionnaire',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
           'download-bibtex-tooltip': 'Click to save the citation details in BibTex format.',

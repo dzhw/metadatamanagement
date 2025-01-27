@@ -15,11 +15,12 @@ angular.module('metadatamanagementApp')
   'Blob',
   'EndOfLineService',
   '$filter',
+  'InstrumentAttachmentTypesEn',
   function($mdDialog, SimpleMessageToastService, accessWay,
      dataPackage, $rootScope, $scope, DataPackageAttachmentResource,
      DataAcquisitionProjectAttachmentsResource,
      CitationHintGeneratorService, LanguageService, FileSaver, Blob,
-     EndOfLineService, $filter) {
+     EndOfLineService, $filter, InstrumentAttachmentTypesEn) {
     var ctrl = this;
     $scope.bowser = $rootScope.bowser;
 
@@ -57,37 +58,42 @@ angular.module('metadatamanagementApp')
       // cite list of instrument attachment of type questionnaire
       DataAcquisitionProjectAttachmentsResource.get({
         id: dataPackage.dataAcquisitionProjectId
-      }).$promise.then(
-        function(attachments) {
-          const instrumentAttachments = attachments.instruments;
-          if (instrumentAttachments && instrumentAttachments.length > 0) {
-            ctrl.questionnaireCitationHint = {
-              de: [],
-              en: []
-            }
-            ctrl.questionnaire = {
-              de: [],
-              en: []
-            };
-              
-            // include the original questionnaire
-            for (const attachment of instrumentAttachments) {
-              if (attachment.type.en === 'Questionnaire') {
-                ctrl.createCitations(attachment);
-              }
-            }
+      }).$promise.then(function(attachments) {
 
-            // only include the original questionnaire but in case a questionnaire is not available but a variable
-            // questionnaire is there, the variable questionnaire should be used
-            if (ctrl.questionnaireCitationHint.de.length === 0 && ctrl.questionnaireCitationHint.en.length === 0) {
-              for (const attachment of instrumentAttachments) {
-                if (attachment.type.en === 'Variable Questionnaire') {
-                  ctrl.createCitations(attachment);
-                }
-              }
-            }
+        // group questionnaire attachments by instrument
+        const instrumentAttachments = attachments.instruments
+          .map(a => a.instrumentNumber)
+          // deduplicate instrument number
+          .filter((number, index, numbers) => {
+            return !numbers.slice(0, index).includes(number);
+          })
+          // reduce instrument numbers array to an object that maps questionnaire
+          // attachments to their corresponding instrument number
+          .reduce((atts, number) => {
+            atts[number] = attachments.instruments.filter(a => a.instrumentNumber === number && (
+              a.type.en === InstrumentAttachmentTypesEn.Questionnaire ||
+              a.type.en === InstrumentAttachmentTypesEn.VariableQuestionnaire
+            ));
+            return atts;
+          }, {});
+
+        const currentLanguage = LanguageService.getCurrentInstantly();
+        ctrl.instrumentAttachmentCitations = [];
+        for (const entries of Object.values(instrumentAttachments)) {
+          console.log(entries);
+          // use questionnaire for the current instrument and only use variable questionnaire as a backup
+          var attachment = entries.find(a => a.type.en === InstrumentAttachmentTypesEn.Questionnaire) ||
+            entries.find(a => a.type.en === InstrumentAttachmentTypesEn.VariableQuestionnaire);
+          if (!attachment) continue;
+          const citationHint = createInstrumentAttachmentCitation(attachment, currentLanguage);
+          if (citationHint) {
+            ctrl.instrumentAttachmentCitations.push({
+              hint: citationHint,
+              details: attachment.citationDetails
+            });
           }
-        });
+        }
+      });
     };
 
     ctrl.openSuccessCopyToClipboardToast = function(message) {
@@ -116,22 +122,6 @@ angular.module('metadatamanagementApp')
       }
     };
 
-    ctrl.downloadQuestionnaireBibtex = function(citation) {
-      var currentLanguage = LanguageService.getCurrentInstantly();
-      var fallbackLanguage = currentLanguage === 'de' ? 'en' : 'de';
-      var questionnaires = ctrl.questionnaire[currentLanguage];
-      // find object in array of maps by its citation text as map key
-      let matchingObject = questionnaires.find(obj => Object.keys(obj)[0] === citation);
-      if (!questionnaires || !matchingObject || !matchingObject[citation]) {
-        questionnaires = ctrl.questionnaire[fallbackLanguage];
-        matchingObject = questionnaires.find(obj => Object.keys(obj)[0] === citation);
-      }
-      if (matchingObject[citation]) {
-        ctrl.saveBibtex(CitationHintGeneratorService
-          .generateBibtexForInstrumentAttachment(matchingObject[citation]));
-      }
-    };
-
     ctrl.saveBibtex = function(bibtex) {
       var bibtexKey = bibtex.match(/{(.*),/)[1];
       var date = new Date();
@@ -150,24 +140,43 @@ angular.module('metadatamanagementApp')
       FileSaver.saveAs(data, fileName);
     };
 
-    ctrl.createCitations = function(attachment) {
-      // cite questionnaire or variable questionnaire if optional citation details (publication year, institution, location) and authors are given.
-      if (attachment.citationDetails && attachment.citationDetails.publicationYear && attachment.citationDetails.location 
-        && attachment.citationDetails.institution && attachment.citationDetails.authors.length > 0) {
-        if (attachment.language === 'de' && !!attachment.description.de) {
-          const citation = CitationHintGeneratorService.generateCitationHintForInstrumentAttachment(attachment.citationDetails, attachment.description.de);
-          ctrl.questionnaire.de.push({
-            [citation]: attachment.citationDetails
-          });
-          ctrl.questionnaireCitationHint.de.push(citation);
-        } else if (!!attachment.description.en) {
-          const citation = CitationHintGeneratorService.generateCitationHintForInstrumentAttachment(attachment.citationDetails, attachment.description.en);
-          ctrl.questionnaire.en.push({
-            [citation]: attachment.citationDetails
-          });
-          ctrl.questionnaireCitationHint.en.push(citation);
-        }
+    /**
+     * Generates BibTex document from the provided instrument attachment
+     * citation details and triggers its download for the user.
+     * @param {*} details the instrument attachment's citation details
+     */
+    ctrl.downloadInstrumentAttachmentBibtex = function(details) {
+      const bibtex = CitationHintGeneratorService.generateBibtexForInstrumentAttachment(details);
+      ctrl.saveBibtex(bibtex);
+    };
+
+    /**
+     * Creates a citation hint for the attachment's citation details.
+     * @param {InstrumentAttachmentMetadata} attachment the attachment the citation hint is created for
+     * @param {string} currentLanguage the language the user is currently using
+     * @returns the citation hint
+     */
+    const createInstrumentAttachmentCitation = function(attachment, currentLanguage) {
+
+      if (!attachment.citationDetails) return;
+      if (!attachment.citationDetails.publicationYear) return;
+      if (!attachment.citationDetails.location) return;
+      if (!attachment.citationDetails.institution) return;
+      if (!attachment.citationDetails.authors) return;
+      if (attachment.citationDetails.authors.length === 0) return;
+
+      const fallbackLanguage = currentLanguage === 'de' ? 'en' : 'de';
+      var description = "";
+      if (attachment.language === currentLanguage) {
+        description = attachment.description[currentLanguage];
+      } else if (!!attachment.description[fallbackLanguage]) {
+        description = attachment.description[fallbackLanguage];
+      } else {
+        return;
       }
+
+      return CitationHintGeneratorService.generateCitationHintForInstrumentAttachment(
+        attachment.citationDetails, description);
     }
   }]);
 

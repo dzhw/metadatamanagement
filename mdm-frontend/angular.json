@@ -8,7 +8,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "fdz",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -35,6 +35,7 @@
               }
             ],
             "styles": [
+              "src/scss/fdz-new-material.scss",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/scss/main.scss",
               "src/scss/fdz.scss",
@@ -729,7 +730,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/scss/fdz-new-material.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/scss/main.scss",
+              "src/scss/fdz.scss"
             ],
             "scripts": []
           }

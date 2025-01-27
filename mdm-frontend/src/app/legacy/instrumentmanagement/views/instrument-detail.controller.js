@@ -22,13 +22,19 @@ angular.module('metadatamanagementApp')
   'blockUI',
   '$mdSidenav',
   'ContainsOnlyQualitativeDataChecker',
+  '$scope',
+  'CitationHintGeneratorService',
+  'InstrumentAttachmentCitationDialogService',
+  'InstrumentAttachmentTypesEn',
     function(entity, InstrumentAttachmentResource, MessageBus,
              PageMetadataService, LanguageService, $state, CleanJSObjectService,
              BreadcrumbService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
              InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker,
+             $scope, citationHintGeneratorService,
+             instrumentAttachmentCitationDialogService, InstrumentAttachmentTypesEn) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -142,8 +148,67 @@ angular.module('metadatamanagementApp')
         $mdSidenav('SideNavBar').toggle();
       };
 
-      ctrl.openCitationDialog = function($event) {
-        console.log("todo")
-      };
+      /**
+       * Creates a citation hint for the attachment's citation details.
+       * @param {InstrumentAttachmentMetadata} attachment the attachment the citation hint is created for
+       * @param {string} currentLanguage the language the user is currently using
+       * @returns the citation hint
+       */
+      const createInstrumentAttachmentCitation = function(attachment, currentLanguage) {
+
+        if (!attachment.citationDetails) return;
+        if (!attachment.citationDetails.publicationYear) return;
+        if (!attachment.citationDetails.location) return;
+        if (!attachment.citationDetails.institution) return;
+        if (!attachment.citationDetails.authors) return;
+        if (attachment.citationDetails.authors.length === 0) return;
+
+        const fallbackLanguage = currentLanguage === 'de' ? 'en' : 'de';
+        var description = "";
+        if (attachment.language === currentLanguage) {
+          description = attachment.description[currentLanguage];
+        } else if (!!attachment.description[fallbackLanguage]) {
+          description = attachment.description[fallbackLanguage];
+        } else {
+          return;
+        }
+
+        return citationHintGeneratorService.generateCitationHintForInstrumentAttachment(
+          attachment.citationDetails, description);
+      }
+
+      /**
+       * Assemble list of citation details for the instrument attachments
+       * and open a dialog to present them to the user.
+       */
+      const openInstrumentAttachmentCitationDialog = function() {
+        const currentLanguage = LanguageService.getCurrentInstantly();
+        const citationItems = [];
+        // add citation details for questionnaires if there are any
+        citationItems.push(...ctrl.attachments
+          .filter(a => a.type.en === InstrumentAttachmentTypesEn.Questionnaire)
+          .map(a => ({
+            hint: createInstrumentAttachmentCitation(a, currentLanguage),
+            details: a.citationDetails
+          }))
+          .filter(a => !!a.hint));
+        citationItems.filter()
+        // add citation details for variable questionnaires
+        // if there are none for regular questionnaires
+        if (citationItems.length === 0) {
+          citationItems.push(...ctrl.attachments
+            .filter(a => a.type.en === InstrumentAttachmentTypesEn.VariableQuestionnaire)
+            .map(a => ({
+              hint: createInstrumentAttachmentCitation(a, currentLanguage),
+              details: a.citationDetails
+            }))
+            .filter(a => !!a.hint));
+          }
+        instrumentAttachmentCitationDialogService.openDialog(citationItems);
+      }
+
+      // show citation dialog when event is triggered
+      // (clicking the button in the common details subview)
+      $scope.$on("open-instrument-citation-dialog", () => openInstrumentAttachmentCitationDialog());
     }]);
 

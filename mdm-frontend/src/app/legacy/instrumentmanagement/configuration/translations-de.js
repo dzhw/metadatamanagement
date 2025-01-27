@@ -44,6 +44,10 @@ angular.module('metadatamanagementApp').config([
             },
           },
           'citation': 'Zitieren',
+          'citation-dialog': {
+            'title': 'Fragebogen/Variablenfragenbogen zitieren',
+            'no-details-placeholder': 'Keine Details hinterlegt'
+          },
           'attachments': {
             'table-title': 'Materialien zum Instrument',
             'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',

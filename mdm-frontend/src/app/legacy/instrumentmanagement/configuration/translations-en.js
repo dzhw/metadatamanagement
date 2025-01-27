@@ -43,6 +43,10 @@ function($translateProvider) {
                     }
                 },
                 'citation': 'Cite',
+                'citation-dialog': {
+                  'title': 'Cite Questionnaire/Variable Questionnaire',
+                  'no-details-placeholder': 'No details provided'
+                },
                 'attachments': {
                     'table-title': 'Documents related to the Instrument',
                     'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
