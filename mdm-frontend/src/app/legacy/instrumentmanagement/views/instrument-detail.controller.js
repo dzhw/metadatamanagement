@@ -192,7 +192,6 @@ angular.module('metadatamanagementApp')
             details: a.citationDetails
           }))
           .filter(a => !!a.hint));
-        citationItems.filter()
         // add citation details for variable questionnaires
         // if there are none for regular questionnaires
         if (citationItems.length === 0) {
