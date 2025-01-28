@@ -151,7 +151,7 @@ function($interpolate, LanguageService, $filter, $rootScope) {
     if (attachment.doi) {
       citationHint += ' ' + attachment.doi;
     }
-    return $interpolate(citationHint)({attachment: attachment, dataPackage: dataPackage});
+    return $interpolate(citationHint)({ attachment });
   };
 
   var generateCitationHintForInstrumentAttachment = function(attachment, description) {
