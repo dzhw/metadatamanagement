@@ -54,9 +54,6 @@ angular.module('metadatamanagementApp')
         ctrl.dataPackageCitationHint = CitationHintGeneratorService
           .generateCitationHint(accessWay, dataPackage);
 
-        console.debug("DATA PACKAGE CITATION HINT", ctrl.dataPackageCitationHint);
-        console.debug("METHOD REPORT", ctrl.methodReports);
-        console.debug("METHOD REPORT CITATION HINT", ctrl.methodReportsCitationHint);
       }, function(reason) {
         console.error("An error occurred while fetching attachments for data package '" + dataPackage.id + "'", reason);
       });
@@ -80,7 +77,6 @@ angular.module('metadatamanagementApp')
             ));
             return atts;
           }, {});
-        console.debug("INSTRUMENT ATTACHMENTS", instrumentAttachments);
 
         const currentLanguage = LanguageService.getCurrentInstantly();
         ctrl.instrumentAttachmentCitations = [];
@@ -97,7 +93,6 @@ angular.module('metadatamanagementApp')
             });
           }
         }
-        console.debug("INSTRUMENT ATTACHMENT CITATIONS", ctrl.instrumentAttachmentCitations);
       }, function(reason) {
         console.error("An error occurred while fetching attachments for data acquisiton project '" +
           dataPackage.dataAcquisitionProjectId + "'.", reason);
