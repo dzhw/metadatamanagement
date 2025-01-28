@@ -53,6 +53,12 @@ angular.module('metadatamanagementApp')
 
         ctrl.dataPackageCitationHint = CitationHintGeneratorService
           .generateCitationHint(accessWay, dataPackage);
+
+        console.debug("DATA PACKAGE CITATION HINT", ctrl.dataPackageCitationHint);
+        console.debug("METHOD REPORT", ctrl.methodReports);
+        console.debug("METHOD REPORT CITATION HINT", ctrl.methodReportsCitationHint);
+      }, function(reason) {
+        console.error("An error occurred while fetching attachments for data package '" + dataPackage.id + "'", reason);
       });
 
       // cite list of instrument attachment of type questionnaire
@@ -64,9 +70,7 @@ angular.module('metadatamanagementApp')
         const instrumentAttachments = attachments.instruments
           .map(a => a.instrumentNumber)
           // deduplicate instrument number
-          .filter((number, index, numbers) => {
-            return !numbers.slice(0, index).includes(number);
-          })
+          .filter((number, index, numbers) => !numbers.slice(0, index).includes(number))
           // reduce instrument numbers array to an object that maps questionnaire
           // attachments to their corresponding instrument number
           .reduce((atts, number) => {
@@ -76,11 +80,11 @@ angular.module('metadatamanagementApp')
             ));
             return atts;
           }, {});
+        console.debug("INSTRUMENT ATTACHMENTS", instrumentAttachments);
 
         const currentLanguage = LanguageService.getCurrentInstantly();
         ctrl.instrumentAttachmentCitations = [];
         for (const entries of Object.values(instrumentAttachments)) {
-          console.log(entries);
           // use questionnaire for the current instrument and only use variable questionnaire as a backup
           var attachment = entries.find(a => a.type.en === InstrumentAttachmentTypesEn.Questionnaire) ||
             entries.find(a => a.type.en === InstrumentAttachmentTypesEn.VariableQuestionnaire);
@@ -93,6 +97,10 @@ angular.module('metadatamanagementApp')
             });
           }
         }
+        console.debug("INSTRUMENT ATTACHMENT CITATIONS", ctrl.instrumentAttachmentCitations);
+      }, function(reason) {
+        console.error("An error occurred while fetching attachments for data acquisiton project '" +
+          dataPackage.dataAcquisitionProjectId + "'.", reason);
       });
     };
 
