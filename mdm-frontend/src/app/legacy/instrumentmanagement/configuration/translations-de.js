@@ -41,7 +41,12 @@ angular.module('metadatamanagementApp').config([
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
-            }
+            },
+          },
+          'citation': 'Zitieren',
+          'citation-dialog': {
+            'title': 'Fragebogen/Variablenfragenbogen zitieren',
+            'no-details-placeholder': 'Keine Details hinterlegt'
           },
           'attachments': {
             'table-title': 'Materialien zum Instrument',
@@ -197,6 +202,10 @@ angular.module('metadatamanagementApp').config([
             'instrument-number': 'Wählen Sie eine freie Nummer für das neue Instrument aus.'
           },
           'all-instruments-deleted-toast': 'Alle Instrumente des Datenaufnahmeprojekt "{{id}}" wurden gelöscht.'
+        },
+        'buttons': {
+          'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+          'open-citation': 'Zitieren...',
         }
       }
       //jscs:enable

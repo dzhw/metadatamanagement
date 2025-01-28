@@ -487,7 +487,10 @@ angular.module('metadatamanagementApp')
           labels: getDialogLabels()
         };
 
-        if (CurrentProjectService.getCurrentProject().release.isPreRelease) {
+        if (CurrentProjectService.getCurrentProject() &&
+            CurrentProjectService.getCurrentProject().release &&
+            CurrentProjectService.getCurrentProject().release.isPreRelease
+        ) {
           CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
             'global.common-dialogs' +
             '.confirm-edit-pre-released-project.attachment-title',

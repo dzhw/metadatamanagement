@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config([
         'phone': 'Tel: ',
         'fax': 'Fax: ',
         'or': 'oder',
-        'responsible-urls-text': 'Sämtliche Links werden in regelmäßigen Abständen geprüft. Die Verantwortung für den Inhalt der Links zu Seiten außerhalb dieses Angebots wird ausdrücklich ausgeschlossen.',
+        'responsible-urls-text': 'Für die Inhalte der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich. Trotz sorgfältiger Prüfung übernehmen wir keine Haftung für die Inhalte externer Links. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.',
         'supervisory': 'Vorsitzender des Aufsichtsrats: Ministerialdirigent ',
         'scientific-director-female': 'Wissenschaftliche Geschäftsführerin: ',
         'scientific-director-male': 'Wissenschaftlicher Geschäftsführer: ',

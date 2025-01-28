@@ -10,8 +10,8 @@
       <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
     </md-button>
   </md-card-header>
-  <div ng-if="!$ctrl.collapsed">
-    <md-card-content>
+  <div ng-if="!$ctrl.collapsed" flex layout="row">
+    <md-card-content flex style="min-width: 70%;">
       <md-list>
         <md-list-item ng-if="$ctrl.options.title">
           <h5>{{'instrument-management.detail.label.title' | translate }}:</h5>
@@ -43,8 +43,18 @@
             class="md-secondary"
             markdown-to-html="$ctrl.options.annotations | displayI18nString" ></p>
         </md-list-item>
-
       </md-list>
+    </md-card-content>
+    <md-card-content flex layout="row" layout-align="end center">
+      <md-button class="md-small md-raised md-primary fdz-truncate-string"
+          ng-click="$emit('open-instrument-citation-dialog', $event)"
+          style="margin-right: 12px; margin-top: 0px;">
+          <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'instrument-management.buttons.open-citation-tooltip' | translate}}
+          </md-tooltip>
+          <span>{{'instrument-management.buttons.open-citation' | translate}}</span>
+      </md-button>
+      <div class="fdz-input-hint" style="margin-top: 1rem; margin-left: 8px;">{{ "shopping-cart.detail.citation-node" | translate }}</div>
     </md-card-content>
   </div>
 </md-card>
