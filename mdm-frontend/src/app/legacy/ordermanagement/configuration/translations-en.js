@@ -44,7 +44,8 @@ angular.module('metadatamanagementApp').config([
             'data-languages': 'Furthermore the data sets are available in the following languages:',
             'cite-data-package': 'Cite Data Package:',
             'cite-analysis-package': 'Cite Analysis Package:',
-            'cite-method-report': 'Cite Method Report:'
+            'cite-method-report': 'Cite Method Report:',
+            'cite-questionnaire': 'Cite Questionnaire/Variable Questionnaire:'
           },
           'hints': {
             'name': 'Please let us know your full name.',
@@ -67,10 +68,11 @@ angular.module('metadatamanagementApp').config([
           'scripts-tooltip': 'Click to display all scripts of this analysis package.',
           'custom-data-packages-tooltip': 'Click to display all custom data packages of this analysis package.',
           'software-packages-tooltip': 'Click to display all software packages of this analysis package.',
-          'citation': 'Cite Data Package and Method Report',
+          'citation': 'Cite Data Package, Method Report and Questionnaire/Variable Questionnaire',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
           'download-bibtex-tooltip': 'Click to save the citation details in BibTex format.',
+          'citation-node': 'We ask you to check the Data and Methods Report to see whether there is information on other sources for the specific question to be cited. If such information is available, we suggest that you also cite the original source(s) mentioned in the data and methods report in accordance with good scientific practice. When quoting the complete text of a question, for example within an article or when reusing the question for your own research projects or questionnaires, please note that there may be further license agreements. Please check the sources in this regard.',
           'select-access-way-title': 'Please select an Access Way',
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',

@@ -45,7 +45,8 @@ angular.module('metadatamanagementApp').config([
             'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:',
             'cite-data-package': 'Datenpaket zitieren:',
             'cite-analysis-package': 'Analysepaket zitieren:',
-            'cite-method-report': 'Daten- und Methodenbericht zitieren:'
+            'cite-method-report': 'Daten- und Methodenbericht zitieren:',
+            'cite-questionnaire': 'Fragebogen/Variablenfragebogen zitieren:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',
@@ -68,10 +69,11 @@ angular.module('metadatamanagementApp').config([
           'scripts-tooltip': 'Klicken, um alle Skripte dieses Analysepaketes anzuzeigen.',
           'custom-data-packages-tooltip': 'Klicken, um alle benutzerdefinierten Datenpakete dieses Analysepaketes anzuzeigen.',
           'software-packages-tooltip': 'Klicken, um alle Softwarepakete dieses Analysepaketes anzuzeigen.',
-          'citation': 'Datenpaket und Daten- und Methodenbericht zitieren',
+          'citation': 'Datenpaket, Daten- und Methodenbericht und Fragebogen/Variablenfragenbogen zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
           'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',
           'download-bibtex-tooltip': 'Klicken, um die Zitationsdetails im BibTex-Format zu speichern.',
+          'citation-node': 'Wir bitten Sie, den Daten- und Methodenbericht zu prüfen, ob Angaben zu weiteren Quellen der spezifisch zu zitierenden Frage existieren. Bei Vorliegen entsprechender Angaben schlagen wir vor, im Sinn guter wissenschaftlicher Praxis die im Daten- und Methodenbericht genannte(n) Originalquelle(n) ebenfalls zu zitieren. Bei einer Wiedergabe des vollständigen Texts einer Frage, etwa innerhalb eines Artikels oder bei einer Nachnutzung der Frage für eigene Forschungsvorhaben bzw. Fragebögen, ist zu beachten, dass mglw. weitere Nutzungsbedingungen bestehen. Bitte prüfen Sie die Quellen dahingehend.',
           'select-access-way-title': 'Bitte Zugangsweg auswählen',
           'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
           'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.',

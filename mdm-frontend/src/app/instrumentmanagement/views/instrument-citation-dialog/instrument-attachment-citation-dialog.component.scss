@@ -1,0 +1,11 @@
+.citation-item {
+
+    display: flex;
+    align-items: center;
+
+    > span {
+        color: black;
+        font-size: 14px;
+        margin-right: 0.5rem;
+    }
+}
