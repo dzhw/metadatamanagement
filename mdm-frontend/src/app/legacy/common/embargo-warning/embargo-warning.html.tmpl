@@ -2,14 +2,31 @@
     <md-card-header style="border: none !important; padding: 0px;">
         <md-card-title style="padding: 0px;">
             <md-card-title-text>
-                <span class="md-subhead b" ng-if="isOrderView && ctrl.type == 'data-package'">{{
+                <span class="md-subhead b" ng-if="isOrderView && ctrl.type == 'data-package' && !ctrl.isEmbargoDateExpired()">{{
                     'embargo-warning.data-package.title-order-view' | translate: {projectId: project.masterId} }}</span>
-                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type == 'data-package'">{{
+                <span class="md-subhead b" ng-if="isOrderView && ctrl.type == 'data-package' && ctrl.isEmbargoDateExpired()"
+                    data-translate="embargo-warning.data-package.title-order-view-expired" 
+                    translate-values="{projectId: project.masterId, date: (ctrl.project.embargoDate | date:'mediumDate')}">
+                </span>
+                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type == 'data-package' && !ctrl.isEmbargoDateExpired()">{{
                     'embargo-warning.data-package.title-provider-view' | translate: {projectId: project.masterId} }}</span>
-                <span class="md-subhead b" ng-if="isOrderView && ctrl.type != 'data-package'">{{
+                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type == 'data-package' && ctrl.isEmbargoDateExpired()"
+                    data-translate="embargo-warning.data-package.title-provider-view-expired" 
+                    translate-values="{projectId: project.masterId, date: (ctrl.project.embargoDate | date:'mediumDate')}">
+                </span>
+
+                <span class="md-subhead b" ng-if="isOrderView && ctrl.type != 'data-package' && !ctrl.isEmbargoDateExpired()">{{
                     'embargo-warning.analysis-package.title-order-view' | translate: {projectId: project.masterId} }}</span>
-                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type != 'data-package'">{{
+                <span class="md-subhead b" ng-if="isOrderView && ctrl.type != 'data-package' && ctrl.isEmbargoDateExpired()"
+                    data-translate="embargo-warning.analysis-package.title-order-view-expired" 
+                    translate-values="{projectId: project.masterId, date: (ctrl.project.embargoDate | date:'mediumDate')}">
+                </span>
+                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type != 'data-package' && !ctrl.isEmbargoDateExpired()">{{
                     'embargo-warning.analysis-package.title-provider-view' | translate: {projectId: project.masterId} }}</span>
+                <span class="md-subhead b" ng-if="!isOrderView && ctrl.type != 'data-package' && ctrl.isEmbargoDateExpired()"
+                    data-translate="embargo-warning.analysis-package.title-provider-view-expired" 
+                    translate-values="{projectId: project.masterId, date: (ctrl.project.embargoDate | date:'mediumDate')}">
+                </span>
             </md-card-title-text>
         </md-card-title>
     </md-card-header>
