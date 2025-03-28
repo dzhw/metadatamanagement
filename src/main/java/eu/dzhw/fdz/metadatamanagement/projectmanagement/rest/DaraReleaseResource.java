@@ -3,13 +3,16 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidClientService.RegistrationException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidRegistrationService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidRegistrationService.VariablesCheckResult;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataCiteService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +58,7 @@ public class DaraReleaseResource {
   private final DaraPidRegistrationService daraPidRegistrationService;
   private final DataAcquisitionProjectRepository projectRepository;
   private final UserRepository userRepository;
+  private final DataCiteService dataCiteService;
 
   /**
    * Release a project to dara (or update it).
@@ -161,5 +165,24 @@ public class DaraReleaseResource {
     ErrorListDto errorListDto = new ErrorListDto();
     errorListDto.add(errorDto);
     return errorListDto;
+  }
+
+  /**
+   * Returns the project metadata according to the DataCite Metadata mapping.
+   * @param id the data acquisition project's ID
+   * @return the project metadata
+   */
+  @GetMapping(path = "/data-acquisition-projects/{id}/metadata")
+  @Secured(value = {AuthoritiesConstants.ADMIN})
+  JsonNode getDataCiteMetadataforProject(@PathVariable String id) {
+    var projectList = this.projectRepository.findByMasterIdAndShadowIsTrue(id).filter(
+      pp -> pp.getSuccessorId() == null
+    ).collect(Collectors.toList());
+    if (projectList.size() > 1) {
+      // more than one project found
+      // todo: select project with version
+      return this.dataCiteService.getDataCiteMetadataforProject(projectList.get(projectList.size()-1));
+    }
+    return this.dataCiteService.getDataCiteMetadataforProject(projectList.get(0));
   }
 }
