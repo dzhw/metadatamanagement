@@ -98,7 +98,7 @@ public class DataCiteService {
     attrObj.put("types", this.createTypesObject());
     attrObj.put("version", project.getRelease().getVersion());
     attrObj.put("creators", this.createCreatorsList(dataPackage));
-    attrObj.put("publisher", this.createPublisherObject(project));
+    attrObj.put("publisher", this.createPublisherObject());
     attrObj.put("descriptions", this.createDescriptionsList(dataPackage, surveys));
     attrObj.put("contributors", this.createContributorsList(dataPackage));
     attrObj.put("fundingReferences", this.createFundingReferencesList(dataPackage));
@@ -487,14 +487,16 @@ public class DataCiteService {
   }
 
   /**
-   * Creates the publisher object including attributes "name", "identifier",
-   * "identifierScheme", "schemeUri", and "lang".
-   * @param project the project dataset
+   * Creates the publisher object.
    * @return a map of key value pairs filled with metadata of the publisher
    */
-  private Map<String, String> createPublisherObject(DataAcquisitionProject project) {
+  private Map<String, String> createPublisherObject() {
     Map<String, String> publisherObj = new HashMap<>();
-    //todo: name, identifier, identifierScheme, schemeUri, lang
+    publisherObj.put("name", "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung (DZHW)");
+    publisherObj.put("lang", "de");
+    publisherObj.put("publisherIdentifier", "https://ror.org/01n8j6z65");
+    publisherObj.put("publisherIdentifierScheme", "ROR");
+    publisherObj.put("schemUri", "https://ror.org/");
     return publisherObj;
   }
 
