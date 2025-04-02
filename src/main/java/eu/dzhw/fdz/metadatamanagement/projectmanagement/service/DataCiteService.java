@@ -107,7 +107,34 @@ public class DataCiteService {
     attrObj.put("geoLocations", this.createGeoLocationsList(surveys));
     attrObj.put("alternateIdentifiers", this.createAlternateIdentifiersList(dataPackage, surveys));
     attrObj.put("relatedIdentifiers", this.createRelatedIdentifiersList(project));
+    attrObj.put("rightsList", this.createRightsList(project, dataPackage));
     return attrObj;
+  }
+
+  /**
+   * Creates a list of rights.
+   * @return the list of rights objects
+   */
+  private List<Map<String, String>> createRightsList(DataAcquisitionProject project, DataPackage dataPackage) {
+    List<Map<String, String>> rightsList = new ArrayList<>();
+
+    String urlLanguage = project.getRelease().getDoiPageLanguage() != null ?
+      project.getRelease().getDoiPageLanguage() : "en";
+    String packageType = "data-packages";
+    String mdmUrl = MDM_BASE_URL + urlLanguage + "/" + packageType + "/" + dataPackage.getMasterId() +
+      "?version=" + project.getRelease().getVersion();
+
+    Map<String, String> rightObjDe = new HashMap<>();
+    rightObjDe.put("rights", String.format("Beantragung notwendig unter %s", mdmUrl));
+    rightObjDe.put("lang", "de");
+    rightsList.add(rightObjDe);
+
+    Map<String, String> rightObjEn = new HashMap<>();
+    rightObjEn.put("rights", String.format("Application necessary under %s", mdmUrl));
+    rightObjEn.put("lang", "en");
+    rightsList.add(rightObjEn);
+
+    return rightsList;
   }
 
   /**
@@ -292,11 +319,18 @@ public class DataCiteService {
   private List<Map<String, String>> createFundingReferencesList(DataPackage dataPackage) {
     List<Map<String, String>> fundingReferenceList = new ArrayList<>();
     for (Sponsor sponsor : dataPackage.getSponsors()) {
-      Map<String, String> fundingRef = new HashMap<>();
-      fundingRef.put("funderName",
-        sponsor.getName() != null && sponsor.getName().getDe() != null ? sponsor.getName().getDe() : sponsor.getName().getEn());
-      //todo: consolidation of further fields needed
-      fundingReferenceList.add(fundingRef);
+      if (sponsor.getName() != null && sponsor.getName().getDe() != null) {
+        Map<String, String> fundingRefDe = new HashMap<>();
+        fundingRefDe.put("funderName", sponsor.getName().getDe());
+        //todo: add identifiers when they are available in MDM
+        fundingReferenceList.add(fundingRefDe);
+      }
+      if (sponsor.getName() != null && sponsor.getName().getEn() != null) {
+        Map<String, String> fundingRefEn = new HashMap<>();
+        fundingRefEn.put("funderName", sponsor.getName().getEn());
+        //todo: add identifiers when they are available in MDM
+        fundingReferenceList.add(fundingRefEn);
+      }
     }
     return fundingReferenceList;
   }
