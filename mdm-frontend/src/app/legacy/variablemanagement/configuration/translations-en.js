@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config([
             'data-type': 'Data Type',
             'scale-level': 'Level of Measurement',
             'access-ways': 'Access Ways',
+            'pid': 'PID',
             'annotations': 'Annotations',
             'filter-description': 'Filter Description',
             'input-filter': 'Input Filter',

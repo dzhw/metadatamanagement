@@ -47,6 +47,10 @@
           <h5>{{'variable-management.detail.label.access-ways' | translate }}:</h5>
           <div class="md-secondary"><span ng-repeat="accessWay in $ctrl.options.variable.accessWays">{{accessWay | displayAccessWay}}{{!$last ? ', ':''}}</span></div>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.pid && $ctrl.options.variable.pid != ''">
+          <h5>{{'variable-management.detail.label.pid' | translate }}:</h5>
+          <div class="md-secondary">{{$ctrl.options.variable.pid}}</div>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.annotations">
           <h5>{{'variable-management.detail.label.annotations' | translate }}:</h5>
           <p class="md-secondary" markdown-to-html="$ctrl.options.variable.annotations | displayI18nString"></p>
