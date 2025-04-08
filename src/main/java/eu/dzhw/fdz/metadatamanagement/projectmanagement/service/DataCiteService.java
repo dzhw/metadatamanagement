@@ -1,11 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DoiBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
@@ -52,6 +55,8 @@ public class DataCiteService {
   private final SurveyRepository surveyRepository;
 
   private final DataAcquisitionProjectRepository projectRepository;
+
+  private final DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   @Autowired
   private final DoiBuilder doiBuilder;
@@ -118,7 +123,7 @@ public class DataCiteService {
    */
   private Map<String,Object> createAttrObjectForDataPackage(DataAcquisitionProject project, DataPackage dataPackage, List<Survey> surveys) {
     Map<String,Object> attrObj = new HashMap<>();
-    this.addBasicInfo(attrObj, project, dataPackage.getMasterId(), true);
+    this.addBasicInfo(attrObj, project, dataPackage.getMasterId(), false);
     attrObj.put("titles", this.createTitlesList(dataPackage.getTitle()));
     attrObj.put("publicationYear", project.getRelease().getFirstDate().getYear());
     attrObj.put("types", this.createTypesObject());
@@ -242,21 +247,19 @@ public class DataCiteService {
    */
   private List<Map<String, String>> createRelatedIdentifiersList(DataAcquisitionProject project) {
     List<Map<String, String>> relatedIdentifiersList = new ArrayList<>();
-    // todo: check if previous version has DOI
-    // todo: if so add relatedIdentifier
-    List<DataAcquisitionProject> previousList = this.projectRepository.findByMasterIdAndShadowIsTrue(project.getMasterId()).filter(
-      pp -> pp.getSuccessorId() == project.getId()
-    ).collect(Collectors.toList());
-    if (!previousList.isEmpty()) {
-      Map<String,String> relatedIdentifier = new HashMap<>();
-      relatedIdentifier.put("relatedIdentifier", this.doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(
-        previousList.get(0).getId(), previousList.get(0).getRelease())); // add DOI of previous version
+    Map<String,String> relatedIdentifier = new HashMap<>();
+
+    // check if project has a previous version and add "isNewVersionOf" attribute if so
+    Release previousRelease = dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), project.getRelease());
+    if (previousRelease != null) {
+      String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), previousRelease);
+      relatedIdentifier.put("relatedIdentifier", previousDoi); // add DOI of previous version
       relatedIdentifier.put("relatedIdentifierType", "DOI");
       relatedIdentifier.put("relationType", "IsNewVersionOf");
       relatedIdentifiersList.add(relatedIdentifier);
     }
 
-    // todo: update previous version with relation in a seperate process
+    // todo: update previous version with relation in a separate process
 
     return relatedIdentifiersList;
   }
@@ -290,34 +293,43 @@ public class DataCiteService {
    * @return a list of date objects
    */
   private List<Map<String, String>> createDatesList(DataAcquisitionProject project, List<Survey> surveys) {
+    // todo: handle hiding of datasets
     List<Map<String, String>> datesList = new ArrayList<>();
+    String pattern = "yyyy-MM-dd";
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     if (project.getRelease().getIsPreRelease() && project.getEmbargoDate() != null) {
-      Map<String, String> dateObj = new HashMap<>();
-      dateObj.put("date", project.getEmbargoDate().toString());
-      dateObj.put("dateType", "Other");
-      dateObj.put("dateInformation",
+      // Pre-Release (accepted = firstDate, available = Embargo)
+      Map<String, String> dateObjEmbargo = new HashMap<>();
+      dateObjEmbargo.put("date", project.getEmbargoDate().toString());
+      dateObjEmbargo.put("dateType", "Available");
+      dateObjEmbargo.put("dateInformation",
         String.format("This data package is currently not yet available for order as it is subject to an embargo until %s." +
           " Publication can only take place after this date. Please note that the embargo date does not necessarily correspond" +
           " to the expected release date. Please contact userservice@dzhw.eu if you wish to receive information regarding the" +
           " release date of the data package.", project.getEmbargoDate().toString()));
-      datesList.add(dateObj);
+      datesList.add(dateObjEmbargo);
+
+      Map<String, String> dateObjFirst = new HashMap<>();
+      dateObjFirst.put("date", project.getRelease().getFirstDate().format(formatter));
+      dateObjFirst.put("dateType", "Accepted");
+      datesList.add(dateObjFirst);
     } else {
+      // Normal Release (available = Release)
       Map<String, String> dateObj = new HashMap<>();
-      String pattern = "yyyy-MM-dd";
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
       dateObj.put("date", project.getRelease().getFirstDate().format(formatter));
       dateObj.put("dateType", "Available");
       datesList.add(dateObj);
     }
 
+    // add field periods for all surveys and add survey title
     for (Survey survey : surveys) {
-      Map<String, String> dateObj = new HashMap<>();
+      Map<String, String> dateObjSur = new HashMap<>();
       String startDate = survey.getFieldPeriod().getStart().toString();
       String endDate = survey.getFieldPeriod().getEnd().toString();
-      dateObj.put("date", String.format("%s/%s", startDate, endDate));
-      dateObj.put("dateType", "Collected");
-      // todo: add information to which study this date applies?
-      datesList.add(dateObj);
+      dateObjSur.put("date", String.format("%s/%s", startDate, endDate));
+      dateObjSur.put("dateType", "Collected");
+      dateObjSur.put("dateInformation", survey.getTitle().getEn());
+      datesList.add(dateObjSur);
     }
 
     return datesList;
@@ -366,14 +378,14 @@ public class DataCiteService {
         " " + person.getMiddleName() : ""));
       creatorObject.put("familyName", person.getLastName());
       creatorObject.put("nameIdentifiers", this.createCreatorNameIdentifierList(person));
-      creatorObject.put("affiliation", this.createCreatorAffiliationList(institutions));
+      creatorObject.put("affiliation", institutions.size() == 1 ? this.createCreatorAffiliationList(institutions) : new ArrayList<>());
       creatorsList.add(creatorObject);
     }
     for (I18nString institution : institutions) {
       Map<String, Object> creatorObject = new HashMap<>();
       creatorObject.put("name", institution.getEn() != null ? institution.getEn() : institution.getDe());
       creatorObject.put("nameType", "Organizational");
-      creatorObject.put("nameIdentifiers", new ArrayList<>()); //todo identifier
+      creatorObject.put("nameIdentifiers", new ArrayList<>());
       creatorObject.put("affiliation", new ArrayList<>());
       creatorsList.add(creatorObject);
     }
@@ -393,7 +405,7 @@ public class DataCiteService {
       Map<String, String> nameIdentifierObject = new HashMap<>();
       nameIdentifierObject.put("nameIdentifier", person.getOrcid());
       nameIdentifierObject.put("nameIdentifierScheme", "ORCID");
-      nameIdentifierObject.put("schemeURI", "https://orcid.org");
+      nameIdentifierObject.put("schemeUri", "https://orcid.org");
       nameIdentifierList.add(nameIdentifierObject);
     }
     return nameIdentifierList;
@@ -461,8 +473,6 @@ public class DataCiteService {
       descriptionList.add(descriptionObjDe);
     }
 
-    // todo: add descriptions of survey methods???
-
     return descriptionList;
   }
 
@@ -478,7 +488,6 @@ public class DataCiteService {
     contributor.put("name", "FDZ-DZHW");
     contributor.put("nameType", "Organizational");
     contributor.put("contributorType", "Distributor");
-    // todo: nameIdentifier ???
     contributor.put("nameIdentifiers", new ArrayList<>());
     contributorList.add(contributor);
 
@@ -487,7 +496,7 @@ public class DataCiteService {
       contributorObject.put("name", person.getMiddleName() != null ? String.format(
         "%s, %s %s",  person.getLastName(), person.getFirstName(), person.getMiddleName()) :
         String.format("%s, %s",  person.getLastName(), person.getFirstName()));
-      contributorObject.put("nameType", "Personal"); //todo controlled vocab
+      contributorObject.put("nameType", "Personal");
       contributorObject.put("givenName", person.getFirstName() + (person.getMiddleName() != null ?
         " " + person.getMiddleName() : ""));
       contributorObject.put("familyName", person.getLastName());
@@ -564,7 +573,6 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag);
         subject.put("lang", "en");
-        //todo: consolidation of further fields needed
         subjectsList.add(subject);
       }
     }
@@ -573,7 +581,6 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag);
         subject.put("lang", "de");
-        //todo: consolidation of further fields needed
         subjectsList.add(subject);
       }
     }
@@ -583,10 +590,10 @@ public class DataCiteService {
       for (Elsst tag : elsstTagsEn) {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
-        subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)"); //todo: name?
-        subject.put("schemeURI", "https://thesauri.cessda.eu/elsst-4/en/"); //todo: constant/link?
+        subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
+        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-4/en/");
         String elsstBaseUri = "https://thesauri.cessda.eu/elsst-4/en/page/";
-        subject.put("valueURI", elsstBaseUri + tag.getLocalname());
+        subject.put("valueUri", elsstBaseUri + tag.getLocalname());
         subject.put("lang", "en");
         subjectsList.add(subject);
       }
@@ -596,10 +603,10 @@ public class DataCiteService {
       for (Elsst tag : elsstTagsDe) {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
-        subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)"); //todo: name?
-        subject.put("schemeURI", "https://thesauri.cessda.eu/elsst-4/en/"); //todo: constant/link?
+        subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
+        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-4/en/");
         String elsstBaseUri = "https://thesauri.cessda.eu/elsst-4/en/page/";
-        subject.put("valueURI", elsstBaseUri + tag.getLocalname());
+        subject.put("valueUri", elsstBaseUri + tag.getLocalname());
         subject.put("lang", "de");
         subjectsList.add(subject);
       }
