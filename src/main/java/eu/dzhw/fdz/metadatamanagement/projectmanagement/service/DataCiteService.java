@@ -1,13 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -99,20 +97,7 @@ public class DataCiteService {
     return this.createDataCitePayload(attrObj);
   }
 
-  /**
-   * Generates the payload node required for registering DOIs with the DataCite API.
-   * @param attrObj a map filled with all metadata properties
-   * @return the payload node
-   */
-  private JsonNode createDataCitePayload(Map<String, Object> attrObj) {
-    Map<String,Object> dataObj = new HashMap<>();
-    dataObj.put("attributes", attrObj);
-    dataObj.put("type", "dois");
-    Map<String, Object> baseObj = new HashMap<>();
-    baseObj.put("data", dataObj);
-    JsonNode node = mapper.valueToTree(baseObj);
-    return node;
-  }
+
 
   /**
    * Maps MDM data to the Data Cite Metadata schema for data packages.
@@ -121,7 +106,7 @@ public class DataCiteService {
    * @param surveys a list of survey datasets
    * @return a map of key value pairs filled with metadata
    */
-  private Map<String,Object> createAttrObjectForDataPackage(DataAcquisitionProject project, DataPackage dataPackage, List<Survey> surveys) {
+  public Map<String,Object> createAttrObjectForDataPackage(DataAcquisitionProject project, DataPackage dataPackage, List<Survey> surveys) {
     Map<String,Object> attrObj = new HashMap<>();
     this.addBasicInfo(attrObj, project, dataPackage.getMasterId(), false);
     attrObj.put("titles", this.createTitlesList(dataPackage.getTitle()));
@@ -152,7 +137,7 @@ public class DataCiteService {
    * @param analysisPackage the analysisPackage dataset
    * @return a map of key value pairs filled with metadata
    */
-  private Map<String, Object> createAttrObjectForAnalysisPackage(DataAcquisitionProject project, AnalysisPackage analysisPackage) {
+  public Map<String, Object> createAttrObjectForAnalysisPackage(DataAcquisitionProject project, AnalysisPackage analysisPackage) {
     Map<String,Object> attrObj = new HashMap<>();
     this.addBasicInfo(attrObj, project, analysisPackage.getMasterId(), true);
     attrObj.put("titles", this.createTitlesList(analysisPackage.getTitle()));
@@ -177,8 +162,23 @@ public class DataCiteService {
     return attrObj;
   }
 
+  /**
+   * Generates the payload node required for registering DOIs with the DataCite API.
+   * @param attrObj a map filled with all metadata properties
+   * @return the payload node
+   */
+  private JsonNode createDataCitePayload(Map<String, Object> attrObj) {
+    Map<String,Object> dataObj = new HashMap<>();
+    dataObj.put("attributes", attrObj);
+    dataObj.put("type", "dois");
+    Map<String, Object> baseObj = new HashMap<>();
+    baseObj.put("data", dataObj);
+    JsonNode node = mapper.valueToTree(baseObj);
+    return node;
+  }
+
   /************************************************************************
-   * GENERIC METHODS
+   * HELPER METHODS
    ***********************************************************************/
 
   /**
@@ -211,7 +211,7 @@ public class DataCiteService {
    * @param isAnalysisPackage a flag indicating if the package is an analysis package or not
    * @return the link to a data or analysis package within MDM
    */
-  public String createUrlValue(DataAcquisitionProject project, String lang, String packageMasterId, Boolean isAnalysisPackage) {
+  private String createUrlValue(DataAcquisitionProject project, String lang, String packageMasterId, Boolean isAnalysisPackage) {
     String packageType = isAnalysisPackage ? MDM_ANALYSIS_PACKAGE_TYPE : MDM_DATA_PACKAGE_TYPE;
     String url = MDM_BASE_URL + lang + "/" + packageType + "/" + packageMasterId +
       "?version=" + project.getRelease().getVersion();
@@ -366,7 +366,7 @@ public class DataCiteService {
    * @param institutions list of institutions
    * @return a list of maps of key value pairs filled with metadata of the creators
    */
-  public List<Map<String, Object>> createCreatorsList(List<Person> creators, List<I18nString> institutions) {
+  private List<Map<String, Object>> createCreatorsList(List<Person> creators, List<I18nString> institutions) {
     List<Map<String, Object>> creatorsList = new ArrayList<>();
     for (Person person : creators) {
       Map<String, Object> creatorObject = new HashMap<>();
@@ -440,7 +440,7 @@ public class DataCiteService {
    * @param surveys a list of surveys
    * @return
    */
-  public List<Map<String, String>> createDescriptionsList(I18nString description, List<Survey> surveys) {
+  private List<Map<String, String>> createDescriptionsList(I18nString description, List<Survey> surveys) {
     List<Map<String, String>> descriptionList = new ArrayList<>();
     // add descriptions of type "abstract"
     if (description != null && description.getEn() != null) {
@@ -482,7 +482,7 @@ public class DataCiteService {
    * @param contributors a list of project contributors
    * @return a list of contributors
    */
-  public List<Map<String, Object>> createContributorsList(List<Person> contributors) {
+  private List<Map<String, Object>> createContributorsList(List<Person> contributors) {
     List<Map<String, Object>> contributorList = new ArrayList<>();
     Map<String, Object> contributor = new HashMap<>();
     contributor.put("name", "FDZ-DZHW");
@@ -538,7 +538,7 @@ public class DataCiteService {
    * @param sponsors the dataPackage dataset
    * @return the list of dfunding references.
    */
-  public List<Map<String, String>> createFundingReferencesList(List<Sponsor> sponsors) {
+  private List<Map<String, String>> createFundingReferencesList(List<Sponsor> sponsors) {
     List<Map<String, String>> fundingReferenceList = new ArrayList<>();
     for (Sponsor sponsor : sponsors) {
       if (sponsor.getName() != null && sponsor.getName().getDe() != null) {
@@ -565,7 +565,7 @@ public class DataCiteService {
    * @param elsstTagsEn German elsst tags of a data or analysis package
    * @return the list of subject objects
    */
-  public List<Map<String, String>> createSubjectsList(Set<String> tagsDe, Set<String> tagsEn, Set<Elsst> elsstTagsDe, Set<Elsst> elsstTagsEn) {
+  private List<Map<String, String>> createSubjectsList(Set<String> tagsDe, Set<String> tagsEn, Set<Elsst> elsstTagsDe, Set<Elsst> elsstTagsEn) {
     List<Map<String, String>> subjectsList = new ArrayList<>();
     // normal tags
     if (tagsEn != null) {
@@ -620,7 +620,7 @@ public class DataCiteService {
    * @param titles the title object of a data or analysis package
    * @return the list of title objects
    */
-  public List<Map<String, String>> createTitlesList(I18nString titles) {
+  private List<Map<String, String>> createTitlesList(I18nString titles) {
     List<Map<String, String>> titleList = new ArrayList<>();
 
     if (titles != null && titles.getDe() != null) {
@@ -648,9 +648,9 @@ public class DataCiteService {
    * @param surveys the list of survey datasets
    * @return a list of alternateIdentifier objects
    */
-  public List<Map<String, String>> createAlternateIdentifiersListForDp(DataPackage dataPackage, List<Survey> surveys) {
+  private List<Map<String, String>> createAlternateIdentifiersListForDp(DataPackage dataPackage, List<Survey> surveys) {
     List<Map<String, String>> alternateIdentifiersList = new ArrayList<>();
-    if (dataPackage.getTransmissionViaVerbundFdb()) {
+    if (dataPackage.getTransmissionViaVerbundFdb() != null && dataPackage.getTransmissionViaVerbundFdb() != false) {
       Map<String, String> identifierObj = new HashMap<>();
       identifierObj.put("alternateIdentifierType", "VerbundFDB");
       identifierObj.put("alternateIdentifier", "1");
