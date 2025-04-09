@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import java.net.http.HttpClient;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Elsst;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
@@ -28,38 +31,93 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.metrics.AutoTimer;
+import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
+import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * A service for registering project metadata at DataCite.
  */
 @Service
 @Slf4j
-@AllArgsConstructor
+//@AllArgsConstructor
 public class DataCiteService {
 
   private ObjectMapper mapper = new ObjectMapper();
   private final String MDM_BASE_URL = "https://metadata.fdz.dzhw.eu/";
   private final String MDM_DATA_PACKAGE_TYPE = "data-packages";
   private final String MDM_ANALYSIS_PACKAGE_TYPE = "analysis-packages";
-
-  private final DataPackageRepository dataPackageRepository;
-
-  private final AnalysisPackageRepository analysisPackageRepository;
-
-  private final SurveyRepository surveyRepository;
-
-  private final DataAcquisitionProjectRepository projectRepository;
-
-  private final DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+  private final String IS_ALIVE_ENDPOINT = "/heartbeat";
 
   @Autowired
-  private final DoiBuilder doiBuilder;
+  private DataPackageRepository dataPackageRepository;
 
+  @Autowired
+  private AnalysisPackageRepository analysisPackageRepository;
+
+  @Autowired
+  private SurveyRepository surveyRepository;
+
+  @Autowired
+  private DataAcquisitionProjectRepository projectRepository;
+
+  @Autowired
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+
+  @Autowired
+  private DoiBuilder doiBuilder;
+
+  @Autowired
+  private MetadataManagementProperties metadataManagementProperties;
+
+  private RestTemplate restTemplate;
+
+
+  /**
+   * Constructor for Dara Services. Set the Rest Template.
+   */
+  @Autowired
+  public DataCiteService(MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider) {
+    this.restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+    this.restTemplate.getMessageConverters().add(0,
+      new StringHttpMessageConverter(Charset.forName("UTF-8")));
+    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
+      tagProvider, "datacite.client.requests", AutoTimer.ENABLED);
+    customizer.customize(this.restTemplate);
+  }
+
+
+  /**
+   * Checks the DataCite heartbeat endpoint.
+   * @return Returns the status of the DataCite Server
+   */
+  public Boolean isDataCiteHealthy() {
+    final String daraHealthEndpoint = this.getApiEndpoint() + IS_ALIVE_ENDPOINT;
+
+    ResponseEntity<String> result =
+      this.restTemplate.getForEntity(daraHealthEndpoint, String.class);
+
+    return result.getStatusCode().equals(HttpStatus.OK);
+  }
+
+  /**
+   * Returns DataCite api endpoint.
+   * @return the api endpoint given by the configuration.
+   */
+  public String getApiEndpoint() {
+    return this.metadataManagementProperties.getDataCite().getEndpoint();
+  }
 
   /**
    * Creates the DataCite metadata object for a project as a JsonNode.
@@ -253,7 +311,9 @@ public class DataCiteService {
     // check if project has a previous version and add "isNewVersionOf" attribute if so
     Release previousRelease = dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), project.getRelease());
     if (previousRelease != null) {
-      String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), previousRelease);
+      System.out.println("HELLO " + project.getMasterId() +" - " + previousRelease);
+
+      String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), previousRelease);
       relatedIdentifier.put("relatedIdentifier", previousDoi); // add DOI of previous version
       relatedIdentifier.put("relatedIdentifierType", "DOI");
       relatedIdentifier.put("relationType", "IsNewVersionOf");
