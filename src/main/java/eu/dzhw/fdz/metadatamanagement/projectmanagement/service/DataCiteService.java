@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -287,38 +288,51 @@ public class DataCiteService {
   }
 
   /**
-   * Creates a list of dates including the embargo date if present and field period dates of all surveys.
+   * Creates a list of relevant dates including field period dates of all surveys and relevant release dates.
+   * Release related dates may appear in the following options:
+   *      - regular released project: release date is added with dateType 'available'
+   *      - pre-released project: embargo date is added with dateType 'available' and information on the date,
+   *        additionally the release date is added with dateType 'accepted'
+   *      - hidden project: the current date is added with dateType 'withdrawn' and information on the
+   *        hidden status of the project
    * @param project the project dataset
    * @param surveys a list of survey datasets
    * @return a list of date objects
    */
   private List<Map<String, String>> createDatesList(DataAcquisitionProject project, List<Survey> surveys) {
-    // todo: handle hiding of datasets
     List<Map<String, String>> datesList = new ArrayList<>();
     String pattern = "yyyy-MM-dd";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-    if (project.getRelease().getIsPreRelease() && project.getEmbargoDate() != null) {
-      // Pre-Release (accepted = firstDate, available = Embargo)
-      Map<String, String> dateObjEmbargo = new HashMap<>();
-      dateObjEmbargo.put("date", project.getEmbargoDate().toString());
-      dateObjEmbargo.put("dateType", "Available");
-      dateObjEmbargo.put("dateInformation",
-        String.format("This data package is currently not yet available for order as it is subject to an embargo until %s." +
-          " Publication can only take place after this date. Please note that the embargo date does not necessarily correspond" +
-          " to the expected release date. Please contact userservice@dzhw.eu if you wish to receive information regarding the" +
-          " release date of the data package.", project.getEmbargoDate().toString()));
-      datesList.add(dateObjEmbargo);
-
-      Map<String, String> dateObjFirst = new HashMap<>();
-      dateObjFirst.put("date", project.getRelease().getFirstDate().format(formatter));
-      dateObjFirst.put("dateType", "Accepted");
-      datesList.add(dateObjFirst);
-    } else {
-      // Normal Release (available = Release)
+    if (project.isHidden()) {
       Map<String, String> dateObj = new HashMap<>();
-      dateObj.put("date", project.getRelease().getFirstDate().format(formatter));
-      dateObj.put("dateType", "Available");
+      dateObj.put("date", LocalDate.now().format(formatter)); //todo: check if this is correct
+      dateObj.put("dateType", "Withdrawn");
+      dateObj.put("dateInformation", "The dataset has been hidden from public access.");
       datesList.add(dateObj);
+    } else {
+      if (project.getRelease().getIsPreRelease() && project.getEmbargoDate() != null) {
+        // Pre-Release (accepted = firstDate, available = Embargo)
+        Map<String, String> dateObjEmbargo = new HashMap<>();
+        dateObjEmbargo.put("date", project.getEmbargoDate().toString());
+        dateObjEmbargo.put("dateType", "Available");
+        dateObjEmbargo.put("dateInformation",
+          String.format("This dataset is currently not yet available for order as it is subject to an embargo until %s." +
+            " Publication can only take place after this date. Please note that the embargo date does not necessarily correspond" +
+            " to the expected release date. Please contact userservice@dzhw.eu if you wish to receive information regarding the" +
+            " release date of the dataset.", project.getEmbargoDate().toString()));
+        datesList.add(dateObjEmbargo);
+
+        Map<String, String> dateObjFirst = new HashMap<>();
+        dateObjFirst.put("date", project.getRelease().getFirstDate().format(formatter));
+        dateObjFirst.put("dateType", "Accepted");
+        datesList.add(dateObjFirst);
+      } else {
+        // Normal Release (available = Release)
+        Map<String, String> dateObj = new HashMap<>();
+        dateObj.put("date", project.getRelease().getFirstDate().format(formatter));
+        dateObj.put("dateType", "Available");
+        datesList.add(dateObj);
+      }
     }
 
     // add field periods for all surveys and add survey title
