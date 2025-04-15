@@ -244,7 +244,7 @@ public class DataPackageDdiService {
     } catch (IOException e) {
       log.error("An exception occurred querying the variables index. ", e);
     }
-    String name = variableDoc.getId().split("\\$")[0];
+    final var name = variableDoc.getName();
     final var location = new Location(variableDoc.getDataSetId().split("\\$")[0]);
     return new Var(name, location, varLablList,
         qstnList.size() > 0 ? qstnList : null,
