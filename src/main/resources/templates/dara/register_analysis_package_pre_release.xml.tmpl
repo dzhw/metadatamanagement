@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+  <resourceType>Collection</resourceType>
+  <resourceIdentifier>
+    <identifier>dzhw:${dataAcquisitionProject.masterId}:1.0.0</identifier>
+    <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>
+  </resourceIdentifier>
+  <titles>
+    <title>
+      <language>de</language>
+      <titleName>${analysisPackage.title.de}</titleName>
+    </title>
+    <title>
+      <language>en</language>
+      <titleName>${analysisPackage.title.en}</titleName>
+    </title>
+  </titles>
+  <creators>
+    <#list analysisPackage.authors as author>
+      <creator>
+        <person>
+          <firstName>${author.firstName}</firstName>
+          <#if author.middleName??>
+            <middleName>${author.middleName}</middleName>
+          </#if>
+          <lastName>${author.lastName}</lastName>
+          <#if author.orcid??>
+          <personIDs>
+            <personID>
+              <identifierURI>https://orcid.org/${author.orcid}</identifierURI>
+              <identifierSchema>ORCID</identifierSchema>
+            </personID>
+          </personIDs>
+          </#if>
+        </person>
+      </creator>
+    </#list>
+    <#if analysisPackage.institutions??>
+    <#list analysisPackage.institutions as institution>
+    <creator>
+      <institution>
+        <#if institution.de??>
+          <institutionName>${institution.de}</institutionName>
+          <#else>
+            <institutionName>${institution.en}</institutionName>
+        </#if>
+      </institution>
+    </creator>
+    </#list>
+    </#if>
+  </creators>
+  <dataURLs>
+    <dataURL>
+      https://metadata.fdz.dzhw.eu/${projectURLLanguage}/analysis-packages/${analysisPackage.masterId}?version=${dataAcquisitionProject.release.version}
+    </dataURL>
+  </dataURLs>
+  <doiProposal>${doi}</doiProposal>
+  <publicationDate>
+    <date>${releaseDate}</date>
+  </publicationDate>
+  <availability>
+    <availabilityType>${availabilityControlled}</availabilityType>
+    <availabilityFree>
+      <language>de</language>
+      <freetext>Download oder Beantragung notwendig unter https://metadata.fdz.dzhw.eu/de/analysis-packages/${analysisPackage.masterId}?version=${dataAcquisitionProject.release.version}</freetext>
+    </availabilityFree>
+    <availabilityFree>
+      <language>en</language>
+      <freetext>Download or application necessary under https://metadata.fdz.dzhw.eu/en/analysis-packages/${analysisPackage.masterId}?version=${dataAcquisitionProject.release.version}</freetext>
+    </availabilityFree>
+    <embargoDate>${embargoDate}</embargoDate>
+  </availability>
+  <#if previousDoi??>
+    <relations>
+      <relation>
+        <identifier>${previousDoi}</identifier>
+        <identifierType>DOI</identifierType>
+        <relationType>IsNewVersionOf</relationType>
+      </relation>
+    </relations>
+  </#if>
+</resource>

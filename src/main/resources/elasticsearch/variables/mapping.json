@@ -761,7 +761,10 @@
 			"properties": {
 				"version": {
 					"type": "keyword"
-				}
+				},
+        "isPreRelease": {
+          "type": "boolean"
+        }
 			}
 		}
 	}

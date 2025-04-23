@@ -1,4 +1,4 @@
-<md-card class="fdz-data-package" ng-if="$ctrl.dataPackage && $ctrl.dataPackageIdVersion.masterId && $ctrl.lang && $ctrl.accessWays && $ctrl.releases">
+<md-card class="fdz-data-package" ng-if="$ctrl.dataPackage && $ctrl.dataPackageIdVersion.masterId && $ctrl.lang && $ctrl.accessWays && $ctrl.releases && $ctrl.project">
   <md-card-header>
     <md-card-header-text>
       <a ui-sref="dataPackageDetail({id: $ctrl.dataPackageIdVersion.masterId.replace('$', ''), version: $ctrl.dataPackageIdVersion.version})" class="title">
@@ -37,7 +37,7 @@
         <h5>{{'data-package-management.detail.label.doi' | translate }}:</h5>
         <span class="md-secondary">{{$ctrl.dataPackage.doi}}</span>
       </md-list-item>
-      <md-list-item ng-if="$ctrl.dataPackage.release.firstDate">
+      <md-list-item ng-if="!$ctrl.isPreReleased && $ctrl.dataPackage.release.firstDate">
         <h5>{{'data-package-management.detail.label.published' | translate }}:</h5>
         <span class="md-secondary">{{$ctrl.dataPackage.release.firstDate + 'Z' | date:'mediumDate'}}</span>
       </md-list-item>
@@ -74,9 +74,9 @@
           </md-button>
         </div>
       </md-list-item>
-      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row; padding-right: 12px;">
+      <md-list-item style="flex-flow: row; padding-right: 12px;">
         <md-button class="md-small md-raised md-accent fdz-truncate-string" ng-click="$ctrl.addToShoppingCart($event)"
-          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible"
+          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.isPreReleased || ($ctrl.accessWays && $ctrl.accessWays.length === 0) || $ctrl.releases.length === 0"
           style="margin-right: 12px;" analytics-on="click" analytics-event="add-to-shopping-cart" analytics-label="{{'search-management.detail.cart' | translate}}" analytics-category="Bestellprozess">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.add-data-package-tooltip' | translate}}
@@ -91,16 +91,16 @@
           <span>{{'shopping-cart.buttons.open-cart' | translate}}</span>
         </md-button>
       </md-list-item>
-      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row; padding-right: 12px;" class="md-no-proxy">
+      <md-list-item style="flex-flow: row; padding-right: 12px;" class="md-no-proxy">
         <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.openCitationDialog($event)"
-          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible" style="margin-right: 12px; margin-top: 0px;">
+          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.isPreReleased || $ctrl.releases.length === 0 || !($ctrl.accessWays && $ctrl.accessWays.length > 0)" style="margin-right: 12px; margin-top: 0px;">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.open-citation-tooltip' | translate}}
           </md-tooltip>
           <span>{{'shopping-cart.buttons.open-citation' | translate}}</span>
         </md-button>
         <md-menu style="min-width: 50%">
-          <md-button ng-click="$mdMenu.open($event)" class="md-small md-raised md-primary" style="min-width: 100%; margin-top: 0px;">
+          <md-button ng-click="$mdMenu.open($event)" class="md-small md-raised md-primary" style="min-width: 100%; margin-top: 0px;" ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.isPreReleased || $ctrl.releases.length === 0">
             <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'shopping-cart.buttons.open-export-tooltip' | translate}}
             </md-tooltip>
@@ -113,17 +113,29 @@
           </md-menu-content>
         </md-menu>
       </md-list-item>
+      <md-list-item style="flex-flow: row; padding-right: 12px;" class="md-no-proxy">
+        <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.exportVariables()"
+          ng-hide="!$ctrl.allowedToExportVariableMetadata || !$ctrl.isLatestVersionSelected() || !$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.isPreReleased || ($ctrl.accessWays && $ctrl.accessWays.length === 0) || $ctrl.releases.length === 0"
+          style="margin-right: 12px; margin-top: 0px; ">
+          <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'shopping-cart.buttons.export-ddi-variables-tooltip' | translate}}
+          </md-tooltip>
+          <span>{{'shopping-cart.buttons.export-ddi-variables' | translate}}</span>
+        </md-button>
+      </md-list-item>
     </md-list>
   </md-card-content>
   <md-card-footer style="padding-top: 0px;">
-    <span ng-if="$ctrl.noFinalRelease">
+    <span ng-if="$ctrl.noFinalRelease && !$ctrl.isPreReleased">
       {{'shopping-cart.detail.no-final-release' | translate}}
     </span>
+    <!-- embargo warning -->
+    <embargo-warning ng-show="$ctrl.isPreReleased" project="$ctrl.project"></embargo-warning>
     <!-- maintenance hint -->
     <div ng-if="$ctrl.showMaintenanceHint" style="margin-bottom: 10px; margin-top: 10px;">
       {{'shopping-cart.detail.maintenance-hint' | translate}}
     </div>
-    <span translate="shopping-cart.detail.note">
+    <span ng-if="!$ctrl.isPreReleased" translate="shopping-cart.detail.note">
     </span>
   </md-card-footer>
 </md-card>

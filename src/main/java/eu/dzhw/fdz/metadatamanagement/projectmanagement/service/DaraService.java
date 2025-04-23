@@ -118,6 +118,12 @@ public class DaraService {
   @Value(value = "classpath:templates/dara/register_analysis_package.xml.tmpl")
   private Resource registerAnalysisPackageXml;
 
+  @Value(value = "classpath:templates/dara/register_data_package_pre_release.xml.tmpl")
+  private Resource registerPreReleaseDataPackageXml;
+
+  @Value(value = "classpath:templates/dara/register_analysis_package_pre_release.xml.tmpl")
+  private Resource registerPreReleaseAnalysisPackageXml;
+
   @Autowired
   private DoiBuilder doiBuilder;
 
@@ -206,11 +212,44 @@ public class DaraService {
    * @throws TemplateException Exception for filling the template.
    */
   public HttpStatus registerOrUpdateProjectToDara(String projectId)
-      throws IOException, TemplateException {
+    throws IOException, TemplateException {
 
     // Load Project
     DataAcquisitionProject project = this.projectRepository.findById(projectId).get();
     return this.registerOrUpdateProjectToDara(project);
+  }
+
+  /**
+   * Registers or updates a data acquistion project as a pre-release with a given doi to dara.
+   *
+   * @param project The Project.
+   * @return The HttpStatus from Dara Returns a false, if something gone wrong.
+   * @throws IOException the io exception for non readable xml file.
+   * @throws TemplateException Exception for filling the template.
+   */
+  public HttpStatus registerPreReleaseProjectToDara(DataAcquisitionProject project)
+    throws IOException, TemplateException {
+    String filledTemplate = null;
+    if (project.getConfiguration().getRequirements().isDataPackagesRequired()) {
+      // Read data package xml template
+      String registerXmlStr =
+          IOUtils.toString(this.registerPreReleaseDataPackageXml.getInputStream(), Charsets.UTF_8);
+
+      // Fill template
+      filledTemplate = this.fillTemplate(registerXmlStr, this.getTemplateConfiguration(),
+        this.getDataForPreReleaseDataPackageTemplate(project), KEY_REGISTER_XML_TMPL);
+    } else if (project.getConfiguration().getRequirements().isAnalysisPackagesRequired()) {
+      // Read analysis package xml template
+      String registerXmlStr =
+          IOUtils.toString(this.registerPreReleaseAnalysisPackageXml.getInputStream(), Charsets.UTF_8);
+
+      // Fill template
+      filledTemplate = this.fillTemplate(registerXmlStr, this.getTemplateConfiguration(),
+        this.getDataForPreReleaseAnalysisPackageTemplate(project), KEY_REGISTER_XML_TMPL);
+    }
+    // Send Rest Call for Registration
+    HttpStatus httpStatusFromDara = this.postToDaraImportXml(filledTemplate);
+    return httpStatusFromDara;
   }
 
   /**
@@ -357,6 +396,54 @@ public class DaraService {
     return dataForTemplate;
   }
 
+  /**
+   * Load all needed data for the XML Templates fpr pre release.
+   *
+   * @param project The project to find the dataPackage.
+   * @return Returns a Map of names and the depending objects. If the key is 'dataPackage' so the
+   *         dataPackage object is the value. DataPackage is the name for the object use in
+   *         freemarker.
+   */
+  private Map<String, Object> getDataForPreReleaseDataPackageTemplate(DataAcquisitionProject project) {
+
+    Map<String, Object> dataForTemplate = new HashMap<>();
+
+    dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
+
+    // Get Project Information
+    dataForTemplate.put("dataAcquisitionProject", project);
+
+    // Get DataPackage Information
+    DataPackage dataPackage =
+        this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+    dataForTemplate.put("dataPackage", dataPackage);
+
+    // Add Availability Controlled
+    dataForTemplate.put("availabilityControlled", AVAILABILITY_CONTROLLED_NOT_AVAILABLE);
+
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
+    } else {
+      dataForTemplate.put("projectURLLanguage", "en");
+    }
+
+    addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate); // ???
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    if (project.getEmbargoDate() != null) {
+      dataForTemplate.put("embargoDate", project.getEmbargoDate().format(formatter));
+    } else {
+      /**
+       * If the embargo date is null it indicates that is has been removed from a pre-released project.
+       * As the project can now be released at any time and the embargo date is no longer in place we update dara with
+       * the current date set as the embargo date.
+       */
+      dataForTemplate.put("embargoDate", LocalDateTime.now().format(formatter));
+    }
+
+    return dataForTemplate;
+  }
+
   private void addDoiAndReleaseInfoToTemplateModel(DataAcquisitionProject project,
       Map<String, Object> dataForTemplate) {
     Release release = project.getRelease();
@@ -425,6 +512,43 @@ public class DaraService {
 
     // Add Availability Controlled
     dataForTemplate.put("availabilityControlled", availabilityControlled);
+
+    return dataForTemplate;
+  }
+
+  /**
+   * Load all needed data for the XML Templates for pre release.
+   *
+   * @param project The project to find the analysisPackage.
+   * @return Returns a Map of names and the depending objects.
+   */
+  private Map<String, Object> getDataForPreReleaseAnalysisPackageTemplate(DataAcquisitionProject project) {
+
+    Map<String, Object> dataForTemplate = new HashMap<>();
+
+    dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
+
+    // Get Project Information
+    dataForTemplate.put("dataAcquisitionProject", project);
+
+    // Get DataPackage Information
+    AnalysisPackage analysisPackage =
+        this.analysisPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+    dataForTemplate.put("analysisPackage", analysisPackage);
+
+    // Add Availability Controlled
+    dataForTemplate.put("availabilityControlled", AVAILABILITY_CONTROLLED_NOT_AVAILABLE);
+
+    if (project.getRelease().getDoiPageLanguage() != null) {
+      dataForTemplate.put("projectURLLanguage", project.getRelease().getDoiPageLanguage());
+    } else {
+      dataForTemplate.put("projectURLLanguage", "en");
+    }
+
+    addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    dataForTemplate.put("embargoDate", project.getEmbargoDate().format(formatter));
 
     return dataForTemplate;
   }

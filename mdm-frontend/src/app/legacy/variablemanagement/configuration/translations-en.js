@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config([
             'data-type': 'Data Type',
             'scale-level': 'Level of Measurement',
             'access-ways': 'Access Ways',
+            'pid': 'PID',
             'annotations': 'Annotations',
             'filter-description': 'Filter Description',
             'input-filter': 'Input Filter',
@@ -308,6 +309,10 @@ angular.module('metadatamanagementApp').config([
             'variable-has-invalid-data-set-id': 'The Variable {{id}} references to an unknown Data Set ({{toBereferenzedId}}).',
             'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).',
             'variable-survey-ids-are-not-consistent-with-data-set': 'The Variable {{id}} references different surveys than its Data Set {{toBereferenzedId}}.'
+          },
+          'pid': {
+            'pattern': 'The provided value does not match the PID pattern.',
+            'size': 'The provided value must not contain more than 512 characters.'
           }
         },
         'edit': {

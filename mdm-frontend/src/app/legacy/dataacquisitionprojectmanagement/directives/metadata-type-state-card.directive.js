@@ -3,7 +3,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('metadataTypeStateCard', ['$state', 'ProjectStatusScoringService', 'ProjectUpdateAccessService', 'VariableUploadService', 'QuestionUploadService', 'DeleteMetadataService', 'SimpleMessageToastService', 'AnalysisPackageIdBuilderService', 
+  .directive('metadataTypeStateCard', [
+    '$state', 
+    'ProjectStatusScoringService', 
+    'ProjectUpdateAccessService', 
+    'VariableUploadService', 
+    'QuestionUploadService', 
+    'DeleteMetadataService', 
+    'SimpleMessageToastService', 
+    'AnalysisPackageIdBuilderService', 
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
       VariableUploadService, QuestionUploadService, DeleteMetadataService,
       SimpleMessageToastService, AnalysisPackageIdBuilderService) {
@@ -144,8 +152,8 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isRequired = function() {
-          return _.get(ctrl, 'project.configuration.requirements.' +
-            ctrl.type + 'Required');
+          return _.get(ctrl, 'project.configuration.requirements.' + 'is' +
+            ctrl.type.charAt(0).toUpperCase() + ctrl.type.slice(1) + 'Required');
         };
 
         ctrl.getModifyButtonLabel = function(group) {
@@ -174,8 +182,8 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isUpdateAllowed = function(type) {
-          return !_.get(ctrl, 'project.configuration.requirements.' +
-            type + 'Required');
+          return !_.get(ctrl, 'project.configuration.requirements.is' +
+            type.charAt(0).toUpperCase() + type.slice(1) + 'Required');
         };
 
         ctrl.isUploadAllowed = function(type) {
@@ -201,8 +209,12 @@ angular.module('metadatamanagementApp')
           }
         };
 
+        /**
+         * Whether the project is fully released.
+         * @returns true if the project is fully released else false
+         */
         ctrl.isProjectReleased = function() {
-          return ctrl.project.release;
+          return ctrl.project.release && !ctrl.project.release.isPreRelease;
         };
 
         if (ctrl.type !== 'publications' && ctrl.type !== 'concepts') {

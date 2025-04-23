@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp')
   'ChoosePreviousVersionService',
   'DataSetVersionsResource',
   'DataFormatsResource',
+  '$translate', 
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
@@ -46,7 +47,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, DataSetAttachmentUploadService,
       DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataSetVersionsResource, DataFormatsResource) {
+      DataSetVersionsResource, DataFormatsResource, $translate) {
       var ctrl = this;
       ctrl.surveyChips = [];
       ctrl.availableDataFormats = DataFormatsResource.query();
@@ -133,7 +134,7 @@ angular.module('metadatamanagementApp')
               DataAcquisitionProjectResource.get({
                 id: dataSet.dataAcquisitionProjectId
               }).$promise.then(function(project) {
-                if (project.release != null) {
+                if (project.release != null && !project.release.isPreRelease) {
                   handleReleasedProject();
                 } else if (!ProjectUpdateAccessService
                   .isUpdateAllowed(project, 'data_sets', true)) {
@@ -153,7 +154,8 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-            !CurrentProjectService.getCurrentProject().release) {
+            (!CurrentProjectService.getCurrentProject().release 
+              || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                 .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                  'data_sets', true)) {
@@ -258,6 +260,11 @@ angular.module('metadatamanagementApp')
         };
       };
 
+      ctrl.accessWayChanged = function(accessWay, subDataSet) {
+        (subDataSet.description ??= {}).de = $translate.instant('data-set-management.edit.sub-data-set-default-description.' + accessWay + '.de');
+        (subDataSet.description ??= {}).en = $translate.instant('data-set-management.edit.sub-data-set-default-description.' + accessWay + '.en');
+      }
+
       ctrl.allAccessWays = ['download-cuf', 'download-suf',
         'remote-desktop-suf', 'onsite-suf'];
       $scope.$watch('ctrl.dataSet.subDataSets', function() {
@@ -341,18 +348,46 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveDataSet = function() {
         if ($scope.dataSetForm.$valid) {
-          if (angular.isUndefined(ctrl.dataSet.masterId)) {
-            ctrl.dataSet.masterId = ctrl.dataSet.id;
-          }
-          ctrl.dataSet.$save()
-          .then(ctrl.updateElasticSearchIndex)
-          .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              console.log(error);
-              SimpleMessageToastService.openAlertMessageToast(
-                'data-set-management.edit.error-on-save-toast',
-                {dataSetId: ctrl.dataSet.id});
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.dataSet.masterId)) {
+                ctrl.dataSet.masterId = ctrl.dataSet.id;
+              }
+              ctrl.dataSet.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function(error) {
+                  console.log(error);
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'data-set-management.edit.error-on-save-toast',
+                    {dataSetId: ctrl.dataSet.id});
+                });
             });
+          } else {
+            if (angular.isUndefined(ctrl.dataSet.masterId)) {
+              ctrl.dataSet.masterId = ctrl.dataSet.id;
+            }
+            ctrl.dataSet.$save()
+            .then(ctrl.updateElasticSearchIndex)
+            .then(ctrl.onSavedSuccessfully)
+            .catch(function(error) {
+                console.log(error);
+                SimpleMessageToastService.openAlertMessageToast(
+                  'data-set-management.edit.error-on-save-toast',
+                  {dataSetId: ctrl.dataSet.id});
+              });
+          }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.dataSetForm.$error, function(field) {
@@ -556,11 +591,32 @@ angular.module('metadatamanagementApp')
           labels: getDialogLabels()
         };
 
-        AttachmentDialogService
-            .showDialog(dialogConfig, event)
-            .then(function() {
-              ctrl.loadAttachments(true);
-            });
+        if (CurrentProjectService.getCurrentProject() &&
+            CurrentProjectService.getCurrentProject().release &&
+            CurrentProjectService.getCurrentProject().release.isPreRelease
+        ) {
+          CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-title',
+            {},
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-content',
+            {},
+            null
+          ).then(function success() {
+            AttachmentDialogService
+              .showDialog(dialogConfig, event)
+              .then(function() {
+                ctrl.loadAttachments(true);
+              });
+          });
+        } else {
+          AttachmentDialogService
+          .showDialog(dialogConfig, event)
+          .then(function() {
+            ctrl.loadAttachments(true);
+          });
+        }
       };
 
       ctrl.moveAttachmentUp = function() {

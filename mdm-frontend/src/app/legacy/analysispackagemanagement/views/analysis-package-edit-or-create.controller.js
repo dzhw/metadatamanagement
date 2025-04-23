@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp')
   'AnalysisPackageResource',
   '$scope',
   'ElasticSearchAdminService',
+  'ElsstSearchService',
   '$transitions',
   'CommonDialogsService',
   'LanguageService',
@@ -30,18 +31,19 @@ angular.module('metadatamanagementApp')
   'AnalysisPackageAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'AnalysisPackageVersionsResource',
+  '$mdDialog',
     function(entity, PageMetadataService, $document, $timeout,
              $state, BreadcrumbService, Principal, SimpleMessageToastService,
              CurrentProjectService, AnalysisPackageIdBuilderService,
              AnalysisPackageResource,
-             $scope, ElasticSearchAdminService, $transitions,
+             $scope, ElasticSearchAdminService, ElsstSearchService, $transitions,
              CommonDialogsService, LanguageService,
              AnalysisPackageSearchService, AnalysisPackageAttachmentResource,
              $q, DataAcquisitionProjectResource,
              ProjectUpdateAccessService,
              AttachmentDialogService, AnalysisPackageAttachmentUploadService,
              AnalysisPackageAttachmentVersionsResource,
-             ChoosePreviousVersionService, AnalysisPackageVersionsResource) {
+             ChoosePreviousVersionService, AnalysisPackageVersionsResource, $mdDialog) {
 
       var ctrl = this;
       ctrl.currentInstitutions = [];
@@ -109,6 +111,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.findTags = AnalysisPackageSearchService.findTags;
+      ctrl.findTagsElsst = ElsstSearchService.findTagsElsst;
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -152,7 +155,7 @@ angular.module('metadatamanagementApp')
         DataAcquisitionProjectResource.get({
           id: analysisPackage.dataAcquisitionProjectId
         }).$promise.then(function(project) {
-          if (project.release != null) {
+          if (project.release != null && !project.release.isPreRelease) {
             handleReleasedProject();
           } else if (!ProjectUpdateAccessService
             .isUpdateAllowed(project, 'analysisPackages', true)) {
@@ -180,7 +183,8 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
+              (!CurrentProjectService.getCurrentProject().release 
+                || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                 .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                   'analysisPackages', true)) {
@@ -481,18 +485,46 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveAnalysisPackage = function() {
         if ($scope.analysisPackageForm.$valid) {
-          if (angular.isUndefined(ctrl.analysisPackage.masterId)) {
-            ctrl.analysisPackage.masterId = ctrl.analysisPackage.id;
-          }
-          ctrl.analysisPackage.$save()
-            .then(ctrl.updateElasticSearchIndex)
-            .then(ctrl.onSavedSuccessfully)
-            .catch(function() {
-              SimpleMessageToastService.openAlertMessageToast(
-                'analysis-package-management.edit.error-on-save-toast', {
-                  analysisPackageId: ctrl.analysisPackage.id
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.analysisPackage.masterId)) {
+                ctrl.analysisPackage.masterId = ctrl.analysisPackage.id;
+              }
+              ctrl.analysisPackage.$save()
+                .then(ctrl.updateElasticSearchIndex)
+                .then(ctrl.onSavedSuccessfully)
+                .catch(function() {
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'analysis-package-management.edit.error-on-save-toast', {
+                      analysisPackageId: ctrl.analysisPackage.id
+                    });
                 });
             });
+          } else {
+            if (angular.isUndefined(ctrl.analysisPackage.masterId)) {
+              ctrl.analysisPackage.masterId = ctrl.analysisPackage.id;
+            }
+            ctrl.analysisPackage.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function() {
+                SimpleMessageToastService.openAlertMessageToast(
+                  'analysis-package-management.edit.error-on-save-toast', {
+                    analysisPackageId: ctrl.analysisPackage.id
+                  });
+              });
+            }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.analysisPackageForm.$error, function(field) {
@@ -758,11 +790,32 @@ angular.module('metadatamanagementApp')
           labels: getDialogLabels()
         };
 
-        AttachmentDialogService
+        if (CurrentProjectService.getCurrentProject() &&
+            CurrentProjectService.getCurrentProject().release &&
+            CurrentProjectService.getCurrentProject().release.isPreRelease
+        ) {
+          CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-title',
+            {},
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-content',
+            {},
+            null
+          ).then(function success() {
+            AttachmentDialogService
+              .showDialog(dialogConfig, event)
+              .then(function() {
+                ctrl.loadAttachments(true);
+              });
+          });
+        } else {
+          AttachmentDialogService
           .showDialog(dialogConfig, event)
           .then(function() {
             ctrl.loadAttachments(true);
           });
+        }
       };
 
       ctrl.moveAttachmentUp = function() {
@@ -804,6 +857,21 @@ angular.module('metadatamanagementApp')
             'ROLE_DATA_PROVIDER'])) {
           ctrl.currentAttachmentIndex = index;
         }
+      };
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
       };
 
       init();

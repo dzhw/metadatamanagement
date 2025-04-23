@@ -119,7 +119,7 @@ angular.module('metadatamanagementApp')
               DataAcquisitionProjectResource.get({
                 id: survey.dataAcquisitionProjectId
               }).$promise.then(function(project) {
-                if (project.release != null) {
+                if (project.release != null && !project.release.isPreRelease) {
                   handleReleasedProject();
                 } else if (!ProjectUpdateAccessService
                   .isUpdateAllowed(project, 'surveys', true)) {
@@ -147,7 +147,8 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-            !CurrentProjectService.getCurrentProject().release) {
+            (!CurrentProjectService.getCurrentProject().release 
+              || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                 .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                    'surveys', true)) {
@@ -243,18 +244,46 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveSurvey = function() {
         if ($scope.surveyForm.$valid) {
-          if (angular.isUndefined(ctrl.survey.masterId)) {
-            ctrl.survey.masterId = ctrl.survey.id;
-          }
-          ctrl.survey.$save()
-          .then(ctrl.updateElasticSearchIndex)
-          .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              $log.error(error);
-              SimpleMessageToastService.openAlertMessageToast(
-                'survey-management.edit.error-on-save-toast',
-                {surveyId: ctrl.survey.id});
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.survey.masterId)) {
+                ctrl.survey.masterId = ctrl.survey.id;
+              }
+              ctrl.survey.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function(error) {
+                  $log.error(error);
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'survey-management.edit.error-on-save-toast',
+                    {surveyId: ctrl.survey.id});
+                });
             });
+          } else {
+            if (angular.isUndefined(ctrl.survey.masterId)) {
+              ctrl.survey.masterId = ctrl.survey.id;
+            }
+            ctrl.survey.$save()
+            .then(ctrl.updateElasticSearchIndex)
+            .then(ctrl.onSavedSuccessfully)
+            .catch(function(error) {
+                $log.error(error);
+                SimpleMessageToastService.openAlertMessageToast(
+                  'survey-management.edit.error-on-save-toast',
+                  {surveyId: ctrl.survey.id});
+              });
+          }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.surveyForm.$error, function(field) {
@@ -458,11 +487,32 @@ angular.module('metadatamanagementApp')
           labels: getDialogLabels()
         };
 
-        AttachmentDialogService
+        if (CurrentProjectService.getCurrentProject() &&
+            CurrentProjectService.getCurrentProject().release &&
+            CurrentProjectService.getCurrentProject().release.isPreRelease
+        ) {
+          CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-title',
+            {},
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-content',
+            {},
+            null
+          ).then(function success() {
+            AttachmentDialogService
+              .showDialog(dialogConfig, event)
+              .then(function() {
+                ctrl.loadAttachments(true);
+              });
+          });
+        } else {
+          AttachmentDialogService
           .showDialog(dialogConfig, event)
           .then(function() {
             ctrl.loadAttachments(true);
           });
+        }
       };
 
       ctrl.moveAttachmentUp = function() {

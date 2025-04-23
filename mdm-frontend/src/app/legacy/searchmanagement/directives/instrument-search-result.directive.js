@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             $scope.project = project;
-            $scope.projectIsCurrentlyReleased = (project.release != null);
+            $scope.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
           });
         }
         $scope.deleteInstrument = function(instrumentId) {

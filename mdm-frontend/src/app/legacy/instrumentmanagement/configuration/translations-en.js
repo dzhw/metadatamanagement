@@ -42,6 +42,11 @@ function($translateProvider) {
                         'file': 'File'
                     }
                 },
+                'citation': 'Cite',
+                'citation-dialog': {
+                  'title': 'Cite Questionnaire/Variable Questionnaire',
+                  'no-details-placeholder': 'No details provided'
+                },
                 'attachments': {
                     'table-title': 'Documents related to the Instrument',
                     'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
@@ -53,6 +58,7 @@ function($translateProvider) {
                     'save-attachment-order-tooltip': 'Click to save the modified order of the documents.',
                     'attachment-order-saved-toast': 'The modified order of the documents has been saved.',
                     'add-attachment-tooltip': 'Click to add a new document to this instrument.',
+                    'add-attachment-tooltip-disabled': 'Document can only be added if list of surveys is not empty.',
                     'edit-title': 'Modify Document "{{ filename }}" of Instrument "{{ instrumentId }}"',
                     'create-title': 'Add new Document to Instrument "{{ instrumentId }}"',
                     'change-file-tooltip': 'Click to choose a file.',
@@ -195,6 +201,10 @@ function($translateProvider) {
                     'instrument-number': 'Please select an instrument number for the new instrument.'
                 },
                 'all-instruments-deleted-toast': 'All Instruments of the Data Acquisition Project "{{id}}" have been deleted.'
+            },
+            'buttons': {
+              'open-citation-tooltip': 'Click to get and copy citation information.',
+              'open-citation': 'Cite...',
             }
         }
         //jscs:enable

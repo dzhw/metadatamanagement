@@ -127,7 +127,8 @@ angular.module('metadatamanagementApp')
       if (!Principal.isAuthenticated()) {
         MessageBus.set('onDataPackageChange',
           {
-            masterId: result.dataPackage.masterId
+            masterId: result.dataPackage.masterId,
+            projectId: result.dataAcquisitionProjectId
           });
       }
       if (result.repeatedMeasurementIdentifier) {

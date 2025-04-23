@@ -13,7 +13,7 @@ import lombok.ToString;
 
 /**
  * NESTED subdocument used for filtering by variables.
- * 
+ *
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
@@ -38,14 +38,16 @@ public class VariableNestedDocument extends AbstractNestedSubDocument {
   private String dataPackageId;
 
   private String masterId;
-  
+
+  private String pid;
+
   private boolean shadow;
-  
+
   private String successorId;
 
   /**
    * Create the subdocument.
-   * 
+   *
    * @param projection the projection coming from mongo.
    */
   public VariableNestedDocument(VariableSubDocumentProjection projection) {

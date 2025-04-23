@@ -128,6 +128,10 @@ metadatamanagement:
     email: daniel@dzhw.eu
   projectmanagement:
     email: daniel@dzhw.eu
+  dara-pid:
+    enabled: true
+    statusPollIntervalInSeconds: 60
+    abortAfterMinutesElapsed: 120
   dlp:
     endpoint: https://stage.fdz.dzhw.eu/{language}/form/data-usage-application
   report-task:
@@ -167,3 +171,12 @@ logbook:
     - /api/orders/**
   filter.enabled: true
   format.style: json
+
+tweet:
+  consumerkey: ${vcap.services.tweet.credentials.consumerkey}
+  consumersecret: ${vcap.services.tweet.credentials.consumersecret}
+  oauthtoken: ${vcap.services.tweet.credentials.oauthtoken}
+  oauthtokensecret: ${vcap.services.tweet.credentials.oauthtokensecret}
+  endpointurl: "https://api.twitter.com/2/tweets"
+  mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
+  imagedir:  "./mdm-frontend/src"

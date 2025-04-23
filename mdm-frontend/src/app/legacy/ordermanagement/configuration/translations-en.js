@@ -44,7 +44,8 @@ angular.module('metadatamanagementApp').config([
             'data-languages': 'Furthermore the data sets are available in the following languages:',
             'cite-data-package': 'Cite Data Package:',
             'cite-analysis-package': 'Cite Analysis Package:',
-            'cite-method-report': 'Cite Method Report:'
+            'cite-method-report': 'Cite Method Report:',
+            'cite-questionnaire': 'Cite Questionnaire/Variable Questionnaire:'
           },
           'hints': {
             'name': 'Please let us know your full name.',
@@ -67,10 +68,11 @@ angular.module('metadatamanagementApp').config([
           'scripts-tooltip': 'Click to display all scripts of this analysis package.',
           'custom-data-packages-tooltip': 'Click to display all custom data packages of this analysis package.',
           'software-packages-tooltip': 'Click to display all software packages of this analysis package.',
-          'citation': 'Cite Data Package and Method Report',
+          'citation': 'Cite Data Package, Method Report and Questionnaire/Variable Questionnaire',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
           'download-bibtex-tooltip': 'Click to save the citation details in BibTex format.',
+          'citation-node': 'We ask you to check the Data and Methods Report to see whether there is information on other sources for the specific question to be cited. If such information is available, we suggest that you also cite the original source(s) mentioned in the data and methods report in accordance with good scientific practice. When quoting the complete text of a question, for example within an article or when reusing the question for your own research projects or questionnaires, please note that there may be further license agreements. Please check the sources in this regard.',
           'select-access-way-title': 'Please select an Access Way',
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',
@@ -127,7 +129,9 @@ angular.module('metadatamanagementApp').config([
           'analysis-package-tooltip': 'Click to get more information about analysis packages',
           'related-publications-tooltip': 'Click to get more information about publications',
           'analysis-package-version-tooltip': 'Click to get more information about versions of analysis packages',
-          'data-package-access-way-tooltip': 'Click to get more information about access ways'
+          'data-package-access-way-tooltip': 'Click to get more information about access ways',
+          'export-ddi-variables': 'Export variable metadata',
+          'export-ddi-variables-tooltip': 'Click to download the metadata of all variables as a DDI codebook XML.'
         },
         'version-info': {
           'title': 'Select a Version',
@@ -139,7 +143,7 @@ angular.module('metadatamanagementApp').config([
         },
         'access-way-info': {
           'title': 'Select an Access Way',
-          'content': '<p style="margin-bottom: 0px;">There are up to four access ways for our data packages. These differ in terms of:</p><ol style="margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>the purpose of use (<strong>Campus Use File (CUF)</strong> for teaching vs. <strong>Scientific Use File (SUF)</strong> for research),</li><li>the degree of statistical anonymisation (stronger, moderate, lower) and</li><li>the technical way of data access (Download, Remote-Desktop, Onsite) combined with varying degrees of technical and organisational data security and control measures (lower, moderate, stronger).</li></ol><p style="margin-bottom: 0px;">The use of data for download means the least effort in the context of use and should be preferred. If the data package of this access way is <em>not</em> sufficient, the other access ways can also be chosen.</p><p style="margin-bottom: 0px;">Our data package configuration is divided into:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>CUF: Download</strong> for teaching purposes only; higher degree of statistical anonymity; for download after application approval</li><li><strong>SUF: Download</strong>  higher degree of statistical anonymity; for download after conclusion of contract</li><li><strong>SUF: Remote-Desktop</strong>  moderate statistical anonymisation level; access only via virtual desktops via Internet with technical checks after conclusion of contract</li><li><strong>SUF: On-Site</strong> low degree of statistical anonymity; access only on site at the FDZ-DZHW in Hanover with technical checks after conclusion of contract</li></ul><p>More information: <a href="https://www.fdz.dzhw.eu/en/data-usage">https://www.fdz.dzhw.eu/en/data-usage</a></p>'
+          'content': '<p style="margin-bottom: 0px;">There are up to four access ways for our data packages:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>CUF: Download</strong> created for academic teaching and training purposes; very high statistical anonymization level; available for download after application approval</li><li><strong>SUF: Download</strong> created for scientific research purposes; high statistical anonymization level; available for download after conclusion of data use agreement</li><li><strong>SUF: Remote-Desktop</strong> created for scientific research purposes; moderate statistical anonymization level; available via internet using virtual desktop with input/output checks after conclusion of data use agreement</li><li><strong>SUF: On-Site</strong> created for scientific research purposes; low statistical anonymization level; available on site at the FDZ-DZHW in Hanover with input/output checks after conclusion of data use agreement</li></ul><p>More information: <a href="https://www.fdz.dzhw.eu/en/data-usage">https://www.fdz.dzhw.eu/en/data-usage</a></p>'
         }
       },
       'order-menu': {

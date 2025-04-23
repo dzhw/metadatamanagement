@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp')
   '$scope',
   '$q',
   'ElasticSearchAdminService',
+  'ElsstSearchService',
   '$transitions',
   'CommonDialogsService',
   'LanguageService',
@@ -24,18 +25,21 @@ angular.module('metadatamanagementApp')
   'ConceptAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'ConceptVersionsResource',
+  '$mdDialog',
+  'CurrentProjectService',
     function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
-      ElasticSearchAdminService, $transitions,
+      ElasticSearchAdminService, ElsstSearchService, $transitions,
       CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
       ConceptAttachmentResource, AttachmentDialogService,
       ConceptAttachmentVersionsResource, ChoosePreviousVersionService,
-      ConceptVersionsResource) {
+      ConceptVersionsResource, $mdDialog, CurrentProjectService) {
 
       var ctrl = this;
 
       ctrl.conceptTagSearch = ConceptSearchService.findTags;
+      ctrl.findTagsElsst = ElsstSearchService.findTagsElsst;
 
       var conceptAttachmentTypes = [
         {de: 'Dokumentation', en: 'Documentation'},
@@ -360,11 +364,32 @@ angular.module('metadatamanagementApp')
           labels: getDialogLabels()
         };
 
-        AttachmentDialogService
+        if (CurrentProjectService.getCurrentProject() &&
+            CurrentProjectService.getCurrentProject().release &&
+            CurrentProjectService.getCurrentProject().release.isPreRelease
+        ) {
+          CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-title',
+            {},
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-content',
+            {},
+            null
+          ).then(function success() {
+            AttachmentDialogService
+              .showDialog(dialogConfig, event)
+              .then(function() {
+                ctrl.loadAttachments(true);
+              });
+          });
+        } else {
+          AttachmentDialogService
             .showDialog(dialogConfig, event)
             .then(function() {
               ctrl.loadAttachments(true);
             });
+        }
       };
 
       ctrl.moveAttachmentUp = function() {
@@ -405,6 +430,21 @@ angular.module('metadatamanagementApp')
             .hasAuthority('ROLE_PUBLISHER')) {
           ctrl.currentAttachmentIndex = index;
         }
+      };
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
       };
 
       init();

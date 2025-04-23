@@ -45,7 +45,8 @@ angular.module('metadatamanagementApp').config([
             'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:',
             'cite-data-package': 'Datenpaket zitieren:',
             'cite-analysis-package': 'Analysepaket zitieren:',
-            'cite-method-report': 'Daten- und Methodenbericht zitieren:'
+            'cite-method-report': 'Daten- und Methodenbericht zitieren:',
+            'cite-questionnaire': 'Fragebogen/Variablenfragebogen zitieren:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',
@@ -68,10 +69,11 @@ angular.module('metadatamanagementApp').config([
           'scripts-tooltip': 'Klicken, um alle Skripte dieses Analysepaketes anzuzeigen.',
           'custom-data-packages-tooltip': 'Klicken, um alle benutzerdefinierten Datenpakete dieses Analysepaketes anzuzeigen.',
           'software-packages-tooltip': 'Klicken, um alle Softwarepakete dieses Analysepaketes anzuzeigen.',
-          'citation': 'Datenpaket und Daten- und Methodenbericht zitieren',
+          'citation': 'Datenpaket, Daten- und Methodenbericht und Fragebogen/Variablenfragenbogen zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
           'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',
           'download-bibtex-tooltip': 'Klicken, um die Zitationsdetails im BibTex-Format zu speichern.',
+          'citation-node': 'Wir bitten Sie, den Daten- und Methodenbericht zu prüfen, ob Angaben zu weiteren Quellen der spezifisch zu zitierenden Frage existieren. Bei Vorliegen entsprechender Angaben schlagen wir vor, im Sinn guter wissenschaftlicher Praxis die im Daten- und Methodenbericht genannte(n) Originalquelle(n) ebenfalls zu zitieren. Bei einer Wiedergabe des vollständigen Texts einer Frage, etwa innerhalb eines Artikels oder bei einer Nachnutzung der Frage für eigene Forschungsvorhaben bzw. Fragebögen, ist zu beachten, dass mglw. weitere Nutzungsbedingungen bestehen. Bitte prüfen Sie die Quellen dahingehend.',
           'select-access-way-title': 'Bitte Zugangsweg auswählen',
           'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
           'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.',
@@ -128,7 +130,9 @@ angular.module('metadatamanagementApp').config([
           'related-publications-tooltip': 'Klicken, um weitere Informationen zu Publikationen zu erhalten.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'analysis-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Analysepaketen zu erhalten.',
-          'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
+          'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.',
+          'export-ddi-variables': 'Variablenmetadaten exportieren',
+          'export-ddi-variables-tooltip': 'Klicken, um die Variablen-Metadaten als DDI-Codebook-XML herunterzuladen.'
         },
         'version-info': {
           'title': 'Eine Version auswählen',
@@ -140,7 +144,7 @@ angular.module('metadatamanagementApp').config([
         },
         'access-way-info': {
           'title': 'Einen Zugangsweg auswählen',
-          'content': '<p style="margin-bottom: 0px;">Für unsere Datenpakete gibt es bis zu vier Zugangswege. Diese unterscheiden sich hinsichtlich:</p><ol style="margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>des Nutzungszwecks (<strong>Campus Use File (CUF)</strong> für Lehre vs. <strong>Scientific Use File (SUF)</strong> für Forschung),</li><li>des Grades der statistischen Anonymisierung (stärker, moderat, geringer) und</li><li>des technischen Weges des Datenzugangs (Download, Remote-Desktop, Onsite) verbunden mit unterschiedlich starken technisch-organisatorischen Datensicherheits- und Kontrollmaßnahmen (geringer, moderat, stärker).</li></ol><p style="margin-bottom: 0px;">Die Nutzung der Daten zum Download bedeutet die geringsten Aufwände im Rahmen der Nutzung und sollte präferiert werden, sofern das Datenpaket dieses Zugangswegs für die Nutzung ausreicht. Sofern diese Daten <em>nicht</em> ausreichen, können ebenfalls die anderen Zugangswege gewählt werden.</p><p style="margin-bottom: 0px;">Unsere Datenpaketkonfiguration ist gegliedert in:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>CUF: Download</strong> nur für Lehrzwecke; stärkerer statistischer Anonymisierungsgrad; zum Download nach Antragsbewilligung</li><li><strong>SUF: Download</strong> stärkerer statistischer Anonymisierungsgrad; zum Download nach Vertragsabschluss</li><li><strong>SUF: Remote-Desktop</strong> moderater statistischer Anonymisierungsgrad; Zugang nur über virtuelle Desktops per Internet mit technischen Kontrollen nach Vertragsabschluss</li><li><strong>SUF: On-Site</strong> geringer statistischer Anonymisierungsgrad; Zugang nur vor Ort im FDZ-DZHW in Hannover mit technischen Kontrollen nach Vertragsabschluss</li></ul><p>Mehr Informationen: <a href="https://www.fdz.dzhw.eu/de/datennutzung">https://www.fdz.dzhw.eu/de/datennutzung</a></p>'
+          'content': '<p style="margin-bottom: 0px;">Für unsere Datenpakete gibt es bis zu vier Zugangswege:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>CUF: Download</strong> erstellt für die wissenschaftliche Lehre und Übungszwecke; sehr hoher statistischer Anonymisierungsgrad; nach Antragsbewilligung verfügbar per Download</li><li><strong>SUF: Download</strong> erstellt für wissenschaftliche Forschungszwecke; hoher statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar per Download</li><li><strong>SUF: Remote-Desktop</strong> erstellt für wissenschaftliche Forschungszwecke; moderater statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar per Internet über virtuellen Desktop mit Input-/Output-Prüfungen</li><li><strong>SUF: On-Site</strong> erstellt für wissenschaftliche Forschungszwecke; geringer statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar vor Ort im FDZ-DZHW in Hannover mit Input-/Output-Prüfungen</li></ul><p>Mehr Informationen: <a href="https://www.fdz.dzhw.eu/de/datennutzung">https://www.fdz.dzhw.eu/de/datennutzung</a></p>'
         }
       },
       'order-menu': {

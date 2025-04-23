@@ -162,11 +162,12 @@ angular.module('metadatamanagementApp')
             'ROLE_DATA_PROVIDER'])) {
           if (entity) {
             entity.$promise.then(function(instrument) {
+              ctrl.dataPackageTitle = instrument.dataPackageTitle;
               ctrl.createMode = false;
               DataAcquisitionProjectResource.get({
                 id: instrument.dataAcquisitionProjectId
               }).$promise.then(function(project) {
-                if (project.release != null) {
+                if (project.release != null && !project.release.isPreRelease) {
                   handleReleasedProject();
                 } else if (!ProjectUpdateAccessService
                   .isUpdateAllowed(project, 'instruments', true)) {
@@ -187,7 +188,8 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-            !CurrentProjectService.getCurrentProject().release) {
+            (!CurrentProjectService.getCurrentProject().release 
+              || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                 .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
                   'instruments', true)) {
@@ -266,18 +268,46 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveInstrument = function() {
         if ($scope.instrumentForm.$valid) {
-          if (angular.isUndefined(ctrl.instrument.masterId)) {
-            ctrl.instrument.masterId = ctrl.instrument.id;
-          }
-          ctrl.instrument.$save()
-          .then(ctrl.updateElasticSearchIndex)
-          .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              console.log(error);
-              SimpleMessageToastService.openAlertMessageToast(
-                'instrument-management.edit.error-on-save-toast',
-                {instrumentId: ctrl.instrument.id});
+          if (CurrentProjectService.getCurrentProject() &&
+              CurrentProjectService.getCurrentProject().release &&
+              CurrentProjectService.getCurrentProject().release.isPreRelease
+          ) {
+            CommonDialogsService.showConfirmEditPreReleaseDialog(
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.title',
+              {},
+              'global.common-dialogs' +
+              '.confirm-edit-pre-released-project.content',
+              {},
+              null
+            ).then(function success() {
+              if (angular.isUndefined(ctrl.instrument.masterId)) {
+                ctrl.instrument.masterId = ctrl.instrument.id;
+              }
+              ctrl.instrument.$save()
+              .then(ctrl.updateElasticSearchIndex)
+              .then(ctrl.onSavedSuccessfully)
+              .catch(function(error) {
+                  console.log(error);
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'instrument-management.edit.error-on-save-toast',
+                    {instrumentId: ctrl.instrument.id});
+                });
             });
+          } else {
+            if (angular.isUndefined(ctrl.instrument.masterId)) {
+              ctrl.instrument.masterId = ctrl.instrument.id;
+            }
+            ctrl.instrument.$save()
+            .then(ctrl.updateElasticSearchIndex)
+            .then(ctrl.onSavedSuccessfully)
+            .catch(function(error) {
+                console.log(error);
+                SimpleMessageToastService.openAlertMessageToast(
+                  'instrument-management.edit.error-on-save-toast',
+                  {instrumentId: ctrl.instrument.id});
+              });
+          }
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.instrumentForm.$error, function(field) {
@@ -443,6 +473,8 @@ angular.module('metadatamanagementApp')
         };
 
         var dialogConfig = {
+          dataPackageTitle: ctrl.dataPackageTitle,
+          surveySerialNumbers: ctrl.getSurveySerialNumbersFromChips(),
           attachmentMetadata: attachment,
           attachmentTypes: instrumentAttachmentTypes,
           uploadCallback: upload,
@@ -479,6 +511,8 @@ angular.module('metadatamanagementApp')
         };
 
         var dialogConfig = {
+          dataPackageTitle: ctrl.dataPackageTitle,
+          surveySerialNumbers: ctrl.getSurveySerialNumbersFromChips(),
           attachmentMetadata: null,
           attachmentTypes: instrumentAttachmentTypes,
           uploadCallback: upload,
@@ -486,12 +520,47 @@ angular.module('metadatamanagementApp')
           exclude: ['title']
         };
 
-        AttachmentDialogService
-            .showDialog(dialogConfig, event)
-            .then(function() {
-              ctrl.loadAttachments(true);
-            });
+        if (CurrentProjectService.getCurrentProject() &&
+            CurrentProjectService.getCurrentProject().release &&
+            CurrentProjectService.getCurrentProject().release.isPreRelease
+        ) {
+          CommonDialogsService.showConfirmAddAttachmentPreReleaseDialog(
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-title',
+            {},
+            'global.common-dialogs' +
+            '.confirm-edit-pre-released-project.attachment-content',
+            {},
+            null
+          ).then(function success() {
+            AttachmentDialogService
+              .showDialog(dialogConfig, event)
+              .then(function() {
+                ctrl.loadAttachments(true);
+              });
+          });
+        } else {
+          AttachmentDialogService
+          .showDialog(dialogConfig, event)
+          .then(function() {
+            ctrl.loadAttachments(true);
+          });
+        }
       };
+
+      /**
+       * collects all numbers of surveyChips, so that an array of serial numbers can be returned
+       * @returns array of all survey serial numbers, e.g. [1, 3]
+       */
+      ctrl.getSurveySerialNumbersFromChips = function() {
+        var surveyIds = [];
+        if (ctrl.surveyChips) {
+          ctrl.surveyChips.forEach(function(chip) {
+            surveyIds.push(chip.number);
+          });  
+        }
+        return surveyIds;
+      }
 
       ctrl.moveAttachmentUp = function() {
         var a = ctrl.attachments[ctrl.currentAttachmentIndex - 1];

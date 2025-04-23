@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('CitationHintGeneratorService', ['$interpolate', 'LanguageService', '$filter', '$rootScope', 
+angular.module('metadatamanagementApp').service('CitationHintGeneratorService', [
+  '$interpolate', 'LanguageService', '$filter', '$rootScope', 
 function($interpolate, LanguageService, $filter, $rootScope) {
   var Cite;
   if (!$rootScope.bowser.msie) {
@@ -80,10 +81,33 @@ function($interpolate, LanguageService, $filter, $rootScope) {
     var citeJson = {
       title: attachment.title,
       type: 'report',
+      DOI: attachment.doi,
       publisher: attachment.citationDetails.institution,
       'publisher-place': attachment.citationDetails.location,
       issued: [{'date-parts': [attachment.citationDetails.publicationYear]}],
       author: mapPeopleToCiteJson(attachment.citationDetails.authors)
+    };
+    return new Cite(citeJson).format('biblatex') // use biblatex to include the doi and map fields back to bibtex names
+      .replace('@report', '@techreport')
+      .replace('date =', 'year =')
+      .replace('location =', 'address =')
+      .replace('publisher =', 'institution =')
+      // remove spaces in latex code for umlauts
+      .replace(/{\\.\s./g, function(match) {
+        return match.replace(' ', '');
+      });
+  };
+
+  var generateBibtexForInstrumentAttachment = function(citationDetails) {
+    if ($rootScope.bowser.msie) {
+      throw 'citation.js is not compatible with IE11';
+    }
+    var citeJson = {
+      type: 'instrument',
+      publisher: citationDetails.institution,
+      'publisher-place': citationDetails.location,
+      issued: [{'date-parts': [citationDetails.publicationYear]}],
+      author: mapPeopleToCiteJson(citationDetails.authors)
     };
     return new Cite(citeJson).format('bibtex')
       // remove spaces in latex code for umlauts
@@ -124,14 +148,36 @@ function($interpolate, LanguageService, $filter, $rootScope) {
       '{{attachment.title}}. ' +
       '{{attachment.citationDetails.location}}: ' +
       '{{attachment.citationDetails.institution}}.';
-    return $interpolate(citationHint)({attachment: attachment});
+    if (attachment.doi) {
+      citationHint += ' ' + attachment.doi;
+    }
+    return $interpolate(citationHint)({ attachment });
   };
+
+  var generateCitationHintForInstrumentAttachment = function(attachment, description) {
+      var citationHint =
+        '{{authors | displayPersons}} ' +
+        '({{publicationYear}}). ' +
+        '{{description}}. ' +
+        '{{location}}: ' +
+        '{{institution}}.';
+      return $interpolate(citationHint)({
+        authors: attachment.authors,
+        publicationYear: attachment.publicationYear,
+        description: description,
+        location: attachment.location,
+        institution: attachment.institution
+      });
+    };
+    
 
   return {
     generateBibtex: generateBibtex,
     generateBibtexForAttachment: generateBibtexForAttachment,
+    generateBibtexForInstrumentAttachment: generateBibtexForInstrumentAttachment,
     generateCitationHint: generateCitationHint,
-    generateCitationHintForAttachment: generateCitationHintForAttachment
+    generateCitationHintForAttachment: generateCitationHintForAttachment,
+    generateCitationHintForInstrumentAttachment: generateCitationHintForInstrumentAttachment
   };
 }]);
 

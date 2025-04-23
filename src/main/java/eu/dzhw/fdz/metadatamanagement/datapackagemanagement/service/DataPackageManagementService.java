@@ -23,6 +23,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -34,6 +36,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for managing the domain object/aggregate {@link DataPackage}.
@@ -43,6 +46,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RepositoryEventHandler
 @RequiredArgsConstructor
+@Slf4j
 public class DataPackageManagementService implements CrudService<DataPackage> {
 
   private final DataPackageRepository dataPackageRepository;
@@ -57,7 +61,11 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+
   private final DataPackageCrudHelper crudHelper;
+
+  private final DataAcquisitionProjectCrudHelper projectCrudHelper;
 
   /**
    * Delete all dataPackages when the dataAcquisitionProject was deleted.
@@ -246,6 +254,27 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public DataPackage save(DataPackage dataPackage) {
     // TODO check project access rights
+    DataAcquisitionProject project =
+        dataAcquisitionProjectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
+    if (project != null) {
+      if (dataPackage.getRemarksUserService() != null && !dataPackage.getRemarksUserService().isBlank()) {
+        project.setHasUserServiceRemarks(true);
+      } else {
+        project.setHasUserServiceRemarks(false);
+      }
+      if (dataPackage.getTransmissionViaVerbundFdb()) {
+        project.setIsTransmittedViaVerbundFdb(true);
+      } else {
+        project.setIsTransmittedViaVerbundFdb(false);
+      }
+      if (dataPackage.getExternalDataPackage()) {
+        project.setIsExternalDataPackage(true);
+      } else {
+        project.setIsExternalDataPackage(false);
+      }
+      projectCrudHelper.saveMaster(project);
+    }
+
     return crudHelper.saveMaster(dataPackage);
   }
 

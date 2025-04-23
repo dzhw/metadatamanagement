@@ -77,6 +77,20 @@ angular.module('metadatamanagementApp').config([
             'release-notes': {
               'de': 'Die Release Notes enthalten Informationen zur aktuellen Version und zu Veränderungen im Vergleich zu vorherigen Versionen.',
               'en': 'The release notes contain information about the current version and changes compared to previous versions.'
+            },
+            'type': {
+              'instrument': {
+                'de': 'Erhebungsinstrument zu "#titledatapackage#", #surveys#',
+                'en': 'Instrument of "#titledatapackage#", #surveys#'
+              },
+              'question-flow': {
+                'de': 'Filterführungsdiagram zu "#titledatapackage#", #surveys#',
+                'en': 'Question Flow of "#titledatapackage#", #surveys#'
+              },
+              'variable-questionaire': {
+                'de': 'Variablenfragebogen zu "#titledatapackage#", #surveys#',
+                'en': 'Variable Questionaire of "#titledatapackage#", #surveys#'
+              }
             }
           }
         }

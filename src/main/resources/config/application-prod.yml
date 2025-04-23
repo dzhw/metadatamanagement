@@ -60,6 +60,11 @@ metadatamanagement:
     endpoint: ${vcap.services.dara.credentials.endpoint}
     username: ${vcap.services.dara.credentials.username}
     password: ${vcap.services.dara.credentials.password}
+  dara-pid:
+    enabled: false
+    endpoint: ${vcap.services.dara.pid.credentials.endpoint}
+    username: ${vcap.services.dara.pid.credentials.username}
+    password: ${vcap.services.dara.pid.credentials.password}
   dlp:
     endpoint: https://fdz.dzhw.eu/{language}/form/data-usage-application
   rabbitmq:
@@ -77,3 +82,13 @@ metadatamanagement:
 
 logbook:
   filter.enabled: false
+
+tweet:
+  consumerkey: ${vcap.services.tweet.credentials.consumerkey}
+  consumersecret: ${vcap.services.tweet.credentials.consumersecret}
+  oauthtoken: ${vcap.services.tweet.credentials.oauthtoken}
+  oauthtokensecret: ${vcap.services.tweet.credentials.oauthtokensecret}
+  endpointurl: "https://api.twitter.com/2/tweets"
+  mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
+  imagedir:  "./mdm-frontend/src"
+

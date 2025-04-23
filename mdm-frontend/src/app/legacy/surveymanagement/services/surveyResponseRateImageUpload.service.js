@@ -1,7 +1,11 @@
 /* global Blob */
 'use strict';
 
-angular.module('metadatamanagementApp').service('SurveyResponseRateImageUploadService', ['Upload', '$q', '$http', '$rootScope', 
+angular.module('metadatamanagementApp').service('SurveyResponseRateImageUploadService', [
+  'Upload', 
+  '$q', 
+  '$http', 
+  '$rootScope', 
   function(Upload, $q, $http, $rootScope) {
     var buildImageFilename = function(surveyNumber, language) {
       return surveyNumber + '_responserate_' + language;

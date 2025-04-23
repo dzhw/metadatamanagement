@@ -18,11 +18,11 @@ jobs:
         echo $BUILD_COMMIT_HASH
         sed -i "s/\"buildHash\": \".*\"/\"buildHash\": \"$BUILD_COMMIT_HASH\"/" mdm-frontend/src/assets/config.json
         cat mdm-frontend/src/assets/config.json
-    - name: Set up JDK 15
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         distribution: 'adopt'
-        java-version: 15
+        java-version: 17
     - name: Cache maven artifacts
       uses: actions/cache@v3
       env:

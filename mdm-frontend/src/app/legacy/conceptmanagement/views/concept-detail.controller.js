@@ -14,10 +14,11 @@ angular.module('metadatamanagementApp')
   '$log',
   'blockUI',
   '$mdSidenav',
+  '$mdDialog',
     function(entity, PageMetadataService, LanguageService,
              $state, BreadcrumbService, Principal,
              ConceptAttachmentResource, SearchResultNavigatorService,
-             $stateParams, $log, blockUI, $mdSidenav) {
+             $stateParams, $log, blockUI, $mdSidenav, $mdDialog) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -28,6 +29,14 @@ angular.module('metadatamanagementApp')
         if (concept.tags) {
           var language = LanguageService.getCurrentInstantly();
           return concept.tags[language];
+        } else {
+          return [];
+        }
+      };
+      var getTagsElsst = function(concept) {
+        if (concept.tagsElsst) {
+          var language = LanguageService.getCurrentInstantly();
+          return concept.tagsElsst[language];
         } else {
           return [];
         }
@@ -77,6 +86,7 @@ angular.module('metadatamanagementApp')
         ctrl.loadAttachments();
 
         ctrl.conceptTags = getTags(result);
+        ctrl.conceptTagsElsst = getTagsElsst(result);
       }, $log.error).finally(blockUI.stop);
 
       ctrl.conceptEdit = function() {
@@ -85,6 +95,21 @@ angular.module('metadatamanagementApp')
 
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
+      };
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
       };
     }]);
 

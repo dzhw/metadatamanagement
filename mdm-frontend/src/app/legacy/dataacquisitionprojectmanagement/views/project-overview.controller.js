@@ -92,10 +92,13 @@ angular.module('metadatamanagementApp')
       locationSearch.tab = ctrl.currentTab && ctrl.currentTab.group ? ctrl.currentTab.group : null;
       locationSearch.assignee = ctrl.selectedAssignedGroup ? ctrl.selectedAssignedGroup : null;
       locationSearch.release = ctrl.selectedReleaseState ? ctrl.selectedReleaseState : null;
-      locationSearch.packageFilter = ctrl.selectedFiltersDataPackage && ctrl.selectedFiltersDataPackage.length > 0 ? ctrl.selectedFiltersDataPackage : null;
-      locationSearch.additional = ctrl.selectedAdditionalInfo ? ctrl.selectedAdditionalInfo : null;
+      locationSearch.packageFilter = ctrl.selectedFiltersDataPackage
+        && ctrl.selectedFiltersDataPackage.length > 0 ? ctrl.selectedFiltersDataPackage : null;
+      locationSearch.additional = ctrl.selectedRemarksFilter ? ctrl.selectedRemarksFilter : null;
+      locationSearch.external = ctrl.selectedExternalFilter ? ctrl.selectedExternalFilter : null;
+      locationSearch.verbundFdb = ctrl.selectedDataTransmissionFilter ? ctrl.selectedDataTransmissionFilter : null;
       locationSearch.project = ctrl.selectedProject ? ctrl.selectedProject.id : null;
-      
+
       locationChanged = !angular.equals($location.search(), locationSearch);
       $location.search(locationSearch);
     };
@@ -112,7 +115,9 @@ angular.module('metadatamanagementApp')
         ctrl.selectedAssignedGroup = null;
         ctrl.selectedReleaseState = null;
         ctrl.selectedFiltersDataPackage = null;
-        ctrl.selectedAdditionalInfo = null;
+        ctrl.selectedRemarksFilter = null;
+        ctrl.selectedExternalFilter = null;
+        ctrl.selectedDataTransmissionFilter = null;
         ctrl.selectedProject = null;
       } else {
         if (locationSearch.page != null) {
@@ -142,7 +147,9 @@ angular.module('metadatamanagementApp')
         ctrl.selectedAssignedGroup = locationSearch.assignee ? locationSearch.assignee : null;
         ctrl.selectedReleaseState = locationSearch.release ? locationSearch.release : null;
         ctrl.selectedFiltersDataPackage = locationSearch.packageFilter ? locationSearch.packageFilter : null;
-        ctrl.selectedAdditionalInfo = locationSearch.additional ? locationSearch.additional : null;
+        ctrl.selectedRemarksFilter = locationSearch.additional ? locationSearch.additional : null;
+        ctrl.selectedExternalFilter = locationSearch.external ? locationSearch.external : null;
+        ctrl.selectedDataTransmissionFilter = locationSearch.verbundFdb ? locationSearch.verbundFdb : null;
       }
     };
 
@@ -164,7 +171,9 @@ angular.module('metadatamanagementApp')
           ctrl.selectedAssignedGroup,
           ctrl.selectedReleaseState,
           ctrl.selectedFiltersDataPackage,
-          ctrl.selectedAdditionalInfo,
+          ctrl.selectedRemarksFilter,
+          ctrl.selectedExternalFilter,
+          ctrl.selectedDataTransmissionFilter,
           Principal.loginName()
         )
         ElasticSearchClient.search(query).then(function(result) {
@@ -201,7 +210,9 @@ angular.module('metadatamanagementApp')
         ctrl.selectedAssignedGroup,
         ctrl.selectedReleaseState,
         ctrl.selectedFiltersDataPackage,
-        ctrl.selectedAdditionalInfo,
+        ctrl.selectedRemarksFilter,
+        ctrl.selectedExternalFilter,
+        ctrl.selectedDataTransmissionFilter,
         Principal.loginName()
       )
       
@@ -244,7 +255,9 @@ angular.module('metadatamanagementApp')
       ctrl.selectedAssignedGroup = null;
       ctrl.selectedReleaseState = null;
       ctrl.selectedFiltersDataPackage = null;
-      ctrl.selectedAdditionalInfo = null;
+      ctrl.selectedRemarksFilter = null;
+      ctrl.selectedExternalFilter = null,
+      ctrl.selectedDataTransmissionFilter = null,
       ctrl.pagination.selectedPageNumber = 1;
       if (ctrl.currentTab) {
         ctrl.currentTab.count = null;
@@ -286,7 +299,9 @@ angular.module('metadatamanagementApp')
         ctrl.selectedAssignedGroup = null;
         ctrl.selectedReleaseState = null;
         ctrl.selectedFiltersDataPackage = null;
-        ctrl.selectedAdditionalInfo = null;
+        ctrl.selectedRemarksFilter = null;
+        ctrl.selectedExternalFilter = null,
+        ctrl.selectedDataTransmissionFilter = null,
         ctrl.pagination.selectedPageNumber = 1;
       }
       ctrl.currentTab = tab;
@@ -318,6 +333,24 @@ angular.module('metadatamanagementApp')
      */
     ctrl.shouldShowRemarksInfo = function() {
       return Principal.isPublisher();
+    }
+
+    /**
+     * Wether or not the filter for external data packages
+     * should be displayed. Only users with role PUBLISHER are able to
+     * set the filter.
+     */
+    ctrl.shouldShowExternalDatapackageFilter = function() {
+      return Principal.isPublisher() && ctrl.currentTab.group === 'dataPackages';
+    }
+
+    /**
+     * Wether or not the filter for data transmission via VerbundFDB
+     * should be displayed. Only users with role PUBLISHER are able to
+     * set the filter.
+     */
+    ctrl.shouldShowDataTransmisionFilter = function() {
+      return Principal.isPublisher() && ctrl.currentTab.group === 'dataPackages';
     }
 
     /**

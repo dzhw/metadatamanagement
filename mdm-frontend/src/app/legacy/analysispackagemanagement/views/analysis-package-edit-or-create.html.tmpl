@@ -435,6 +435,24 @@
                       tags="ctrl.analysisPackage.tags"></tag-editor>
         </md-card-content>
       </md-card>
+      <md-card class="mb8">
+        <md-card-header style="justify-content: start;>
+          <md-card-header-text style="flex: 0 0 auto;">
+            <h2 class="md-title">{{'analysis-package-management.edit.label.tagsElsst' | translate }}</h2>
+          </md-card-header-text>
+          <md-button class="md-primary md-icon-button" style="padding: 0 0 16px 0; width: fit-content;" ng-click="ctrl.infoModal($event)">
+            <md-icon style="margin: 0px;">info</md-icon>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.detail.elsst-general-tooltip' | translate}}
+            </md-tooltip>
+          </md-button>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+          <tag-editor-elsst require-german-tag="true" tag-search="ctrl.findTagsElsst(searchText, language)"
+            tags="ctrl.analysisPackage.tagsElsst"></tag-editor-elsst>
+        </md-card-content>
+      </md-card>
       <url-component
         current-form="analysisPackageForm"
         content="ctrl.analysisPackage.additionalLinks"

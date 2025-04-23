@@ -1,7 +1,14 @@
 /* global  _*/
 'use strict';
 
-angular.module('metadatamanagementApp').factory('VariableSearchService', ['ElasticSearchClient', '$q', 'SearchHelperService', 'CleanJSObjectService', 'LanguageService', 'Principal', 
+angular.module('metadatamanagementApp')
+  .factory('VariableSearchService', 
+    ['ElasticSearchClient', 
+    '$q', 
+    'SearchHelperService', 
+    'CleanJSObjectService', 
+    'LanguageService', 
+    'Principal', 
   function(ElasticSearchClient, $q, SearchHelperService,
     CleanJSObjectService, LanguageService, Principal) {
       var createQueryObject = function(type) {

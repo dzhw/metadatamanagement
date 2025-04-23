@@ -3,7 +3,7 @@
 resource "aws_ecs_cluster" "cluster" {
   count = length(var.stages)
   name  = var.stages[count.index]
-  
+
   capacity_providers = ["FARGATE", "FARGATE_SPOT"]
   default_capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
@@ -24,6 +24,9 @@ data "template_file" "web_container" {
     dara_endpoint     = var.dara_credentials[count.index].endpoint
     dara_username     = var.dara_credentials[count.index].username
     dara_password     = var.dara_credentials[count.index].password
+    dara_pid_endpoint = var.dara_pid_credentials[count.index].endpoint
+    dara_pid_username = var.dara_pid_credentials[count.index].username
+    dara_pid_password = var.dara_pid_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
@@ -32,6 +35,10 @@ data "template_file" "web_container" {
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
     site_token        = var.seo4ajax_tokens[count.index].site_token
+    tweet_consumer_key = var.tweet_credentials[count.index].consumerkey
+    tweet_consumer_secret = var.tweet_credentials[count.index].consumersecret
+    tweet_oauth_token = var.tweet_credentials[count.index].oauthtoken
+    tweet_oauth_token_secret = var.tweet_credentials[count.index].oauthtokensecret
   }
 }
 
@@ -91,6 +98,9 @@ data "template_file" "worker_container" {
     dara_endpoint     = var.dara_credentials[count.index].endpoint
     dara_username     = var.dara_credentials[count.index].username
     dara_password     = var.dara_credentials[count.index].password
+    dara_pid_endpoint = var.dara_pid_credentials[count.index].endpoint
+    dara_pid_username = var.dara_pid_credentials[count.index].username
+    dara_pid_password = var.dara_pid_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
@@ -99,6 +109,10 @@ data "template_file" "worker_container" {
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
     site_token        = var.seo4ajax_tokens[count.index].site_token
+    tweet_consumer_key = var.tweet_credentials[count.index].consumerkey
+    tweet_consumer_secret = var.tweet_credentials[count.index].consumersecret
+    tweet_oauth_token = var.tweet_credentials[count.index].oauthtoken
+    tweet_oauth_token_secret = var.tweet_credentials[count.index].oauthtokensecret
   }
 }
 

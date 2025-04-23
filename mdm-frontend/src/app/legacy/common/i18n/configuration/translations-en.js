@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').config([
           'concepts': 'Concepts',
           'institutions': 'Institutions',
           'tags': 'Tags',
+          'tagsElsst': 'ELSST Tags',
           'study-series': 'Study Series',
           'survey-data-types': 'Survey Data Type',
           'access-ways': 'Access Ways',
@@ -101,7 +102,8 @@ angular.module('metadatamanagementApp').config([
         'tooltips': {
           'create-project': 'Click to create a new Data Acquisition Project.',
           'delete-project': 'Click to delete the selected Data Acquisition Project with all related data.',
-          'release-project': 'Click to release the selected project for all users.',
+          'release-project': 'Click to release the selected project.',
+          'prerelease-project': 'Click to preliminarily release the selected project.',
           'unrelease-project': 'Click to unrelease the selected project.',
           'cockpit-project': 'Click to go to the Project Cockpit.',
           'post-validation': 'Click to validate the selected Data Acquisition Project.',
@@ -196,17 +198,17 @@ angular.module('metadatamanagementApp').config([
           'project-overview': 'Project Overview'
         },
         'form': {
-          'username': 'Username',
+          'username': 'Username *',
           'username-placeholder': 'Your username',
-          'firstname': 'First name',
+          'firstname': 'First name *',
           'firstname-placeholder': 'Your first name',
-          'lastname': 'Last name',
+          'lastname': 'Last name *',
           'lastname-placeholder': 'Your last name',
-          'newpassword': 'New password',
+          'newpassword': 'New password *',
           'newpassword-placeholder': 'New password',
-          'confirmpassword': 'New password confirmation',
+          'confirmpassword': 'New password confirmation *',
           'confirmpassword-placeholder': 'Confirm the new password',
-          'email': 'E-mail',
+          'email': 'E-mail *',
           'email-placeholder': 'Your e-mail'
         },
         'messages': {
@@ -224,6 +226,7 @@ angular.module('metadatamanagementApp').config([
               'required': 'Your password is required.',
               'minlength': 'Your password is required to be at least 5 characters.',
               'maxlength': 'Your password cannot be longer than 50 characters.',
+              'validationsummary': 'Your password must be between 1-50 characters long.',
               'strength': 'Password strength:'
             },
             'confirmpassword': {
@@ -463,7 +466,23 @@ angular.module('metadatamanagementApp').config([
          },
          'info': {
           'license': 'License'
-        }
+         },
+         'confirm-edit-pre-released-project': {
+           'title': 'Publish changes?',
+           'content': 'This project is currently preliminarly released. Every saved change is immediately visible to the public. Please confirm that you want to save the changes.',
+           'yes': 'Publish changes',
+           'no': 'Continue editing',
+           'attachment-title': 'Publish documents?',
+           'attachment-content': 'This project is currently preliminarly released. Added documents are immediatly visible to the public. Do you want to continue?',
+           'attachment-yes': 'Yes',
+           'attachment-no': 'Cancel'
+         },
+         'confirm-edit-embargo-date': {
+            'title': 'Change embargo date?',
+            'content': 'Attention! You are about to change the embargo date. Are you sure?',
+            'yes': 'Yes',
+            'no': 'No'
+          }
         },
         'people': {
           'edit': {

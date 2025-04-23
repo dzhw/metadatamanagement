@@ -1,23 +1,45 @@
-/* global _ */
-(function() {
+/* globals _ */
+'use strict';
 
-  'use strict';
-
-  function DataPackageConfiguratorController($scope,
-                                $rootScope,
-                                $location,
-                                DataAcquisitionProjectReleasesResource,
-                                $state,
-                                $transitions,
-                                LanguageService,
-                                ProjectReleaseService,
-                                ShoppingCartService,
-                                MessageBus, $translate,
-                                DataPackageSearchService,
-                                DataPackageAccessWaysResource, $mdDialog,
-                                DataPackageCitationDialogService,
-                                CurrentDataPackageService,
-                                Principal) {
+  angular
+    .module('metadatamanagementApp')
+    .controller('DataPackageConfiguratorController', [
+      '$scope',
+      '$rootScope',
+      '$location',
+      'DataAcquisitionProjectReleasesResource',
+      '$state',
+      '$transitions',
+      'LanguageService',
+      'ProjectReleaseService',
+      'ShoppingCartService',
+      'MessageBus',
+      '$translate',
+      'DataPackageSearchService',
+      'DataPackageAccessWaysResource',
+      '$mdDialog',
+      'DataPackageCitationDialogService',
+      'CurrentDataPackageService',
+      'dataAcquisitionProjectSearchService',
+      'ElasticSearchClient',
+      'ExportDdiVariablesResource',
+      'Principal',
+        function ($scope,
+          $rootScope,
+          $location,
+          DataAcquisitionProjectReleasesResource,
+          $state,
+          $transitions,
+          LanguageService,
+          ProjectReleaseService,
+          ShoppingCartService,
+          MessageBus, $translate,
+          DataPackageSearchService,
+          DataPackageAccessWaysResource, $mdDialog,
+          DataPackageCitationDialogService,
+          CurrentDataPackageService,
+          dataAcquisitionProjectSearchService, ElasticSearchClient,
+          ExportDdiVariablesResource, Principal) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -25,8 +47,10 @@
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onDataPackageChange = MessageBus;
     $ctrl.noFinalRelease = false;
+    $ctrl.isPreReleased = false;
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
+    $ctrl.allowedToExportVariableMetadata = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
@@ -67,9 +91,23 @@
       $ctrl.selectedVersion = $ctrl.dataPackageIdVersion.version;
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
         $ctrl.dataPackageIdVersion.version);
+      $ctrl.allowedToExportVariableMetadata = Principal.isAuthenticated();
       initReady = true;
     }
 
+    /**
+       * init
+       */
+    $ctrl.$onInit = () => {
+      init();
+    };
+
+    /**
+     * Method to load the list of available versions of the datapackage.
+     * 
+     * @param {*} dataAcquisitionProjectId the id of the data acquisition project
+     * @param {*} id the id of the data package
+     */
     function loadVersion(dataAcquisitionProjectId, id) {
       DataAcquisitionProjectReleasesResource.get(
         {
@@ -80,8 +118,15 @@
         .$promise
         .then(
         function(releases) {
-          $ctrl.releases = releases;
-          if (releases.length === 0) {
+          var releaseList = [];
+          for (var release of releases) {
+              // only allow fully released versions to be listed for ordering
+              if (!release.isPreRelease) {
+                releaseList.push(release);
+              }
+          }
+          $ctrl.releases = releaseList;
+          if (releases.length === 0 || releaseList.length === 0) {
             $ctrl.noFinalRelease = true;
           }
           loadAccessWays(id);
@@ -90,6 +135,11 @@
 
     function loadDataPackage(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
+      // sometimes on init there is no project id, because it is loaded later on
+      if (id === undefined) {
+        console.debug("No project ID provided to search by.")
+        return;
+      }
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
@@ -100,6 +150,27 @@
           $ctrl.dataPackage = res;
           $rootScope.selectedDataPackage = res;
           if ($ctrl.dataPackage) {
+            if ($ctrl.dataPackage.release && $ctrl.dataPackage.release.isPreRelease) {
+              // disable ordering in case of pre-release
+              $ctrl.isPreReleased = true;
+            }
+
+            // get project for embargo warning display
+            var strippedId = ProjectReleaseService.stripVersionSuffix(
+              $ctrl.dataPackage.dataAcquisitionProjectId
+            );
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
+              "dataPackages",
+              strippedId);
+            ElasticSearchClient.search(projectQuery).then(function(results) {
+              if (results.hits.hits.length === 1) {
+                $ctrl.project = results.hits.hits[0]._source;
+              } else {
+                results.hits.hits.length < 1 ? 
+                  console.error("No projects found") : 
+                  console.error("Search resulted in more than one project being found.")
+              } 
+            });
             loadVersion($ctrl.dataPackageIdVersion.projectId, id);
           }
         }, function() {
@@ -118,7 +189,27 @@
             if ($rootScope.bowser.compareVersions(['1.0.0', version]) === 1) {
               $ctrl.noFinalRelease = true;
             }
-            loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
+            if ($ctrl.dataPackage.release && $ctrl.dataPackage.release.isPreRelease) {
+              // disable ordering in case of pre-release
+              $ctrl.isPreReleased = true;
+            }
+            // get project for embargo warning display
+            var strippedId = ProjectReleaseService.stripVersionSuffix(
+              $ctrl.dataPackage.dataAcquisitionProjectId
+            );
+            var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
+              "dataPackages",
+              strippedId);
+            ElasticSearchClient.search(projectQuery).then(function(results) {
+              if (results.hits.hits.length === 1) {
+                $ctrl.project = results.hits.hits[0]._source;
+              } else {
+                results.hits.hits.length < 1 ? 
+                  console.error("No projects found") :
+                  console.error("Search resulted in more than one project being found.")
+              } 
+              loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
+            });           
           }
         }, function() {
           $ctrl.dataPackage = null;
@@ -152,11 +243,6 @@
           });
       });
       return _.uniq(dataFormats);
-    };
-
-    $ctrl.showBackToEditButton = function() {
-      return $ctrl.selectedVersion && Principal.hasAuthority(
-        'ROLE_DATA_PROVIDER');
     };
 
     // triggers MessageBus to close the order menu in the parent component
@@ -216,6 +302,7 @@
       var search = $location.search();
       if (!newVal) { return; }
       if (newVal !== search.version) {
+        $ctrl.isPreReleased = false;
         search.version = $ctrl.selectedVersion;
         search.lang = $rootScope.currentLanguage;
         $state.go($state.current, search, {reload: true});
@@ -301,29 +388,43 @@
             $ctrl.dataPackage, $event);
       }
     };
-  }
 
-  angular
-    .module('metadatamanagementApp')
-    .controller('DataPackageConfiguratorController', [
-      '$scope',
-      '$rootScope',
-      '$location',
-      'DataAcquisitionProjectReleasesResource',
-      '$state',
-      '$transitions',
-      'LanguageService',
-      'ProjectReleaseService',
-      'ShoppingCartService',
-      'MessageBus',
-      '$translate',
-      'DataPackageSearchService',
-      'DataPackageAccessWaysResource',
-      '$mdDialog',
-      'DataPackageCitationDialogService',
-      'CurrentDataPackageService',
-      'Principal',
-      DataPackageConfiguratorController
-    ]);
+    /**
+       * Whether the embargo date has expired or not.
+       * @returns true if it has expired else false
+       */
+    $ctrl.isEmbargoDateExpired = function() {
+      if ($ctrl.dataPackage.embargoDate) {
+        var current = new Date();
+        return new Date($ctrl.dataPackage.embargoDate) < current;
+      }
+      return true;
+    }
 
-})();
+    /**
+     * Checks if the latest version is selected.
+     * @returns true if the latest version is selected else false
+     */
+    $ctrl.isLatestVersionSelected = function() {
+      return this.selectedVersion 
+        && $ctrl.releases 
+        && $ctrl.releases.length > 0 ? $ctrl.releases[0].version === this.selectedVersion : false;
+    }
+
+    /**
+     * Exports Variables metadata as DDI Codebook XML.
+     */
+    $ctrl.exportVariables = function() {
+      ExportDdiVariablesResource.exportVariablesAsXml($ctrl.dataPackage.id).then(function(res) {
+        var blob = new Blob([res],{
+          type: "application/xml;charset=utf-8;"
+        });
+        var downloadLink = document.createElement('a');
+        const fileName = 'mdm_export_ddi_variables_' + $ctrl.dataPackage.id.split('$')[0] + '.xml'
+        downloadLink.setAttribute('download', fileName);
+        downloadLink.setAttribute('href', window.URL.createObjectURL(blob));
+        downloadLink.click();
+        $scope.isDownloadingData = false;
+      })
+    }
+}]);

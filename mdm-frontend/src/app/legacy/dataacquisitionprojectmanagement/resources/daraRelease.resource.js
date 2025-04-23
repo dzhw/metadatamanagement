@@ -10,7 +10,19 @@ angular.module('metadatamanagementApp')
       id: '@id'
     }, {
       'release': {
-        method: 'POST'
+        method: 'POST',
+      },
+      'preRelease': {
+        method: 'POST',
+        url: '/api/data-acquisition-projects/:id/pre-release'
+      },
+      variablesCheck: {
+        method: 'GET',
+        url: '/api/data-acquisition-projects/:id/variables-check'
+      },
+      variablesRegister: {
+        method: 'POST',
+        url: '/api/data-acquisition-projects/:id/variables-register'
       }
     });
   }]);

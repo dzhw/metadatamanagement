@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').config([
           'concepts': 'Konzepte',
           'institutions': 'Institutionen',
           'tags': 'Schlagwörter',
+          'tagsElsst': 'ELSST-Schlagwörter',
           'study-series': 'Studienreihen',
           'survey-data-types': 'Erhebungsdatentyp',
           'access-ways': 'Zugangswege',
@@ -102,6 +103,7 @@ angular.module('metadatamanagementApp').config([
           'create-project': 'Klicken, um ein neues Datenaufnahmeprojekt zu erzeugen.',
           'delete-project': 'Klicken, um das ausgewählte Datenaufnahmeprojekt mit allen verknüpften Daten zu löschen.',
           'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer:innen freizugeben.',
+          'prerelease-project': 'Klicken, um das ausgewählte Projekt vorläufig freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'cockpit-project': 'Klicken, um zum Projektcockpit zu gehen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufnahmeprojekt zu validieren.',
@@ -196,17 +198,17 @@ angular.module('metadatamanagementApp').config([
           'project-overview': 'Projektübersicht'
         },
         'form': {
-          'username': 'Benutzer:innenname',
+          'username': 'Benutzer:innenname *',
           'username-placeholder': 'Ihr Benutzer:innenname',
-          'firstname': 'Vorname',
+          'firstname': 'Vorname *',
           'firstname-placeholder': 'Ihr Vorname',
-          'lastname': 'Nachname',
+          'lastname': 'Nachname *',
           'lastname-placeholder': 'Ihr Nachname',
-          'newpassword': 'Neues Passwort',
+          'newpassword': 'Neues Passwort *',
           'newpassword-placeholder': 'Neues Passwort',
-          'confirmpassword': 'Neues Passwort bestätigen',
+          'confirmpassword': 'Neues Passwort bestätigen *',
           'confirmpassword-placeholder': 'Bestätigen Sie Ihr neues Passwort',
-          'email': 'E-Mail Adresse',
+          'email': 'E-Mail Adresse *',
           'email-placeholder': 'Ihre E-Mail Adresse'
         },
         'messages': {
@@ -224,6 +226,7 @@ angular.module('metadatamanagementApp').config([
               'required': 'Ein neues Passwort wird benötigt.',
               'minlength': 'Das neue Passwort muss mindestens 5 Zeichen lang sein.',
               'maxlength': 'Das neue Passwort darf nicht länger als 50 Zeichen sein.',
+              'validationsummary': 'Das neue Passwort muss zwischen 5-50 Zeichen lang sein.',
               'strength': 'Passwortstärke:'
             },
             'confirmpassword': {
@@ -463,6 +466,22 @@ angular.module('metadatamanagementApp').config([
           },
           'info': {
             'license': 'Lizenz'
+          },
+          'confirm-edit-pre-released-project': {
+            'title': 'Änderungen freigeben?',
+            'content': 'Dieses Projekt ist aktuell vorläufig freigegeben. Jede gespeicherte Änderung ist unmittelbar öffentlich einsehbar. Bitte bestätigen Sie, dass Sie die Änderung speichern möchten.',
+            'yes': 'Änderungen freigeben',
+            'no': 'Bearbeitung fortsetzen',
+            'attachment-title': 'Materialien freigeben?',
+            'attachment-content': 'Dieses Projekt ist aktuell vorläufig freigegeben. Hinzugefügte Anhänge sind unmittelbar öffentlich einsehbar. Möchten Sie fortfahren?',
+            'attachment-yes': 'Ja',
+            'attachment-no': 'Abbrechen'
+          },
+          'confirm-edit-embargo-date': {
+            'title': 'Embargodatum ändern?',
+            'content': 'Achtung! Sie sind im Begriff das Embargodatum zu ändern. Sind Sie sicher?',
+            'yes': 'Ja',
+            'no': 'Nein'
           }
         },
         'people': {

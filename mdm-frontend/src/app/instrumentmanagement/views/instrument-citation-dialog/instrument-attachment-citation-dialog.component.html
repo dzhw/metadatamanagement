@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ "instrument-management.detail.citation-dialog.title" | translate }}</h2>
+<mat-divider></mat-divider>
+
+<mat-dialog-content class="fdz-icon-button-small">
+    <div *ngIf="citationItems.length === 0">{{ "instrument-management.detail.citation-dialog.no-details-placeholder" | translate }}</div>
+    <div *ngFor="let item of citationItems; index as index" class="citation-item fdz-icon-button-small">
+        <span id="hint-{{ index }}">{{ item.hint }}</span>
+        <button mat-icon-button color="primary"
+            [attr.aria-label]="'shopping-cart.detail.copy-citation-tooltip' | translate"
+            matTooltip="{{ 'shopping-cart.detail.copy-citation-tooltip' | translate }}"
+            (click)="copyToClipboard('#hint-' + index)"
+            >
+            <mat-icon>content_copy</mat-icon>
+        </button>
+        <button mat-icon-button color="primary"
+            [attr.aria-label]="'shopping-cart.detail.download-bibtex-tooltip' | translate"
+            matTooltip="{{ 'shopping-cart.detail.download-bibtex-tooltip' | translate }}"
+            (click)="downloadBibTex(item)">
+            <mat-icon>download</mat-icon>
+        </button>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close color="primary"
+        matTooltip="{{ 'global.dialog.tooltip.close' | translate }}"
+        >{{ "global.buttons.close" | translate }}</button>
+</mat-dialog-actions>

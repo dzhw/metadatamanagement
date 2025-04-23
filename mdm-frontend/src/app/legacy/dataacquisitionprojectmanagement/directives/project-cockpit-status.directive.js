@@ -3,7 +3,17 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitStatus', ['SearchDao', 'ProjectUpdateAccessService', 'SimpleMessageToastService', 'Principal', 'DataAcquisitionProjectPostValidationService', '$mdDialog', '$translate', 'ProjectReleaseService', '$q',  function(
+  .directive('projectCockpitStatus', [
+    'SearchDao', 
+    'ProjectUpdateAccessService', 
+    'SimpleMessageToastService', 
+    'Principal', 
+    'DataAcquisitionProjectPostValidationService', 
+    '$mdDialog', 
+    '$translate', 
+    'ProjectReleaseService', 
+    '$q',  
+    function(
     SearchDao, ProjectUpdateAccessService,
     SimpleMessageToastService, Principal,
     DataAcquisitionProjectPostValidationService,
@@ -14,7 +24,8 @@ angular.module('metadatamanagementApp')
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
         'project-cockpit-status.html.tmpl',
       scope: {
-        project: '='
+        project: '=',
+        variablesCheck: '<'
       },
       replace: true,
       controllerAs: 'ctrl',
@@ -26,6 +37,7 @@ angular.module('metadatamanagementApp')
         this.isAssignedPublisher =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,
             this.project, 'publishers');
+        this.hasAdminRole = () => Principal.isAdmin();
       }],
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
@@ -34,7 +46,7 @@ angular.module('metadatamanagementApp')
           var optionalStates = ['surveys', 'instruments', 'questions',
             'dataSets', 'variables', 'publications', 'concepts', 'fake1'];
           var activeStates = _.filter(optionalStates, function(state) {
-            return ctrl.project.configuration.requirements[state + 'Required'];
+            return ctrl.project.configuration.requirements['is' + state.charAt(0).toUpperCase() + state.slice(1) + 'Required'];
           });
           var inactiveStates = _.difference(optionalStates, activeStates);
           return activeStates.concat(inactiveStates);
@@ -152,15 +164,6 @@ angular.module('metadatamanagementApp')
         $scope.$on('deletion-completed', function() {
           setTypeCounts(ctrl.project.id);
         });
-
-        ctrl.toggleReleaseProject = function() {
-          if (ctrl.project.release) {
-            ProjectReleaseService.unreleaseProject(ctrl.project);
-          } else {
-            ProjectReleaseService.releaseProject(ctrl.project);
-          }
-        };
-
       }
     };
   }]);

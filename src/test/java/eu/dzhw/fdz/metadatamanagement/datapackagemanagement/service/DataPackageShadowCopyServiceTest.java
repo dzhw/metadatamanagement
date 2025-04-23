@@ -53,7 +53,7 @@ public class DataPackageShadowCopyServiceTest extends AbstractTest {
 
   @BeforeEach
   public void setUp() {
-    release = new Release("1.0.0", LocalDateTime.now(), null, false, null);
+    release = new Release("1.0.0", LocalDateTime.now(), null, false, null, false);
     DataAcquisitionProject releasedProject =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     releasedProject.setRelease(release);

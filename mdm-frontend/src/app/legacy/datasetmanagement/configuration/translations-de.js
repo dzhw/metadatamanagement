@@ -217,6 +217,24 @@ angular.module('metadatamanagementApp').config([
           'add-sub-data-set-tooltip': 'Klicken, um einen neuen Subdatensatz hinzuzufügen',
           'move-sub-data-set-up-tooltip': 'Klicken, um den ausgewählten Subdatensatz nach oben zu verschieben',
           'move-sub-data-set-down-tooltip': 'Klicken, um den ausgewählten Subdatensatz nach oben zu verschieben',
+          'sub-data-set-default-description': {
+            'download-cuf': {
+              'de': 'Erstellt für die wissenschaftliche Lehre und Übungszwecke; sehr hoher statistischer Anonymisierungsgrad; nach Antragsbewilligung verfügbar per Download',
+              'en': 'created for academic teaching and training purposes; very high statistical anonymization level; available for download after application approval'
+            },
+            'download-suf': {
+              'de': 'Erstellt für wissenschaftliche Forschungszwecke; hoher statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar per Download',
+              'en': 'created for scientific research purposes; high statistical anonymization level; available for download after conclusion of data use agreement'
+            },
+            'remote-desktop-suf': {
+              'de': 'Erstellt für wissenschaftliche Forschungszwecke; moderater statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar per Internet über virtuellen Desktop mit Input-/Output-Prüfungen',
+              'en': 'created for scientific research purposes; moderate statistical anonymization level; available via internet using virtual desktop with input/output checks after conclusion of data use agreement'
+            },
+            'onsite-suf': {
+              'de': 'Erstellt für wissenschaftliche Forschungszwecke; geringer statistischer Anonymisierungsgrad; nach Vertragsabschluss verfügbar vor Ort im FDZ-DZHW in Hannover mit Input-/Output-Prüfungen',
+              'en': 'created for scientific research purposes; low statistical anonymization level; available on site at the FDZ-DZHW in Hanover with input/output checks after conclusion of data use agreement'
+            }
+          },
           'label': {
             'edit-data-set': 'Datensatz bearbeiten:',
             'create-data-set': 'Datensatz anlegen:',

@@ -13,6 +13,13 @@ angular.module('metadatamanagementApp').config([
           'landing-page-de-title': 'Deutsch',
           'landing-page-en-title': 'Englisch',
           'landing-page-hint': 'Bitte wählen Sie die Sprache der DOI-Landingpage',
+          'pid-registration': 'Registierung von persistenten Identifikatoren (PIDs) für die Variablen des Datenpakets',
+          'pid-registration-hint': 'Markieren Sie dieses Kästchen, wenn sie für jede Variable des Datenpakets eine PID registrieren wollen.',
+          'pid-api-not-reachable-dialog': {
+            'title': 'Dienst für PID-Registrierung nicht erreichbar',
+            'message': 'Der Dienst zur Registrierung von PIDs für Variablen ist aktuell nicht verfügbar. Sie können den Releaseprozess trotzdem vornehmen und die Variablen später registrieren.',
+            'question': 'Soll der Releaseprozess fortgesetzt werden?'
+          },
           'pin-to-start-page': 'Datenpaket auf Startseite anzeigen',
           'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.',
           'confirmed': {
@@ -21,16 +28,26 @@ angular.module('metadatamanagementApp').config([
             'dev': 'Dies ist das Dev-System! Sind Sie sicher?',
             'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind Sie sicher?',
           },
-          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!'
+          'confirm-hint': 'Markieren Sie dieses Kästchen, wenn Sie das Projekt wirklich auf diesem System freigeben wollen!',
+          'pre-release-hint': 'Das Projekt "{{id}}" ist mit dem Embargo-Datum {{date}} versehen und kann nur vorläufig freigegeben werden. Vorläufig freigegebene Projekte sind nicht in MDM such- oder bestellbar. Die vorläufige Freigabe kann bis zur endgültigen Freigabe nicht zurückgenommen werden. Die Bearbeitung des Projektes ist in der vorläufigen Freigabe weiterhin möglich. Nach Ablauf des Embargo-Datums kann das Projekt in der im Folgenden gewählten Version endgültig freigegeben werden.',
+          'release-action': 'Freigeben',
+          'pre-release-action': 'Vorläufig freigeben',
+          'toTweet': "Auf X (ehemals Twitter) veröffentlichen. Der DOI-Link und die Version des Datenaufnahmeprojektes werden automatisch hinzugefügt.",
+          'tweetTextLabel': "Tweet",
+          'imagePath1': 'assets/images/thumb_twitter_fdz_1_de.jpg',
+          'imagePath2': 'assets/images/thumb_twitter_fdz_2_de.jpg',
+          'imagePath3': 'assets/images/thumb_twitter_fdz_3_de.jpg'
         },
         'home': {
           'title': 'Datenaufnahmeprojekte',
           'createLabel': 'Neues Datenaufnahmeprojekt anlegen',
           'releaseLabel': 'Das Datenaufnahmeprojekt "{{ id }}" freigeben',
+          'prereleaseLabel': 'Das Datenaufnahmeprojekt "{{ id }}" vorläufig freigeben',
           'dialog-tooltip': {
             'create-ok': 'Klicken, um das Datenaufnahmeprojekt zu erzeugen',
             'create-cancel': 'Klicken, um den Dialog zu schließen ohne ein Projekt anzulegen',
             'release-ok': 'Klicken, um das Projekt freizugeben',
+            'pre-release-ok': 'Klicken, um das Projekt vorläufig freizugeben',
             'release-cancel': 'Klicken, um den Dialog zu schließen ohne das Projekt freizugeben'
           }
         },
@@ -46,8 +63,11 @@ angular.module('metadatamanagementApp').config([
             'deleted-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" wurde erfolgreich gelöscht.',
             'deleted-not-successfully-project': 'Das Datenaufnahmeprojekt "{{ id }}" konnte nicht gelöscht werden!',
             'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein.',
+            'released-successfully-with-pids': 'Der Releaseprozess wurde angestoßen. Das Datenpaket ist in wenigen Minuten verfügbar. Die Registrierung der PIDs für Variablen wird im Hintergrund ausgeführt und kann bis zu einer Stunde in Anspruch nehmen.',
+            'dara-update-successfully': 'Die Metadaten des Projektes wurden bei da|ra aktualisiert.',
             'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Der da|ra-Service zur Registrierung der DOI ist aktuell nicht verfügbar. Kontaktieren Sie den Administrator (fdz-feedback@dzhw.eu) und versuchen Sie es später erneut.',
+            'dara-pid-previous-registration': 'Es sind bereits PIDs für die Variablen in dieser Version registriert, es wird keine neue Registrierung vorgenommen. Der Release des Datenpakets wird wie gewohnt durchgeführt, es sind keine weiteren Aktionen erforderlich.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt bearbeitet werden.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
             'unrelease': 'Möchten Sie wirklich die Freigabe zurücknehmen und die Metadaten des Projektes "{{ id }}" bearbeiten?',
@@ -78,6 +98,12 @@ angular.module('metadatamanagementApp').config([
             },
             'has-user-service-remarks': {
               'not-null': 'Es muss angegeben sein, ob ein Datenaufnahmeprojekt Bemerkungen für den User Service enthält oder nicht.'
+            },
+            'is-external': {
+              'not-null': 'Es muss angegeben sein, ob es sich um ein externes Datenpaket handelt.'
+            },
+            'is-tansmitted-via-verbundfdb': {
+              'not-null': 'Es muss angegeben sein, ob ein Datenpaket via VerbundFDB übermittelt wurde.'
             }
           },
           'configuration': {
@@ -99,7 +125,13 @@ angular.module('metadatamanagementApp').config([
               'not-empty': 'Die Version darf nicht leer sein.',
               'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
               'not-parsable-or-not-incremented': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version. Die letzte Version war "{{lastVersion}}".',
+              'no-major-version-change': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version ("{{lastVersion}}"). Sie muss kleiner sein als die nächste Major-Version ("{{nextMajorVersion}}").',
+              'no-beta-version': 'Für das Projekt ist ein Embargo-Datum angegeben. Die Versionsnummer muss daher mindestens "1.0.0" sein.',
               'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
+            },
+            'tweet': {
+              'not-empty': 'Der Text darf nicht leer sein.',
+              'size': 'Der Text darf nicht länger als 280 Zeichen sein.'
             }
           },
           'post-validation': {
@@ -107,6 +139,7 @@ angular.module('metadatamanagementApp').config([
             'project-has-no-analysisPackage': 'Das Projekt mit der FDZ-ID {{ id }} enthält kein Analysepaket.',
             'project-must-have-exactly-one-publication': 'Das Projekt mit der FDZ-ID {{ id }} muss genau eine Publikation enthalten.',
             'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.',
+            'no-embargo-date': 'Für das Projekt {{ id }} ist kein Embargo-Datum angegeben.',
             'project-has-no-survey': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens eine Erhebung enthalten.',
             'project-has-no-data-set': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens einen Datensatz enthalten.'
           },
@@ -116,6 +149,7 @@ angular.module('metadatamanagementApp').config([
             'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch die Publisher oder Datengeber:innen als "fertig" markiert wurden',
             'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer:innen freigegeben ist.',
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
+            'embargo-date-not-expired': 'Die Aktion ist nicht möglich, da das Embargo-Datum noch nicht abgelaufen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber:in zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
             'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.',
@@ -129,7 +163,12 @@ angular.module('metadatamanagementApp').config([
         },
         'releasestatusbadge': {
           'released': 'Freigegeben',
-          'unreleased': 'Nicht freigegeben'
+          'unreleased': 'Nicht freigegeben',
+          'pre-released': 'Vorläufig freigegeben'
+        },
+        'registration-status-badge': {
+          'registered': 'Variablen PIDs registriert',
+          'not-registered': 'Keine Variablen PIDs registriert'
         },
         'project-cockpit': {
           'title': 'Projekt-Cockpit ({{projectId}})',
@@ -160,7 +199,8 @@ angular.module('metadatamanagementApp').config([
             'save': 'Klicken, um die Anpassungen zu speichern.',
             'save-assign': 'Klicken, um die Anpassungen zu speichern und das Projekt zuzuweisen.',
             'save-takeback': 'Klicken, um die Anpassungen zu speichern und das Projekt der Gruppe Publisher zuzuweisen.',
-            'remove-user': 'Nutzer:in entfernen'
+            'remove-user': 'Nutzer:in entfernen',
+            'register-pids': 'PIDs bei da|ra registrieren'
           },
           'list': {
             'empty-data-provider': 'Keine Datengeber:innen sind diesem Projekt zugeteilt.',
@@ -170,6 +210,12 @@ angular.module('metadatamanagementApp').config([
             'status': 'Status',
             'config': 'Einstellungen',
             'versions': 'Versionen'
+          },
+          'release-settings': {
+            'header': 'Einstellungen zur Veröffentlichung',
+            'label': 'Embargo-Datum',
+            'info': 'Wenn das Projekt vorerst vorläufig freigegeben werden soll, müssen Sie hier ein Embargo-Datum setzen, welches auf den Tag vor dem frühest möglichen Zeitpunkt der Veröffentlichung gesetzt werden muss.',
+            'delete-tooltip': 'Embargo-Datum entfernen'
           },
           'requirements': {
             'header': 'Erwartete Metadaten',
@@ -223,7 +269,15 @@ angular.module('metadatamanagementApp').config([
             'unhiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten wieder für alle Benutzer:innen sichtbar sein!',
             'button': {
               'hide-shadow': 'Diese Version ist aktuell für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version zu verstecken!',
-              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!'
+              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!',
+              'pre-released': 'Diese Version unterliegt bis zum {{date}} einem Embargo durch die Datengeber:innen. Die Veröffentlichung kann erst nach diesem Datum erfolgen.'
+            }
+          },
+          'pid-registration': {
+            'confirm-dialog': {
+              'title': 'PIDs bei da|ra registrieren',
+              'message': 'Die Registrierung der PIDs für Variablen wird im Hintergrund ausgeführt und kann bis zu einer Stunde in Anspruch nehmen.',
+              'question': 'Möchten Sie fortfahren?'
             }
           }
         },
@@ -232,6 +286,7 @@ angular.module('metadatamanagementApp').config([
           'table': {
             'project-name': 'Projekt',
             'release-version': 'Aktuelle Version',
+            'embargo-date': 'Embargo-Datum',
             'assigned-group': 'Zugewiesene Gruppe',
             'user-service-remarks': 'Bemerkungen User Service',
             'data-package-status': 'Datenpaket',
@@ -260,7 +315,9 @@ angular.module('metadatamanagementApp').config([
               'assignee-group': 'Zugewiesen an',
               'release-state': 'Status',
               'datapackage-filter': 'Filter für Datenpakete',
-              'user-service-remarks': 'Bemerkungen User Service'
+              'user-service-remarks': 'Bemerkungen User Service',
+              'external-datapackage': 'Externes Datenpaket',
+              'data-transmission-verbund-fdb': 'Datentransfer via VerbundFDB'
             },
             'options': {
               'assignee-group': {
@@ -269,7 +326,8 @@ angular.module('metadatamanagementApp').config([
               },
               'release-state': {
                 'released': 'Freigegeben',
-                'unreleased': 'Nicht freigegeben'
+                'unreleased': 'Nicht freigegeben',
+                'pre-released': 'Vorläufig Freigegeben'
               },
               'datapackage-filter': {
                 'variables': 'Variablen',
@@ -278,13 +336,22 @@ angular.module('metadatamanagementApp').config([
                 'concepts': 'Konzepte'
               },
               'user-service-remarks': {
-                'with-additional-info': 'Bemerkungen vorhanden',
-                'without-additional-info': 'keine Bemerkungen'
+                'with-remarks': 'Bemerkungen vorhanden',
+                'without-remarks': 'keine Bemerkungen'
+              },
+              'external-datapackage': {
+                'true': 'Externes Datenpaket',
+                'false': 'Kein externes Datenpaket'
+              },
+              'data-transmission-verbund-fdb': {
+                'true': 'Datentransfer via VerbundFDB',
+                'false': 'Kein Datentransfer via VerbundFDB'
               }
             }
           },
           'no-project-msg': 'Ihrem Konto ist kein Projekt zugewiesen.',
-          'no-search-results-msg': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.'
+          'no-search-results-msg': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.',
+          'pre-release-hint': '* Gekennzeichnete Projekte sind vorläufig freigegeben und unterliegen einem Embargo-Datum.'
         },
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',

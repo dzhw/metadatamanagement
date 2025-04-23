@@ -2,7 +2,13 @@
   'use strict';
 
   var DetailComponent = {
-    controller: ['$scope', '$rootScope', 'CommonDialogsService', '$mdDialog', 'LicenseDialogService', function($scope, $rootScope, CommonDialogsService, $mdDialog, LicenseDialogService) {
+    controller: [
+      '$scope', 
+      '$rootScope', 
+      'CommonDialogsService', 
+      '$mdDialog', 
+      'LicenseDialogService', 
+      function($scope, $rootScope, CommonDialogsService, $mdDialog, LicenseDialogService) {
       $scope.bowser = $rootScope.bowser;
 
       /**

@@ -60,9 +60,13 @@ angular.module('metadatamanagementApp')
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.project = project;
+            ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
+            ctrl.shouldDisplayEditButton = localStorage.getItem(
+              'currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
+            ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -78,7 +82,8 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.dataPackage.masterId
+              masterId: result.dataPackage.masterId,
+              projectId: result.dataAcquisitionProjectId
             });
         }
 

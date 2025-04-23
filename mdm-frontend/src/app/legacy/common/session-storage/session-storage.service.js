@@ -1,4 +1,7 @@
-// source: https://raw.githubusercontent.com/scriptwerx/angular-swx-session-storage/master/src/js/service/session-storage.service.js
+/* source: 
+    https://raw.githubusercontent.com/scriptwerx/
+    angular-swx-session-storage/master/src/js/service/session-storage.service.js
+*/
 
 (function() {
 

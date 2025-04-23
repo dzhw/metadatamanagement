@@ -8,16 +8,19 @@ angular.module('metadatamanagementApp')
   '$rootScope',
   '$scope',
   'DataPackageAttachmentResource',
+  'DataAcquisitionProjectAttachmentsResource',
   'CitationHintGeneratorService',
   'LanguageService',
   'FileSaver',
   'Blob',
   'EndOfLineService',
   '$filter',
+  'InstrumentAttachmentTypesEn',
   function($mdDialog, SimpleMessageToastService, accessWay,
      dataPackage, $rootScope, $scope, DataPackageAttachmentResource,
+     DataAcquisitionProjectAttachmentsResource,
      CitationHintGeneratorService, LanguageService, FileSaver, Blob,
-     EndOfLineService, $filter) {
+     EndOfLineService, $filter, InstrumentAttachmentTypesEn) {
     var ctrl = this;
     $scope.bowser = $rootScope.bowser;
 
@@ -47,8 +50,52 @@ angular.module('metadatamanagementApp')
           de: germanMethodReports.length > 0 ? germanMethodReports[0] : null,
           en: englishMethodReports.length > 0 ? englishMethodReports[0] : null
         };
+
         ctrl.dataPackageCitationHint = CitationHintGeneratorService
           .generateCitationHint(accessWay, dataPackage);
+
+      }, function(reason) {
+        console.error("An error occurred while fetching attachments for data package '" + dataPackage.id + "'", reason);
+      });
+
+      // cite list of instrument attachment of type questionnaire
+      DataAcquisitionProjectAttachmentsResource.get({
+        id: dataPackage.dataAcquisitionProjectId
+      }).$promise.then(function(attachments) {
+
+        // group questionnaire attachments by instrument
+        const instrumentAttachments = attachments.instruments
+          .map(a => a.instrumentNumber)
+          // deduplicate instrument number
+          .filter((number, index, numbers) => !numbers.slice(0, index).includes(number))
+          // reduce instrument numbers array to an object that maps questionnaire
+          // attachments to their corresponding instrument number
+          .reduce((atts, number) => {
+            atts[number] = attachments.instruments.filter(a => a.instrumentNumber === number && (
+              a.type.en === InstrumentAttachmentTypesEn.Questionnaire ||
+              a.type.en === InstrumentAttachmentTypesEn.VariableQuestionnaire
+            ));
+            return atts;
+          }, {});
+
+        const currentLanguage = LanguageService.getCurrentInstantly();
+        ctrl.instrumentAttachmentCitations = [];
+        for (const entries of Object.values(instrumentAttachments)) {
+          // use questionnaire for the current instrument and only use variable questionnaire as a backup
+          var attachment = entries.find(a => a.type.en === InstrumentAttachmentTypesEn.Questionnaire) ||
+            entries.find(a => a.type.en === InstrumentAttachmentTypesEn.VariableQuestionnaire);
+          if (!attachment) continue;
+          const citationHint = createInstrumentAttachmentCitation(attachment, currentLanguage);
+          if (citationHint) {
+            ctrl.instrumentAttachmentCitations.push({
+              hint: citationHint,
+              details: attachment.citationDetails
+            });
+          }
+        }
+      }, function(reason) {
+        console.error("An error occurred while fetching attachments for data acquisiton project '" +
+          dataPackage.dataAcquisitionProjectId + "'.", reason);
       });
     };
 
@@ -95,5 +142,44 @@ angular.module('metadatamanagementApp')
       var fileName = bibtexKey + '.bib';
       FileSaver.saveAs(data, fileName);
     };
+
+    /**
+     * Generates BibTex document from the provided instrument attachment
+     * citation details and triggers its download for the user.
+     * @param {*} details the instrument attachment's citation details
+     */
+    ctrl.downloadInstrumentAttachmentBibtex = function(details) {
+      const bibtex = CitationHintGeneratorService.generateBibtexForInstrumentAttachment(details);
+      ctrl.saveBibtex(bibtex);
+    };
+
+    /**
+     * Creates a citation hint for the attachment's citation details.
+     * @param {InstrumentAttachmentMetadata} attachment the attachment the citation hint is created for
+     * @param {string} currentLanguage the language the user is currently using
+     * @returns the citation hint
+     */
+    const createInstrumentAttachmentCitation = function(attachment, currentLanguage) {
+
+      if (!attachment.citationDetails) return;
+      if (!attachment.citationDetails.publicationYear) return;
+      if (!attachment.citationDetails.location) return;
+      if (!attachment.citationDetails.institution) return;
+      if (!attachment.citationDetails.authors) return;
+      if (attachment.citationDetails.authors.length === 0) return;
+
+      const fallbackLanguage = currentLanguage === 'de' ? 'en' : 'de';
+      var description = "";
+      if (attachment.language === currentLanguage) {
+        description = attachment.description[currentLanguage];
+      } else if (!!attachment.description[fallbackLanguage]) {
+        description = attachment.description[fallbackLanguage];
+      } else {
+        return;
+      }
+
+      return CitationHintGeneratorService.generateCitationHintForInstrumentAttachment(
+        attachment.citationDetails, description);
+    }
   }]);
 

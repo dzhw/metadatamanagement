@@ -47,6 +47,18 @@
           "value": "${dara_username}"
         },
         {
+          "name": "vcap_services_dara_pid_credentials_endpoint",
+          "value": "${dara_pid_endpoint}"
+        },
+        {
+          "name": "vcap_services_dara_pid_credentials_password",
+          "value": "${dara_pid_password}"
+        },
+        {
+          "name": "vcap_services_dara_pid_credentials_username",
+          "value": "${dara_pid_username}"
+        },
+        {
           "name": "vcap_services_elastic_credentials_sslUri",
           "value": "${elasticsearch_uri}"
         },
@@ -77,6 +89,22 @@
         {
           "name": "vcap_services_seo4ajax_sitetoken",
           "value": "${site_token}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_consumerkey",
+          "value": "${tweet_consumer_key}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_consumersecret",
+          "value": "${tweet_consumer_secret}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_oauthtoken",
+          "value": "${tweet_oauth_token}"
+        },
+        {
+          "name": "vcap_services_tweet_credentials_oauthtokensecret",
+          "value": "${tweet_oauth_token_secret}"
         }
       ],
       "resourceRequirements": null,

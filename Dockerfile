@@ -1,4 +1,4 @@
-FROM adoptopenjdk:15.0.2_7-jre-hotspot-focal
+FROM eclipse-temurin:17-jre-focal
 
 MAINTAINER René Reitmann <reitmann@dzhw.eu>
 

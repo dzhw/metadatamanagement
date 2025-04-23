@@ -7,20 +7,26 @@ angular.module('metadatamanagementApp')
     'DataAcquisitionProjectRepositoryClient', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope', 'Principal', 'ProjectReleaseService',
-    '$state', 'LanguageService',
+    '$state', 'LanguageService', 'ProjectUpdateAccessService',
     function(CurrentProjectService,
              DataAcquisitionProjectPostValidationService,
              DataAcquisitionProjectRepositoryClient,
              DataAcquisitionProjectResource, $mdDialog,
              SimpleMessageToastService, $translate, ElasticSearchAdminService,
              $scope, Principal, ProjectReleaseService, $state,
-             LanguageService) {
+             LanguageService, ProjectUpdateAccessService) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
       ctrl.searchText = '';
       ctrl.selectedProject = CurrentProjectService.getCurrentProject();
+      ctrl.isAssignedDataProvider =
+        ProjectUpdateAccessService.isAssignedToProject.bind(null,
+          ctrl.selectedProject, 'dataProviders');
+      ctrl.isAssignedPublisher =
+        ProjectUpdateAccessService.isAssignedToProject.bind(null,
+          ctrl.selectedProject, 'publishers');
 
       function showErrorAlert(errorMsg) {
         SimpleMessageToastService
@@ -75,7 +81,7 @@ angular.module('metadatamanagementApp')
               project.configuration = {
                 publishers: [identity.login],
                 requirements: {
-                  dataPackagesRequired: true
+                  isDataPackagesRequired: true
                 }
               };
               project.assigneeGroup = 'PUBLISHER';
@@ -172,6 +178,18 @@ angular.module('metadatamanagementApp')
               ctrl.selectedProject = projects[0];
             }
           });
+      }
+
+      /**
+         * Method to check wether there is an embargo date 
+         * and wether this date has expired.
+         */
+      ctrl.isEmbargoDateExpired = function() {
+        if (ctrl.selectedProject && ctrl.selectedProject.embargoDate) {
+          var current = new Date();
+          return new Date(ctrl.selectedProject.embargoDate) < current;
+        }
+        return true;
       }
     }
   ]);

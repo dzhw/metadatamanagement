@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class DataAcquisitionProjectPostValidationResource {
-  
+
   private final PostValidationService postValidationService;
 
   /**
@@ -45,5 +45,18 @@ public class DataAcquisitionProjectPostValidationResource {
     return new ResponseEntity<>(
         new PostValidationErrorsDto(this.postValidationService.postValidate(id, version)),
         HttpStatus.OK);
+  }
+
+  /**
+   * Validate project by id in case of pre-release.
+   */
+  @RequestMapping(value = "/data-acquisition-projects/{id}/post-validate-pre-release",
+      method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<PostValidationErrorsDto> postValidatePreRelease(@PathVariable String id) {
+    log.debug("REST request for post validation : {}", id);
+    return new ResponseEntity<>(
+      new PostValidationErrorsDto(this.postValidationService.postValidatePreRelease(id)),
+      HttpStatus.OK);
   }
 }

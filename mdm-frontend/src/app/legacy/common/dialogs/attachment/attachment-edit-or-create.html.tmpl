@@ -132,8 +132,17 @@
           </div>
         </md-card-content>
       </md-card>
-      <edit-people-component ng-if="ctrl.attachmentMetadata.type.en === 'Method Report' && ctrl.attachmentMetadata.citationDetails" people="ctrl.attachmentMetadata.citationDetails.authors" people-id="'authors'" translation-keys="ctrl.translationKeys" current-form="attachmentForm"></edit-people-component>
-      <edit-citation-details-component ng-if="ctrl.attachmentMetadata.type.en === 'Method Report'" citation-details="ctrl.attachmentMetadata.citationDetails" current-form="attachmentForm" selected-language="ctrl.selectedLanguage.code"></edit-citation-details-component>
+      <edit-people-component ng-if="(ctrl.attachmentMetadata.type.en === 'Method Report' || ctrl.attachmentMetadata.type.en === 'Variable Questionnaire' || ctrl.attachmentMetadata.type.en === 'Questionnaire') && ctrl.attachmentMetadata.citationDetails"
+        people="ctrl.attachmentMetadata.citationDetails.authors"
+        people-id="'authors'"
+        translation-keys="ctrl.translationKeys"
+        current-form="attachmentForm"
+        attachment-metadata-type="ctrl.attachmentMetadata.type.en"></edit-people-component>
+      <edit-citation-details-component ng-if="(ctrl.attachmentMetadata.type.en === 'Method Report' || ctrl.attachmentMetadata.type.en === 'Variable Questionnaire' || ctrl.attachmentMetadata.type.en === 'Questionnaire') "
+        citation-details="ctrl.attachmentMetadata.citationDetails"
+        current-form="attachmentForm"
+        selected-language="ctrl.selectedLanguage.code"
+        attachment-metadata-type="ctrl.attachmentMetadata.type.en"></edit-citation-details-component>
     </md-content>
     <div class="fdz-fab-button-container" layout="column">
       <md-button ng-if="!ctrl.isCreateMode" class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">

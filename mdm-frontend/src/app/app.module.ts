@@ -1,7 +1,10 @@
 import { DoBootstrap, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { DataacquisitionprojectmanagementModule } from './dataacquisitionprojectmanagement/dataacquisitionprojectmanagement.module';
+import { DataacquisitionprojectmanagementModule } from 
+  './dataacquisitionprojectmanagement/dataacquisitionprojectmanagement.module';
+import { InstrumentManagementModule } from "./instrumentmanagement/instrument-management.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // import { AppRoutingModule } from './app-routing.module';
 // import { AppComponent } from './app.component';
@@ -18,11 +21,19 @@ import { DataacquisitionprojectmanagementModule } from './dataacquisitionproject
   // ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     //AppRoutingModule
     UpgradeModule,
-    DataacquisitionprojectmanagementModule
+    DataacquisitionprojectmanagementModule,
+    InstrumentManagementModule,
   ],
-  // providers: [],
+  providers: [
+    {
+      provide: "$translate",
+      useFactory: ($injector: any) => $injector.get("$translate"),
+      deps: ["$injector"]
+    }
+  ],
   // bootstrap: [AppComponent]
 })
 export class AppModule implements DoBootstrap {

@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * View implementing the detail page of a data package. The detail page
+ * displays basic information about the data package and links to its components.
+ * The view is accessible for all users but provides options to switch to
+ * editing mode for PUBLISHERS and DATAPROVIDERS. It also offers the 
+ * opportunity to generate the overview of the data package as a PDF file.
+ */
 angular.module('metadatamanagementApp')
   .controller('DataPackageDetailController', [
   'entity',
@@ -28,6 +35,9 @@ angular.module('metadatamanagementApp')
   'blockUI',
   '$mdSidenav',
   'ContainsOnlyQualitativeDataChecker',
+  'dataAcquisitionProjectSearchService',
+  'ElasticSearchClient',
+  'ProjectReleaseService',
     function(entity,
              MessageBus,
              PageMetadataService,
@@ -41,7 +51,8 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope,
              $timeout, $document, DataPackageOverviewResource,
              OutdatedVersionNotifier, DataPackageSearchService, $log,
-             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker, dataAcquisitionProjectSearchService,
+             ElasticSearchClient, ProjectReleaseService) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -56,12 +67,18 @@ angular.module('metadatamanagementApp')
           return [];
         }
       };
+      var getTagsElsst = function(dataPackage) {
+        if (dataPackage.tagsElsst) {
+          var language = LanguageService.getCurrentInstantly();
+          return dataPackage.tagsElsst[language];
+        } else {
+          return [];
+        }
+      };
       var ctrl = this;
-      var activeProject;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
-      ctrl.hasBeenReleasedBefore = false;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         surveysCount: 0,
@@ -71,6 +88,7 @@ angular.module('metadatamanagementApp')
         publicationsCount: 0,
         conceptsCount: 0
       };
+
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       ctrl.showRemarks = Principal
@@ -78,6 +96,9 @@ angular.module('metadatamanagementApp')
 
       var bowser = $rootScope.bowser;
 
+      /**
+       * Method for loading attachments
+       */
       ctrl.loadAttachments = function() {
         DataAcquisitionProjectAttachmentsResource.get({
           id: ctrl.dataPackage.dataAcquisitionProjectId
@@ -89,6 +110,11 @@ angular.module('metadatamanagementApp')
           });
       };
 
+      /**
+       * Whether the data package is beta released (version < 1.0.0) or not.
+       * @param {*} dataPackage 
+       * @returns true if it is a beta release else false
+       */
       ctrl.isBetaRelease = function(dataPackage) {
         if (dataPackage.release) {
           return bowser.compareVersions(['1.0.0', dataPackage
@@ -97,12 +123,18 @@ angular.module('metadatamanagementApp')
         return false;
       };
 
+      /**
+       * Listener for deletion event
+       */
       $scope.$on('deletion-completed', function() {
         //wait for 2 seconds until refresh
         //in order to wait for elasticsearch reindex
         $timeout($state.reload, 2000);
       });
 
+      /**
+       * init
+       */
       entity.promise.then(function(result) {
         var fetchFn = DataPackageSearchService.findShadowByIdAndVersion
           .bind(null, result.masterId, null, ['nested*','variables','questions',
@@ -115,10 +147,28 @@ angular.module('metadatamanagementApp')
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            ctrl.projectIsCurrentlyReleased = (project.release != null);
-            ctrl.assigneeGroup = project.assigneeGroup;
-            activeProject = project;
-            ctrl.hasBeenReleasedBefore = project.hasBeenReleasedBefore;
+            ctrl.projectIsCurrentlyReleased = (project.release != null && !project.release.isPreRelease);
+            ctrl.shouldDisplayEditButton = localStorage.getItem(
+              'currentView') != 'orderView' && !(project.release != null && !project.release.isPreRelease);
+            ctrl.isProviderView = localStorage.getItem('currentView') != 'orderView';
+            ctrl.project = project;
+          });
+        } else {
+          // projects can only be queried from ES in this case because the resource requires authentification
+          var strippedId = ProjectReleaseService.stripVersionSuffix(
+            result.dataAcquisitionProjectId
+          );
+          var projectQuery = dataAcquisitionProjectSearchService.getProjectByIdQuery(
+            "dataPackages",
+            strippedId);
+          ElasticSearchClient.search(projectQuery).then(function(results) {
+            if (results.hits.hits.length === 1) {
+              ctrl.project = results.hits.hits[0]._source;
+            } else {
+              results.hits.hits.length < 1 ? 
+                console.error("No projects found for id " + strippedId) : 
+                console.error("Search resulted in more than one project being found for id " + strippedId);
+            } 
           });
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
@@ -130,7 +180,8 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.masterId
+              masterId: result.masterId,
+              projectId: result.dataAcquisitionProjectId
             });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         } else {
@@ -177,9 +228,13 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.dataPackageTags = getTags(result);
+        ctrl.dataPackageTagsElsst = getTagsElsst(result);
 
       }, $log.error).finally(blockUI.stop);
 
+      /**
+       * Scrolling handler
+       */
       ctrl.scroll = function() {
         var element = $document[0].getElementById('related-objects');
         if ($rootScope.bowser.msie) {
@@ -188,17 +243,29 @@ angular.module('metadatamanagementApp')
           element.scrollIntoView({behavior: 'smooth', inline: 'nearest'});
         }
       };
+
+      /**
+       * Method to check if edits are allowed and switch to editing page of the
+       * current data package if so.
+       */
       ctrl.dataPackageEdit = function() {
         if (ProjectUpdateAccessService
-          .isUpdateAllowed(activeProject, 'dataPackages', true)) {
+          .isUpdateAllowed(ctrl.project, 'dataPackages', true)) {
           $state.go('dataPackageEdit', {id: ctrl.dataPackage.id});
         }
       };
 
+      /**
+       * Method to toggle the side nav menu.
+       */
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
       };
 
+      /**
+       * Method to generate the data package overview as a PDF.
+       * @param {*} event 
+       */
       ctrl.generateDataPackageOverview = function(event) {
         $mdDialog.show({
           controller: 'CreateOverviewDialogController',
@@ -238,6 +305,42 @@ angular.module('metadatamanagementApp')
 
       ctrl.isPublisher = function() {
         return Principal.isPublisher();
+      };
+
+      /**
+       * Whether a warning about the embargo date of the project should be
+       * displayed.
+       * @returns true if embargo date is applied else false
+       */
+      ctrl.shouldDisplayEmbargoWarning = function() {
+        return ctrl.dataPackage.release.isPreRelease;
+      }
+
+      /**
+       * Whether the embargo date has expired or not.
+       * @returns true if it has expired else false
+       */
+      ctrl.isEmbargoDateExpired = function() {
+        if (ctrl.dataPackage.embargoDate) {
+          var current = new Date();
+          return new Date(ctrl.dataPackage.embargoDate) < current;
+        }
+        return true;
+      }
+
+      /**
+       * Displays an info modal.
+       * @param {*} $event the click event
+       */
+      ctrl.infoModal = function( $event) {
+        $mdDialog.show({
+          controller: 'dataPackageInfoController',
+          templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
       };
     }]);
 

@@ -10,7 +10,7 @@ export interface Query {
 export interface QueryBody {
     track_total_hits: boolean;
     _source?: Array<string>;
-    sort?: Object;
+    sort?: object;
     query: BoolQuery;
     from?: number;
     size?: number;
@@ -35,8 +35,8 @@ export enum QueryFragmentType {
 }
 
 export interface QueryFragment {
-    [QueryFragmentType.term]?: { [key: string]: any },
-    [QueryFragmentType.terms]?: { [key: string]: any },
-    [QueryFragmentType.match]?: { [key: string]: any },
-    [QueryFragmentType.exists]?: { [key: string]: any }
+    [QueryFragmentType.term]?: { [key: string]: unknown },
+    [QueryFragmentType.terms]?: { [key: string]: unknown },
+    [QueryFragmentType.match]?: { [key: string]: unknown },
+    [QueryFragmentType.exists]?: { [key: string]: unknown }
 }

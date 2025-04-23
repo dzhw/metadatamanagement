@@ -20,6 +20,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.config.TweetProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import com.github.cloudyrock.spring.v5.EnableMongock;
@@ -28,7 +29,7 @@ import com.github.cloudyrock.spring.v5.EnableMongock;
  * Main class boostrapping the application.
  */
 @SpringBootApplication
-@EnableConfigurationProperties({MetadataManagementProperties.class, JHipsterProperties.class})
+@EnableConfigurationProperties({MetadataManagementProperties.class, JHipsterProperties.class, TweetProperties.class})
 @Slf4j
 @EnableMongock
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs")

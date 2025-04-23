@@ -41,7 +41,12 @@ angular.module('metadatamanagementApp').config([
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
-            }
+            },
+          },
+          'citation': 'Zitieren',
+          'citation-dialog': {
+            'title': 'Fragebogen/Variablenfragenbogen zitieren',
+            'no-details-placeholder': 'Keine Details hinterlegt'
           },
           'attachments': {
             'table-title': 'Materialien zum Instrument',
@@ -54,6 +59,7 @@ angular.module('metadatamanagementApp').config([
             'save-attachment-order-tooltip': 'Klicken, um die geänderte Reihenfolge der Dateien zu speichern.',
             'attachment-order-saved-toast': 'Die geänderte Reihenfolge der Dateien wurde gespeichert.',
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Instrument hinzuzufügen.',
+            'add-attachment-tooltip-disabled': 'Datei kann nur hinzugefügt werden, wenn die Liste der Erhebungen nicht leer ist.',
             'edit-title': 'Datei "{{ filename }}" von Instrument "{{ instrumentId }}" bearbeiten',
             'create-title': 'Neue Datei zu Instrument "{{ instrumentId }}" hinzufügen',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
@@ -196,6 +202,10 @@ angular.module('metadatamanagementApp').config([
             'instrument-number': 'Wählen Sie eine freie Nummer für das neue Instrument aus.'
           },
           'all-instruments-deleted-toast': 'Alle Instrumente des Datenaufnahmeprojekt "{{id}}" wurden gelöscht.'
+        },
+        'buttons': {
+          'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+          'open-citation': 'Zitieren...',
         }
       }
       //jscs:enable

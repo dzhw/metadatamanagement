@@ -69,9 +69,22 @@ metadatamanagement:
     endpoint: ${DARA_ENDPOINT}
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
+  dara-pid:
+    endpoint: ${DARA_PID_ENDPOINT}
+    username: ${DARA_PID_USERNAME}
+    password: ${DARA_PID_PASSWORD}
   websockets:
     allowed-origins:
       - "localhost"
 
 logbook:
   filter.enabled: false
+
+tweet:
+  consumerkey: ${vcap.services.tweet.credentials.consumerkey}
+  consumersecret: ${vcap.services.tweet.credentials.consumersecret}
+  oauthtoken: ${vcap.services.tweet.credentials.oauthtoken}
+  oauthtokensecret: ${vcap.services.tweet.credentials.oauthtokensecret}
+  endpointurl: "https://api.twitter.com/2/tweets"
+  mediaendpointurl: "https://upload.twitter.com/1.1/media/upload.json"
+  imagedir:  "./mdm-frontend/src"
