@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataCiteService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,8 +66,11 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
   @Autowired
   private JaversService javersService;
 
+//  @MockBean
+//  private DaraService daraService;
+
   @MockBean
-  private DaraService daraService;
+  private DataCiteService dataCiteService;
 
   private MockMvc mockMvc;
 
@@ -154,7 +158,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
     UnitTestUserManagementUtils.login("admin", "admin");
 
     // ensure that dara gets updated
-    verify(daraService).registerOrUpdateProjectToDara(projectId + "-1.0.0");
+    verify(dataCiteService).registerOrUpdateProjectToDataCite(projectId + "-1.0.0");
 
     // assert that hiding has finished
     this.mockMvc
@@ -177,7 +181,7 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
     UnitTestUserManagementUtils.login("admin", "admin");
 
     // ensure that dara gets updated a second time
-    verify(daraService, times(2)).registerOrUpdateProjectToDara(projectId + "-1.0.0");
+    verify(dataCiteService, times(2)).registerOrUpdateProjectToDataCite(projectId + "-1.0.0");
   }
 
   private String createProject() throws Exception {

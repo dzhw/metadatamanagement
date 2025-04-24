@@ -26,29 +26,7 @@ public class DoiBuilder {
   private static final Pattern VERSION_SUFFIX = Pattern.compile("-[0-9]+\\.[0-9]+\\.[0-9]+$");
 
   private static final String DATACITE_PREFIX_TEST = "10.83079";
-  private static final String DATACITE_PREFIX_PROD = "";
-
-  /**
-   * Create a doi for releases greater than or equal to 1.0.0.
-   *
-   * @param dataAcquisitionProjectId the project which gets the doi
-   * @param release the release
-   * @return a doi (if required)
-   */
-  public String buildDataOrAnalysisPackageDoi(String dataAcquisitionProjectId, Release release) {
-    if (release != null && StringUtils.hasText(dataAcquisitionProjectId)
-       // && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))
-    ) {
-      if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
-        return "10.21249/DZHW:" + stripVersionSuffix(dataAcquisitionProjectId) + ":"
-            + release.getVersion();
-      } else {
-        return "10.17889/DZHW:" + stripVersionSuffix(dataAcquisitionProjectId) + ":"
-            + release.getVersion();
-      }
-    }
-    return null;
-  }
+  private static final String DATACITE_PREFIX_PROD = "10.21249";
 
   /**
    * Create a doi for releases to DataCite.

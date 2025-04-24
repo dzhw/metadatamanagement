@@ -460,10 +460,10 @@ public class DaraService {
       }
     }
 
-    String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+    String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
     dataForTemplate.put("doi", doi);
 
-    String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(),
+    String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(),
         dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), release));
     dataForTemplate.put("previousDoi", previousDoi);
 

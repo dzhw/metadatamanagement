@@ -75,11 +75,11 @@ public class DataAcquisitionProjectManagementService
 
   private final DataAcquisitionProjectVersionsService projectVersionsService;
 
-  private final DaraService daraService;
-
   private final Environment environment;
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+
+  private final DataCiteService dataCiteService;
 
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
@@ -313,7 +313,7 @@ public class DataAcquisitionProjectManagementService
    */
   @EventListener
   public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent)
-      throws IOException, TemplateException {
+    throws DataCiteMetadataException {
     switch (shadowCopyingEndedEvent.getAction()) {
       case CREATE:
         // hint: releases after pre-releases do not count as rereleases at this point
@@ -321,10 +321,9 @@ public class DataAcquisitionProjectManagementService
           // do not send mails for rereleases
           if (shadowCopyingEndedEvent.isReleaseAfterPreRelease()
               && !shadowCopyingEndedEvent.getRelease().getIsPreRelease()) {
-            // in case of a release after a pre-release update info on Dara
-            daraService
-                .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
-                + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
+            // in case of a release after a pre-release update info on DataCite
+            dataCiteService.registerOrUpdateProjectToDataCite(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
+              + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
           }
           return;
         }
@@ -347,9 +346,9 @@ public class DataAcquisitionProjectManagementService
       case UNHIDE:
         if (Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion())
             .greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
-          daraService
-              .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
-                  + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
+          dataCiteService
+              .registerOrUpdateProjectToDataCite(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
+                + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
         }
         break;
       case DELETE:

@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.net.http.HttpClient;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +13,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
@@ -31,20 +31,25 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import freemarker.template.TemplateException;
 import io.micrometer.core.instrument.MeterRegistry;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.AutoTimer;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * A service for registering project metadata at DataCite.
@@ -58,7 +63,8 @@ public class DataCiteService {
   private final String MDM_BASE_URL = "https://metadata.fdz.dzhw.eu/";
   private final String MDM_DATA_PACKAGE_TYPE = "data-packages";
   private final String MDM_ANALYSIS_PACKAGE_TYPE = "analysis-packages";
-  private final String IS_ALIVE_ENDPOINT = "/heartbeat";
+  private static final String IS_ALIVE_ENDPOINT = "/heartbeat";
+  private static final String REGISTRATION_ENDPOINT = "/dois";
 
   @Autowired
   private DataPackageRepository dataPackageRepository;
@@ -85,7 +91,7 @@ public class DataCiteService {
 
 
   /**
-   * Constructor for Dara Services. Set the Rest Template.
+   * Constructor for DataCite Services. Set the Rest Template.
    */
   @Autowired
   public DataCiteService(MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider) {
@@ -120,19 +126,62 @@ public class DataCiteService {
   }
 
   /**
+   * Registers or updates a project with a given doi to DataCite.
+   * @param project The Project.
+   * @return The HttpStatus from DataCite.
+   * @throws TemplateException Exception while collecting metadata.
+   */
+  public HttpStatus registerOrUpdateProjectToDataCite(DataAcquisitionProject project) throws DataCiteMetadataException {
+    JsonNode payload = this.getDataCiteMetadataForProject(project);
+    HttpStatus httpStatusFromDataCite = this.sendToDataCite(payload);
+    return httpStatusFromDataCite;
+  }
+
+  /**
+   * Registers or updates a project by ID with a given doi to DataCite.
+   * @param projectId the id of the project
+   * @return The HttpStatus from DataCite.
+   * @throws DataCiteMetadataException Exception while collecting metadata.
+   */
+  public HttpStatus registerOrUpdateProjectToDataCite(String projectId) throws DataCiteMetadataException {
+    DataAcquisitionProject project = this.projectRepository.findById(projectId).get();
+    return this.registerOrUpdateProjectToDataCite(project);
+  }
+
+  /**
+   * Sends PUT request with generated payload to DataCite to register or update DOIs.
+   * @param payload the payload object
+   * @return the HttpStatus from DataCite
+   */
+  private HttpStatus sendToDataCite(JsonNode payload) {
+    try {
+      log.debug(String.format("Sending metadata for DOI '%s' to DataCite:",
+        payload.get("data").get("attributes").get("doi").asText()));
+      log.debug(payload.toPrettyString());
+      return this.putToDataCite(payload.get("data").get("attributes").get("doi").asText(), payload);
+    } catch (HttpClientErrorException httpClientError) {
+      log.error("HTTP Error during DataCite call", httpClientError);
+      log.error("DataCite Response Body:\n" + httpClientError.getResponseBodyAsString());
+      throw httpClientError;
+    }
+  }
+
+  /**
    * Creates the DataCite metadata object for a project as a JsonNode.
    * The resulting object can be used as the payload for querying the DataCite API.
    * @param project the project dataset
    * @return the metadata as a JsonNode
    */
-  public JsonNode getDataCiteMetadataforProject(DataAcquisitionProject project) {
+  public JsonNode getDataCiteMetadataForProject(DataAcquisitionProject project) throws DataCiteMetadataException {
     Map<String, Object> attrObj = null;
     if (project.getConfiguration().getRequirements().isDataPackagesRequired()) {
       final var dataPackages = this.dataPackageRepository.findByDataAcquisitionProjectId(project.getId());
       if (dataPackages.isEmpty()) {
-        throw new RuntimeException("This project has no data package linked to it");
+        throw new DataCiteMetadataException(
+          String.format("The project with id '%s' has no data package linked to it.", project.getId()));
       } else if (dataPackages.size() > 1) {
-        throw new RuntimeException("This project has more than one data package linked to it");
+        throw new DataCiteMetadataException(
+          String.format("The project with id '%s' has more than one data package linked to it.", project.getId()));
       }
       final DataPackage dataPackage = dataPackages.get(0);
       final List<Survey> surveys = this.surveyRepository.findByDataAcquisitionProjectId(project.getId());
@@ -141,35 +190,45 @@ public class DataCiteService {
       final var analysisPackages = this.analysisPackageRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrue(project.getId()).collect(Collectors.toList());
       if (analysisPackages.isEmpty()) {
-        throw new RuntimeException("This project has no analysis package linked to it");
+        throw new DataCiteMetadataException(
+          String.format("The project with id '%s' has no analysis package linked to it.", project.getId()));
       } else if (analysisPackages.size() > 1) {
-        throw new RuntimeException("This project has more than one analysis package linked to it");
+        throw new DataCiteMetadataException(
+          String.format("The project with id '%s' has more than one analysis package linked to it.", project.getId()));
       }
       final AnalysisPackage analysisPackage = analysisPackages.get(0);
       attrObj = this.createAttrObjectForAnalysisPackage(project, analysisPackage);
     }
 
     if (attrObj == null) {
-      throw new RuntimeException(String.format("Metadata for project with id '%s' could not be created.", project.getId()));
+      throw new DataCiteMetadataException(
+        String.format("Metadata for project with id '%s' could not be created. Aborting DataCite registration.", project.getId()));
     }
 
     return this.createDataCitePayload(attrObj);
   }
 
-
-
   /**
-   * Maps MDM data to the Data Cite Metadata schema for data packages.
+   * Maps MDM data to the DataCite Metadata schema for data packages.
    * @param project the project dataset
    * @param dataPackage the dataPackage dataset
    * @param surveys a list of survey datasets
    * @return a map of key value pairs filled with metadata
    */
-  public Map<String,Object> createAttrObjectForDataPackage(DataAcquisitionProject project, DataPackage dataPackage, List<Survey> surveys) {
+  public Map<String,Object> createAttrObjectForDataPackage(
+    DataAcquisitionProject project,
+    DataPackage dataPackage,
+    List<Survey> surveys) throws DataCiteMetadataException {
+    if (dataPackage.getTitle() == null ||
+      dataPackage.getProjectContributors() == null || dataPackage.getProjectContributors().isEmpty() ||
+      project.getRelease() == null) {
+      throw new DataCiteMetadataException("Error creating DataCite metadata. Project or data package is missing relevant fields.");
+    }
     Map<String,Object> attrObj = new HashMap<>();
     this.addBasicInfo(attrObj, project, dataPackage.getMasterId(), false);
     attrObj.put("titles", this.createTitlesList(dataPackage.getTitle()));
-    attrObj.put("publicationYear", project.getRelease().getFirstDate().getYear());
+    attrObj.put("publicationYear", project.getRelease().getFirstDate() != null ?
+      project.getRelease().getFirstDate().getYear() : LocalDate.now().getYear());
     attrObj.put("types", this.createTypesObject());
     attrObj.put("version", project.getRelease().getVersion());
     attrObj.put("creators", this.createCreatorsList(dataPackage.getProjectContributors(), dataPackage.getInstitutions()));
@@ -196,11 +255,18 @@ public class DataCiteService {
    * @param analysisPackage the analysisPackage dataset
    * @return a map of key value pairs filled with metadata
    */
-  public Map<String, Object> createAttrObjectForAnalysisPackage(DataAcquisitionProject project, AnalysisPackage analysisPackage) {
+  public Map<String, Object> createAttrObjectForAnalysisPackage(
+    DataAcquisitionProject project,
+    AnalysisPackage analysisPackage) throws DataCiteMetadataException {
+    if (analysisPackage.getTitle() == null ||
+      analysisPackage.getAuthors() == null || analysisPackage.getAuthors().isEmpty() ||
+      project.getRelease() == null || project.getRelease().getLastDate() == null) {
+      throw new DataCiteMetadataException("Error creating DataCite metadata. Project or data package is missing relevant fields.");
+    }
     Map<String,Object> attrObj = new HashMap<>();
     this.addBasicInfo(attrObj, project, analysisPackage.getMasterId(), true);
     attrObj.put("titles", this.createTitlesList(analysisPackage.getTitle()));
-    attrObj.put("publicationYear", project.getRelease().getFirstDate().getYear());
+    attrObj.put("publicationYear", project.getRelease().getLastDate().getYear());
     attrObj.put("types", this.createTypesObject());
     attrObj.put("version", project.getRelease().getVersion());
     attrObj.put("creators", this.createCreatorsList(analysisPackage.getAuthors(), analysisPackage.getInstitutions()));
@@ -219,6 +285,67 @@ public class DataCiteService {
     attrObj.put("relatedIdentifiers", this.createRelatedIdentifiersList(project));
     attrObj.put("rightsList", this.createRightsList(project, analysisPackage.getMasterId(), true));
     return attrObj;
+  }
+
+  /**
+   * Calls the DataCite Api to create or update a DOI metadata dataset.
+   * @param doi the DOI of the dataset to be created or updated
+   * @param payload the paload object
+   * @return the HttpStatus
+   * @throws HttpClientErrorException
+   */
+  private HttpStatus putToDataCite(String doi, JsonNode payload) throws HttpClientErrorException {
+    // Load DataCite Information
+    final String dataCiteEndpoint =
+      this.metadataManagementProperties.getDataCite().getEndpoint() + REGISTRATION_ENDPOINT;
+    final String dataCiteUsername = this.metadataManagementProperties.getDataCite().getUsername();
+    final String dataCitePassword = this.metadataManagementProperties.getDataCite().getPassword();
+
+    // Build Header
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Content-Type", "application/json;charset=UTF-8");
+    headers.add("Accept", "application/vnd.api+json"); // from api doc
+    String auth = dataCiteUsername + ":" + dataCitePassword;
+    byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName(Charsets.UTF_8.name())));
+    headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
+
+    UriComponentsBuilder builder =
+      UriComponentsBuilder.fromUriString(dataCiteEndpoint);
+    builder.pathSegment("{doi}");
+    HttpEntity<String> request = new HttpEntity(payload, headers);
+    try {
+      this.restTemplate.put(builder.build(doi), request);
+      return HttpStatus.OK;
+    } catch (HttpClientErrorException httpClientError) {
+      throw httpClientError;
+    }
+  }
+
+  private ResponseEntity<JsonNode> getDoiFromDataCite(String doi) throws HttpClientErrorException {
+    // Load DataCite Information
+    final String dataCiteEndpoint =
+      this.metadataManagementProperties.getDataCite().getEndpoint() + REGISTRATION_ENDPOINT;
+    final String dataCiteUsername = this.metadataManagementProperties.getDataCite().getUsername();
+    final String dataCitePassword = this.metadataManagementProperties.getDataCite().getPassword();
+
+    // Build Header
+    HttpHeaders headers = new HttpHeaders();
+//    headers.add("Content-Type", "application/json;charset=UTF-8");
+//    headers.add("Accept", "application/vnd.api+json"); // from api doc
+    String auth = dataCiteUsername + ":" + dataCitePassword;
+    byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName(Charsets.UTF_8.name())));
+    headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
+
+    UriComponentsBuilder builder =
+      UriComponentsBuilder.fromUriString(dataCiteEndpoint);
+    builder.pathSegment("{doi}");
+    HttpEntity<String> request = new HttpEntity(headers);
+    try {
+      return this.restTemplate.getForEntity(builder.build(doi), JsonNode.class);
+      //return HttpStatus.OK;
+    } catch (HttpClientErrorException httpClientError) {
+      throw httpClientError;
+    }
   }
 
   /**
@@ -311,16 +438,58 @@ public class DataCiteService {
     // check if project has a previous version and add "isNewVersionOf" attribute if so
     Release previousRelease = dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), project.getRelease());
     if (previousRelease != null) {
-      System.out.println("HELLO " + project.getMasterId() +" - " + previousRelease);
-
       String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), previousRelease);
-      relatedIdentifier.put("relatedIdentifier", previousDoi); // add DOI of previous version
-      relatedIdentifier.put("relatedIdentifierType", "DOI");
-      relatedIdentifier.put("relationType", "IsNewVersionOf");
-      relatedIdentifiersList.add(relatedIdentifier);
-    }
+      ResponseEntity<JsonNode> previousDoiMetadata = this.getDoiFromDataCite(previousDoi);
+      if (previousDoiMetadata.getStatusCode().is2xxSuccessful()) {
+        relatedIdentifier.put("relatedIdentifier", previousDoi);
+        relatedIdentifier.put("relatedIdentifierType", "DOI");
+        relatedIdentifier.put("relationType", "IsNewVersionOf");
+        relatedIdentifiersList.add(relatedIdentifier);
 
-    // todo: update previous version with relation in a separate process
+        List<Map<String, String>> previousRelatedIdentifiersList = new ArrayList<>();
+        Map<String,String> previousRelatedIdentifier = new HashMap<>();
+        previousRelatedIdentifier.put("relatedIdentifier",
+          doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), project.getRelease()));
+        previousRelatedIdentifier.put("relatedIdentifierType", "DOI");
+        previousRelatedIdentifier.put("relationType", "IsPreviousVersionOf");
+        previousRelatedIdentifiersList.add(previousRelatedIdentifier);
+
+        // if the previous release has a version before itself we need to re-add the
+        // 'isNewVersionOf' identifier to prevent it from being remove during the update
+        Release secondPreviousRelease = dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), previousRelease);
+        if (secondPreviousRelease != null) {
+          String secondPreviousDoi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), secondPreviousRelease);
+          ResponseEntity<JsonNode> secondPreviousDoiMetadata = this.getDoiFromDataCite(secondPreviousDoi);
+          if (secondPreviousDoiMetadata.getStatusCode().is2xxSuccessful()) {
+            Map<String,String> previousIsNewVersionIdentifier = new HashMap<>();
+            previousIsNewVersionIdentifier.put("relatedIdentifier", secondPreviousDoi);
+            previousIsNewVersionIdentifier.put("relatedIdentifierType", "DOI");
+            previousIsNewVersionIdentifier.put("relationType", "IsNewVersionOf");
+            previousRelatedIdentifiersList.add(previousIsNewVersionIdentifier);
+          }
+        }
+
+        Map<String, Object> updateRelatedIdentifierObj = new HashMap<>();
+        updateRelatedIdentifierObj.put("relatedIdentifiers", previousRelatedIdentifiersList);
+        Map<String, Object> previousDataObj = new HashMap<>();
+        previousDataObj.put("attributes", updateRelatedIdentifierObj);
+        previousDataObj.put("type", "dois");
+        Map<String, Object> previousPayload = new HashMap<>();
+        previousPayload.put("data", previousDataObj);
+        JsonNode updatePayload = mapper.valueToTree(previousPayload);
+
+        try {
+          log.debug(String.format("Updating related identifiers of previous version's DOI '%s':", previousDoi));
+          log.debug(updatePayload.toPrettyString());
+          this.putToDataCite(previousDoi, updatePayload);
+          log.debug(String.format("Successfully updated related identifiers of previous version's DOI '%s'", previousDoi));
+        } catch (HttpClientErrorException httpClientError) {
+          log.error("HTTP Error during DataCite call to update DOI metadata of previous version", httpClientError);
+          log.error("DataCite Response Body:\n" + httpClientError.getResponseBodyAsString());
+          throw httpClientError;
+        }
+      }
+    }
 
     return relatedIdentifiersList;
   }
@@ -334,10 +503,6 @@ public class DataCiteService {
     List<Map<String, String>> geoLocationsList = new ArrayList<>();
     for (Survey survey : surveys) {
       for (GeographicCoverage geoCov : survey.getPopulation().getGeographicCoverages()) {
-        Locale localeDe = new Locale("de", geoCov.getCountry());
-        Map<String, String> geoLocationObjDe = new HashMap<>();
-        geoLocationObjDe.put("geoLocationPlace", localeDe.getDisplayCountry(localeDe));
-        geoLocationsList.add(geoLocationObjDe);
         Locale localeEn = new Locale("en", geoCov.getCountry());
         Map<String, String> geoLocationObjEn = new HashMap<>();
         geoLocationObjEn.put("geoLocationPlace", localeEn.getDisplayCountry(localeEn));
@@ -352,7 +517,7 @@ public class DataCiteService {
    * Release related dates may appear in the following options:
    *      - regular released project: release date is added with dateType 'available'
    *      - pre-released project: embargo date is added with dateType 'available' and information on the date,
-   *        additionally the release date is added with dateType 'accepted'
+   *        additionally the first release date is added with dateType 'accepted'
    *      - hidden project: the current date is added with dateType 'withdrawn' and information on the
    *        hidden status of the project
    * @param project the project dataset
@@ -365,13 +530,13 @@ public class DataCiteService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     if (project.isHidden()) {
       Map<String, String> dateObj = new HashMap<>();
-      dateObj.put("date", LocalDate.now().format(formatter)); //todo: check if this is correct
+      dateObj.put("date", LocalDate.now().format(formatter));
       dateObj.put("dateType", "Withdrawn");
-      dateObj.put("dateInformation", "The dataset has been hidden from public access.");
+      dateObj.put("dateInformation", "The publication of the project was withdrawn.");
       datesList.add(dateObj);
     } else {
       if (project.getRelease().getIsPreRelease() && project.getEmbargoDate() != null) {
-        // Pre-Release (accepted = firstDate, available = Embargo)
+        // Pre-Release (accepted = firstDate or current date, available = Embargo)
         Map<String, String> dateObjEmbargo = new HashMap<>();
         dateObjEmbargo.put("date", project.getEmbargoDate().toString());
         dateObjEmbargo.put("dateType", "Available");
@@ -383,13 +548,14 @@ public class DataCiteService {
         datesList.add(dateObjEmbargo);
 
         Map<String, String> dateObjFirst = new HashMap<>();
-        dateObjFirst.put("date", project.getRelease().getFirstDate().format(formatter));
+        dateObjFirst.put("date", project.getRelease().getFirstDate() != null ?
+          project.getRelease().getFirstDate().format(formatter) : LocalDate.now().format(formatter));
         dateObjFirst.put("dateType", "Accepted");
         datesList.add(dateObjFirst);
       } else {
         // Normal Release (available = Release)
         Map<String, String> dateObj = new HashMap<>();
-        dateObj.put("date", project.getRelease().getFirstDate().format(formatter));
+        dateObj.put("date", project.getRelease().getLastDate().format(formatter));
         dateObj.put("dateType", "Available");
         datesList.add(dateObj);
       }
@@ -562,7 +728,15 @@ public class DataCiteService {
     contributor.put("name", "FDZ-DZHW");
     contributor.put("nameType", "Organizational");
     contributor.put("contributorType", "Distributor");
-    contributor.put("nameIdentifiers", new ArrayList<>());
+
+    List<Map<String, String>> nameIdentifiers = new ArrayList<>();
+    Map<String, String> identifierObj = new HashMap<>();
+    identifierObj.put("schemeUri", "https://ror.org/");
+    identifierObj.put("nameIdentifier", "https://ror.org/01n8j6z65");
+    identifierObj.put("nameIdentifierScheme", "ROR");
+    nameIdentifiers.add(identifierObj);
+    contributor.put("nameIdentifiers", nameIdentifiers);
+
     contributorList.add(contributor);
 
     for (Person person : contributors) {
