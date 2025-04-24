@@ -35,7 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueIt
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
@@ -65,9 +64,6 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
 
   @Autowired
   private JaversService javersService;
-
-//  @MockBean
-//  private DaraService daraService;
 
   @MockBean
   private DataCiteService dataCiteService;

@@ -56,7 +56,6 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 @Service
 @Slf4j
-//@AllArgsConstructor
 public class DataCiteService {
 
   private ObjectMapper mapper = new ObjectMapper();
