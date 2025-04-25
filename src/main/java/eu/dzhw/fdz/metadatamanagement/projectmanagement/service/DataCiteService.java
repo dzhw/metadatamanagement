@@ -265,7 +265,8 @@ public class DataCiteService {
     Map<String,Object> attrObj = new HashMap<>();
     this.addBasicInfo(attrObj, project, analysisPackage.getMasterId(), true);
     attrObj.put("titles", this.createTitlesList(analysisPackage.getTitle()));
-    attrObj.put("publicationYear", project.getRelease().getLastDate().getYear());
+    attrObj.put("publicationYear", project.getRelease().getFirstDate() != null ?
+      project.getRelease().getFirstDate().getYear() : LocalDate.now().getYear());
     attrObj.put("types", this.createTypesObject());
     attrObj.put("version", project.getRelease().getVersion());
     attrObj.put("creators", this.createCreatorsList(analysisPackage.getAuthors(), analysisPackage.getInstitutions()));
