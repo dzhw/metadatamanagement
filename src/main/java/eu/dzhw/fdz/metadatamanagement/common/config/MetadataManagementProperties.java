@@ -106,7 +106,7 @@ public class MetadataManagementProperties {
   }
 
   /**
-   * Configuration Properties for DataCite.
+   * Configuration Properties for DataCite DOI registration.
    */
   @Getter
   @Setter

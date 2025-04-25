@@ -73,6 +73,10 @@ metadatamanagement:
     endpoint: ${DARA_PID_ENDPOINT}
     username: ${DARA_PID_USERNAME}
     password: ${DARA_PID_PASSWORD}
+  datacite:
+    endpoint: ${DATACITE_ENDPOINT}
+    username: ${DATACITE_USERNAME}
+    password: ${DATACITE_PASSWORD}
   websockets:
     allowed-origins:
       - "localhost"
