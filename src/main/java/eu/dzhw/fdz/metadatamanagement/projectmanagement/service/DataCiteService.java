@@ -259,8 +259,8 @@ public class DataCiteService {
     AnalysisPackage analysisPackage) throws DataCiteMetadataException {
     if (analysisPackage.getTitle() == null ||
       analysisPackage.getAuthors() == null || analysisPackage.getAuthors().isEmpty() ||
-      project.getRelease() == null || project.getRelease().getLastDate() == null) {
-      throw new DataCiteMetadataException("Error creating DataCite metadata. Project or data package is missing relevant fields.");
+      project.getRelease() == null) {
+      throw new DataCiteMetadataException("Error creating DataCite metadata. Project or analysis package is missing relevant fields.");
     }
     Map<String,Object> attrObj = new HashMap<>();
     this.addBasicInfo(attrObj, project, analysisPackage.getMasterId(), true);
@@ -324,24 +324,11 @@ public class DataCiteService {
     // Load DataCite Information
     final String dataCiteEndpoint =
       this.metadataManagementProperties.getDataCite().getEndpoint() + REGISTRATION_ENDPOINT;
-    final String dataCiteUsername = this.metadataManagementProperties.getDataCite().getUsername();
-    final String dataCitePassword = this.metadataManagementProperties.getDataCite().getPassword();
-
-    // Build Header
-    HttpHeaders headers = new HttpHeaders();
-//    headers.add("Content-Type", "application/json;charset=UTF-8");
-//    headers.add("Accept", "application/vnd.api+json"); // from api doc
-    String auth = dataCiteUsername + ":" + dataCitePassword;
-    byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName(Charsets.UTF_8.name())));
-    headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
-
     UriComponentsBuilder builder =
       UriComponentsBuilder.fromUriString(dataCiteEndpoint);
     builder.pathSegment("{doi}");
-    HttpEntity<String> request = new HttpEntity(headers);
     try {
       return this.restTemplate.getForEntity(builder.build(doi), JsonNode.class);
-      //return HttpStatus.OK;
     } catch (HttpClientErrorException httpClientError) {
       throw httpClientError;
     }
@@ -554,7 +541,8 @@ public class DataCiteService {
       } else {
         // Normal Release (available = Release)
         Map<String, String> dateObj = new HashMap<>();
-        dateObj.put("date", project.getRelease().getLastDate().format(formatter));
+        dateObj.put("date", project.getRelease().getFirstDate() != null ?
+          project.getRelease().getFirstDate().format(formatter) : LocalDate.now().format(formatter));
         dateObj.put("dateType", "Available");
         datesList.add(dateObj);
       }
@@ -617,18 +605,19 @@ public class DataCiteService {
         " " + person.getMiddleName() : ""));
       creatorObject.put("familyName", person.getLastName());
       creatorObject.put("nameIdentifiers", this.createCreatorNameIdentifierList(person));
-      creatorObject.put("affiliation", institutions.size() == 1 ? this.createCreatorAffiliationList(institutions) : new ArrayList<>());
+      creatorObject.put("affiliation", institutions != null && institutions.size() == 1 ? this.createCreatorAffiliationList(institutions) : new ArrayList<>());
       creatorsList.add(creatorObject);
     }
-    for (I18nString institution : institutions) {
-      Map<String, Object> creatorObject = new HashMap<>();
-      creatorObject.put("name", institution.getEn() != null ? institution.getEn() : institution.getDe());
-      creatorObject.put("nameType", "Organizational");
-      creatorObject.put("nameIdentifiers", new ArrayList<>());
-      creatorObject.put("affiliation", new ArrayList<>());
-      creatorsList.add(creatorObject);
+    if (institutions != null) {
+      for (I18nString institution : institutions) {
+        Map<String, Object> creatorObject = new HashMap<>();
+        creatorObject.put("name", institution.getEn() != null ? institution.getEn() : institution.getDe());
+        creatorObject.put("nameType", "Organizational");
+        creatorObject.put("nameIdentifiers", new ArrayList<>());
+        creatorObject.put("affiliation", new ArrayList<>());
+        creatorsList.add(creatorObject);
+      }
     }
-
     return creatorsList;
   }
 
@@ -657,16 +646,18 @@ public class DataCiteService {
    */
   private List<Map<String, String>>  createCreatorAffiliationList(List<I18nString> institutions) {
     List<Map<String, String>> affiliationList = new ArrayList<>();
-    for (I18nString institution : institutions) {
-      if (institution.getEn() != null) {
-        Map<String, String> affiliationObj = new HashMap<>();
-        affiliationObj.put("name", institution.getEn());
-        affiliationList.add(affiliationObj);
-      }
-      if (institution.getDe() != null) {
-        Map<String, String> affiliationObj = new HashMap<>();
-        affiliationObj.put("name", institution.getDe());
-        affiliationList.add(affiliationObj);
+    if (institutions != null) {
+      for (I18nString institution : institutions) {
+        if (institution.getEn() != null) {
+          Map<String, String> affiliationObj = new HashMap<>();
+          affiliationObj.put("name", institution.getEn());
+          affiliationList.add(affiliationObj);
+        }
+        if (institution.getDe() != null) {
+          Map<String, String> affiliationObj = new HashMap<>();
+          affiliationObj.put("name", institution.getDe());
+          affiliationList.add(affiliationObj);
+        }
       }
     }
     // todo: include identifiers when they are available in MDM
