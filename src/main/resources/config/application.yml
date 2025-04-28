@@ -129,7 +129,7 @@ metadatamanagement:
   projectmanagement:
     email: daniel@dzhw.eu
   dara-pid:
-    enabled: true
+    enabled: true # needs to exist in all config profiles for the MDM Maven plugin to work correctly
     statusPollIntervalInSeconds: 60
     abortAfterMinutesElapsed: 120
   dlp:
