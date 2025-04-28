@@ -23,7 +23,7 @@
 				</div>
 			</md-card>
 			<registration-status-card
-				ng-if="!!ctrl.project.release && ctrl.hasAdminRole()"
+				ng-if="pidRegistrationEnabled && !!ctrl.project.release && ctrl.hasAdminRole()"
 				project="ctrl.project"
 				status="variablesCheck"
 				></registration-status-card>

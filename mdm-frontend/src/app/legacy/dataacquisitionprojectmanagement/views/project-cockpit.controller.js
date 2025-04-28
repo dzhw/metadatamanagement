@@ -16,10 +16,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController', [
   'ProjectSaveService',
   'DaraReleaseResource',
   'blockUI',
+  '$q',
+  'DaraPidConfig',
   function($scope, $state, $location, $transitions, Principal,
            PageMetadataService, LanguageService, BreadcrumbService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           ProjectSaveService, DaraReleaseResource, blockUI) {
+           ProjectSaveService, DaraReleaseResource, blockUI, $q, DaraPidConfig) {
     blockUI.start();
     var unregisterTransitionHook;
     var pageTitleKey = 'data-acquisition-project-management.project' +
@@ -96,6 +98,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController', [
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
     $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);
     $scope.isAssignedToProject = false;
+    $scope.pidRegistrationEnabled = DaraPidConfig.enabled;
 
     projectDeferred.promise.then(
       function(project) {
@@ -108,7 +111,16 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController', [
 
         registerConfirmOnDirtyHook();
 
-        return DaraReleaseResource.variablesCheck(project).$promise;
+        if ($scope.pidRegistrationEnabled) {
+          console.debug("PID registration enabled");
+          return DaraReleaseResource.variablesCheck(project).$promise;
+        } else {
+          console.debug("PID registration disabled");
+          /* instantly resolve if PID registraion is disabled */
+          const deferred = $q.defer();
+          deferred.resolve({});
+          return deferred.promise;
+        }
       }).then(result => {
         $scope.variablesCheck = {
           hasVariables: result.hasVariables,

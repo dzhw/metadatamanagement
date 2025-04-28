@@ -70,6 +70,7 @@ metadatamanagement:
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
   dara-pid:
+    enabled: true
     endpoint: ${DARA_PID_ENDPOINT}
     username: ${DARA_PID_USERNAME}
     password: ${DARA_PID_PASSWORD}
