@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp')
         'project-cockpit-status.html.tmpl',
       scope: {
         project: '=',
+        pidRegistrationEnabled: '<',
         variablesCheck: '<'
       },
       replace: true,

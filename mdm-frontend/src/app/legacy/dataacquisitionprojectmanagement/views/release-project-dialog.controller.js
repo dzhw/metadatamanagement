@@ -26,21 +26,24 @@ angular.module('metadatamanagementApp')
   'DataPackageSearchService',
   'AnalysisPackageSearchService',
   'DoiService',
-  'ENV', function($scope, $mdDialog, blockUI, MonitoringService,
+  'ENV',
+  'DaraPidConfig',
+  function($scope, $mdDialog, blockUI, MonitoringService,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
     DataAcquisitionProjectLastReleaseResource, $state, $translate,
     DataAcquisitionProjectPostValidationService, PinnedDataPackagesService,
     DataPackageIdBuilderService, AnalysisPackageIdBuilderService,
     DataAcquisitionProjectTweetResource,
-    DataPackageSearchService, AnalysisPackageSearchService, DoiService, ENV
+    DataPackageSearchService, AnalysisPackageSearchService, DoiService, ENV,
+    DaraPidConfig
   ) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     $scope.ENV = ENV;
 
-    $scope.showPIDRegistrationOption = false;
-    if (ENV !== 'prod') {
+    $scope.showPIDRegistrationOption = DaraPidConfig.enabled;
+    if (DaraPidConfig.enabled) {
       blockUI.start();
       Promise.all([
         MonitoringService.checkDaraPidHealth(),
@@ -51,7 +54,7 @@ angular.module('metadatamanagementApp')
             hasVariables: result.hasVariables,
             hasRegistrations: result.hasRegistrations
           };
-          $scope.showPIDRegistrationOption = ENV !== 'prod' && result.hasVariables;
+          $scope.showPIDRegistrationOption = result.hasVariables;
         }
       }).finally(() => blockUI.stop());
     }

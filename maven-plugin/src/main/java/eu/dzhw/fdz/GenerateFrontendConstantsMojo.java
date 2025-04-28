@@ -37,6 +37,10 @@ public class GenerateFrontendConstantsMojo extends AbstractMojo {
         public Integer pageSize;
     }
 
+    static class DaraPidNode {
+        public boolean enabled;
+    }
+
     /**
      * A data class to map the Metadatamanagement-App part
      * of the profile specific application.yml file.
@@ -44,6 +48,8 @@ public class GenerateFrontendConstantsMojo extends AbstractMojo {
     static class MDMConfigNode {
         @JsonProperty("elasticsearch-angular-client")
         public ClientConfigNode client;
+        @JsonProperty("dara-pid")
+        public DaraPidNode daraPid;
     }
 
     /**
@@ -66,6 +72,9 @@ public class GenerateFrontendConstantsMojo extends AbstractMojo {
             apiVersion: '%%ES_API_VERSION%%',
             logLevel: '%%ES_LOG_LEVEL%%',
             pageSize: %%ES_PAGE_SIZE%%
+          })
+          .constant('DaraPidConfig', {
+            enabled: %%DARA_PID_ENABLED%%
           });
         """;
 
@@ -112,7 +121,8 @@ public class GenerateFrontendConstantsMojo extends AbstractMojo {
             .replace("%%VERSION%%", this.version)
             .replace("%%ES_API_VERSION%%", appConfig.metadatamanagement.client.apiVersion)
             .replace("%%ES_LOG_LEVEL%%", appConfig.metadatamanagement.client.logLevel)
-            .replace("%%ES_PAGE_SIZE%%", appConfig.metadatamanagement.client.pageSize.toString());
+            .replace("%%ES_PAGE_SIZE%%", appConfig.metadatamanagement.client.pageSize.toString())
+            .replace("%%DARA_PID_ENABLED%%", appConfig.metadatamanagement.daraPid.enabled ? "true" : "false");
         try {
             Files.writeString(new File(this.output).toPath(), content);
             super.getLog().info(String.format("✔ %s", this.output));
