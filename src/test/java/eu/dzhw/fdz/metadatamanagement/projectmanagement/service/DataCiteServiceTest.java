@@ -10,6 +10,7 @@ import java.util.Map;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
@@ -49,6 +50,8 @@ class DataCiteServiceTest extends AbstractTest {
 
   private DoiBuilder doiBuilder;
 
+  private MarkdownHelper markdownHelper;
+
   @BeforeEach
   public void setup() {
     testProject = this.generateTestProject();
@@ -58,6 +61,7 @@ class DataCiteServiceTest extends AbstractTest {
     dataAcquisitionProjectRepository = mock(DataAcquisitionProjectRepository.class);
     dataAcquisitionProjectVersionsService = mock(DataAcquisitionProjectVersionsService.class);
     doiBuilder = mock(DoiBuilder.class);
+    markdownHelper = mock(MarkdownHelper.class);
     List<DataPackage> list = new ArrayList<>();
     list.add(UnitTestCreateDomainObjectUtils.buildDataPackage(testProject.getId()));
     when(dataPackageRepository.findByDataAcquisitionProjectId(testProject.getId()))
