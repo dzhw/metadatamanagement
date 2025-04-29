@@ -35,8 +35,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * This queue collects automatic dara updates in a queue and handles.
- * 
+ * This queue collects automatic DOI updates in a queue and handles.
+ *
  * @author Daniel Katzberg
  *
  */
@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RepositoryEventHandler
 @RequiredArgsConstructor
-public class DaraUpdateQueueService {
+public class DoiUpdateQueueService {
   // id used to synchronize multiple jvm instances
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
@@ -62,11 +62,11 @@ public class DaraUpdateQueueService {
 
   private final MailService mailService;
 
-  private final DaraService daraService;
+  private final DataCiteService dataCiteService;
 
   /**
-   * Update dataPackage metadata at dara if necessary.
-   * 
+   * Update dataPackage metadata at DataCite if necessary.
+   *
    * @param relatedPublication the changed publication
    */
   @HandleAfterCreate
@@ -93,7 +93,7 @@ public class DaraUpdateQueueService {
 
   /**
    * Attach one item to the queue.
-   * 
+   *
    * @param projectId The id of the data acquisition project to be updated.
    */
   private void enqueue(String projectId) {
@@ -113,7 +113,7 @@ public class DaraUpdateQueueService {
    */
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
-    log.debug("Starting processing of DaraUpdateQueue...");
+    log.debug("Starting processing of DoiUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
 
     queueItemRepository.lockAllUnlockedOrExpiredItems(updateStart, jvmId);
@@ -127,7 +127,7 @@ public class DaraUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
     }
-    log.debug("Finished processing of DaraUpdateQueue...");
+    log.debug("Finished processing of DoiUpdateQueue...");
   }
 
   /**
@@ -178,22 +178,22 @@ public class DaraUpdateQueueService {
 
   /**
    * Execute locked items from the MongoDB Queue Repository.
-   * 
+   *
    * @param lockedItems A list of locked queues items.
    */
   private void executeQueueItems(List<DaraUpdateQueueItem> lockedItems) {
     for (DaraUpdateQueueItem lockedItem : lockedItems) {
       try {
-        HttpStatus responseStatus =
-            this.daraService.registerOrUpdateProjectToDara(lockedItem.getProjectId());
-        if (!responseStatus.is2xxSuccessful()) {
-          handleDaraCommunicationError(lockedItem);
+        HttpStatus dataCiteResponseStatus =
+            this.dataCiteService.registerOrUpdateProjectToDataCite(lockedItem.getProjectId());
+        if (!dataCiteResponseStatus.is2xxSuccessful()) {
+          handleDataCiteCommunicationError(lockedItem);
           continue;
         }
       } catch (Exception e) {
-        log.error("Error at registration to Dara: " + e.getMessage());
+        log.error("Error at registration to DataCite: " + e.getMessage());
         // do not delete the queue item (has to be retried later)
-        handleDaraCommunicationError(lockedItem);
+        handleDataCiteCommunicationError(lockedItem);
         continue;
       }
     }
@@ -202,10 +202,10 @@ public class DaraUpdateQueueService {
     queueItemRepository.deleteAll(lockedItems);
   }
 
-  private void handleDaraCommunicationError(DaraUpdateQueueItem lockedItem) {
+  private void handleDataCiteCommunicationError(DaraUpdateQueueItem lockedItem) {
     List<User> admins =
         userRepository.findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.ADMIN));
-    mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
+    mailService.sendMailOnDataCiteAutomaticUpdateError(admins, lockedItem.getProjectId());
     this.unlock(lockedItem);
   }
 

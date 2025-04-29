@@ -170,7 +170,7 @@ public class DaraPidRegistrationService {
                                               DataPackage dataPackage,
                                               Variable variable)
   {
-    final var doi = this.doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), project.getRelease());
+    final var doi = this.doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), project.getRelease());
     final var varLabel = variable.getLabel().getEn() == null || variable.getLabel().getEn().isEmpty()
       ? variable.getLabel().getDe()
       : variable.getLabel().getEn();

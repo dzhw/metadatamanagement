@@ -31,6 +31,8 @@ public class MetadataManagementProperties {
 
   private final DaraPid daraPid = new DaraPid();
 
+  private final DataCite dataCite = new DataCite();
+
   private final Dlp dlp = new Dlp();
 
   private final Rabbitmq rabbitmq = new Rabbitmq();
@@ -98,6 +100,17 @@ public class MetadataManagementProperties {
     private boolean enabled;
     private long statusPollIntervalInSeconds;
     private long abortAfterMinutesElapsed;
+    private String endpoint;
+    private String username;
+    private String password;
+  }
+
+  /**
+   * Configuration Properties for DataCite DOI registration.
+   */
+  @Getter
+  @Setter
+  public static class DataCite {
     private String endpoint;
     private String username;
     private String password;
