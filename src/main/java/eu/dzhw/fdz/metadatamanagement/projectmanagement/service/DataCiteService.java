@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Elsst;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
+import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -85,6 +86,9 @@ public class DataCiteService {
 
   @Autowired
   private MetadataManagementProperties metadataManagementProperties;
+
+  @Autowired
+  private MarkdownHelper markdownHelper;
 
   private RestTemplate restTemplate;
 
@@ -676,14 +680,14 @@ public class DataCiteService {
     // add descriptions of type "abstract"
     if (description != null && description.getEn() != null) {
       Map<String,String> descriptionObj = new HashMap<>();
-      descriptionObj.put("description", description.getEn());
+      descriptionObj.put("description", markdownHelper.getPlainText(description.getEn()));
       descriptionObj.put("lang", "en");
       descriptionObj.put("descriptionType", "Abstract");
       descriptionList.add(descriptionObj);
     }
     if (description != null && description.getDe() != null) {
       Map<String,String> descriptionObj = new HashMap<>();
-      descriptionObj.put("description", description.getDe());
+      descriptionObj.put("description", markdownHelper.getPlainText(description.getDe()));
       descriptionObj.put("lang", "de");
       descriptionObj.put("descriptionType", "Abstract");
       descriptionList.add(descriptionObj);
@@ -692,13 +696,15 @@ public class DataCiteService {
     // add survey population description of type "methods"
     for (Survey survey : surveys) {
       Map<String,String> descriptionObjEn = new HashMap<>();
-      descriptionObjEn.put("description", survey.getPopulation().getDescription().getEn());
+      descriptionObjEn.put("description", markdownHelper.getPlainText(
+        survey.getPopulation().getDescription().getEn()));
       descriptionObjEn.put("lang", "en");
       descriptionObjEn.put("descriptionType", "Methods");
       descriptionList.add(descriptionObjEn);
 
       Map<String,String> descriptionObjDe = new HashMap<>();
-      descriptionObjDe.put("description", survey.getPopulation().getDescription().getDe());
+      descriptionObjDe.put("description", markdownHelper.getPlainText(
+        survey.getPopulation().getDescription().getDe()));
       descriptionObjDe.put("lang", "de");
       descriptionObjDe.put("descriptionType", "Methods");
       descriptionList.add(descriptionObjDe);
