@@ -430,55 +430,63 @@ public class DataCiteService {
     Release previousRelease = dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), project.getRelease());
     if (previousRelease != null) {
       String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), previousRelease);
-      ResponseEntity<JsonNode> previousDoiMetadata = this.getDoiFromDataCite(previousDoi);
-      if (previousDoiMetadata.getStatusCode().is2xxSuccessful()) {
-        relatedIdentifier.put("relatedIdentifier", previousDoi);
-        relatedIdentifier.put("relatedIdentifierType", "DOI");
-        relatedIdentifier.put("relationType", "IsNewVersionOf");
-        relatedIdentifiersList.add(relatedIdentifier);
+      try {
+        ResponseEntity<JsonNode> previousDoiMetadata = this.getDoiFromDataCite(previousDoi);
+        if (previousDoiMetadata.getStatusCode().is2xxSuccessful()) {
+          relatedIdentifier.put("relatedIdentifier", previousDoi);
+          relatedIdentifier.put("relatedIdentifierType", "DOI");
+          relatedIdentifier.put("relationType", "IsNewVersionOf");
+          relatedIdentifiersList.add(relatedIdentifier);
 
-        List<Map<String, String>> previousRelatedIdentifiersList = new ArrayList<>();
-        Map<String,String> previousRelatedIdentifier = new HashMap<>();
-        previousRelatedIdentifier.put("relatedIdentifier",
-          doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), project.getRelease()));
-        previousRelatedIdentifier.put("relatedIdentifierType", "DOI");
-        previousRelatedIdentifier.put("relationType", "IsPreviousVersionOf");
-        previousRelatedIdentifiersList.add(previousRelatedIdentifier);
+          List<Map<String, String>> previousRelatedIdentifiersList = new ArrayList<>();
+          Map<String,String> previousRelatedIdentifier = new HashMap<>();
+          previousRelatedIdentifier.put("relatedIdentifier",
+            doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), project.getRelease()));
+          previousRelatedIdentifier.put("relatedIdentifierType", "DOI");
+          previousRelatedIdentifier.put("relationType", "IsPreviousVersionOf");
+          previousRelatedIdentifiersList.add(previousRelatedIdentifier);
 
-        // if the previous release has a version before itself we need to re-add the
-        // 'isNewVersionOf' identifier to prevent it from being remove during the update
-        Release secondPreviousRelease = dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), previousRelease);
-        if (secondPreviousRelease != null) {
-          String secondPreviousDoi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), secondPreviousRelease);
-          ResponseEntity<JsonNode> secondPreviousDoiMetadata = this.getDoiFromDataCite(secondPreviousDoi);
-          if (secondPreviousDoiMetadata.getStatusCode().is2xxSuccessful()) {
-            Map<String,String> previousIsNewVersionIdentifier = new HashMap<>();
-            previousIsNewVersionIdentifier.put("relatedIdentifier", secondPreviousDoi);
-            previousIsNewVersionIdentifier.put("relatedIdentifierType", "DOI");
-            previousIsNewVersionIdentifier.put("relationType", "IsNewVersionOf");
-            previousRelatedIdentifiersList.add(previousIsNewVersionIdentifier);
+          // if the previous release has a version before itself we need to re-add the
+          // 'isNewVersionOf' identifier to prevent it from being remove during the update
+          Release secondPreviousRelease = dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), previousRelease);
+          if (secondPreviousRelease != null) {
+            String secondPreviousDoi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), secondPreviousRelease);
+            try {
+              ResponseEntity<JsonNode> secondPreviousDoiMetadata = this.getDoiFromDataCite(secondPreviousDoi);
+              if (secondPreviousDoiMetadata.getStatusCode().is2xxSuccessful()) {
+                Map<String,String> previousIsNewVersionIdentifier = new HashMap<>();
+                previousIsNewVersionIdentifier.put("relatedIdentifier", secondPreviousDoi);
+                previousIsNewVersionIdentifier.put("relatedIdentifierType", "DOI");
+                previousIsNewVersionIdentifier.put("relationType", "IsNewVersionOf");
+                previousRelatedIdentifiersList.add(previousIsNewVersionIdentifier);
+              }
+            } catch (HttpClientErrorException e) {
+              log.info("Could not find second previous version.");
+            }
+          }
+
+          Map<String, Object> updateRelatedIdentifierObj = new HashMap<>();
+          updateRelatedIdentifierObj.put("relatedIdentifiers", previousRelatedIdentifiersList);
+          Map<String, Object> previousDataObj = new HashMap<>();
+          previousDataObj.put("attributes", updateRelatedIdentifierObj);
+          previousDataObj.put("type", "dois");
+          Map<String, Object> previousPayload = new HashMap<>();
+          previousPayload.put("data", previousDataObj);
+          JsonNode updatePayload = mapper.valueToTree(previousPayload);
+
+          try {
+            log.debug(String.format("Updating related identifiers of previous version's DOI '%s':", previousDoi));
+            log.debug(updatePayload.toPrettyString());
+            this.putToDataCite(previousDoi, updatePayload);
+            log.debug(String.format("Successfully updated related identifiers of previous version's DOI '%s'", previousDoi));
+          } catch (HttpClientErrorException httpClientError) {
+            log.error("HTTP Error during DataCite call to update DOI metadata of previous version", httpClientError);
+            log.error("DataCite Response Body:\n" + httpClientError.getResponseBodyAsString());
+            throw httpClientError;
           }
         }
-
-        Map<String, Object> updateRelatedIdentifierObj = new HashMap<>();
-        updateRelatedIdentifierObj.put("relatedIdentifiers", previousRelatedIdentifiersList);
-        Map<String, Object> previousDataObj = new HashMap<>();
-        previousDataObj.put("attributes", updateRelatedIdentifierObj);
-        previousDataObj.put("type", "dois");
-        Map<String, Object> previousPayload = new HashMap<>();
-        previousPayload.put("data", previousDataObj);
-        JsonNode updatePayload = mapper.valueToTree(previousPayload);
-
-        try {
-          log.debug(String.format("Updating related identifiers of previous version's DOI '%s':", previousDoi));
-          log.debug(updatePayload.toPrettyString());
-          this.putToDataCite(previousDoi, updatePayload);
-          log.debug(String.format("Successfully updated related identifiers of previous version's DOI '%s'", previousDoi));
-        } catch (HttpClientErrorException httpClientError) {
-          log.error("HTTP Error during DataCite call to update DOI metadata of previous version", httpClientError);
-          log.error("DataCite Response Body:\n" + httpClientError.getResponseBodyAsString());
-          throw httpClientError;
-        }
+      } catch (HttpClientErrorException e) {
+        log.info("Could not find previous version");
       }
     }
 
