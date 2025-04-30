@@ -59,6 +59,18 @@
           "value": "${dara_pid_username}"
         },
         {
+          "name": "vcap_services_datacite_credentials_endpoint",
+          "value": "${datacite_endpoint}"
+        },
+        {
+          "name": "vcap_services_datacite_credentials_password",
+          "value": "${datacite_password}"
+        },
+        {
+          "name": "vcap_services_datacite_credentials_username",
+          "value": "${datacite_username}"
+        },
+        {
           "name": "vcap_services_elastic_credentials_sslUri",
           "value": "${elasticsearch_uri}"
         },
