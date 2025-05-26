@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -178,28 +177,20 @@ public class DataCiteService {
   public JsonNode getDataCiteMetadataForProject(DataAcquisitionProject project) throws DataCiteMetadataException {
     Map<String, Object> attrObj = null;
     if (project.getConfiguration().getRequirements().isDataPackagesRequired()) {
-      final var dataPackages = this.dataPackageRepository.findByDataAcquisitionProjectId(project.getId());
-      if (dataPackages.isEmpty()) {
+      final var dataPackage = this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+      if (dataPackage == null) {
         throw new DataCiteMetadataException(
           String.format("The project with id '%s' has no data package linked to it.", project.getId()));
-      } else if (dataPackages.size() > 1) {
-        throw new DataCiteMetadataException(
-          String.format("The project with id '%s' has more than one data package linked to it.", project.getId()));
       }
-      final DataPackage dataPackage = dataPackages.get(0);
       final List<Survey> surveys = this.surveyRepository.findByDataAcquisitionProjectId(project.getId());
       attrObj = this.createAttrObjectForDataPackage(project, dataPackage, surveys);
     } else if (project.getConfiguration().getRequirements().isAnalysisPackagesRequired()) {
-      final var analysisPackages = this.analysisPackageRepository
-        .findByDataAcquisitionProjectIdAndShadowIsTrue(project.getId()).collect(Collectors.toList());
-      if (analysisPackages.isEmpty()) {
+      final var analysisPackage = this.analysisPackageRepository
+        .findOneByDataAcquisitionProjectId(project.getId());
+      if (analysisPackage == null) {
         throw new DataCiteMetadataException(
           String.format("The project with id '%s' has no analysis package linked to it.", project.getId()));
-      } else if (analysisPackages.size() > 1) {
-        throw new DataCiteMetadataException(
-          String.format("The project with id '%s' has more than one analysis package linked to it.", project.getId()));
       }
-      final AnalysisPackage analysisPackage = analysisPackages.get(0);
       attrObj = this.createAttrObjectForAnalysisPackage(project, analysisPackage);
     }
 
