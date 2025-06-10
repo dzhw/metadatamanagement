@@ -27,6 +27,9 @@ data "template_file" "web_container" {
     dara_pid_endpoint = var.dara_pid_credentials[count.index].endpoint
     dara_pid_username = var.dara_pid_credentials[count.index].username
     dara_pid_password = var.dara_pid_credentials[count.index].password
+    datacite_endpoint = var.datacite_credentials[count.index].endpoint
+    datacite_username = var.datacite_credentials[count.index].username
+    datacite_password = var.datacite_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
@@ -101,6 +104,9 @@ data "template_file" "worker_container" {
     dara_pid_endpoint = var.dara_pid_credentials[count.index].endpoint
     dara_pid_username = var.dara_pid_credentials[count.index].username
     dara_pid_password = var.dara_pid_credentials[count.index].password
+    datacite_endpoint = var.datacite_credentials[count.index].endpoint
+    datacite_username = var.datacite_credentials[count.index].username
+    datacite_password = var.datacite_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]

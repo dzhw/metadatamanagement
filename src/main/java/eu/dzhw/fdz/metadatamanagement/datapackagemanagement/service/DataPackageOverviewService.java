@@ -122,7 +122,7 @@ public class DataPackageOverviewService extends AbstractReportService {
     // generate quali and quanti datasets lists
     generateSeperateDataSetLists(dataSets, surveys, dataForTemplate);
 
-    String doi = doiBuilder.buildDataOrAnalysisPackageDoi(dataPackage.getDataAcquisitionProjectId(),
+    String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(dataPackage.getDataAcquisitionProjectId(),
         Release.builder().version(version).build());
     dataForTemplate.put("surveys", surveys);
     dataForTemplate.put("surveyAnnotationsMapDe", surveyAnnotationsMapDe);
