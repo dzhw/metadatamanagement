@@ -21,9 +21,6 @@ data "template_file" "web_container" {
     port              = var.container_port
     cpu               = var.container_cpu
     memory            = var.container_memory
-    dara_endpoint     = var.dara_credentials[count.index].endpoint
-    dara_username     = var.dara_credentials[count.index].username
-    dara_password     = var.dara_credentials[count.index].password
     dara_pid_endpoint = var.dara_pid_credentials[count.index].endpoint
     dara_pid_username = var.dara_pid_credentials[count.index].username
     dara_pid_password = var.dara_pid_credentials[count.index].password

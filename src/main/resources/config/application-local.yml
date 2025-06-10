@@ -65,10 +65,6 @@ metadatamanagement:
     apiVersion: '7.x'
     logLevel: error
     pageSize: 10
-  dara:
-    endpoint: ${DARA_ENDPOINT}
-    username: ${DARA_USERNAME}
-    password: ${DARA_PASSWORD}
   dara-pid:
     enabled: true
     endpoint: ${DARA_PID_ENDPOINT}
