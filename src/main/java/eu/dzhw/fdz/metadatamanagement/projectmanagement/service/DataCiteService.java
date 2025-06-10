@@ -223,7 +223,7 @@ public class DataCiteService {
     attrObj.put("titles", this.createTitlesList(dataPackage.getTitle()));
     attrObj.put("publicationYear", project.getRelease().getFirstDate() != null ?
       project.getRelease().getFirstDate().getYear() : LocalDate.now().getYear());
-    attrObj.put("types", this.createTypesObject());
+    attrObj.put("types", this.createTypesObject(true));
     attrObj.put("version", project.getRelease().getVersion());
     attrObj.put("creators", this.createCreatorsList(dataPackage.getProjectContributors(), dataPackage.getInstitutions()));
     attrObj.put("publisher", this.createPublisherObject());
@@ -262,7 +262,7 @@ public class DataCiteService {
     attrObj.put("titles", this.createTitlesList(analysisPackage.getTitle()));
     attrObj.put("publicationYear", project.getRelease().getFirstDate() != null ?
       project.getRelease().getFirstDate().getYear() : LocalDate.now().getYear());
-    attrObj.put("types", this.createTypesObject());
+    attrObj.put("types", this.createTypesObject(false));
     attrObj.put("version", project.getRelease().getVersion());
     attrObj.put("creators", this.createCreatorsList(analysisPackage.getAuthors(), analysisPackage.getInstitutions()));
     attrObj.put("publisher", this.createPublisherObject());
@@ -570,9 +570,9 @@ public class DataCiteService {
    * Creates the types object.
    * @return the types object as a map of key value pairs
    */
-  private Map<String, String> createTypesObject() {
+  private Map<String, String> createTypesObject(Boolean isDataPackage) {
     Map<String, String> typesObj = new HashMap<>();
-    typesObj.put("resourceTypeGeneral", "Dataset");
+    typesObj.put("resourceTypeGeneral", isDataPackage ? "Dataset" : "Collection");
     return typesObj;
   }
 
@@ -655,11 +655,6 @@ public class DataCiteService {
         if (institution.getEn() != null) {
           Map<String, String> affiliationObj = new HashMap<>();
           affiliationObj.put("name", institution.getEn());
-          affiliationList.add(affiliationObj);
-        }
-        if (institution.getDe() != null) {
-          Map<String, String> affiliationObj = new HashMap<>();
-          affiliationObj.put("name", institution.getDe());
           affiliationList.add(affiliationObj);
         }
       }
@@ -758,13 +753,6 @@ public class DataCiteService {
    */
   private List<Map<String, String>> createContributorAffiliationList() {
     List<Map<String, String>> affiliationList = new ArrayList<>();
-    Map<String, String> affiliateObjDe = new HashMap<>();
-    affiliateObjDe.put("name", "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung (DZHW)");
-    affiliateObjDe.put("lang", "de");
-    affiliateObjDe.put("affiliationIdentifier", "https://ror.org/01n8j6z65");
-    affiliateObjDe.put("affiliationIdentifierScheme", "ROR");
-    affiliateObjDe.put("schemeUri", "https://ror.org/");
-    affiliationList.add(affiliateObjDe);
 
     Map<String, String> affiliateObjEn = new HashMap<>();
     affiliateObjEn.put("name", "German Centre for Higher Education Research and Science Studies (DZHW)");
