@@ -289,7 +289,7 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
       List<RelatedPublicationSubDocumentProjection> relatedPublications =
           relatedPublicationRepository
               .findSubDocumentsByAnalysisPackageIdsContaining(analysisPackage.getMasterId());
@@ -393,7 +393,7 @@ public class ElasticsearchUpdateQueueService {
               return null;
             }
             return new DataPackageSubDocument(dataPackage,
-                doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), getRelease(project)));
+                doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), getRelease(project)));
           }).filter(document -> document != null).collect(Collectors.toList());
       List<DataPackageNestedDocument> nestedDataPackageDocuments =
           dataPackages.stream().map(DataPackageNestedDocument::new).collect(Collectors.toList());
@@ -459,7 +459,7 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       DataPackageSubDocumentProjection dataPackage =
           dataPackageRepository.findOneSubDocumentById(instrument.getDataPackageId());
-      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
       InstrumentSearchDocument searchDocument =
           new InstrumentSearchDocument(instrument, dataPackage, surveys, questions, variables,
               dataSets, concepts, release, doi, configuration);
@@ -494,7 +494,7 @@ public class ElasticsearchUpdateQueueService {
             return null;
           }
           return new DataPackageSubDocument(dataPackage,
-              doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), getRelease(project)));
+              doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), getRelease(project)));
         }).filter(document -> document != null).collect(Collectors.toList());
         nestedDataPackageDocuments =
             dataPackages.stream().map(DataPackageNestedDocument::new).collect(Collectors.toList());
@@ -512,7 +512,7 @@ public class ElasticsearchUpdateQueueService {
             return null;
           }
           return new AnalysisPackageSubDocument(analysisPackage,
-              doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), getRelease(project)));
+              doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), getRelease(project)));
         }).filter(document -> document != null).collect(Collectors.toList());
         nestedAnalysisPackageDocuments = analysisPackages.stream()
             .map(AnalysisPackageNestedDocument::new).collect(Collectors.toList());
@@ -573,7 +573,7 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       DataPackageSubDocumentProjection dataPackage =
           dataPackageRepository.findOneSubDocumentById(dataSet.getDataPackageId());
-      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
       DataSetSearchDocument searchDocument =
           new DataSetSearchDocument(dataSet, dataPackage, variableProjections, surveys, instruments,
               questions, concepts, release, doi, configuration);
@@ -614,7 +614,7 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
       SurveySearchDocument searchDocument = new SurveySearchDocument(survey, dataPackage, dataSets,
           variables, instruments, questions, concepts, release, doi, configuration);
 
@@ -687,7 +687,7 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable, dataSet,
           dataPackage, surveys, instruments, questions, concepts, release, doi, configuration);
 
@@ -738,7 +738,7 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       DataPackageSubDocumentProjection dataPackage =
           dataPackageRepository.findOneSubDocumentById(question.getDataPackageId());
-      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
       QuestionSearchDocument searchDocument = new QuestionSearchDocument(question, dataPackage,
           instrument, surveys, variables, dataSets, concepts, release, doi, configuration);
 
@@ -791,7 +791,7 @@ public class ElasticsearchUpdateQueueService {
             .findByDataPackageMasterIdAndVersion(dataPackage.getMasterId(), release.getVersion());
       }
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(), release);
       DataPackageSearchDocument searchDocument = new DataPackageSearchDocument(dataPackage,
           dataSets, variables, relatedPublications, surveys, questions, instruments, concepts,
           analysisPackages, release, doi, configuration);

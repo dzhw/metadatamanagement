@@ -52,15 +52,15 @@ metadatamanagement:
     apiVersion: '7.x'
     logLevel: error
     pageSize: 10
-  dara:
-    endpoint: ${vcap.services.dara.credentials.endpoint}
-    username: ${vcap.services.dara.credentials.username}
-    password: ${vcap.services.dara.credentials.password}
   dara-pid:
     enabled: true
     endpoint: ${vcap.services.dara.pid.credentials.endpoint}
     username: ${vcap.services.dara.pid.credentials.username}
     password: ${vcap.services.dara.pid.credentials.password}
+  datacite:
+    endpoint: ${vcap.services.datacite.credentials.endpoint}
+    username: ${vcap.services.datacite.credentials.username}
+    password: ${vcap.services.datacite.credentials.password}
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:

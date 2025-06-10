@@ -173,18 +173,18 @@ public class MailService {
   }
 
   /**
-   * Send an mail, if an automatic update to dara was not successful.
+   * Send an mail, if an automatic update to DataCite was not successful.
    */
   @Async
-  public Future<Void> sendMailOnDaraAutomaticUpdateError(List<User> admins, String projectId) {
-    log.debug("Sending 'automatic update to dara was not successful' mail");
+  public Future<Void> sendMailOnDataCiteAutomaticUpdateError(List<User> admins, String projectId) {
+    log.debug("Sending 'automatic update to DataCite was not successful' mail");
     Context context = new Context();
     context.setVariable("projectId", projectId);
-    String content = templateEngine.process("automaticDaraUpdateFailed", context);
-    String subject = "Automatic Update to da|ra was not successful";
+    String content = templateEngine.process("automaticDataCiteUpdateFailed", context);
+    String subject = "Automatic Update to DataCite was not successful";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
-        subject, content, Locale.ENGLISH);
+      subject, content, Locale.ENGLISH);
   }
 
   /**
