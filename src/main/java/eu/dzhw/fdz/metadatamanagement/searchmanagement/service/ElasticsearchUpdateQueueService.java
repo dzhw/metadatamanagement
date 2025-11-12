@@ -11,9 +11,7 @@ import java.util.stream.Stream;
 
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -156,7 +154,7 @@ public class ElasticsearchUpdateQueueService {
   /**
    * Process the update queue every minute.
    */
-  @Scheduled(fixedRate = 1000 * 10, initialDelay = 1000 * 20)
+  @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
     log.debug("Starting processing of ElasticsearchUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
@@ -197,11 +195,8 @@ public class ElasticsearchUpdateQueueService {
     var operations = new ArrayList<BulkOperation>();
     for (ElasticsearchUpdateQueueItem lockedItem : lockedItems) {
       switch (lockedItem.getAction()) {
-        case DELETE: this.addDeleteAction(lockedItem, operations); break;
-        case UPSERT: this.addUpsertAction(lockedItem, operations); break;
-        default:
-          throw new NotImplementedException("Processing queue item with action "
-              + lockedItem.getAction() + " has not been implemented!");
+        case DELETE -> this.addDeleteAction(lockedItem, operations);
+        case UPSERT -> this.addUpsertAction(lockedItem, operations);
       }
     }
 
@@ -234,23 +229,20 @@ public class ElasticsearchUpdateQueueService {
   /**
    * Add a update / insert action to the bulk builder.
    * @param lockedItem the queue item
-   * @param operations list of bulk operations the insert or update operation is being added to
+   * @param operations list of bulk operations the upsert action is being added to
    */
   private void addUpsertAction(ElasticsearchUpdateQueueItem lockedItem, List<BulkOperation> operations) {
     switch (lockedItem.getDocumentType()) {
-      case variables:                 addUpsertActionForVariable(lockedItem, operations); break;
-      case surveys:                   addUpsertActionForSurvey(lockedItem, operations); break;
-      case data_sets:                 addUpsertActionForDataSet(lockedItem, operations); break;
-      case questions:                 addUpsertActionForQuestion(lockedItem, operations); break;
-      case data_packages:             addUpsertActionForDataPackage(lockedItem, operations); break;
-      case related_publications:      addUpsertActionForRelatedPublication(lockedItem, operations); break;
-      case instruments:               addUpsertActionForInstrument(lockedItem, operations); break;
-      case concepts:                  addUpsertActionForConcept(lockedItem, operations); break;
-      case analysis_packages:         addUpsertActionForAnalysisPackage(lockedItem, operations); break;
-      case data_acquisition_projects: addUpsertActionForDataAcquisitionProjects(lockedItem, operations); break;
-      default:
-        throw new NotImplementedException("Processing queue item with type "
-            + lockedItem.getDocumentType() + " has not been implemented!");
+      case variables                 -> addUpsertActionForVariable(lockedItem, operations);
+      case surveys                   -> addUpsertActionForSurvey(lockedItem, operations);
+      case data_sets                 -> addUpsertActionForDataSet(lockedItem, operations);
+      case questions                 -> addUpsertActionForQuestion(lockedItem, operations);
+      case data_packages             -> addUpsertActionForDataPackage(lockedItem, operations);
+      case related_publications      -> addUpsertActionForRelatedPublication(lockedItem, operations);
+      case instruments               -> addUpsertActionForInstrument(lockedItem, operations);
+      case concepts                  -> addUpsertActionForConcept(lockedItem, operations);
+      case analysis_packages         -> addUpsertActionForAnalysisPackage(lockedItem, operations);
+      case data_acquisition_projects -> addUpsertActionForDataAcquisitionProjects(lockedItem, operations);
     }
   }
 
@@ -291,18 +283,13 @@ public class ElasticsearchUpdateQueueService {
       AnalysisPackageSearchDocument searchDocument = new AnalysisPackageSearchDocument(
           analysisPackage, release, configuration, doi, dataPackages, relatedPublications);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting an Analysis Package Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -335,18 +322,13 @@ public class ElasticsearchUpdateQueueService {
       DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
           project);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a Data Acquisition Project Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -408,18 +390,13 @@ public class ElasticsearchUpdateQueueService {
           new ConceptSearchDocument(concept, dataPackageSubDocuments, nestedDataPackageDocuments,
               questions, instruments, surveys, dataSets, variables);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a Concept Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -470,18 +447,13 @@ public class ElasticsearchUpdateQueueService {
           new InstrumentSearchDocument(instrument, dataPackage, surveys, questions, variables,
               dataSets, concepts, release, doi, configuration);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting an Instrument Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -536,18 +508,13 @@ public class ElasticsearchUpdateQueueService {
           relatedPublication, dataPackageSubDocuments, nestedDataPackageDocuments,
           analysisPackageSubDocuments, nestedAnalysisPackageDocuments);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a Related Publication Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -603,18 +570,13 @@ public class ElasticsearchUpdateQueueService {
           new DataSetSearchDocument(dataSet, dataPackage, variableProjections, surveys, instruments,
               questions, concepts, release, doi, configuration);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a DataSet Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -653,18 +615,13 @@ public class ElasticsearchUpdateQueueService {
       SurveySearchDocument searchDocument = new SurveySearchDocument(survey, dataPackage, dataSets,
           variables, instruments, questions, concepts, release, doi, configuration);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a Survey Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -730,18 +687,13 @@ public class ElasticsearchUpdateQueueService {
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable, dataSet,
           dataPackage, surveys, instruments, questions, concepts, release, doi, configuration);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a Variable Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -780,18 +732,13 @@ public class ElasticsearchUpdateQueueService {
       QuestionSearchDocument searchDocument = new QuestionSearchDocument(question, dataPackage,
           instrument, surveys, variables, dataSets, concepts, release, doi, configuration);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a Question Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
@@ -838,18 +785,13 @@ public class ElasticsearchUpdateQueueService {
           dataSets, variables, relatedPublications, surveys, questions, instruments, concepts,
           analysisPackages, release, doi, configuration);
 
-      try {
-        final var json = this.objectMapper.writeValueAsString(searchDocument);
-        operations.add(BulkOperation.of(op -> op
-          .create(r -> r
-            .index(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .document(searchDocument)
-          )
-        ));
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException("An error occurred while converting a data package Document to JSON", e);
-      }
+      operations.add(BulkOperation.of(op -> op
+        .update(r -> r
+          .index(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .action(a -> a.doc(searchDocument).docAsUpsert(true))
+        )
+      ));
     }
   }
 
