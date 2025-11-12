@@ -1,13 +1,23 @@
 {
 	"dynamic_templates": [
-		{
-			"default_mapping": {
-				"match": "*",
-				"mapping": {
-					"index": false,
-					"copy_to": "all"
-				}
-			}
+    {
+      "default_mapping_string": {
+        "match_mapping_type": "string",
+        "mapping": {
+          "type": "text",
+          "index": false,
+          "copy_to": "all"
+        }
+      }
+    },
+    {
+      "default_mapping": {
+        "match": "*",
+        "mapping": {
+          "type": "{dynamic_type}",
+          "copy_to": "all"
+        }
+      }
 		}
 	],
 	"properties": {

@@ -1,10 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.helper;
 
-import org.elasticsearch.client.RestHighLevelClient;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -16,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 
 /**
  * Component which implements CRUD functions for all {@link Instrument}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -28,10 +26,10 @@ public class InstrumentCrudHelper
   public InstrumentCrudHelper(InstrumentRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      InstrumentChangesProvider instrumentChangesProvider, RestHighLevelClient elasticsearchClient,
-      UserInformationProvider userInformationProvider, Gson gson) {
+      InstrumentChangesProvider instrumentChangesProvider, ElasticsearchClient elasticsearchClient,
+      UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
         instrumentChangesProvider, elasticsearchClient, InstrumentSearchDocument.class,
-        userInformationProvider, gson);
+        userInformationProvider);
   }
 }

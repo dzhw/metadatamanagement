@@ -1,19 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
@@ -26,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Bean which recreates all elasticsearch indices on container start
  * if the version has changed.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -34,17 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class ElasticsearchIndicesInitializer {
-  
+
   private final ResourceLoader resourceLoader;
-  
+
   private final ElasticsearchAdminService elasticsearchAdminService;
-  
+
   private final ElasticsearchIndicesVersionRepository indicesVersionRepository;
-  
+
   private final MetadataManagementProperties metadataManagementProperties;
-  
-  private JsonParser jsonParser = new JsonParser();
-  
+
   /**
    * Recreate all elasticsearch indices on container start.
    * Does not do anything if the version has not changed or if this container
@@ -53,15 +47,16 @@ public class ElasticsearchIndicesInitializer {
   @PostConstruct
   public void performIndicesUpdates() {
     if (!metadataManagementProperties.getServer().getInstanceIndex().equals(0)) {
-      log.debug("This is server instance {} therefore skipping indices updates.", 
+      log.debug("This is server instance {} therefore skipping indices updates.",
           metadataManagementProperties.getServer().getInstanceIndex());
       return;
     }
     List<ElasticsearchIndicesVersion> previousVersions = indicesVersionRepository.findAll();
-    String currentVersion = loadIndicesVersion().get("indicesVersion").getAsString();
+    String currentVersion = loadIndicesVersion().get("indicesVersion").textValue();
+    log.error("Current indices version: {}", currentVersion);
     if (previousVersions.isEmpty() || !previousVersions.get(0).getId().equals(currentVersion)) {
       log.info("Going to automatically update elasticsearch indices...");
-      elasticsearchAdminService.recreateAllIndices().thenRun(() -> {        
+      elasticsearchAdminService.recreateAllIndices().thenRun(() -> {
         indicesVersionRepository.deleteAll();
         indicesVersionRepository.save(new ElasticsearchIndicesVersion(currentVersion));
         log.info("Finished automatic update of elasticsearch indices!");
@@ -70,12 +65,10 @@ public class ElasticsearchIndicesInitializer {
   }
 
   @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
-  private JsonObject loadIndicesVersion() {
-    try (InputStream inputStream = resourceLoader
-        .getResource("classpath:elasticsearch/indices_version.json").getInputStream();
-        Reader reader = new InputStreamReader(inputStream, "UTF-8");) {
-      JsonObject mappingsVersion = jsonParser.parse(reader).getAsJsonObject();
-      return mappingsVersion;
+  private JsonNode loadIndicesVersion() {
+    var resource = resourceLoader.getResource("classpath:elasticsearch/indices_version.json");
+    try (var inputStream = resource.getInputStream()) {
+      return new ObjectMapper().readTree(inputStream);
     } catch (IOException e) {
       throw new RuntimeException("Unable to load indices version!", e);
     }

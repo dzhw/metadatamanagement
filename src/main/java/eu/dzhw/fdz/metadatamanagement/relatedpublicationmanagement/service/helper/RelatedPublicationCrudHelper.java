@@ -1,10 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.helper;
 
-import org.elasticsearch.client.RestHighLevelClient;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -15,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 
 /**
  * Component which implements CRUD functions for all {@link RelatedPublication}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -24,9 +22,8 @@ public class RelatedPublicationCrudHelper
   public RelatedPublicationCrudHelper(RelatedPublicationRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      RelatedPublicationChangesProvider changesProvider, RestHighLevelClient elasticsearchClient,
-      Gson gson) {
+      RelatedPublicationChangesProvider changesProvider, ElasticsearchClient elasticsearchClient) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        elasticsearchClient, RelatedPublicationSearchDocument.class, gson);
+        elasticsearchClient, RelatedPublicationSearchDocument.class);
   }
 }

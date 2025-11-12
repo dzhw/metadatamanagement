@@ -3,15 +3,16 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.Gson;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Catgry;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Citation;
@@ -26,25 +27,18 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.S
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TextElement;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TitlStmt;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Var;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSubDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -65,9 +59,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class DataPackageDdiService {
 
-  private final RestHighLevelClient client;
-
-  private final Gson gson;
+  private final ElasticsearchClient client;
 
   /**
    * Exports all variables metadata belonging to a given data package according to the DDI Codebook standard.
@@ -91,7 +83,7 @@ public class DataPackageDdiService {
       return ResponseEntity.ok()
         .headers(headers)
         .body(resource);
-    } catch (JAXBException | JsonProcessingException ex) {
+    } catch (JAXBException ex) {
       log.error("Error generating XML: " + ex);
       return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     }
@@ -102,50 +94,47 @@ public class DataPackageDdiService {
    *
    * @return the metadata
    */
-  private CodeBook getDdiVariablesMetadata(String dataPackageId) throws JsonProcessingException {
-    // get Data
-    SearchRequest dataPackageRequest = new SearchRequest();
-    SearchSourceBuilder builderSurveys = new SearchSourceBuilder();
-    builderSurveys.query(QueryBuilders.termsQuery("id", dataPackageId));
-    dataPackageRequest.source(builderSurveys);
-    dataPackageRequest.indices("data_packages");
+  private CodeBook getDdiVariablesMetadata(String dataPackageId) {
 
+    var request = SearchRequest.of(r -> r
+      .index(ElasticsearchType.data_packages.name())
+      .query(q -> q
+        .term(t -> t
+          .field("id")
+          .value(dataPackageId))));
+
+    SearchResponse<DataPackageSearchDocument> response;
     try {
-      SearchResponse surveyResponse = client.search(dataPackageRequest, RequestOptions.DEFAULT);
-      List<SearchHit> hits = Arrays.asList(surveyResponse.getHits().getHits());
-      if (hits.size() != 1) {
-        throw new ElasticsearchException(
-          String.format("Expected one data package for id '%s', but found %d", dataPackageId, hits.size()));
-      }
-      DataPackageSearchDocument dataPackageDoc = gson.fromJson(
-          hits.get(0).getSourceAsString(), DataPackageSearchDocument.class);
-      if (dataPackageDoc.getRelease() == null
-          || (dataPackageDoc.getRelease() != null && dataPackageDoc.getRelease().getIsPreRelease())) {
-        throw new ElasticsearchException(
-          String.format("DDI codebook export failed. Can only export released data packages. "
-            + "Data package with id '%s' is not released.", dataPackageDoc.getId())
-        );
-      }
-
-      StdyDscr stdyDscr = this.getDdiStdyDscr(dataPackageDoc);
-      List<FileDscr> fileDscrList = new ArrayList<>();
-      for (DataSetSubDocument dataset : dataPackageDoc.getDataSets()) {
-        fileDscrList.add(this.getDdiFileDsrc(dataset));
-      }
-
-      List<Var> varList = new ArrayList<>();
-      for (VariableSubDocument variable : dataPackageDoc.getVariables()) {
-        varList.add(this.getDdiVar(variable));
-      }
-      DataDscr dataDscr = new DataDscr(varList);
-      CodeBook codeBook = new CodeBook(stdyDscr, fileDscrList, dataDscr);
-
-      return codeBook;
-
+      response = this.client.search(request, DataPackageSearchDocument.class);
     } catch (IOException e) {
-      log.error("An error occurred while querying the ES. ", e);
+      throw new ElasticsearchIoException(e);
     }
-    return null;
+
+    final var hits = response.hits().hits();
+    if (hits.size() != 1) {
+      throw new RuntimeException(String.format(
+        "Expected one data package for id '%s', but found %d", dataPackageId, hits.size()));
+    }
+    var dataPackageDoc = Optional.ofNullable(hits.get(0).source())
+      .orElseThrow(() -> new RuntimeException("Missing search document for data package with id " + dataPackageId));
+    Optional.of(dataPackageDoc)
+      .map(DataPackageSearchDocument::getRelease)
+      .map(release -> release.getIsPreRelease() ? null : release)
+      .orElseThrow(() -> new RuntimeException("Missing release infos or latest release is " +
+        "a pre-release for data package with id " + dataPackageId));
+
+    StdyDscr stdyDscr = this.getDdiStdyDscr(dataPackageDoc);
+    List<FileDscr> fileDscrList = new ArrayList<>();
+    for (DataSetSubDocument dataset : dataPackageDoc.getDataSets()) {
+      fileDscrList.add(this.getDdiFileDsrc(dataset));
+    }
+
+    List<Var> varList = new ArrayList<>();
+    for (VariableSubDocument variable : dataPackageDoc.getVariables()) {
+      varList.add(this.getDdiVar(variable));
+    }
+    DataDscr dataDscr = new DataDscr(varList);
+    return new CodeBook(stdyDscr, fileDscrList, dataDscr);
   }
 
   /**
@@ -159,90 +148,94 @@ public class DataPackageDdiService {
     varLablList.add(new TextElement(LanguageEnum.en, variableDoc.getLabel().getEn()));
     List<TextElement> qstnList = new ArrayList();
     if (variableDoc.getRelatedQuestions() != null && variableDoc.getRelatedQuestions().size() > 0) {
-      for (RelatedQuestionSubDocumentProjection relQuest : variableDoc.getRelatedQuestions()) {
-        SearchRequest questionRequest = new SearchRequest();
-        SearchSourceBuilder builder = new SearchSourceBuilder();
-        builder.query(QueryBuilders.termsQuery("id", relQuest.getQuestionId()));
-        questionRequest.source(builder);
-        questionRequest.indices("questions");
+      for (var relQuest : variableDoc.getRelatedQuestions()) {
+        final var request = SearchRequest.of(r -> r
+          .index(ElasticsearchType.questions.name())
+          .query(q -> q
+            .term(t -> t
+              .field("id")
+              .value(relQuest.getQuestionId()))));
+        SearchResponse<QuestionSearchDocument> response;
         try {
-          SearchResponse questionResponse = client.search(questionRequest, RequestOptions.DEFAULT);
-          List<SearchHit> hits = Arrays.asList(questionResponse.getHits().getHits());
-          if (hits.size() == 0) {
-            throw new ElasticsearchException(
-              String.format("Could not find question for id '%s'", relQuest.getQuestionId()));
-          }
-          for (SearchHit hit : hits) {
-            QuestionSearchDocument relatedQuestion = gson.fromJson(
-                hit.getSourceAsString(), QuestionSearchDocument.class);
-            if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getDe() != null) {
-              qstnList.add(new TextElement(LanguageEnum.de, relatedQuestion.getQuestionText().getDe()));
-            }
-            if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getEn() != null) {
-              qstnList.add(new TextElement(LanguageEnum.en, relatedQuestion.getQuestionText().getEn()));
-            }
-          }
+          response = this.client.search(request, QuestionSearchDocument.class);
         } catch (IOException e) {
-          log.error("An exception occurred querying the questions index. ", e);
+          throw new ElasticsearchIoException(e);
+        }
+        final var hits = response.hits().hits();
+        if (hits.isEmpty()) {
+          throw new RuntimeException(String.format("Could not find question for id '%s'", relQuest.getQuestionId()));
+        }
+        for (var hit : hits) {
+          var relatedQuestion = Optional.ofNullable(hit.source())
+            .orElseThrow(() -> new RuntimeException("Missing search document for question with id " + relQuest.getQuestionId()));
+          if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getDe() != null) {
+            qstnList.add(new TextElement(LanguageEnum.de, relatedQuestion.getQuestionText().getDe()));
+          }
+          if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getEn() != null) {
+            qstnList.add(new TextElement(LanguageEnum.en, relatedQuestion.getQuestionText().getEn()));
+          }
         }
       }
     }
 
-    SearchRequest variableRequest = new SearchRequest();
-    SearchSourceBuilder builderVar = new SearchSourceBuilder();
-    builderVar.query(QueryBuilders.termsQuery("id", variableDoc.getId()));
-    variableRequest.source(builderVar);
-    variableRequest.indices("variables");
+    final var request = SearchRequest.of(r -> r
+      .index(ElasticsearchType.variables.name())
+      .query(q -> q
+        .term(t -> t
+          .field("id")
+          .value(variableDoc.getId()))));
     List<Catgry> catgryList = new ArrayList<>();
     List<TextElement> txtList = new ArrayList<>();
+    SearchResponse<VariableSearchDocument> response;
     try {
-      SearchResponse variableResponse = client.search(variableRequest, RequestOptions.DEFAULT);
-      List<SearchHit> hits = Arrays.asList(variableResponse.getHits().getHits());
-      if (hits.size() == 0) {
-        throw new ElasticsearchException(
-          String.format("Could not find variable for id '%s'", variableDoc.getId()));
+      response = this.client.search(request, VariableSearchDocument.class);
+    } catch (IOException e) {
+      throw new ElasticsearchIoException(e);
+    }
+
+    final var hits = response.hits().hits();
+    if (hits.isEmpty()) {
+      throw new RuntimeException(String.format("Could not find variable for id '%s'", variableDoc.getId()));
+    }
+    for (var hit : hits) {
+      final var varDoc = hit.source();
+      Optional.ofNullable(varDoc)
+        .orElseThrow(() -> new RuntimeException("Missing search document for variable with id " + variableDoc.getId()));
+      if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getDe() != null) {
+        txtList.add(new TextElement(LanguageEnum.de, varDoc.getAnnotations().getDe()));
       }
-      for (SearchHit hit : hits) {
-        VariableSearchDocument varDoc = gson.fromJson(
-            hit.getSourceAsString(), VariableSearchDocument.class);
-        if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getDe() != null) {
-          txtList.add(new TextElement(LanguageEnum.de, varDoc.getAnnotations().getDe()));
+      if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getEn() != null) {
+        txtList.add(new TextElement(LanguageEnum.en, varDoc.getAnnotations().getEn()));
+      }
+      if ((varDoc.getScaleLevel().equals(ScaleLevels.NOMINAL) || varDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
+          && varDoc.getDistribution() != null
+          && varDoc.getDistribution().getValidResponses() != null) {
+        for (ValidResponse validResponse : varDoc.getDistribution().getValidResponses()) {
+          String catValu = validResponse.getValue();
+          List<TextElement> catLablList = new ArrayList<>();
+          if (validResponse.getLabel() != null && validResponse.getLabel().getDe() != null) {
+            catLablList.add(new TextElement(LanguageEnum.de, validResponse.getLabel().getDe()));
+          }
+          if (validResponse.getLabel() != null && validResponse.getLabel().getEn() != null) {
+            catLablList.add(new TextElement(LanguageEnum.en, validResponse.getLabel().getEn()));
+          }
+          catgryList.add(new Catgry(catValu, catLablList));
         }
-        if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getEn() != null) {
-          txtList.add(new TextElement(LanguageEnum.en, varDoc.getAnnotations().getEn()));
-        }
-        if ((varDoc.getScaleLevel().equals(ScaleLevels.NOMINAL) || varDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
-            && varDoc.getDistribution() != null
-            && varDoc.getDistribution().getValidResponses() != null) {
-          for (ValidResponse validResponse : varDoc.getDistribution().getValidResponses()) {
-            String catValu = validResponse.getValue();
+        // missing values
+        if (varDoc.getDistribution() != null && varDoc.getDistribution().getMissings() != null) {
+          for (Missing missing : varDoc.getDistribution().getMissings()) {
+            String catValu = missing.getCode();
             List<TextElement> catLablList = new ArrayList<>();
-            if (validResponse.getLabel() != null && validResponse.getLabel().getDe() != null) {
-              catLablList.add(new TextElement(LanguageEnum.de, validResponse.getLabel().getDe()));
+            if (missing.getLabel() != null && missing.getLabel().getDe() != null) {
+              catLablList.add(new TextElement(LanguageEnum.de, missing.getLabel().getDe()));
             }
-            if (validResponse.getLabel() != null && validResponse.getLabel().getEn() != null) {
-              catLablList.add(new TextElement(LanguageEnum.en, validResponse.getLabel().getEn()));
+            if (missing.getLabel() != null && missing.getLabel().getEn() != null) {
+              catLablList.add(new TextElement(LanguageEnum.en, missing.getLabel().getEn()));
             }
             catgryList.add(new Catgry(catValu, catLablList));
           }
-          // missing values
-          if (varDoc.getDistribution() != null && varDoc.getDistribution().getMissings() != null) {
-            for (Missing missing : varDoc.getDistribution().getMissings()) {
-              String catValu = missing.getCode();
-              List<TextElement> catLablList = new ArrayList<>();
-              if (missing.getLabel() != null && missing.getLabel().getDe() != null) {
-                catLablList.add(new TextElement(LanguageEnum.de, missing.getLabel().getDe()));
-              }
-              if (missing.getLabel() != null && missing.getLabel().getEn() != null) {
-                catLablList.add(new TextElement(LanguageEnum.en, missing.getLabel().getEn()));
-              }
-              catgryList.add(new Catgry(catValu, catLablList));
-            }
-          }
         }
       }
-    } catch (IOException e) {
-      log.error("An exception occurred querying the variables index. ", e);
     }
     final var name = variableDoc.getName();
     final var location = new Location(variableDoc.getDataSetId().split("\\$")[0]);

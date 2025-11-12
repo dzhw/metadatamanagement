@@ -25,6 +25,6 @@ public class DataAcquisitionProjectCrudHelper extends
       DataAcquisitionProjectChangesProvider changesProvider,
       UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        null, null, userInformationProvider, null);
+        null, null, userInformationProvider);
   }
 }

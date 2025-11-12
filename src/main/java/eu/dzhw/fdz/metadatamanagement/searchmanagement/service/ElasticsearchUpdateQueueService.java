@@ -9,13 +9,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.NotImplementedException;
-import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -158,7 +156,7 @@ public class ElasticsearchUpdateQueueService {
   /**
    * Process the update queue every minute.
    */
-  @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
+  @Scheduled(fixedRate = 1000 * 10, initialDelay = 1000 * 20)
   public void processAllQueueItems() {
     log.debug("Starting processing of ElasticsearchUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
@@ -167,6 +165,7 @@ public class ElasticsearchUpdateQueueService {
 
     List<ElasticsearchUpdateQueueItem> lockedItems =
         queueItemRepository.findOldestLockedItems(jvmId, updateStart);
+    log.debug("Found {} locked ElasticsearchUpdateQueueItems", lockedItems.size());
 
     boolean refreshIndices = false;
     while (!lockedItems.isEmpty()) {
@@ -195,16 +194,11 @@ public class ElasticsearchUpdateQueueService {
    * @param lockedItems A list of locked queues items.
    */
   private void executeQueueItemActions(List<ElasticsearchUpdateQueueItem> lockedItems) {
-    BulkRequest request = new BulkRequest();
-    boolean bulkNotEmpty = false;
+    var operations = new ArrayList<BulkOperation>();
     for (ElasticsearchUpdateQueueItem lockedItem : lockedItems) {
       switch (lockedItem.getAction()) {
-        case DELETE:
-          bulkNotEmpty = addDeleteAction(lockedItem, request) || bulkNotEmpty;
-          break;
-        case UPSERT:
-          bulkNotEmpty = addUpsertAction(lockedItem, request) || bulkNotEmpty;
-          break;
+        case DELETE: this.addDeleteAction(lockedItem, operations); break;
+        case UPSERT: this.addUpsertAction(lockedItem, operations); break;
         default:
           throw new NotImplementedException("Processing queue item with action "
               + lockedItem.getAction() + " has not been implemented!");
@@ -213,8 +207,8 @@ public class ElasticsearchUpdateQueueService {
 
     // execute the bulk update/delete
     try {
-      if (bulkNotEmpty) {
-        elasticsearchDao.executeBulk(request);
+      if (!operations.isEmpty()) {
+        this.elasticsearchDao.executeBulk(BulkRequest.of(r -> r.operations(operations)));
       }
       // finally delete the queue items
       lockedItems.forEach(item -> queueItemRepository.deleteById(item.getId()));
@@ -225,45 +219,35 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Adds a Deletes Action to the bulk builder.
-   *
-   * @param lockedItem a locked item.
-   * @param request for building a delete action.
-   * @return true if an action has been added to the request
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the delete operation is being added to
    */
-  private boolean addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, BulkRequest request) {
-    request.add(new DeleteRequest(lockedItem.getDocumentType().name(), lockedItem.getDocumentId()));
-    return true;
+  private void addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, List<BulkOperation> operations) {
+    operations.add(BulkOperation.of(op -> op
+      .delete(d -> d
+        .index(lockedItem.getDocumentType().name())
+        .id(lockedItem.getDocumentId())
+      )
+    ));
   }
 
   /**
    * Add a update / insert action to the bulk builder.
-   *
-   * @param lockedItem A locked item.
-   * @param request The bulk builder for building update / insert actions.
-   * @return true if an action has been added to the request
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
    */
-  private boolean addUpsertAction(ElasticsearchUpdateQueueItem lockedItem, BulkRequest request) {
+  private void addUpsertAction(ElasticsearchUpdateQueueItem lockedItem, List<BulkOperation> operations) {
     switch (lockedItem.getDocumentType()) {
-      case variables:
-        return addUpsertActionForVariable(lockedItem, request);
-      case surveys:
-        return addUpsertActionForSurvey(lockedItem, request);
-      case data_sets:
-        return addUpsertActionForDataSet(lockedItem, request);
-      case questions:
-        return addUpsertActionForQuestion(lockedItem, request);
-      case data_packages:
-        return addUpsertActionForDataPackage(lockedItem, request);
-      case related_publications:
-        return addUpsertActionForRelatedPublication(lockedItem, request);
-      case instruments:
-        return addUpsertActionForInstrument(lockedItem, request);
-      case concepts:
-        return addUpsertActionForConcept(lockedItem, request);
-      case analysis_packages:
-        return addUpsertActionForAnalysisPackage(lockedItem, request);
-      case data_acquisition_projects:
-        return addUpsertActionForDataAcquisitionProjects(lockedItem, request);
+      case variables:                 addUpsertActionForVariable(lockedItem, operations); break;
+      case surveys:                   addUpsertActionForSurvey(lockedItem, operations); break;
+      case data_sets:                 addUpsertActionForDataSet(lockedItem, operations); break;
+      case questions:                 addUpsertActionForQuestion(lockedItem, operations); break;
+      case data_packages:             addUpsertActionForDataPackage(lockedItem, operations); break;
+      case related_publications:      addUpsertActionForRelatedPublication(lockedItem, operations); break;
+      case instruments:               addUpsertActionForInstrument(lockedItem, operations); break;
+      case concepts:                  addUpsertActionForConcept(lockedItem, operations); break;
+      case analysis_packages:         addUpsertActionForAnalysisPackage(lockedItem, operations); break;
+      case data_acquisition_projects: addUpsertActionForDataAcquisitionProjects(lockedItem, operations); break;
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
@@ -272,12 +256,12 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * This method creates for the analysis packages update / insert actions.
-   *
-   * @param lockedItem A locked item.
-   * @param request A bulk builder for building the actions.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
    */
-  private boolean addUpsertActionForAnalysisPackage(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  private void addUpsertActionForAnalysisPackage(ElasticsearchUpdateQueueItem lockedItem,
+                                                 List<BulkOperation> operations)
+  {
     AnalysisPackage analysisPackage =
         this.analysisPackageRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (analysisPackage != null) {
@@ -285,7 +269,7 @@ public class ElasticsearchUpdateQueueService {
           projectRepository.findById(analysisPackage.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
-        return false;
+        return;
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
@@ -308,24 +292,28 @@ public class ElasticsearchUpdateQueueService {
           analysisPackage, release, configuration, doi, dataPackages, relatedPublications);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting an Analysis Package Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
   /**
    * This method creates for the data acquisition project update / insert actions.
-   *
-   * @param lockedItem A locked item.
-   * @param request A bulk builder for building the actions.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
    */
-  private boolean addUpsertActionForDataAcquisitionProjects(ElasticsearchUpdateQueueItem lockedItem,
-                                                    BulkRequest request) {
+  private void addUpsertActionForDataAcquisitionProjects(ElasticsearchUpdateQueueItem lockedItem,
+                                                         List<BulkOperation> operations)
+  {
     DataAcquisitionProject project =
         this.projectRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (project != null) {
@@ -347,21 +335,29 @@ public class ElasticsearchUpdateQueueService {
       DataAcquisitionProjectSearchDocument searchDocument = new DataAcquisitionProjectSearchDocument(
           project);
 
-      IndexRequest req = null;
       try {
-        req = new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON);
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a Data Acquisition Project Document to JSON", e);
       }
-      request.add(req);
-      return true;
     }
-    return false;
   }
 
-  private boolean addUpsertActionForConcept(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  /**
+   * Adds a bulk operation for upserting a concept document.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
+   */
+  private void addUpsertActionForConcept(ElasticsearchUpdateQueueItem lockedItem,
+                                         List<BulkOperation> operations)
+  {
     Concept concept = conceptRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (concept != null) {
       List<QuestionSubDocumentProjection> questions =
@@ -413,18 +409,28 @@ public class ElasticsearchUpdateQueueService {
               questions, instruments, surveys, dataSets, variables);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a Concept Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
-  private boolean addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  /**
+   * Adds a bulk operation for upserting an instrument document.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
+   */
+  private void addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
+                                            List<BulkOperation> operations)
+  {
     Instrument instrument = instrumentRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
     if (instrument != null) {
@@ -453,7 +459,7 @@ public class ElasticsearchUpdateQueueService {
           projectRepository.findById(instrument.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
-        return false;
+        return;
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
@@ -465,19 +471,28 @@ public class ElasticsearchUpdateQueueService {
               dataSets, concepts, release, doi, configuration);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting an Instrument Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
-  private boolean addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
-
+  /**
+   * Adds a bulk operation for upserting a publication document.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
+   */
+  private void addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
+                                                    List<BulkOperation> operations)
+  {
     RelatedPublication relatedPublication =
         relatedPublicationRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (relatedPublication != null) {
@@ -522,18 +537,28 @@ public class ElasticsearchUpdateQueueService {
           analysisPackageSubDocuments, nestedAnalysisPackageDocuments);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a Related Publication Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
-  private boolean addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  /**
+   * Adds a bulk operation for upserting a dataset document.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
+   */
+  private void addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
+                                         List<BulkOperation> operations)
+  {
     DataSet dataSet = dataSetRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
     if (dataSet != null) {
@@ -567,7 +592,7 @@ public class ElasticsearchUpdateQueueService {
           projectRepository.findById(dataSet.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
-        return false;
+        return;
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
@@ -579,18 +604,28 @@ public class ElasticsearchUpdateQueueService {
               questions, concepts, release, doi, configuration);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a DataSet Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
-  private boolean addUpsertActionForSurvey(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  /**
+   * Adds a bulk operation for upserting a survey document.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
+   */
+  private void addUpsertActionForSurvey(ElasticsearchUpdateQueueItem lockedItem,
+                                        List<BulkOperation> operations)
+  {
     Survey survey = surveyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (survey != null) {
       DataPackageSubDocumentProjection dataPackage =
@@ -610,7 +645,7 @@ public class ElasticsearchUpdateQueueService {
           projectRepository.findById(survey.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
-        return false;
+        return;
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
@@ -619,14 +654,18 @@ public class ElasticsearchUpdateQueueService {
           variables, instruments, questions, concepts, release, doi, configuration);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a Survey Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
   private List<ConceptSubDocumentProjection> getConcepts(
@@ -646,13 +685,13 @@ public class ElasticsearchUpdateQueueService {
   }
 
   /**
-   * This method creates for the variable repository update / insert actions.
-   *
-   * @param lockedItem A locked item.
-   * @param request A bulk builder for building the actions.
+   * Adds a bulk operation for upserting a variable document.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
    */
-  private boolean addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  private void addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
+                                          List<BulkOperation> operations)
+  {
     Variable variable = variableRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (variable != null) {
       final DataPackageSubDocumentProjection dataPackage =
@@ -683,7 +722,7 @@ public class ElasticsearchUpdateQueueService {
           projectRepository.findById(variable.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
-        return false;
+        return;
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
@@ -692,24 +731,23 @@ public class ElasticsearchUpdateQueueService {
           dataPackage, surveys, instruments, questions, concepts, release, doi, configuration);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a Variable Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
-  /**
-   * This method creates for the question repository update / insert actions.
-   *
-   * @param lockedItem A locked item.
-   * @param request A bulk builder for building the actions.
-   */
-  private boolean addUpsertActionForQuestion(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  private void addUpsertActionForQuestion(ElasticsearchUpdateQueueItem lockedItem,
+                                          List<BulkOperation> operations)
+  {
     Question question = questionRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (question != null) {
       InstrumentSubDocumentProjection instrument =
@@ -728,7 +766,7 @@ public class ElasticsearchUpdateQueueService {
           projectRepository.findById(question.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
-        return false;
+        return;
       }
       List<ConceptSubDocumentProjection> concepts = new ArrayList<>();
       if (question.getConceptIds() != null) {
@@ -743,24 +781,28 @@ public class ElasticsearchUpdateQueueService {
           instrument, surveys, variables, dataSets, concepts, release, doi, configuration);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a Question Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
   /**
-   * This method creates for the dataPackage repository update / insert actions.
-   *
-   * @param lockedItem A locked item.
-   * @param request A bulk builder for building the actions.
+   * Adds a bulk operation for upserting a data package document.
+   * @param lockedItem the queue item
+   * @param operations list of bulk operations the insert or update operation is being added to
    */
-  private boolean addUpsertActionForDataPackage(ElasticsearchUpdateQueueItem lockedItem,
-      BulkRequest request) {
+  private void addUpsertActionForDataPackage(ElasticsearchUpdateQueueItem lockedItem,
+                                             List<BulkOperation> operations)
+  {
     DataPackage dataPackage =
         this.dataPackageRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (dataPackage != null) {
@@ -782,7 +824,7 @@ public class ElasticsearchUpdateQueueService {
           projectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
-        return false;
+        return;
       }
       Release release = getRelease(project);
       List<AnalysisPackageSubDocumentProjection> analysisPackages = null;
@@ -797,14 +839,18 @@ public class ElasticsearchUpdateQueueService {
           analysisPackages, release, doi, configuration);
 
       try {
-        request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
-            .source(this.objectMapper.writeValueAsString(searchDocument), XContentType.JSON));
+        final var json = this.objectMapper.writeValueAsString(searchDocument);
+        operations.add(BulkOperation.of(op -> op
+          .create(r -> r
+            .index(lockedItem.getDocumentType().name())
+            .id(searchDocument.getId())
+            .document(searchDocument)
+          )
+        ));
       } catch (JsonProcessingException e) {
         throw new RuntimeException("An error occurred while converting a data package Document to JSON", e);
       }
-      return true;
     }
-    return false;
   }
 
   /**
