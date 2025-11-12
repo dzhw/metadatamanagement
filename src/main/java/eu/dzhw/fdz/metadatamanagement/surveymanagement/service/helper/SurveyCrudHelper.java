@@ -1,10 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper;
 
-import org.elasticsearch.client.RestHighLevelClient;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
@@ -15,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 
 /**
  * Component which implements CRUD functions for all {@link Survey}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -24,9 +22,8 @@ public class SurveyCrudHelper
   public SurveyCrudHelper(SurveyRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      RestHighLevelClient elasticsearchClient, UserInformationProvider userInformationProvider,
-      Gson gson) {
+      ElasticsearchClient elasticsearchClient, UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null,
-        elasticsearchClient, SurveySearchDocument.class, userInformationProvider, gson);
+        elasticsearchClient, SurveySearchDocument.class, userInformationProvider);
   }
 }

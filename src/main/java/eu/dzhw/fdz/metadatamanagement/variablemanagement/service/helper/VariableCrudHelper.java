@@ -1,10 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service.helper;
 
-import org.elasticsearch.client.RestHighLevelClient;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
@@ -16,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChanges
 
 /**
  * Component which implements CRUD functions for all {@link Variable}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -25,9 +23,9 @@ public class VariableCrudHelper
   public VariableCrudHelper(VariableRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      VariableChangesProvider changesProvider, RestHighLevelClient elasticsearchClient,
-      UserInformationProvider userInformationProvider, Gson gson) {
+      VariableChangesProvider changesProvider, ElasticsearchClient elasticsearchClient,
+      UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        elasticsearchClient, VariableSearchDocument.class, userInformationProvider, gson);
+        elasticsearchClient, VariableSearchDocument.class, userInformationProvider);
   }
 }
