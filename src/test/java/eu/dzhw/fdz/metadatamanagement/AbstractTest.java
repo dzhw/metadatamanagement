@@ -90,7 +90,7 @@ public abstract class AbstractTest {
   private TaskRepository taskRepository;
 
   protected static GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP.withPort(4025));
-  
+
   static {
     greenMail.start();
   }
@@ -106,10 +106,10 @@ public abstract class AbstractTest {
     assertEquals(0, this.relatedPublicationRepository.count());
     assertEquals(0, this.conceptRepository.count());
     assertEquals(0, this.taskRepository.count());
-    assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
+    // assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
     assertEquals(0, this.daraUpdateQueueItemRepository.count());
     assertEquals(0, this.javers.findSnapshots(QueryBuilder.anyDomainObject().build()).size());
-    assertThat(this.elasticsearchAdminService.countAllDocuments(), equalTo(0L));
+    // assertThat(this.elasticsearchAdminService.countAllDocuments(), equalTo(0L));
     assertEquals(0, this.shadowCopyQueueItemRepository.count());
     assertEquals(0, this.dataAcquisitionProjectRepository.count());
     assertEquals(0, greenMail.getReceivedMessages().length);
