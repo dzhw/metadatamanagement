@@ -1,26 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.List;
+import java.util.Map;
 
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.action.admin.indices.settings.get.GetSettingsRequest;
-import org.elasticsearch.action.admin.indices.settings.get.GetSettingsResponse;
-import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.support.IndicesOptions;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.core.CountRequest;
-import org.elasticsearch.client.indices.CreateIndexRequest;
-import org.elasticsearch.client.indices.GetIndexRequest;
-import org.elasticsearch.client.indices.GetMappingsRequest;
-import org.elasticsearch.client.indices.GetMappingsResponse;
-import org.elasticsearch.client.indices.PutMappingRequest;
-import org.elasticsearch.cluster.metadata.MappingMetadata;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ExpandWildcard;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.CountRequest;
+import co.elastic.clients.elasticsearch.indices.DeleteIndexRequest;
+import co.elastic.clients.elasticsearch.indices.IndexState;
+import co.elastic.clients.elasticsearch.indices.RefreshRequest;
+import co.elastic.clients.elasticsearch.indices.get_mapping.IndexMappingRecord;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
@@ -32,26 +25,28 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Data Access Object for accessing and manipulating elasticsearch.
- * 
+ *
  * @author René Reitmann
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ElasticsearchDao {
 
-  private final RestHighLevelClient client;
+  private final ElasticsearchClient client;
 
   /**
    * Create an index with the given settings as json.
-   * 
+   *
    * @param index the name of the index
    * @param settings the settings json
    */
   public void createIndex(String index, String settings) {
-    CreateIndexRequest request = new CreateIndexRequest(index);
-    request.settings(settings, XContentType.JSON);
     try {
-      client.indices().create(request, RequestOptions.DEFAULT);
+      this.client.indices().create(r -> r
+        .index(index)
+        .settings(s -> s.withJson(new StringReader(settings)))
+      );
     } catch (IOException e) {
       throw new ElasticsearchIndexCreateException(index, e);
     }
@@ -59,31 +54,30 @@ public class ElasticsearchDao {
 
   /**
    * Get the current settings for the given index.
-   * 
+   *
    * @param index The name of the index.
    * @return the current settings json
    */
-  public Settings getSettings(String index) {
-    GetSettingsRequest request = new GetSettingsRequest().indices(index);
-    GetSettingsResponse response;
+  public Map<String, IndexState> getSettings(String index) {
     try {
-      response = client.indices().getSettings(request, RequestOptions.DEFAULT);
+      return this.client.indices().getSettings(r -> r.index(index)).result();
     } catch (IOException e) {
       throw new ElasticsearchIoException(e);
     }
-    return response.getIndexToSettings().get(index);
   }
 
   /**
    * Create or update the mapping for the given type.
-   * 
+   *
    * @param index the name of the index holding the type
    * @param mapping the mapping json
    */
   public void putMapping(String index, String mapping) {
-    PutMappingRequest request = new PutMappingRequest(index).source(mapping, XContentType.JSON);
     try {
-      client.indices().putMapping(request, RequestOptions.DEFAULT);
+      this.client.indices().putMapping(r -> r
+        .index(index)
+        .withJson(new StringReader(mapping))
+      );
     } catch (IOException e) {
       throw new ElasticsearchPutMappingException(index, e);
     }
@@ -91,31 +85,27 @@ public class ElasticsearchDao {
 
   /**
    * Get the mapping for the given type.
-   * 
+   *
    * @param index the name of the index
    * @return the mapping json
    */
-  public MappingMetadata getMapping(String index) {
-    GetMappingsRequest request = new GetMappingsRequest().indices(index);
-    GetMappingsResponse response;
+  public Map<String, IndexMappingRecord> getMapping(String index) {
     try {
-      response = client.indices().getMapping(request, RequestOptions.DEFAULT);
+      return this.client.indices().getMapping(r -> r.index(index)).result();
     } catch (IOException e) {
       throw new ElasticsearchIoException(e);
     }
-    return response.mappings().get(index);
   }
 
   /**
    * Check if the given index exists.
-   * 
+   *
    * @param index the name of the index
    * @return true if the index exists.
    */
   public boolean exists(String index) {
-    GetIndexRequest request = new GetIndexRequest(index);
     try {
-      return client.indices().exists(request, RequestOptions.DEFAULT);
+      return this.client.indices().exists(r -> r.index(index)).value();
     } catch (IOException e) {
       throw new ElasticsearchIoException(e);
     }
@@ -123,14 +113,17 @@ public class ElasticsearchDao {
 
   /**
    * Refresh the given indices synchronously.
-   * 
+   *
    * @param indices the indices to refresh.
    */
   public void refresh(String... indices) {
-    RefreshRequest request = new RefreshRequest(indices);
-    request.indicesOptions(IndicesOptions.fromOptions(true, true, false, false));
     try {
-      client.indices().refresh(request, RequestOptions.DEFAULT);
+      this.client.indices().refresh(RefreshRequest.of(r -> r
+        .index(List.of(indices))
+        .ignoreUnavailable(true)
+        .allowNoIndices(true)
+        .expandWildcards(ExpandWildcard.None)
+      ));
     } catch (IOException e) {
       throw new ElasticsearchIoException(e);
     }
@@ -138,13 +131,12 @@ public class ElasticsearchDao {
 
   /**
    * Delete the given index and all of its documents.
-   * 
+   *
    * @param index The name of the index to delete.
    */
   public void delete(String index) {
-    DeleteIndexRequest request = new DeleteIndexRequest(index);
     try {
-      client.indices().delete(request, RequestOptions.DEFAULT);
+      this.client.indices().delete(DeleteIndexRequest.of(dir -> dir.index(index)));
     } catch (IOException e) {
       throw new ElasticsearchIndexDeleteException(index, e);
     }
@@ -152,16 +144,14 @@ public class ElasticsearchDao {
 
   /**
    * Count all documents in all indices.
-   * 
+   *
    * @return The number of all documents in all indices.
    */
   public long countAllDocuments() {
-    CountRequest countRequest = new CountRequest();
-    SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-    searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-    countRequest.source(searchSourceBuilder);
     try {
-      return client.count(countRequest, RequestOptions.DEFAULT).getCount();
+      return this.client.count(CountRequest.of(r -> r
+        .query(q -> q.matchAll(m -> m))
+      )).count();
     } catch (IOException e) {
       throw new ElasticsearchIoException(e);
     }
@@ -169,12 +159,16 @@ public class ElasticsearchDao {
 
   /**
    * Execute a bulk of operations.
-   * 
+   *
    * @param bulkRequest The bulk to be executed.
    */
   public void executeBulk(BulkRequest bulkRequest) {
     try {
-      client.bulk(bulkRequest, RequestOptions.DEFAULT);
+      final var response = this.client.bulk(bulkRequest);
+      if (response.errors()) {
+        log.error("Bulk request returned with errors:");
+        response.items().forEach(item -> log.error(item.toString()));
+      }
     } catch (IOException e) {
       throw new ElasticsearchBulkOperationException(e);
     }

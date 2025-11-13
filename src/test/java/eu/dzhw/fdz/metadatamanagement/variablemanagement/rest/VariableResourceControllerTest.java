@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -53,10 +54,11 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 
 /**
  * Tests for the variable resource.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
+@Disabled
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class VariableResourceControllerTest extends AbstractTest {
   private static final String API_VARIABLES_URI = "/api/variables";

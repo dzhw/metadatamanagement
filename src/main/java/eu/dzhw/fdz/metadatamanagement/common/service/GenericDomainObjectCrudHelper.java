@@ -1,17 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.ConstantScoreQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.event.AfterCreateEvent;
@@ -20,8 +18,6 @@ import org.springframework.data.rest.core.event.AfterSaveEvent;
 import org.springframework.data.rest.core.event.BeforeCreateEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
-
-import com.google.gson.Gson;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
@@ -43,6 +39,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 
+import static java.util.Arrays.asList;
+
 /**
  * Component which implements CRUD functions for all {@link AbstractRdcDomainObject}s.
  *
@@ -61,7 +59,7 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
   protected final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private static final List<String> defaultIgnoreProperties =
-      Collections.unmodifiableList(Arrays.asList("createdDate", "createdBy", "version"));
+      Collections.unmodifiableList(asList("createdDate", "createdBy", "version"));
 
   protected final ElasticsearchType elasticsearchType;
 
@@ -69,9 +67,7 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
 
   protected final Class<? extends T> searchDocumentClass;
 
-  protected final RestHighLevelClient elasticsearchClient;
-
-  private final Gson gson;
+  protected final ElasticsearchClient elasticsearchClient;
 
   /**
    * Create the CRUD service.
@@ -82,8 +78,8 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       DomainObjectChangesProvider<T> domainObjectChangesProvider,
-      RestHighLevelClient elasticsearchClient, Class<? extends T> searchDocumentClass,
-      Gson gson) {
+      ElasticsearchClient elasticsearchClient, Class<? extends T> searchDocumentClass)
+  {
     this.repository = repository;
     this.applicationEventPublisher = applicationEventPublisher;
     this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
@@ -91,7 +87,6 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
     this.domainObjectChangesProvider = domainObjectChangesProvider;
     this.elasticsearchClient = elasticsearchClient;
     this.searchDocumentClass = searchDocumentClass;
-    this.gson = gson;
   }
 
   private ElasticsearchType computeElasticsearchType(S repository) {
@@ -227,26 +222,35 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
     if (elasticsearchType == null) {
       return Optional.empty();
     }
-    SearchSourceBuilder builder = new SearchSourceBuilder();
-    builder.fetchSource(null,
-        ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(searchDocumentClass));
-    builder
-        .query(QueryBuilders
-            .constantScoreQuery(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("id", id))))
-        .size(1);
-
-    return executeSearch(new SearchRequest().source(builder));
+    // configure excluded fields
+    final var excludeFields = asList(ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(searchDocumentClass));
+    final var sourceConfig = SourceConfig.of(sc -> sc.filter(f -> f.excludes(excludeFields)));
+    // configure query
+    final var haveId = TermQuery.of(t -> t.field("id").value(id));
+    final var constantScoreQuery = ConstantScoreQuery.of(csq -> csq.filter(q -> q
+      .bool(b -> b
+        .must(haveId)
+      )
+    ));
+    // create the search request
+    final var searchRequest = SearchRequest.of(s -> s
+      .source(sourceConfig)
+      .query(constantScoreQuery)
+      .size(1)
+    );
+    return this.executeSearch(searchRequest);
   }
 
   @SuppressFBWarnings("BC_UNCONFIRMED_CAST_OF_RETURN_VALUE")
   protected Optional<T> executeSearch(SearchRequest request) {
     try {
-      SearchHit[] hits =
-          elasticsearchClient.search(request, RequestOptions.DEFAULT).getHits().getHits();
-      if (hits.length > 0) {
-        return Optional.of(gson.fromJson(hits[0].getSourceAsString(), searchDocumentClass));
-      } else {
+      final var response = elasticsearchClient.search(request, searchDocumentClass);
+      final var hits = response.hits().hits();
+      if (hits.isEmpty()) {
         return Optional.empty();
+      } else {
+        T result = hits.get(0).source();
+        return Optional.ofNullable(result);
       }
     } catch (IOException e) {
       throw new ElasticsearchIoException(e);

@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 
 /**
  * Component which implements CRUD functions for all {@link Task}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -17,7 +17,6 @@ public class TaskCrudHelper extends GenericDomainObjectCrudHelper<Task, TaskRepo
   public TaskCrudHelper(TaskRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null, null, null,
-        null);
+    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null, null, null);
   }
 }
