@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +59,7 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
   protected final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private static final List<String> defaultIgnoreProperties =
-      Collections.unmodifiableList(Arrays.asList("createdDate", "createdBy", "version"));
+      Collections.unmodifiableList(asList("createdDate", "createdBy", "version"));
 
   protected final ElasticsearchType elasticsearchType;
 
