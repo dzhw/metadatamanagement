@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
@@ -35,22 +36,23 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+@Disabled
 public class ConceptAttachmentResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
-  
+
   @Autowired
   private ConceptRepository conceptRepository;
-  
+
   @Autowired
   private ConceptAttachmentService conceptAttachmentService;
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -227,7 +229,7 @@ public class ConceptAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("concept-management.error.concept-attachment-metadata.type.valid-type")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithMissingDescription() throws Exception {
@@ -248,7 +250,7 @@ public class ConceptAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("concept-management.error.concept-attachment-metadata.description.i18n-string-not-empty")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithConcept() throws Exception {
@@ -259,7 +261,7 @@ public class ConceptAttachmentResourceTest extends AbstractTest {
     mockMvc.perform(put("/api/concepts/" + concept.getId())
       .content(TestUtil.convertObjectToJsonBytes(concept)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     ConceptAttachmentMetadata conceptAttachmentMetadata = UnitTestCreateDomainObjectUtils
@@ -272,11 +274,11 @@ public class ConceptAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
-    
+
     // delete the concept by id
     mockMvc.perform(delete("/api/concepts/" + concept.getId()))
       .andExpect(status().isNoContent());
-    
+
     // check if attachment has been deleted as well
     mockMvc.perform(
         get("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))

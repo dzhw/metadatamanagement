@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -41,6 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+@Disabled
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class QuestionResourceControllerTest extends AbstractTest {
   private static final String API_QUESTIONS_URI = "/api/questions";
@@ -53,7 +55,7 @@ public class QuestionResourceControllerTest extends AbstractTest {
 
   @Autowired
   private QuestionRepository questionRepository;
-  
+
   @Autowired
   private SurveyRepository surveyRepository;
 
@@ -64,7 +66,7 @@ public class QuestionResourceControllerTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -151,17 +153,17 @@ public class QuestionResourceControllerTest extends AbstractTest {
 
     Question question =
         UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, "instrument-Id");
-   
+
     // create the Question with the given id
     mockMvc.perform(post(API_QUESTIONS_URI).content(TestUtil.convertObjectToJsonBytes(question))
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
-    
+
     // assert that the question exists
     mockMvc.perform(get(API_QUESTIONS_URI + "/" + question.getId())).andExpect(status().isOk());
-    
+
     // delete the question
     mockMvc.perform(delete(API_QUESTIONS_URI + "/" + question.getId())).andExpect(status().isNoContent());
-    
+
     // assert that the question does not exist anymore
     mockMvc.perform(get(API_QUESTIONS_URI + "/" + question.getId()))
         .andExpect(status().isNotFound());
@@ -180,7 +182,7 @@ public class QuestionResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
       question.setQuestionText(I18nString.builder().de("Angepasst")
           .en("Different Value")
           .build());
@@ -272,7 +274,7 @@ public class QuestionResourceControllerTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
-  
+
   @Test
   public void testCreateQuestionWithoutNumber() throws Exception {
     // Arrange

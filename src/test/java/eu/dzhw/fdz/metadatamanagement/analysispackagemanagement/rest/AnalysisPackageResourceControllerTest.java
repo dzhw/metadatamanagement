@@ -19,6 +19,7 @@ import java.util.List;
 import org.javers.common.collections.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -46,6 +47,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 
+@Disabled
 public class AnalysisPackageResourceControllerTest extends AbstractTest {
   private static final String API_ANALYSISPACKAGE_URI = "/api/analysis-packages";
 

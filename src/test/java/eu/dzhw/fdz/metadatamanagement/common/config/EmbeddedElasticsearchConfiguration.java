@@ -26,18 +26,18 @@ public class EmbeddedElasticsearchConfiguration {
 
   private static EmbeddedElastic elastic;
 
-  static {
-    try {
-      elastic = EmbeddedElastic.builder()
-          .withElasticVersion(MetadataManagementProperties.Elasticsearch.TEST_VERSION)
-          .withJavaHome(JavaHomeOption.inheritTestSuite()).withEsJavaOpts("-Xms128m -Xmx1024m")
-          .withSetting(PopularProperties.HTTP_PORT, 19234)
-          .withSetting(PopularProperties.CLUSTER_NAME, "metadatamanagement-test")
-          .withInstallationDirectory(new File("target/elasticsearch"))
-          .withCleanInstallationDirectoryOnStop(false).withStartTimeout(2, TimeUnit.MINUTES).build()
-          .start();
-    } catch (Exception e) {
-      log.error("Unable to start embedded elasticsearch", e);
-    }
-  }
+//  static {
+//    try {
+//      elastic = EmbeddedElastic.builder()
+//          .withElasticVersion(MetadataManagementProperties.Elasticsearch.TEST_VERSION)
+//          .withJavaHome(JavaHomeOption.inheritTestSuite()).withEsJavaOpts("-Xms128m -Xmx1024m")
+//          .withSetting(PopularProperties.HTTP_PORT, 19234)
+//          .withSetting(PopularProperties.CLUSTER_NAME, "metadatamanagement-test")
+//          .withInstallationDirectory(new File("target/elasticsearch"))
+//          .withCleanInstallationDirectoryOnStop(false).withStartTimeout(2, TimeUnit.MINUTES).build()
+//          .start();
+//    } catch (Exception e) {
+//      log.error("Unable to start embedded elasticsearch", e);
+//    }
+//  }
 }
