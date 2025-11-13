@@ -24,7 +24,6 @@ public class ElasticsearchClientConfiguration {
 
   @Bean(destroyMethod = "close")
   public ElasticsearchClient elasticsearchClient() {
-    log.info("Using Elasticsearch instance at {}", this.url);
     final var restClient = RestClient.builder(HttpHost.create(this.url)).build();
     final var jsonMapper = new JacksonJsonpMapper(new ObjectMapper().registerModule(new JavaTimeModule()));
     final var transport = new RestClientTransport(restClient, jsonMapper);
