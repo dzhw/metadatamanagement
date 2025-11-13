@@ -32,23 +32,12 @@ resource "aws_alb_target_group" "mdm" {
   }
 }
 
-resource "aws_iam_server_certificate" "mdm_tls_certificate" {
-  name_prefix = "tls-mdm-with-alternative-names"
-  certificate_body = var.load_balancer_tls_certificate_body
-  certificate_chain = var.load_balancer_tls_certificate_chain
-  private_key = var.load_balancer_tls_private_key
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 # As fallback redirect all https traffic from the ALB to the prod target group
 resource "aws_alb_listener" "front_end" {
   load_balancer_arn = aws_alb.load_balancer.id
   port              = 443
   protocol          = "HTTPS"
-  certificate_arn = aws_iam_server_certificate.mdm_tls_certificate.arn
+  certificate_arn   = "arn:aws:acm:eu-central-1:347729458675:certificate/23a17421-8267-4154-937a-ffdcb40ba6e1"
 
   default_action {
     target_group_arn = aws_alb_target_group.mdm[2].id
