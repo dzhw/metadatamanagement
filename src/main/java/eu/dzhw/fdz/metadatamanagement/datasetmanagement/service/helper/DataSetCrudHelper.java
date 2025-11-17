@@ -1,10 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper;
 
-import org.elasticsearch.client.RestHighLevelClient;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -16,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 
 /**
  * Component which implements CRUD functions for all {@link DataSet}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -28,10 +26,10 @@ public class DataSetCrudHelper
   public DataSetCrudHelper(DataSetRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DataSetChangesProvider dataSetChangesProvider, RestHighLevelClient elasticsearchClient,
-      UserInformationProvider userInformationProvider, Gson gson) {
+      DataSetChangesProvider dataSetChangesProvider, ElasticsearchClient elasticsearchClient,
+      UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
         dataSetChangesProvider, elasticsearchClient, DataSetSearchDocument.class,
-        userInformationProvider, gson);
+        userInformationProvider);
   }
 }

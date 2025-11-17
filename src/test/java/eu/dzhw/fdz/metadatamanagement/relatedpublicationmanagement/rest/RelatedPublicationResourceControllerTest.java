@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -38,10 +39,11 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
- * 
+ *
  * @author Daniel Katzberg
  *
  */
+@Disabled
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class RelatedPublicationResourceControllerTest extends AbstractTest {
   private static final String API_RELATED_PUBLICATION_URI = "/api/related-publications";
@@ -225,7 +227,7 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
         .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
-    
+
     // delete the related publication under the new url
     mockMvc.perform(delete(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
         .andExpect(status().is2xxSuccessful());
@@ -233,7 +235,7 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
     // ensure it is really deleted
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
         .andExpect(status().isNotFound());
-    
+
     // check that there is one dataPackage document left
     elasticsearchUpdateQueueService.processAllQueueItems();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));

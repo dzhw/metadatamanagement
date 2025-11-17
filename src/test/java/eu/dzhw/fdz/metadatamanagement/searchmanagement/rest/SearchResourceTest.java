@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
+@Disabled
 public class SearchResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;

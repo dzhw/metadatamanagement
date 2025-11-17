@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -39,6 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+@Disabled
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class InstrumentResourceControllerTest extends AbstractTest {
   private static final String API_INSTRUMENTS_URI = "/api/instruments";

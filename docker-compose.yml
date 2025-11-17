@@ -16,15 +16,17 @@ services:
     ports:
       - "27017:27017"
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.6
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=false # disable authentication
     # ensure group has rwx on this directory
     volumes:
       - ./data/elasticsearch/data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
+      - "9300:9300"
     deploy:
       resources:
         limits:

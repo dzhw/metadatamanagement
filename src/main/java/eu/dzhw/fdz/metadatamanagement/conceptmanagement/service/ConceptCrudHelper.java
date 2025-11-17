@@ -1,10 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.service;
 
-import org.elasticsearch.client.RestHighLevelClient;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
@@ -14,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 
 /**
  * Component which implements CRUD functions for all {@link Concept}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -22,8 +20,8 @@ public class ConceptCrudHelper extends GenericDomainObjectCrudHelper<Concept, Co
   public ConceptCrudHelper(ConceptRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      RestHighLevelClient elasticsearchClient, Gson gson) {
+      ElasticsearchClient elasticsearchClient) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null,
-        elasticsearchClient, ConceptSearchDocument.class, gson);
+        elasticsearchClient, ConceptSearchDocument.class);
   }
 }

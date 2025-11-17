@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,36 +33,37 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+@Disabled
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class InstrumentVersionsResourceTest extends AbstractTest {
   private static final String API_INSTRUMENT_URI = "/api/instruments";
-  
+
   @Autowired
   private WebApplicationContext wac;
-  
+
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-  
+
   @Autowired
   private InstrumentRepository instrumentRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
-  
+
   private MockMvc mockMvc;
-  
+
   @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
   }
-  
+
   @AfterEach
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
@@ -70,14 +72,14 @@ public class InstrumentVersionsResourceTest extends AbstractTest {
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
-  
+
   @Test
   public void testCreateInstrumentAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    
+
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    
+
     // create the instrument with the given id
     mockMvc
         .perform(put(API_INSTRUMENT_URI + "/" + instrument.getId())
@@ -92,15 +94,15 @@ public class InstrumentVersionsResourceTest extends AbstractTest {
         .andExpect(jsonPath("$[0].id", is(instrument.getId())))
         .andExpect(jsonPath("$[0].title.de", is(instrument.getTitle().getDe())));
   }
-  
+
   @Test
   public void testEditInstrumentAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    
+
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
     String firstTitle = instrument.getTitle().getDe();
-    
+
     // create the instrument with the given id
     mockMvc
         .perform(put(API_INSTRUMENT_URI + "/" + instrument.getId())

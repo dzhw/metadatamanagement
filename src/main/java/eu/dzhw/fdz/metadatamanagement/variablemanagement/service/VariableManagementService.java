@@ -2,13 +2,15 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
@@ -23,7 +25,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.Gson;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
@@ -37,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.Elasticsear
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataAcquisitionProjectSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -47,15 +48,10 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.helper.VariableCrudHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.ExistsQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermQueryBuilder;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
+
+import static eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType.data_acquisition_projects;
+import static eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType.data_packages;
+import static eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType.variables;
 
 /**
  * Service for managing the domain object/aggregate {@link Variable}.
@@ -78,9 +74,7 @@ public class VariableManagementService implements CrudService<Variable> {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  private final RestHighLevelClient client;
-
-  private final Gson gson;
+  private final ElasticsearchClient client;
 
   private static final String landingPageBaseUrl = "https://metadata.fdz.dzhw.eu/en/variables/";
   private static final String pidPrefix = "21.T11998/dzhw:";
@@ -107,7 +101,7 @@ public class VariableManagementService implements CrudService<Variable> {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
-        ElasticsearchType.variables);
+        variables);
   }
 
   /**
@@ -137,7 +131,7 @@ public class VariableManagementService implements CrudService<Variable> {
   public void onDataSetChanged(DataSet dataSet) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByDataSetId(dataSet.getId()),
-        ElasticsearchType.variables);
+        variables);
   }
 
   /**
@@ -151,7 +145,7 @@ public class VariableManagementService implements CrudService<Variable> {
   public void onDataPackageChanged(DataPackage dataPackage) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByDataPackageId(dataPackage.getId()),
-        ElasticsearchType.variables);
+        variables);
   }
 
   /**
@@ -165,7 +159,7 @@ public class VariableManagementService implements CrudService<Variable> {
   public void onInstrumentChanged(Instrument instrument) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByRelatedQuestionsInstrumentId(instrument.getId()),
-        ElasticsearchType.variables);
+        variables);
   }
 
   /**
@@ -179,7 +173,7 @@ public class VariableManagementService implements CrudService<Variable> {
   public void onQuestionChanged(Question question) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByRelatedQuestionsQuestionId(question.getId()),
-        ElasticsearchType.variables);
+        variables);
   }
 
   /**
@@ -193,7 +187,7 @@ public class VariableManagementService implements CrudService<Variable> {
   public void onSurveyChanged(Survey survey) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsBySurveyIdsContaining(survey.getId()),
-        ElasticsearchType.variables);
+        variables);
   }
 
   /**
@@ -209,7 +203,7 @@ public class VariableManagementService implements CrudService<Variable> {
       Set<String> questionIds = questionRepository.streamIdsByConceptIdsContaining(concept.getId())
           .map(question -> question.getId()).collect(Collectors.toSet());
       return variableRepository.streamIdsByRelatedQuestionsQuestionIdIn(questionIds);
-    }, ElasticsearchType.variables);
+    }, variables);
   }
 
   @Override
@@ -270,63 +264,81 @@ public class VariableManagementService implements CrudService<Variable> {
    * @return collected metadata as JsonNode
    */
   private ArrayNode getPidVariablesMetadata() {
-    ArrayNode jsonNode = objectMapper.createArrayNode();
-    SearchRequest projectsRequest = new SearchRequest();
-    SearchSourceBuilder builderProjects = new SearchSourceBuilder();
-    builderProjects.query(QueryBuilders.boolQuery()
-      .must(new TermQueryBuilder("shadow", false))
-      .must(new TermQueryBuilder("hidden", false))
-      .must(new ExistsQueryBuilder("release"))
-      .must(new TermQueryBuilder("release.isPreRelease", false)))
-      .size(10000);
-    projectsRequest.source(builderProjects);
-    projectsRequest.indices("data_acquisition_projects");
-    try {
-      SearchResponse response =  client.search(projectsRequest, RequestOptions.DEFAULT);
-      List<SearchHit> hits = Arrays.asList(response.getHits().getHits());
-      log.info("Exporting variables for " + hits.size() + " projects");
-      for (var hit : hits) {
-        DataAcquisitionProjectSearchDocument project = gson.fromJson(
-            hit.getSourceAsString(), DataAcquisitionProjectSearchDocument.class);
-        SearchRequest dataPackagesRequest = new SearchRequest();
-        SearchSourceBuilder builderDataPackages = new SearchSourceBuilder();
-        builderDataPackages.query(QueryBuilders.boolQuery()
-          .must(new TermQueryBuilder("shadow", true))
-          .must(new TermQueryBuilder("dataAcquisitionProjectId", project.getId()
-            + "-" + project.getRelease().getVersion())))
-          .size(10);
-        dataPackagesRequest.source(builderDataPackages);
-        dataPackagesRequest.indices("data_packages");
-        SearchResponse responseDataPackage =  client.search(dataPackagesRequest, RequestOptions.DEFAULT);
-        List<SearchHit> hitsDataPackages = Arrays.asList(responseDataPackage.getHits().getHits());
-        assert hitsDataPackages.size() == 1;
 
-        SearchRequest variablesRequest = new SearchRequest();
-        SearchSourceBuilder builderVariables = new SearchSourceBuilder();
-        builderVariables.query(QueryBuilders.boolQuery()
-          .must(new TermQueryBuilder("shadow", true))
-          .must(new TermQueryBuilder("dataAcquisitionProjectId", project.getId()
-            + "-" + project.getRelease().getVersion())))
-          .size(10000);
-        variablesRequest.source(builderVariables);
-        variablesRequest.indices("variables");
-        SearchResponse responseVariables =  client.search(variablesRequest, RequestOptions.DEFAULT);
-        List<SearchHit> hitsVariables = Arrays.asList(responseVariables.getHits().getHits());
-        for (var variable : hitsVariables) {
-          VariableSearchDocument variableObj = gson.fromJson(
-              variable.getSourceAsString(), VariableSearchDocument.class);
-          DataPackageSearchDocument dataPackage = gson.fromJson(
-              hitsDataPackages.get(0).getSourceAsString(), DataPackageSearchDocument.class);
-          ObjectNode obj = this.getPidMetadataOfVariable(variableObj, project, dataPackage);
-          if (obj != null) {
-            jsonNode.add(obj);
-          }
-        }
-      }
-      return jsonNode;
+    final var projectsRequest = SearchRequest.of(r -> r
+      .query(q -> q
+        .bool(b -> b
+          .must(m -> m.term(t -> t.field("shadow").value(false)))
+          .must(m -> m.term(t -> t.field("hidden").value(false)))
+          .filter(f -> f.exists(e -> e.field("release")))
+          .must(m -> m.term(t -> t.field("release.isPreRelease").value(false)))))
+      .index(data_acquisition_projects.name())
+      .size(10_000)
+    );
+
+    SearchResponse<DataAcquisitionProjectSearchDocument> response;
+    try {
+      response = this.client.search(projectsRequest, DataAcquisitionProjectSearchDocument.class);
     } catch (IOException e) {
       throw new ElasticsearchIoException(e);
     }
+
+    ArrayNode jsonNode = objectMapper.createArrayNode();
+    final var projectResults = response.hits().hits();
+    log.info("Exporting variables for {} projects", projectResults.size());
+    for (var projectResult : projectResults) {
+      final var project = Optional.ofNullable(projectResult.source()).orElseThrow();
+      final var dataPackagesRequest = SearchRequest.of(r -> r
+        .query(q -> q
+          .bool(b -> b
+            .must(m -> m.term(t -> t.field("shadow").value(false)))
+            .must(m -> m.term(t -> t
+              .field("dataAcquisitionProjectId")
+              .value(project.getId() + "-" + project.getRelease().getVersion())))))
+        .index(data_packages.name())
+        .size(10)
+      );
+
+      SearchResponse<DataPackageSearchDocument> dataPackageResponse;
+      try {
+        dataPackageResponse = this.client.search(dataPackagesRequest, DataPackageSearchDocument.class);
+      } catch (IOException e) {
+        throw new ElasticsearchIoException(e);
+      }
+      final var dataPackageResults = dataPackageResponse.hits().hits();
+      if (dataPackageResults.size() != 1) {
+        throw new RuntimeException(String.format(
+          "Unexpected number of data packages (%d) found for project with ID '%s' and version '%s'",
+          dataPackageResults.size(), project.getId(), project.getRelease().getVersion()));
+      }
+
+      final var variablesRequest = SearchRequest.of(r -> r
+        .query(q -> q
+          .bool(b -> b
+            .must(m -> m.term(t -> t.field("shadow").value(true)))
+            .must(m -> m.term(t -> t
+              .field("dataAcquisitionProjectId")
+              .value(project.getId() + "-" + project.getRelease().getVersion())))))
+        .index(variables.name())
+        .size(10_000)
+      );
+      SearchResponse<VariableSearchDocument> variablesResponse;
+      try {
+        variablesResponse = this.client.search(variablesRequest, VariableSearchDocument.class);
+      } catch (IOException e) {
+        throw new ElasticsearchIoException(e);
+      }
+      final var variableResults = variablesResponse.hits().hits();
+      for (var variableResult : variableResults) {
+        final var variable = Optional.ofNullable(variableResult.source()).orElseThrow();
+        final var dataPackage = dataPackageResults.get(0).source();
+        ObjectNode obj = this.getPidMetadataOfVariable(variable, project, dataPackage);
+        if (obj != null) {
+          jsonNode.add(obj);
+        }
+      }
+    }
+    return jsonNode;
   }
 
   /**
