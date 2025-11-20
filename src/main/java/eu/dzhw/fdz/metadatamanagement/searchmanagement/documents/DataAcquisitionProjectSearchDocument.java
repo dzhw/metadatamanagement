@@ -4,6 +4,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -16,6 +17,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class DataAcquisitionProjectSearchDocument extends DataAcquisitionProject implements SearchDocumentInterface {
 
   private static final long serialVersionUID = -3963249178909573557L;

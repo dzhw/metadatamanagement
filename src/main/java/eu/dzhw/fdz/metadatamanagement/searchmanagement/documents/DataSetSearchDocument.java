@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -28,6 +29,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class DataSetSearchDocument extends DataSet implements SearchDocumentInterface {
 
   private static final long serialVersionUID = 9158419346767595658L;
@@ -60,7 +62,7 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
 
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    * @param dataSet The data set to be searched for.
    * @param dataPackage The dataPackage containing this data set.
    * @param variables The variables available in this data set.

@@ -13,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -25,6 +26,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class AnalysisPackageSearchDocument extends AnalysisPackage
     implements SearchDocumentInterface {
   private static final long serialVersionUID = -4932203007968722541L;

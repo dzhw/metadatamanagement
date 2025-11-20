@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.List;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -13,7 +14,7 @@ import lombok.ToString;
 
 /**
  * NESTED subdocument used for filtering by dataSets.
- * 
+ *
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
@@ -21,6 +22,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class DataSetNestedDocument extends AbstractNestedSubDocument {
 
   private static final long serialVersionUID = -2760512563630819794L;
@@ -36,14 +38,14 @@ public class DataSetNestedDocument extends AbstractNestedSubDocument {
   private List<String> surveyIds;
 
   private String masterId;
-  
+
   private boolean shadow;
-  
+
   private String successorId;
 
   /**
    * Create the sub document from the given projection.
-   * 
+   *
    * @param projection the data set projection
    */
   public DataSetNestedDocument(DataSetSubDocumentProjection projection) {

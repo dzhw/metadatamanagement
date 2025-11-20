@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -26,35 +27,36 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 @SuppressWarnings("CPD-START")
 public class QuestionSearchDocument extends Question implements SearchDocumentInterface {
 
   private static final long serialVersionUID = -869861030740857451L;
-  
+
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
       new String[] {"nested*", "variables", "configuration", "guiLabels", "*Publications"};
-  
+
   private DataPackageSubDocument dataPackage = null;
   private DataPackageNestedDocument nestedDataPackage = null;
   private InstrumentSubDocument instrument = null;
   private InstrumentNestedDocument nestedInstrument = null;
-  private List<SurveySubDocument> surveys = 
+  private List<SurveySubDocument> surveys =
       new ArrayList<>();
   private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
-  private List<VariableSubDocument> variables = 
+  private List<VariableSubDocument> variables =
       new ArrayList<>();
   private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
-  private List<DataSetSubDocument> dataSets = 
+  private List<DataSetSubDocument> dataSets =
       new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
-  private List<ConceptSubDocument> concepts = 
+  private List<ConceptSubDocument> concepts =
       new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
   private Configuration configuration;
-  
+
   private I18nString guiLabels = QuestionDetailsGuiLabels.GUI_LABELS;
-  
+
   private I18nString completeTitle;
 
   /**
