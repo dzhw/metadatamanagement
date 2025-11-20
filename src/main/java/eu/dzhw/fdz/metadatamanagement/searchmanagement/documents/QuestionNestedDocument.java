@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -19,6 +20,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class QuestionNestedDocument extends AbstractNestedSubDocument {
 
   private static final long serialVersionUID = -8018921195951689419L;
@@ -36,9 +38,9 @@ public class QuestionNestedDocument extends AbstractNestedSubDocument {
   private String dataPackageId;
 
   private String masterId;
-  
+
   private boolean shadow;
-  
+
   private String successorId;
 
   /**

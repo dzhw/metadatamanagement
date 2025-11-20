@@ -8,6 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -20,6 +21,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 @SuppressWarnings("CPD-START")
 public class RelatedPublicationSearchDocument extends RelatedPublication
     implements SearchDocumentInterface {
@@ -31,7 +33,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
 
   private List<DataPackageSubDocument> dataPackages = new ArrayList<>();
   private List<DataPackageNestedDocument> nestedDataPackages = new ArrayList<>();
-  
+
   private List<AnalysisPackageSubDocument> analysisPackages = new ArrayList<>();
   private List<AnalysisPackageNestedDocument> nestedAnalysisPackages = new ArrayList<>();
 
@@ -51,7 +53,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
 
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    * @param relatedPublication the related publication to be searched for
    * @param dataPackages the dataPackages for which the publication was published
    * @param nestedDataPackages the dataPackages for which the publication was published

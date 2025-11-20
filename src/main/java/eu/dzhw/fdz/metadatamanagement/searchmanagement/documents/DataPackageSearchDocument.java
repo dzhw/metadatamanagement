@@ -29,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.CountryCod
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -41,6 +42,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class DataPackageSearchDocument extends DataPackage implements SearchDocumentInterface {
 
   private static final long serialVersionUID = -4015837106569277626L;
