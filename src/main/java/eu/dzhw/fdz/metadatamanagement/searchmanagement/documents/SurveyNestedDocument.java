@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -11,7 +12,7 @@ import lombok.ToString;
 
 /**
  * NESTED subdocument used for filtering by surveys.
- * 
+ *
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
@@ -19,6 +20,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class SurveyNestedDocument extends AbstractNestedSubDocument {
 
   private static final long serialVersionUID = -3409570990605982760L;
@@ -34,14 +36,14 @@ public class SurveyNestedDocument extends AbstractNestedSubDocument {
   private I18nString surveyMethod;
 
   private String masterId;
-  
+
   private boolean shadow;
-  
+
   private String successorId;
 
   /**
    * Create the subdocument.
-   * 
+   *
    * @param projection The projection coming from mongo.
    */
   public SurveyNestedDocument(SurveySubDocumentProjection projection) {

@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -28,6 +29,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 @SuppressWarnings("CPD-START")
 public class InstrumentSearchDocument extends Instrument implements SearchDocumentInterface {
 
@@ -57,7 +59,7 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
 
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    * @param instrument the instrument to be searched for
    * @param dataPackage the dataPackage containing this instrument
    * @param surveys the surveys using this intrument

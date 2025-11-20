@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -11,7 +12,7 @@ import lombok.ToString;
 
 /**
  * NESTED subdocument used for filtering by related publications.
- * 
+ *
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
@@ -19,6 +20,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class RelatedPublicationNestedDocument extends AbstractNestedSubDocument {
 
   private static final long serialVersionUID = 2113309527882338629L;
@@ -33,7 +35,7 @@ public class RelatedPublicationNestedDocument extends AbstractNestedSubDocument 
 
   /**
    * Create the subdocument.
-   * 
+   *
    * @param projection The projection coming from mongo.
    */
   public RelatedPublicationNestedDocument(RelatedPublicationSubDocumentProjection projection) {
