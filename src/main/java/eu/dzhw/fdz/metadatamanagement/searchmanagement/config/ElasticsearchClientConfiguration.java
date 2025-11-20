@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.config;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -53,7 +54,8 @@ public class ElasticsearchClientConfiguration {
     customMdmModule.addDeserializer(RelatedQuestionSubDocumentProjection.class, new RelatedQuestionSubDocumentProjectionDeserializer());
 
     this.objectMapper = new ObjectMapper()
-      .registerModule(customMdmModule);
+      .registerModule(customMdmModule)
+      .setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
   @Value("${spring.elasticsearch.rest.uris[0]}")
