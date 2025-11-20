@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -29,32 +30,33 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class VariableSearchDocument extends Variable implements SearchDocumentInterface {
 
   private static final long serialVersionUID = 9175808841240756548L;
-  
+
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
       new String[] {"nested*", "configuration", "guiLabels", "*Publications"};
-  
+
   private DataSetSubDocument dataSet = null;
   private DataSetNestedDocument nestedDataSet = null;
   private DataPackageSubDocument dataPackage = null;
   private DataPackageNestedDocument nestedDataPackage = null;
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
-  private List<SurveySubDocument> surveys = 
+  private List<SurveySubDocument> surveys =
       new ArrayList<>();
   private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
-  private List<InstrumentSubDocument> instruments = 
+  private List<InstrumentSubDocument> instruments =
       new ArrayList<>();
   private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
-  private List<ConceptSubDocument> concepts = 
+  private List<ConceptSubDocument> concepts =
       new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
   private Configuration configuration = null;
-  
+
   private I18nString guiLabels = VariableDetailsGuiLabels.GUI_LABELS;
-  
+
   private I18nString completeTitle;
 
   /**

@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -29,6 +30,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class SurveySearchDocument extends Survey implements SearchDocumentInterface {
 
   private static final long serialVersionUID = -3963249178909573553L;
@@ -57,7 +59,7 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
 
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    * @param survey the survey to be searched for
    * @param dataPackage the dataPackage containing this survey
    * @param dataSets the data sets available for this survey

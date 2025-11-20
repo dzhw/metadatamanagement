@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.List;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -21,6 +22,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class VariableNestedDocument extends AbstractNestedSubDocument {
 
   private static final long serialVersionUID = -3761244650513357760L;

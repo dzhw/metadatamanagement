@@ -13,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -23,6 +24,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 @SuppressWarnings("CPD-START")
 public class ConceptSearchDocument extends Concept implements SearchDocumentInterface {
 
@@ -58,7 +60,7 @@ public class ConceptSearchDocument extends Concept implements SearchDocumentInte
 
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    * @param concept the concept to be searched for
    * @param dataPackages the dataPackages in which this concept was used
    * @param questions the questions in which this concept was observed

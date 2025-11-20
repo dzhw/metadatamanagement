@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -11,7 +12,7 @@ import lombok.ToString;
 
 /**
  * NESTED subdocument used for filtering by concepts.
- * 
+ *
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
@@ -19,6 +20,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@NoArgsConstructor
 public class ConceptNestedDocument extends AbstractNestedSubDocument {
 
   private static final long serialVersionUID = -4497019627882545688L;
@@ -31,7 +33,7 @@ public class ConceptNestedDocument extends AbstractNestedSubDocument {
 
   /**
    * Create the subdocument.
-   * 
+   *
    * @param projection The projection coming from mongo.
    */
   public ConceptNestedDocument(ConceptSubDocumentProjection projection) {
