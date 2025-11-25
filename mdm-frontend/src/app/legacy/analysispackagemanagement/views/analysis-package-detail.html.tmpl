@@ -14,7 +14,15 @@
           <div class="fdz-tag-link-container" ng-if="ctrl.analysisPackageTags.length > 0">
             <h5>{{'analysis-package-management.detail.label.tags' | translate}}: </h5>
             <a ng-repeat="tag in ctrl.analysisPackageTags"
-               ng-if="ctrl.isAuthenticated()"
+               ng-if="ctrl.isAuthenticated() && !ctrl.isProviderView"
+               ui-sref="searchReleased({type: 'analysis_packages', 'tags': tag})">
+              <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'analysis-package-management.detail.tag-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+            <a ng-repeat="tag in ctrl.analysisPackageTags"
+               ng-if="ctrl.isAuthenticated() && ctrl.isProviderView"
                ui-sref="search({type: 'analysis_packages', 'query': tag})">
               <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -45,16 +53,24 @@
               </div>
               <div>
                 <a ng-repeat="tagElsst in ctrl.analysisPackageTagsElsst"
-                  ng-if="ctrl.isAuthenticated()"
-                  ui-sref="search({type: 'analysis_packages', 'query': tagElsst.prefLabel})">
+                  ng-if="ctrl.isAuthenticated() && !ctrl.isProviderView"
+                  ui-sref="searchReleased({type: 'analysis_packages', 'tagsElsst': tagElsst.prefLabel})">
                   <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'analysis-package-management.detail.tagElsst-tooltip' | translate}}
                   </md-tooltip>
                 </a>
+                <a ng-repeat="tagElsst in ctrl.dataPackageTagsElsst"
+                    ng-if="ctrl.isAuthenticated() && ctrl.isProviderView"
+                    ui-sref="search({type: 'data_packages', 'query': tagElsst.prefLabel})">
+                    <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
+                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{'data-package-management.detail.tagElsst-tooltip' | translate}}
+                  </md-tooltip>
+                </a>
                 <a ng-repeat="tagElsst in ctrl.analysisPackageTagsElsst"
                   ng-if="!ctrl.isAuthenticated()"
-                  ui-sref="search({type: 'analysis_packages', 'tags': tagElsst.prefLabel})">
+                  ui-sref="search({type: 'analysis_packages', 'tagsElsst': tagElsst.prefLabel})">
                   <span>{{tagElsst.prefLabel}}{{!$last?',&nbsp;':''}}</span>
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'analysis-package-management.detail.tagElsst-tooltip' | translate}}
