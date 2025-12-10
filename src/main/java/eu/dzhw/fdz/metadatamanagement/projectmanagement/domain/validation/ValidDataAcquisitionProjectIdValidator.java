@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import org.springframework.util.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * Validates project ids by valid pattern. Shadow copies must additionally provide a version suffix.

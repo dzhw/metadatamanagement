@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.mail.Message;
+import javax.mail.internet.MimeMessage;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ public class MailServiceTest extends AbstractTest {
 
   @Autowired
   private MailService mailService;
-  
+
   @AfterEach
   public void cleanUp() throws FolderException {
     greenMail.purgeEmailFromAllMailboxes();
@@ -44,7 +44,7 @@ public class MailServiceTest extends AbstractTest {
     // Act
     Future<Void> futureVoid = this.mailService.sendActivationEmail(user);
     futureVoid.get();
-    Message[] messages = greenMail.getReceivedMessages();
+    MimeMessage[] messages = greenMail.getReceivedMessages();
 
     // Arrange
     assertThat(futureVoid.isDone(), is(true));
@@ -61,7 +61,7 @@ public class MailServiceTest extends AbstractTest {
     // Act
     Future<Void> futureVoid = this.mailService.sendPasswordResetMail(user);
     futureVoid.get();
-    Message[] messages = greenMail.getReceivedMessages();
+    MimeMessage[] messages = greenMail.getReceivedMessages();
 
     // Arrange
     assertThat(futureVoid.isDone(), is(true));

@@ -1,15 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,41 +20,61 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity(securedEnabled = true)
+@AllArgsConstructor
+public class SecurityConfiguration {
 
-  @Autowired
-  private UserDetailsService userDetailsService;
+  private final UserDetailsService userDetailsService;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-  }
-
-  @Override
-  public void configure(WebSecurity web) {
-    web.ignoring().antMatchers("/scripts/**/*.{js,html}").antMatchers("/node_modules/**")
-        .antMatchers("/websocket/**").antMatchers("/i18n/**").antMatchers("/assets/**")
-        .antMatchers("/api/register").antMatchers("/api/activate")
-        .antMatchers("/api/account/reset-password/init")
-        .antMatchers("/api/account/reset-password/finish")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_search")
-        .antMatchers(HttpMethod.GET, "/api/search/**")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_mget")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_count")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_msearch")
-        .antMatchers(HttpMethod.GET, "/management/info");
-  }
-
-  @Override
   @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+  public AuthenticationManager authenticationManager() throws Exception {
+    var provider = new DaoAuthenticationProvider();
+    provider.setUserDetailsService(this.userDetailsService);
+    provider.setPasswordEncoder(this.passwordEncoder());
+    return new ProviderManager(provider);
+  }
+
+  // TODO consolidate with security filter chain config in OAuth2ServerConfiguration
+  // ignoring requestMatchers is deprecated
+  @Bean
+  WebSecurityCustomizer webSecurityCustomizer() {
+    return web -> web
+      .ignoring()
+        .requestMatchers(r ->
+          r.getMethod().equals(HttpMethod.GET.toString()) &&
+          r.getServletPath().startsWith("/scripts/") &&
+          r.getServletPath().endsWith(".js") &&
+          r.getServletPath().contains(".html")
+        )
+        .requestMatchers("/node_modules/**")
+        .requestMatchers("/websocket/**")
+        .requestMatchers("/i18n/**")
+        .requestMatchers("/assets/**")
+        .requestMatchers("/api/register")
+        .requestMatchers("/api/activate")
+        .requestMatchers("/api/account/reset-password/init")
+        .requestMatchers("/api/account/reset-password/finish")
+        .requestMatchers(r ->
+          r.getMethod().equals(HttpMethod.POST.toString()) &&
+          r.getServletPath().startsWith("/api/search/") &&
+          r.getServletPath().endsWith("/_search")
+        )
+        .requestMatchers(HttpMethod.GET, "/api/search/**")
+        .requestMatchers(r ->
+          r.getMethod().equals(HttpMethod.POST.toString()) &&
+          r.getServletPath().startsWith("/api/search/") &&
+          (
+            r.getServletPath().endsWith("/_mget") ||
+            r.getServletPath().endsWith("/_count") ||
+            r.getServletPath().endsWith("/_msearch")
+          )
+        )
+        .requestMatchers(HttpMethod.GET, "/management/info");
   }
 
   @Bean

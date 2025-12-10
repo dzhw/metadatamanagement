@@ -34,13 +34,6 @@ spring:
         port: 4025
     thymeleaf:
         mode: HTML
-    autoconfigure:
-      exclude:
-        - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextCredentialsAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextResourceLoaderAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
     elasticsearch:
       rest:
         uris:
@@ -58,7 +51,7 @@ mongock:
       journal: false
     read-concern: local
     read-preference: primary
-    
+
 logging:
     level:
       root: warn
@@ -73,7 +66,7 @@ server:
 javers:
   algorithm: levenshtein_distance
   snapshots-cache-size: 0
-  
+
 metadatamanagement:
   ordermanagement:
     email: test@dzhw.eu
@@ -103,3 +96,10 @@ jhipster:
 
 logbook:
   filter.enabled: false
+
+# Targeted MongoDB version required for testing with an embedded instance
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.4.0

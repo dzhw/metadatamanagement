@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import org.javers.core.metamodel.annotation.ValueObject;
 

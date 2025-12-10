@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * Validates the language to be an ISO 639 language code.

@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;

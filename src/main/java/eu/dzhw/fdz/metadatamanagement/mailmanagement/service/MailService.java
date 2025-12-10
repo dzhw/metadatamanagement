@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -33,7 +33,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
@@ -243,7 +243,7 @@ public class MailService {
   }
 
   @Async
-  private void sendChangedProjectConfigurationMail(String template, String subjectKey,
+  void sendChangedProjectConfigurationMail(String template, String subjectKey,
       String roleKey, List<User> users, String projectId, String sender) {
     users.parallelStream().forEach(user -> {
       Locale locale = Locale.forLanguageTag(user.getLangKey());

@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.javers.core.Javers;
 import org.springframework.stereotype.Service;

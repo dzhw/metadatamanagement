@@ -9,24 +9,23 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.AutoTimer;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,7 +71,7 @@ public class SearchResource {
   @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
   public SearchResource(
       @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl,
-      MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider)
+      MeterRegistry meterRegistry)
       throws UnsupportedEncodingException, MalformedURLException {
     this.connectionUrl = elasticSearchConnectionUrl;
     URL url = new URL(elasticSearchConnectionUrl);
@@ -88,13 +87,10 @@ public class SearchResource {
     // prevent throwing exception on error codes
     restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
       @Override
-      protected boolean hasError(HttpStatus statusCode) {
+      protected boolean hasError(HttpStatusCode statusCode) {
         return false;
       }
     });
-    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-        tagProvider, "elasticsearch.client.requests", AutoTimer.ENABLED);
-    customizer.customize(restTemplate);
   }
 
   /**

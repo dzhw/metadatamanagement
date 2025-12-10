@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.data.annotation.Id;

@@ -21,6 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.config.TweetProperties;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -28,8 +29,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONObject;
-import org.reflections.util.Utils;
-import org.slf4j.Logger;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -40,9 +39,8 @@ import org.springframework.stereotype.Service;
  * Tweet service to create Tweet on X (former Twitter) about released data.
  */
 @Service
+@Slf4j
 public class TweetService {
-
-  public static final Logger log = Utils.findLogger(TweetService.class);
 
   private final String consumerKey;
   private final String consumerSecret;

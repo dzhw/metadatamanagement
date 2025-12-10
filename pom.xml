@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.13</version>
+        <version>3.4.12</version>
         <relativePath />
     </parent>
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>2025.1.1</version>
+    <version>20252</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -99,13 +99,14 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.querydsl</groupId>
+            <groupId>io.github.openfeign.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
-            <scope>provided</scope>
+            <version>6.12</version>
         </dependency>
         <dependency>
-            <groupId>com.querydsl</groupId>
+            <groupId>io.github.openfeign.querydsl</groupId>
             <artifactId>querydsl-mongodb</artifactId>
+            <version>6.12</version>
         </dependency>
         <!-- override jaxb dependencies version of oauth2 -->
         <dependency>
@@ -140,12 +141,14 @@
         </dependency>
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <scope>test</scope>
+            <artifactId>de.flapdoodle.embed.mongo.spring3x</artifactId>
+            <version>4.21.0</version>
         </dependency>
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-cloudwatch</artifactId>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>4.21.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -183,7 +186,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>6.5.3</version>
+            <version>7.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -254,6 +257,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -274,14 +281,8 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-aws-actuator</artifactId>
-            <version>2.2.6.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-aws</artifactId>
-            <version>2.2.6.RELEASE</version>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-cloudwatch2</artifactId>
         </dependency>
         <!-- security -->
         <dependency>
@@ -787,6 +788,7 @@
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.9.10</version>
             </plugin>
             <?SORTPOM IGNORE?>
             <plugin>

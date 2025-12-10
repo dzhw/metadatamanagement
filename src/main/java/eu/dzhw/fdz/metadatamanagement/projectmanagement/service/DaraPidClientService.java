@@ -11,13 +11,10 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraPidRegistrationService.VariableMetadata;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import io.micrometer.core.instrument.MeterRegistry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.boot.actuate.metrics.AutoTimer;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -49,15 +46,9 @@ public class DaraPidClientService {
   private final RestTemplate restTemplate;
   private final ObjectMapper objectMapper;
 
-  public DaraPidClientService(
-    MetadataManagementProperties config,
-    MeterRegistry registry,
-    RestTemplateExchangeTagsProvider provider
-  ) {
+  public DaraPidClientService(MetadataManagementProperties config) {
     this.config = config;
     this.restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
-    new MetricsRestTemplateCustomizer(registry, provider, "dara.pid.client.requests", AutoTimer.ENABLED)
-      .customize(restTemplate);
     this.objectMapper = new ObjectMapper();
     this.objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
   }

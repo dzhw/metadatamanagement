@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 

@@ -1,12 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.rest;
 
-import javax.persistence.PersistenceException;
-
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageDdiService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -35,14 +32,7 @@ public class ExportDdiVariablesResourceController {
   @ResponseBody
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> exportVariablesAsXml(@PathVariable String dataPackageId) {
-    ResponseEntity<?> response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
-    try {
-      response = this.dataPackageDdiService.exportDdiVariablesAsXml(dataPackageId);
-    } catch (PersistenceException ex) {
-      return response;
-    }
-
-    return response;
+    return this.dataPackageDdiService.exportDdiVariablesAsXml(dataPackageId);
   }
 
 }

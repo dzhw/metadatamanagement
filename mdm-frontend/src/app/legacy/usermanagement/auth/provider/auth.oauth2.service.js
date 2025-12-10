@@ -2,7 +2,7 @@
 
 angular
   .module('metadatamanagementApp')
-  .factory('AuthServerProvider', ['$http', 'localStorageService', 'Base64', 
+  .factory('AuthServerProvider', ['$http', 'localStorageService', 'Base64',
     function loginService($http, localStorageService, Base64) {
       return {
         login: function(credentials) {
@@ -14,7 +14,7 @@ angular
             'client_secret=mySecretOAuthSecret&' +
             'client_id=metadatamanagementapp';
           return $http.post(
-            'oauth/token',
+            'oauth2/token',
             data, {
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

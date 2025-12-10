@@ -2,8 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.rest;
 
 import java.io.IOException;
 
-import javax.persistence.PersistenceException;
-
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableManagementService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +37,7 @@ public class ExportAllVariablesResourceController {
     ResponseEntity<?> response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     try {
       response = this.variablesManagementService.exportVariablesAsJson();
-    } catch (PersistenceException | IOException ex) {
+    } catch (IOException ex) {
       return response;
     }
 

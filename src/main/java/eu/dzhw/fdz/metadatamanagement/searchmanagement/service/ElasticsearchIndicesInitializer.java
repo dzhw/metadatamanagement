@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

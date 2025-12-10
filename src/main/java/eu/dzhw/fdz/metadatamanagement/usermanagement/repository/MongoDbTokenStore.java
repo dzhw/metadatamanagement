@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2Authentication
 /**
  * A MongoDB implementation of the TokenStore.
  */
+@Deprecated
 public class MongoDbTokenStore implements TokenStore {
 
   private final OAuth2AccessTokenRepository oauth2AccessTokenRepository;
@@ -36,7 +37,7 @@ public class MongoDbTokenStore implements TokenStore {
 
   /**
    * Create the token store.
-   * 
+   *
    * @param oauth2AccessTokenRepository the repo holding the access tokens
    * @param oauth2RefreshTokenRepository the repo holding the refresh tokens
    * @param authenticationKeyGenerator the authentication key generator
@@ -115,7 +116,7 @@ public class MongoDbTokenStore implements TokenStore {
   public void removeAccessToken(final OAuth2AccessToken token) {
     removeAccessToken(token.getValue());
   }
-  
+
   private void removeAccessToken(final String tokenValue) {
     final String tokenKey = extractTokenKey(tokenValue);
     oauth2AccessTokenRepository.deleteByTokenId(tokenKey);
@@ -155,10 +156,10 @@ public class MongoDbTokenStore implements TokenStore {
   public OAuth2Authentication readAuthenticationForRefreshToken(final OAuth2RefreshToken token) {
     return readAuthenticationForRefreshToken(token.getValue());
   }
-  
+
   /**
    * Read the refresh token.
-   * 
+   *
    * @param value a refresh tokens value
    * @return the authentication originally used to grant the refresh token
    */
@@ -183,7 +184,7 @@ public class MongoDbTokenStore implements TokenStore {
   public void removeRefreshToken(final OAuth2RefreshToken token) {
     removeRefreshToken(token.getValue());
   }
-  
+
   private void removeRefreshToken(final String token) {
     final String tokenId = extractTokenKey(token);
     oauth2RefreshTokenRepository.deleteByTokenId(tokenId);
@@ -193,7 +194,7 @@ public class MongoDbTokenStore implements TokenStore {
   public void removeAccessTokenUsingRefreshToken(final OAuth2RefreshToken refreshToken) {
     removeAccessTokenUsingRefreshToken(refreshToken.getValue());
   }
-  
+
   private void removeAccessTokenUsingRefreshToken(final String refreshToken) {
     final String tokenId = extractTokenKey(refreshToken);
     oauth2AccessTokenRepository.deleteByRefreshTokenId(tokenId);
@@ -237,7 +238,7 @@ public class MongoDbTokenStore implements TokenStore {
         oauth2AccessTokenRepository.findByClientId(clientId);
     return transformToOAuth2AccessTokens(oAuth2AccessTokens);
   }
-  
+
   /**
    * Remove access and refresh tokens of the given user.
    * @param username The login of the user.

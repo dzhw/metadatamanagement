@@ -3,9 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import org.javers.core.metamodel.annotation.ValueObject;
 
