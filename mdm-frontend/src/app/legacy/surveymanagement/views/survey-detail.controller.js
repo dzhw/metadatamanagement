@@ -87,12 +87,14 @@ angular.module('metadatamanagementApp')
           'survey-management.detail.description', {
             population: survey.population.description[currenLanguage]
           });
-        if (!Principal.isAuthenticated()) {
+        if (!Principal.isAuthenticated() || !Principal.isProviderActive()) {
           MessageBus.set('onDataPackageChange',
             {
               masterId: survey.dataPackage.masterId,
-              projectId: survey.dataAcquisitionProjectId
+              projectId: survey.dataAcquisitionProjectId,
+              version: _.get(survey, 'release.version')
             });
+          MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         }
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
@@ -176,4 +178,3 @@ angular.module('metadatamanagementApp')
         $mdSidenav('SideNavBar').toggle();
       };
     }]);
-

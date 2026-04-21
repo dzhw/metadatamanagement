@@ -68,11 +68,14 @@ angular.module('metadatamanagementApp')
           title.instrumentDescription = result.instrument.
           description[$rootScope.currentLanguage];
         }
-        if (!Principal.isAuthenticated()) {
+        if (!Principal.isAuthenticated() || !Principal.isProviderActive()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.dataPackage.masterId
+              masterId: result.dataPackage.masterId,
+              projectId: result.dataAcquisitionProjectId,
+              version: _.get(result, 'release.version')
             });
+          MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         }
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
           .check(result);
@@ -193,4 +196,3 @@ angular.module('metadatamanagementApp')
         $mdSidenav('SideNavBar').toggle();
       };
     }]);
-

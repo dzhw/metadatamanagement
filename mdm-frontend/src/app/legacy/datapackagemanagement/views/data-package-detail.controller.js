@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 /**
@@ -181,14 +182,16 @@ angular.module('metadatamanagementApp')
           MessageBus.set('onDataPackageChange',
             {
               masterId: result.masterId,
-              projectId: result.dataAcquisitionProjectId
+              projectId: result.dataAcquisitionProjectId,
+              version: _.get(result, 'release.version')
             });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         } else {
           MessageBus.set('onDataPackageChange',
           {
             masterId: result.masterId,
-            projectId: result.dataAcquisitionProjectId
+            projectId: result.dataAcquisitionProjectId,
+            version: _.get(result, 'release.version')
           });
           MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         }
@@ -343,4 +346,3 @@ angular.module('metadatamanagementApp')
         });
       };
     }]);
-

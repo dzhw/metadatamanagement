@@ -73,10 +73,12 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
       return deferred;
     };
 
-    var findShadowByIdAndVersion = function(id, version, excludes) {
+    var findShadowByIdAndVersion = function(id, version, excludes,
+        includeHidden) {
       var query = {};
       _.extend(query, createQueryObject(),
-        SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+        SearchHelperService.createShadowByIdAndVersionQuery(id, version,
+          includeHidden));
       if (excludes) {
         query.body._source = {
           'excludes': excludes
@@ -728,4 +730,3 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
       findTags: findTags
     };
   }]);
-

@@ -79,12 +79,14 @@ angular.module('metadatamanagementApp')
             'instruments', 'relatedPublications','concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
-        if (!Principal.isAuthenticated()) {
+        if (!Principal.isAuthenticated() || !Principal.isProviderActive()) {
           MessageBus.set('onDataPackageChange',
             {
               masterId: result.dataPackage.masterId,
-              projectId: result.dataAcquisitionProjectId
+              projectId: result.dataAcquisitionProjectId,
+              version: _.get(result, 'release.version')
             });
+          MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         }
 
         var currentLanguage = LanguageService.getCurrentInstantly();
@@ -169,4 +171,3 @@ angular.module('metadatamanagementApp')
         $mdSidenav('SideNavBar').toggle();
       };
     }]);
-

@@ -180,7 +180,8 @@
           $rootScope.$broadcast('stop-ignoring-404');
         });
       } else {
-        DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
+        DataPackageSearchService.findShadowByIdAndVersion(id, version,
+          excludes, true)
         .promise.then(function(data) {
           $ctrl.dataPackage = data;
           $rootScope.selectedDataPackage = data;
@@ -339,7 +340,7 @@
         if (data) {
           var versionFromUrl = $location.search().version;
           $ctrl.dataPackageIdVersion.masterId = data.masterId;
-          $ctrl.dataPackageIdVersion.version = versionFromUrl;
+          $ctrl.dataPackageIdVersion.version = versionFromUrl || data.version;
           $ctrl.dataPackageIdVersion.projectId = data.projectId;
           init();
         }

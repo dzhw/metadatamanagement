@@ -124,12 +124,14 @@ angular.module('metadatamanagementApp')
           }
         );
       }
-      if (!Principal.isAuthenticated()) {
+      if (!Principal.isAuthenticated() || !Principal.isProviderActive()) {
         MessageBus.set('onDataPackageChange',
           {
             masterId: result.dataPackage.masterId,
-            projectId: result.dataAcquisitionProjectId
+            projectId: result.dataAcquisitionProjectId,
+            version: _.get(result, 'release.version')
           });
+        MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
       }
       if (result.repeatedMeasurementIdentifier) {
         VariableRepositoryClient
@@ -237,4 +239,3 @@ angular.module('metadatamanagementApp')
       }
     };
   }]);
-

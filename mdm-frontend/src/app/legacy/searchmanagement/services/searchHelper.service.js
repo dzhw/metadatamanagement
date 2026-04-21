@@ -756,9 +756,11 @@ angular.module('metadatamanagementApp')
      * Creates a query to search an object by id and version.
      * @param {*} id the id to search by
      * @param {*} version the version to search by
+     * @param {boolean} includeHidden true if hidden objects may be returned
      * @returns the query object
      */
-    var createShadowByIdAndVersionQuery = function(id, version) {
+    var createShadowByIdAndVersionQuery = function(id, version,
+        includeHidden) {
       var query = {
         'body': {
           'query': {
@@ -785,7 +787,7 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      if (!Principal.loginName()) {
+      if (!includeHidden && !Principal.loginName()) {
         query.body.query.constant_score.filter.bool.must.push({
           'term': {
             'hidden': false
@@ -1030,4 +1032,3 @@ angular.module('metadatamanagementApp')
       addNewFilters: addNewFilters
     };
   }]);
-
