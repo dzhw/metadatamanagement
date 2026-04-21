@@ -16,81 +16,220 @@ Please checkout the development branch before starting to code and create a new 
     git checkout development
     git checkout -b rreitmann/issue1234
 
-Before you can build this project, you must install and configure the following dependencies on your machine:
+Before you can build this project, install and configure the following dependencies:
 
-1.  Java: You need to install java 15 sdk on your system. On Ubuntu you should use [SDKMAN!][] (`sdk install java 15.0.2.hs-adpt`)
-2.  Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][] (`sdk install maven`)
-3.  [Node.js][]: Node.js 16 and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][] (`nvm install v16`)
+1. Java 17
+2. Maven 3.6.1 or newer
+3. [Node.js][] 18 with npm, preferably through [NVM][]
+4. Docker Desktop or a compatible Docker Engine with Docker Compose
+
+On macOS with Homebrew:
+
+```bash
+brew install openjdk@17 maven nvm
+brew install --cask docker
+mkdir -p ~/.nvm
+```
+
+Add NVM and Java to your shell profile, for example `~/.zshrc`:
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+source "$(brew --prefix nvm)/nvm.sh"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+export PATH="$JAVA_HOME/bin:$PATH"
+```
+
+Reload the shell and install Node:
+
+```bash
+source ~/.zshrc
+nvm install 18
+nvm use 18
+```
 
 On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of git bash, or can be downloaded manually from [GnuWin32][].
 
 ## Running on your local machine
-Make sure that you have read-write-access on the **data** directory (in your project directory) for Elasticsearch and MongoDB. Specifically **Mac** users need to run the following command to create all data directories before bringing up the containers for the first time:
+
+### 1. Prepare local service directories
+
+Make sure that you have read-write access on the **data** directory in your project directory for Elasticsearch and MongoDB. Specifically **Mac** users need to run the following command to create all data directories before bringing up the containers for the first time:
+
 ```bash
 mkdir -p data/elasticsearch/data data/mongodb/db data/mongodb/logs
 ```
-Otherwise your Docker Host will attempt to change permissions on the directories and fail.
 
-Use `docker-compose up` to create all containers initially. MongoDB and Elasticsearch will be listening on their default ports. MailDev will show all locally sent email on 8081 and the identity-provider can be setup on port 8082. Any time after that use either `docker-compose up` or `docker-compose start`.
+Otherwise your Docker host may attempt to change permissions on the directories and fail.
+
+### 2. Start Docker services
+
+Start Docker Desktop first. Then start the local infrastructure:
+
+```bash
+docker compose up -d
+```
+
+MongoDB and Elasticsearch listen on their default ports. MailDev shows locally sent email on `http://localhost:8081`, and the identity provider is available on `http://localhost:8082`.
 
 In case elasticsearch does not start successfully, you might need to increase its memory limit
-`mem_limit: 512m`, e.g. to `1024` (this change required removing and re-building the container).
+`mem_limit: 512m`, e.g. to `1024` (this change requires removing and re-building the container).
 
-You can get a MongoDB dump and restore it locally:
-```
-$ wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20220926_metadatamanagement_e2e.zip
-$ unzip 20220926_metadatamanagement_e2e.zip
-$ mv dump/metadatamanagement data/mongodb/db/
-$ docker exec -it mongodb bash
-mongo$ cd /data/mongodb/db
-mongo$ mongorestore ./metadatamanagement --db=metadatamanagement
-mongo$ exit
-rm -r dump
+Verify the services:
+
+```bash
+curl http://localhost:9200/
+docker exec mongodb mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok'
 ```
 
-You will need to setup your `~/.m2/settings.xml` so that maven can download a dependency from Github:
+The MongoDB connection used by the local backend is:
+
+```text
+host: localhost
+port: 27017
+database: metadatamanagement
+```
+
+### 3. Configure Maven GitHub package access
+
+Maven needs access to GitHub Packages for the `pl.allegro.tech:embedded-elasticsearch` test dependency. Configure `~/.m2/settings.xml`:
 
 ```xml
- <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-                        http://maven.apache.org/xsd/settings-1.0.0.xsd">
-    <servers>
-      <server>
-        <id>github</id>
-        <username>${GITHUB_USERNAME}</username>
-        <password>${GITHUB_TOKEN}</password>
-      </server>
-    </servers>
-  </settings>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <server>
+      <id>github</id>
+      <username>YOUR_GITHUB_USERNAME</username>
+      <password>YOUR_GITHUB_TOKEN</password>
+    </server>
+  </servers>
+</settings>
 ```
 
-Run `mvn` **first** to start the Spring backend and to **make sure** the frontend Angular constants module has been generated by the Maven Plugin. Run `npm --prefix mdm-frontend start` to start the Angular Frontend.
+The token needs package read access.
+
+### 4. Install the local Maven plugin
+
+Install the local MDM Maven plugin. This plugin generates frontend translations and constants during the main Maven build.
+
 ```shell
 mvn clean install -f maven-plugin/pom.xml
-mvn spring-boot:run
 ```
 
-In order for all external services to work on your local machine, you need to set the following environment variables
-when starting the Spring Boot application:
+### 5. Install frontend dependencies
+
+```bash
+cd mdm-frontend
+npm ci
+cd ..
+```
+
+### 6. Generate backend and frontend build artifacts
+
+Run Maven once before starting the frontend so the generated Angular constants file exists:
+
+```bash
+mvn compile -DskipTests -Dpmd.skip=true
+```
+
+This generates `mdm-frontend/src/app/legacy/app.constants.js`.
+
+### 7. Start the Spring backend
+
+In order for all external services to work on your local machine, set the following environment variables when starting the Spring Boot application:
+
 * `DARA_ENDPOINT` (regular endpoint for registering projects)
 * `DARA_USERNAME`
 * `DARA_PASSWORD`
 * `DARA_PID_ENDPOINT` (endpoint for registering variables)
 * `DARA_PID_USERNAME`
 * `DARA_PID_PASSWORD`
+* `DATACITE_ENDPOINT`
+* `DATACITE_USERNAME`
+* `DATACITE_PASSWORD`
 
-Starting the application from the command line would look like this:
+For normal local development, dummy values are enough to start the application:
+
 ```sh
-DARA_ENDPOINT="https://dara.service/projects/" \
-DARA_USERNAME="bob" \
-DARA_PASSWORD="secret" \
-DARA_PID_ENDPOINT="https://dara.service/variables/" \
-DARA_PID_USERNAME="alice" \
-DARA_PID_PASSWORD="pid-secret" \
-    mvn spring-boot:run
+DARA_ENDPOINT="http://localhost/dara/projects" \
+DARA_USERNAME="dummy" \
+DARA_PASSWORD="dummy" \
+DARA_PID_ENDPOINT="http://localhost/dara/variables" \
+DARA_PID_USERNAME="dummy" \
+DARA_PID_PASSWORD="dummy" \
+DATACITE_ENDPOINT="http://localhost/datacite" \
+DATACITE_USERNAME="dummy" \
+DATACITE_PASSWORD="dummy" \
+mvn spring-boot:run
 ```
-Use `sensitive-variables.tf` to fill in the **correct credentials**.
+
+Verify the backend:
+
+```bash
+curl http://localhost:8080/management/info
+```
+
+Expected result: HTTP `200`.
+
+`/management/health` may return `503 DOWN` locally when DARA/DataCite credentials are dummy values.
+
+### 8. Start the Angular frontend
+
+In a second terminal:
+
+```bash
+cd mdm-frontend
+npm start
+```
+
+Open:
+
+```text
+http://localhost:4200/
+```
+
+Verify the frontend:
+
+```bash
+curl http://localhost:4200/
+```
+
+Expected result: HTTP `200`.
+
+### 9. Optional: restore a MongoDB dump
+
+You can get a MongoDB dump and restore it locally:
+
+```bash
+wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20220926_metadatamanagement_e2e.zip
+unzip 20220926_metadatamanagement_e2e.zip
+mv dump/metadatamanagement data/mongodb/db/
+docker exec -it mongodb bash
+cd /data/db
+mongorestore ./metadatamanagement --db=metadatamanagement
+exit
+rm -r dump
+```
+
+### 10. Optional: run local frontend against production API
+
+Create or use `mdm-frontend/proxy.prod.conf.json` with production targets for `/api`, `/oauth`, `/management`, and `/websocket`. Then start the frontend on a separate port:
+
+```bash
+cd mdm-frontend
+npm run ng -- serve --port 4201 --proxy-config proxy.prod.conf.json
+```
+
+Open:
+
+```text
+http://localhost:4201/
+```
+
+This runs local frontend code against the production backend/search API.
 
 If you run the backend on your machine for the first time, or you have restored a
 mongodb dump, then you need to setup/reindex the elasticsearch indices. Therefore, login as admin to the application,

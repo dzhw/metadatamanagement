@@ -1,0 +1,23 @@
+{
+  "/api": {
+    "target": "https://metadata.fdz.dzhw.eu",
+    "changeOrigin": true,
+    "secure": true
+  },
+  "/oauth": {
+    "target": "https://metadata.fdz.dzhw.eu",
+    "changeOrigin": true,
+    "secure": true
+  },
+  "/management": {
+    "target": "https://metadata.fdz.dzhw.eu",
+    "changeOrigin": true,
+    "secure": true
+  },
+  "/websocket": {
+    "target": "https://metadata.fdz.dzhw.eu",
+    "changeOrigin": true,
+    "secure": true,
+    "ws": true
+  }
+}
