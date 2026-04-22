@@ -823,8 +823,8 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
         subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
-        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-4/en/");
-        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-4/en/page/";
+        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-6/en/");
+        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-6/en/page/";
         subject.put("valueUri", elsstBaseUri + tag.getLocalname());
         subject.put("lang", "en");
         subjectsList.add(subject);
@@ -836,8 +836,8 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
         subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
-        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-4/en/");
-        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-4/en/page/";
+        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-6/en/");
+        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-6/en/page/";
         subject.put("valueUri", elsstBaseUri + tag.getLocalname());
         subject.put("lang", "de");
         subjectsList.add(subject);
