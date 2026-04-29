@@ -148,9 +148,9 @@
             <md-input-container flex="50" 
                 md-is-error="!dataPackageForm.remarksUserService.$valid && (dataPackageForm.remarksUserService.$dirty || dataPackageForm.remarksUserService.$touched)"       
                 class="ms-flex">
-              <label class="fdz-input">{{'data-package-management.detail.label.remarksUserService' | translate}}</label>
+              <label class="fdz-input">{{'data-package-management.detail.label.remarksUserService' | translate}}<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <input md-no-asterisk name="remarksUserService"
-                ng-model="ctrl.dataPackage.remarksUserService" ng-trim="true">  
+                ng-model="ctrl.dataPackage.remarksUserService" ng-trim="true"> 
             </md-input-container>
           </div>
           <div layout="column" layout-gt-sm="row">
