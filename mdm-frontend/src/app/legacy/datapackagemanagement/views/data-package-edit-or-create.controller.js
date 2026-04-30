@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp')
         "COMMERCIAL_USE"
       ];
       ctrl.currentApprovedUsageList = {
-        "SCIENTIFIC_USE": false,
+        "SCIENTIFIC_USE": true,
         "TEACHING_PURPOSES": false,
         "NON_COMMERCIAL_USE": false,
         "COMMERCIAL_USE": false,
