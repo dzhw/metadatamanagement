@@ -4,7 +4,7 @@
 version: "3.10"
 services:
   mongodb:
-    image: mongo:latest
+    image: mongo:6.0
     container_name: mongodb
     environment:
       - MONGO_DATA_DIR=/data/mongodb/data

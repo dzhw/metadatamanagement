@@ -33,7 +33,7 @@ spring:
       resources:
         static-locations:
           - file:src/main/webapp/
-          - classpath:public/
+          - classpath:dist/
 
 mongock:
     enabled: true

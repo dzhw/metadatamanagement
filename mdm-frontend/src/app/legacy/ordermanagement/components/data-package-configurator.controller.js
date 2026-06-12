@@ -121,7 +121,7 @@
           var releaseList = [];
           for (var release of releases) {
               // only allow fully released versions to be listed for ordering
-              if (!release.isPreRelease) {
+              if (!release.isPreRelease && releaseList.findIndex(r => r.version === release.version) === -1) {
                 releaseList.push(release);
               }
           }
