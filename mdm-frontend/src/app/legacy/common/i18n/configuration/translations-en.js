@@ -97,6 +97,8 @@ angular.module('metadatamanagementApp').config([
           'ok': 'OK',
           'save': 'Save',
           'cancel': 'Cancel',
+          'show-more': 'Show more',
+          'show-less': 'Show less',
           'closeDialogTemporarily': 'Not yet!'
         },
         'tooltips': {

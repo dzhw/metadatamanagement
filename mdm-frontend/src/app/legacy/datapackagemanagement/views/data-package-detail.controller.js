@@ -77,8 +77,10 @@ angular.module('metadatamanagementApp')
         }
       };
       var ctrl = this;
+      var KEYWORD_PREVIEW_LIMIT = 10;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
+      ctrl.keywordSectionsExpanded = {};
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
@@ -94,6 +96,31 @@ angular.module('metadatamanagementApp')
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       ctrl.showRemarks = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER']);
+
+      ctrl.hasKeywordToggle = function(keywords) {
+        return Array.isArray(keywords) &&
+          keywords.length > KEYWORD_PREVIEW_LIMIT;
+      };
+
+      ctrl.isKeywordSectionExpanded = function(section) {
+        return !!ctrl.keywordSectionsExpanded[section];
+      };
+
+      ctrl.getVisibleKeywords = function(section, keywords) {
+        if (!Array.isArray(keywords)) {
+          return [];
+        }
+        if (ctrl.isKeywordSectionExpanded(section) ||
+            keywords.length <= KEYWORD_PREVIEW_LIMIT) {
+          return keywords;
+        }
+        return keywords.slice(0, KEYWORD_PREVIEW_LIMIT);
+      };
+
+      ctrl.toggleKeywordSection = function(section) {
+        ctrl.keywordSectionsExpanded[section] =
+          !ctrl.keywordSectionsExpanded[section];
+      };
 
       var bowser = $rootScope.bowser;
 
