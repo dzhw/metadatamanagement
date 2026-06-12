@@ -109,7 +109,10 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.remarksUserService && $ctrl.options.showRemarks">
           <h5>{{'data-package-management.detail.label.remarksUserService' | translate }}:</h5>
-          <span class="md-secondary">{{$ctrl.options.dataPackage.remarksUserService}}</span>
+            <p
+            class="md-secondary"
+            markdown-to-html="$ctrl.options.dataPackage.remarksUserService"
+            ></p>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.annotations">
           <h5>{{'data-package-management.detail.label.annotations' | translate }}:</h5>
