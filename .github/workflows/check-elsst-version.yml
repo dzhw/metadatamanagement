@@ -1,0 +1,78 @@
+name: Check ELSST Version
+
+on:
+  schedule:
+    - cron: "0 8 1 * *"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "mdm-frontend/src/app/legacy/common/i18n/directives/tageditor/**"
+      - "src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/service/DataCiteService.java"
+      - ".github/workflows/check-elsst-version.yml"
+      - "scripts/check-elsst-version.js"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-elsst-version:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check configured ELSST version
+        id: check
+        continue-on-error: true
+        run: node scripts/check-elsst-version.js
+
+      - name: Open issue for scheduled failure
+        if: github.event_name == 'schedule' && steps.check.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'ELSST version check failed';
+            const {owner, repo} = context.repo;
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: 'open'
+            });
+            const existingIssue = existingIssues.data.find(issue => issue.title === title);
+
+            if (existingIssue) {
+              core.info(`Open issue already exists: ${existingIssue.html_url}`);
+              return;
+            }
+
+            const body = [
+              'The scheduled ELSST version check failed.',
+              '',
+              `Workflow run: ${runUrl}`,
+              '',
+              'Please check whether CESSDA has released a new ELSST version and update:',
+              '',
+              '- `mdm-frontend/src/app/legacy/common/i18n/directives/tageditor/elsst-search.service.js`',
+              '- `mdm-frontend/src/app/legacy/common/i18n/directives/tageditor/tag-editor-elsst.controller.js`',
+              '- `src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/service/DataCiteService.java`',
+              '- the ELSST info-i translations if the release notes require wording changes'
+            ].join('\n');
+
+            const issue = await github.rest.issues.create({
+              owner,
+              repo,
+              title,
+              body
+            });
+
+            core.info(`Created issue: ${issue.data.html_url}`);
+
+      - name: Fail workflow on outdated ELSST version
+        if: steps.check.outcome == 'failure'
+        run: exit 1

@@ -88,7 +88,7 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.openLink = function(item, language) {
-      var url = 'https://thesauri.cessda.eu/elsst-4/en/page/' + item.localname;
+      var url = 'https://thesauri.cessda.eu/elsst-6/en/page/' + item.localname;
       if (language == 'de') {
         url += '?clang=de';
       }
@@ -116,4 +116,3 @@ angular.module('metadatamanagementApp')
         });
     };
   }]);
-
