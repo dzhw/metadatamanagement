@@ -42,7 +42,6 @@ angular.module('metadatamanagementApp').config([
             'question': 'Question',
             'questions': 'Questions',
             'annotations': 'Annotations',
-            'type': 'Question Type',
             'topic': 'Topic',
             'instruction': 'Instruction',
             'introduction': 'Introduction',
