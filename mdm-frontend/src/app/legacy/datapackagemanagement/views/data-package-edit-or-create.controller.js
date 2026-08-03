@@ -371,9 +371,26 @@ angular.module('metadatamanagementApp')
         RORSearchResource.get({
           name: name ? name : '*'
         }).$promise.then(function(response) {
-            //TODO console.log('ROR response', response);
+          $mdDialog.show({
+            controller: 'ChooseRORController',
+            templateUrl: 'scripts/common/institutions/' +
+              'choose-ror.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            multiple: true,
+            locals: {
+              name: name,
+              rorResponse: response
+            },
+            targetEvent: event
+          }).then(function(selection) {
+            if (selection.ror) {
+              ctrl.currentInstitutions[personIndex].ror = selection.ror;
+              $scope.dataPackageForm.$setDirty();
+            }
+          });
         }).catch(function(error) {
-            //TODO console.error('ROR error', error);
+            console.error('ROR error', error);
         });
       };
 

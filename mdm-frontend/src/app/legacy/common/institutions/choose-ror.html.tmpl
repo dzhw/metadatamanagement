@@ -1,0 +1,64 @@
+<md-dialog aria-label="{{'global.institutions.edit.ror-search.title' | translate }}" layout="column" class="ms-flex" flex="50">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span>{{'global.institutions.edit.ror-search.title' | translate}}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'global.institutions.edit.ror-search.cancel-tooltip' | translate}}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+  <md-divider></md-divider>
+    <md-dialog-content layout-padding flex layout="column" class="ms-flex">
+        <p ng-if="rorResponse && rorResponse['num-found'] > 0" class="ma0">{{'global.institutions.edit.ror-search.results-found-text' | translate:{firstName: firstName ? firstName : '*', lastName: lastName ? lastName : '*'} }}</p>
+        <table fdz-table ng-if="rorResponse && rorResponse['num-found'] > 0" class="w-100 ms-flex" flex>
+            <thead>
+                <tr>
+                    <th style="max-width: 600px;">{{'global.institutions.edit.label.ror' | translate}}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'global.institutions.edit.label.ror' | translate}}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'global.institutions.edit.label.name' | translate}}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'global.institutions.edit.label.name' | translate}}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'global.institutions.edit.ror-search.select' | translate}}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'global.institutions.edit.ror-search.select' | translate}}
+                        </md-tooltip>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="result in rorResponse['items']">
+                    <td class="fdz-table-nowrap" style="max-width: 600px;"><a href="{{result['id']}}" target="_blank"><img alt="ROR logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/> {{result['id']}}</a></td>
+                    <td class="fdz-table-nowrap">{{result['id']}}</td>
+                    <td style="padding: 0px;"><md-button style="margin: 0px;" class="md-primary" ng-click="select(result['id'])" md-autofocus="$first">
+                        <span>{{'global.institutions.edit.ror-search.select' | translate}}</span>
+                        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                          {{'global.institutions.edit.ror-search.select-tooltip' | translate}}
+                        </md-tooltip>
+                        </md-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="!rorResponse || rorResponse['num-found'] === 0" flex class="ms-flex">
+            <span>{{'global.institutions.edit.ror-search.no-results-found-text' | translate:{name: name ? name : '*'} }}</span>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="padding-right: 1em;">
+        <md-button class="md-raised" ng-click="closeDialog()">
+            <span>{{'global.entity.action.cancel' | translate}}</span>
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+              {{'global.institutions.edit.ror-search.cancel-tooltip' | translate}}
+            </md-tooltip>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

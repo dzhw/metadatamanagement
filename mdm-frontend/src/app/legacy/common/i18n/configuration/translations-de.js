@@ -490,7 +490,9 @@ angular.module('metadatamanagementApp').config([
           'edit': {
             'label': {   
               'search-ror': 'ROR suchen',
-              'delete-ror': 'ROR löschen'
+              'delete-ror': 'ROR löschen',
+              'name': 'Name der Institution',
+              'ror': 'ROR'
             },
             'tooltip': {
               'search-ror': 'Klicken, um eine ROR zu der Institution zu suchen.',
