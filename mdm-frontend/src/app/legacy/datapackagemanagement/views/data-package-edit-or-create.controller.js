@@ -370,7 +370,11 @@ angular.module('metadatamanagementApp')
       ctrl.searchROR = function(name, institutionIndex, event) {
         RORSearchResource.get({
           name: name ? name : '*'
-        }).$promise
+        }).$promise.then(function(response) {
+            //TODO console.log('ROR response', response);
+        }).catch(function(error) {
+            //TODO console.error('ROR error', error);
+        });
       };
 
       ctrl.deleteROR = function(institutionIndex) {

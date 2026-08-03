@@ -8,7 +8,9 @@ angular.module('metadatamanagementApp')
     }, {
       'get': {
         method: 'GET',
-        isArray: true
+        headers: {
+          'accept': 'application/json'
+        }
       }
     });
   }]);
