@@ -262,8 +262,8 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content>
-          <div id="move-institution-container" layout="row"
-               ng-repeat="institution in ctrl.currentInstitutions track by $index">
+          <div ng-repeat="institution in ctrl.currentInstitutions track by $index">
+          <div id="move-institution-container" layout="row">
             <div>
               <md-button class="md-primary md-icon-button mt18 mh0 pl0" ng-click="ctrl.deleteInstitution($index)"
                          ng-if="ctrl.dataPackage.institutions.length > 1">
@@ -350,6 +350,32 @@
                 </div>
               </div>
             </md-autocomplete>
+            </div>
+            <div layout="row" layout-align="start center">
+              <md-input-container flex="50" ng-style="{'margin-left': ctrl.currentInstitutions.length > 1 ? '40px' : '0px'}" class="mt0">
+                <label>ROR</label>
+                <input name="ROR_{{$index}}" disabled="true"
+                      ng-blur="$ctrl.deleteCurrentInstitution($event)" ng-focus="ctrl.setCurrentInstitution($index,$event)"
+                      ng-model="institution.ror" autocomplete="off">
+                <div
+                  class="fdz-input-hint">
+                  {{'global.institutions.edit.hint.ror' | translate}}
+                </div>
+              </md-input-container>
+              <md-button ng-click="ctrl.searchROR(ctrl.dataPackage.institutions[$index].en, $index, $event)" class="md-raised" ng-disabled="!ctrl.dataPackage.institutions[$index].en">
+                  <span>{{'global.institutions.edit.label.search-ror' | translate}}</span>
+                  <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                      {{'global.institutions.edit.tooltip.search-ror' | translate}}
+                  </md-tooltip>
+              </md-button>
+              <md-button ng-click="ctrl.deleteROR($index)" class="md-raised md-primary" ng-disabled="!ctrl.dataPackage.institutions[$index].en">
+                  <md-icon md-font-set="material-icons">delete</md-icon>
+                  <span>{{'global.institutions.edit.label.delete-ror' | translate}}</span>
+                  <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                      {{'global.institutions.edit.tooltip.delete-ror' | translate}}
+                  </md-tooltip>
+              </md-button>
+            </div>
           </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" class="mb12">

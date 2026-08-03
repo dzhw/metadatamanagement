@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp')
   'DataPackageAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'DataPackageVersionsResource',
+  'RORSearchResource',
   '$mdDialog',
     function(entity, PageMetadataService, $document, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
@@ -41,7 +42,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, ProjectUpdateAccessService,
       AttachmentDialogService, DataPackageAttachmentUploadService,
       DataPackageAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataPackageVersionsResource, $mdDialog) {
+      DataPackageVersionsResource, RORSearchResource, $mdDialog) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -364,6 +365,17 @@ angular.module('metadatamanagementApp')
               (ctrl.dataPackage.sponsors.length - 1) + '"]')
             .focus();
         }, 200);
+      };
+
+      ctrl.searchROR = function(name, institutionIndex, event) {
+        RORSearchResource.get({
+          name: name ? name : '*'
+        }).$promise
+      };
+
+      ctrl.deleteROR = function(institutionIndex) {
+        delete ctrl.currentInstitutions[institutionIndex].ror;
+        $scope.dataPackageForm.$setDirty();
       };
 
       ctrl.setCurrentSponsor = function(index, event) {

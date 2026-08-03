@@ -373,6 +373,7 @@
               "src/app/legacy/datapackagemanagement/configuration/translations-en.js",
               "src/app/legacy/datapackagemanagement/resources/dataPackage.resource.js",
               "src/app/legacy/datapackagemanagement/resources/dataPackageAttachment.resource.js",
+              "src/app/legacy/datapackagemanagement/resources/RORSearch.resource.js",
               "src/app/legacy/datapackagemanagement/resources/dataPackageVersions.resource.js",
               "src/app/legacy/datapackagemanagement/resources/dataPackageAttachmentVersions.resource.js",
               "src/app/legacy/datapackagemanagement/resources/studySerieses.resource.js",
