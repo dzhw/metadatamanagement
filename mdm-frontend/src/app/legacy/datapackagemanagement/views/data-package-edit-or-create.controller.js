@@ -385,7 +385,7 @@ angular.module('metadatamanagementApp')
             targetEvent: event
           }).then(function(selection) {
             if (selection.ror) {
-              ctrl.currentInstitutions[personIndex].ror = selection.ror;
+              ctrl.currentInstitutions[institutionIndex].ror = selection.ror;
               $scope.dataPackageForm.$setDirty();
             }
           });
