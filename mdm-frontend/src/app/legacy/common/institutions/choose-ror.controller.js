@@ -17,7 +17,6 @@ angular.module('metadatamanagementApp')
       $scope.currentLanguage = LanguageService.getCurrentInstantly();
 
       $scope.closeDialog = function() {
-        console.log(rorResponse);
         $mdDialog.cancel();
       };
 
