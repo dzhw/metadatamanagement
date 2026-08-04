@@ -385,7 +385,7 @@ angular.module('metadatamanagementApp')
             targetEvent: event
           }).then(function(selection) {
             if (selection.ror) {
-              ctrl.currentInstitutions[institutionIndex].ror = selection.ror;
+              ctrl.dataPackage.institutions[institutionIndex].ror = selection.ror;
               $scope.dataPackageForm.$setDirty();
             }
           });
@@ -395,7 +395,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.deleteROR = function(institutionIndex) {
-        delete ctrl.currentInstitutions[institutionIndex].ror;
+        delete ctrl.dataPackage.institutions[institutionIndex].ror;
         $scope.dataPackageForm.$setDirty();
       };
 
@@ -670,7 +670,8 @@ angular.module('metadatamanagementApp')
               ctrl.currentInstitutions = new Array(1);
               ctrl.dataPackage.institutions = [{
                 de: '',
-                en: ''
+                en: '',
+                ror: ''
               }];
             }
             if (ctrl.dataPackage.sponsors &&
