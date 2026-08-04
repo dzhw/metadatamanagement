@@ -2,7 +2,7 @@
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
-                <span>{{'global.institutions.edit.ror-search.title' | translate}}</span>
+                <span>{{'global.institutions.edit.ror-search.title' | translate }}</span>
             </h2>
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
@@ -14,7 +14,7 @@
     </md-toolbar>
   <md-divider></md-divider>
     <md-dialog-content layout-padding flex layout="column" class="ms-flex">
-        <p ng-if="rorResponse && rorResponse['number_of_results'] > 0" class="ma0">{{'global.institutions.edit.ror-search.results-found-text' | translate:{name: name ? name : '*'} }}</p>
+        <p ng-if="rorResponse && rorResponse['number_of_results'] > 0" class="ma0">{{'global.institutions.edit.ror-search.results-found-text' | translate:{nameDe: nameDe ? nameDe : '*', nameEn: nameEn ? nameEn : '*'} }}</p>
         <table fdz-table ng-if="rorResponse && rorResponse['number_of_results'] > 0" class="w-100 ms-flex" flex>
             <thead>
                 <tr>

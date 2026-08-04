@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp')
   'AnalysisPackageAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'AnalysisPackageVersionsResource',
+  'RORSearchResource',
   '$mdDialog',
     function(entity, PageMetadataService, $document, $timeout,
              $state, BreadcrumbService, Principal, SimpleMessageToastService,
@@ -43,7 +44,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService,
              AttachmentDialogService, AnalysisPackageAttachmentUploadService,
              AnalysisPackageAttachmentVersionsResource,
-             ChoosePreviousVersionService, AnalysisPackageVersionsResource, $mdDialog) {
+             ChoosePreviousVersionService, AnalysisPackageVersionsResource, RORSearchResource, $mdDialog) {
 
       var ctrl = this;
       ctrl.currentInstitutions = [];
@@ -326,6 +327,40 @@ angular.module('metadatamanagementApp')
             '_' + (ctrl.currentInstitutionIndex + 1));
         $document.find('input[name="' + ctrl.currentInstitutionInputName + '"]')
           .focus();
+        $scope.analysisPackageForm.$setDirty();
+      };
+
+      ctrl.searchROR = function(nameEn, nameDe, institutionIndex, event) {
+        RORSearchResource.get({
+          nameEn: nameEn && nameEn.length > 0 ? nameEn : nameDe,
+          nameDe: nameDe && nameDe.length > 0 ? nameDe : nameEn
+        }).$promise.then(function(response) {
+          $mdDialog.show({
+            controller: 'ChooseRORController',
+            templateUrl: 'scripts/common/institutions/' +
+              'choose-ror.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            multiple: true,
+            locals: {
+              nameEn: nameEn,
+              nameDe: nameDe,
+              rorResponse: response
+            },
+            targetEvent: event
+          }).then(function(selection) {
+            if (selection.ror) {
+              ctrl.analysisPackage.institutions[institutionIndex].ror = selection.ror;
+              $scope.analysisPackageForm.$setDirty();
+            }
+          });
+        }).catch(function(error) {
+            console.error('ROR error', error);
+        });
+      };
+
+      ctrl.deleteROR = function(institutionIndex) {
+        delete ctrl.analysisPackage.institutions[institutionIndex].ror;
         $scope.analysisPackageForm.$setDirty();
       };
 
@@ -744,7 +779,7 @@ angular.module('metadatamanagementApp')
         var createAnalysisPackageAttachmentResource =
           function(attachmentWrapper) {
             return new AnalysisPackageAttachmentResource(
-              attachmentWrapper.dataPackageAttachment);
+              attachmentWrapper.analysisPackageAttachment);
           };
 
         var dialogConfig = {
@@ -865,7 +900,7 @@ angular.module('metadatamanagementApp')
        */
       ctrl.infoModal = function( $event) {
         $mdDialog.show({
-          controller: 'dataPackageInfoController',
+          controller: 'analysisPackageInfoController',
           templateUrl: 'scripts/datapackagemanagement/components/elsst-info.html.tmpl',
           clickOutsideToClose: true,
           escapeToClose: true,

@@ -504,8 +504,8 @@ angular.module('metadatamanagementApp').config([
             'ror-search': {
               'title': 'Search ROR',
               'cancel-tooltip': 'Click to close the dialog without selecting a ROR.',
-              'results-found-text': 'The following entries have been found at ROR.org (search parameters: Name={{ name }}):',
-              'no-results-found-text': 'No entries found at ROR.org (search parameters: Name={{ name }}).',
+              'results-found-text': 'The following entries have been found at ROR.org (search parameters: Name={{ nameDe }}, {{ nameEn }}):',
+              'no-results-found-text': 'No entries found at ROR.org (search parameters: Name={{ nameDe }}, {{ nameEn }}).',
               'select': 'Select',
               'select-tooltip': 'Click to select this ROR.',
               'select-ror': 'Select ROR'
