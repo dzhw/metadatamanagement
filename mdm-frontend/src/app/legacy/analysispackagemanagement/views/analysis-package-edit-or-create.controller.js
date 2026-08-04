@@ -330,7 +330,10 @@ angular.module('metadatamanagementApp')
         $scope.analysisPackageForm.$setDirty();
       };
 
-      ctrl.searchROR = function(nameEn, nameDe, institutionIndex, event) {
+      ctrl.searchROR = function(institutionIndex, event) {
+        var institution = ctrl.analysisPackage.institutions[institutionIndex] || {};
+        var nameEn = institution.en;
+        var nameDe = institution.de;
         RORSearchResource.get({
           nameEn: nameEn && nameEn.length > 0 ? nameEn : nameDe,
           nameDe: nameDe && nameDe.length > 0 ? nameDe : nameEn
@@ -355,7 +358,7 @@ angular.module('metadatamanagementApp')
             }
           });
         }).catch(function(error) {
-            console.error('ROR error', error);
+          console.error('ROR error', error);
         });
       };
 

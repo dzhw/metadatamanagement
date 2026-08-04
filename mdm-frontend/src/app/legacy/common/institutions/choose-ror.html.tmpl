@@ -50,7 +50,7 @@
             </tbody>
         </table>
         <div ng-if="!rorResponse || rorResponse['number_of_results'] === 0" flex class="ms-flex">
-            <span>{{'global.institutions.edit.ror-search.no-results-found-text' | translate:{name: name ? name : '*'} }}</span>
+            <span>{{'global.institutions.edit.ror-search.no-results-found-text' | translate:{nameDe: nameDe ? nameDe : '*', nameEn: nameEn ? nameEn : '*'} }}</span>
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row" style="padding-right: 1em;">
