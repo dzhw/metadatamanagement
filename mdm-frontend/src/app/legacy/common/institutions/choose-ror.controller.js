@@ -3,15 +3,16 @@
 
 angular.module('metadatamanagementApp')
   .controller('ChooseRORController', [
-  'name',
+  'nameEn', 'nameDe',
   'rorResponse',
   '$mdDialog',
   'LanguageService',
   '$scope',
-    function(name, rorResponse, $mdDialog,
+    function(nameEn, nameDe, rorResponse, $mdDialog,
              LanguageService, $scope) {
       $scope.bowser = bowser;
-      $scope.name = name;
+      $scope.nameEn = nameEn;
+      $scope.nameDe = nameDe;
       $scope.rorResponse = rorResponse;
 
       $scope.currentLanguage = LanguageService.getCurrentInstantly();

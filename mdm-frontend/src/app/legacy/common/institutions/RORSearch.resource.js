@@ -3,8 +3,9 @@
 /* ROR Search Resource */
 angular.module('metadatamanagementApp')
   .factory('RORSearchResource', ['$resource',  function($resource) {
-    return $resource('https://api.ror.org/v2/organizations?query.advanced=names.value\::name', {
-      name: '@name'
+    return $resource('https://api.ror.org/v2/organizations?query.advanced=names.value\::nameEn&query.advanced=names.value\::nameDe', {
+      nameEn: '@nameEn',
+      nameDe: '@nameDe'
     }, {
       'get': {
         method: 'GET',

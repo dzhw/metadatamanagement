@@ -362,7 +362,7 @@
                   {{'global.institutions.edit.hint.ror' | translate}}
                 </div>
               </md-input-container>
-              <md-button ng-click="ctrl.searchROR(ctrl.dataPackage.institutions[$index].en, $index, $event)" class="md-raised" ng-disabled="!ctrl.dataPackage.institutions[$index].en">
+              <md-button ng-click="ctrl.searchROR(ctrl.dataPackage.institutions[$index].en, ctrl.dataPackage.institutions[$index].de, $index, $event)" class="md-raised" ng-disabled="!ctrl.dataPackage.institutions[$index].en">
                   <span>{{'global.institutions.edit.label.search-ror' | translate}}</span>
                   <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                       {{'global.institutions.edit.tooltip.search-ror' | translate}}

@@ -367,9 +367,10 @@ angular.module('metadatamanagementApp')
         }, 200);
       };
 
-      ctrl.searchROR = function(name, institutionIndex, event) {
+      ctrl.searchROR = function(nameEn, nameDe, institutionIndex, event) {
         RORSearchResource.get({
-          name: name ? name : '*'
+          nameEn: nameEn && nameEn.length > 0 ? nameEn : nameDe,
+          nameDe: nameDe && nameDe.length > 0 ? nameDe : nameEn
         }).$promise.then(function(response) {
           $mdDialog.show({
             controller: 'ChooseRORController',
@@ -379,7 +380,8 @@ angular.module('metadatamanagementApp')
             fullscreen: true,
             multiple: true,
             locals: {
-              name: name,
+              nameEn: nameEn,
+              nameDe: nameDe,
               rorResponse: response
             },
             targetEvent: event
