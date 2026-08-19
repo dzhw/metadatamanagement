@@ -3,13 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.rest;
 import javax.persistence.PersistenceException;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageDdiService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +31,6 @@ public class ExportDdiVariablesResourceController {
    */
   @GetMapping(value = "/data-packages/exportDDI/xml/{dataPackageId:.+}", produces = MediaType.APPLICATION_XML_VALUE)
   @ResponseBody
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> exportVariablesAsXml(@PathVariable String dataPackageId) {
     ResponseEntity<?> response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
     try {
