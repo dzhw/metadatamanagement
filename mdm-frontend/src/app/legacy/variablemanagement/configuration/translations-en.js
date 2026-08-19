@@ -168,7 +168,7 @@ angular.module('metadatamanagementApp').config([
             'not-empty-generation-details-description-or-rule': 'The rule or the description of a generation rule must not be empty! Both can be set, too.',
             'rule-expression-language-and-rule-filled-or-empty': 'Both, the rule and the rule expression language, have to be filled or empty.',
             'description': {
-              'i18n-string-size': 'The max length of the generation rule description of the variable is 2048 signs.'
+              'i18n-string-size': 'The maximum length of the variable generation rule description is 5000 characters per language. Line breaks count toward this limit.'
             },
             'rule': {
               'size': 'The max length of the rule is 1048576 signs.'
