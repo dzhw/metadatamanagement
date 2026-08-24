@@ -40,11 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -62,31 +58,22 @@ public class DataPackageDdiService {
   private final ElasticsearchClient client;
 
   /**
-   * Exports all variables metadata belonging to a given data package according to the DDI Codebook standard.
+   * Builds the DDI Codebook XML for all variables of the given data package.
    *
-   * @param dataPackageId the ID of the study
-   * @return DDI metadata as XML
+   * @param dataPackageId the ID of the data package
+   * @return XML bytes
+   * @throws JAXBException if marshalling fails
    */
-  public ResponseEntity<?> exportDdiVariablesAsXml(String dataPackageId) {
-    try {
-      CodeBook variableMetadata = this.getDdiVariablesMetadata(dataPackageId);
-      JAXBContext context = JAXBContext.newInstance(CodeBook.class);
-      Marshaller mar = context.createMarshaller();
-      mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-      mar.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
-          "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd");
-      ByteArrayOutputStream res = new ByteArrayOutputStream();
-      mar.marshal(variableMetadata, res);
-      ByteArrayResource resource = new ByteArrayResource(res.toByteArray());
-      HttpHeaders headers = new HttpHeaders();
-      headers.add("Content-Disposition", "attachment; filename=Variables_DDI_MDM_Export.xml");
-      return ResponseEntity.ok()
-        .headers(headers)
-        .body(resource);
-    } catch (JAXBException ex) {
-      log.error("Error generating XML: " + ex);
-      return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
-    }
+  public byte[] buildDdiXml(String dataPackageId) throws JAXBException {
+    CodeBook variableMetadata = this.getDdiVariablesMetadata(dataPackageId);
+    JAXBContext context = JAXBContext.newInstance(CodeBook.class);
+    Marshaller mar = context.createMarshaller();
+    mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    mar.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
+        "http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd");
+    ByteArrayOutputStream res = new ByteArrayOutputStream();
+    mar.marshal(variableMetadata, res);
+    return res.toByteArray();
   }
 
   /**
