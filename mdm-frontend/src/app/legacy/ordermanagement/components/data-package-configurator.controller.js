@@ -23,7 +23,6 @@
       'dataAcquisitionProjectSearchService',
       'ElasticSearchClient',
       'ExportDdiVariablesResource',
-      'Principal',
         function ($scope,
           $rootScope,
           $location,
@@ -39,7 +38,7 @@
           DataPackageCitationDialogService,
           CurrentDataPackageService,
           dataAcquisitionProjectSearchService, ElasticSearchClient,
-          ExportDdiVariablesResource, Principal) {
+          ExportDdiVariablesResource) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -50,7 +49,6 @@
     $ctrl.isPreReleased = false;
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
-    $ctrl.allowedToExportVariableMetadata = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
@@ -91,7 +89,6 @@
       $ctrl.selectedVersion = $ctrl.dataPackageIdVersion.version;
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
         $ctrl.dataPackageIdVersion.version);
-      $ctrl.allowedToExportVariableMetadata = Principal.isAuthenticated();
       initReady = true;
     }
 
