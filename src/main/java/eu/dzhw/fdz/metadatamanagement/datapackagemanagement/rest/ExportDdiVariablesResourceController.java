@@ -36,13 +36,14 @@ public class ExportDdiVariablesResourceController {
   private final DataPackageDdiService dataPackageDdiService;
 
   /**
-   * Exports all variables metadata belonging to the given dataPackage ID as DDI Codebook XML file.
+   * Exports all variables metadata belonging to the given dataPackage ID as DDI
+   * Codebook XML file.
    *
    * @return an XML file
    */
   @GetMapping(value = "/data-packages/exportDDI/xml/{dataPackageId:.+}", produces = MediaType.APPLICATION_XML_VALUE)
   @ResponseBody
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = { AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER })
   public ResponseEntity<?> exportVariablesAsXml(@PathVariable String dataPackageId) {
     return buildXmlResponse(dataPackageId);
   }
@@ -50,18 +51,24 @@ public class ExportDdiVariablesResourceController {
   @GetMapping(value = "/data-packages/exportDDI/zip/all", produces = "application/zip")
   @ResponseBody
   public ResponseEntity<?> exportAllVariablesAsZip() {
+
+    var xmls = dataPackageDdiService.getAllDataPackages();
+
     try {
-      byte[] xml = dataPackageDdiService.buildDdiXml("stu-cmp2014$");
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
       try (ZipOutputStream zip = new ZipOutputStream(buf)) {
-        zip.putNextEntry(new ZipEntry("Variables_DDI_MDM_Export.xml"));
-        zip.write(xml);
-        zip.closeEntry();
+        for (var xml : xmls.entrySet()) {
+          zip.putNextEntry(new ZipEntry(xml.getKey() + ".xml"));
+          zip.write(xml.getValue());
+          zip.closeEntry();
+        }
       }
+
       HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Variables_DDI_MDM_Export.zip");
       return ResponseEntity.ok().headers(headers).body(new ByteArrayResource(buf.toByteArray()));
-    } catch (JAXBException | PersistenceException | IOException ex) {
+
+    } catch (PersistenceException | IOException ex) {
       log.error("Error generating DDI ZIP: {}", ex.getMessage());
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }

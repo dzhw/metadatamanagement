@@ -3,12 +3,19 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.stereotype.Service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
@@ -27,6 +34,9 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.S
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TextElement;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TitlStmt;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Var;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSubDocument;
@@ -40,11 +50,9 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.stereotype.Service;
-
 /**
- * Service for construction DDI codebook metadata for all variables of a {@link DataPackage}.
+ * Service for construction DDI codebook metadata for all variables of a
+ * {@link DataPackage}.
  *
  * @author <a href="mailto:tmoeller@codematix.de">Theresa Möller</a>
  * @since Sep 2024
@@ -56,6 +64,43 @@ import org.springframework.stereotype.Service;
 public class DataPackageDdiService {
 
   private final ElasticsearchClient client;
+
+  @Autowired
+  private final DataPackageRepository dataPackageRepository;
+
+  @Autowired
+  private final DataAcquisitionProjectRepository acquisitionProjectRepository; 
+
+
+  public Map<String, byte[]> getAllDataPackages() {
+    List<DataPackage> dataPackages =  new LinkedList<>();
+
+    List<DataAcquisitionProject> acqProjects = acquisitionProjectRepository.findByShadowFalseAndConfigurationRequirementsIsDataPackagesRequiredTrue();
+    for (DataAcquisitionProject dataAcquisitionProject : acqProjects) {
+      dataPackages.addAll(dataPackageRepository.findByDataAcquisitionProjectId(dataAcquisitionProject.getMasterId()));
+    }
+
+    Map<String, byte[]> xmlForDataPackage = new HashMap<>();
+
+    for (DataPackage dataPackage : dataPackages) {
+      try {
+        byte[] xml = buildDdiXml(dataPackage.getId());
+        xmlForDataPackage.put(dataPackage.getId(), xml);
+      } catch (JAXBException e) {
+        log.error("Can't generate DDI XML for data package " + dataPackage.getId());
+        log.debug(e.getMessage());
+        continue;
+      }
+      catch (RuntimeException e) {
+        log.error("Can't generate DDI XML for data package " + dataPackage.getId());
+        log.debug(e.getMessage());
+        continue;
+      }
+    }
+
+    return xmlForDataPackage;
+
+  }  
 
   /**
    * Builds the DDI Codebook XML for all variables of the given data package.
@@ -83,12 +128,12 @@ public class DataPackageDdiService {
    */
   private CodeBook getDdiVariablesMetadata(String dataPackageId) {
 
-    var request = SearchRequest.of(r -> r
-      .index(ElasticsearchType.data_packages.name())
-      .query(q -> q
-        .term(t -> t
-          .field("id")
-          .value(dataPackageId))));
+    SearchRequest request = SearchRequest.of(r -> r
+        .index(ElasticsearchType.data_packages.name())
+        .query(q -> q
+            .term(t -> t
+                .field("id")
+                .value(dataPackageId))));
 
     SearchResponse<DataPackageSearchDocument> response;
     try {
@@ -100,15 +145,15 @@ public class DataPackageDdiService {
     final var hits = response.hits().hits();
     if (hits.size() != 1) {
       throw new RuntimeException(String.format(
-        "Expected one data package for id '%s', but found %d", dataPackageId, hits.size()));
+          "Expected one data package for id '%s', but found %d", dataPackageId, hits.size()));
     }
     var dataPackageDoc = Optional.ofNullable(hits.get(0).source())
-      .orElseThrow(() -> new RuntimeException("Missing search document for data package with id " + dataPackageId));
+        .orElseThrow(() -> new RuntimeException("Missing search document for data package with id " + dataPackageId));
     Optional.of(dataPackageDoc)
-      .map(DataPackageSearchDocument::getRelease)
-      .map(release -> release.getIsPreRelease() ? null : release)
-      .orElseThrow(() -> new RuntimeException("Missing release infos or latest release is " +
-        "a pre-release for data package with id " + dataPackageId));
+        .map(DataPackageSearchDocument::getRelease)
+        .map(release -> release.getIsPreRelease() ? null : release)
+        .orElseThrow(() -> new RuntimeException("Missing release infos or latest release is " +
+            "a pre-release for data package with id " + dataPackageId));
 
     StdyDscr stdyDscr = this.getDdiStdyDscr(dataPackageDoc);
     List<FileDscr> fileDscrList = new ArrayList<>();
@@ -125,23 +170,24 @@ public class DataPackageDdiService {
   }
 
   /**
-   * Create the DDI var Element with data from the variable, and its related questions.
+   * Create the DDI var Element with data from the variable, and its related
+   * questions.
    *
    * @return the var element
    */
   private Var getDdiVar(VariableSubDocument variableDoc) {
-    List<TextElement> varLablList = new ArrayList();
+    List<TextElement> varLablList = new ArrayList<>();
     varLablList.add(new TextElement(LanguageEnum.de, variableDoc.getLabel().getDe()));
     varLablList.add(new TextElement(LanguageEnum.en, variableDoc.getLabel().getEn()));
-    List<TextElement> qstnList = new ArrayList();
+    List<TextElement> qstnList = new ArrayList<>();
     if (variableDoc.getRelatedQuestions() != null && variableDoc.getRelatedQuestions().size() > 0) {
       for (var relQuest : variableDoc.getRelatedQuestions()) {
         final var request = SearchRequest.of(r -> r
-          .index(ElasticsearchType.questions.name())
-          .query(q -> q
-            .term(t -> t
-              .field("id")
-              .value(relQuest.getQuestionId()))));
+            .index(ElasticsearchType.questions.name())
+            .query(q -> q
+                .term(t -> t
+                    .field("id")
+                    .value(relQuest.getQuestionId()))));
         SearchResponse<QuestionSearchDocument> response;
         try {
           response = this.client.search(request, QuestionSearchDocument.class);
@@ -154,7 +200,8 @@ public class DataPackageDdiService {
         }
         for (var hit : hits) {
           var relatedQuestion = Optional.ofNullable(hit.source())
-            .orElseThrow(() -> new RuntimeException("Missing search document for question with id " + relQuest.getQuestionId()));
+              .orElseThrow(() -> new RuntimeException(
+                  "Missing search document for question with id " + relQuest.getQuestionId()));
           if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getDe() != null) {
             qstnList.add(new TextElement(LanguageEnum.de, relatedQuestion.getQuestionText().getDe()));
           }
@@ -166,11 +213,11 @@ public class DataPackageDdiService {
     }
 
     final var request = SearchRequest.of(r -> r
-      .index(ElasticsearchType.variables.name())
-      .query(q -> q
-        .term(t -> t
-          .field("id")
-          .value(variableDoc.getId()))));
+        .index(ElasticsearchType.variables.name())
+        .query(q -> q
+            .term(t -> t
+                .field("id")
+                .value(variableDoc.getId()))));
     List<Catgry> catgryList = new ArrayList<>();
     List<TextElement> txtList = new ArrayList<>();
     SearchResponse<VariableSearchDocument> response;
@@ -187,7 +234,8 @@ public class DataPackageDdiService {
     for (var hit : hits) {
       final var varDoc = hit.source();
       Optional.ofNullable(varDoc)
-        .orElseThrow(() -> new RuntimeException("Missing search document for variable with id " + variableDoc.getId()));
+          .orElseThrow(
+              () -> new RuntimeException("Missing search document for variable with id " + variableDoc.getId()));
       if (varDoc.getAnnotations() != null && varDoc.getAnnotations().getDe() != null) {
         txtList.add(new TextElement(LanguageEnum.de, varDoc.getAnnotations().getDe()));
       }
@@ -233,7 +281,8 @@ public class DataPackageDdiService {
   }
 
   /**
-   * Create the DDI element fileDscr with data from the datasets of the data package.
+   * Create the DDI element fileDscr with data from the datasets of the data
+   * package.
    *
    * @return the fileDscr element
    */
@@ -241,14 +290,11 @@ public class DataPackageDdiService {
     var id = dataset.getId().split("\\$")[0];
     final var fileTxt = new FileTxt(
         List.of(
-          new TextElement(LanguageEnum.de, id),
-          new TextElement(LanguageEnum.en, id)
-        ),
+            new TextElement(LanguageEnum.de, id),
+            new TextElement(LanguageEnum.en, id)),
         List.of(
-          new TextElement(LanguageEnum.de, dataset.getDescription().getDe()),
-          new TextElement(LanguageEnum.en, dataset.getDescription().getEn())
-        )
-    );
+            new TextElement(LanguageEnum.de, dataset.getDescription().getDe()),
+            new TextElement(LanguageEnum.en, dataset.getDescription().getEn())));
     return new FileDscr(id, fileTxt);
   }
 
