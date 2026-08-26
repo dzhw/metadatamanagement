@@ -93,4 +93,7 @@ public interface DataSetRepository
 
   @RestResource(exported = false)
   List<DataSet> findByDataPackageIdOrderByNumber(String dataPackageId);
+
+  @RestResource(exported = false)
+  DataSet[] findByDataPackageId(String dataPackageId);
 }
