@@ -51,6 +51,7 @@ public class ExportDdiVariablesResourceController {
 
   @GetMapping(value = "/data-packages/exportDDI/zip/all", produces = "application/zip")
   @ResponseBody
+  @Secured(value = { AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER })
   public ResponseEntity<?> exportAllVariablesAsZip() {
 
     var xmls = dataPackageDdiService.buildXMLForAllDataPackages();

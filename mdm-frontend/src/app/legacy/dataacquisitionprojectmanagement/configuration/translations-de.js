@@ -310,6 +310,7 @@ angular.module('metadatamanagementApp').config([
             'next': 'Klicken, um die nächsten Projekte anzuzeigen',
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           },
+          'exportall': 'Metadaten Exportieren',
           'filter': {
             'label': {
               'assignee-group': 'Zugewiesen an',
