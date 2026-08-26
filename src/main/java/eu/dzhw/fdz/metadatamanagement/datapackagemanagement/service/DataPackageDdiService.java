@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Catgry;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Citation;
@@ -35,8 +36,15 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.T
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.TitlStmt;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook.Var;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DoiBuilder;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSubDocument;
@@ -44,9 +52,12 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchD
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Distribution;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,16 +77,31 @@ public class DataPackageDdiService {
   private final ElasticsearchClient client;
 
   @Autowired
+  private final DataAcquisitionProjectRepository acquisitionProjectRepository;
+
+  @Autowired
   private final DataPackageRepository dataPackageRepository;
 
   @Autowired
-  private final DataAcquisitionProjectRepository acquisitionProjectRepository; 
+  private final DataSetRepository dataSetRepository;
 
+  @Autowired
+  private final QuestionRepository questionRepository;
 
-  public Map<String, byte[]> getAllDataPackages() {
-    List<DataPackage> dataPackages =  new LinkedList<>();
+  @Autowired
+  private final VariableRepository variableRepository;
 
-    List<DataAcquisitionProject> acqProjects = acquisitionProjectRepository.findByShadowFalseAndConfigurationRequirementsIsDataPackagesRequiredTrue();
+  @Autowired
+  private final DoiBuilder doiBuilder;
+
+  @Autowired
+  private final DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+
+  public Map<String, byte[]> buildXMLForAllDataPackages() {
+    List<DataPackage> dataPackages = new LinkedList<>();
+
+    List<DataAcquisitionProject> acqProjects = acquisitionProjectRepository
+        .findByShadowFalseAndConfigurationRequirementsIsDataPackagesRequiredTrue();
     for (DataAcquisitionProject dataAcquisitionProject : acqProjects) {
       dataPackages.addAll(dataPackageRepository.findByDataAcquisitionProjectId(dataAcquisitionProject.getMasterId()));
     }
@@ -84,14 +110,13 @@ public class DataPackageDdiService {
 
     for (DataPackage dataPackage : dataPackages) {
       try {
-        byte[] xml = buildDdiXml(dataPackage.getId());
+        byte[] xml = buildDdiXml(dataPackage.getId(), true);
         xmlForDataPackage.put(dataPackage.getId(), xml);
       } catch (JAXBException e) {
         log.error("Can't generate DDI XML for data package " + dataPackage.getId());
         log.debug(e.getMessage());
         continue;
-      }
-      catch (RuntimeException e) {
+      } catch (RuntimeException e) {
         log.error("Can't generate DDI XML for data package " + dataPackage.getId());
         log.debug(e.getMessage());
         continue;
@@ -99,8 +124,7 @@ public class DataPackageDdiService {
     }
 
     return xmlForDataPackage;
-
-  }  
+  } 
 
   /**
    * Builds the DDI Codebook XML for all variables of the given data package.
@@ -109,8 +133,14 @@ public class DataPackageDdiService {
    * @return XML bytes
    * @throws JAXBException if marshalling fails
    */
-  public byte[] buildDdiXml(String dataPackageId) throws JAXBException {
-    CodeBook variableMetadata = this.getDdiVariablesMetadata(dataPackageId);
+  public byte[] buildDdiXml(String dataPackageId, boolean useMongoDB) throws JAXBException {
+    CodeBook variableMetadata;
+    if (useMongoDB) {
+      variableMetadata = this.getDdiVariablesMetadatafromMongo(dataPackageId);
+    } else {
+      variableMetadata = this.getDdiVariablesMetadata(dataPackageId);  
+    }
+    
     JAXBContext context = JAXBContext.newInstance(CodeBook.class);
     Marshaller mar = context.createMarshaller();
     mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -121,12 +151,15 @@ public class DataPackageDdiService {
     return res.toByteArray();
   }
 
+  // Elastic extraction
+
   /**
    * Collects variables metadata according to DDI Codebook standard.
    *
    * @return the metadata
    */
-  private CodeBook getDdiVariablesMetadata(String dataPackageId) {
+  @SuppressWarnings("unused")
+  public CodeBook getDdiVariablesMetadata(String dataPackageId) {
 
     SearchRequest request = SearchRequest.of(r -> r
         .index(ElasticsearchType.data_packages.name())
@@ -158,7 +191,7 @@ public class DataPackageDdiService {
     StdyDscr stdyDscr = this.getDdiStdyDscr(dataPackageDoc);
     List<FileDscr> fileDscrList = new ArrayList<>();
     for (DataSetSubDocument dataset : dataPackageDoc.getDataSets()) {
-      fileDscrList.add(this.getDdiFileDsrc(dataset));
+      fileDscrList.add(this.getDdiFileDsrc(dataset.getId(), dataset.getDescription()));
     }
 
     List<Var> varList = new ArrayList<>();
@@ -245,31 +278,8 @@ public class DataPackageDdiService {
       if ((varDoc.getScaleLevel().equals(ScaleLevels.NOMINAL) || varDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
           && varDoc.getDistribution() != null
           && varDoc.getDistribution().getValidResponses() != null) {
-        for (ValidResponse validResponse : varDoc.getDistribution().getValidResponses()) {
-          String catValu = validResponse.getValue();
-          List<TextElement> catLablList = new ArrayList<>();
-          if (validResponse.getLabel() != null && validResponse.getLabel().getDe() != null) {
-            catLablList.add(new TextElement(LanguageEnum.de, validResponse.getLabel().getDe()));
-          }
-          if (validResponse.getLabel() != null && validResponse.getLabel().getEn() != null) {
-            catLablList.add(new TextElement(LanguageEnum.en, validResponse.getLabel().getEn()));
-          }
-          catgryList.add(new Catgry(catValu, catLablList));
-        }
-        // missing values
-        if (varDoc.getDistribution() != null && varDoc.getDistribution().getMissings() != null) {
-          for (Missing missing : varDoc.getDistribution().getMissings()) {
-            String catValu = missing.getCode();
-            List<TextElement> catLablList = new ArrayList<>();
-            if (missing.getLabel() != null && missing.getLabel().getDe() != null) {
-              catLablList.add(new TextElement(LanguageEnum.de, missing.getLabel().getDe()));
-            }
-            if (missing.getLabel() != null && missing.getLabel().getEn() != null) {
-              catLablList.add(new TextElement(LanguageEnum.en, missing.getLabel().getEn()));
-            }
-            catgryList.add(new Catgry(catValu, catLablList));
-          }
-        }
+
+        extractCategoryList(catgryList, varDoc.getDistribution());
       }
     }
     final var name = variableDoc.getName();
@@ -278,24 +288,6 @@ public class DataPackageDdiService {
         qstnList.size() > 0 ? qstnList : null,
         txtList.size() > 0 ? txtList : null,
         catgryList);
-  }
-
-  /**
-   * Create the DDI element fileDscr with data from the datasets of the data
-   * package.
-   *
-   * @return the fileDscr element
-   */
-  private FileDscr getDdiFileDsrc(DataSetSubDocument dataset) {
-    var id = dataset.getId().split("\\$")[0];
-    final var fileTxt = new FileTxt(
-        List.of(
-            new TextElement(LanguageEnum.de, id),
-            new TextElement(LanguageEnum.en, id)),
-        List.of(
-            new TextElement(LanguageEnum.de, dataset.getDescription().getDe()),
-            new TextElement(LanguageEnum.en, dataset.getDescription().getEn())));
-    return new FileDscr(id, fileTxt);
   }
 
   /**
@@ -312,5 +304,164 @@ public class DataPackageDdiService {
     }
     Citation citation = new Citation(new TitlStmt(titl, parTitl, idNo));
     return new StdyDscr(citation);
+  }
+
+  // MongoDB related functions
+
+  private CodeBook getDdiVariablesMetadatafromMongo(String dataPackageId) {
+    DataPackage dataPackage = dataPackageRepository.findById(dataPackageId)
+        .orElseThrow(() -> new RuntimeException(
+            "Missing data package with id " + dataPackageId));
+
+    Release release = getRelease(dataPackage);
+    if (release == null || Boolean.TRUE.equals(release.getIsPreRelease())) {
+      throw new RuntimeException("Missing release infos or latest release is a pre-release for "
+          + "data package with id " + dataPackageId);
+    }
+
+    StdyDscr stdyDscr = this.getDdiStdyDscr(dataPackage);
+
+    List<FileDscr> fileDscrList = new ArrayList<>();
+    for (DataSet dataset : dataSetRepository.findByDataPackageId(dataPackageId)) {
+      fileDscrList.add(this.getDdiFileDsrc(dataset.getId(), dataset.getDescription()));
+    }
+
+    List<Var> varList = new ArrayList<>();
+    for (Variable variable : variableRepository.findByDataPackageId(dataPackageId)) {
+      varList.add(this.getDdiVar(variable));
+    }
+
+    DataDscr dataDscr = new DataDscr(varList);
+    return new CodeBook(stdyDscr, fileDscrList, dataDscr);
+  }
+
+  private Var getDdiVar(Variable variableDoc) {
+    List<TextElement> varLablList = new ArrayList<>();
+    varLablList.add(new TextElement(LanguageEnum.de, variableDoc.getLabel().getDe()));
+    varLablList.add(new TextElement(LanguageEnum.en, variableDoc.getLabel().getEn()));
+
+    List<TextElement> qstnList = new ArrayList<>();
+    if (variableDoc.getRelatedQuestions() != null && !variableDoc.getRelatedQuestions().isEmpty()) {
+      for (var relQuest : variableDoc.getRelatedQuestions()) {
+        Question relatedQuestion = questionRepository.findById(relQuest.getQuestionId())
+            .orElseThrow(() -> new RuntimeException(
+                "Could not find question for id '" + relQuest.getQuestionId() + "'"));
+        if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getDe() != null) {
+          qstnList.add(new TextElement(LanguageEnum.de, relatedQuestion.getQuestionText().getDe()));
+        }
+        if (relatedQuestion.getQuestionText() != null && relatedQuestion.getQuestionText().getEn() != null) {
+          qstnList.add(new TextElement(LanguageEnum.en, relatedQuestion.getQuestionText().getEn()));
+        }
+      }
+    }
+
+    List<Catgry> catgryList = new ArrayList<>();
+    List<TextElement> txtList = new ArrayList<>();
+
+    if (variableDoc.getAnnotations() != null && variableDoc.getAnnotations().getDe() != null) {
+      txtList.add(new TextElement(LanguageEnum.de, variableDoc.getAnnotations().getDe()));
+    }
+    if (variableDoc.getAnnotations() != null && variableDoc.getAnnotations().getEn() != null) {
+      txtList.add(new TextElement(LanguageEnum.en, variableDoc.getAnnotations().getEn()));
+    }
+
+    if ((variableDoc.getScaleLevel().equals(ScaleLevels.NOMINAL)
+        || variableDoc.getScaleLevel().equals(ScaleLevels.ORDINAL))
+        && variableDoc.getDistribution() != null
+        && variableDoc.getDistribution().getValidResponses() != null) {
+
+        extractCategoryList(catgryList, variableDoc.getDistribution());
+    }
+
+    final var name = variableDoc.getName();
+    final var location = new Location(variableDoc.getDataSetId().split("\\$")[0]);
+
+    return new Var(name, location, varLablList,
+        qstnList.size() > 0 ? qstnList : null,
+        txtList.size() > 0 ? txtList : null,
+        catgryList);
+  }
+
+  private StdyDscr getDdiStdyDscr(DataPackage doc) {
+    TextElement titl = new TextElement(LanguageEnum.de, doc.getTitle().getDe());
+    TextElement parTitl = new TextElement(LanguageEnum.en, doc.getTitle().getEn());
+    IdNo idNo = null;
+
+    String doi = getDoi(doc);
+    Release release = getRelease(doc);
+    if (doi != null && !doi.isBlank()) {
+      idNo = new IdNo("DOI", release.getVersion(), doi);
+    }
+    Citation citation = new Citation(new TitlStmt(titl, parTitl, idNo));
+    return new StdyDscr(citation);
+  }
+
+  private Release getRelease(DataPackage dataPackage) {
+    DataAcquisitionProject project = getDataAcquisitionProject(dataPackage);
+    Release release = project.getRelease();
+    if (release == null) {
+      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getId());
+    }
+    return release;
+  }
+
+  private String getDoi(DataPackage dataPackage) {
+    DataAcquisitionProject project = getDataAcquisitionProject(dataPackage);
+    return doiBuilder.buildDataOrAnalysisPackageDoiForDataCite(project.getId(),
+        getRelease(dataPackage));
+  }
+
+  private DataAcquisitionProject getDataAcquisitionProject(DataPackage dataPackage) {
+    return acquisitionProjectRepository.findById(dataPackage.getDataAcquisitionProjectId())
+        .orElseThrow(() -> new RuntimeException("Missing data acquisition project with id "
+            + dataPackage.getDataAcquisitionProjectId()));
+  }
+
+  // shared functions
+
+  private void extractCategoryList(List<Catgry> catgryList, final Distribution distribution) {
+    for (ValidResponse validResponse : distribution.getValidResponses()) {
+      String catValu = validResponse.getValue();
+      List<TextElement> catLablList = new ArrayList<>();
+      if (validResponse.getLabel() != null && validResponse.getLabel().getDe() != null) {
+        catLablList.add(new TextElement(LanguageEnum.de, validResponse.getLabel().getDe()));
+      }
+      if (validResponse.getLabel() != null && validResponse.getLabel().getEn() != null) {
+        catLablList.add(new TextElement(LanguageEnum.en, validResponse.getLabel().getEn()));
+      }
+      catgryList.add(new Catgry(catValu, catLablList));
+    }
+    // missing values
+    if (distribution != null && distribution.getMissings() != null) {
+      for (Missing missing : distribution.getMissings()) {
+        String catValu = missing.getCode();
+        List<TextElement> catLablList = new ArrayList<>();
+        if (missing.getLabel() != null && missing.getLabel().getDe() != null) {
+          catLablList.add(new TextElement(LanguageEnum.de, missing.getLabel().getDe()));
+        }
+        if (missing.getLabel() != null && missing.getLabel().getEn() != null) {
+          catLablList.add(new TextElement(LanguageEnum.en, missing.getLabel().getEn()));
+        }
+        catgryList.add(new Catgry(catValu, catLablList));
+      }
+    }
+  }
+
+  /**
+   * Create the DDI element fileDscr with data from the datasets of the data
+   * package.
+   *
+   * @return the fileDscr element
+   */
+  private FileDscr getDdiFileDsrc(String id, I18nString description) {
+      var strippedId = id.split("\\$")[0];
+      final var fileTxt = new FileTxt(
+          List.of(
+              new TextElement(LanguageEnum.de, strippedId),
+              new TextElement(LanguageEnum.en, strippedId)),
+          List.of(
+              new TextElement(LanguageEnum.de, description.getDe()),
+              new TextElement(LanguageEnum.en, description.getEn())));
+      return new FileDscr(strippedId, fileTxt);
   }
 }

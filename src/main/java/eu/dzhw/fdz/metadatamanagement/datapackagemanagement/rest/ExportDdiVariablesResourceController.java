@@ -4,13 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
 import javax.persistence.PersistenceException;
 import javax.xml.bind.JAXBException;
-
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageDdiService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageDdiService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Controller for exporting variable metadata as DDI codebook.
@@ -52,7 +53,7 @@ public class ExportDdiVariablesResourceController {
   @ResponseBody
   public ResponseEntity<?> exportAllVariablesAsZip() {
 
-    var xmls = dataPackageDdiService.getAllDataPackages();
+    var xmls = dataPackageDdiService.buildXMLForAllDataPackages();
 
     try {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
@@ -76,7 +77,7 @@ public class ExportDdiVariablesResourceController {
 
   private ResponseEntity<?> buildXmlResponse(String dataPackageId) {
     try {
-      byte[] xml = dataPackageDdiService.buildDdiXml(dataPackageId);
+      byte[] xml = dataPackageDdiService.buildDdiXml(dataPackageId, false);
       HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Variables_DDI_MDM_Export.xml");
       return ResponseEntity.ok().headers(headers).body(new ByteArrayResource(xml));
