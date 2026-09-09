@@ -209,7 +209,7 @@ angular.module('metadatamanagementApp')
             });
           } else {
             if (CurrentProjectService.getCurrentProject() &&
-              (!CurrentProjectService.getCurrentProject().release 
+              (!CurrentProjectService.getCurrentProject().release
                 || CurrentProjectService.getCurrentProject().release.isPreRelease)) {
               if (!ProjectUpdateAccessService
                    .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
@@ -230,6 +230,10 @@ angular.module('metadatamanagementApp')
                       dataAcquisitionProjectId: CurrentProjectService
                       .getCurrentProject()
                       .id,
+                      approvedUsage: {
+                        de: '',
+                        en: ''
+                      },
                       projectContributors: [{
                         firstName: '',
                         lastName: ''
@@ -538,7 +542,7 @@ angular.module('metadatamanagementApp')
                   });
               });
           }
-          
+
         } else {
           // ensure that all validation errors are visible
           angular.forEach($scope.dataPackageForm.$error, function(field) {
@@ -698,17 +702,10 @@ angular.module('metadatamanagementApp')
           });
       };
 
-      $scope.searchApprovedUsage = function(searchText) {
+      $scope.searchApprovedUsage = function(searchText, language) {
         //Search Call to Elasticsearch
         return DataPackageSearchService.findApprovedUsage(searchText, {},
-            true)
-          .then(function(approvedUsage) {
-            var approvedUsageItems = [];
-            for (const item of approvedUsage) {
-              approvedUsageItems.push(item.title);
-            }
-            return approvedUsageItems;
-          });
+          language, true);
       };
 
       $scope.searchSponsors = function(searchText, language) {
@@ -899,7 +896,7 @@ angular.module('metadatamanagementApp')
       ctrl.isPublisher = function() {
         return Principal.isPublisher();
       };
-      
+
       ctrl.onStudySeriesChanged = function() {
         //The fields of study series are undefined
         //at the moment of the first initial Call
