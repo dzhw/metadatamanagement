@@ -225,9 +225,10 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
 
   /**
    * Arbitrary text with approved purposes of use for this dataPackage.
+   *
+   * May be specified in German and English.
    */
-  @Indexed
-  private String approvedUsage;
+  private I18nString approvedUsage;
 
   /**
    * A list of allowed use cases for the data-package.
