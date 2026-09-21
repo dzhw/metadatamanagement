@@ -44,7 +44,6 @@ public class ExportDdiVariablesResourceController {
    */
   @GetMapping(value = "/data-packages/exportDDI/xml/{dataPackageId:.+}", produces = MediaType.APPLICATION_XML_VALUE)
   @ResponseBody
-  @Secured(value = { AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER })
   public ResponseEntity<?> exportVariablesAsXml(@PathVariable String dataPackageId) {
     return buildXmlResponse(dataPackageId);
   }

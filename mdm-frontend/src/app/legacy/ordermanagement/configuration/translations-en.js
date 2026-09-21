@@ -133,6 +133,11 @@ angular.module('metadatamanagementApp').config([
           'export-ddi-variables': 'Export variable metadata',
           'export-ddi-variables-tooltip': 'Click to download the metadata of all variables as a DDI codebook XML.'
         },
+        'citation-guideline-dialog': {
+          'title': 'Citation Guidelines',
+          'message': 'Please confirm that you have read the <a href="https://www.fdz.dzhw.eu/sites/default/files/data/documente/Citation_Guideline_for_Data_Users.pdf" target="_blank" rel="noopener noreferrer">Citation Guidelines</a>. If you have any questions, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'confirmation': 'I confirm that I have read the information regarding the citation of data packages.'
+        },
         'version-info': {
           'title': 'Select a Version',
           'content': '<p style="margin-bottom: 0px;">Our data packages are available in a three-digit version. The digits of the version number indicate how big the changes to the data are. You will be notified if changes are made to the first two digits.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>First digit (Major): Changes to the data set (except for changes to variable labels)</li><li>Second digit (Minor): Labels change, metadata changes such as adding more questions or changes to metadata/documentation that affect the analysis.</li><li>Third digit (Patch): Additional dataset formats are provided, adding/deleting language versions.</li></ul><strong>For most data users, the most recent version of the data is relevant.</strong>',
