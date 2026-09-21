@@ -20,9 +20,11 @@ angular.module('metadatamanagementApp')
   'Principal',
   'dataAcquisitionProjectSearchService', 
   '$location',
-  'CleanJSObjectService', function($stateParams, $state, $scope, $mdSelect,
+  'CleanJSObjectService',
+  'ExportDdiVariablesResource', function($stateParams, $state, $scope, $mdSelect,
     BreadcrumbService, PageMetadataService,
-    ElasticSearchClient, Principal, dataAcquisitionProjectSearchService, $location, CleanJSObjectService) {
+    ElasticSearchClient, Principal, dataAcquisitionProjectSearchService, $location,
+    CleanJSObjectService, ExportDdiVariablesResource) {
     var ctrl = this;
     var stateParamsLimit = $stateParams.size ? $stateParams.size : 10;
     ctrl.userHasProjects = false;
@@ -282,6 +284,18 @@ angular.module('metadatamanagementApp')
      */
     ctrl.onPageChange = function() {
       writeSearchParamsToLocation();
+    };
+
+    ctrl.exportAll = function() {
+      ExportDdiVariablesResource.exportAllVariablesAsZip().then(function(data) {
+        var blob = new Blob([data], {
+          type: 'application/zip'
+        });
+        var downloadLink = document.createElement('a');
+        downloadLink.setAttribute('download', 'Variables_DDI_MDM_Export.zip');
+        downloadLink.setAttribute('href', window.URL.createObjectURL(blob));
+        downloadLink.click();
+      });
     };
 
     /**
