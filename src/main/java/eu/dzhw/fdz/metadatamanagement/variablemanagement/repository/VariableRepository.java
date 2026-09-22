@@ -127,4 +127,7 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   @RestResource(exported = true)
   List<Variable> findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNotOrderByIndexInDataSet(
       String derivedVariablesIdentifier, String dataSetId, String id);
+
+  @RestResource(exported = false)
+  Variable[] findByDataPackageId(String dataPackageId);
 }

@@ -230,7 +230,7 @@
               </tbody>
             </table>
             <span ng-switch-when="true" data-translate="data-acquisition-project-management.project-overview.pre-release-hint"></span>
-            <div ng-switch-when="true" layout="column" layout-align="start center">
+            <div ng-switch-when="true" layout="row" layout-align="center center">
               <ul boundary-link-numbers="true"
                   class="pagination-sm"
                   items-per-page="ctrl.pagination.itemsPerPage"
@@ -242,9 +242,11 @@
                   total-items="ctrl.pagination.totalItems"
                   uib-pagination>
               </ul>
+              <md-button class="md-primary md-raised ml16" ng-click="ctrl.exportAll()">
+                {{'data-acquisition-project-management.project-overview.exportall' | translate}}
+              </md-button>              
             </div>
             <span ng-switch-when="false" data-translate="data-acquisition-project-management.project-overview.no-search-results-msg"></span>
-            
           </div>
         </md-card-content>
         <div ng-switch-when="false">

@@ -32,13 +32,14 @@ import lombok.NoArgsConstructor;
 public class GenerationDetails implements Serializable {
 
   private static final long serialVersionUID = -3981980315577871905L;
+  public static final int DESCRIPTION_MAX_LENGTH = 5000;
 
   /**
    * A description of this generation rule. Markdown is supported.
    * 
-   * Must not contain more than 2048 characters
+   * Must not contain more than 5000 characters per language. Line breaks count toward the limit.
    */
-  @I18nStringSize(max = StringLengths.LARGE,
+  @I18nStringSize(max = DESCRIPTION_MAX_LENGTH,
       message = "variable-management.error.generation-details.description.i18n-string-size")
   private I18nString description;
 
