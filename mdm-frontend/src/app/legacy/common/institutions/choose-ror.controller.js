@@ -21,9 +21,15 @@ angular.module('metadatamanagementApp')
         $mdDialog.cancel();
       };
 
-      $scope.select = function(ror) {
+      $scope.select = function(result) {
         $mdDialog.hide({
-          ror: ror
+          ror: result['id'],
+          nameEn: result['names'].find(n => 
+            n.lang === 'en' && n.types.includes('label')
+          )?.value,
+          nameDe: result['names'].find(n => 
+            n.lang === 'de' && n.types.includes('label')
+          )?.value
         });
       };
     }]);

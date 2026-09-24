@@ -64,6 +64,23 @@
         </md-input-container>
       </div>
       <div layout="row" layout-align="start center">
+        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '40px' : '0px'}" class="mt0"
+                            ng-if="$ctrl.institutions && $ctrl.institutions.length">
+          <label>{{'analysis-package-management.detail.label.institution' | translate}}</label>
+          <md-select name="{{ $ctrl.peopleId }}Institution_{{$index}}"
+
+                     ng-model="person.institution"
+                     ng-change="$ctrl.currentForm.$setDirty()"
+                     multiple="false">
+            <md-option value=""></md-option>
+            <md-option ng-repeat="institution in $ctrl.institutions track by $index"
+                       ng-value="institution.ror ">
+              {{ institution.de || institution.en}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div layout="row" layout-align="start center">
         <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '40px' : '0px'}" class="mt0">
           <label>ORCID</label>
           <input name="{{ $ctrl.peopleId }}ORCID_{{$index}}" disabled="true"

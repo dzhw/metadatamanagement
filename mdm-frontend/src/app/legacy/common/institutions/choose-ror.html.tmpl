@@ -39,7 +39,7 @@
                 <tr ng-repeat="result in rorResponse['items']">
                     <td class="fdz-table-nowrap" style="max-width: 600px;"><a href="{{result['id']}}" target="_blank"><img alt="ROR logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/> {{result['id']}}</a></td>
                     <td class="fdz-table-nowrap">{{result['names'][0].value}}</td>
-                    <td style="padding: 0px;"><md-button style="margin: 0px;" class="md-primary" ng-click="select(result['id'])" md-autofocus="$first">
+                    <td style="padding: 0px;"><md-button style="margin: 0px;" class="md-primary" ng-click="select(result)" md-autofocus="$first">
                         <span>{{'global.institutions.edit.ror-search.select' | translate}}</span>
                         <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
                           {{'global.institutions.edit.ror-search.select-tooltip' | translate}}

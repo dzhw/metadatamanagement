@@ -206,11 +206,13 @@ angular.module('metadatamanagementApp')
                       .id,
                     authors: [{
                       firstName: '',
-                      lastName: ''
+                      lastName: '',
+                      institution: ''
                     }],
                     dataCurators: [{
                       firstName: '',
-                      lastName: ''
+                      lastName: '',
+                      institution: ''
                     }],
                     institutions: [],
                     sponsors: [],
@@ -354,6 +356,8 @@ angular.module('metadatamanagementApp')
           }).then(function(selection) {
             if (selection.ror) {
               ctrl.analysisPackage.institutions[institutionIndex].ror = selection.ror;
+              ctrl.analysisPackage.institutions[institutionIndex].en = selection.nameEn || nameDe;
+              ctrl.analysisPackage.institutions[institutionIndex].de = selection.nameDe || nameEn;
               $scope.analysisPackageForm.$setDirty();
             }
           });

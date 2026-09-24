@@ -391,6 +391,8 @@ angular.module('metadatamanagementApp')
           }).then(function(selection) {
             if (selection.ror) {
               ctrl.dataPackage.institutions[institutionIndex].ror = selection.ror;
+              ctrl.dataPackage.institutions[institutionIndex].en = selection.nameEn || nameDe;
+              ctrl.dataPackage.institutions[institutionIndex].de = selection.nameDe || nameEn;
               $scope.dataPackageForm.$setDirty();
             }
           });
