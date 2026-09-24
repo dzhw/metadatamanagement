@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.testcontainers.utility.DockerImageName;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
@@ -31,6 +32,11 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * This class is a basic class for the most unit tests.
@@ -93,6 +99,18 @@ public abstract class AbstractTest {
 
   static {
     greenMail.start();
+  }
+
+  private static final MongoDBContainer MONGO =
+        new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
+
+  static {
+      MONGO.start(); // one container for the whole test run
+  }
+
+  @DynamicPropertySource
+  static void mongoProperties(DynamicPropertyRegistry registry) {
+      registry.add("spring.data.mongodb.uri", () -> MONGO.getReplicaSetUrl("metadatenmanagement"));
   }
 
   @AfterEach
