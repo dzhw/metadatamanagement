@@ -106,6 +106,12 @@
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-mongodb</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mongodb</groupId>
+                    <artifactId>mongo-java-driver</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- override jaxb dependencies version of oauth2 -->
         <dependency>
@@ -141,7 +147,7 @@
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <version>5.0.0</version>
+            <version>4.33.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
