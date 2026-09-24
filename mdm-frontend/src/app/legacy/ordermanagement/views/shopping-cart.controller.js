@@ -24,13 +24,14 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController', [
   'ProjectReleaseService',
   '$rootScope',
   '$document',
+  '$mdDialog',
   function(PageMetadataService, $state, BreadcrumbService,
            ShoppingCartService, $scope, DataPackageResource,
            DataSetSearchService, AnalysisPackageResource,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
            $window, $interval, $location, $transitions, ProjectReleaseService,
-           $rootScope, $document) {
+           $rootScope, $document, $mdDialog) {
 
     PageMetadataService.setPageTitle('shopping-cart.title');
     BreadcrumbService.updateToolbarHeader({
@@ -339,7 +340,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController', [
         .stripVersionSuffix(completeProduct.analysisPackage.id);
       order.products.push(completeProduct);
     };
-    ctrl.order = function() {
+    var placeOrder = function() {
       // check honeypot fields
       var email = $document.find('#email')[0].value;
       var website = $document.find('#website')[0].value;
@@ -407,6 +408,28 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController', [
       }
     };
 
+    ctrl.order = function($event) {
+      $mdDialog.show({
+        controller: ['$scope', '$mdDialog', function($scope, $mdDialog) {
+          $scope.guidelineRead = false;
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+          $scope.confirm = function() {
+            if ($scope.guidelineRead) {
+              $mdDialog.hide();
+            }
+          };
+        }],
+        templateUrl: 'scripts/ordermanagement/views/' +
+          'citation-guideline-confirmation-dialog.html.tmpl',
+        clickOutsideToClose: false,
+        escapeToClose: true,
+        fullscreen: true,
+        targetEvent: $event
+      }).then(placeOrder);
+    };
+
     ctrl.clear = function() {
       ShoppingCartService.clearProducts();
     };
@@ -417,4 +440,3 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController', [
       ctrl.init();
     }
   }]);
-
