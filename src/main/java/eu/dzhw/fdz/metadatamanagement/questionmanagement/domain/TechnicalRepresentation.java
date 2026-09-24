@@ -28,16 +28,6 @@ public class TechnicalRepresentation implements Serializable {
   private static final long serialVersionUID = 5361313820939313016L;
 
   /**
-   * The type of the technical representation. E.g. "zofar".
-   * 
-   * Must not be empty and must not contain more than 32 characters.
-   */
-  @NotEmpty(message = "question-management.error.technical-representation.type.not-empty")
-  @Size(max = StringLengths.SMALL,
-      message = "question-management.error.technical-representation.type.size")
-  private String type;
-
-  /**
    * The technical language of the source of this representation. E.g. "qml".
    * 
    * Must not be empty and must not contain more than 32 characters.

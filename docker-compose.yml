@@ -1,13 +1,12 @@
 # start all external services for the metadatamanagement app
 # mongo and elasticsearch will be available on its default ports
 # docker-compose start
-version: "3.10"
 services:
   mongodb:
     image: mongo:6.0
     container_name: mongodb
     environment:
-      - MONGO_DATA_DIR=/data/mongodb/data
+      - MONGO_DATA_DIR=/data/mongodb/db
       - MONGO_LOG_DIR=/data/mongodb/logs
     volumes:
       - ./data/mongodb/db:/data/mongodb/db

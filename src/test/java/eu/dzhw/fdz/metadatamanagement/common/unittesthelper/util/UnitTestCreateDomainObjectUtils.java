@@ -48,7 +48,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
@@ -303,8 +302,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static TechnicalRepresentation buildTechnicalRepresentation() {
-    return TechnicalRepresentation.builder().language("TR Language")
-        .type("Technical Representation Type").source("Technical Representation Source").build();
+    return TechnicalRepresentation.builder().language("TR Language").source("Technical Representation Source").build();
   }
 
   public static Question buildQuestion(String projectId, Integer instrumentNumber,
@@ -321,7 +319,7 @@ public class UnitTestCreateDomainObjectUtils {
         .introduction(new I18nString("Einleitung", "Introduction")).number("123.12")
         .indexInInstrument(1).successors(new ArrayList<>())
         .questionText(new I18nString("Fragetext", "Question text"))
-        .technicalRepresentation(buildTechnicalRepresentation()).type(QuestionTypes.SINGLE_CHOICE)
+        .technicalRepresentation(buildTechnicalRepresentation())
         .topic(new I18nString("Topic De", "Topic EN")).instrumentNumber(instrumentNumber)
         .successorNumbers(new ArrayList<>())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
