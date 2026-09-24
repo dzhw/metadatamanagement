@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.persistence.PersistenceException;
 import javax.xml.bind.JAXBException;
 
 import org.springframework.core.io.ByteArrayResource;
@@ -69,7 +68,7 @@ public class ExportDdiVariablesResourceController {
       headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Variables_DDI_MDM_Export.zip");
       return ResponseEntity.ok().headers(headers).body(new ByteArrayResource(buf.toByteArray()));
 
-    } catch (PersistenceException | IOException ex) {
+    } catch (IOException ex) {
       log.error("Error generating DDI ZIP: {}", ex.getMessage());
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
@@ -81,7 +80,7 @@ public class ExportDdiVariablesResourceController {
       HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Variables_DDI_MDM_Export.xml");
       return ResponseEntity.ok().headers(headers).body(new ByteArrayResource(xml));
-    } catch (JAXBException | PersistenceException ex) {
+    } catch (JAXBException ex) {
       log.error("Error generating DDI XML for {}: {}", dataPackageId, ex.getMessage());
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
