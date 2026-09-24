@@ -612,7 +612,8 @@ public class DataCiteService {
         " " + person.getMiddleName() : ""));
       creatorObject.put("familyName", person.getLastName());
       creatorObject.put("nameIdentifiers", this.createCreatorNameIdentifierList(person));
-      creatorObject.put("affiliation", institutions != null && institutions.size() == 1 ? this.createCreatorAffiliationList(institutions) : new ArrayList<>());
+      List<Institution> personInstitutions = person.getInstitutions();
+      creatorObject.put("affiliation", personInstitutions != null && personInstitutions.size() == 1 ? this.createCreatorAffiliationList(personInstitutions) : new ArrayList<>());
       creatorsList.add(creatorObject);
     }
     if (institutions != null) {
