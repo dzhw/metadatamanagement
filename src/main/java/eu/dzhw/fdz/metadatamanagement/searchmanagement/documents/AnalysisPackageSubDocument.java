@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.projection.AnalysisPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import lombok.EqualsAndHashCode;
@@ -33,7 +34,7 @@ public class AnalysisPackageSubDocument extends AbstractRdcDomainObject
 
   private String dataAcquisitionProjectId;
 
-  private List<I18nString> institutions;
+  private List<Institution> institutions;
 
   private List<Sponsor> sponsors;
 

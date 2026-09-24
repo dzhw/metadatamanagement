@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -132,7 +133,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
       message = "data-package-management.error.data-package.institution.i18n-string-size")
                @I18nStringEntireNotEmpty(
       message = "data-package-management.error.data-package.institution"
-              + ".i18n-string-entire-not-empty") I18nString> institutions;
+              + ".i18n-string-entire-not-empty") Institution> institutions;
 
   /**
    * The name of the series of dataPackages to which this dataPackage belongs.
