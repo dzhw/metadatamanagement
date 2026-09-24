@@ -69,12 +69,11 @@
           <label>{{'analysis-package-management.detail.label.institution' | translate}}</label>
           <md-select name="{{ $ctrl.peopleId }}Institution_{{$index}}"
 
-                     ng-model="person.institution"
-                     ng-change="$ctrl.currentForm.$setDirty()"
-                     multiple="false">
-            <md-option value=""></md-option>
+                     ng-model="person.institutionRors"
+                     ng-change="$ctrl.mapInstitutionRorsToInstitutions(person)"
+                     multiple="true">
             <md-option ng-repeat="institution in $ctrl.institutions track by $index"
-                       ng-value="institution.ror ">
+                       ng-value="institution.ror">
               {{ institution.de || institution.en}}
             </md-option>
           </md-select>

@@ -207,12 +207,12 @@ angular.module('metadatamanagementApp')
                     authors: [{
                       firstName: '',
                       lastName: '',
-                      institution: ''
+                      institutions: []
                     }],
                     dataCurators: [{
                       firstName: '',
                       lastName: '',
-                      institution: ''
+                      institutions: []
                     }],
                     institutions: [],
                     sponsors: [],
@@ -652,13 +652,15 @@ angular.module('metadatamanagementApp')
             if (!ctrl.analysisPackage.authors) {
               ctrl.analysisPackage.authors = [{
                 firstName: '',
-                lastName: ''
+                lastName: '',
+                institutions: []
               }];
             }
             if (!ctrl.analysisPackage.analysisCurators) {
               ctrl.analysisPackage.analysisCurators = [{
                 firstName: '',
-                lastName: ''
+                lastName: '',
+                institutions: []
               }];
             }
             if (ctrl.analysisPackage.institutions &&

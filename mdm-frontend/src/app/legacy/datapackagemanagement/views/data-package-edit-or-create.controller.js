@@ -233,11 +233,13 @@ angular.module('metadatamanagementApp')
                       .id,
                       projectContributors: [{
                         firstName: '',
-                        lastName: ''
+                        lastName: '',
+                        institutions: []
                       }],
                       dataCurators: [{
                         firstName: '',
-                        lastName: ''
+                        lastName: '',
+                        institutions: []
                       }],
                       institutions: [{
                         de: '',
@@ -391,8 +393,10 @@ angular.module('metadatamanagementApp')
           }).then(function(selection) {
             if (selection.ror) {
               ctrl.dataPackage.institutions[institutionIndex].ror = selection.ror;
-              ctrl.dataPackage.institutions[institutionIndex].en = selection.nameEn || nameDe;
-              ctrl.dataPackage.institutions[institutionIndex].de = selection.nameDe || nameEn;
+              ctrl.dataPackage.institutions[institutionIndex].en = selection.nameEn?
+               selection.nameEn : nameEn;
+              ctrl.dataPackage.institutions[institutionIndex].de = selection.nameDe?
+               selection.nameDe : nameDe;
               $scope.dataPackageForm.$setDirty();
             }
           });
