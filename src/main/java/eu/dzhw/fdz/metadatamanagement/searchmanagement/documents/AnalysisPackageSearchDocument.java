@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
@@ -40,7 +41,7 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
   private List<DataPackageSubDocument> dataPackages = new ArrayList<>();
   private List<DataPackageNestedDocument> nestedDataPackages = new ArrayList<>();
 
-  private List<I18nString> nestedInstitutions = new ArrayList<>();
+  private List<Institution> nestedInstitutions = new ArrayList<>();
   private List<Sponsor> nestedSponsors = new ArrayList<>();
 
   private Release release = null;

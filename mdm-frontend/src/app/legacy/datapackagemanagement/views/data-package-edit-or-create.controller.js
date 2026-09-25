@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp')
   'DataPackageAttachmentVersionsResource',
   'ChoosePreviousVersionService',
   'DataPackageVersionsResource',
+  'RORSearchResource',
   '$mdDialog',
     function(entity, PageMetadataService, $document, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
@@ -41,7 +42,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, ProjectUpdateAccessService,
       AttachmentDialogService, DataPackageAttachmentUploadService,
       DataPackageAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataPackageVersionsResource, $mdDialog) {
+      DataPackageVersionsResource, RORSearchResource, $mdDialog) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -232,11 +233,13 @@ angular.module('metadatamanagementApp')
                       .id,
                       projectContributors: [{
                         firstName: '',
-                        lastName: ''
+                        lastName: '',
+                        institutions: []
                       }],
                       dataCurators: [{
                         firstName: '',
-                        lastName: ''
+                        lastName: '',
+                        institutions: []
                       }],
                       institutions: [{
                         de: '',
@@ -364,6 +367,47 @@ angular.module('metadatamanagementApp')
               (ctrl.dataPackage.sponsors.length - 1) + '"]')
             .focus();
         }, 200);
+      };
+
+      ctrl.searchROR = function(institutionIndex, event) {
+        var institution = ctrl.dataPackage.institutions[institutionIndex] || {};
+        var nameEn = institution.en;
+        var nameDe = institution.de;
+        RORSearchResource.get({
+          nameEn: nameEn && nameEn.length > 0 ? nameEn : nameDe,
+          nameDe: nameDe && nameDe.length > 0 ? nameDe : nameEn
+        }).$promise.then(function(response) {
+          $mdDialog.show({
+            controller: 'ChooseRORController',
+            templateUrl: 'scripts/common/institutions/' +
+              'choose-ror.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            multiple: true,
+            locals: {
+              nameEn: nameEn,
+              nameDe: nameDe,
+              rorResponse: response
+            },
+            targetEvent: event
+          }).then(function(selection) {
+            if (selection.ror) {
+              ctrl.dataPackage.institutions[institutionIndex].ror = selection.ror;
+              ctrl.dataPackage.institutions[institutionIndex].en = selection.nameEn?
+               selection.nameEn : nameEn;
+              ctrl.dataPackage.institutions[institutionIndex].de = selection.nameDe?
+               selection.nameDe : nameDe;
+              $scope.dataPackageForm.$setDirty();
+            }
+          });
+        }).catch(function(error) {
+          console.error('ROR error', error);
+        });
+      };
+
+      ctrl.deleteROR = function(institutionIndex) {
+        delete ctrl.dataPackage.institutions[institutionIndex].ror;
+        $scope.dataPackageForm.$setDirty();
       };
 
       ctrl.setCurrentSponsor = function(index, event) {
@@ -637,7 +681,8 @@ angular.module('metadatamanagementApp')
               ctrl.currentInstitutions = new Array(1);
               ctrl.dataPackage.institutions = [{
                 de: '',
-                en: ''
+                en: '',
+                ror: ''
               }];
             }
             if (ctrl.dataPackage.sponsors &&
