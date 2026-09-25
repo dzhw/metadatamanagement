@@ -149,8 +149,9 @@
                 md-is-error="!dataPackageForm.remarksUserService.$valid && (dataPackageForm.remarksUserService.$dirty || dataPackageForm.remarksUserService.$touched)"       
                 class="ms-flex">
               <label class="fdz-input">{{'data-package-management.detail.label.remarksUserService' | translate}}<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
-              <input md-no-asterisk name="remarksUserService"
-                ng-model="ctrl.dataPackage.remarksUserService" ng-trim="true"> 
+              <textarea md-maxlength="2048" md-no-asterisk name="remarksUserService"
+                ng-model="ctrl.dataPackage.remarksUserService" ng-trim="true"
+                        rows="4"></textarea>
             </md-input-container>
           </div>
           <div layout="column" layout-gt-sm="row">
