@@ -26,6 +26,7 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.mongodb.client.gridfs.GridFSFindIterable;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
@@ -124,7 +125,9 @@ public class InstrumentAttachmentShadowCopyServiceTest extends AbstractTest {
         dataAcquisitionProject.getRelease(), "1.0.0");
 
     List<GridFSFile> files = new ArrayList<>();
-    gridFsOperations.find(new Query()).forEach(files::add);
+    GridFSFindIterable result = gridFsOperations.find(new Query());
+    //result.forEach(files::add);
+    files.addAll(result.into(new ArrayList<>()));
 
     assertThat(files.size(), equalTo(2));
 

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -38,6 +39,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+@SpringBootTest 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class AnalysisPackageAttachmentShadowCopyServiceTest extends AbstractTest {
 

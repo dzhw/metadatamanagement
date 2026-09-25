@@ -2,9 +2,9 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
@@ -120,10 +120,19 @@ public class SearchResource {
     String path = completePath.replaceFirst("/api/search", "");
     String url = connectionUrl + path;
     if (!StringUtils.isEmpty(queryString)) {
-      url = url + "?" + URLDecoder.decode(queryString, "UTF-8");
+      url = url + "?" + queryString;
     }
+    URI elasticsearchUri = new URI(url);
     ResponseEntity<String> responseFromElasticSearch =
-        restTemplate.exchange(url, method, new HttpEntity<>(body, headers), String.class);
+        restTemplate.exchange(elasticsearchUri, method, new HttpEntity<>(body, headers), String.class);
+    
+    if(responseFromElasticSearch.getStatusCode().is4xxClientError()) {
+      log.debug("Error while calling elasticsearch: " + url);
+      log.debug(method.toString());
+      log.debug(body);
+      log.debug(headers.toString());
+      log.debug(responseFromElasticSearch.getBody());
+    }
 
     return ResponseEntity.status(responseFromElasticSearch.getStatusCode())
         .cacheControl(CacheControl.noStore()).body(responseFromElasticSearch.getBody());

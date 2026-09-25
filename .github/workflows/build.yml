@@ -9,50 +9,59 @@ on:
       - 'docs/**'
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - name: Get build commit hash
       run: |
         export BUILD_COMMIT_HASH=$(git rev-parse HEAD)
         echo $BUILD_COMMIT_HASH
         sed -i "s/\"buildHash\": \".*\"/\"buildHash\": \"$BUILD_COMMIT_HASH\"/" mdm-frontend/src/assets/config.json
         cat mdm-frontend/src/assets/config.json
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v6
       with:
-        distribution: 'adopt'
-        java-version: 17
+        distribution: 'temurin'
+        java-version: 21
+    - run: java --version
+
     - name: Cache maven artifacts
-      uses: actions/cache@v3
+      uses: actions/cache@v6
       env:
         cache-name: cache-maven-artifacts
       with:
         path: ~/.m2
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+
     - name: Install MDM Maven plugin
       shell: bash
       run: mvn -f maven-plugin/pom.xml install
+
     - name: Set up node 16
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v7
       with:
         node-version: 16
+
     - name: Cache node modules
-      uses: actions/cache@v3
+      uses: actions/cache@v6
       env:
         cache-name: cache-node-modules
       with:
         # npm cache files are stored in `~/.npm` on Linux/macOS
         path: ~/.npm
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('mdm-frontend/package-lock.json') }}
+
     - name: Extract branch name
       shell: bash
       run: echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
     - name: Build with Maven
       run: ./deploy/build.sh unused ${{ env.BRANCH }}
       env:
         REPO_GITHUB_USERNAME: ${{ secrets.REPO_GITHUB_USERNAME }}
         REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+
     - name: Report build status via Slack
       uses: act10ns/slack@v2
       if: always()
