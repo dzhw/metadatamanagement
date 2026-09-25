@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -53,4 +54,6 @@ public class Person implements Serializable {
   @Pattern(regexp = "^\\d{4}-\\d{4}-\\d{4}-(\\d{3}X|\\d{4})$",
       message = "global.error.person.orcid.pattern")
   private String orcid;
+
+  private List<Institution> institutions;
 }

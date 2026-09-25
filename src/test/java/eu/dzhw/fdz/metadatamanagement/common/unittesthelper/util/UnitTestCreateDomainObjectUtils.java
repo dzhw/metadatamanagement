@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisP
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.Script;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
@@ -128,8 +129,10 @@ public class UnitTestCreateDomainObjectUtils {
 
     List<Person> projectContributors = new ArrayList<>();
     projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
-    List<I18nString> institutions =
-        Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
+    Institution institution = new Institution();
+    institution.setDe("Institution De");
+    institution.setEn("Institution En");
+    List<Institution> institutions = Arrays.asList(institution);
     List<Sponsor> sponsors = new ArrayList<>();
     sponsors.add(buildSponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build(), "xyz-123"));
     List<Person> dataCurators = new ArrayList<>();

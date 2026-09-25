@@ -7,6 +7,7 @@
       'edit-people.html.tmpl',
     bindings: {
       people: '=',
+      institutions: '<',
       peopleId: '<',
       currentForm: '<',
       translationKeys: '<',

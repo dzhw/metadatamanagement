@@ -13,17 +13,55 @@ angular.module('metadatamanagementApp')
              $mdDialog) {
       var $ctrl = this;
       $scope.bowser = $rootScope.bowser;
+
+      var initInstitutionRors = function(person) {
+        person.institutions = person.institutions || [];
+        person.institutionRors = person.institutions
+          .map(function(institution) {
+            return institution && institution.ror;
+          })
+          .filter(function(ror) {
+            return !!ror;
+          });
+      };
+
+      $ctrl.mapInstitutionRorsToInstitutions = function(person) {
+        person.institutions = person.institutions || [];
+        var selectedRors = person.institutionRors || [];
+        var selectedRorSet = {};
+        selectedRors.forEach(function(ror) {
+          selectedRorSet[ror] = true;
+        });
+        person.institutions = ($ctrl.institutions || [])
+          .filter(function(institution) {
+            return !!institution.ror && !!selectedRorSet[institution.ror];
+          });
+        $ctrl.currentForm.$setDirty();
+      };
+
       $ctrl.$onInit = function() {
         $ctrl.people = $ctrl.people || [];
         if ($ctrl.people.length === 0) {
           $ctrl.people.push({
             firstName: '',
-            lastName: ''
+            lastName: '',
+            institutions: []
           });
         }
+        $ctrl.people.forEach(function(person) {
+          initInstitutionRors(person);
+        });
         $scope.form = $ctrl.currentForm;
         $scope.isQuestionnaire = $ctrl.attachmentMetadataType === "Questionnaire"
           || $ctrl.attachmentMetadataType === "Variable Questionnaire";
+      };
+
+      $ctrl.$onChanges = function(changesObj) {
+        if (changesObj.institutions && $ctrl.people && $ctrl.people.length) {
+          $ctrl.people.forEach(function(person) {
+            initInstitutionRors(person);
+          });
+        }
       };
 
       $ctrl.deletePerson = function(index) {
@@ -34,8 +72,10 @@ angular.module('metadatamanagementApp')
       $ctrl.addPerson = function() {
         $ctrl.people.push({
           firstName: '',
-          lastName: ''
+          lastName: '',
+          institutions: []
         });
+        initInstitutionRors($ctrl.people[$ctrl.people.length - 1]);
         $timeout(function() {
           $element.find('input[name="' + $ctrl.peopleId + 'FirstName_' +
             ($ctrl.people.length - 1) + '"]')
