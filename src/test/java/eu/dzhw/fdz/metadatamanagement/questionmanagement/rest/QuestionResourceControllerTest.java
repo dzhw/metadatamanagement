@@ -35,7 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -223,11 +222,6 @@ public class QuestionResourceControllerTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
-    // set inconsistent type
-    question.setType(I18nString.builder().de(QuestionTypes.OPEN.getDe())
-      .en("Bad Value")
-      .build());
-
     // update the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)))
@@ -266,7 +260,6 @@ public class QuestionResourceControllerTest extends AbstractTest {
 
     Question question = UnitTestCreateDomainObjectUtils
         .buildQuestion(project.getId(), 123, "instrument-Id");
-    question.setType(null);
 
     // Act and Assert
     // create the variable with the given id
