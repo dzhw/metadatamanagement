@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import com.google.common.base.Strings;
 
@@ -20,7 +20,7 @@ public class FilterExpressionAndLanguageNotEmptyValidator
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(FilterExpressionAndLanguageNotEmpty constraintAnnotation) {}
@@ -28,8 +28,8 @@ public class FilterExpressionAndLanguageNotEmptyValidator
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(FilterDetails filterDetails, ConstraintValidatorContext context) {

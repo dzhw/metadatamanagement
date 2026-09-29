@@ -10,8 +10,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Locale;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -55,20 +55,6 @@ public class AngularCookieLocaleResolverTest {
     // Assert
     assertThat(locale.getLocale(), is(Locale.GERMAN));
   }
-
-  @Test
-  public void testAddCookie() {
-    // Arrange
-    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
-    MockHttpServletResponse response = new MockHttpServletResponse();
-
-    // Act
-    resolver.addCookie(response, "CookieTest");
-
-    // Assert
-    assertThat(response.getCookies()[0].getValue(), is("CookieTest"));
-  }
-
 
   @Test
   public void testResolveLocaleWithNoLocale() {

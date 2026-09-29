@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
 import lombok.AllArgsConstructor;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 /**
  * A wrapper element for the dataset ID a variable is linked to.

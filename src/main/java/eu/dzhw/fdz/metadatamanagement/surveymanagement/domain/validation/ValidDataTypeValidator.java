@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
@@ -18,7 +18,7 @@ public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(ValidDataType constraintAnnotation) {}
@@ -26,8 +26,8 @@ public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(I18nString dataType, ConstraintValidatorContext context) {   
