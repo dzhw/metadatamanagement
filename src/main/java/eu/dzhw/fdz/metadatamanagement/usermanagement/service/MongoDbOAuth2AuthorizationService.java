@@ -1,7 +1,16 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.service;
 
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
@@ -74,7 +83,20 @@ public class MongoDbOAuth2AuthorizationService implements OAuth2AuthorizationSer
     doc.setRegisteredClientId(authorization.getRegisteredClientId());
     doc.setPrincipalName(authorization.getPrincipalName());
     doc.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
-    doc.setAttributes(authorization.getAttributes());
+    doc.setAuthorizedScopes(authorization.getAuthorizedScopes());
+    Authentication principal = authorization.getAttribute(Principal.class.getName());
+    if (principal != null) {
+      Set<String> principalAuthorities = new HashSet<>();
+      for (GrantedAuthority authority : principal.getAuthorities()) {
+        if (authority != null && authority.getAuthority() != null) {
+          principalAuthorities.add(authority.getAuthority());
+        }
+      }
+      doc.setPrincipalAuthorities(principalAuthorities);
+    }
+    Map<String, Object> attributes = new HashMap<>(authorization.getAttributes());
+    attributes.remove(Principal.class.getName());
+    doc.setAttributes(attributes);
     doc.setState(authorization.getAttribute(OAuth2ParameterNames.STATE));
 
     OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getToken(OAuth2AccessToken.class);
@@ -82,6 +104,7 @@ public class MongoDbOAuth2AuthorizationService implements OAuth2AuthorizationSer
       doc.setAccessTokenValue(accessToken.getToken().getTokenValue());
       doc.setAccessTokenIssuedAt(accessToken.getToken().getIssuedAt());
       doc.setAccessTokenExpiresAt(accessToken.getToken().getExpiresAt());
+      doc.setAccessTokenInvalidated(accessToken.isInvalidated());
     }
 
     OAuth2Authorization.Token<OAuth2RefreshToken> refreshToken = authorization.getToken(OAuth2RefreshToken.class);
@@ -89,6 +112,7 @@ public class MongoDbOAuth2AuthorizationService implements OAuth2AuthorizationSer
       doc.setRefreshTokenValue(refreshToken.getToken().getTokenValue());
       doc.setRefreshTokenIssuedAt(refreshToken.getToken().getIssuedAt());
       doc.setRefreshTokenExpiresAt(refreshToken.getToken().getExpiresAt());
+      doc.setRefreshTokenInvalidated(refreshToken.isInvalidated());
     }
     return doc;
   }
@@ -100,15 +124,34 @@ public class MongoDbOAuth2AuthorizationService implements OAuth2AuthorizationSer
         .id(doc.getId())
         .principalName(doc.getPrincipalName())
         .authorizationGrantType(new AuthorizationGrantType(doc.getAuthorizationGrantType()))
+        .authorizedScopes(doc.getAuthorizedScopes() == null ? Set.of() : doc.getAuthorizedScopes())
         .attributes(attrs -> attrs.putAll(doc.getAttributes()));
 
+    Set<GrantedAuthority> authorities = doc.getPrincipalAuthorities() == null ? Set.of()
+        : doc.getPrincipalAuthorities().stream()
+            .map(org.springframework.security.core.authority.SimpleGrantedAuthority::new)
+            .collect(Collectors.toCollection(HashSet::new));
+    builder.attribute(Principal.class.getName(), UsernamePasswordAuthenticationToken.authenticated(
+        doc.getPrincipalName(), null, authorities));
+
     if (doc.getAccessTokenValue() != null) {
-      builder.token(new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
-          doc.getAccessTokenValue(), doc.getAccessTokenIssuedAt(), doc.getAccessTokenExpiresAt()));
+      OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
+          doc.getAccessTokenValue(), doc.getAccessTokenIssuedAt(), doc.getAccessTokenExpiresAt(),
+          doc.getAuthorizedScopes() == null ? Set.of() : doc.getAuthorizedScopes());
+      builder.token(accessToken, metadata -> {
+        if (doc.isAccessTokenInvalidated()) {
+          metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true);
+        }
+      });
     }
     if (doc.getRefreshTokenValue() != null) {
-      builder.token(new OAuth2RefreshToken(
-          doc.getRefreshTokenValue(), doc.getRefreshTokenIssuedAt(), doc.getRefreshTokenExpiresAt()));
+      OAuth2RefreshToken refreshToken = new OAuth2RefreshToken(
+          doc.getRefreshTokenValue(), doc.getRefreshTokenIssuedAt(), doc.getRefreshTokenExpiresAt());
+      builder.token(refreshToken, metadata -> {
+        if (doc.isRefreshTokenInvalidated()) {
+          metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true);
+        }
+      });
     }
     return builder.build();
   }
