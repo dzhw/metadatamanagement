@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

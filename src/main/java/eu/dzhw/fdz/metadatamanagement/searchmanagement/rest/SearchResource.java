@@ -9,8 +9,6 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.web.client.ObservationRestTemplateCustomizer;
@@ -18,7 +16,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
@@ -42,8 +39,8 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.observation.ObservationRegistry;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -74,8 +71,7 @@ public class SearchResource {
   @Autowired
   @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
   public SearchResource(
-      @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl,
-      MeterRegistry meterRegistry, ObservationRegistry observationRegistry)
+      @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl, ObservationRegistry observationRegistry)
       throws UnsupportedEncodingException, MalformedURLException {
         
     this.observationRegistry = observationRegistry;
@@ -98,10 +94,6 @@ public class SearchResource {
         return false;
       }
     });
-
-    //MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-    //    tagProvider, "elasticsearch.client.requests", AutoTimer.ENABLED);
-    //customizer.customize(restTemplate);
 
     new ObservationRestTemplateCustomizer(observationRegistry, new DefaultClientRequestObservationConvention()).customize(this.restTemplate);
   }

@@ -10,14 +10,13 @@ import static org.mockito.Mockito.when;
 
 import java.util.Locale;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.context.i18n.LocaleContext;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Daniel Katzberg
