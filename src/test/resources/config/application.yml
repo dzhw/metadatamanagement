@@ -35,11 +35,9 @@ spring:
         mode: HTML
     autoconfigure:
       exclude:
-        - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextCredentialsAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextResourceLoaderAutoConfiguration
-        - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+        - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchClientAutoConfiguration
+        - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration
+
     elasticsearch:
       rest:
         uris:

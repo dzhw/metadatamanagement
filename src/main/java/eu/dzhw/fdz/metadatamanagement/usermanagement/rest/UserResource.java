@@ -27,12 +27,12 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.MongoDbOAuth2AuthorizationService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +52,7 @@ public class UserResource {
 
   private final AuthorityRepository authorityRepository;
 
-  private final MongoDbTokenStore tokenStore;
+  private final MongoDbOAuth2AuthorizationService authService;
 
   private final UserService userService;
 
@@ -70,7 +70,7 @@ public class UserResource {
       throws URISyntaxException {
     log.debug("REST request to update User : {}", managedUserDto);
     return userRepository.findById(managedUserDto.getId()).map(user -> {
-      tokenStore.removeTokensByUsername(user.getLogin());
+      authService.removeByPrincipalName(user.getLogin());
       user.setLogin(managedUserDto.getLogin());
       user.setFirstName(managedUserDto.getFirstName());
       user.setLastName(managedUserDto.getLastName());

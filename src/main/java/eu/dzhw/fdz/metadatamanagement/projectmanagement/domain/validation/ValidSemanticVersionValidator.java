@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import org.springframework.util.StringUtils;
 
@@ -28,7 +28,7 @@ public class ValidSemanticVersionValidator implements
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(ValidSemanticVersion constraintAnnotation) {}
@@ -36,8 +36,8 @@ public class ValidSemanticVersionValidator implements
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(DataAcquisitionProject project, 

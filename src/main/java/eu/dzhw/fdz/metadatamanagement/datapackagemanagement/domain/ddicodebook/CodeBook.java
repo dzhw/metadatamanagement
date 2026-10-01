@@ -2,14 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * Class representing the root element codebook of the mapping of the DDI Codebook standard.
  */
 
-@XmlRootElement(name = "codeBook")
+@XmlRootElement (name = "codeBook")
 public class CodeBook {
 
   /**
@@ -29,7 +29,7 @@ public class CodeBook {
    */
   public  CodeBook() {}
 
-  @XmlElement(name = "stdyDscr")
+  @XmlElement (name = "stdyDscr")
   private StdyDscr stdyDscr;
 
   @XmlElement(name = "fileDscr")

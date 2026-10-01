@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class AnalysisPackageExistsValidator
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(AnalysisPackageExists constraintAnnotation) {}
@@ -28,8 +28,8 @@ public class AnalysisPackageExistsValidator
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(String analysisPackageId, ConstraintValidatorContext context) {

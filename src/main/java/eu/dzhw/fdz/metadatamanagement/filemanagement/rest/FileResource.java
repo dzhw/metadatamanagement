@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.filemanagement.rest;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.http.CacheControl;

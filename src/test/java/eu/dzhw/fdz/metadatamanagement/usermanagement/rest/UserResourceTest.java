@@ -32,10 +32,10 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.MongoDbOAuth2AuthorizationService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
@@ -57,7 +57,7 @@ public class UserResourceTest extends AbstractTest {
   private UserService userService;
 
   @Autowired
-  private MongoDbTokenStore tokenStore;
+  private MongoDbOAuth2AuthorizationService authService;
 
   @Autowired
   private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
@@ -73,7 +73,7 @@ public class UserResourceTest extends AbstractTest {
   @BeforeEach
   public void setup() {
     UserResource userResource =
-        new UserResource(userRepository, authorityRepository, tokenStore, userService, acquisitionProjectRepository, crudHelper);
+        new UserResource(userRepository, authorityRepository, authService, userService, acquisitionProjectRepository, crudHelper);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
         .setCustomArgumentResolvers(pageableArgumentResolver).build();
   }
