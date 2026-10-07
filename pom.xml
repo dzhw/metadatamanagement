@@ -150,12 +150,6 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>1.19.8</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
             <artifactId>mongodb</artifactId>
             <version>1.21.4</version>
             <scope>test</scope>
@@ -355,12 +349,16 @@
             <version>2.10.0</version>
             <scope>test</scope>
         </dependency>
-        <!-- tweet okhttp3 -->
-      <dependency>
-        <groupId>com.twitter</groupId>
-        <artifactId>twitter-api-java-sdk</artifactId>
-        <version>2.0.3</version>
-      </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20260814</version>
+        </dependency>
     </dependencies>
 
     <repositories>
