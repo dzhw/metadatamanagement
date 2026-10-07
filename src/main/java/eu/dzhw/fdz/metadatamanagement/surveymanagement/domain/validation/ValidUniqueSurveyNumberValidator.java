@@ -2,8 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation;
 
 import java.util.List;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -22,7 +22,7 @@ public class ValidUniqueSurveyNumberValidator
   /*
    * (non-Javadoc)
    *
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(ValidUniqueSurveyNumber constraintAnnotation) {
@@ -31,8 +31,8 @@ public class ValidUniqueSurveyNumberValidator
   /*
    * (non-Javadoc)
    *
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(Survey survey, ConstraintValidatorContext context) {

@@ -2,8 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
 import lombok.AllArgsConstructor;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlValue;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlValue;
 
 /**
  * ID element for the study (e.g. DOI).

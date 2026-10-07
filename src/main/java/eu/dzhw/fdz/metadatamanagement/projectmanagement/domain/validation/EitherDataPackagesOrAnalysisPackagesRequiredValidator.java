@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
 
@@ -16,8 +16,8 @@ public class EitherDataPackagesOrAnalysisPackagesRequiredValidator
   /*
    * (non-Javadoc)
    *
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(Requirements requirements, ConstraintValidatorContext context) {

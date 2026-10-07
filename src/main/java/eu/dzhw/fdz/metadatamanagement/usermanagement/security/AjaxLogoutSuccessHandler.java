@@ -2,18 +2,19 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.MongoDbOAuth2AuthorizationService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -26,7 +27,7 @@ public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlReq
 
   public static final String BEARER_AUTHENTICATION = "Bearer ";
 
-  private final TokenStore tokenStore;
+  private final MongoDbOAuth2AuthorizationService authService;
 
   @Override
   public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -35,11 +36,11 @@ public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlReq
     // Request the token
     String token = request.getHeader("authorization");
     if (token != null && token.startsWith(BEARER_AUTHENTICATION)) {
-      final OAuth2AccessToken oAuth2AccessToken =
-          tokenStore.readAccessToken(StringUtils.substringAfter(token, BEARER_AUTHENTICATION));
+        OAuth2Authorization authorization = authService.findByToken(StringUtils.substringAfter(token, BEARER_AUTHENTICATION),
+          OAuth2TokenType.ACCESS_TOKEN);
 
-      if (oAuth2AccessToken != null) {
-        tokenStore.removeAccessToken(oAuth2AccessToken);
+      if (authorization != null) {
+        authService.remove(authorization);
       }
     }
 
