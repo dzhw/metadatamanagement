@@ -135,8 +135,8 @@ angular.module('metadatamanagementApp').config([
         },
         'citation-guideline-dialog': {
           'title': 'Citation Guidelines',
-          'message': 'Please confirm that you have read the <a href="https://www.fdz.dzhw.eu/sites/default/files/data/documente/Citation_Guideline_for_Data_Users.pdf" target="_blank" rel="noopener noreferrer">Citation Guidelines</a>. If you have any questions, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
-          'confirmation': 'I confirm that I have read the information regarding the citation of data packages.'
+          'message': 'Please confirm that you have taken note of the <a href="https://www.fdz.dzhw.eu/sites/default/files/data/documente/Citation_Guideline_for_Data_Users.pdf" target="_blank" rel="noopener noreferrer">Citation Guidelines</a>. If you have any questions, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'confirmation': 'I confirm that I have taken note of the information regarding the citation of data packages.'
         },
         'version-info': {
           'title': 'Select a Version',
