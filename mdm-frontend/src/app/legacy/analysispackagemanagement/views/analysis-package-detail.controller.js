@@ -232,20 +232,12 @@ angular.module('metadatamanagementApp')
         ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
           .check(result);
         // trigger MessageBus for showing ordering options in the sidenav
-        if (!Principal.isAuthenticated()) {
-          MessageBus.set('onAnalysisPackageChange',
-            {
-              masterId: result.masterId
-            });
-          MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
-        } else {
-          MessageBus.set('onAnalysisPackageChange',
-            {
-              masterId: result.masterId,
-              projectId: result.dataAcquisitionProjectId
-            });
-          MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
-        }
+        MessageBus.set('onAnalysisPackageChange',
+          {
+            masterId: result.masterId,
+            projectId: result.dataAcquisitionProjectId
+          });
+        MessageBus.set('onDetailViewLoaded', {type: 'analysisPackage'});
 
         PageMetadataService.setPageTitle(
           'analysis-package-management.detail.title', {
