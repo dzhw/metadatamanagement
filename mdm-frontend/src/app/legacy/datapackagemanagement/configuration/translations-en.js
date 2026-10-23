@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config([
         'detail': {
           'label': {
             'studySeries': 'Study Series',
+            'parentStudy': 'Parent Study',
+            'part-of-project': 'Part of the Project',
             'dataPackage': 'Data Package',
             'dataPackages': 'Data Packages',
             'institution': 'Institution',
@@ -186,6 +188,11 @@ angular.module('metadatamanagementApp').config([
               'i18n-string-size': 'The max length of the sponsor name of the data package is 512.',
               'i18n-string-entire-not-empty': 'The sponsor name of the data package must not be empty for both languages.'
             },
+            'parent-study': {
+              'i18n-string-size': 'The maximum length of the parent study is 512 characters.',
+              'i18n-string-entire-not-empty-optional': 'If the parent study is given in one language, it has to be set in all languages.',
+              'i18n-string-must-not-contain-comma': 'The parent study must not contain commas.'
+            },
             'study-series': {
               'i18n-string-size': 'The max length of the study series is 512 signs.',
               'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.',
@@ -296,6 +303,10 @@ angular.module('metadatamanagementApp').config([
             'title': {
               'de': 'Please enter the title of this data package in German.',
               'en': 'Please enter the title of this data package in English.'
+            },
+            'parent-study': {
+              'de': 'If available, please enter the name of the parent study in German.',
+              'en': 'If available, please enter the name of the parent study in English.'
             },
             'study-series': {
               'de': 'If available enter the name of the study series in German.',
