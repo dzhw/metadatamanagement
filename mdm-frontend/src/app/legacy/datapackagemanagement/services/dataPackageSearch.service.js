@@ -116,17 +116,20 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
     };
 
     var findStudySeries = function(searchText, filter, language, type,
-        queryterm, dataAcquisitionProjectId, ignoreAuthorization) {
+        queryterm, dataAcquisitionProjectId, ignoreAuthorization,
+        parentStudies) {
       ignoreAuthorization = ignoreAuthorization || false;
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject(type);
       query.size = 0;
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
         type);
-      var fieldName = 'studySeries.';
+      var fieldName = parentStudies ? 'parentStudy.' : 'studySeries.';
       var prefix = (type === 'data_packages' || !type) ? '' : 'dataPackage.';
+      var nestedPath = parentStudies ? 'nestedParentStudies' :
+        'nestedStudySerieses';
       if (type === 'related_publications') {
-        prefix = 'nestedStudySerieses.';
+        prefix = nestedPath + '.';
         fieldName = '';
       }
       query.body = {
@@ -184,18 +187,12 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         SearchHelperService.addFilter(query);
       }
 
-      if (prefix === 'nestedStudySerieses.') {
-        var nestedAggregation = {
-          'aggs': {
-            'nestedStudySerieses': {
-              'nested': {
-                'path': prefix.replace('.', '')
-              }
-            }
-          }
+      if (type === 'related_publications') {
+        var nestedAggregation = {aggs: {}};
+        nestedAggregation.aggs[nestedPath] = {
+          nested: {path: nestedPath},
+          aggs: query.body.aggs
         };
-        nestedAggregation.aggs.nestedStudySerieses.aggs =
-          query.body.aggs;
         query.body.aggs = nestedAggregation.aggs;
       }
 
@@ -203,8 +200,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         var studySeries = [];
         var studySeriesElement = {};
         var buckets;
-        if (prefix === 'nestedStudySerieses.') {
-          buckets = result.aggregations.nestedStudySerieses.studySeries
+        if (type === 'related_publications') {
+          buckets = result.aggregations[nestedPath].studySeries
             .firstStudySeries.buckets;
         } else {
           buckets = result.aggregations.studySeries
@@ -221,6 +218,19 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
           studySeries.push(studySeriesElement);
         });
         return studySeries;
+      });
+    };
+
+    var findStudySeriesFilterOptions = function(searchText, filter, language,
+        type, queryterm, dataAcquisitionProjectId) {
+      language = language || LanguageService.getCurrentInstantly();
+      return $q.all([
+        findStudySeries(searchText, filter, language, type, queryterm,
+          dataAcquisitionProjectId),
+        findStudySeries(searchText, filter, language, type, queryterm,
+          dataAcquisitionProjectId, false, true)
+      ]).then(function(results) {
+        return _.uniqBy(results[0].concat(results[1]), language);
       });
     };
 
@@ -721,6 +731,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
       findShadowByIdAndVersion: findShadowByIdAndVersion,
       findDataPackageById: findDataPackageById,
       findStudySeries: findStudySeries,
+      findStudySeriesFilterOptions: findStudySeriesFilterOptions,
       findSponsors: findSponsors,
       findApprovedUsage: findApprovedUsage,
       findInstitutions: findInstitutions,

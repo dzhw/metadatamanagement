@@ -16,6 +16,11 @@ angular.module('metadatamanagementApp')
           i18n: true,
           min_doc_count: 1
         },
+        'parent-study': {
+          attribute: 'parentStudy',
+          i18n: true,
+          min_doc_count: 1
+        },
         'survey-data-types': {
           attribute: 'surveyDataTypes',
           i18n: true,
@@ -563,10 +568,21 @@ angular.module('metadatamanagementApp')
           };
           if (elasticsearchType) {
             var subKeyMapping = keyMapping[elasticsearchType];
+            var isStudySeries = key === 'study-series-de' ||
+              key === 'study-series-en';
             key = subKeyMapping[key] ||
               hiddenFiltersKeyMapping[elasticsearchType][key];
             if (key) {
               filterKeyValue.term[key] = value;
+              if (isStudySeries) {
+                var parentStudyFilter = {term: {}};
+                parentStudyFilter.term[key.replace('studySeries',
+                  'parentStudy')] = value;
+                filterKeyValue = {bool: {
+                  should: [filterKeyValue, parentStudyFilter],
+                  minimum_should_match: 1
+                }};
+              }
               termFilters.push(filterKeyValue);
             }
           }
@@ -941,6 +957,13 @@ angular.module('metadatamanagementApp')
             } else {
               aggregation.terms.field = aggregationConfig.attribute;
             }
+            if (attribute === 'parent-study') {
+              aggregation.aggs = {
+                studySeries: {
+                  terms: {field: 'studySeries.' + currentLanguage, size: 100}
+                }
+              };
+            }
             _.set(query.body.aggs, attribute, aggregation);
             _.set(query.body.aggs.all.aggs.filtered.aggs, attribute,
               aggregation);
@@ -999,6 +1022,12 @@ angular.module('metadatamanagementApp')
               filter.term[filterConfig.attribute] = filterValue;
             }
             filterArray.push(filter);
+            if (filterKey === 'study-series') {
+              var parentStudyFilter = {term: {}};
+              parentStudyFilter.term['parentStudy.' + currentLanguage] =
+                filterValue;
+              filterArray.push(parentStudyFilter);
+            }
           };
 
           if (Array.isArray(newFilters[filterKey])) {
@@ -1015,7 +1044,25 @@ angular.module('metadatamanagementApp')
       }
     };
 
+    var createStudySeriesFilter = function(data) {
+      var options = [];
+      ['parent-study', 'study-series'].forEach(function(property) {
+        data.all.filtered[property].buckets.forEach(function(bucket) {
+          var current = _.find(data[property].buckets, {key: bucket.key});
+          var option = {key: bucket.key,
+            doc_count: current ? current.doc_count : 0};
+          if (property === 'parent-study') {
+            option.studySeries = _.map(bucket.studySeries.buckets, 'key');
+          }
+          options.push(option);
+        });
+      });
+      return _.orderBy(_.uniqBy(options, 'key'), ['doc_count', 'key'],
+        ['desc', 'asc']);
+    };
+
     return {
+      createStudySeriesFilter: createStudySeriesFilter,
       containsDomainObjectFilter: containsDomainObjectFilter,
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,

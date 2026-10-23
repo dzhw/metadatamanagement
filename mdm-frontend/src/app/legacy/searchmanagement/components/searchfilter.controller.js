@@ -144,6 +144,13 @@
 
     function toggleFilterItem(item, prop) {
       readSearchParamsFromLocation();
+      if (prop === 'study-series') {
+        toggleStudySeries(item);
+        $ctrl.searchParams.filter = $ctrl.searchFilterMapping;
+        $ctrl.searchParams.page = 1;
+        writeSearchParamsToLocation();
+        return;
+      }
       if ($ctrl.searchFilterMapping &&
         $ctrl.searchFilterMapping.hasOwnProperty(prop) &&
         _.includes($ctrl.searchFilterMapping[prop], item)) {
@@ -172,7 +179,44 @@
       writeSearchParamsToLocation();
     }
 
+    function toggleStudySeries(item) {
+      var selected = _.compact(_.concat([], $ctrl.searchParams.filter[
+        'study-series']));
+      var options = $ctrl.dataPackageFilter['study-series'] || [];
+      // Expand parent links from the URL before changing individual children.
+      options.forEach(function(option) {
+        if (option.studySeries && _.includes(selected, option.key)) {
+          selected = _.union(selected, option.studySeries);
+        }
+      });
+      var option = _.find(options, {key: item});
+      var affected = [item].concat(option && option.studySeries || []);
+      if (_.includes(selected, item)) {
+        selected = _.difference(selected, affected);
+        options.forEach(function(parent) {
+          if (_.intersection(parent.studySeries || [], affected).length) {
+            selected = _.without(selected, parent.key);
+          }
+        });
+      } else {
+        selected = _.union(selected, affected);
+      }
+      if (selected.length) {
+        $ctrl.searchFilterMapping['study-series'] = selected;
+      } else {
+        delete $ctrl.searchFilterMapping['study-series'];
+      }
+    }
+
     function exists(item, prop) {
+      if (prop === 'study-series') {
+        var selected = _.concat([], $ctrl.searchFilterMapping[prop] || []);
+        return _.includes(selected, item) || _.some(
+          $ctrl.dataPackageFilter[prop], function(parent) {
+            return _.includes(selected, parent.key) &&
+              _.includes(parent.studySeries, item);
+          });
+      }
       if ($ctrl.searchFilterMapping &&
         $ctrl.searchFilterMapping.hasOwnProperty(prop)) {
         return $ctrl.searchFilterMapping[prop].indexOf(item) > -1;
