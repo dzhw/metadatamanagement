@@ -16,6 +16,10 @@
         <div>{{searchResult.name}} ({{searchResult.dataType[currentLanguage]}},
           {{searchResult.scaleLevel[currentLanguage]}})
         </div>
+        <div ng-if="searchResult.accessWays.length">
+          <span class="b">{{'variable-management.detail.label.access-ways' | translate}}:&nbsp;</span>
+          <span ng-repeat="accessWay in searchResult.accessWays">{{accessWay | displayAccessWay}}{{!$last ? ', ' : ''}}</span>
+        </div>
       </div>
     </md-card-header-text>
   </md-card-header>
