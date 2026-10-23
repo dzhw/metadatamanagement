@@ -1,6 +1,6 @@
-FROM eclipse-temurin:17-jre-focal
+FROM eclipse-temurin:21-jre-ubi10-minimal
 
-MAINTAINER René Reitmann <reitmann@dzhw.eu>
+LABEL org.opencontainers.image.authors="René Reitmann <reitmann@dzhw.eu>"
 
 VOLUME /tmp
 
@@ -9,16 +9,7 @@ COPY target/app /app/
 COPY run.sh run.sh
 COPY jvmkill.so.sha512 jvmkill.so.sha512
 
-# install all available package updates
-RUN apt-get update && apt-get upgrade -y -q && apt-get dist-upgrade -y -q
-
-# add kill agent for correct OutOfMemory Handling
-RUN apt update \
- &&  apt install -y --no-install-recommends curl\
- &&  rm -rf /var/lib/apt/lists/*\
- && curl https://java-buildpack.cloudfoundry.org/jvmkill/bionic/x86_64/jvmkill-1.16.0_RELEASE.so --output /app/jvmkill.so\
- && echo "$(cut -d' ' -f1 /jvmkill.so.sha512) /app/jvmkill.so" | sha512sum --check\
- && apt remove curl -y\
- && apt autoremove -y
+RUN curl https://java-buildpack.cloudfoundry.org/jvmkill/bionic/x86_64/jvmkill-1.16.0_RELEASE.so --output /app/jvmkill.so\
+ && echo "$(cut -d' ' -f1 /jvmkill.so.sha512) /app/jvmkill.so" | sha512sum --check
 
 ENTRYPOINT ["/run.sh"]

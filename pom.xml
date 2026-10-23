@@ -57,6 +57,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+            <version>8.19.6</version>
+        </dependency>
+        <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-ecs</artifactId>
         </dependency>
@@ -95,8 +100,8 @@
                     <groupId>junit</groupId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.sun.mail</groupId>
                     <artifactId>jakarta.mail</artifactId>
+                    <groupId>com.sun.mail</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -110,10 +115,15 @@
             <artifactId>querydsl-mongodb</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.mongodb</groupId>
                     <artifactId>mongo-java-driver</artifactId>
+                    <groupId>org.mongodb</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.3</version>
         </dependency>
         <!-- override jaxb dependencies version of oauth2 -->
         <dependency>
@@ -147,18 +157,31 @@
             <version>1.11.0</version>
         </dependency>
         <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>mongodb</artifactId>
-            <version>1.21.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-cloudwatch</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec-http2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>2.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- add validation api from Jakarta-->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.1.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -170,6 +193,11 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.1.4</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
@@ -179,25 +207,19 @@
             <version>4.1.0</version>
         </dependency>
         <dependency>
-            <groupId>co.elastic.clients</groupId>
-            <artifactId>elasticsearch-java</artifactId>
-            <version>8.19.6</version>
-        </dependency>
-        <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-client</artifactId>
             <version>8.19.6</version>
         </dependency>
         <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <version>2.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
             <version>6.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20260814</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -207,19 +229,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- add validation api from Jakarta-->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>3.1.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -300,6 +309,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-data</artifactId>
+        </dependency>
         <!-- security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -308,16 +321,13 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-data</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents.client5</groupId>
-            <artifactId>httpclient5</artifactId>
-            <version>5.1.4</version>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mongodb</artifactId>
+            <version>1.21.4</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.zalando</groupId>
@@ -336,16 +346,6 @@
             <artifactId>embedded-elasticsearch</artifactId>
             <version>2.10.0</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20260814</version>
         </dependency>
     </dependencies>
 
@@ -443,32 +443,32 @@
                                         <ignore />
                                     </action>
                                 </pluginExecution>
-<!--                                <pluginExecution>-->
-<!--                                    <pluginExecutionFilter>-->
-<!--                                        <groupId>org.apache.maven.plugins</groupId>-->
-<!--                                        <artifactId>maven-checkstyle-plugin</artifactId>-->
-<!--                                        <versionRange>[2.17,)</versionRange>-->
-<!--                                        <goals>-->
-<!--                                            <goal>check</goal>-->
-<!--                                        </goals>-->
-<!--                                    </pluginExecutionFilter>-->
-<!--                                    <action>-->
-<!--                                        <ignore />-->
-<!--                                    </action>-->
-<!--                                </pluginExecution>-->
-<!--                                <pluginExecution>-->
-<!--                                    <pluginExecutionFilter>-->
-<!--                                        <groupId>com.github.spotbugs</groupId>-->
-<!--                                        <artifactId>spotbugs-maven-plugin</artifactId>-->
-<!--                                        <versionRange>[3.1.12,)</versionRange>-->
-<!--                                        <goals>-->
-<!--                                            <goal>check</goal>-->
-<!--                                        </goals>-->
-<!--                                    </pluginExecutionFilter>-->
-<!--                                    <action>-->
-<!--                                        <ignore />-->
-<!--                                    </action>-->
-<!--                                </pluginExecution>-->
+                                <!--                                <pluginExecution>-->
+                                <!--                                    <pluginExecutionFilter>-->
+                                <!--                                        <groupId>org.apache.maven.plugins</groupId>-->
+                                <!--                                        <artifactId>maven-checkstyle-plugin</artifactId>-->
+                                <!--                                        <versionRange>[2.17,)</versionRange>-->
+                                <!--                                        <goals>-->
+                                <!--                                            <goal>check</goal>-->
+                                <!--                                        </goals>-->
+                                <!--                                    </pluginExecutionFilter>-->
+                                <!--                                    <action>-->
+                                <!--                                        <ignore />-->
+                                <!--                                    </action>-->
+                                <!--                                </pluginExecution>-->
+                                <!--                                <pluginExecution>-->
+                                <!--                                    <pluginExecutionFilter>-->
+                                <!--                                        <groupId>com.github.spotbugs</groupId>-->
+                                <!--                                        <artifactId>spotbugs-maven-plugin</artifactId>-->
+                                <!--                                        <versionRange>[3.1.12,)</versionRange>-->
+                                <!--                                        <goals>-->
+                                <!--                                            <goal>check</goal>-->
+                                <!--                                        </goals>-->
+                                <!--                                    </pluginExecutionFilter>-->
+                                <!--                                    <action>-->
+                                <!--                                        <ignore />-->
+                                <!--                                    </action>-->
+                                <!--                                </pluginExecution>-->
                                 <pluginExecution>
                                     <pluginExecutionFilter>
                                         <groupId>org.codehaus.mojo</groupId>
@@ -511,26 +511,26 @@
                 </configuration>
             </plugin>
             <!-- spotbugs and fail the build -->
-<!--            <plugin>-->
-<!--                <groupId>com.github.spotbugs</groupId>-->
-<!--                <artifactId>spotbugs-maven-plugin</artifactId>-->
-<!--                <version>4.8.5.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>spotbugs</id>-->
-<!--                        <phase>compile</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>check</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <effort>Max</effort>-->
-<!--                    <threshold>Low</threshold>-->
-<!--                    <xmlOutput>true</xmlOutput>-->
-<!--                    <excludeFilterFile>buildconfig/spotbugs-exclude.xml</excludeFilterFile>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>com.github.spotbugs</groupId>-->
+            <!--                <artifactId>spotbugs-maven-plugin</artifactId>-->
+            <!--                <version>4.8.5.0</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>spotbugs</id>-->
+            <!--                        <phase>compile</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--                <configuration>-->
+            <!--                    <effort>Max</effort>-->
+            <!--                    <threshold>Low</threshold>-->
+            <!--                    <xmlOutput>true</xmlOutput>-->
+            <!--                    <excludeFilterFile>buildconfig/spotbugs-exclude.xml</excludeFilterFile>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>apt-maven-plugin</artifactId>
@@ -563,30 +563,30 @@
             </plugin>
             <!-- Checkstyle and fail the build -->
             <!-- This version of Checkstyle is incompatible with Java 17 syntax and upgrading the module breaks a ton of configuration -->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
-<!--                <version>3.0.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>checkstyle</id>-->
-<!--                        <phase>validate</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>check</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <excludes>${project.build.directory}/generated-test-sources/**</excludes>-->
-<!--                            <configLocation>buildconfig/google_checks.xml</configLocation>-->
-<!--                            <encoding>UTF-8</encoding>-->
-<!--                            <consoleOutput>true</consoleOutput>-->
-<!--                            <failsOnError>true</failsOnError>-->
-<!--                            <failOnViolation>true</failOnViolation>-->
-<!--                            <maxAllowedViolations>0</maxAllowedViolations>-->
-<!--                            <linkXRef>false</linkXRef>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+            <!--                <version>3.0.0</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>checkstyle</id>-->
+            <!--                        <phase>validate</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <excludes>${project.build.directory}/generated-test-sources/**</excludes>-->
+            <!--                            <configLocation>buildconfig/google_checks.xml</configLocation>-->
+            <!--                            <encoding>UTF-8</encoding>-->
+            <!--                            <consoleOutput>true</consoleOutput>-->
+            <!--                            <failsOnError>true</failsOnError>-->
+            <!--                            <failOnViolation>true</failOnViolation>-->
+            <!--                            <maxAllowedViolations>0</maxAllowedViolations>-->
+            <!--                            <linkXRef>false</linkXRef>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
@@ -866,12 +866,12 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-<!--                <checkstyle.skip>true</checkstyle.skip>-->
+                <!--                <checkstyle.skip>true</checkstyle.skip>-->
                 <exec.skip>true</exec.skip>
                 <jacoco.skip>true</jacoco.skip>
                 <maven.gitcommitid.skip>true</maven.gitcommitid.skip>
                 <pmd.skip>true</pmd.skip>
-<!--                <spotbugs.skip>true</spotbugs.skip>-->
+                <!--                <spotbugs.skip>true</spotbugs.skip>-->
             </properties>
         </profile>
         <profile>
