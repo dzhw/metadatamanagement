@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').factory('ElsstSearchService', ['Language
       language = language || LanguageService.getCurrentInstantly();
       try {
         var url = 'https://thesauri.cessda.eu/rest/v1/search?query=' 
-          + searchText + '*&lang=' + language + '&labellang=' + language + '&vocab=elsst-6&unique=true&fields=altLabel';
+          + searchText + '*&lang=' + language + '&labellang=' + language + '&vocab=elsst-7&unique=true&fields=altLabel';
         const response = await fetch(url, {
           headers: {
             accept: 'application/json'
@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').factory('ElsstSearchService', ['Language
       origLanguage = origLanguage || LanguageService.getCurrentInstantly();
       try {
         var url = 'https://thesauri.cessda.eu/rest/v1/search?query=' 
-          + prefLabel + '&lang=' + origLanguage + '&labellang=' + translateLang + '&vocab=elsst-6&unique=true&fields=altLabel';
+          + prefLabel + '&lang=' + origLanguage + '&labellang=' + translateLang + '&vocab=elsst-7&unique=true&fields=altLabel';
         const response = await fetch(url, {
           headers: {
             accept: 'application/json'
