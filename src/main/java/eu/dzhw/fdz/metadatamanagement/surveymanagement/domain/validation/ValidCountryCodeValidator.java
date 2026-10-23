@@ -2,8 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation;
 
 import org.springframework.util.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

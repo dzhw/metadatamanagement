@@ -5,55 +5,50 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-/**
- * Configure password encryption.
- */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class SecurityConfiguration {
 
   @Autowired
   private UserDetailsService userDetailsService;
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder)
-      throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-  }
-
-  @Override
-  public void configure(WebSecurity web) {
-    web.ignoring().antMatchers("/scripts/**/*.{js,html}").antMatchers("/node_modules/**")
-        .antMatchers("/websocket/**").antMatchers("/i18n/**").antMatchers("/assets/**")
-        .antMatchers("/api/register").antMatchers("/api/activate")
-        .antMatchers("/api/account/reset-password/init")
-        .antMatchers("/api/account/reset-password/finish")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_search")
-        .antMatchers(HttpMethod.GET, "/api/search/**")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_mget")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_count")
-        .antMatchers(HttpMethod.POST, "/api/search/**/_msearch")
-        .antMatchers(HttpMethod.GET, "/management/info");
-  }
-
-  @Override
   @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+  public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
+    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    provider.setUserDetailsService(userDetailsService);
+    provider.setPasswordEncoder(passwordEncoder);
+    return new org.springframework.security.authentication.ProviderManager(provider);
+  }
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return web -> web.ignoring()
+        .requestMatchers("/node_modules/**", "/websocket/**",
+            "/i18n/**", "/assets/**", "/api/register", "/api/activate",
+            "/api/account/reset-password/init", "/api/account/reset-password/finish",
+            "/management/info")
+        .requestMatchers(AntPathRequestMatcher.antMatcher("/scripts/**/*.js"))
+        .requestMatchers(AntPathRequestMatcher.antMatcher("/scripts/**/*.html"))
+        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_search"))
+        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_mget"))
+        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_count"))
+        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_msearch"))
+        .requestMatchers(HttpMethod.GET, "/api/search/**");
   }
 
   @Bean
   public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
     return new SecurityEvaluationContextExtension();
   }
+
 }

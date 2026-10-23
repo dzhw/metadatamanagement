@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.rest;
 
 import java.io.IOException;
 
-import javax.validation.constraints.Max;
+import jakarta.validation.constraints.Max;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;

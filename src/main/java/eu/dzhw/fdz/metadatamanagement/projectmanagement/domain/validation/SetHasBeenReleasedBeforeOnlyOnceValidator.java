@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -19,15 +19,15 @@ public class SetHasBeenReleasedBeforeOnlyOnceValidator
   
   /*
    * (non-Javadoc)
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(SetHasBeenReleasedBeforeOnlyOnce constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
-   * @see javax.validation.ConstraintValidator#isValid(
-   * java.lang.Object, javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(
+   * java.lang.Object, jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(DataAcquisitionProject value, ConstraintValidatorContext context) {

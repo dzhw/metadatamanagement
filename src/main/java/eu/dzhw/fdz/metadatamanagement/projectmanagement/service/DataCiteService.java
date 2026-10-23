@@ -12,14 +12,13 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.metrics.AutoTimer;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.boot.actuate.metrics.web.client.ObservationRestTemplateCustomizer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.observation.DefaultClientRequestObservationConvention;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -50,7 +49,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import freemarker.template.TemplateException;
-import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.observation.ObservationRegistry;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -98,13 +97,12 @@ public class DataCiteService {
    * Constructor for DataCite Services. Set the Rest Template.
    */
   @Autowired
-  public DataCiteService(MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider) {
+  public DataCiteService(ObservationRegistry observationRegistry) {
     this.restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     this.restTemplate.getMessageConverters().add(0,
-      new StringHttpMessageConverter(Charset.forName("UTF-8")));
-    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-      tagProvider, "datacite.client.requests", AutoTimer.ENABLED);
-    customizer.customize(this.restTemplate);
+        new StringHttpMessageConverter(Charset.forName("UTF-8")));
+    new ObservationRestTemplateCustomizer(observationRegistry,
+        new DefaultClientRequestObservationConvention()).customize(this.restTemplate);
   }
 
 

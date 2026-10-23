@@ -9,21 +9,18 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.AutoTimer;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.boot.actuate.metrics.web.client.ObservationRestTemplateCustomizer;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.observation.DefaultClientRequestObservationConvention;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
@@ -42,7 +39,8 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.observation.ObservationRegistry;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -63,6 +61,8 @@ public class SearchResource {
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
+  private final ObservationRegistry observationRegistry;
+
   /**
    * Create the search proxy with the given elasticsearch host url.
    *
@@ -71,9 +71,10 @@ public class SearchResource {
   @Autowired
   @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
   public SearchResource(
-      @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl,
-      MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider)
+      @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl, ObservationRegistry observationRegistry)
       throws UnsupportedEncodingException, MalformedURLException {
+        
+    this.observationRegistry = observationRegistry;
     this.connectionUrl = elasticSearchConnectionUrl;
     URL url = new URL(elasticSearchConnectionUrl);
     restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
@@ -85,16 +86,16 @@ public class SearchResource {
       byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
       base64Credentials = new String(base64CredsBytes, "UTF-8");
     }
+
     // prevent throwing exception on error codes
     restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
       @Override
-      protected boolean hasError(HttpStatus statusCode) {
+      public boolean hasError(ClientHttpResponse clientResponse) {
         return false;
       }
     });
-    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-        tagProvider, "elasticsearch.client.requests", AutoTimer.ENABLED);
-    customizer.customize(restTemplate);
+
+    new ObservationRestTemplateCustomizer(observationRegistry, new DefaultClientRequestObservationConvention()).customize(this.restTemplate);
   }
 
   /**

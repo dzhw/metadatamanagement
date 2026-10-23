@@ -1,10 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.common.config.locale;
 
 import java.util.Locale;
-import java.util.Optional;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * This class will check if a double quote has been added, if so it will remove it.
  */
 public class AngularCookieLocaleResolver extends CookieLocaleResolver {
+
+  private static final Log logger = LogFactory.getLog(AngularCookieLocaleResolver.class);
 
   @Override
   public Locale resolveLocale(HttpServletRequest request) {
@@ -40,9 +44,9 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
 
   private void parseLocaleCookieIfNecessary(HttpServletRequest request) {
     if (request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME) == null) {
-      // Retrieve and parse cookie value.
-      String cookieName = Optional.ofNullable(getCookieName()).orElse("");
-      Cookie cookie = WebUtils.getCookie(request, cookieName);
+      // Retrieve and parse cookie value.      
+      //String cookieName = Optional.ofNullable(getCookieName()).orElse("");
+      Cookie cookie = WebUtils.getCookie(request, ""); // TODO find out, why a cookie name was needed in the first place
       Locale locale = null;
       if (cookie != null) {
         String localePart = cookie.getValue();

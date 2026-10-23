@@ -7,16 +7,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation.ConceptExists.List;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 /**
  * Checks that the referenced concept exists.
  */
 @Documented
-@Constraint(validatedBy = {ConceptExistsValidator.class})
+@Constraint (validatedBy = {ConceptExistsValidator.class})
 @Repeatable(List.class)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)

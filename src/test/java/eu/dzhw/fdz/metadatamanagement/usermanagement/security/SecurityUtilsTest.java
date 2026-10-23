@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
@@ -21,6 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal;
 
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 
@@ -85,6 +87,22 @@ public class SecurityUtilsTest {
     // Assert
     assertThat(login).isEqualTo("admin");
     assertThat(SecurityUtils.isUserInRole("somethingWrong"), is(false));
+  }
+
+  @Test
+  public void testGetCurrentUserLoginFromOAuthPrincipal() {
+    Set<GrantedAuthority> authorities = new HashSet<>();
+    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+    DefaultOAuth2AuthenticatedPrincipal principal = new DefaultOAuth2AuthenticatedPrincipal(
+      "oauth-user", Map.of("sub", "oauth-user"), authorities);
+    SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+    securityContext.setAuthentication(
+        new UsernamePasswordAuthenticationToken(principal, "token", authorities));
+    SecurityContextHolder.setContext(securityContext);
+
+    assertThat(SecurityUtils.getCurrentUserLogin(), is("oauth-user"));
+    assertThat(SecurityUtils.isUserInRole("ROLE_USER"), is(true));
+    assertThat(SecurityUtils.isUserInRole("ROLE_ADMIN"), is(false));
   }
 
   @Test

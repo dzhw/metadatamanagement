@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import org.springframework.util.StringUtils;
 
@@ -16,7 +16,7 @@ public class ValidCustomDataPackageAccesWayValidator
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(ValidCustomDataPackageAccessWay constraintAnnotation) {}
@@ -24,8 +24,8 @@ public class ValidCustomDataPackageAccesWayValidator
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(String accessWay, ConstraintValidatorContext context) {

@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import org.javers.core.metamodel.annotation.TypeName;
 

@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -21,7 +21,7 @@ public class StatisticsThirdQuartileMustBeANumberOnNumericDataTypeValidator impl
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(
@@ -30,8 +30,8 @@ public class StatisticsThirdQuartileMustBeANumberOnNumericDataTypeValidator impl
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {

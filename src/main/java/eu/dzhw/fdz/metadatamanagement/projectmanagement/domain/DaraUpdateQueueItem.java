@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;

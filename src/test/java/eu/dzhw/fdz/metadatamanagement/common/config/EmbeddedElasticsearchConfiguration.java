@@ -3,15 +3,10 @@
  */
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.context.annotation.Configuration;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
-import pl.allegro.tech.embeddedelasticsearch.JavaHomeOption;
-import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 
 /**
  * Embedded in-memory elasticsearch node. It will start only once by the

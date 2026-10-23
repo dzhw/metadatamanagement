@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;

@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.StorageTypes;
 
@@ -14,7 +14,7 @@ public class ValidStorageTypeValidator implements ConstraintValidator<ValidStora
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(ValidStorageType constraintAnnotation) {}
@@ -22,8 +22,8 @@ public class ValidStorageTypeValidator implements ConstraintValidator<ValidStora
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(String storageType, ConstraintValidatorContext context) {

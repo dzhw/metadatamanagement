@@ -36,7 +36,6 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAtt
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.ScriptAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.helper.ScriptAttachmentFilenameBuilder;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;

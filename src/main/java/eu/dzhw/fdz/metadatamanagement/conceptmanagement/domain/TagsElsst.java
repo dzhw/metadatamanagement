@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Elsst;
 import lombok.Data;
