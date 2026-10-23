@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -39,6 +40,8 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
 
   private List<I18nString> nestedStudySerieses = new ArrayList<>();
 
+  private List<I18nString> nestedParentStudies = new ArrayList<>();
+
   // dummy string which ensures that related publications are always released
   private String release = "released";
 
@@ -68,6 +71,8 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
       this.dataPackages = dataPackages;
       nestedStudySerieses = dataPackages.stream().map(DataPackageSubDocument::getStudySeries)
           .dropWhile(studySeries -> studySeries == null).distinct().collect(Collectors.toList());
+      nestedParentStudies = dataPackages.stream().map(DataPackageSubDocument::getParentStudy)
+          .filter(Objects::nonNull).distinct().collect(Collectors.toList());
     }
     if (nestedDataPackages != null && !nestedDataPackages.isEmpty()) {
       this.nestedDataPackages = nestedDataPackages;

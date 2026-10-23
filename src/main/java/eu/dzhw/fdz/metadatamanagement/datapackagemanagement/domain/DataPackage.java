@@ -151,6 +151,20 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   private I18nString studySeries;
 
   /**
+   * The parent study to which this data package belongs, in German and English.
+   * If specified, both names are required, with at most 512 characters and no commas.
+   */
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "data-package-management.error.data-package.parent-study.i18n-string-size")
+  @I18nStringEntireNotEmptyOptional(
+      message = "data-package-management.error.data-package.parent-study"
+          + ".i18n-string-entire-not-empty-optional")
+  @I18nStringMustNotContainComma(
+      message = "data-package-management.error.data-package.parent-study."
+          + "i18n-string-must-not-contain-comma")
+  private I18nString parentStudy;
+
+  /**
    * List of {@link Sponsor}s which have sponsored this data package.
    *
    * Must not be empty. Needs at least one sponsor.

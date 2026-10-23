@@ -285,6 +285,35 @@
 						}
 					}
 				},
+				"parentStudy": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						}
+					}
+				},
 				"institutions": {
 					"type": "object",
 					"properties": {
