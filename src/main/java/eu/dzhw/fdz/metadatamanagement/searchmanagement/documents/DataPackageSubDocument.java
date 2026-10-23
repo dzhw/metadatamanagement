@@ -40,6 +40,8 @@ public class DataPackageSubDocument extends AbstractRdcDomainObject
 
   private I18nString studySeries;
 
+  private I18nString parentStudy;
+
   private I18nString title;
 
   private List<Person> projectContributors;

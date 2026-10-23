@@ -316,6 +316,19 @@
 							"index": false
 						}
 					}
+				},
+				"parentStudy": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"index": false
+						},
+						"en": {
+							"type": "text",
+							"index": false
+						}
+					}
 				}
 			}
 		},

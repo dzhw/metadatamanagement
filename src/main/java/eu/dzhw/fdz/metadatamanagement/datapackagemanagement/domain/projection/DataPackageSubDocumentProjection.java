@@ -20,6 +20,8 @@ public interface DataPackageSubDocumentProjection
 
   I18nString getStudySeries();
 
+  I18nString getParentStudy();
+
   I18nString getTitle();
 
   List<Institution> getInstitutions();
