@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp')
       var selectionChanging = false;
       var cache = {
         searchText: null,
+        language: null,
         filter: null,
         type: null,
         query: null,
@@ -31,6 +32,7 @@ angular.module('metadatamanagementApp')
           'study-series-' + language);
 
         if (searchText === cache.searchText &&
+            language === cache.language &&
             $scope.type === cache.type &&
             _.isEqual(cache.filter, cleanedFilter) &&
             $scope.query === cache.query &&
@@ -40,10 +42,11 @@ angular.module('metadatamanagementApp')
         }
 
         //Search Call to Elasticsearch
-        return DataPackageSearchService.findStudySeries(searchText,
+        return DataPackageSearchService.findStudySeriesFilterOptions(searchText,
           cleanedFilter, language, $scope.type, $scope.query, $scope.projectId)
           .then(function(studySeries) {
             cache.searchText = searchText;
+            cache.language = language;
             cache.filter = _.cloneDeep(cleanedFilter);
             cache.searchResult = studySeries;
             cache.type = $scope.type;
