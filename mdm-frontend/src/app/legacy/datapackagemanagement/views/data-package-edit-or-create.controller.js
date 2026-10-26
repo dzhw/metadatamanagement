@@ -186,7 +186,6 @@ angular.module('metadatamanagementApp')
                 ctrl.currentApprovedUsageList[usage] = true;
               }
             }
-            ctrl.currentApprovedUsage = dataPackage.approvedUsage;
             ctrl.currentStudySeries = dataPackage.studySeries;
             ctrl.remarksUserService = dataPackage.remarksUserService;
             ctrl.currentSponsors = angular.copy(
