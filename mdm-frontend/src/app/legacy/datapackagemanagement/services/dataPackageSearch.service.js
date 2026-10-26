@@ -447,28 +447,20 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
       });
     };
 
-    var findApprovedUsage = function(searchText, filter,
+    var findApprovedUsage = function(searchText, filter, language,
       ignoreAuthorization) {
       ignoreAuthorization = ignoreAuthorization || false;
+      language = language || LanguageService.getCurrentInstantly();
+      var field = 'approvedUsage.' + language;
       var query = createQueryObject();
       var termFilters = createTermFilters(filter);
       query.size = 0;
       query.body = {
         'aggs': {
           'approvedUsage': {
-            "terms": {
-              "field": "approvedUsage"
-            },
-            'aggs': {
-              'filtered': {
-                'filter': {
-                  'bool': {
-                    'must': [{
-                      'match': {}
-                    }]
-                  }
-                }
-              }
+            'terms': {
+              'field': field,
+              'exclude': ''
             }
           }
         }
@@ -476,6 +468,9 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
 
       query.body.query = {
         'bool': {
+          'must': [{
+            'match': {}
+          }],
           'filter': {
             'term': {
               'shadow': false
@@ -484,8 +479,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         }
       };
 
-      query.body.aggs.approvedUsage.aggs.filtered.filter.bool.must[0].match
-        ['approvedUsage'] = {
+      query.body.query.bool.must[0].match[field + '.ngrams'] = {
         'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
@@ -501,18 +495,13 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
       }
 
       return ElasticSearchClient.search(query).then(function(result) {
-        var approvedUsage = [];
-        var approvedUsageElement = {};
-        result.aggregations.approvedUsage.buckets.forEach(
+        return result.aggregations.approvedUsage.buckets.map(
           function(bucket) {
-            approvedUsageElement = {
+            return {
               title: bucket.key,
               count: bucket.doc_count
-            }
-            // approvedUsageElement = bucket.key;
-            approvedUsage.push(approvedUsageElement);
+            };
           });
-        return approvedUsage;
       });
     };
 
