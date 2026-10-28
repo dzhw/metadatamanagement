@@ -224,7 +224,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService', [
           SearchHelperService.addFilter(query);
         }
 
-        return ElasticSearchClient.search(query).then(function(result) {
+        return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
           var surveyMethods = [];
           var surveyMethodElement = {};
           result.aggregations.surveyMethodDe.buckets.forEach(function(bucket) {
@@ -334,7 +334,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService', [
           SearchHelperService.addShadowCopyFilter(query, filter);
         }
 
-        return ElasticSearchClient.search(query).then(function(result) {
+        return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
           var titles = [];
           var titleElement = {};
           var buckets = [];

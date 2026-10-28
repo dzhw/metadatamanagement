@@ -174,35 +174,6 @@
 				}
 			}
 		},
-		"nestedParentStudies": {
-			"type": "nested",
-			"properties": {
-				"de": {
-					"type": "keyword",
-					"copy_to": "all",
-					"norms": false,
-					"fields": {
-						"ngrams": {
-							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
-						}
-					}
-				},
-				"en": {
-					"type": "keyword",
-					"copy_to": "all",
-					"norms": false,
-					"fields": {
-						"ngrams": {
-							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
-						}
-					}
-				}
-			}
-		},
 		"dataPackages": {
 			"type": "object",
 			"properties": {
@@ -227,10 +198,12 @@
 					"type": "object",
 					"properties": {
 						"de": {
-							"type": "keyword"
+							"type": "keyword",
+							"copy_to": "all"
 						},
 						"en": {
-							"type": "keyword"
+							"type": "keyword",
+							"copy_to": "all"
 						}
 					}
 				}

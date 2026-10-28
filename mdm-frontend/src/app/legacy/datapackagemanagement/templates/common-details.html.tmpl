@@ -34,7 +34,7 @@
             </a>
             <span ng-if="$ctrl.options.dataPackage.parentStudy">
               ({{'data-package-management.detail.label.part-of-project' | translate}} „<a
-                ui-sref="search({'type': 'data_packages', 'study-series{{$ctrl.options.isAuthenticated() ? '-' + $ctrl.lang : ''}}': $ctrl.options.dataPackage.parentStudy[$ctrl.lang]})"><span
+                ui-sref="search({'type': 'data_packages', 'parent-study{{$ctrl.options.isAuthenticated() ? '-' + $ctrl.lang : ''}}': $ctrl.options.dataPackage.parentStudy[$ctrl.lang]})"><span
                 display-i18n-string="$ctrl.options.dataPackage.parentStudy"></span></a>“)
             </span>
           </div>

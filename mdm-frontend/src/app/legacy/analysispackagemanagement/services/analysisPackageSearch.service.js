@@ -214,7 +214,7 @@ angular.module('metadatamanagementApp')
         if (!_.includes(['related_publications', 'concepts'], type)) {
           SearchHelperService.addShadowCopyFilter(query, filter);
         }
-        return ElasticSearchClient.search(query).then(function(result) {
+        return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
           var titles = [];
           var titleElement = {};
           var buckets = [];

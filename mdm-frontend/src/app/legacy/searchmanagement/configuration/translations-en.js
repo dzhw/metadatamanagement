@@ -179,6 +179,8 @@ angular.module('metadatamanagementApp').config([
           'study-series': 'Study Series',
           'study-series-de': 'Study Series',
           'study-series-en': 'Study Series',
+          'parent-study-de': 'Study Series',
+          'parent-study-en': 'Study Series',
           'institution-de': 'Institution',
           'institution-en': 'Institution',
           'sponsor-de': 'Sponsor',

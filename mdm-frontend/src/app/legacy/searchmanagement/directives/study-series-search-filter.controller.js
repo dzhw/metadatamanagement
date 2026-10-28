@@ -21,6 +21,8 @@ angular.module('metadatamanagementApp')
         searchResult: null
       };
       var currentFilterByLanguage;
+      var filterKeys = ['study-series-de', 'study-series-en',
+        'parent-study-de', 'parent-study-en'];
 
       //Search Method for Study Series, call Elasticsearch
       $scope.searchStudySeries = function(searchText, language) {
@@ -29,7 +31,7 @@ angular.module('metadatamanagementApp')
         $scope.projectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
-          'study-series-' + language);
+          filterKeys);
 
         if (searchText === cache.searchText &&
             language === cache.language &&
@@ -67,39 +69,29 @@ angular.module('metadatamanagementApp')
 
         //Init the Filter
         initializing = true;
-        if ($scope.currentSearchParams.filter &&
-          $scope.currentSearchParams.filter['study-series-' +
-            currentLanguage]) {
+        var filter = $scope.currentSearchParams.filter || {};
+        var property = filter['parent-study-' + currentLanguage] ?
+          'parent-study-' : 'study-series-';
+        if (filter[property + currentLanguage]) {
 
           //Check with of both filter are active, dependings on acutual language
           currentFilterByLanguage =
-            $scope.currentSearchParams.filter['study-series-' +
-              currentLanguage];
+            filter[property + currentLanguage];
 
           //Search Study Series and for Validation
           $scope.searchStudySeries(currentFilterByLanguage, currentLanguage)
             .then(function(studySeries) {
 
-                //Just one Study Series exists
-                if (studySeries.length === 1) {
-                  $scope.currentStudySeries = studySeries[0];
-                  return;
-                } else if (studySeries.length > 1) {
-                  //Standard Case, there are many Study Series
-                  studySeries.forEach(function(surveySerie) {
-                    if (surveySerie[currentLanguage] ===
-                        currentFilterByLanguage) {
-                      $scope.currentStudySeries = surveySerie;
-                      return;
-                    }
+                $scope.currentStudySeries = _.find(studySeries,
+                  function(series) {
+                    return series[currentLanguage] === currentFilterByLanguage &&
+                      series.isParentStudy === (property === 'parent-study-');
                   });
-                }
 
                 //Study Series was not found check the language
                 if (!$scope.currentStudySeries) {
                   $scope.currentStudySeries =
-                    $scope.currentSearchParams.filter['study-series-' +
-                    currentLanguage];
+                    filter[property + currentLanguage];
                   $timeout(function() {
                     $scope.studySeriesFilterForm.studySeriesFilter
                       .$setValidity('md-require-match', false);
@@ -117,25 +109,29 @@ angular.module('metadatamanagementApp')
             i18nAnotherEnding = 'de';
           }
 
-          if ($scope.currentSearchParams.filter &&
-              $scope.currentSearchParams.filter['study-series-' +
-                i18nAnotherEnding]) {
+          property = filter['parent-study-' + i18nAnotherEnding] ?
+            'parent-study-' : 'study-series-';
+          if (filter[property + i18nAnotherEnding]) {
             $scope.searchStudySeries(
-              $scope.currentSearchParams.filter['study-series-' +
-              i18nAnotherEnding], i18nAnotherEnding)
+              filter[property + i18nAnotherEnding], i18nAnotherEnding)
               .then(function(studySeries) {
-                if (studySeries) {
-                  $scope.currentStudySeries = studySeries[0];
+                var translatedSeries = _.find(studySeries, function(series) {
+                  return series[i18nAnotherEnding] ===
+                    filter[property + i18nAnotherEnding] &&
+                    series.isParentStudy === (property === 'parent-study-');
+                });
+                if (translatedSeries) {
+                  $scope.currentStudySeries = translatedSeries;
 
-                  $scope.currentSearchParams.filter['study-series-' +
-                    i18nActualEnding] = studySeries[0][i18nActualEnding];
-                  $scope.selectedFilters.push('study-series-' +
+                  $scope.currentSearchParams.filter[property +
+                    i18nActualEnding] = translatedSeries[i18nActualEnding];
+                  $scope.selectedFilters.push(property +
                     i18nActualEnding);
                   delete $scope.selectedFilters[_.indexOf(
                     $scope.selectedFilters,
-                    'study-series-' + i18nAnotherEnding)
+                    property + i18nAnotherEnding)
                     ];
-                  delete $scope.currentSearchParams.filter['study-series-' +
+                  delete $scope.currentSearchParams.filter[property +
                     i18nAnotherEnding];
                   return;
                 }
@@ -152,25 +148,23 @@ angular.module('metadatamanagementApp')
           return;
         }
         selectionChanging = true;
-        if (!$scope.currentSearchParams.filter) {
-          $scope.currentSearchParams.filter = {};
-        }
+        $scope.currentSearchParams.filter = _.omit(
+          $scope.currentSearchParams.filter, filterKeys);
 
         //Set the Study Series Filter in the URL
         if (studySeries) {
-          $scope.currentSearchParams.filter['study-series-' +
+          var property = studySeries.isParentStudy ?
+            'parent-study-' : 'study-series-';
+          $scope.currentSearchParams.filter[property +
             $scope.currentLanguage] = studySeries[$scope.currentLanguage];
-        } else {
-          //No Study Series is chosen, delete the Parameter in the URL
-          delete $scope.currentSearchParams.filter['study-series-' +
-            $scope.currentLanguage];
         }
         $scope.studySeriesChangedCallback();
       };
 
       //Initialize and watch the current Study Series Filter
-      $scope.$watch('currentSearchParams.filter["study-series-' +
-        $scope.currentLanguage + '"]',
+      $scope.$watchGroup(['currentLanguage'].concat(filterKeys.map(
+        function(key) { return 'currentSearchParams.filter["' + key + '"]'; }
+      )),
         function() {
           init($scope.currentLanguage);
         });

@@ -116,20 +116,17 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
     };
 
     var findStudySeries = function(searchText, filter, language, type,
-        queryterm, dataAcquisitionProjectId, ignoreAuthorization,
-        parentStudies) {
+        queryterm, dataAcquisitionProjectId, ignoreAuthorization, includeParents) {
       ignoreAuthorization = ignoreAuthorization || false;
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject(type);
       query.size = 0;
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
         type);
-      var fieldName = parentStudies ? 'parentStudy.' : 'studySeries.';
+      var fieldName = 'studySeries.';
       var prefix = (type === 'data_packages' || !type) ? '' : 'dataPackage.';
-      var nestedPath = parentStudies ? 'nestedParentStudies' :
-        'nestedStudySerieses';
       if (type === 'related_publications') {
-        prefix = nestedPath + '.';
+        prefix = 'nestedStudySerieses.';
         fieldName = '';
       }
       query.body = {
@@ -187,21 +184,28 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         SearchHelperService.addFilter(query);
       }
 
-      if (type === 'related_publications') {
-        var nestedAggregation = {aggs: {}};
-        nestedAggregation.aggs[nestedPath] = {
-          nested: {path: nestedPath},
-          aggs: query.body.aggs
+      if (prefix === 'nestedStudySerieses.') {
+        var nestedAggregation = {
+          'aggs': {
+            'nestedStudySerieses': {
+              'nested': {
+                'path': prefix.replace('.', '')
+              }
+            }
+          }
         };
+        nestedAggregation.aggs.nestedStudySerieses.aggs =
+          query.body.aggs;
         query.body.aggs = nestedAggregation.aggs;
       }
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter,
+        includeParents).then(function(result) {
         var studySeries = [];
         var studySeriesElement = {};
         var buckets;
-        if (type === 'related_publications') {
-          buckets = result.aggregations[nestedPath].studySeries
+        if (prefix === 'nestedStudySerieses.') {
+          buckets = result.aggregations.nestedStudySerieses.studySeries
             .firstStudySeries.buckets;
         } else {
           buckets = result.aggregations.studySeries
@@ -217,21 +221,30 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
           };
           studySeries.push(studySeriesElement);
         });
+        if (includeParents) {
+          studySeries.forEach(function(series) {
+            series.isParentStudy = false;
+          });
+          var words = (searchText || '').toLowerCase().trim().split(/\s+/);
+          result.parentStudies.forEach(function(parent) {
+            var count = result.aggregations['parent-study']
+              .buckets[parent.de].doc_count;
+            if (count && words.every(function(word) {
+              return parent[language].toLowerCase().indexOf(word) !== -1;
+            })) {
+              studySeries.push({de: parent.de, en: parent.en,
+                count: count, isParentStudy: true});
+            }
+          });
+        }
         return studySeries;
       });
     };
 
     var findStudySeriesFilterOptions = function(searchText, filter, language,
         type, queryterm, dataAcquisitionProjectId) {
-      language = language || LanguageService.getCurrentInstantly();
-      return $q.all([
-        findStudySeries(searchText, filter, language, type, queryterm,
-          dataAcquisitionProjectId),
-        findStudySeries(searchText, filter, language, type, queryterm,
-          dataAcquisitionProjectId, false, true)
-      ]).then(function(results) {
-        return _.uniqBy(results[0].concat(results[1]), language);
-      });
+      return findStudySeries(searchText, filter, language, type, queryterm,
+        dataAcquisitionProjectId, false, true);
     };
 
     var findDataPackageTitles = function(searchText, filter, type,
@@ -330,7 +343,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
       if (!_.includes(['related_publications', 'concepts'], type)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter)
+        .then(function(result) {
         var titles = [];
         var titleElement = {};
         var buckets = [];
@@ -441,7 +455,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         SearchHelperService.addFilter(query);
       }
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter)
+        .then(function(result) {
         var sponsors = [];
         var sponsorElement = {};
         result.aggregations.sponsors.filtered.sponsorDe.buckets.forEach(
@@ -510,7 +525,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         SearchHelperService.addFilter(query);
       }
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter)
+        .then(function(result) {
         var approvedUsage = [];
         var approvedUsageElement = {};
         result.aggregations.approvedUsage.buckets.forEach(
@@ -610,7 +626,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         SearchHelperService.addFilter(query);
       }
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter)
+        .then(function(result) {
         var institutions = [];
         var institutionElement = {};
         result.aggregations.institutions.filtered.institutionDe.buckets.forEach(
@@ -717,7 +734,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService', [
         SearchHelperService.addFilter(query);
       }
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter)
+        .then(function(result) {
         var tags = [];
         result.aggregations.tags.buckets.forEach(function(bucket) {
           tags.push(bucket.key);

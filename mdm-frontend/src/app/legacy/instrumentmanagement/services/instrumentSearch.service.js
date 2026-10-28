@@ -153,7 +153,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService', [
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
         var descriptions = [];
         var descriptionElement = {};
         var buckets = [];

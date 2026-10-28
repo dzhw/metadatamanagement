@@ -12,8 +12,9 @@ angular.module('metadatamanagementApp').config([
         '{institutions}{institution-en}{page}' +
         '{query}{question}{related-publication}' +
         '{repeated-measurement-identifier}{size}{sponsors}{sponsor-de}' +
-        '{sponsor-en}{study-series}{survey-data-types}' +
-        '{study-series-de}{study-series-en}{survey}{survey-method-de}' +
+        '{sponsor-en}{study-series}{parent-study}{survey-data-types}' +
+        '{study-series-de}{study-series-en}{parent-study-de}{parent-study-en}' +
+        '{survey}{survey-method-de}' +
         '{survey-method-en}{tags}{tagsElsst}{type}{variable}',
       reloadOnSearch: false,
       data: {
@@ -35,8 +36,9 @@ angular.module('metadatamanagementApp').config([
       '{institutions}{institution-en}{page}' +
       '{query}{question}{related-publication}' +
       '{repeated-measurement-identifier}{size}{sponsors}{sponsor-de}' +
-      '{sponsor-en}{study-series}{survey-data-types}' +
-      '{study-series-de}{study-series-en}{survey}{survey-method-de}' +
+      '{sponsor-en}{study-series}{parent-study}{survey-data-types}' +
+      '{study-series-de}{study-series-en}{parent-study-de}{parent-study-en}' +
+      '{survey}{survey-method-de}' +
       '{survey-method-en}{tags}{tagsElsst}{type}{variable}',
       reloadOnSearch: false,
       data: {
