@@ -108,7 +108,10 @@ public class OAuth2ServerConfiguration {
             .requestMatchers("/management/info", "/management/metrics",
                 "/management/prometheus", "/management/health/**")
             .permitAll()
-            .requestMatchers("/management/**").hasAuthority("ROLE_ADMIN"))
+            .requestMatchers("/management/**").hasAuthority("ROLE_ADMIN")
+            // Spring Security 6 denies unmatched requests by default, the old config permitted them
+            // (e.g. the welcome page and other static frontend resources)
+            .anyRequest().permitAll())
         .httpBasic(Customizer.withDefaults())
         .oauth2ResourceServer(oauth -> oauth
             .opaqueToken(opaque -> opaque.introspector(opaqueTokenIntrospector)))
