@@ -304,7 +304,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService', [
 
       }
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
         var descriptions = [];
         var descriptionElement = {};
         var buckets = [];
@@ -363,7 +363,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService', [
       SearchHelperService.addFilter(query);
       SearchHelperService.addShadowCopyFilter(query, filter);
 
-      return ElasticSearchClient.search(query).then(function(result) {
+      return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
         return result.aggregations.accessWays.buckets;
       });
     };

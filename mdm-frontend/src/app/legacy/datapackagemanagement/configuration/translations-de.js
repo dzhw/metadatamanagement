@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config([
         'detail': {
           'label': {
             'studySeries': 'Studienreihe',
+            'parentStudy': 'Übergeordnete Studie',
+            'part-of-project': 'Teil des Projektes',
             'dataPackage': 'Datenpaket',
             'dataPackages': 'Datenpakete',
             'institution': 'Institution',
@@ -186,6 +188,11 @@ angular.module('metadatamanagementApp').config([
               'i18n-string-size': 'Die Maximallänge des Namens der Geldgeber:in eines Datenpakets ist 512 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Name der Geldgeber:in eines Datenpakets muss in beiden Sprachen vorhanden sein.'
             },
+            'parent-study': {
+              'i18n-string-size': 'Die Maximallänge der übergeordneten Studie ist 512 Zeichen.',
+              'i18n-string-entire-not-empty-optional': 'Wenn die übergeordnete Studie in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.',
+              'i18n-string-must-not-contain-comma': 'Die übergeordnete Studie darf keine Kommata enthalten.'
+            },
             'study-series': {
               'i18n-string-size': 'Die Maximallänge der Studienreihe ist 512 Zeichen.',
               'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.',
@@ -298,6 +305,10 @@ angular.module('metadatamanagementApp').config([
             'title': {
               'de': 'Geben Sie den Titel des Datenpakets auf Deutsch ein.',
               'en': 'Geben Sie den Titel des Datenpakets auf Englisch ein.'
+            },
+            'parent-study': {
+              'de': 'Geben Sie, falls vorhanden, den Namen der übergeordneten Studie auf Deutsch ein.',
+              'en': 'Geben Sie, falls vorhanden, den Namen der übergeordneten Studie auf Englisch ein.'
             },
             'study-series': {
               'de': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Deutsch ein.',

@@ -193,6 +193,19 @@
 							"type": "keyword"
 						}
 					}
+				},
+				"parentStudy": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all"
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all"
+						}
+					}
 				}
 			}
 		},

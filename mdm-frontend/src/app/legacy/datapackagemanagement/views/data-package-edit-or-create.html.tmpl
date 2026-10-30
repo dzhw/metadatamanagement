@@ -127,6 +127,49 @@
             </md-autocomplete>
           </div>
           <div layout="column" layout-gt-sm="row">
+            <md-input-container flex="50" class="ms-flex"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}">
+              <label>{{'data-package-management.detail.label.parentStudy' | translate}} ({{'global.in-german' | translate}})</label>
+              <input name="parentStudyDe" ng-model="ctrl.dataPackage.parentStudy.de"
+                     fdz-required="!!(ctrl.dataPackage.parentStudy.en && ctrl.dataPackage.parentStudy.en.trim())"
+                     md-maxlength="512" md-no-asterisk ng-pattern="/^[^,]*$/">
+              <div class="fdz-input-hint" ng-if="!ctrl.dataPackage.parentStudy.de">
+                {{'data-package-management.edit.hints.parent-study.de' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm.parentStudyDe.$error">
+                <div ng-message="fdz-required">
+                  {{'data-package-management.error.data-package.parent-study.i18n-string-entire-not-empty-optional' | translate}}
+                </div>
+                <div ng-message="pattern">
+                  {{'data-package-management.error.data-package.parent-study.i18n-string-must-not-contain-comma' | translate}}
+                </div>
+                <div ng-message="md-maxlength">
+                  {{'data-package-management.error.data-package.parent-study.i18n-string-size' | translate}}
+                </div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="50" class="ms-flex">
+              <label>{{'data-package-management.detail.label.parentStudy' | translate}} ({{'global.in-english' | translate}})</label>
+              <input name="parentStudyEn" ng-model="ctrl.dataPackage.parentStudy.en"
+                     fdz-required="!!(ctrl.dataPackage.parentStudy.de && ctrl.dataPackage.parentStudy.de.trim())"
+                     md-maxlength="512" md-no-asterisk ng-pattern="/^[^,]*$/">
+              <div class="fdz-input-hint" ng-if="!ctrl.dataPackage.parentStudy.en">
+                {{'data-package-management.edit.hints.parent-study.en' | translate}}
+              </div>
+              <div multiple ng-messages="dataPackageForm.parentStudyEn.$error">
+                <div ng-message="fdz-required">
+                  {{'data-package-management.error.data-package.parent-study.i18n-string-entire-not-empty-optional' | translate}}
+                </div>
+                <div ng-message="pattern">
+                  {{'data-package-management.error.data-package.parent-study.i18n-string-must-not-contain-comma' | translate}}
+                </div>
+                <div ng-message="md-maxlength">
+                  {{'data-package-management.error.data-package.parent-study.i18n-string-size' | translate}}
+                </div>
+              </div>
+            </md-input-container>
+          </div>
+          <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50"
                                 md-is-error="!dataPackageForm.surveyDesign.$valid && (dataPackageForm.surveyDesign.$dirty || dataPackageForm.surveyDesign.$touched)"
                                 class="ms-flex">

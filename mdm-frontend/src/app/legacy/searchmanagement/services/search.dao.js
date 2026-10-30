@@ -724,56 +724,67 @@ angular.module('metadatamanagementApp')
         SearchHelperService.addNewFilters(query, elasticsearchType,
           newFilters);
 
-        // order view -> m_search with enforceRelease = true
-        if (!Principal.isProviderActive()) {
-          applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-            filterToUse, true);
-          // additionalSearchIndex is a list with one or more indices
-          // queries are created and added for each of them
-          if (additionalSearchIndex && additionalSearchIndex.length > 0) {
-            var header1 = {
-              index: query.index,
-              preference: query.preference
-            };
-
-            var bodylist = [];
-            bodylist.push(header1);
-            bodylist.push(query.body);
-
-            for (var i = 0; i < additionalSearchIndex.length; i++) {
-              var index = additionalSearchIndex[i];
-              var additionalQuery = createAdditionalSearchQueryForPublicUsers(
-                queryterm, index);
-              var additionalHeader = {
-                index: additionalQuery.index,
-                preference: additionalQuery.preference
+        return SearchHelperService.prepareStudySeriesQuery(query, filterToUse,
+          newFilters, aggregations).then(function(parents) {
+          var request;
+          // order view -> m_search with enforceRelease = true
+          if (!Principal.isProviderActive()) {
+            applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+              filterToUse, true);
+            // additionalSearchIndex is a list with one or more indices
+            // queries are created and added for each of them
+            if (additionalSearchIndex && additionalSearchIndex.length > 0) {
+              var header1 = {
+                index: query.index,
+                preference: query.preference
               };
-              bodylist.push(additionalHeader);
-              bodylist.push(additionalQuery.body);
-            }
-            return ElasticSearchClient.msearch({
-              body: bodylist
-            });
-          } else {
-            return ElasticSearchClient.search(query);
-          }
 
-        // provider view
-        } else {
-          // only assigned data
-          if (!Principal.showAllData()) {
-            applyFetchDataWhereUserIsDataProviderFilter(query,
-              elasticsearchType);
-            applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-              filterToUse);
-            return ElasticSearchClient.search(query);
-          // all data
+              var bodylist = [];
+              bodylist.push(header1);
+              bodylist.push(query.body);
+
+              for (var i = 0; i < additionalSearchIndex.length; i++) {
+                var index = additionalSearchIndex[i];
+                var additionalQuery = createAdditionalSearchQueryForPublicUsers(
+                  queryterm, index);
+                var additionalHeader = {
+                  index: additionalQuery.index,
+                  preference: additionalQuery.preference
+                };
+                bodylist.push(additionalHeader);
+                bodylist.push(additionalQuery.body);
+              }
+              request = ElasticSearchClient.msearch({
+                body: bodylist
+              });
+            } else {
+              request = ElasticSearchClient.search(query);
+            }
+
+          // provider view
           } else {
-            applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-              filterToUse, enforceReleased);
-            return ElasticSearchClient.search(query);
+            // only assigned data
+            if (!Principal.showAllData()) {
+              applyFetchDataWhereUserIsDataProviderFilter(query,
+                elasticsearchType);
+              applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+                filterToUse);
+              request = ElasticSearchClient.search(query);
+            // all data
+            } else {
+              applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+                filterToUse, enforceReleased);
+              request = ElasticSearchClient.search(query);
+            }
           }
-        }
+          return request.then(function(result) {
+            var response = result.responses ? result.responses[0] : result;
+            if (response.aggregations) {
+              response.aggregations.parentStudies = parents;
+            }
+            return result;
+          });
+        });
       }
     };
   }]);

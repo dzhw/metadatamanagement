@@ -13,26 +13,31 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
       <md-list>
-        <md-list-item ng-if="$ctrl.options.dataPackage.studySeries">
+        <md-list-item ng-if="$ctrl.options.dataPackage.studySeries || $ctrl.options.dataPackage.parentStudy">
           <h5>{{'data-package-management.detail.label.studySeries' | translate }}:</h5>
-          <a
-            ng-if="$ctrl.options.isAuthenticated()"
-            class="md-secondary"
-            ui-sref="search({'type': 'data_packages', 'study-series-{{$ctrl.lang}}': $ctrl.options.dataPackage.studySeries.{{$ctrl.lang}}})">
-            <span display-i18n-string="$ctrl.options.dataPackage.studySeries" ></span>
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'data-package-management.detail.tooltips.data-packages.study-series' | translate}}
-            </md-tooltip>
-          </a>
-          <a
-            ng-if="!$ctrl.options.isAuthenticated()"
-            class="md-secondary"
-            ui-sref="search({'type': 'data_packages', 'study-series': $ctrl.options.dataPackage.studySeries.{{$ctrl.lang}}})">
-            <span display-i18n-string="$ctrl.options.dataPackage.studySeries" ></span>
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'data-package-management.detail.tooltips.data-packages.study-series' | translate}}
-            </md-tooltip>
-          </a>
+          <div class="md-secondary">
+            <a
+              ng-if="$ctrl.options.dataPackage.studySeries && $ctrl.options.isAuthenticated()"
+              ui-sref="search({'type': 'data_packages', 'study-series-{{$ctrl.lang}}': $ctrl.options.dataPackage.studySeries.{{$ctrl.lang}}})">
+              <span display-i18n-string="$ctrl.options.dataPackage.studySeries" ></span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-package-management.detail.tooltips.data-packages.study-series' | translate}}
+              </md-tooltip>
+            </a>
+            <a
+              ng-if="$ctrl.options.dataPackage.studySeries && !$ctrl.options.isAuthenticated()"
+              ui-sref="search({'type': 'data_packages', 'study-series': $ctrl.options.dataPackage.studySeries.{{$ctrl.lang}}})">
+              <span display-i18n-string="$ctrl.options.dataPackage.studySeries" ></span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-package-management.detail.tooltips.data-packages.study-series' | translate}}
+              </md-tooltip>
+            </a>
+            <span ng-if="$ctrl.options.dataPackage.parentStudy">
+              ({{'data-package-management.detail.label.part-of-project' | translate}} „<a
+                ui-sref="search({'type': 'data_packages', 'parent-study{{$ctrl.options.isAuthenticated() ? '-' + $ctrl.lang : ''}}': $ctrl.options.dataPackage.parentStudy[$ctrl.lang]})"><span
+                display-i18n-string="$ctrl.options.dataPackage.parentStudy"></span></a>“)
+            </span>
+          </div>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.institutions">
           <h5>{{'data-package-management.detail.label.institutions' | translate }}:</h5>

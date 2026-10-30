@@ -271,7 +271,7 @@ angular.module('metadatamanagementApp')
         SearchHelperService.addQuery(query, queryterm);
         SearchHelperService.addFilter(query);
 
-        return ElasticSearchClient.search(query).then(function(result) {
+        return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
           return result.aggregations.accessWays.buckets;
         });
       };
@@ -308,7 +308,7 @@ angular.module('metadatamanagementApp')
         SearchHelperService.addFilter(query);
         SearchHelperService.addShadowCopyFilter(query, filter);
 
-        return ElasticSearchClient.search(query).then(function(result) {
+        return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
           return result.aggregations.repeatedMeasurementIdentifiers.buckets;
         });
       };
@@ -345,7 +345,7 @@ angular.module('metadatamanagementApp')
         SearchHelperService.addFilter(query);
         SearchHelperService.addShadowCopyFilter(query, filter);
 
-        return ElasticSearchClient.search(query).then(function(result) {
+        return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
           return result.aggregations.derivedVariablesIdentifiers.buckets;
         });
       };
@@ -448,7 +448,7 @@ angular.module('metadatamanagementApp')
           SearchHelperService.addShadowCopyFilter(query, filter);
         }
 
-        return ElasticSearchClient.search(query).then(function(result) {
+        return SearchHelperService.searchWithParentStudies(query, filter).then(function(result) {
           var labels = [];
           var labelElement = {};
           var buckets = [];

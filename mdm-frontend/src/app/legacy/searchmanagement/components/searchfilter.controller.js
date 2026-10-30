@@ -129,7 +129,9 @@
     function checkCollapsible() {
       var props = Object.keys($ctrl.searchParams.filter);
       $ctrl.filterValues.forEach(function(item) {
-        if (_.includes(props, item.property)) {
+        if (_.includes(props, item.property) ||
+            (item.property === 'study-series' &&
+              _.includes(props, 'parent-study'))) {
           item.collapsed = false;
         }
       });
@@ -144,6 +146,13 @@
 
     function toggleFilterItem(item, prop) {
       readSearchParamsFromLocation();
+      if (prop === 'study-series' || prop === 'parent-study') {
+        toggleStudySeries(item, prop);
+        $ctrl.searchParams.filter = $ctrl.searchFilterMapping;
+        $ctrl.searchParams.page = 1;
+        writeSearchParamsToLocation();
+        return;
+      }
       if ($ctrl.searchFilterMapping &&
         $ctrl.searchFilterMapping.hasOwnProperty(prop) &&
         _.includes($ctrl.searchFilterMapping[prop], item)) {
@@ -172,7 +181,54 @@
       writeSearchParamsToLocation();
     }
 
+    function toggleStudySeries(item, property) {
+      var selectedSeries = _.castArray(
+        $ctrl.searchParams.filter['study-series'] || []);
+      var selectedParents = _.castArray(
+        $ctrl.searchParams.filter['parent-study'] || []);
+      if (property === 'parent-study') {
+        selectedParents = _.includes(selectedParents, item) ?
+          _.without(selectedParents, item) : selectedParents.concat(item);
+      } else {
+        var parents = _.filter($ctrl.dataPackageFilter['study-series'],
+          function(option) {
+            return option.property === 'parent-study' &&
+              _.includes(selectedParents, option.key) &&
+              _.includes(option.studySeries, item);
+          });
+        var selected = _.includes(selectedSeries, item) || parents.length > 0;
+        parents.forEach(function(parent) {
+          selectedSeries = _.union(selectedSeries, parent.studySeries);
+          selectedParents = _.without(selectedParents, parent.key);
+        });
+        selectedSeries = selected ? _.without(selectedSeries, item) :
+          selectedSeries.concat(item);
+      }
+      $ctrl.searchFilterMapping = _.omit($ctrl.searchParams.filter,
+        ['study-series', 'parent-study']);
+      if (selectedSeries.length) {
+        $ctrl.searchFilterMapping['study-series'] = selectedSeries;
+      }
+      if (selectedParents.length) {
+        $ctrl.searchFilterMapping['parent-study'] = selectedParents;
+      }
+    }
+
     function exists(item, prop) {
+      if (prop === 'study-series') {
+        return _.includes(_.castArray(
+          $ctrl.searchFilterMapping[prop] || []), item) || _.some(
+          $ctrl.dataPackageFilter[prop], function(parent) {
+            return parent.property === 'parent-study' &&
+              _.includes(_.castArray(
+                $ctrl.searchFilterMapping['parent-study'] || []), parent.key) &&
+              _.includes(parent.studySeries, item);
+          });
+      }
+      if (prop === 'parent-study') {
+        return _.includes(_.castArray(
+          $ctrl.searchFilterMapping[prop] || []), item);
+      }
       if ($ctrl.searchFilterMapping &&
         $ctrl.searchFilterMapping.hasOwnProperty(prop)) {
         return $ctrl.searchFilterMapping[prop].indexOf(item) > -1;

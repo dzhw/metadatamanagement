@@ -54,6 +54,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController', [
     var searchFilterAggregations = {
       data_packages: [
         'study-series',
+        'parent-study',
         'survey-data-types',
         'tags',
         'tagsElsst',
@@ -344,8 +345,7 @@ angular.module('metadatamanagementApp').controller('SearchReleasedController', [
 
     function createDataPackageFilterObject(data) {
       var dataPackageFilter = {
-        'study-series': createDataPackageFilterContent(data,
-          'study-series'),
+        'study-series': SearchHelperService.createStudySeriesFilter(data),
         'survey-data-types': createDataPackageFilterContent(data,
           'survey-data-types'),
         'tags': createDataPackageFilterContent(data,

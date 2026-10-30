@@ -113,6 +113,11 @@ angular.module('metadatamanagementApp')
 
       $scope.$watch('currentSearchParams.filter', function() {
         searchParamsFilterChanged = true;
+        var parentFilters = ['parent-study-de', 'parent-study-en'];
+        $scope.availableHiddenFilters = _.union(
+          _.difference($scope.availableHiddenFilters, parentFilters),
+          _.intersection(parentFilters,
+            _.keys($scope.currentSearchParams.filter)));
         $scope.selectedFilters = [];
         if ($scope.currentSearchParams.filter) {
           $scope.selectedFilters = _.intersection(

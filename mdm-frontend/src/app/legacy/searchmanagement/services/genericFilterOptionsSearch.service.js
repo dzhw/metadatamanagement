@@ -5,10 +5,9 @@ angular.module('metadatamanagementApp')
   .service('GenericFilterOptionsSearchService', [
     'SearchHelperService', 
     'LanguageService', 
-    'ElasticSearchClient', 
     'CleanJSObjectService', 
     'Principal', 
-  function(SearchHelperService, LanguageService, ElasticSearchClient,
+  function(SearchHelperService, LanguageService,
            CleanJSObjectService, Principal) {
 
     var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
@@ -109,7 +108,8 @@ angular.module('metadatamanagementApp')
       SearchHelperService.addQuery(query, searchConfig.queryTerm);
       SearchHelperService.addFilter(query);
 
-      return ElasticSearchClient.search(query).then(function(response) {
+      return SearchHelperService.searchWithParentStudies(query,
+        searchConfig.filter).then(function(response) {
         var result = [];
         var resultItem = {};
         response.aggregations.firstLabel.buckets.forEach(function(bucket) {
