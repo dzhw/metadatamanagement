@@ -587,6 +587,9 @@ angular.module('metadatamanagementApp')
             key = subKeyMapping[key] ||
               hiddenFiltersKeyMapping[elasticsearchType][key];
             if (key) {
+              if (key === 'approvedUsage') {
+                key += '.' + LanguageService.getCurrentInstantly();
+              }
               filterKeyValue.term[key] = value;
               termFilters.push(filterKeyValue);
             }
