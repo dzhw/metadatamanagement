@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,10 +49,10 @@ public class OAuth2TokenEndpointTest extends AbstractTest {
   @Autowired
   private OpaqueTokenIntrospector opaqueTokenIntrospector;
 
-  @MockBean
+  @MockitoBean
   private RegisteredClientRepository registeredClientRepository;
 
-  @MockBean(name = "userDetailsService")
+  @MockitoBean(name = "userDetailsService")
   private UserDetailsService userDetailsService;
 
   @Test

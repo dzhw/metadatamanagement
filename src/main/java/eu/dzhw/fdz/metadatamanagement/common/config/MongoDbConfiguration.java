@@ -29,7 +29,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.github.cloudyrock.spring.v5.EnableMongock;
+import io.mongock.runner.springboot.EnableMongock;
 
 /**
  * Configure the mongo db client instance. Modified version of {@link MongoAutoConfiguration}.
