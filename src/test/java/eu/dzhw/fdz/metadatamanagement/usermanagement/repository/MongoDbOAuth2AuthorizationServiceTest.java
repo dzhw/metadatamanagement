@@ -12,7 +12,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -22,6 +21,7 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.PasswordGrantAuthenticationToken;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.MongoDbOAuth2AuthorizationService;
 
 public class MongoDbOAuth2AuthorizationServiceTest extends AbstractTest {
@@ -36,7 +36,7 @@ public class MongoDbOAuth2AuthorizationServiceTest extends AbstractTest {
   public void beforeEachTest() {
     RegisteredClient registeredClient = RegisteredClient.withId("client-id")
         .clientId("web-app")
-        .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+        .authorizationGrantType(PasswordGrantAuthenticationToken.GRANT_TYPE)
         .build();
 
     RegisteredClientRepository registeredClientRepository =
@@ -47,7 +47,7 @@ public class MongoDbOAuth2AuthorizationServiceTest extends AbstractTest {
     authorization = OAuth2Authorization.withRegisteredClient(registeredClient)
         .id(UUID.randomUUID().toString())
         .principalName("principal")
-        .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+        .authorizationGrantType(PasswordGrantAuthenticationToken.GRANT_TYPE)
         .token(new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
             "accessToken", now, now.plusSeconds(3600)))
         .token(new OAuth2RefreshToken("refreshToken", now, now.plusSeconds(86400)))

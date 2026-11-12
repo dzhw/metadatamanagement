@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.13</version>
+        <version>3.5.16</version>
         <relativePath />
     </parent>
 
@@ -24,10 +24,8 @@
     </distributionManagement>
 
     <properties>
-        <elasticsearch.version>8.5.3</elasticsearch.version>
-        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-        <java.version>21</java.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <java.version>25</java.version>
         <maven-sortpom-plugin.version>2.12.0</maven-sortpom-plugin.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <org.slf4j.simpleLogger.log.pl.project13.maven.git>WARN</org.slf4j.simpleLogger.log.pl.project13.maven.git>
@@ -46,9 +44,9 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.github.cloudyrock.mongock</groupId>
+                <groupId>io.mongock</groupId>
                 <artifactId>mongock-bom</artifactId>
-                <version>4.3.8</version>
+                <version>5.5.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -63,19 +61,15 @@
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-cloudwatch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-ecs</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.cloudyrock.mongock</groupId>
-            <artifactId>mongock-spring-v5</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.cloudyrock.mongock</groupId>
-            <artifactId>mongodb-springdata-v3-driver</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.spotbugs</groupId>
@@ -92,7 +86,7 @@
         <dependency>
             <groupId>com.icegreen</groupId>
             <artifactId>greenmail-junit5</artifactId>
-            <version>2.0.1</version>
+            <version>2.1.15</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -157,8 +151,12 @@
             <version>1.11.0</version>
         </dependency>
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-cloudwatch</artifactId>
+            <groupId>io.mongock</groupId>
+            <artifactId>mongock-springboot-v3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.mongock</groupId>
+            <artifactId>mongodb-springdata-v4-driver</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -173,14 +171,12 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- add validation api from Jakarta-->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>3.1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -195,11 +191,6 @@
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <version>5.1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
@@ -214,7 +205,8 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>6.5.3</version>
+            <!-- 7.9.x is the last line built against Spring Boot 3; 7.10+ requires Boot 4 -->
+            <version>7.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -233,8 +225,8 @@
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.17</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -317,7 +309,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
-            <version>1.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -326,13 +317,13 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mongodb</artifactId>
-            <version>1.21.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.zalando</groupId>
             <artifactId>logbook-spring-boot-starter</artifactId>
-            <version>4.2.0</version>
+            <!-- 3.x is the Spring Boot 3 line; 4.x requires Boot 4 -->
+            <version>3.12.3</version>
             <exclusions>
                 <!-- Exclude http client cause it introduces vulnerability issues (snyk errors)-->
                 <exclusion>
@@ -341,38 +332,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>pl.allegro.tech</groupId>
-            <artifactId>embedded-elasticsearch</artifactId>
-            <version>2.10.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>github</id>
-            <name>GitHub DZHW Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/dzhw/embedded-elasticsearch</url>
-        </repository>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <resources>
@@ -561,6 +522,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+            </plugin>
             <!-- Checkstyle and fail the build -->
             <!-- This version of Checkstyle is incompatible with Java 17 syntax and upgrading the module breaks a ton of configuration -->
             <!--            <plugin>-->
@@ -611,6 +576,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>${java.version}</release>
+                    <proc>full</proc>
                 </configuration>
             </plugin>
             <plugin>
@@ -650,7 +616,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.24.0</version>
+                <version>3.28.0</version>
                 <executions>
                     <execution>
                         <id>pmd check</id>
@@ -798,17 +764,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>4.1.1</version>
                 <configuration>
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring-boot.run.profiles=local</argument>
                     </arguments>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
             <?SORTPOM IGNORE?>
             <plugin>

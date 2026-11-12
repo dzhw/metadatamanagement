@@ -40,7 +40,9 @@ spring:
         - http://localhost:9200
 
 mongock:
-  change-logs-scan-package:
+  # change sets use the raw MongoDatabase, keep Mongock 4 behaviour (no transactions)
+  transaction-enabled: false
+  migration-scan-package:
     - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
     - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs
 
@@ -91,7 +93,6 @@ management:
         - health
         - configprops
         - metrics
-        - httptrace
         - prometheus
   endpoint:
     health:
@@ -110,10 +111,6 @@ management:
       enabled: false
     ping:
       enabled: false
-  metrics:
-    export:
-      cloudwatch:
-        enabled: false
 
 javers:
   algorithm: levenshtein_distance
@@ -165,8 +162,9 @@ jhipster:
             prefix: metadatamanagement
 
 logbook:
-  include:
-    - /api/orders/**
+  predicate:
+    include:
+      - path: /api/orders/**
   filter.enabled: true
   format.style: json
 

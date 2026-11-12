@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.config;
 
+import static eu.dzhw.fdz.metadatamanagement.usermanagement.config.AntStylePathRequestMatcher.antPath;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +21,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Refr
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AjaxLogoutSuccessHandler;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.Http401UnauthorizedEntryPoint;
@@ -47,16 +49,15 @@ public class OAuth2ServerConfiguration {
       OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
       AuthorizationServerSettings authorizationServerSettings) throws Exception {
     OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
-        new OAuth2AuthorizationServerConfigurer();
+        OAuth2AuthorizationServerConfigurer.authorizationServer();
 
-    http.apply(authorizationServerConfigurer);
-    authorizationServerConfigurer
+    http.with(authorizationServerConfigurer, authorizationServer -> authorizationServer
         .authorizationServerSettings(authorizationServerSettings)
         .authorizationService(authorizationService)
         .tokenGenerator(tokenGenerator)
         .tokenEndpoint(tokenEndpoint -> tokenEndpoint
             .accessTokenRequestConverter(passwordGrantAuthenticationConverter)
-            .authenticationProvider(passwordGrantAuthenticationProvider));
+            .authenticationProvider(passwordGrantAuthenticationProvider)));
 
     http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher());
     http.csrf(csrf -> csrf.ignoringRequestMatchers(authorizationServerConfigurer.getEndpointsMatcher()));
@@ -77,9 +78,9 @@ public class OAuth2ServerConfiguration {
         new OAuth2AccessTokenGenerator(), new OAuth2RefreshTokenGenerator());
   }
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http,
-            OpaqueTokenIntrospector opaqueTokenIntrospector) throws Exception {
+  @Bean
+  SecurityFilterChain securityFilterChain(HttpSecurity http,
+      OpaqueTokenIntrospector opaqueTokenIntrospector) throws Exception {
     http
         .exceptionHandling(ex -> ex
             .authenticationEntryPoint(authenticationEntryPoint))
@@ -87,7 +88,8 @@ public class OAuth2ServerConfiguration {
             .logoutUrl("/api/logout")
             .logoutSuccessHandler(ajaxLogoutSuccessHandler))
         .csrf(csrf -> csrf
-            .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
+            .requireCsrfProtectionMatcher(
+                PathPatternRequestMatcher.withDefaults().matcher("/oauth/authorize"))
             .ignoringRequestMatchers("/api/**", "/management/**"))
         .headers(headers -> headers
             .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
@@ -101,8 +103,8 @@ public class OAuth2ServerConfiguration {
                 "/api/swagger-ui.html", "/api/api-docs/**")
             .permitAll()
             .requestMatchers(
-                AntPathRequestMatcher.antMatcher("/api/data-acquisition-projects/**/releases"),
-                AntPathRequestMatcher.antMatcher("/api/data-acquisition-projects/**/attachments"))
+                antPath("/api/data-acquisition-projects/**/releases"),
+                antPath("/api/data-acquisition-projects/**/attachments"))
                 .permitAll()
             .requestMatchers("/api/**").authenticated()
             .requestMatchers("/management/info", "/management/metrics",
@@ -117,10 +119,9 @@ public class OAuth2ServerConfiguration {
             .opaqueToken(opaque -> opaque.introspector(opaqueTokenIntrospector)))
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .sessionFixation().none())
-        .requiresChannel(channel -> channel
-            .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-            .requiresSecure());
+            .sessionFixation(fixation -> fixation.none()))
+        .redirectToHttps(https -> https
+            .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null));
     return http.build();
   }
 }

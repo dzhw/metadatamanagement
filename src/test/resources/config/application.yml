@@ -43,7 +43,9 @@ spring:
         uris:
           - http://localhost:19234
 mongock:
-  change-logs-scan-package:
+  # change sets use the raw MongoDatabase, keep Mongock 4 behaviour (no transactions)
+  transaction-enabled: false
+  migration-scan-package:
     - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
     - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs
   # necessary config due to mongock upgrade from 4.1.x to 4.3.x

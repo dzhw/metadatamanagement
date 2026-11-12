@@ -28,17 +28,9 @@ spring:
 
 mongock:
     enabled: true
-    change-logs-scan-package:
+    migration-scan-package:
         - eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs
         - eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.changelogs
-
-management:
-  metrics:
-    export:
-      cloudwatch:
-        enabled: false
-        namespace: metadatamanagement-dev
-        batch-size: 20
 
 # ===================================================================
 # Properties specific to our application
