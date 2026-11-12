@@ -1,11 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.config;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,6 +86,68 @@ public class SecurityFilterChainTest extends AbstractTest {
         "/api/search/variables/_doc", "/api/search/variables/_delete_by_query"}) {
       assertThat(uri, firstMatchingChain("POST", uri).getFilters().isEmpty(), is(false));
     }
+  }
+
+  @Test
+  public void searchProxyRejectsAdministrativeElasticsearchApisAnonymously() throws Exception {
+    // these must not reach Elasticsearch, so the forbidden response is produced before any
+    // connection attempt
+    for (String uri : new String[] {"/api/search/_cat/indices", "/api/search/_cluster/health",
+        "/api/search/_nodes", "/api/search/_all/_search", "/api/search/variables/_mapping"}) {
+      mockMvc.perform(get(uri)).andExpect(status().isForbidden());
+    }
+  }
+
+  @Test
+  @WithMockUser(authorities = "ROLE_USER")
+  public void searchProxyRejectsIndexDeletionForAuthenticatedUsers() throws Exception {
+    mockMvc.perform(delete("/api/search/variables")).andExpect(status().isForbidden());
+    mockMvc.perform(post("/api/search/variables/_delete_by_query")
+        .contentType(MediaType.APPLICATION_JSON).content("{\"query\":{\"match_all\":{}}}"))
+        .andExpect(status().isForbidden());
+  }
+
+  @Test
+  @WithMockUser(authorities = "ROLE_USER")
+  public void springDataRestDoesNotExportInternalRepositories() throws Exception {
+    // internal repositories have no @RepositoryRestResource, so with the ANNOTATED detection
+    // strategy they are no longer reachable
+    mockMvc.perform(get("/api/tasks")).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/shadowCopyQueueItems")).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/daraUpdateQueueItems")).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/activeWebSocketSessions")).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void springDataRestOrderSearchIsNoLongerExported() throws Exception {
+    // OrderRepository is not annotated; only the custom OrderResource endpoints remain
+    mockMvc.perform(get("/api/orders/search/findByState").param("state", "ORDERED"))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser(authorities = "ROLE_USER")
+  public void springDataRestWriteMethodsAreDisabled() throws Exception {
+    // The custom project controller does not map PATCH; with Spring Data Rest's default PATCH
+    // handler disabled, PATCH must no longer be an advertised method on the item resource (which
+    // would otherwise reach repository.save() and bypass the @Secured service). The custom GET/PUT/
+    // DELETE handlers stay, so those remain advertised.
+    mockMvc.perform(options("/api/data-acquisition-projects/any-id"))
+        .andExpect(status().isOk())
+        .andExpect(result -> {
+          String allow = result.getResponse().getHeader("Allow");
+          assertThat(allow, notNullValue());
+          assertThat(allow, not(containsString("PATCH")));
+          assertThat(allow, containsString("GET"));
+        });
+  }
+
+  @Test
+  public void springDataRestFinderMethodsStillWork() throws Exception {
+    // the frontend relies on these; they must keep working for annotated domain repositories
+    mockMvc.perform(get("/api/variables/search/findByDataAcquisitionProjectId")
+        .param("dataAcquisitionProjectId", "does-not-exist"))
+        .andExpect(status().isOk());
   }
 
   @Test

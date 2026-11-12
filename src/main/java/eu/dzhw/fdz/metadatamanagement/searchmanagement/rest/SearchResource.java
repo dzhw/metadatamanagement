@@ -16,6 +16,7 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
@@ -119,6 +120,15 @@ public class SearchResource {
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String queryString = request.getQueryString();
     String path = completePath.replaceFirst("/api/search", "");
+
+    // Only forward the read operations the frontend needs. This prevents anyone (the search proxy
+    // is reachable anonymously) from reaching administrative or destructive Elasticsearch APIs.
+    if (!SearchProxyAllowlist.isAllowed(method, path)) {
+      log.warn("Rejected search proxy request: {} {}", method, path);
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).cacheControl(CacheControl.noStore())
+          .body("{\"error\":\"forbidden\"}");
+    }
+
     String url = connectionUrl + path;
     if (!StringUtils.isEmpty(queryString)) {
       url = url + "?" + queryString;
