@@ -24,27 +24,29 @@ spring:
           return-body-on-create: false
           return-body-on-update: false
        mongodb:
-          host: localhost
-          port: 0
-          database: metadatamanagement
           auto-index-creation: true
+          representation:
+             big-decimal: string
+    mongodb:
+       host: localhost
+       port: 0
+       database: metadatamanagement
+       representation:
+          uuid: java-legacy
+    jackson:
+       use-jackson2-defaults: true
     mail:
         host: localhost
         port: 4025
     thymeleaf:
         mode: HTML
-    autoconfigure:
-      exclude:
-        - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchClientAutoConfiguration
-        - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration
-
     elasticsearch:
       rest:
         uris:
           - http://localhost:19234
 mongock:
   # change sets use the raw MongoDatabase, keep Mongock 4 behaviour (no transactions)
-  transaction-enabled: false
+  transactional: false
   migration-scan-package:
     - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
     - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs

@@ -1,10 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import org.springframework.boot.actuate.data.mongo.MongoHealthIndicator;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.mongodb.health.MongoHealthIndicator;
+import org.springframework.boot.health.contributor.Health;
+import org.springframework.boot.health.contributor.HealthIndicator;
 
-import org.springframework.data.mongodb.core.MongoTemplate;
+import com.mongodb.client.MongoClient;
 import org.springframework.stereotype.Component;
 
 import io.micrometer.core.annotation.Timed;
@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component("mongoHealthIndicator")
 @Slf4j
 public class TimedMongoHealthIndicator extends MongoHealthIndicator {
-  public TimedMongoHealthIndicator(MongoTemplate mongoTemplate) {
-    super(mongoTemplate);
+  public TimedMongoHealthIndicator(MongoClient mongoClient) {
+    super(mongoClient);
   }
   
   @Override

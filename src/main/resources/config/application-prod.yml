@@ -11,9 +11,8 @@
 # ===================================================================
 
 spring:
-    data:
-        mongodb:
-            uri: ${vcap.services.mongodb.credentials.uri}
+    mongodb:
+        uri: ${vcap.services.mongodb.credentials.uri}
     mail:
         host: ${vcap.services.email.credentials.hostname}
         port: 587

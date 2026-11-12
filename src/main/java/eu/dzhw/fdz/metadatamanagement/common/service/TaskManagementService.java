@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.loader.tools.RunProcess;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -246,10 +245,9 @@ public class TaskManagementService implements CrudService<Task> {
     for (String language : languages) {
       if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
         log.debug("Starting docker container from image report-task...");
-        RunProcess dataSetReportTaskContainer =
-            new RunProcess("src/main/resources/bin/run-report-task.sh", id, version,
-                language, onBehalfOf, taskType.name());
-        dataSetReportTaskContainer.run(false);
+        // fire and forget, the report task reports back via the task REST API
+        new ProcessBuilder("src/main/resources/bin/run-report-task.sh", id, version,
+            language, onBehalfOf, taskType.name()).inheritIO().start();
       } else {
         ReportTask taskProperties = metadataManagementProperties.getReportTask();
         log.info("Starting fargate task {}...", taskProperties.getTaskDefinition());

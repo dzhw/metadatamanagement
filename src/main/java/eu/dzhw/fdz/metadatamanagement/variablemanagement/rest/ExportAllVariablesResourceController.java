@@ -34,7 +34,7 @@ public class ExportAllVariablesResourceController {
   @ResponseBody
   @Secured(value = {AuthoritiesConstants.ADMIN})
   public ResponseEntity<?> exportAllVariables() {
-    ResponseEntity<?> response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
+    ResponseEntity<?> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
     try {
       response = this.variablesManagementService.exportVariablesAsJson();
     } catch (IOException ex) {

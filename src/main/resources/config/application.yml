@@ -21,6 +21,16 @@ spring:
         return-body-on-update: false
       mongodb:
         auto-index-creation: true
+        representation:
+          # Spring Data MongoDB 5 has no default anymore, keep the former default
+          big-decimal: string
+    mongodb:
+      representation:
+        # Spring Boot 4 has no default anymore, keep the former Spring Boot 3 default
+        uuid: java-legacy
+    jackson:
+      # keep the JSON format of Spring Boot 3 (e.g. property order) for the frontend and API clients
+      use-jackson2-defaults: true
     messages:
         basename: classpath:/i18n/messages
     thymeleaf:
@@ -29,11 +39,7 @@ spring:
       multipart:
         max-file-size: 15MB
         max-request-size: 15MB
-    autoconfigure:
-      exclude:
-        - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchClientAutoConfiguration
-        - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration
-
+    # read by ElasticsearchClientConfiguration and SearchResource (no Spring Boot auto-configuration)
     elasticsearch:
       rest:
         uris:
@@ -41,7 +47,7 @@ spring:
 
 mongock:
   # change sets use the raw MongoDatabase, keep Mongock 4 behaviour (no transactions)
-  transaction-enabled: false
+  transactional: false
   migration-scan-package:
     - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
     - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs

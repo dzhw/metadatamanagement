@@ -17,11 +17,10 @@ spring:
             additional-exclude: scripts/**, node_modules/**, assets/**
         livereload:
             enabled: false # we use Grunt + BrowserSync for livereload
-    data:
-        mongodb:
-            host: localhost
-            port: 27017
-            database: metadatamanagement
+    mongodb:
+        host: localhost
+        port: 27017
+        database: metadatamanagement
     mail:
         host: localhost
         port: 1025

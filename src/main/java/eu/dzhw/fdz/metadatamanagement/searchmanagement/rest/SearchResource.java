@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.web.client.ObservationRestTemplateCustomizer;
+import org.springframework.boot.restclient.observation.ObservationRestTemplateCustomizer;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

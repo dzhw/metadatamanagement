@@ -13,13 +13,14 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2AccessTokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
@@ -49,7 +50,7 @@ public class OAuth2ServerConfiguration {
       OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
       AuthorizationServerSettings authorizationServerSettings) throws Exception {
     OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
-        OAuth2AuthorizationServerConfigurer.authorizationServer();
+        new OAuth2AuthorizationServerConfigurer();
 
     http.with(authorizationServerConfigurer, authorizationServer -> authorizationServer
         .authorizationServerSettings(authorizationServerSettings)
@@ -116,6 +117,9 @@ public class OAuth2ServerConfiguration {
             .anyRequest().permitAll())
         .httpBasic(Customizer.withDefaults())
         .oauth2ResourceServer(oauth -> oauth
+            // Spring Security 7 would otherwise pick up any AuthenticationConverter bean, i.e. the
+            // PasswordGrantAuthenticationConverter, which never resolves bearer tokens
+            .authenticationConverter(new BearerTokenAuthenticationConverter())
             .opaqueToken(opaque -> opaque.introspector(opaqueTokenIntrospector)))
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
