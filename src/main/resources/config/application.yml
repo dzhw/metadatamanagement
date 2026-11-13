@@ -52,14 +52,6 @@ mongock:
     - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
     - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs
 
-cloud:
-  aws:
-    region:
-      auto: false
-      static: eu-central-1
-    stack:
-      auto: false
-
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html

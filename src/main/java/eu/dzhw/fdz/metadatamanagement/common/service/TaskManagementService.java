@@ -16,13 +16,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.ecs.AmazonECS;
-import com.amazonaws.services.ecs.model.ContainerOverride;
-import com.amazonaws.services.ecs.model.DescribeServicesRequest;
-import com.amazonaws.services.ecs.model.LaunchType;
-import com.amazonaws.services.ecs.model.NetworkConfiguration;
-import com.amazonaws.services.ecs.model.RunTaskRequest;
-import com.amazonaws.services.ecs.model.TaskOverride;
+import software.amazon.awssdk.services.ecs.EcsClient;
+import software.amazon.awssdk.services.ecs.model.ContainerOverride;
+import software.amazon.awssdk.services.ecs.model.DescribeServicesRequest;
+import software.amazon.awssdk.services.ecs.model.LaunchType;
+import software.amazon.awssdk.services.ecs.model.NetworkConfiguration;
+import software.amazon.awssdk.services.ecs.model.RunTaskRequest;
+import software.amazon.awssdk.services.ecs.model.TaskOverride;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
@@ -74,7 +74,7 @@ public class TaskManagementService implements CrudService<Task> {
   private final MetadataManagementProperties metadataManagementProperties;
 
   @Autowired(required = false)
-  private AmazonECS ecsClient;
+  private EcsClient ecsClient;
 
   /**
    * Create a task.
@@ -252,21 +252,27 @@ public class TaskManagementService implements CrudService<Task> {
         ReportTask taskProperties = metadataManagementProperties.getReportTask();
         log.info("Starting fargate task {}...", taskProperties.getTaskDefinition());
         NetworkConfiguration networkConfiguration = ecsClient
-            .describeServices(
-                new DescribeServicesRequest().withCluster(taskProperties.getClusterName())
-                    .withServices(taskProperties.getServiceName()))
-            .getServices().get(0).getNetworkConfiguration();
+            .describeServices(DescribeServicesRequest.builder()
+                .cluster(taskProperties.getClusterName())
+                .services(taskProperties.getServiceName())
+                .build())
+            .services().get(0).networkConfiguration();
 
-        RunTaskRequest req =
-            new RunTaskRequest().withTaskDefinition(taskProperties.getTaskDefinition())
-                .withNetworkConfiguration(networkConfiguration)
-                .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
-                .withCount(1).withStartedBy(
-                    onBehalfOf)
-                .withOverrides(new TaskOverride().withContainerOverrides(
-                    new ContainerOverride().withName(taskProperties.getContainerName())
-                        .withCommand(String.format(taskProperties.getStartCommand(), id,
-                            version, language, onBehalfOf, taskType.name()).split("\\s+"))));
+        RunTaskRequest req = RunTaskRequest.builder()
+            .taskDefinition(taskProperties.getTaskDefinition())
+            .networkConfiguration(networkConfiguration)
+            .cluster(taskProperties.getClusterName())
+            .launchType(LaunchType.FARGATE)
+            .count(1)
+            .startedBy(onBehalfOf)
+            .overrides(TaskOverride.builder()
+                .containerOverrides(ContainerOverride.builder()
+                    .name(taskProperties.getContainerName())
+                    .command(String.format(taskProperties.getStartCommand(), id,
+                        version, language, onBehalfOf, taskType.name()).split("\\s+"))
+                    .build())
+                .build())
+            .build();
         ecsClient.runTask(req);
       }
     }
