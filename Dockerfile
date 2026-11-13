@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre-ubi10-minimal
+FROM eclipse-temurin:25-jre-ubi10-minimal
 
 LABEL org.opencontainers.image.authors="René Reitmann <reitmann@dzhw.eu>"
 

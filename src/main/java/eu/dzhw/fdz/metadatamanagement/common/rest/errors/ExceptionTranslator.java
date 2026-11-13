@@ -1,15 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Path;
 
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
-import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -26,10 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartException;
 
-import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.mongodb.DuplicateKeyException;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
@@ -38,6 +33,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedExce
 import eu.dzhw.fdz.metadatamanagement.common.service.DuplicateFilenameException;
 import freemarker.core.InvalidReferenceException;
 import freemarker.core.ParseException;
+import tools.jackson.core.json.UTF8StreamJsonParser;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.exc.InvalidFormatException;
+import tools.jackson.databind.node.TreeTraversingParser;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
@@ -142,7 +141,7 @@ public class ExceptionTranslator {
     InvalidFormatException invalidFormatException =
         findInvalidFormatException(exception.getCause());
 
-    JsonMappingException jsonMappingException = findJsonMappingException(exception.getCause());
+    DatabindException jsonMappingException = findJsonMappingException(exception.getCause());
 
     if (invalidFormatException != null) {
       return createParsingError(invalidFormatException);
@@ -170,9 +169,9 @@ public class ExceptionTranslator {
     }
   }
 
-  private JsonMappingException findJsonMappingException(Throwable cause) {
-    if (cause == null || cause instanceof JsonMappingException) {
-      return (JsonMappingException) cause;
+  private DatabindException findJsonMappingException(Throwable cause) {
+    if (cause == null || cause instanceof DatabindException) {
+      return (DatabindException) cause;
     } else {
       return findJsonMappingException(cause.getCause());
     }
@@ -181,7 +180,11 @@ public class ExceptionTranslator {
   private ErrorListDto createParsingError(InvalidFormatException invalidFormatException) {
 
     // Get the Name of the Processor
-    Class<?> processorClass = invalidFormatException.getProcessor().getClass();
+    Object processor = invalidFormatException.processor();
+    if (processor == null) {
+      return new ErrorListDto();
+    }
+    Class<?> processorClass = processor.getClass();
 
     // Decide between different input types like excel or json files
     if (processorClass.equals(TreeTraversingParser.class)) {
@@ -194,14 +197,14 @@ public class ExceptionTranslator {
   }
 
   private ErrorListDto createExcelParsingError(InvalidFormatException invalidFormatException) {
-    TreeTraversingParser processor = (TreeTraversingParser) invalidFormatException.getProcessor();
+    TreeTraversingParser processor = (TreeTraversingParser) invalidFormatException.processor();
 
     // Create Excel Parsing Error. Just the first will be returned
     String domainObject =
-        invalidFormatException.getPath().get(0).getFrom().getClass().getSimpleName();
-    String property = processor.getCurrentName();
+        invalidFormatException.getPath().get(0).from().getClass().getSimpleName();
+    String property = processor.currentName();
     if (property == null) {
-      property = invalidFormatException.getPath().get(0).getFieldName();
+      property = invalidFormatException.getPath().get(0).getPropertyName();
     }
     String invalidValue = (String) invalidFormatException.getValue();
     String messageKey = "global.error.import.excel-parsing-error";
@@ -209,29 +212,24 @@ public class ExceptionTranslator {
   }
 
   private ErrorListDto createJsonParsingError(InvalidFormatException invalidFormatException) {
-    UTF8StreamJsonParser processor = (UTF8StreamJsonParser) invalidFormatException.getProcessor();
+    UTF8StreamJsonParser processor = (UTF8StreamJsonParser) invalidFormatException.processor();
 
     // Create Json Parsing Error. Just the first will be returned
-    try {
-      String domainObject =
-          invalidFormatException.getPath().get(0).getFrom().getClass().getSimpleName();
+    String domainObject =
+        invalidFormatException.getPath().get(0).from().getClass().getSimpleName();
 
-      String property = processor.getCurrentName();
-      if (property == null) {
-        property = invalidFormatException.getPath().get(0).getFieldName();
-      }
-      String invalidValue = (String) invalidFormatException.getValue();
-      String messageKey = "global.error.import.json-parsing-error";
-      return new ErrorListDto(new ErrorDto(domainObject, messageKey, invalidValue, property));
-    } catch (IOException e) {
-      return new ErrorListDto(
-          new ErrorDto(null, "global.error.import.no-json-mapping", null, null));
+    String property = processor.currentName();
+    if (property == null) {
+      property = invalidFormatException.getPath().get(0).getPropertyName();
     }
+    String invalidValue = (String) invalidFormatException.getValue();
+    String messageKey = "global.error.import.json-parsing-error";
+    return new ErrorListDto(new ErrorDto(domainObject, messageKey, invalidValue, property));
   }
 
-  private ErrorListDto createJsonMappingError(JsonMappingException jsonMappingException) {
+  private ErrorListDto createJsonMappingError(DatabindException jsonMappingException) {
 
-    String invalidField = jsonMappingException.getPath().stream().map(i -> i.getFieldName())
+    String invalidField = jsonMappingException.getPath().stream().map(i -> i.getPropertyName())
         .collect(Collectors.joining("."));
 
     return new ErrorListDto(
@@ -289,9 +287,17 @@ public class ExceptionTranslator {
       String message = violation.getMessage();
       errorListDto.add(new ErrorDto(violation.getRootBeanClass().getSimpleName(), message,
           violation.getInvalidValue(),
-          ((PathImpl) violation.getPropertyPath()).getLeafNode().getName()));
+          getLeafNodeName(violation.getPropertyPath())));
     }
     return errorListDto;
+  }
+
+  private static String getLeafNodeName(Path propertyPath) {
+    String leafNodeName = null;
+    for (Path.Node node : propertyPath) {
+      leafNodeName = node.getName();
+    }
+    return leafNodeName;
   }
 
   @ExceptionHandler

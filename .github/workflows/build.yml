@@ -19,11 +19,11 @@ jobs:
         sed -i "s/\"buildHash\": \".*\"/\"buildHash\": \"$BUILD_COMMIT_HASH\"/" mdm-frontend/src/assets/config.json
         cat mdm-frontend/src/assets/config.json
 
-    - name: Set up JDK 21
+    - name: Set up JDK 25
       uses: actions/setup-java@v6
       with:
         distribution: 'temurin'
-        java-version: 21
+        java-version: 25
     - run: java --version
 
     - name: Cache maven artifacts

@@ -12,10 +12,10 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.security.oauth2.server.authorization.autoconfigure.servlet.OAuth2AuthorizationServerJwtAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
@@ -23,16 +23,13 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
 import eu.dzhw.fdz.metadatamanagement.common.config.TweetProperties;
 import lombok.extern.slf4j.Slf4j;
 
-import com.github.cloudyrock.spring.v5.EnableMongock;
-
 /**
  * Main class boostrapping the application.
  */
-@SpringBootApplication
+// tokens are opaque reference tokens stored in MongoDB, no JWK set / JWT decoder must be exposed
+@SpringBootApplication(exclude = OAuth2AuthorizationServerJwtAutoConfiguration.class)
 @EnableConfigurationProperties({MetadataManagementProperties.class, JHipsterProperties.class, TweetProperties.class})
 @Slf4j
-@EnableMongock
-@EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.changelogs")
 public class Application {
   @Autowired
   private Environment env;

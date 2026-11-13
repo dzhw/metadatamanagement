@@ -46,7 +46,7 @@ public class FileService {
   @PostConstruct
   protected void setupFileNameIndex() {
     mongoOperations.indexOps("fs.files")
-        .ensureIndex(new Index().on("filename", Direction.ASC).unique());
+        .createIndex(new Index().on("filename", Direction.ASC).unique());
   }
 
   /**

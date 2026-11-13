@@ -6,7 +6,9 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
@@ -27,6 +29,23 @@ public class RestRepositoryConfigurer implements RepositoryRestConfigurer {
   public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config,
       CorsRegistry cors) {
     config.setExposeRepositoryMethodsByDefault(true);
+
+    // Only export repositories annotated with @RepositoryRestResource. This hides the internal
+    // repositories (task, queue and websocket-session repositories) which would otherwise be
+    // exported with full CRUD to any authenticated user.
+    config.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
+
+    // Disable all Spring Data Rest write operations. Writes must go through the custom controllers
+    // and their @Secured *ManagementService classes. This also closes the PATCH item handler, which
+    // the custom controllers do not override and which would otherwise bypass the security checks.
+    // Only Spring Data Rest's own handlers are affected; the custom @(Repository)RestController write
+    // mappings are regular MVC handlers and keep working.
+    config.getExposureConfiguration()
+        .withItemExposure((metadata, httpMethods) ->
+            httpMethods.disable(HttpMethod.PUT, HttpMethod.PATCH, HttpMethod.DELETE))
+        .withCollectionExposure((metadata, httpMethods) ->
+            httpMethods.disable(HttpMethod.POST, HttpMethod.PATCH, HttpMethod.DELETE));
+
     config.exposeIdsFor(IdAndVersionProjection.class);
     final ClassPathScanningCandidateComponentProvider provider =
         new ClassPathScanningCandidateComponentProvider(false);

@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -32,7 +32,7 @@ public class OpenApiConfiguration {
    */
   @Bean
   @Profile("!" + Constants.SPRING_PROFILE_LOCAL)
-  public OpenApiCustomiser hideUndocumentedApiOperations() {
+  public OpenApiCustomizer hideUndocumentedApiOperations() {
     return openApi -> {
       openApi.getPaths().values().stream()
           .forEach(pathItem -> pathItem.readOperationsMap().forEach((method, operation) -> {

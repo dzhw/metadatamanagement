@@ -6,8 +6,7 @@ import java.util.Set;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.springframework.boot.data.mongodb.autoconfigure.DataMongoProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -29,15 +28,13 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.github.cloudyrock.spring.v5.EnableMongock;
-
 /**
- * Configure the mongo db client instance. Modified version of {@link MongoAutoConfiguration}.
+ * Configure the mongo db mapping context and validation. Mongock is started by
+ * {@link MongockConfiguration}.
  */
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
-@EnableMongock
 public class MongoDbConfiguration {
 
   private final Environment environment;
@@ -45,7 +42,7 @@ public class MongoDbConfiguration {
   private final ResourceLoader resourceLoader;
 
   /**
-   * Constructor from {@link MongoAutoConfiguration}.
+   * Create the configuration.
    */
   @Autowired
   public MongoDbConfiguration(Environment environment,
@@ -77,15 +74,15 @@ public class MongoDbConfiguration {
    * Create the {@link MongoMappingContext} which scans only our domain objects.
    * 
    * @param applicationContext The application context
-   * @param properties The {@link MongoProperties}
+   * @param properties The {@link DataMongoProperties}
    * @param conversions Registered converters
    * @return the {@link MongoMappingContext}
    */
   @Bean
   public MongoMappingContext mongoMappingContext(ApplicationContext applicationContext,
-      MongoProperties properties, MongoCustomConversions conversions)
+      DataMongoProperties properties, MongoCustomConversions conversions)
       throws ClassNotFoundException {
-    PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+    PropertyMapper mapper = PropertyMapper.get();
     MongoMappingContext context = new MongoMappingContext();
     mapper.from(properties.isAutoIndexCreation()).to(context::setAutoIndexCreation);
     context.setInitialEntitySet(getInitialEntitySet("eu.dzhw.fdz.metadatamanagement.**.domain"));

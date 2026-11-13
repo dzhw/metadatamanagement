@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.TagsElsst;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Elsst;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -344,6 +348,54 @@ class DataCiteServiceTest extends AbstractTest {
     assertEquals(0, ((List<Map<String, Object>>) result.get("alternateIdentifiers")).size());
     assertEquals(0, ((List<Map<String, Object>>) result.get("relatedIdentifiers")).size());
     assertEquals(2, ((List<Map<String, Object>>) result.get("rightsList")).size());
+  }
+
+  @Test
+  public void createAttrObjectForDataPackage_containsElsstSubjects() throws DataCiteMetadataException {
+    DataPackage dp = UnitTestCreateDomainObjectUtils.buildDataPackage(testProject.getId());
+    Map<String, Object> result = dataCiteService.createAttrObjectForDataPackage(
+      testProject,
+      dp,
+      new ArrayList<>());
+    assertElsstSubjects(result);
+  }
+
+  @Test
+  public void createAttrObjectForAnalysisPackage_containsElsstSubjects() throws DataCiteMetadataException {
+    AnalysisPackage ap = UnitTestCreateDomainObjectUtils.buildAnalysisPackage(testProject.getId());
+    // buildAnalysisPackage() does not attach ELSST tags, so set the same test tag as for data packages
+    Elsst elsst = new Elsst();
+    elsst.setLocalname("123");
+    elsst.setPrefLabel("test-tag-elsst");
+    TagsElsst tagsElsst = new TagsElsst();
+    tagsElsst.setDe(Set.of(elsst));
+    tagsElsst.setEn(Set.of(elsst));
+    ap.setTagsElsst(tagsElsst);
+    Map<String, Object> result = dataCiteService.createAttrObjectForAnalysisPackage(
+      testProject,
+      ap);
+    assertElsstSubjects(result);
+  }
+
+  /**
+   * Checks the ELSST subjects built from the test ELSST tag (prefLabel "test-tag-elsst",
+   * localname "123"), which the test data uses for both German and English.
+   */
+  private void assertElsstSubjects(Map<String, Object> result) {
+    List<Map<String, String>> elsstSubjects = ((List<Map<String, String>>) result.get("subjects")).stream()
+      .filter(subject -> subject.containsKey("subjectScheme"))
+      .toList();
+    assertEquals(2, elsstSubjects.size());
+
+    String expectedSchemeUri = "https://thesauri.cessda.eu/" + DataCiteService.ELSST_VERSION + "/en/";
+    for (Map<String, String> subject : elsstSubjects) {
+      assertEquals("test-tag-elsst", subject.get("subject"));
+      assertEquals("CESSDA European Language Social Science Thesaurus (ELSST)", subject.get("subjectScheme"));
+      assertEquals(expectedSchemeUri, subject.get("schemeUri"));
+      assertEquals(expectedSchemeUri + "page/123", subject.get("valueUri"));
+    }
+    assertEquals(Set.of("de", "en"),
+      elsstSubjects.stream().map(subject -> subject.get("lang")).collect(Collectors.toSet()));
   }
 
   private List<Map<String, String>> getExpectedTitlesDeAndEn(DataPackage dp) {

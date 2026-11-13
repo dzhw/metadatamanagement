@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.util.NestedServletException;
+import jakarta.servlet.ServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -85,7 +85,7 @@ public class SearchResourceTest extends AbstractTest {
 
   @Test
   public void testRecreateAllIndicesWithoutValidCredentials() throws Exception {
-    Assertions.assertThrows(NestedServletException.class, () -> {
+    Assertions.assertThrows(ServletException.class, () -> {
     	// test recreation of all elasticsearch indices
     	mockMvc.perform(post("/api/search/recreate"));
     });
