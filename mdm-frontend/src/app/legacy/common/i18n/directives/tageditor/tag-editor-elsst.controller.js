@@ -7,6 +7,9 @@ angular.module('metadatamanagementApp')
   '$mdMedia',
   'DataPackageSearchService', 'ElsstSearchService', function($scope, $mdMedia, DataPackageSearchService, ElsstSearchService) {
 
+    // ELSST thesaurus version, checked by scripts/check-elsst-version.js
+    var ELSST_VERSION = 'elsst-7';
+
     var removeExistingTags = function(tags, language) {
       // return all selectable tags that are available according to the search text and have not already been selected
       if (!$scope.tags[language] || $scope.tags[language].length == 0) {
@@ -88,7 +91,7 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.openLink = function(item, language) {
-      var url = 'https://thesauri.cessda.eu/elsst-6/en/page/' + item.localname;
+      var url = 'https://thesauri.cessda.eu/' + ELSST_VERSION + '/en/page/' + item.localname;
       if (language == 'de') {
         url += '?clang=de';
       }
