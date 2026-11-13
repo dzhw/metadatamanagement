@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -25,6 +27,9 @@
 
     <properties>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <!-- Override Spring Boot's managed Jackson 3 (3.1.7) to fix CVE-2026-110879 / GHSA-m8xf-2cr7-77ph.
+             Remove once Spring Boot manages 3.1.8 or later. -->
+        <jackson-bom.version>3.1.8</jackson-bom.version>
         <java.version>25</java.version>
         <maven-sortpom-plugin.version>2.12.0</maven-sortpom-plugin.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -68,7 +73,7 @@
             <artifactId>aws-java-sdk-ecs</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
@@ -150,7 +155,8 @@
             <artifactId>commons-validator</artifactId>
             <version>1.11.0</version>
         </dependency>
-        <!-- Mongock has no Spring Boot 4 integration, the standalone runner is started by MongockConfiguration -->
+        <!-- Mongock has no Spring Boot 4 integration, the standalone runner is started by
+        MongockConfiguration -->
         <dependency>
             <groupId>io.mongock</groupId>
             <artifactId>mongock-standalone</artifactId>
@@ -391,7 +397,9 @@
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <!--This
+                plugin's configuration is used to store Eclipse m2e settings only. It has no
+                influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -512,7 +520,8 @@
                         </goals>
                         <configuration>
                             <outputDirectory>target/generated-sources/java</outputDirectory>
-                            <processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
+                            <processor>
+                                org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
                         </configuration>
                     </execution>
                 </executions>
@@ -536,7 +545,8 @@
                 <artifactId>git-commit-id-maven-plugin</artifactId>
             </plugin>
             <!-- Checkstyle and fail the build -->
-            <!-- This version of Checkstyle is incompatible with Java 17 syntax and upgrading the module breaks a ton of configuration -->
+            <!-- This version of Checkstyle is incompatible with Java 17 syntax and upgrading the
+            module breaks a ton of configuration -->
             <!--            <plugin>-->
             <!--                <groupId>org.apache.maven.plugins</groupId>-->
             <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
@@ -611,11 +621,13 @@
                 <configuration>
                     <rules>
                         <requireMavenVersion>
-                            <message>You are running an older version of Maven. Our app requires at least Maven 3.6.1</message>
+                            <message>You are running an older version of Maven. Our app requires at
+                                least Maven 3.6.1</message>
                             <version>[3.6.1,)</version>
                         </requireMavenVersion>
                         <requireJavaVersion>
-                            <message>You are running an older version of Java. Our app requires at least JDK ${java.version}</message>
+                            <message>You are running an older version of Java. Our app requires at
+                                least JDK ${java.version}</message>
                             <version>[${java.version}.0,)</version>
                         </requireJavaVersion>
                     </rules>
@@ -670,6 +682,8 @@
                         <configuration>
                             <sources>
                                 <source>${project.build.directory}/generated-sources/translations</source>
+                                <!-- QueryDSL Q-classes generated by apt-maven-plugin; registered here so IDEs (m2e / VS Code) see them -->
+                                <source>${project.build.directory}/generated-sources/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -742,7 +756,8 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo runtime agent. -->
+                            <!-- Sets the name of the property containing the settings for JaCoCo
+                            runtime agent. -->
                             <propertyName>surefireArgLine</propertyName>
                             <excludes>
                                 <exclude>**/domain/Q*</exclude>
@@ -751,7 +766,8 @@
                             </excludes>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created after unit tests have been run -->
+                    <!-- Ensures that the code coverage report for unit tests is created after unit
+                    tests have been run -->
                     <execution>
                         <id>post-unit-test</id>
                         <phase>test</phase>
@@ -817,7 +833,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <repository>347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/${project.artifactId}</repository>
+                    <repository>
+                        347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/${project.artifactId}</repository>
                     <tag>${project.version}-${project.activeProfiles[0].id}</tag>
                     <registryUrl>https://347729458675.dkr.ecr.eu-central-1.amazonaws.com</registryUrl>
                     <buildArgs>
@@ -874,7 +891,7 @@
                         <configuration>
                             <repository>local/dzhw/${project.artifactId}</repository>
                             <tag>${project.version}-${project.activeProfiles[0].id}</tag>
-                            <registryUrl/>
+                            <registryUrl />
                             <buildArgs>
                                 <JAR_FILE>target/${project.build.finalName}.war</JAR_FILE>
                             </buildArgs>
