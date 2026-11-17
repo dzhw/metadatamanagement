@@ -63,6 +63,9 @@ public class OrderService {
   private Order removeMarkdown(Order order) {
     if (order.getProducts() != null) {
       for (Product product : order.getProducts()) {
+        if (product.getDataPackage() != null) {
+          product.getDataPackage().localizeApprovedUsage(order.getLanguageKey());
+        }
         if (product.getDataPackage() != null && product.getDataPackage().getAnnotations() != null) {
           if (product.getDataPackage().getAnnotations().getDe() != null) {
             product.getDataPackage().getAnnotations().setDe(
