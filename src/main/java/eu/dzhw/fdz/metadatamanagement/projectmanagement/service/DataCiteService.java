@@ -12,7 +12,7 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.metrics.web.client.ObservationRestTemplateCustomizer;
+import org.springframework.boot.restclient.observation.ObservationRestTemplateCustomizer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -65,6 +65,10 @@ public class DataCiteService {
   private final String MDM_ANALYSIS_PACKAGE_TYPE = "analysis-packages";
   private static final String IS_ALIVE_ENDPOINT = "/heartbeat";
   private static final String REGISTRATION_ENDPOINT = "/dois";
+  // ELSST thesaurus version, checked by scripts/check-elsst-version.js
+  static final String ELSST_VERSION = "elsst-7";
+  private static final String ELSST_SCHEME_URI = "https://thesauri.cessda.eu/" + ELSST_VERSION + "/en/";
+  private static final String ELSST_BASE_URI = ELSST_SCHEME_URI + "page/";
 
   @Autowired
   private DataPackageRepository dataPackageRepository;
@@ -829,9 +833,8 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
         subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
-        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-6/en/");
-        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-6/en/page/";
-        subject.put("valueUri", elsstBaseUri + tag.getLocalname());
+        subject.put("schemeUri", ELSST_SCHEME_URI);
+        subject.put("valueUri", ELSST_BASE_URI + tag.getLocalname());
         subject.put("lang", "en");
         subjectsList.add(subject);
       }
@@ -842,9 +845,8 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
         subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
-        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-6/en/");
-        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-6/en/page/";
-        subject.put("valueUri", elsstBaseUri + tag.getLocalname());
+        subject.put("schemeUri", ELSST_SCHEME_URI);
+        subject.put("valueUri", ELSST_BASE_URI + tag.getLocalname());
         subject.put("lang", "de");
         subjectsList.add(subject);
       }

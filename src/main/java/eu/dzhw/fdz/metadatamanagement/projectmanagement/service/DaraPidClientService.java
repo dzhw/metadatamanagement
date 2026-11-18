@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.boot.actuate.metrics.web.client.ObservationRestTemplateCustomizer;
+import org.springframework.boot.restclient.observation.ObservationRestTemplateCustomizer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -96,7 +96,7 @@ public class DaraPidClientService {
     request.getHeaders().add("Authorization", "Basic " + new String(authHash, StandardCharsets.UTF_8));
 
     try (var response = request.execute()) {
-      return response.getRawStatusCode() == 405;
+      return response.getStatusCode().value() == 405;
     }
   }
 
@@ -139,7 +139,7 @@ public class DaraPidClientService {
       // register variables
       response = this.restTemplate.postForEntity(this.getRegistationEndpoint(), entity, String.class);
       if (!response.getStatusCode().is2xxSuccessful()) {
-        throw new RegistrationResponseException(response.getStatusCodeValue(), response.getBody());
+        throw new RegistrationResponseException(response.getStatusCode().value(), response.getBody());
       }
       var responseBody = this.objectMapper.readValue(response.getBody(), RegistrationResponse.class);
       log.debug("PID Registration request was successful. Status can be queried using Job-ID: " + responseBody.jobId());
@@ -181,7 +181,7 @@ public class DaraPidClientService {
       if (response.getStatusCode().is2xxSuccessful()) {
         return this.objectMapper.readValue(body, VariableStatus[].class);
       } else {
-        throw new JobStatusResponseException(response.getRawStatusCode(), body);
+        throw new JobStatusResponseException(response.getStatusCode().value(), body);
       }
     } catch (JsonMappingException | JsonParseException e) {
       log.error("An error occurred while parsing the JSON response", e);

@@ -12,7 +12,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.mongodb.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import com.icegreen.greenmail.util.GreenMail;
@@ -106,7 +106,7 @@ public abstract class AbstractTest {
 
   @DynamicPropertySource
   static void mongoProperties(DynamicPropertyRegistry registry) {
-      registry.add("spring.data.mongodb.uri", () -> MONGO.getReplicaSetUrl("metadatenmanagement"));
+      registry.add("spring.mongodb.uri", () -> MONGO.getReplicaSetUrl("metadatenmanagement"));
   }
 
   @AfterEach

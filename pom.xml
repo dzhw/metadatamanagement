@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.13</version>
+        <version>4.1.2</version>
         <relativePath />
     </parent>
 
@@ -24,10 +26,11 @@
     </distributionManagement>
 
     <properties>
-        <elasticsearch.version>8.5.3</elasticsearch.version>
-        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-        <java.version>21</java.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <!-- Override Spring Boot's managed Jackson 3 (3.1.7) to fix CVE-2026-110879 / GHSA-m8xf-2cr7-77ph.
+             Remove once Spring Boot manages 3.1.8 or later. -->
+        <jackson-bom.version>3.1.8</jackson-bom.version>
+        <java.version>25</java.version>
         <maven-sortpom-plugin.version>2.12.0</maven-sortpom-plugin.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <org.slf4j.simpleLogger.log.pl.project13.maven.git>WARN</org.slf4j.simpleLogger.log.pl.project13.maven.git>
@@ -39,16 +42,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-bom</artifactId>
-                <version>1.12.313</version>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>2.57.13</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.github.cloudyrock.mongock</groupId>
+                <groupId>io.mongock</groupId>
                 <artifactId>mongock-bom</artifactId>
-                <version>4.3.8</version>
+                <version>5.5.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -62,20 +65,19 @@
             <version>8.19.6</version>
         </dependency>
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-ecs</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>ecs</artifactId>
+            <exclusions>
+                <!-- only the synchronous client (Apache HTTP) is used -->
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>netty-nio-client</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.cloudyrock.mongock</groupId>
-            <artifactId>mongock-spring-v5</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.cloudyrock.mongock</groupId>
-            <artifactId>mongodb-springdata-v3-driver</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.spotbugs</groupId>
@@ -92,7 +94,7 @@
         <dependency>
             <groupId>com.icegreen</groupId>
             <artifactId>greenmail-junit5</artifactId>
-            <version>2.0.1</version>
+            <version>2.1.15</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -156,9 +158,15 @@
             <artifactId>commons-validator</artifactId>
             <version>1.11.0</version>
         </dependency>
+        <!-- Mongock has no Spring Boot 4 integration, the standalone runner is started by
+        MongockConfiguration -->
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-cloudwatch</artifactId>
+            <groupId>io.mongock</groupId>
+            <artifactId>mongock-standalone</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.mongock</groupId>
+            <artifactId>mongodb-sync-v4-driver</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -173,14 +181,12 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- add validation api from Jakarta-->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>3.1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -195,11 +201,6 @@
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <version>5.1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
@@ -214,7 +215,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>6.5.3</version>
+            <version>7.11.10</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -233,8 +234,8 @@
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -242,15 +243,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-loader-tools</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -286,7 +283,25 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-authorization-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <!-- spring-security-test plus the MockMvc security integration of Spring Boot 4 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -303,7 +318,12 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -313,20 +333,9 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-data</artifactId>
         </dependency>
-        <!-- security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
-            <version>1.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>mongodb</artifactId>
-            <version>1.21.4</version>
+            <artifactId>testcontainers-mongodb</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -341,38 +350,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>pl.allegro.tech</groupId>
-            <artifactId>embedded-elasticsearch</artifactId>
-            <version>2.10.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>github</id>
-            <name>GitHub DZHW Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/dzhw/embedded-elasticsearch</url>
-        </repository>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <resources>
@@ -421,7 +400,9 @@
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <!--This
+                plugin's configuration is used to store Eclipse m2e settings only. It has no
+                influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -542,7 +523,8 @@
                         </goals>
                         <configuration>
                             <outputDirectory>target/generated-sources/java</outputDirectory>
-                            <processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
+                            <processor>
+                                org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
                         </configuration>
                     </execution>
                 </executions>
@@ -561,8 +543,13 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+            </plugin>
             <!-- Checkstyle and fail the build -->
-            <!-- This version of Checkstyle is incompatible with Java 17 syntax and upgrading the module breaks a ton of configuration -->
+            <!-- This version of Checkstyle is incompatible with Java 17 syntax and upgrading the
+            module breaks a ton of configuration -->
             <!--            <plugin>-->
             <!--                <groupId>org.apache.maven.plugins</groupId>-->
             <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
@@ -611,6 +598,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>${java.version}</release>
+                    <proc>full</proc>
                 </configuration>
             </plugin>
             <plugin>
@@ -636,11 +624,13 @@
                 <configuration>
                     <rules>
                         <requireMavenVersion>
-                            <message>You are running an older version of Maven. Our app requires at least Maven 3.6.1</message>
+                            <message>You are running an older version of Maven. Our app requires at
+                                least Maven 3.6.1</message>
                             <version>[3.6.1,)</version>
                         </requireMavenVersion>
                         <requireJavaVersion>
-                            <message>You are running an older version of Java. Our app requires at least JDK ${java.version}</message>
+                            <message>You are running an older version of Java. Our app requires at
+                                least JDK ${java.version}</message>
                             <version>[${java.version}.0,)</version>
                         </requireJavaVersion>
                     </rules>
@@ -650,7 +640,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.24.0</version>
+                <version>3.28.0</version>
                 <executions>
                     <execution>
                         <id>pmd check</id>
@@ -695,6 +685,8 @@
                         <configuration>
                             <sources>
                                 <source>${project.build.directory}/generated-sources/translations</source>
+                                <!-- QueryDSL Q-classes generated by apt-maven-plugin; registered here so IDEs (m2e / VS Code) see them -->
+                                <source>${project.build.directory}/generated-sources/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -767,7 +759,8 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo runtime agent. -->
+                            <!-- Sets the name of the property containing the settings for JaCoCo
+                            runtime agent. -->
                             <propertyName>surefireArgLine</propertyName>
                             <excludes>
                                 <exclude>**/domain/Q*</exclude>
@@ -776,7 +769,8 @@
                             </excludes>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created after unit tests have been run -->
+                    <!-- Ensures that the code coverage report for unit tests is created after unit
+                    tests have been run -->
                     <execution>
                         <id>post-unit-test</id>
                         <phase>test</phase>
@@ -798,17 +792,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>4.1.1</version>
                 <configuration>
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring-boot.run.profiles=local</argument>
                     </arguments>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
             <?SORTPOM IGNORE?>
             <plugin>
@@ -847,7 +836,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <repository>347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/${project.artifactId}</repository>
+                    <repository>
+                        347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/${project.artifactId}</repository>
                     <tag>${project.version}-${project.activeProfiles[0].id}</tag>
                     <registryUrl>https://347729458675.dkr.ecr.eu-central-1.amazonaws.com</registryUrl>
                     <buildArgs>
@@ -904,7 +894,7 @@
                         <configuration>
                             <repository>local/dzhw/${project.artifactId}</repository>
                             <tag>${project.version}-${project.activeProfiles[0].id}</tag>
-                            <registryUrl/>
+                            <registryUrl />
                             <buildArgs>
                                 <JAR_FILE>target/${project.build.finalName}.war</JAR_FILE>
                             </buildArgs>

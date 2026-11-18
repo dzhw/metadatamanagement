@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.config;
 
+import static eu.dzhw.fdz.metadatamanagement.usermanagement.config.AntStylePathRequestMatcher.antPath;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Web and method security configuration.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -24,12 +28,16 @@ public class SecurityConfiguration {
 
   @Bean
   public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
-    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    provider.setUserDetailsService(userDetailsService);
+    DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
     provider.setPasswordEncoder(passwordEncoder);
     return new org.springframework.security.authentication.ProviderManager(provider);
   }
 
+  /**
+   * Requests which bypass the security filter chains completely. This is intentionally kept as
+   * {@code web.ignoring()} (instead of {@code permitAll()}) so that anonymous search requests with
+   * an expired bearer token are not rejected by the resource server.
+   */
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return web -> web.ignoring()
@@ -37,12 +45,11 @@ public class SecurityConfiguration {
             "/i18n/**", "/assets/**", "/api/register", "/api/activate",
             "/api/account/reset-password/init", "/api/account/reset-password/finish",
             "/management/info")
-        .requestMatchers(AntPathRequestMatcher.antMatcher("/scripts/**/*.js"))
-        .requestMatchers(AntPathRequestMatcher.antMatcher("/scripts/**/*.html"))
-        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_search"))
-        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_mget"))
-        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_count"))
-        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/search/**/_msearch"))
+        .requestMatchers(antPath("/scripts/**/*.js"), antPath("/scripts/**/*.html"),
+            antPath(HttpMethod.POST, "/api/search/**/_search"),
+            antPath(HttpMethod.POST, "/api/search/**/_mget"),
+            antPath(HttpMethod.POST, "/api/search/**/_count"),
+            antPath(HttpMethod.POST, "/api/search/**/_msearch"))
         .requestMatchers(HttpMethod.GET, "/api/search/**");
   }
 

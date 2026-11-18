@@ -4,10 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.amazonaws.services.cloudwatch.AmazonCloudWatchAsync;
-import com.amazonaws.services.cloudwatch.AmazonCloudWatchAsyncClientBuilder;
-import com.amazonaws.services.ecs.AmazonECS;
-import com.amazonaws.services.ecs.AmazonECSClientBuilder;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.ecs.EcsClient;
 
 /**
  * Configure the AWS API Clients.
@@ -18,12 +16,7 @@ import com.amazonaws.services.ecs.AmazonECSClientBuilder;
 
 public class AwsClientConfiguration {
   @Bean
-  AmazonECS amazonEcs() {
-    return AmazonECSClientBuilder.defaultClient();
-  }
-
-  @Bean
-  AmazonCloudWatchAsync amazonCloudWatchAsync() {
-    return AmazonCloudWatchAsyncClientBuilder.defaultClient();
+  EcsClient ecsClient() {
+    return EcsClient.builder().region(Region.EU_CENTRAL_1).build();
   }
 }

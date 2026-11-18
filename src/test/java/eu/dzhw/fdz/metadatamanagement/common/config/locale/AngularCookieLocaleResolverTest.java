@@ -27,7 +27,7 @@ public class AngularCookieLocaleResolverTest {
   @Test
   public void testResolveLocale() {
     // Arrange
-    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
+    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver("NG_TRANSLATE_LANG_KEY");
     HttpServletRequest servlet = Mockito.mock(HttpServletRequest.class);
     when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME))
       .thenReturn(Locale.GERMAN);
@@ -42,7 +42,7 @@ public class AngularCookieLocaleResolverTest {
   @Test
   public void testResolveLocaleContext() {
     // Arrange
-    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
+    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver("NG_TRANSLATE_LANG_KEY");
     HttpServletRequest servlet = Mockito.mock(HttpServletRequest.class);
     when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME))
       .thenReturn(Locale.GERMAN);
@@ -58,7 +58,7 @@ public class AngularCookieLocaleResolverTest {
   @Test
   public void testResolveLocaleWithNoLocale() {
     // Arrange
-    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
+    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver("NG_TRANSLATE_LANG_KEY");
     HttpServletRequest servlet = Mockito.mock(HttpServletRequest.class);
     when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME)).thenReturn(null);
 
@@ -72,14 +72,13 @@ public class AngularCookieLocaleResolverTest {
   @Test
   public void testResolveLocaleByCookie() {
     // Arrange
-    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
+    AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver("locale");
     HttpServletRequest servlet = Mockito.mock(HttpServletRequest.class);
     Cookie cookie = new Cookie("locale", "de");
     Cookie[] cookies = new Cookie[1];
     cookies[0] = cookie;
     when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME)).thenReturn(null);
     when(servlet.getCookies()).thenReturn(cookies);
-    resolver.setCookieName("locale");
 
     // Act
     Locale locale = resolver.resolveLocale(servlet);

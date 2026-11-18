@@ -1,0 +1,31 @@
+# The Dockerfile only needs target/app, run.sh and jvmkill.so.sha512.
+# Keep the build context small (dockerfile-maven-plugin uses the repo root as context).
+.git
+.github
+.vscode
+.idea
+.tmp
+data
+docs
+deploy
+maven-plugin
+mdm-frontend
+node_modules
+src
+testdaten
+*.zip
+target/metadatamanagement-*
+target/pmd
+target/*.xml
+target/*.txt
+target/javadoc-bundle-options
+target/classes
+target/test-classes
+target/generated-sources
+target/generated-test-sources
+target/maven-status
+target/maven-archiver
+target/surefire-reports
+target/test-results
+target/site
+target/reports

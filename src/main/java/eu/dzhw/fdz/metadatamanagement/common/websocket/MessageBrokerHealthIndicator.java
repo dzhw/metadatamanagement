@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.websocket;
 
-import org.springframework.boot.actuate.health.AbstractHealthIndicator;
-import org.springframework.boot.actuate.health.Health.Builder;
+import org.springframework.boot.health.contributor.AbstractHealthIndicator;
+import org.springframework.boot.health.contributor.Health.Builder;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

@@ -24,6 +24,10 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
 
   private static final Log logger = LogFactory.getLog(AngularCookieLocaleResolver.class);
 
+  public AngularCookieLocaleResolver(String cookieName) {
+    super(cookieName);
+  }
+
   @Override
   public Locale resolveLocale(HttpServletRequest request) {
     parseLocaleCookieIfNecessary(request);
@@ -62,5 +66,11 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
       request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME,
           locale != null ? locale : determineDefaultLocale(request));
     }
+  }
+
+  // replacement for CookieLocaleResolver#determineDefaultLocale which was removed in Spring 7
+  private Locale determineDefaultLocale(HttpServletRequest request) {
+    Locale defaultLocale = getDefaultLocale();
+    return defaultLocale != null ? defaultLocale : request.getLocale();
   }
 }
