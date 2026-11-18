@@ -6,6 +6,13 @@ import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Transient;
+import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.JsonNode;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
@@ -74,8 +81,49 @@ public class OrderedDataPackage implements Serializable {
    */
   private String approvedUsage;
 
+  @Transient
+  @JsonIgnore
+  private I18nString approvedUsageTranslations;
+
   /**
    * The DOI of a dataPackage.
    */
   private String doi;
+
+  @JsonSetter("approvedUsage")
+  void readApprovedUsage(JsonNode value) {
+    if (value != null && value.isObject()) {
+      approvedUsageTranslations = new I18nString(readText(value.get("de")), readText(value.get("en")));
+      approvedUsage = null;
+    } else {
+      approvedUsage = readText(value);
+      approvedUsageTranslations = null;
+    }
+  }
+
+  /**
+   * Select the text for the order before saving it for the DLP.
+   */
+  public void localizeApprovedUsage(String languageKey) {
+    if (approvedUsageTranslations == null) {
+      return;
+    }
+    String german = approvedUsageTranslations.getDe();
+    String english = approvedUsageTranslations.getEn();
+    boolean preferEnglish = "en".equals(languageKey);
+    String preferred = preferEnglish ? english : german;
+    String fallback = preferEnglish ? german : english;
+    approvedUsage = StringUtils.hasText(preferred) ? preferred : fallback;
+    approvedUsageTranslations = null;
+  }
+
+  private static String readText(JsonNode value) {
+    if (value == null || value.isNull()) {
+      return null;
+    }
+    if (!value.isValueNode()) {
+      throw new IllegalArgumentException("Expected text for approved usage");
+    }
+    return value.asText().trim();
+  }
 }
