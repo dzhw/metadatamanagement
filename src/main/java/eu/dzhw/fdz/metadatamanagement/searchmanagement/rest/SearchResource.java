@@ -34,6 +34,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
@@ -76,7 +77,10 @@ public class SearchResource {
       throws UnsupportedEncodingException, MalformedURLException {
         
     this.observationRegistry = observationRegistry;
-    this.connectionUrl = elasticSearchConnectionUrl;
+    // Apache HttpClient 5.6+ rejects request URIs with a userinfo component, the credentials are
+    // sent as basic auth header instead (see below)
+    this.connectionUrl = UriComponentsBuilder.fromUriString(elasticSearchConnectionUrl)
+        .userInfo(null).build().toUriString();
     URL url = new URL(elasticSearchConnectionUrl);
     restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     restTemplate.getMessageConverters().add(0,
