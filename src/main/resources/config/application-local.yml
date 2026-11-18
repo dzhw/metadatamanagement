@@ -33,6 +33,10 @@ spring:
         static-locations:
           - file:src/main/webapp/
           - classpath:dist/
+    elasticsearch:
+      rest:
+        uris:
+        - http://elastic:${ELASTIC_PASSWORD:changeme}@localhost:9200
 
 mongock:
     enabled: true
