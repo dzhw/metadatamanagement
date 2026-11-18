@@ -82,7 +82,9 @@ public class ElasticsearchClientConfiguration {
     final var restClient = RestClient.builder(HttpHost.create(host))
       .setDefaultHeaders(headers.toArray(new Header[]{}))
       .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
-        .addInterceptorLast(ElasticsearchClientConfiguration::addMissingProductHeader))
+        // explicit parameter types select the HttpResponseInterceptor overload
+        .addInterceptorLast((HttpResponse response, HttpContext ignoredContext) ->
+          addMissingProductHeader(response)))
       .build();
     final var jsonMapper = new JacksonJsonpMapper(this.objectMapper);
     final var transport = new RestClientTransport(restClient, jsonMapper);
@@ -95,7 +97,7 @@ public class ElasticsearchClientConfiguration {
    * long as they cannot be upgraded. Responses of clusters which send the header are not touched.
    * TODO remove once all clusters run Elasticsearch 7.14 or newer
    */
-  private static void addMissingProductHeader(HttpResponse response, HttpContext context) {
+  private static void addMissingProductHeader(HttpResponse response) {
     if (!response.containsHeader(ELASTIC_PRODUCT_HEADER)) {
       response.addHeader(ELASTIC_PRODUCT_HEADER, "Elasticsearch");
     }
