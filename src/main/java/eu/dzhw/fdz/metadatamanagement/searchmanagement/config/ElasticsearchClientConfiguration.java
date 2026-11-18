@@ -19,7 +19,9 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Rela
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HttpContext;
 import org.elasticsearch.client.RestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -79,11 +81,27 @@ public class ElasticsearchClientConfiguration {
 
     final var restClient = RestClient.builder(HttpHost.create(host))
       .setDefaultHeaders(headers.toArray(new Header[]{}))
+      .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
+        .addInterceptorLast(ElasticsearchClientConfiguration::addMissingProductHeader))
       .build();
     final var jsonMapper = new JacksonJsonpMapper(this.objectMapper);
     final var transport = new RestClientTransport(restClient, jsonMapper);
     return new ElasticsearchClient(transport);
   }
+
+  /**
+   * The Elasticsearch 8 Java client rejects every response without the "X-Elastic-Product" header,
+   * which Elasticsearch only sends since 7.14. Add it for older clusters (e.g. dev on 7.12.1) as
+   * long as they cannot be upgraded. Responses of clusters which send the header are not touched.
+   * TODO remove once all clusters run Elasticsearch 7.14 or newer
+   */
+  private static void addMissingProductHeader(HttpResponse response, HttpContext context) {
+    if (!response.containsHeader(ELASTIC_PRODUCT_HEADER)) {
+      response.addHeader(ELASTIC_PRODUCT_HEADER, "Elasticsearch");
+    }
+  }
+
+  private static final String ELASTIC_PRODUCT_HEADER = "X-Elastic-Product";
 
   private static class LocalDateSerializer extends JsonSerializer<LocalDate> {
     @Override
