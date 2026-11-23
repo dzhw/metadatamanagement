@@ -58,11 +58,6 @@ metadatamanagement:
     password: ${vcap.services.datacite.credentials.password}
   dlp:
     endpoint: https://stage.fdz.dzhw.eu/{language}/form/data-usage-application
-  rabbitmq:
-    uri: ${vcap.services.rabbitmq.credentials.uri}
-  websockets:
-    allowed-origins:
-      - https://test.metadata.fdz.dzhw.eu
   report-task:
     task-definition: report-task-test
     cluster-name: test

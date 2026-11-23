@@ -8,12 +8,11 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
   '$state',
   'PageMetadataService',
   'BreadcrumbService',
-  '$mdDialog',
   '$uibModal',
   'DataAcquisitionProjectRepositoryClient',
   'CommonDialogsService',
   function($scope, UserResource, ParseLinks, $state,
-    PageMetadataService, BreadcrumbService, $mdDialog, $uibModal,
+    PageMetadataService, BreadcrumbService, $uibModal,
     DataAcquisitionProjectRepositoryClient, CommonDialogsService) {
     PageMetadataService.setPageTitle('user-management.home.title');
     $scope.users = [];
@@ -135,17 +134,6 @@ angular.module('metadatamanagementApp').controller('UserManagementController', [
 
     BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
-
-    $scope.openUserMessageDialog = function(event) {
-      $mdDialog.show({
-          controller: 'UserMessageDialogController',
-          templateUrl: 'scripts/administration/' +
-            'usermanagement/user-message-dialog.html.tmpl',
-          clickOutsideToClose: false,
-          targetEvent: event,
-          fullscreen: true
-        });
-    };
 
     $scope.hideMobileKeyboardAndSearch = function ($event) {
       // reset page index

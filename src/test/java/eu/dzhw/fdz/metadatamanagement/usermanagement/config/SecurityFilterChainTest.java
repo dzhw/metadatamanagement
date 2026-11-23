@@ -115,7 +115,6 @@ public class SecurityFilterChainTest extends AbstractTest {
     mockMvc.perform(get("/api/tasks")).andExpect(status().isNotFound());
     mockMvc.perform(get("/api/shadowCopyQueueItems")).andExpect(status().isNotFound());
     mockMvc.perform(get("/api/daraUpdateQueueItems")).andExpect(status().isNotFound());
-    mockMvc.perform(get("/api/activeWebSocketSessions")).andExpect(status().isNotFound());
   }
 
   @Test

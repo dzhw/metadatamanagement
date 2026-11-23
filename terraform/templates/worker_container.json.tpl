@@ -83,10 +83,6 @@
           "value": "${mongodb_ca_cert}"
         },
         {
-          "name": "vcap_services_rabbitmq_credentials_uri",
-          "value": "${rabbitmq_uri}"
-        },
-        {
           "name": "vcap_services_seo4ajax_sitetoken",
           "value": "${site_token}"
         },

@@ -28,7 +28,6 @@ data "template_file" "web_container" {
     datacite_username = var.datacite_credentials[count.index].username
     datacite_password = var.datacite_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
-    rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
     mongodb_ca_cert   = var.mongodb_ca_certs[count.index]
     email_hostname    = var.email_credentials[count.index].hostname
@@ -102,7 +101,6 @@ data "template_file" "worker_container" {
     datacite_username = var.datacite_credentials[count.index].username
     datacite_password = var.datacite_credentials[count.index].password
     elasticsearch_uri = var.elasticsearch_uris[count.index]
-    rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
     mongodb_ca_cert   = var.mongodb_ca_certs[count.index]
     email_hostname    = var.email_credentials[count.index].hostname

@@ -52,11 +52,6 @@ metadatamanagement:
     endpoint: ${vcap.services.datacite.credentials.endpoint}
     username: ${vcap.services.datacite.credentials.username}
     password: ${vcap.services.datacite.credentials.password}
-  rabbitmq:
-    uri: ${vcap.services.rabbitmq.credentials.uri}
-  websockets:
-    allowed-origins:
-      - https://dev.metadata.fdz.dzhw.eu
   report-task:
     task-definition: report-task-dev
     cluster-name: dev

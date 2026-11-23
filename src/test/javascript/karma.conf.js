@@ -52,8 +52,6 @@ module.exports = function(config) {
       'node_modules/blob-polyfill/Blob.js',
       'node_modules/angular-file-saver/dist/angular-file-saver.bundle.js',
       'node_modules/clientjs/dist/client.min.js',
-      'node_modules/sockjs-client/dist/sockjs.js',
-      'node_modules/stomp-websocket/lib/stomp.min.js',
       'node_modules/es5-shim/es5-shim.js',
       'node_modules/es5-shim/es5-sham.js',
       'node_modules/es6-shim/es6-shim.js',

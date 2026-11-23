@@ -77,9 +77,6 @@ metadatamanagement:
     endpoint: ${DATACITE_ENDPOINT}
     username: ${DATACITE_USERNAME}
     password: ${DATACITE_PASSWORD}
-  websockets:
-    allowed-origins:
-      - "localhost"
 
 logbook:
   filter.enabled: false
