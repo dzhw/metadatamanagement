@@ -119,10 +119,6 @@ angular.module('metadatamanagementApp').config([
             'introduction': {
               'i18n-string-size': 'The max length of the introduction is 2048 signs.'
             },
-            'type': {
-              'not-null': 'The type of the question must not be empty.',
-              'valid-question-type': 'The type of the question has an invalid value or is inconsistent between the languages.'
-            },
             'additional-question-text': {
               'i18n-string-size': 'The max length of the additional question text is 1048576 signs.'
             },

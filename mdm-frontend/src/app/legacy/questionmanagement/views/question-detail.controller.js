@@ -113,7 +113,7 @@ angular.module('metadatamanagementApp')
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
-            'instrumentNumber', 'questionText', 'type', 'masterId', 'shadow',
+            'instrumentNumber', 'questionText', 'masterId', 'shadow',
             'number', 'dataAcquisitionProjectId', 'instrument.description',
             'release'],
             0, 100)
@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp')
           });
           if (ctrl.question.successors) {
             QuestionSearchService.findAllSuccessors(ctrl.question.successors,
-              ['id', 'instrumentNumber', 'questionText', 'type',
+              ['id', 'instrumentNumber', 'questionText',
               'number', 'dataAcquisitionProjectId', 'masterId', 'shadow',
               'instrument.description', 'release'], 0, 100)
             .then(function(successors) {

@@ -305,7 +305,8 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static TechnicalRepresentation buildTechnicalRepresentation() {
-    return TechnicalRepresentation.builder().language("TR Language").source("Technical Representation Source").build();
+    return TechnicalRepresentation.builder().language("TR Language")
+        .type("Technical Representation Type").source("Technical Representation Source").build();
   }
 
   public static Question buildQuestion(String projectId, Integer instrumentNumber,

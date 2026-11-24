@@ -233,10 +233,6 @@ angular.module('metadatamanagementApp')
             boolQuery.should.push(createConstantScoreQuery(
               'number.edge_ngrams', queryTerm, standardSuperBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'type.de.ngrams', queryTerm, germanMajorBoost));
-            boolQuery.should.push(createConstantScoreQuery(
-              'type.en.ngrams', queryTerm, englishMajorBoost));
-            boolQuery.should.push(createConstantScoreQuery(
               'questionText.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'questionText.en.ngrams', queryTerm, englishMinorBoost));

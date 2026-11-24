@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,7 +58,10 @@ public class ElasticsearchClientConfiguration {
 
     this.objectMapper = new ObjectMapper()
       .registerModule(customMdmModule)
-      .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+      .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+      // documents in existing indices may still contain fields which have been removed from the
+      // domain model (until the indices are recreated)
+      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   @Value("${spring.elasticsearch.rest.uris[0]}")
