@@ -26,8 +26,6 @@ angular.module('metadatamanagementApp').config([
             'dara': 'Dara',
             'daraPid': 'Dara PID Registrierung',
             'dataCite': 'DataCite DOI Registrierung',
-            'messageBroker': 'Message Broker (für Websockets)',
-            'rabbit': 'RabbitMQ',
             'seo4Ajax': 'Seo4Ajax (Prerender as a Service)',
             'pid': 'PID'
           },

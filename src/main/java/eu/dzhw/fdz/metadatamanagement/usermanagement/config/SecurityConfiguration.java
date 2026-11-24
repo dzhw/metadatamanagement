@@ -41,7 +41,7 @@ public class SecurityConfiguration {
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return web -> web.ignoring()
-        .requestMatchers("/node_modules/**", "/websocket/**",
+        .requestMatchers("/node_modules/**",
             "/i18n/**", "/assets/**", "/api/register", "/api/activate",
             "/api/account/reset-password/init", "/api/account/reset-password/finish",
             "/management/info")

@@ -31,7 +31,7 @@ public class RestRepositoryConfigurer implements RepositoryRestConfigurer {
     config.setExposeRepositoryMethodsByDefault(true);
 
     // Only export repositories annotated with @RepositoryRestResource. This hides the internal
-    // repositories (task, queue and websocket-session repositories) which would otherwise be
+    // repositories (task and queue repositories) which would otherwise be
     // exported with full CRUD to any authenticated user.
     config.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
 

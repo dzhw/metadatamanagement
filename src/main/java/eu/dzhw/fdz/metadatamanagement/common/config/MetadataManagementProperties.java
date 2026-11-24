@@ -1,12 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,10 +28,6 @@ public class MetadataManagementProperties {
   private final DataCite dataCite = new DataCite();
 
   private final Dlp dlp = new Dlp();
-
-  private final Rabbitmq rabbitmq = new Rabbitmq();
-
-  private final Websockets websockets = new Websockets();
 
   private final Mongodb mongodb = new Mongodb();
 
@@ -123,58 +113,6 @@ public class MetadataManagementProperties {
   @Setter
   public static class Mongodb {
     private String sslCaCertificate;
-  }
-
-  /**
-   * Configuration Properties for RabbitMQ (ignored in LOCAL mode).
-   */
-  @Getter
-  public static class Rabbitmq {
-    private String uri;
-    private String username;
-    private String password;
-    private String host;
-    private String virtualHost;
-
-    /**
-     * Set the uri and decode its components.
-     * @param uri connection uri of the rabbitmq service
-     */
-    public void setUri(String uri) {
-      this.uri = uri;
-      UriComponents uriComponents = UriComponentsBuilder.fromUriString(uri).build();
-      this.host = uriComponents.getHost();
-      this.virtualHost = Optional.of(uriComponents.getPath()).orElse("").replaceFirst("/", "");
-      this.username = Optional.of(uriComponents.getUserInfo()).orElse("").split(":")[0];
-      this.password = Optional.of(uriComponents.getUserInfo()).orElse("").split(":")[1];
-    }
-
-    public String getUsername() {
-      return username;
-    }
-
-    public String getPassword() {
-      return password;
-    }
-
-    public String getHost() {
-      return host;
-    }
-
-    public String getVirtualHost() {
-      return virtualHost;
-    }
-  }
-
-  /**
-   * Allowed origins for web socket connections.
-   *
-   * @author René Reitmann
-   */
-  @Getter
-  @Setter
-  public static class Websockets {
-    private List<String> allowedOrigins = new ArrayList<String>();
   }
 
   /**

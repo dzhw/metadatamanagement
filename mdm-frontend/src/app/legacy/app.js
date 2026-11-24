@@ -31,17 +31,15 @@ try {
       '$transitions',
       '$timeout',
       '$window',
-      'WebSocketService',
       '$urlRouter',
       '$translate',
       'MigrationService',
       '$browser',
       function($rootScope, $location, $state, LanguageService, Auth, Principal,
         ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-        WebSocketService, $urlRouter, $translate, MigrationService, $browser) {
+        $urlRouter, $translate, MigrationService, $browser) {
         // sometimes urlRouter does not load the state automatically on startup
         $urlRouter.sync();
-        WebSocketService.connect();
         $rootScope.bowser = bowser;
         // set baseUrl in case someone needs absolute urls
         if (ENV === 'local') {
