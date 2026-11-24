@@ -42,7 +42,6 @@ angular.module('metadatamanagementApp').config([
             'question': 'Frage',
             'questions': 'Fragen',
             'annotations': 'Anmerkungen',
-            'type': 'Fragetyp',
             'topic': 'Thema',
             'instruction': 'Anleitung',
             'introduction': 'Einführung',
@@ -119,10 +118,6 @@ angular.module('metadatamanagementApp').config([
             },
             'introduction': {
               'i18n-string-size': 'Die Maximallänge der Einleitung ist 2048 Zeichen.'
-            },
-            'type': {
-              'not-null': 'Der Typ der Frage darf nicht leer sein.',
-              'valid-question-type': 'Der Typ der Frage verwendet entweder nicht die gültigen Werte oder ist zwischen den Sprachen inkonsistent.'
             },
             'additional-question-text': {
               'i18n-string-size': 'Die Maximallänge des zusätzlichen Fragetextes ist 1048576 Zeichen.'

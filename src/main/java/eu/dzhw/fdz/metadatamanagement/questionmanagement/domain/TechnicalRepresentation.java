@@ -29,7 +29,7 @@ public class TechnicalRepresentation implements Serializable {
 
   /**
    * The type of the technical representation. E.g. "zofar".
-   * 
+   *
    * Must not be empty and must not contain more than 32 characters.
    */
   @NotEmpty(message = "question-management.error.technical-representation.type.not-empty")

@@ -27,7 +27,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedDataPackage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionIdName;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidUniqueQuestionNumber;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -166,15 +165,6 @@ public class Question extends AbstractShadowableRdcDomainObject {
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.question.introduction.i18n-string-size")
   private I18nString introduction;
-
-  /**
-   * The type of the question.
-   * 
-   * Must be one of QuestionTypes and must not be empty.
-   */
-  @NotNull(message = "question-management.error.question.type.not-null")
-  @ValidQuestionType(message = "question-management.error.question.type.valid-question-type")
-  private I18nString type;
 
   /**
    * Arbitrary additional question text which has been presented to the participant.

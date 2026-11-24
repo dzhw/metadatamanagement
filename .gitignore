@@ -146,3 +146,8 @@ Desktop.ini
 # KDE
 ######
 .directory
+
+######
+# local sample data
+######
+sampledata
