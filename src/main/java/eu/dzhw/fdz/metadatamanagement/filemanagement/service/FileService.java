@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort.Direction;
@@ -46,7 +46,7 @@ public class FileService {
   @PostConstruct
   protected void setupFileNameIndex() {
     mongoOperations.indexOps("fs.files")
-        .ensureIndex(new Index().on("filename", Direction.ASC).unique());
+        .createIndex(new Index().on("filename", Direction.ASC).unique());
   }
 
   /**

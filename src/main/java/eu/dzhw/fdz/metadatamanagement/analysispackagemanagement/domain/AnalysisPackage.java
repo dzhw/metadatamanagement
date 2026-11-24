@@ -2,11 +2,11 @@ package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain;
 
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validatio
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -158,7 +159,7 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
       message = "analysis-package-management.error.analysis-package.institution.i18n-string-size")
       @I18nStringEntireNotEmpty(
           message = "analysis-package-management.error.analysis-package.institution"
-              + ".i18n-string-entire-not-empty") I18nString> institutions;
+              + ".i18n-string-entire-not-empty") Institution> institutions;
 
   /**
    * List of {@link Sponsor}s which have sponsored this data package.

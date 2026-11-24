@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskType;
 import lombok.AllArgsConstructor;

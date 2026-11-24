@@ -37,7 +37,14 @@ angular.module('metadatamanagementApp')
             return $http.get('api/data-packages/exportDDI/xml/' + dataPackageId).then(function(response) {
               return response.data;
             });
-        }
+        },
+      exportAllVariablesAsZip: function() {
+        return $http.get('/api/data-packages/exportDDI/zip/all', {
+          responseType: 'arraybuffer'
+        }).then(function(response) {
+          return response.data;
+        });
+      }
     }
   }]);
 

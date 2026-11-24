@@ -255,7 +255,7 @@ public class VariableManagementService implements CrudService<Variable> {
         .headers(headers)
         .body(resource);
     } catch (IOException ex) {
-      return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 

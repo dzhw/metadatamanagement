@@ -10,14 +10,31 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.restclient.observation.ObservationRestTemplateCustomizer;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.observation.DefaultClientRequestObservationConvention;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Elsst;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
@@ -32,24 +49,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import freemarker.template.TemplateException;
-import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.observation.ObservationRegistry;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.metrics.AutoTimer;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * A service for registering project metadata at DataCite.
@@ -64,6 +65,10 @@ public class DataCiteService {
   private final String MDM_ANALYSIS_PACKAGE_TYPE = "analysis-packages";
   private static final String IS_ALIVE_ENDPOINT = "/heartbeat";
   private static final String REGISTRATION_ENDPOINT = "/dois";
+  // ELSST thesaurus version, checked by scripts/check-elsst-version.js
+  static final String ELSST_VERSION = "elsst-7";
+  private static final String ELSST_SCHEME_URI = "https://thesauri.cessda.eu/" + ELSST_VERSION + "/en/";
+  private static final String ELSST_BASE_URI = ELSST_SCHEME_URI + "page/";
 
   @Autowired
   private DataPackageRepository dataPackageRepository;
@@ -96,13 +101,12 @@ public class DataCiteService {
    * Constructor for DataCite Services. Set the Rest Template.
    */
   @Autowired
-  public DataCiteService(MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider) {
+  public DataCiteService(ObservationRegistry observationRegistry) {
     this.restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     this.restTemplate.getMessageConverters().add(0,
-      new StringHttpMessageConverter(Charset.forName("UTF-8")));
-    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-      tagProvider, "datacite.client.requests", AutoTimer.ENABLED);
-    customizer.customize(this.restTemplate);
+        new StringHttpMessageConverter(Charset.forName("UTF-8")));
+    new ObservationRestTemplateCustomizer(observationRegistry,
+        new DefaultClientRequestObservationConvention()).customize(this.restTemplate);
   }
 
 
@@ -597,7 +601,8 @@ public class DataCiteService {
    * @param institutions list of institutions
    * @return a list of maps of key value pairs filled with metadata of the creators
    */
-  private List<Map<String, Object>> createCreatorsList(List<Person> creators, List<I18nString> institutions) {
+  private List<Map<String, Object>> createCreatorsList(List<Person> creators,
+      List<Institution> institutions) {
     List<Map<String, Object>> creatorsList = new ArrayList<>();
     for (Person person : creators) {
       Map<String, Object> creatorObject = new HashMap<>();
@@ -609,11 +614,12 @@ public class DataCiteService {
         " " + person.getMiddleName() : ""));
       creatorObject.put("familyName", person.getLastName());
       creatorObject.put("nameIdentifiers", this.createCreatorNameIdentifierList(person));
-      creatorObject.put("affiliation", institutions != null && institutions.size() == 1 ? this.createCreatorAffiliationList(institutions) : new ArrayList<>());
+      List<Institution> personInstitutions = person.getInstitutions();
+      creatorObject.put("affiliation", personInstitutions != null && personInstitutions.size() == 1 ? this.createCreatorAffiliationList(personInstitutions) : new ArrayList<>());
       creatorsList.add(creatorObject);
     }
     if (institutions != null) {
-      for (I18nString institution : institutions) {
+      for (Institution institution : institutions) {
         Map<String, Object> creatorObject = new HashMap<>();
         creatorObject.put("name", institution.getEn() != null ? institution.getEn() : institution.getDe());
         creatorObject.put("nameType", "Organizational");
@@ -648,13 +654,17 @@ public class DataCiteService {
    * @param institutions
    * @return a list of affiliation objects
    */
-  private List<Map<String, String>>  createCreatorAffiliationList(List<I18nString> institutions) {
+  private List<Map<String, String>>  createCreatorAffiliationList(
+      List<Institution> institutions) {
     List<Map<String, String>> affiliationList = new ArrayList<>();
     if (institutions != null) {
-      for (I18nString institution : institutions) {
+      for (Institution institution : institutions) {
         if (institution.getEn() != null) {
           Map<String, String> affiliationObj = new HashMap<>();
           affiliationObj.put("name", institution.getEn());
+          affiliationObj.put("affiliationIdentifier", institution.getRor() != null ? institution.getRor() : "");
+          affiliationObj.put("affiliationIdentifierScheme", institution.getRor() != null ? "ROR" : "");
+          affiliationObj.put("schemeUri", institution.getRor() != null ? "https://ror.org/" : "");
           affiliationList.add(affiliationObj);
         }
       }
@@ -823,9 +833,8 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
         subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
-        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-4/en/");
-        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-4/en/page/";
-        subject.put("valueUri", elsstBaseUri + tag.getLocalname());
+        subject.put("schemeUri", ELSST_SCHEME_URI);
+        subject.put("valueUri", ELSST_BASE_URI + tag.getLocalname());
         subject.put("lang", "en");
         subjectsList.add(subject);
       }
@@ -836,9 +845,8 @@ public class DataCiteService {
         Map<String, String> subject = new HashMap<>();
         subject.put("subject", tag.getPrefLabel());
         subject.put("subjectScheme", "CESSDA European Language Social Science Thesaurus (ELSST)");
-        subject.put("schemeUri", "https://thesauri.cessda.eu/elsst-4/en/");
-        String elsstBaseUri = "https://thesauri.cessda.eu/elsst-4/en/page/";
-        subject.put("valueUri", elsstBaseUri + tag.getLocalname());
+        subject.put("schemeUri", ELSST_SCHEME_URI);
+        subject.put("valueUri", ELSST_BASE_URI + tag.getLocalname());
         subject.put("lang", "de");
         subjectsList.add(subject);
       }

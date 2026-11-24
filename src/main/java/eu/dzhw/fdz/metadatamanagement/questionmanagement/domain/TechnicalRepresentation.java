@@ -2,8 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import org.javers.core.metamodel.annotation.ValueObject;
 

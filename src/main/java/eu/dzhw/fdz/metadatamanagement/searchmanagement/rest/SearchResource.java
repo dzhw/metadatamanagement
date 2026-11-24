@@ -2,20 +2,16 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.AutoTimer;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.boot.restclient.observation.ObservationRestTemplateCustomizer;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +19,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.observation.DefaultClientRequestObservationConvention;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
@@ -36,13 +34,15 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.observation.ObservationRegistry;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -63,6 +63,8 @@ public class SearchResource {
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
+  private final ObservationRegistry observationRegistry;
+
   /**
    * Create the search proxy with the given elasticsearch host url.
    *
@@ -71,10 +73,14 @@ public class SearchResource {
   @Autowired
   @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
   public SearchResource(
-      @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl,
-      MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider)
+      @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl, ObservationRegistry observationRegistry)
       throws UnsupportedEncodingException, MalformedURLException {
-    this.connectionUrl = elasticSearchConnectionUrl;
+        
+    this.observationRegistry = observationRegistry;
+    // Apache HttpClient 5.6+ rejects request URIs with a userinfo component, the credentials are
+    // sent as basic auth header instead (see below)
+    this.connectionUrl = UriComponentsBuilder.fromUriString(elasticSearchConnectionUrl)
+        .userInfo(null).build().toUriString();
     URL url = new URL(elasticSearchConnectionUrl);
     restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     restTemplate.getMessageConverters().add(0,
@@ -85,16 +91,16 @@ public class SearchResource {
       byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
       base64Credentials = new String(base64CredsBytes, "UTF-8");
     }
+
     // prevent throwing exception on error codes
     restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
       @Override
-      protected boolean hasError(HttpStatus statusCode) {
+      public boolean hasError(ClientHttpResponse clientResponse) {
         return false;
       }
     });
-    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-        tagProvider, "elasticsearch.client.requests", AutoTimer.ENABLED);
-    customizer.customize(restTemplate);
+
+    new ObservationRestTemplateCustomizer(observationRegistry, new DefaultClientRequestObservationConvention()).customize(this.restTemplate);
   }
 
   /**
@@ -118,12 +124,30 @@ public class SearchResource {
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String queryString = request.getQueryString();
     String path = completePath.replaceFirst("/api/search", "");
+
+    // Only forward the read operations the frontend needs. This prevents anyone (the search proxy
+    // is reachable anonymously) from reaching administrative or destructive Elasticsearch APIs.
+    if (!SearchProxyAllowlist.isAllowed(method, path)) {
+      log.warn("Rejected search proxy request: {} {}", method, path);
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).cacheControl(CacheControl.noStore())
+          .body("{\"error\":\"forbidden\"}");
+    }
+
     String url = connectionUrl + path;
     if (!StringUtils.isEmpty(queryString)) {
-      url = url + "?" + URLDecoder.decode(queryString, "UTF-8");
+      url = url + "?" + queryString;
     }
+    URI elasticsearchUri = new URI(url);
     ResponseEntity<String> responseFromElasticSearch =
-        restTemplate.exchange(url, method, new HttpEntity<>(body, headers), String.class);
+        restTemplate.exchange(elasticsearchUri, method, new HttpEntity<>(body, headers), String.class);
+    
+    if(responseFromElasticSearch.getStatusCode().is4xxClientError()) {
+      log.debug("Error while calling elasticsearch: " + url);
+      log.debug(method.toString());
+      log.debug(body);
+      log.debug(headers.toString());
+      log.debug(responseFromElasticSearch.getBody());
+    }
 
     return ResponseEntity.status(responseFromElasticSearch.getStatusCode())
         .cacheControl(CacheControl.noStore()).body(responseFromElasticSearch.getBody());

@@ -9,7 +9,7 @@ function($stateProvider, $urlRouterProvider) {
         SimpleMessageToastService, id, version, excludes) {
       var loadLatestShadowCopyFallback = function() {
         return DataPackageSearchService.findShadowByIdAndVersion(id, null,
-          excludes).promise.then(function(result) {
+          excludes, true).promise.then(function(result) {
             if (result) {
               return result;
             } else {
@@ -21,7 +21,7 @@ function($stateProvider, $urlRouterProvider) {
       };
 
       return DataPackageSearchService.findShadowByIdAndVersion(id, version,
-        excludes).promise.then(function(result) {
+        excludes, true).promise.then(function(result) {
           if (result) {
             return result;
           } else {

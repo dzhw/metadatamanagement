@@ -97,6 +97,8 @@ angular.module('metadatamanagementApp').config([
           'ok': 'OK',
           'save': 'Speichern',
           'cancel': 'Abbrechen',
+          'show-more': 'Mehr anzeigen',
+          'show-less': 'Weniger anzeigen',
           'closeDialogTemporarily': 'Jetzt nicht!'
         },
         'tooltips': {
@@ -483,6 +485,32 @@ angular.module('metadatamanagementApp').config([
             'yes': 'Ja',
             'no': 'Nein'
           }
+        },
+        'institutions':{
+          'edit': {
+            'label': {   
+              'search-ror': 'ROR suchen',
+              'delete-ror': 'ROR löschen',
+              'name': 'Name der Institution',
+              'ror': 'ROR'
+            },
+            'tooltip': {
+              'search-ror': 'Klicken, um eine ROR zu der Institution zu suchen.',
+              'delete-ror': 'Klicken, um die ROR zu löschen.'
+            },
+            'hint': {
+              'ror': 'Sobald Sie den Namen der Institution angegeben haben, können Sie eine ROR nach dem Namen suchen.'
+            },
+            'ror-search': {
+              'title': 'ROR suchen',
+              'cancel-tooltip': 'Klicken, um den Dialog, ohne eine ROR auszuwählen, zu schließen.',
+              'results-found-text': 'Die folgenden Einträge wurden bei ROR.org gefunden (Suchparameter: Name={{ nameDe }}, {{ nameEn }}):',
+              'no-results-found-text': 'Es wurden keine Einträge bei ROR.org gefunden (Suchparameter: Name={{ nameDe }}, {{ nameEn }}).',
+              'select': 'Übernehmen',
+              'select-tooltip': 'Klicken, um diese ROR zu übernehmen.',
+              'select-ror': 'ROR übernehmen'
+            }
+          }   
         },
         'people': {
           'edit': {

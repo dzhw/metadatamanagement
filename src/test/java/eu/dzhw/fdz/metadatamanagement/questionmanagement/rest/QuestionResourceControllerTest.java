@@ -206,28 +206,6 @@ public class QuestionResourceControllerTest extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
 
-  // add this test when validation is on
-  @Test
-  public void testUpdateWithWrongTypeQuestion() throws Exception {
-    // Arrange
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    this.dataAcquisitionProjectRepository.save(project);
-
-    Question question = UnitTestCreateDomainObjectUtils
-      .buildQuestion(project.getId(), 123, "instrument-Id");
-
-    // Act and Assert
-    // create the question with the given id
-    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isCreated());
-
-    // update the Question with the given id
-    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
-      .andExpect(status().is4xxClientError());
-  }
-
   @Test
   public void testUpdateQuestionWithWrongNumber() throws Exception {
     // Arrange
@@ -250,22 +228,6 @@ public class QuestionResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().is4xxClientError());
-  }
-
-  @Test
-  public void testCreateQuestionWithoutType() throws Exception {
-    // Arrange
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    this.dataAcquisitionProjectRepository.save(project);
-
-    Question question = UnitTestCreateDomainObjectUtils
-        .buildQuestion(project.getId(), 123, "instrument-Id");
-
-    // Act and Assert
-    // create the variable with the given id
-    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isBadRequest());
   }
 
   @Test

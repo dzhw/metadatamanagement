@@ -87,6 +87,7 @@ angular.module('metadatamanagementApp')
         }
       };
       var ctrl = this;
+      var KEYWORD_PREVIEW_LIMIT = 10;
       var bowser = $rootScope.bowser;
 
       ctrl.dataPackageList = {
@@ -107,12 +108,38 @@ angular.module('metadatamanagementApp')
       ctrl.scriptAttachments = [];
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
+      ctrl.keywordSectionsExpanded = {};
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
         publicationsCount: 0
       };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+
+      ctrl.hasKeywordToggle = function(keywords) {
+        return Array.isArray(keywords) &&
+          keywords.length > KEYWORD_PREVIEW_LIMIT;
+      };
+
+      ctrl.isKeywordSectionExpanded = function(section) {
+        return !!ctrl.keywordSectionsExpanded[section];
+      };
+
+      ctrl.getVisibleKeywords = function(section, keywords) {
+        if (!Array.isArray(keywords)) {
+          return [];
+        }
+        if (ctrl.isKeywordSectionExpanded(section) ||
+            keywords.length <= KEYWORD_PREVIEW_LIMIT) {
+          return keywords;
+        }
+        return keywords.slice(0, KEYWORD_PREVIEW_LIMIT);
+      };
+
+      ctrl.toggleKeywordSection = function(section) {
+        ctrl.keywordSectionsExpanded[section] =
+          !ctrl.keywordSectionsExpanded[section];
+      };
 
       /**
        * Method for loading attachments
@@ -350,4 +377,3 @@ angular.module('metadatamanagementApp')
         })
       };
     }]);
-

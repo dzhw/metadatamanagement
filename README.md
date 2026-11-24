@@ -97,6 +97,38 @@ mongodb dump, then you need to setup/reindex the elasticsearch indices. Therefor
 go to `Administration` on the left, navigate to `External Services` and then
 click the red button `Reindex` for the Elasticsearch service. Reindexing can take up to 1 hour.
 
+## Maintaining ELSST
+
+Check the current ELSST release before every MDM release and whenever CESSDA announces a new
+ELSST version: https://elsst.cessda.eu/releases.
+
+The GitHub Actions workflow `.github/workflows/check-elsst-version.yml` checks this monthly,
+can be started manually, and also runs on pull requests touching the ELSST integration files.
+If the scheduled monthly check fails, it opens one GitHub issue named `ELSST version check failed`
+and fails the workflow run.
+
+If the current ELSST version changed, update the MDM integration in these places:
+
+1. `mdm-frontend/src/app/legacy/common/i18n/directives/tageditor/elsst-search.service.js`
+   - update the `vocab=elsst-*` parameter used for ELSST searches.
+2. `mdm-frontend/src/app/legacy/common/i18n/directives/tageditor/tag-editor-elsst.controller.js`
+   - update the ELSST detail page URL.
+3. `src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/service/DataCiteService.java`
+   - update the DataCite `schemeUri` and ELSST `valueUri` base URL.
+4. `mdm-frontend/src/app/legacy/datapackagemanagement/configuration/translations-de.js`
+   and `mdm-frontend/src/app/legacy/datapackagemanagement/configuration/translations-en.js`
+   - update the ELSST info text if the release notes require wording changes.
+
+After updating, search the repository for the previous version string, for example `elsst-4`,
+and verify that no active integration URL still points to the old ELSST version.
+
+Manual verification:
+
+1. Search for an ELSST keyword in the MDM tag editor.
+2. Open an ELSST keyword detail link from the MDM UI.
+3. Check that DataCite metadata for a data package with ELSST keywords contains the current
+   ELSST URLs.
+
 If you want to build a docker image for the metadatamanagement server app you can run
 
     mvn deploy

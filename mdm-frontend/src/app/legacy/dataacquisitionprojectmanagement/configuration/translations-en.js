@@ -311,6 +311,7 @@ angular.module('metadatamanagementApp').config([
             'next': 'Click to show next projects',
             'current': 'Click to show projects on page {{number}}'
           },
+          'exportall': 'Export Metadata',
           'filter-label': {
             'assigneeGroup': 'Assigned to',
             'releaseState': 'Release state',

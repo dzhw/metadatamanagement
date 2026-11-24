@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.validation.AccessWayNotEmptyForDataPackage;

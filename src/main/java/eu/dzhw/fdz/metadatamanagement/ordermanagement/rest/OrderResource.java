@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.projection.ProjectionFactory;
@@ -170,7 +170,7 @@ public class OrderResource {
   private String getDlpUrl(String orderId, String language) {
     Map<String, String> pathVariables = new HashMap<>();
     pathVariables.put("language", language);
-    return UriComponentsBuilder.fromHttpUrl(dlpUrl).queryParam("mdm_order_id", orderId)
+    return UriComponentsBuilder.fromUriString(dlpUrl).queryParam("mdm_order_id", orderId)
         .buildAndExpand(pathVariables).toUriString();
   }
 

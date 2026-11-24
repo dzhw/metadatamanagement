@@ -134,6 +134,11 @@ angular.module('metadatamanagementApp').config([
           'export-ddi-variables': 'Variablenmetadaten exportieren',
           'export-ddi-variables-tooltip': 'Klicken, um die Variablen-Metadaten als DDI-Codebook-XML herunterzuladen.'
         },
+        'citation-guideline-dialog': {
+          'title': 'Zitationsleitfaden',
+          'message': 'Bitte bestätigen Sie, dass Sie den <a href="https://www.fdz.dzhw.eu/sites/default/files/data/documente/Citation_Guideline_for_Data_Users.pdf" target="_blank" rel="noopener noreferrer">Zitationsleitfaden</a> gelesen haben. Bei Fragen melden Sie sich bitte bei <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.',
+          'confirmation': 'Ich bestätige, dass ich die Informationen zur Zitation der Datenpakete gelesen habe.'
+        },
         'version-info': {
           'title': 'Eine Version auswählen',
           'content': '<p style="margin-bottom: 0px;">Unsere Datenpakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen am Datensatz (abgesehen von Änderungen der Variablenlabels)</li><li>Zweite Stelle (Minor): Label ändern sich, Metadatenänderungen wie Hinzufügen weiterer Fragen oder Änderungen der Metadaten/Dokumentation, die Auswirkungen auf die Analyse haben.</li><li>Dritte Stelle (Patch): Zusätzliche Datensatzformate werden bereitgestellt, Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer:innen ist die aktuellste Version der Daten relevant.</strong>',

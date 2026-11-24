@@ -2,11 +2,11 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain;
 
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import org.javers.core.metamodel.annotation.Entity;
 import org.javers.core.metamodel.annotation.TypeName;
@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -132,7 +133,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
       message = "data-package-management.error.data-package.institution.i18n-string-size")
                @I18nStringEntireNotEmpty(
       message = "data-package-management.error.data-package.institution"
-              + ".i18n-string-entire-not-empty") I18nString> institutions;
+              + ".i18n-string-entire-not-empty") Institution> institutions;
 
   /**
    * The name of the series of dataPackages to which this dataPackage belongs.
@@ -149,6 +150,20 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
       message = "data-package-management.error.data-package.study-series."
           + "i18n-string-must-not-contain-comma")
   private I18nString studySeries;
+
+  /**
+   * The parent study to which this data package belongs, in German and English.
+   * If specified, both names are required, with at most 512 characters and no commas.
+   */
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "data-package-management.error.data-package.parent-study.i18n-string-size")
+  @I18nStringEntireNotEmptyOptional(
+      message = "data-package-management.error.data-package.parent-study"
+          + ".i18n-string-entire-not-empty-optional")
+  @I18nStringMustNotContainComma(
+      message = "data-package-management.error.data-package.parent-study."
+          + "i18n-string-must-not-contain-comma")
+  private I18nString parentStudy;
 
   /**
    * List of {@link Sponsor}s which have sponsored this data package.

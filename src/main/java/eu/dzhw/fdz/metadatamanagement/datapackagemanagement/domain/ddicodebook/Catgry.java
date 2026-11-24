@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.ddicodebook;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-
+import jakarta.xml.bind.annotation.XmlElement;
 import lombok.AllArgsConstructor;
 
 /**
@@ -17,7 +16,7 @@ public class Catgry {
    */
   public Catgry() {}
 
-  @XmlElement(name = "catValu")
+  @XmlElement (name = "catValu")
   String catValu;
 
   @XmlElement(name = "labl")

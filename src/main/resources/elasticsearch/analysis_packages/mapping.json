@@ -442,6 +442,17 @@
 							"type": "keyword"
 						}
 					}
+				},
+				"parentStudy": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
 				}
 			}
 		},

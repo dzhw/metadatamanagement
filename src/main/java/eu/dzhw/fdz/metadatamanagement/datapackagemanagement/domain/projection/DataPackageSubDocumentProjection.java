@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Institution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Sponsor;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
@@ -19,9 +20,11 @@ public interface DataPackageSubDocumentProjection
 
   I18nString getStudySeries();
 
+  I18nString getParentStudy();
+
   I18nString getTitle();
 
-  List<I18nString> getInstitutions();
+  List<Institution> getInstitutions();
 
   List<Sponsor> getSponsors();
 

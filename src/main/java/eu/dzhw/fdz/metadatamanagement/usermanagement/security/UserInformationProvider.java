@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 

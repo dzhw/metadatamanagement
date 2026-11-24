@@ -168,7 +168,7 @@ angular.module('metadatamanagementApp').config([
             'not-empty-generation-details-description-or-rule': 'Es muss bei der Regelgenerierung mind. die Regel oder die Beschreibung gesetzt sein.',
             'rule-expression-language-and-rule-filled-or-empty': 'Die Generierungsregel und die dazugehörige Sprachen müssen beide gefüllt sein oder leer sein.',
             'description': {
-              'i18n-string-size': 'Die Maximallänge der Beschreibung der Regelgenerierung der Variable ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Beschreibung der Regelgenerierung der Variable ist 5000 Zeichen je Sprachversion. Zeilenumbrüche werden mitgezählt.'
             },
             'rule': {
               'size': 'Die Maximallänge der Generierungsregel ist 1048576 Zeichen.'

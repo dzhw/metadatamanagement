@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service;
 
-import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisP
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericDomainObjectVersionsService;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Service responsible for retrieving an initializing the analysis package history.
@@ -31,7 +31,7 @@ public class AnalysisPackageVersionsService
    * Init Javers with all current analysis packages if there are no analysis package commits in
    * Javers yet.
    */
-  @PostConstruct
+  @PostConstruct 
   public void initJaversForDataPackages() {
     super.initJaversWithCurrentVersions();
   }

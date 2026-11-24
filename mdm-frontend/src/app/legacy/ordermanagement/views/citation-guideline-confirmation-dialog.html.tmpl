@@ -1,0 +1,43 @@
+<md-dialog
+  aria-label="{{'shopping-cart.citation-guideline-dialog.title' | translate}}"
+  layout="column"
+  class="ms-flex"
+  flex="50">
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+      <h2 class="fdz-truncate-string">
+        <span>{{'shopping-cart.citation-guideline-dialog.title' | translate}}</span>
+      </h2>
+      <md-button
+        class="md-icon-button"
+        ng-click="cancel()"
+        aria-label="{{'global.entity.action.cancel' | translate}}">
+        <md-icon md-font-set="material-icons">clear</md-icon>
+        <md-tooltip
+          md-direction="top"
+          md-autohide="true"
+          md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+          {{'global.dialog.tooltip.close' | translate}}
+        </md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-divider></md-divider>
+  <md-dialog-content layout-padding flex layout="column" class="ms-flex">
+    <p data-translate="shopping-cart.citation-guideline-dialog.message"></p>
+    <md-checkbox ng-model="guidelineRead">
+      {{'shopping-cart.citation-guideline-dialog.confirmation' | translate}}
+    </md-checkbox>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <md-button ng-click="cancel()">
+      {{'global.entity.action.cancel' | translate}}
+    </md-button>
+    <md-button
+      class="md-raised md-accent"
+      ng-click="confirm()"
+      ng-disabled="!guidelineRead">
+      {{'shopping-cart.buttons.checkout' | translate}}
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

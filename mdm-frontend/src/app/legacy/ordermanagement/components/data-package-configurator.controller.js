@@ -23,7 +23,6 @@
       'dataAcquisitionProjectSearchService',
       'ElasticSearchClient',
       'ExportDdiVariablesResource',
-      'Principal',
         function ($scope,
           $rootScope,
           $location,
@@ -39,7 +38,7 @@
           DataPackageCitationDialogService,
           CurrentDataPackageService,
           dataAcquisitionProjectSearchService, ElasticSearchClient,
-          ExportDdiVariablesResource, Principal) {
+          ExportDdiVariablesResource) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -50,7 +49,6 @@
     $ctrl.isPreReleased = false;
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
-    $ctrl.allowedToExportVariableMetadata = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
@@ -91,7 +89,6 @@
       $ctrl.selectedVersion = $ctrl.dataPackageIdVersion.version;
       loadDataPackage($ctrl.dataPackageIdVersion.masterId,
         $ctrl.dataPackageIdVersion.version);
-      $ctrl.allowedToExportVariableMetadata = Principal.isAuthenticated();
       initReady = true;
     }
 
@@ -121,7 +118,7 @@
           var releaseList = [];
           for (var release of releases) {
               // only allow fully released versions to be listed for ordering
-              if (!release.isPreRelease) {
+              if (!release.isPreRelease && releaseList.findIndex(r => r.version === release.version) === -1) {
                 releaseList.push(release);
               }
           }
@@ -180,7 +177,8 @@
           $rootScope.$broadcast('stop-ignoring-404');
         });
       } else {
-        DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
+        DataPackageSearchService.findShadowByIdAndVersion(id, version,
+          excludes, true)
         .promise.then(function(data) {
           $ctrl.dataPackage = data;
           $rootScope.selectedDataPackage = data;
@@ -339,7 +337,7 @@
         if (data) {
           var versionFromUrl = $location.search().version;
           $ctrl.dataPackageIdVersion.masterId = data.masterId;
-          $ctrl.dataPackageIdVersion.version = versionFromUrl;
+          $ctrl.dataPackageIdVersion.version = versionFromUrl || data.version;
           $ctrl.dataPackageIdVersion.projectId = data.projectId;
           init();
         }

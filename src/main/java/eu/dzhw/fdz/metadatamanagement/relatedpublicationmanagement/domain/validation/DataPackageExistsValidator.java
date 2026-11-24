@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class DataPackageExistsValidator implements ConstraintValidator<DataPacka
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+   * @see jakarta.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
   public void initialize(DataPackageExists constraintAnnotation) {}
@@ -27,8 +27,8 @@ public class DataPackageExistsValidator implements ConstraintValidator<DataPacka
   /*
    * (non-Javadoc)
    * 
-   * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-   * javax.validation.ConstraintValidatorContext)
+   * @see jakarta.validation.ConstraintValidator#isValid(java.lang.Object,
+   * jakarta.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(String dataPackageId, ConstraintValidatorContext context) {   

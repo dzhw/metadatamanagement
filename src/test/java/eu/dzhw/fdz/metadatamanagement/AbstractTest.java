@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.javers.core.Javers;
@@ -10,8 +8,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.testcontainers.mongodb.MongoDBContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
@@ -93,6 +95,18 @@ public abstract class AbstractTest {
 
   static {
     greenMail.start();
+  }
+
+  private static final MongoDBContainer MONGO =
+        new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
+
+  static {
+      MONGO.start(); // one container for the whole test run
+  }
+
+  @DynamicPropertySource
+  static void mongoProperties(DynamicPropertyRegistry registry) {
+      registry.add("spring.mongodb.uri", () -> MONGO.getReplicaSetUrl("metadatenmanagement"));
   }
 
   @AfterEach

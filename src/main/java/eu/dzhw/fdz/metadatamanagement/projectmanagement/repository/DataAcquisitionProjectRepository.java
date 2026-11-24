@@ -62,4 +62,7 @@ public interface DataAcquisitionProjectRepository
 
   @RestResource(exported = false)
   IdAndVersionProjection findOneIdAndVersionById(String id);
+
+  @RestResource(exported = false)
+  List<DataAcquisitionProject> findByShadowFalseAndConfigurationRequirementsIsDataPackagesRequiredTrue();
 }

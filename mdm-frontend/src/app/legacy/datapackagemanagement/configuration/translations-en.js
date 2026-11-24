@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config([
         'detail': {
           'label': {
             'studySeries': 'Study Series',
+            'parentStudy': 'Parent Study',
+            'part-of-project': 'Part of the Project',
             'dataPackage': 'Data Package',
             'dataPackages': 'Data Packages',
             'institution': 'Institution',
@@ -145,7 +147,7 @@ angular.module('metadatamanagementApp').config([
           'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.',
           'order-datapackage-tooltip': 'Click to order this data package.',
           'elsst-general-tooltip': 'Click to see information about ELSST tags.',
-          'elsst-info': 'The tags that can be referenced here are derived from the European Language Social Science Thesaurus (ELSST) - CESSDA and Service Providers (2023) The European Language Social Science Thesaurus (ELSST) (Version 4). ELSST is a broad-based, multilingual thesaurus for the social sciences. It is owned and published by the Consortium of European Social Science Data Archives (CESSDA) and its national Service Providers. The thesaurus consists of over 3,300 concepts and covers the core social science disciplines: politics, sociology, economics, education, law, crime, demography, health, employment, information and communication technology, and environmental science. ELSST is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (<a href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>). For more information: <a href="https://elsst.cessda.eu/">https://elsst.cessda.eu/</a>'
+          'elsst-info': 'The keywords that are referenced here are taken from the European Language Social Science Thesaurus (ELSST) - CESSDA and Service Providers. The European Language Social Science Thesaurus (ELSST). ELSST is a broad-based, multilingual thesaurus for the social sciences. It is owned and published by the Consortium of European Social Science Data Archives (CESSDA) and its national service providers. The thesaurus consists of over 3,300 concepts and covers the most important social science disciplines: politics, sociology, economics, education, law, crime, demography, health, employment, information and communication technology, and environmental sciences. ELSST is regularly updated, so certain terms may become deprecated over time. For more information on the respective releases, see <a href="https://elsst.cessda.eu/releases">https://elsst.cessda.eu/releases</a> and the respective detail pages of the terms. The ELSST is licensed under a Creative Commons Attribution-ShareAlike 4.0 International Licence (<a href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>). Further information: <a href="https://elsst.cessda.eu/">https://elsst.cessda.eu/</a>'
         },
         'log-messages': {
           'data-package': {
@@ -185,6 +187,11 @@ angular.module('metadatamanagementApp').config([
               'not-empty': 'The list of sponsors of a data package needs min. one element and must not be empty.',
               'i18n-string-size': 'The max length of the sponsor name of the data package is 512.',
               'i18n-string-entire-not-empty': 'The sponsor name of the data package must not be empty for both languages.'
+            },
+            'parent-study': {
+              'i18n-string-size': 'The maximum length of the parent study is 512 characters.',
+              'i18n-string-entire-not-empty-optional': 'If the parent study is given in one language, it has to be set in all languages.',
+              'i18n-string-must-not-contain-comma': 'The parent study must not contain commas.'
             },
             'study-series': {
               'i18n-string-size': 'The max length of the study series is 512 signs.',
@@ -296,6 +303,10 @@ angular.module('metadatamanagementApp').config([
             'title': {
               'de': 'Please enter the title of this data package in German.',
               'en': 'Please enter the title of this data package in English.'
+            },
+            'parent-study': {
+              'de': 'If available, please enter the name of the parent study in German.',
+              'en': 'If available, please enter the name of the parent study in English.'
             },
             'study-series': {
               'de': 'If available enter the name of the study series in German.',

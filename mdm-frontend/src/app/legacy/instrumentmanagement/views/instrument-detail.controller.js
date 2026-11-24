@@ -97,12 +97,14 @@ angular.module('metadatamanagementApp')
         });
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
-        if (!Principal.isAuthenticated()) {
+        if (!Principal.isAuthenticated() || !Principal.isProviderActive()) {
           MessageBus.set('onDataPackageChange',
             {
               masterId: result.dataPackage.masterId,
-              projectId: result.dataAcquisitionProjectId
+              projectId: result.dataAcquisitionProjectId,
+              version: _.get(result, 'release.version')
             });
+          MessageBus.set('onDetailViewLoaded', {type: 'dataPackage'});
         }
         PageMetadataService.setPageTitle('instrument-management.' +
           'detail.page-title', {
@@ -210,4 +212,3 @@ angular.module('metadatamanagementApp')
       // (clicking the button in the common details subview)
       $scope.$on("open-instrument-citation-dialog", () => openInstrumentAttachmentCitationDialog());
     }]);
-

@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config([
         'detail': {
           'label': {
             'studySeries': 'Studienreihe',
+            'parentStudy': 'Übergeordnete Studie',
+            'part-of-project': 'Teil des Projektes',
             'dataPackage': 'Datenpaket',
             'dataPackages': 'Datenpakete',
             'institution': 'Institution',
@@ -145,7 +147,7 @@ angular.module('metadatamanagementApp').config([
           'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.',
           'order-datapackage-tooltip': 'Klicken, um dieses Datenpaket zu bestellen.',
           'elsst-general-tooltip': 'Klicken, um Informationen zu ELSST-Schlagwörtern zu erhalten.',
-          'elsst-info': 'Die Schlagwörter, auf die hier verwiesen werden kann, stammen aus dem European Language Social Science Thesaurus (ELSST) - CESSDA and Service Providers (2023) The European Language Social Science Thesaurus (ELSST) (Version 4). ELSST ist ein breit angelegter, mehrsprachiger Thesaurus für die Sozialwissenschaften. Er ist Eigentum des Consortium of European Social Science Data Archives (CESSDA) und seiner nationalen Dienstleister und wird von diesen herausgegeben. Der Thesaurus besteht aus über 3.300 Konzepten und deckt die wichtigsten sozialwissenschaftlichen Disziplinen ab: Politik, Soziologie, Wirtschaft, Bildung, Recht, Kriminalität, Demografie, Gesundheit, Beschäftigung, Informations- und Kommunikationstechnologie sowie Umweltwissenschaften. ELSST ist unter einer Creative Commons Attribution-ShareAlike 4.0 International License (<a href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>) lizenziert. Weitere Informationen: <a href="https://elsst.cessda.eu/">https://elsst.cessda.eu/</a>'
+          'elsst-info': 'Die Schlagwörter, auf die hier verwiesen wird, stammen aus dem European Language Social Science Thesaurus (ELSST) - CESSDA and Service Providers. The European Language Social Science Thesaurus (ELSST). ELSST ist ein breit angelegter, mehrsprachiger Thesaurus für die Sozialwissenschaften. Er ist Eigentum des Consortium of European Social Science Data Archives (CESSDA) und seiner nationalen Dienstleister und wird von diesen herausgegeben. Der Thesaurus besteht aus über 3.300 Konzepten und deckt die wichtigsten sozialwissenschaftlichen Disziplinen ab: Politik, Soziologie, Wirtschaft, Bildung, Recht, Kriminalität, Demografie, Gesundheit, Beschäftigung, Informations- und Kommunikationstechnologie sowie Umweltwissenschaften. Der ELSST wird regelmäßigen Aktualisierungen unterzogen, sodass bestimmte Begriffe mit der Zeit veralten können. Siehe für weitere Informationen zu den jeweiligen Releases: <a href="https://elsst.cessda.eu/releases">https://elsst.cessda.eu/releases</a> und die jeweiligen Detailseiten der Begriffe. Der ELSST ist unter einer Creative Commons Attribution-ShareAlike 4.0 International License (<a href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>) lizenziert. Weitere Informationen: <a href="https://elsst.cessda.eu/">https://elsst.cessda.eu/</a>'
         },
         'log-messages': {
           'data-package': {
@@ -185,6 +187,11 @@ angular.module('metadatamanagementApp').config([
               'not-empty': 'Die Liste der Geldgeber:innen eines Datenpakets benötigt mindestens ein Element und darf nicht leer sein.',
               'i18n-string-size': 'Die Maximallänge des Namens der Geldgeber:in eines Datenpakets ist 512 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Name der Geldgeber:in eines Datenpakets muss in beiden Sprachen vorhanden sein.'
+            },
+            'parent-study': {
+              'i18n-string-size': 'Die Maximallänge der übergeordneten Studie ist 512 Zeichen.',
+              'i18n-string-entire-not-empty-optional': 'Wenn die übergeordnete Studie in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.',
+              'i18n-string-must-not-contain-comma': 'Die übergeordnete Studie darf keine Kommata enthalten.'
             },
             'study-series': {
               'i18n-string-size': 'Die Maximallänge der Studienreihe ist 512 Zeichen.',
@@ -298,6 +305,10 @@ angular.module('metadatamanagementApp').config([
             'title': {
               'de': 'Geben Sie den Titel des Datenpakets auf Deutsch ein.',
               'en': 'Geben Sie den Titel des Datenpakets auf Englisch ein.'
+            },
+            'parent-study': {
+              'de': 'Geben Sie, falls vorhanden, den Namen der übergeordneten Studie auf Deutsch ein.',
+              'en': 'Geben Sie, falls vorhanden, den Namen der übergeordneten Studie auf Englisch ein.'
             },
             'study-series': {
               'de': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Deutsch ein.',

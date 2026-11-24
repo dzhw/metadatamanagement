@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -122,8 +121,6 @@ public class ElasticsearchUpdateQueueService {
   private final DataAcquisitionProjectRepository projectRepository;
 
   private final ElasticsearchDao elasticsearchDao;
-
-  private final ObjectMapper objectMapper;
 
   private final DoiBuilder doiBuilder;
 

@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
@@ -30,6 +31,8 @@ public final class SecurityUtils {
       if (authentication.getPrincipal() instanceof UserDetails) {
         UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
         userName = springSecurityUser.getUsername();
+      } else if (authentication.getPrincipal() instanceof OAuth2AuthenticatedPrincipal oauthPrincipal) {
+        userName = oauthPrincipal.getName();
       } else if (authentication.getPrincipal() instanceof String) {
         userName = (String) authentication.getPrincipal();
       }
@@ -86,11 +89,14 @@ public final class SecurityUtils {
   public static boolean isUserInRole(String authority) {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Authentication authentication = securityContext.getAuthentication();
-    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-      UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-      return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
+    if (authentication == null) {
+      return false;
     }
-    return false;
+    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+      authorities = userDetails.getAuthorities();
+    }
+    return authorities.contains(new SimpleGrantedAuthority(authority));
   }
 
   public static boolean isUserInRole(String authority, User user) {
