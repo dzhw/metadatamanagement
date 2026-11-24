@@ -2,7 +2,6 @@ eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain
 eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation
 eu.dzhw.fdz.metadatamanagement.common.domain
 eu.dzhw.fdz.metadatamanagement.common.domain.validation
-eu.dzhw.fdz.metadatamanagement.common.websocket.domain
 eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain
 eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation
 eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain
