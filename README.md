@@ -27,7 +27,7 @@ On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of g
 ## Running on your local machine
 Make sure that you have read-write-access on the **data** directory (in your project directory) for Elasticsearch and MongoDB. Specifically **Mac** users need to run the following command to create all data directories before bringing up the containers for the first time:
 ```bash
-mkdir -p data/elasticsearch/data data/mongodb/db data/mongodb/logs
+mkdir -p data/elasticsearch/data data/mongodb/db
 ```
 Otherwise your Docker Host will attempt to change permissions on the directories and fail.
 
@@ -36,17 +36,19 @@ Use `docker-compose up` to create all containers initially. MongoDB and Elastics
 In case elasticsearch does not start successfully, you might need to increase its memory limit
 `mem_limit: 512m`, e.g. to `1024` (this change required removing and re-building the container).
 
-You can get a MongoDB dump and restore it locally:
+You can get a MongoDB dump and restore it locally. The `dump` directory in the project is mounted
+read-only into the MongoDB container at `/dump`:
 ```
 $ wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20220926_metadatamanagement_e2e.zip
 $ unzip 20220926_metadatamanagement_e2e.zip
-$ mv dump/metadatamanagement data/mongodb/db/
-$ docker exec -it mongodb bash
-mongo$ cd /data/mongodb/db
-mongo$ mongorestore ./metadatamanagement --db=metadatamanagement
-mongo$ exit
-rm -r dump
+$ docker-compose up -d mongodb
+$ docker exec mongodb mongorestore --drop --db=metadatamanagement /dump/metadatamanagement
 ```
+
+MongoDB runs in version 8.3 locally. Dumps created with older MongoDB versions can be restored as
+shown above. Data directories (`data/mongodb/db`) created by MongoDB versions before 8.0 cannot be
+opened by 8.3: either delete the directory and restore a dump, or upgrade step by step through every
+major version (setting the `featureCompatibilityVersion` after each step).
 
 You will need to setup your `~/.m2/settings.xml` so that maven can download a dependency from Github:
 

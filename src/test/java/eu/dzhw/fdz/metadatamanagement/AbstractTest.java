@@ -98,7 +98,7 @@ public abstract class AbstractTest {
   }
 
   private static final MongoDBContainer MONGO =
-        new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
+        new MongoDBContainer(DockerImageName.parse("mongo:8.3"));
 
   static {
       MONGO.start(); // one container for the whole test run
